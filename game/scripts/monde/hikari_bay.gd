@@ -94,12 +94,12 @@ func _ready() -> void:
 	if not Engine.is_editor_hint() and reseau != null and reseau.get_meta("arrivee_hub", "") == "portails":
 		reseau.remove_meta("arrivee_hub")
 		_arrivee_qg = true
+		point_apparition = Vector2(QgVigie.PORTAILS.position.x + 5.0, QgVigie.PORTAILS.end.y - 11.0)
 	# Retour de la Côte Gelée avec la montre à gousset (chapitre 5 de la Préhistoire) :
 	# la visite guidée du QG commence (mission automatique « montre », data/hub_quetes.json).
 	if not Engine.is_editor_hint() and reseau != null and reseau.get_meta("visite_guidee_qg", false):
 		reseau.remove_meta("visite_guidee_qg")
 		_lancer_visite_guidee.call_deferred()
-		point_apparition = Vector2(QgVigie.PORTAILS.position.x + 5.0, QgVigie.PORTAILS.end.y - 11.0)
 	reconstruire()
 
 
