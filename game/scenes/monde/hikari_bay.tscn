@@ -208,3 +208,22 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, -62.5, -14.5)
 script = ExtResource("21_marqueur_carte")
 type = 0
 libelle = "Petit sanctuaire"
+
+[node name="ZoneArtisans" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 56, 62.5, -117.5)
+script = ExtResource("20_zone_carte")
+identifiant = "hikari_bay_artisans"
+nom_affiche = "Hikari Bay · Quartier des Artisans"
+taille = Vector3(88, 140, 95)
+
+[node name="Forge" type="Node3D" parent="ZoneArtisans"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19, -62.5, 19.5)
+script = ExtResource("21_marqueur_carte")
+type = 0
+libelle = "Forge Hinode"
+
+[node name="FabLab" type="Node3D" parent="ZoneArtisans"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, -62.5, 19.5)
+script = ExtResource("21_marqueur_carte")
+type = 0
+libelle = "Fil & Fibre · FabLab"

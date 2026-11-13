@@ -132,17 +132,15 @@ func _apres_changement() -> void:
 
 
 func _sur_dialogue_termine(id_pnj: String) -> void:
+	# Une étape en cours passe avant une nouvelle mission (même ordre que les marques).
 	for q in quetes:
-		var id: String = q["id"]
-		match etat(id):
-			"disponible":
-				if q.get("donneur", "") == id_pnj:
-					accepter(id)
-					return
-			"active":
-				if etape_de(id).get("parler", "") == id_pnj:
-					_avancer(id)
-					return
+		if etat(q["id"]) == "active" and etape_de(q["id"]).get("parler", "") == id_pnj:
+			_avancer(q["id"])
+			return
+	for q in quetes:
+		if etat(q["id"]) == "disponible" and q.get("donneur", "") == id_pnj:
+			accepter(q["id"])
+			return
 
 
 ## Le joueur utilise l'objet numéro n de l'étape en cours.
@@ -223,19 +221,28 @@ func _trouver_pnj(id: String) -> Pnj:
 
 ## Répliques et marques « ! » / « ? » au-dessus des personnages concernés.
 func _mettre_a_jour_pnj() -> void:
-	var voulu := {} # id pnj -> [marque, répliques]
+	# id pnj -> [marque, répliques, priorité] : « ? » (étape en cours) passe avant
+	# « ! » (nouvelle mission), qui passe avant les remerciements d'après mission.
+	var voulu := {}
 	for q in quetes:
 		var id: String = q["id"]
+		var candidat := []
+		var pnj_id := ""
 		match etat(id):
 			"disponible":
-				voulu[q["donneur"]] = ["!", q.get("proposition", [])]
+				pnj_id = q["donneur"]
+				candidat = ["!", q.get("proposition", []), 2]
 			"active":
 				var e := etape_de(id)
 				if e.has("parler"):
-					voulu[e["parler"]] = ["?", e.get("repliques", [])]
+					pnj_id = e["parler"]
+					candidat = ["?", e.get("repliques", []), 3]
 			"terminee":
-				if not voulu.has(q["donneur"]) and q.has("apres"):
-					voulu[q["donneur"]] = ["", q["apres"]]
+				if q.has("apres"):
+					pnj_id = q["donneur"]
+					candidat = ["", q["apres"], 1]
+		if pnj_id != "" and (not voulu.has(pnj_id) or voulu[pnj_id][2] < candidat[2]):
+			voulu[pnj_id] = candidat
 	for pnj_id in voulu.keys():
 		var pnj := _trouver_pnj(pnj_id)
 		if pnj == null:
@@ -361,6 +368,29 @@ func _creer_objet(type: String, p: Array) -> Node3D:
 			lumiere.omni_range = 3.0
 			lumiere.position.y = 0.6
 			racine.add_child(lumiere)
+		"ferraille":
+			# Morceau de métal rouillé qui luit d'un éclat violet (touché par une fracture).
+			var morceau := MeshInstance3D.new()
+			var b := BoxMesh.new()
+			b.size = Vector3(0.5, 0.18, 0.3)
+			morceau.mesh = b
+			var m := StandardMaterial3D.new()
+			m.albedo_color = Color(0.35, 0.2, 0.12)
+			m.metallic = 0.7
+			m.roughness = 0.6
+			m.emission_enabled = true
+			m.emission = Color(0.6, 0.3, 1.0)
+			m.emission_energy_multiplier = 0.6
+			morceau.material_override = m
+			morceau.position.y = 0.1
+			morceau.rotation = Vector3(0.2, 0.7, 0.1)
+			racine.add_child(morceau)
+			var halo := OmniLight3D.new()
+			halo.light_color = Color(0.6, 0.35, 1.0)
+			halo.light_energy = 0.8
+			halo.omni_range = 2.5
+			halo.position.y = 0.5
+			racine.add_child(halo)
 	# Petite flèche dorée qui tourne au-dessus (visible à travers les murs).
 	var fleche := MeshInstance3D.new()
 	fleche.name = "Fleche"

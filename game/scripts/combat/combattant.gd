@@ -26,6 +26,10 @@ var effets := {}
 ## Combattant -> quantité de menace
 var menace := {}
 var dernier_moment_de_combat := -1000.0
+## Bonus permanents donnés par l'équipement (en %, voir Inventaire).
+var bonus_degats := 0.0
+var bonus_reduction := 0.0
+var bonus_critique := 0.0
 
 ## Copie simplifiée des effets, envoyée par le serveur aux joueurs pour l'affichage :
 ## id de l'effet -> secondes restantes.
@@ -74,6 +78,7 @@ func subir(montant: float, source: Combattant) -> float:
 		return 0.0
 	for effet in effets.values():
 		montant *= 1.0 - float(effet.get("reduction_degats_subis", 0.0))
+	montant *= 1.0 - clampf(bonus_reduction, 0.0, 75.0) / 100.0
 	montant = maxf(1.0, roundf(montant))
 	pv = maxf(0.0, pv - montant)
 	noter_combat()
@@ -136,7 +141,7 @@ func multiplicateur_vitesse() -> float:
 
 
 func multiplicateur_degats() -> float:
-	var m := 1.0
+	var m := 1.0 + bonus_degats / 100.0
 	for effet in effets.values():
 		m *= float(effet.get("degats_infliges", 1.0))
 	return m

@@ -79,14 +79,14 @@ static func _bois(hub: HikariBay) -> Material:
 
 
 ## Une pièce fermée (murs, sol, plafond) avec des ouvertures [côté, début, fin].
-static func _piece(hub: HikariBay, r: Rect2, mur: Material, sol: Material, ouvertures: Array) -> void:
+static func _piece(hub: HikariBay, r: Rect2, mur: Material, sol: Material, ouvertures: Array, hauteur := HAUTEUR_SALLE, hauteur_porte := 2.6) -> void:
 	var x1 := r.position.x
 	var x2 := r.end.x
 	var z1 := r.position.y
 	var z2 := r.end.y
 	var e := 0.3
 	hub._bloc(x1, z1, x2, z2, 0.0, 0.04, sol, false)
-	hub._bloc(x1 - e, z1 - e, x2 + e, z2 + e, HAUTEUR_SALLE, HAUTEUR_SALLE + 0.3, hub._mat("beton"))
+	hub._bloc(x1 - e, z1 - e, x2 + e, z2 + e, hauteur, hauteur + 0.3, hub._mat("beton"))
 	for cote in ["nord", "sud", "ouest", "est"]:
 		var debut := x1 if cote in ["nord", "sud"] else z1
 		var fin := x2 if cote in ["nord", "sud"] else z2
@@ -95,17 +95,17 @@ static func _piece(hub: HikariBay, r: Rect2, mur: Material, sol: Material, ouver
 		for o in ouvertures.filter(func(o): return o[0] == cote):
 			morceaux.append([curseur, o[1], 0.0])
 			# Linteau au-dessus de la porte.
-			morceaux.append([o[1], o[2], 2.6])
+			morceaux.append([o[1], o[2], hauteur_porte])
 			curseur = o[2]
 		morceaux.append([curseur, fin, 0.0])
 		for m in morceaux:
 			if m[1] - m[0] < 0.01:
 				continue
 			match cote:
-				"nord": hub._bloc(m[0], z1 - e, m[1], z1, m[2], HAUTEUR_SALLE, mur)
-				"sud": hub._bloc(m[0], z2, m[1], z2 + e, m[2], HAUTEUR_SALLE, mur)
-				"ouest": hub._bloc(x1 - e, m[0], x1, m[1], m[2], HAUTEUR_SALLE, mur)
-				"est": hub._bloc(x2, m[0], x2 + e, m[1], m[2], HAUTEUR_SALLE, mur)
+				"nord": hub._bloc(m[0], z1 - e, m[1], z1, m[2], hauteur, mur)
+				"sud": hub._bloc(m[0], z2, m[1], z2 + e, m[2], hauteur, mur)
+				"ouest": hub._bloc(x1 - e, m[0], x1, m[1], m[2], hauteur, mur)
+				"est": hub._bloc(x2, m[0], x2 + e, m[1], m[2], hauteur, mur)
 
 
 ## Rideau « noren » en tissu devant une porte (bandes qui ne bloquent pas le passage).

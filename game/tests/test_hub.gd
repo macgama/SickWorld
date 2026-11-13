@@ -91,10 +91,22 @@ func _lancer() -> void:
 	_verifier(joueur.global_position.y > -0.5 and joueur.global_position.z < 12.0,
 			"on peut remonter sur la place (y = %.2f, z = %.1f)" % [joueur.global_position.y, joueur.global_position.z])
 
-	# Barrière de chantier de la rue des Artisans (nord-est).
-	await _placer(joueur, Vector3(20, 0.3, -40), 0.0)
+	# Barrière de chantier de la rue des Résidences (ouest).
+	await _placer(joueur, Vector3(-40, 0.3, 0), PI / 2)
 	await _avancer(joueur, 180)
-	_verifier(joueur.global_position.z > -57.0, "la barrière de chantier bloque la rue des Artisans (z = %.1f)" % joueur.global_position.z)
+	_verifier(joueur.global_position.x > -57.0, "la barrière de chantier bloque la rue des Résidences (x = %.1f)" % joueur.global_position.x)
+
+	# Le Quartier des Artisans est ouvert : la rue du nord-est mène sous le viaduc.
+	await _placer(joueur, Vector3(20, 0.3, -40), 0.0)
+	await _avancer(joueur, 600)
+	_verifier(joueur.global_position.z < -100.0, "la rue du nord-est mène au Quartier des Artisans (z = %.1f)" % joueur.global_position.z)
+	await _placer(joueur, Vector3(36, 0.3, -82), 0.0)
+	await _avancer(joueur, 150)
+	_verifier(joueur.global_position.z < -92.0, "on entre dans la forge Hinode (z = %.1f)" % joueur.global_position.z)
+	await _placer(joueur, Vector3(62, 0.3, -82), 0.0)
+	await _avancer(joueur, 150)
+	_verifier(joueur.global_position.z < -92.0, "on entre dans l'atelier Fil & Fibre (z = %.1f)" % joueur.global_position.z)
+	_verifier(scene.find_child("Pnj_forgeron", true, false) != null, "Maître Tetsuo est à sa forge")
 
 	# Le Marché de nuit est ouvert : la rue du nord-ouest mène à ses ruelles.
 	await _placer(joueur, Vector3(-20, 0.3, -40), 0.0)

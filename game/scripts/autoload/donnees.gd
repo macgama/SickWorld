@@ -7,6 +7,8 @@ var joueur: Dictionary = {}
 var ennemis: Dictionary = {}
 ## Choix possibles à la création du personnage (classes, origines, visages…).
 var creation: Dictionary = {}
+## Objets, ensembles d'époque, butin et règles de l'inventaire (voir Objets).
+var objets: Dictionary = {}
 
 
 func _ready() -> void:
@@ -14,6 +16,7 @@ func _ready() -> void:
 	joueur = _lire("res://data/joueur.json")
 	ennemis = _lire("res://data/ennemis.json")
 	creation = _lire("res://data/creation_personnage.json")
+	objets = _lire("res://data/objets.json")
 
 
 func competence(id: String) -> Dictionary:

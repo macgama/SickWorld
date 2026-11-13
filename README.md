@@ -27,7 +27,9 @@ game/      Le projet Godot (ouvrir game/project.godot)
 - [Créer son personnage](docs/guides/creer-son-personnage.md)
 - [Créer le personnage avec MakeHuman et Mixamo](docs/guides/personnage-makehuman-mixamo.md)
 - [Régler le combat sans coder](docs/guides/regler-le-combat.md)
+- [Inventaire, équipement et tenues de mission](docs/guides/inventaire-et-tenues.md)
 - [Jouer à plusieurs](docs/guides/jouer-a-plusieurs.md)
+- [Visiter la Préhistoire : la Côte Gelée](docs/guides/visiter-la-prehistoire.md)
 - [La carte (mini-carte, brouillard, repères)](docs/guides/la-carte.md)
 
 ## Tests automatiques
@@ -38,6 +40,8 @@ godot --headless --path game -s res://tests/test_combat.gd
 godot --headless --path game -s res://tests/test_creation_personnage.gd
 godot --headless --path game -s res://tests/test_hub.gd
 godot --headless --path game -s res://tests/test_intro.gd
+godot --headless --path game -s res://tests/test_inventaire.gd
+godot --headless --path game -s res://tests/test_cote_gelee.gd
 godot --headless --path game -s res://tests/test_quetes.gd
 
 # Multijoueur : un serveur dédié puis un ou plusieurs clients de test

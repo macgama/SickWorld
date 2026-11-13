@@ -20,7 +20,7 @@ const TOUCHES := {
 	"aide": [KEY_F1],                    # F1 : afficher / cacher l'aide
 	"cible_suivante": [KEY_TAB],         # Tab : cibler l'ennemi suivant
 	"annuler": [KEY_ESCAPE],             # Échap : annuler / enlever la cible
-	"interagir": [KEY_F],                # F : parler à un personnage, utiliser un objet
+	"interagir": [KEY_F],                # F : parler à un personnage, ramasser le butin
 	"journal": [KEY_J],                  # J : journal des missions
 	# Barre de compétences : touches 1 à 8 de la rangée du haut
 	# (sur AZERTY, pas besoin d'appuyer sur Maj : & é " ' ( - è _ marchent).
@@ -33,6 +33,7 @@ const TOUCHES := {
 ## AZERTY comme en QWERTY.
 const TOUCHES_LETTRES := {
 	"carte": [KEY_M],                    # M : ouvrir / fermer la grande carte
+	"personnage": [KEY_C, KEY_I, KEY_B], # C, I ou B : écran Personnage (équipement, sacs, tenues)
 }
 
 

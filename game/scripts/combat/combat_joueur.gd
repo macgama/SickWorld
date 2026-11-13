@@ -15,6 +15,8 @@ extends Node
 signal cible_changee(cible: Combattant)
 signal message(texte: String)
 signal incantation_changee(nom: String, progression: float)
+## La barre a changé (tenue de mission, nouvelle compétence d'époque).
+signal barre_changee
 
 const SCENE_LOUP := preload("res://scenes/ennemis/loup.tscn")
 const PORTEE_CIBLAGE := 45.0
@@ -28,6 +30,9 @@ var fin_recharge_globale := 0.0
 var elan := 0.0
 var elan_max := 100.0
 var attaque_auto := false
+## Bonus de l'équipement sur les compétences (ensembles, reliques), remplis par l'Inventaire :
+## id de compétence -> { clé: valeur ajoutée }.
+var modifs_competences := {}
 
 var _reglages: Dictionary
 var _prochaine_attaque_auto := 0.0
@@ -156,7 +161,24 @@ func reapparaitre() -> void:
 func competence(index: int) -> Dictionary:
 	if index < 0 or index >= barre.size():
 		return {}
-	return Donnees.competence(barre[index])
+	return competence_par_id(barre[index])
+
+
+## La compétence avec les bonus de l'équipement porté.
+func competence_par_id(id: String) -> Dictionary:
+	return Objets.competence_modifiee(Donnees.competence(id), modifs_competences.get(id, {}))
+
+
+## Remplace la barre (appelé par l'Inventaire, sur le serveur et chez le joueur).
+func definir_barre(liste: Array) -> void:
+	var nouvelle: Array[String] = []
+	for id in liste:
+		nouvelle.append(String(id))
+	if nouvelle.is_empty() or nouvelle == barre:
+		barre_changee.emit()
+		return
+	barre = nouvelle
+	barre_changee.emit()
 
 
 ## Temps restant avant de pouvoir réutiliser la compétence (secondes), et durée totale.
@@ -266,7 +288,7 @@ func _demander_reapparition() -> void:
 func _bond_arrive() -> void:
 	if not multiplayer.is_server() or not _est_le_proprietaire() or _bond_competence == "":
 		return
-	var c := Donnees.competence(_bond_competence)
+	var c := competence_par_id(_bond_competence)
 	_bond_competence = ""
 	if is_instance_valid(_bond_cible) and Regles.distance(combat, _bond_cible) <= 4.5:
 		_toucher(_bond_cible, c)
@@ -275,7 +297,7 @@ func _bond_arrive() -> void:
 # --- Exécution (serveur) -----------------------------------------------------
 
 func _executer(id: String) -> void:
-	var c := Donnees.competence(id)
+	var c := competence_par_id(id)
 	var recharge := float(c.get("recharge", 0.0))
 	recharges[id] = Regles.maintenant() + recharge
 	Regles.chez(joueur.id_reseau(), self, "_recevoir_recharge", [id, recharge, 0.0])
@@ -307,9 +329,20 @@ func _executer(id: String) -> void:
 			zone.reglages = c
 			get_tree().current_scene.add_child(zone)
 			zone.global_position = joueur.global_position
-			_effet_feu.rpc(joueur.global_position, id)
+			_effet_feu.rpc(joueur.global_position, c)
 		"invocation":
 			_invoquer(c)
+		"renfort":
+			# Cri du clan (alliés autour) ou Peinture de guerre (soi-même).
+			var cibles: Array[Combattant] = [combat]
+			if float(c.get("rayon", 0)) > 0.0:
+				cibles = Regles.allies_autour(combat, joueur.global_position, float(c["rayon"]))
+			var effet := {}
+			for cle in ["degats_infliges", "reduction_degats_subis"]:
+				if c.has(cle):
+					effet[cle] = float(c[cle])
+			for allie in cibles:
+				allie.ajouter_effet(String(c.get("effet", id)), float(c.get("duree", 8)), effet, combat)
 
 
 func _toucher(victime: Combattant, c: Dictionary) -> void:
@@ -434,9 +467,9 @@ func _effet_sagaie(chemin_cible: NodePath, duree: float) -> void:
 
 ## Le feu « pour de vrai » existe sur le serveur ; les joueurs reçoivent une copie juste visuelle.
 @rpc("authority", "call_remote", "reliable")
-func _effet_feu(position_monde: Vector3, id: String) -> void:
+func _effet_feu(position_monde: Vector3, reglages: Dictionary) -> void:
 	var zone := ZoneDeFeu.new()
-	zone.reglages = Donnees.competence(id)
+	zone.reglages = reglages
 	get_tree().current_scene.add_child(zone)
 	zone.global_position = position_monde
 
@@ -470,7 +503,7 @@ func _logique_serveur(delta: float, t: float) -> void:
 
 	# Incantation en cours.
 	if _incantation_id != "":
-		var c := Donnees.competence(_incantation_id)
+		var c := competence_par_id(_incantation_id)
 		if joueur.bouge() or not combat.est_vivant():
 			_interrompre("Interrompu")
 		elif cible == null:
