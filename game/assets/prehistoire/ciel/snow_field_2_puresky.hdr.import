@@ -2,12 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dxobjquf7dv80"
-valid=false
+uid="uid://fd56cm11nbna"
+path="res://.godot/imported/snow_field_2_puresky.hdr-204b55456c33ea6cc72f56b8de280219.ctex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 
 source_file="res://assets/prehistoire/ciel/snow_field_2_puresky.hdr"
+dest_files=["res://.godot/imported/snow_field_2_puresky.hdr-204b55456c33ea6cc72f56b8de280219.ctex"]
 
 [params]
 

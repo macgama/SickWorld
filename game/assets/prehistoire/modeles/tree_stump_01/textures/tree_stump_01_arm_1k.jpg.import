@@ -2,12 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cducm5hjukved"
-valid=false
+uid="uid://d1locn0dq61ae"
+path="res://.godot/imported/tree_stump_01_arm_1k.jpg-a197094170a5bf4e774ab55dfc1a4eb7.ctex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 
 source_file="res://assets/prehistoire/modeles/tree_stump_01/textures/tree_stump_01_arm_1k.jpg"
+dest_files=["res://.godot/imported/tree_stump_01_arm_1k.jpg-a197094170a5bf4e774ab55dfc1a4eb7.ctex"]
 
 [params]
 

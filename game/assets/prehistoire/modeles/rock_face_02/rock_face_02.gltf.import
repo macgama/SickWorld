@@ -3,12 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://b1e8woowxlvx6"
-valid=false
+uid="uid://boiec1j8tq0gk"
+path="res://.godot/imported/rock_face_02.gltf-4a311e76eb369c7a89e745529302b7e4.scn"
 
 [deps]
 
 source_file="res://assets/prehistoire/modeles/rock_face_02/rock_face_02.gltf"
+dest_files=["res://.godot/imported/rock_face_02.gltf-4a311e76eb369c7a89e745529302b7e4.scn"]
 
 [params]
 

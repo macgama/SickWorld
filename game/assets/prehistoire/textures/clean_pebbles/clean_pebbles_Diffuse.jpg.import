@@ -2,12 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bjiaexhdguo4o"
-valid=false
+uid="uid://bjelqv3ycade3"
+path="res://.godot/imported/clean_pebbles_Diffuse.jpg-fc218d6de7588c0188da6c3777e4ce5c.ctex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 
 source_file="res://assets/prehistoire/textures/clean_pebbles/clean_pebbles_Diffuse.jpg"
+dest_files=["res://.godot/imported/clean_pebbles_Diffuse.jpg-fc218d6de7588c0188da6c3777e4ce5c.ctex"]
 
 [params]
 

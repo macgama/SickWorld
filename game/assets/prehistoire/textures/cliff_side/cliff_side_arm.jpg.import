@@ -2,12 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b7h7wv2qypmbl"
-valid=false
+uid="uid://c0l8mbmibhreu"
+path="res://.godot/imported/cliff_side_arm.jpg-8af92e8a60dacbeb212f1be7eff4e431.ctex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 
 source_file="res://assets/prehistoire/textures/cliff_side/cliff_side_arm.jpg"
+dest_files=["res://.godot/imported/cliff_side_arm.jpg-8af92e8a60dacbeb212f1be7eff4e431.ctex"]
 
 [params]
 

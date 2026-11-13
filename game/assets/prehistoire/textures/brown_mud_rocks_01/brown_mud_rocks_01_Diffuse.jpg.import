@@ -2,12 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ck7s25ua2dw02"
-valid=false
+uid="uid://b7p4pta8rq2t6"
+path="res://.godot/imported/brown_mud_rocks_01_Diffuse.jpg-19e37f7160680bb4557477699058b40b.ctex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 
 source_file="res://assets/prehistoire/textures/brown_mud_rocks_01/brown_mud_rocks_01_Diffuse.jpg"
+dest_files=["res://.godot/imported/brown_mud_rocks_01_Diffuse.jpg-19e37f7160680bb4557477699058b40b.ctex"]
 
 [params]
 

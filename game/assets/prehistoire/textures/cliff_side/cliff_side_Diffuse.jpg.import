@@ -2,12 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cf3xguhwqln4d"
-valid=false
+uid="uid://c7r2c0bnsfxbt"
+path="res://.godot/imported/cliff_side_Diffuse.jpg-c5f357e2d104edb94f9fb0b655bc2387.ctex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 
 source_file="res://assets/prehistoire/textures/cliff_side/cliff_side_Diffuse.jpg"
+dest_files=["res://.godot/imported/cliff_side_Diffuse.jpg-c5f357e2d104edb94f9fb0b655bc2387.ctex"]
 
 [params]
 

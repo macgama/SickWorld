@@ -2,12 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://depdd7xhfcqlp"
-valid=false
+uid="uid://dwie5v6si75wu"
+path="res://.godot/imported/dry_branches_medium_01_nor_gl_1k.jpg-a75c152a5d78c12d9fd1fa24aa13018a.ctex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 
 source_file="res://assets/prehistoire/modeles/dry_branches_medium_01/textures/dry_branches_medium_01_nor_gl_1k.jpg"
+dest_files=["res://.godot/imported/dry_branches_medium_01_nor_gl_1k.jpg-a75c152a5d78c12d9fd1fa24aa13018a.ctex"]
 
 [params]
 

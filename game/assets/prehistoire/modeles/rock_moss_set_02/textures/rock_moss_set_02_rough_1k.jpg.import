@@ -2,12 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d4bvyhonsajsa"
-valid=false
+uid="uid://ctbfjebhavuav"
+path="res://.godot/imported/rock_moss_set_02_rough_1k.jpg-5fa92f76643a7fe1c3415a675bf4c866.ctex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 
 source_file="res://assets/prehistoire/modeles/rock_moss_set_02/textures/rock_moss_set_02_rough_1k.jpg"
+dest_files=["res://.godot/imported/rock_moss_set_02_rough_1k.jpg-5fa92f76643a7fe1c3415a675bf4c866.ctex"]
 
 [params]
 

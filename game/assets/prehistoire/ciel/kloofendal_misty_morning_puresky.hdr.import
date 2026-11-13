@@ -2,12 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dyfx633e0bq04"
-valid=false
+uid="uid://ba20v75nw2dkj"
+path="res://.godot/imported/kloofendal_misty_morning_puresky.hdr-055a443dca3337b1359be9c6d0b00322.ctex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 
 source_file="res://assets/prehistoire/ciel/kloofendal_misty_morning_puresky.hdr"
+dest_files=["res://.godot/imported/kloofendal_misty_morning_puresky.hdr-055a443dca3337b1359be9c6d0b00322.ctex"]
 
 [params]
 

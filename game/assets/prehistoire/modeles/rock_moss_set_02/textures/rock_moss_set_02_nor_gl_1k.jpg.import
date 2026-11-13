@@ -2,12 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://n3srv0x0mbyc"
-valid=false
+uid="uid://bqq207h66nhus"
+path="res://.godot/imported/rock_moss_set_02_nor_gl_1k.jpg-4af5e435db13bf1079b03e495b75cfa3.ctex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 
 source_file="res://assets/prehistoire/modeles/rock_moss_set_02/textures/rock_moss_set_02_nor_gl_1k.jpg"
+dest_files=["res://.godot/imported/rock_moss_set_02_nor_gl_1k.jpg-4af5e435db13bf1079b03e495b75cfa3.ctex"]
 
 [params]
 

@@ -2,12 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bxv14vas1h88a"
-valid=false
+uid="uid://dhpaxsoiodk8g"
+path="res://.godot/imported/namaqualand_boulder_04_diff_1k.jpg-d9353d6037f80fbc2fd58a5558b66c2d.ctex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 
 source_file="res://assets/prehistoire/modeles/namaqualand_boulder_04/textures/namaqualand_boulder_04_diff_1k.jpg"
+dest_files=["res://.godot/imported/namaqualand_boulder_04_diff_1k.jpg-d9353d6037f80fbc2fd58a5558b66c2d.ctex"]
 
 [params]
 

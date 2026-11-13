@@ -2,12 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b02yi7uiyjdqb"
-valid=false
+uid="uid://cjsjkdmuhb60w"
+path="res://.godot/imported/snow_02_arm.jpg-ec8112d56d05938603a70b4e2f302079.ctex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 
 source_file="res://assets/prehistoire/textures/snow_02/snow_02_arm.jpg"
+dest_files=["res://.godot/imported/snow_02_arm.jpg-ec8112d56d05938603a70b4e2f302079.ctex"]
 
 [params]
 

@@ -2,12 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://fftx5dgrckrl"
-valid=false
+uid="uid://bx160ydrantm"
+path="res://.godot/imported/rock_07_arm_1k.jpg-1454ac5fe6c02ddc86258a88a3f03e72.ctex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 
 source_file="res://assets/prehistoire/modeles/rock_07/textures/rock_07_arm_1k.jpg"
+dest_files=["res://.godot/imported/rock_07_arm_1k.jpg-1454ac5fe6c02ddc86258a88a3f03e72.ctex"]
 
 [params]
 

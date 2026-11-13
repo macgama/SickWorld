@@ -3,12 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://r6h82hcbq28t"
-valid=false
+uid="uid://cdvdrlppr4kob"
+path="res://.godot/imported/dead_tree_trunk.gltf-cfdbec4bbb144859867ddac7013b6b68.scn"
 
 [deps]
 
 source_file="res://assets/prehistoire/modeles/dead_tree_trunk/dead_tree_trunk.gltf"
+dest_files=["res://.godot/imported/dead_tree_trunk.gltf-cfdbec4bbb144859867ddac7013b6b68.scn"]
 
 [params]
 
