@@ -21,6 +21,9 @@ extends Node3D
 ## Vitesse à laquelle la caméra revient derrière le personnage quand il bouge.
 @export var retour_automatique := 2.5
 
+## Émis quand on clique sans déplacer la souris (pour sélectionner une cible).
+signal clic_simple(bouton: int, position_ecran: Vector2)
+
 ## Angle horizontal de la caméra (radians).
 var lacet := 0.0
 ## Angle vertical de la caméra (radians).
@@ -30,6 +33,7 @@ var _clic_gauche := false
 var _clic_droit := false
 var _position_souris := Vector2.ZERO
 var _distance_voulue := 7.0
+var _mouvement_cumule := 0.0
 
 @onready var _cible: CharacterBody3D = get_parent()
 @onready var _pivot: Node3D = $Pivot
@@ -59,6 +63,12 @@ func recentrer() -> void:
 	_appliquer(0.0)
 
 
+## Pendant un bond : la caméra se replace derrière le personnage.
+func recentrer_doucement() -> void:
+	if not _clic_gauche and not _clic_droit:
+		lacet = lerp_angle(lacet, _cible.global_rotation.y, 0.2)
+
+
 ## Le personnage a tourné au clavier : la caméra tourne avec lui.
 func suivre_rotation(angle: float) -> void:
 	if not _clic_gauche:
@@ -72,9 +82,11 @@ func _unhandled_input(event: InputEvent) -> void:
 			MOUSE_BUTTON_LEFT:
 				_clic_gauche = bouton.pressed
 				_mettre_a_jour_capture()
+				_verifier_clic_simple(bouton)
 			MOUSE_BUTTON_RIGHT:
 				_clic_droit = bouton.pressed
 				_mettre_a_jour_capture()
+				_verifier_clic_simple(bouton)
 			MOUSE_BUTTON_WHEEL_UP:
 				if bouton.pressed:
 					_distance_voulue = maxf(distance_min, _distance_voulue * 0.88)
@@ -83,6 +95,7 @@ func _unhandled_input(event: InputEvent) -> void:
 					_distance_voulue = minf(distance_max, _distance_voulue / 0.88)
 	elif event is InputEventMouseMotion and (_clic_gauche or _clic_droit):
 		var mouvement := (event as InputEventMouseMotion).relative
+		_mouvement_cumule += mouvement.length()
 		lacet -= deg_to_rad(mouvement.x * sensibilite)
 		tangage = clampf(tangage - deg_to_rad(mouvement.y * sensibilite),
 				deg_to_rad(inclinaison_min), deg_to_rad(inclinaison_max))
@@ -96,11 +109,17 @@ func _notification(what: int) -> void:
 		_mettre_a_jour_capture()
 
 
+func _verifier_clic_simple(bouton: InputEventMouseButton) -> void:
+	if not bouton.pressed and not _clic_gauche and not _clic_droit and _mouvement_cumule < 6.0:
+		clic_simple.emit(bouton.button_index, _position_souris)
+
+
 func _mettre_a_jour_capture() -> void:
 	var maintenu := _clic_gauche or _clic_droit
 	if maintenu and Input.mouse_mode != Input.MOUSE_MODE_CAPTURED:
 		# On cache le curseur pendant qu'on tourne, comme dans WoW.
 		_position_souris = get_viewport().get_mouse_position()
+		_mouvement_cumule = 0.0
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	elif not maintenu and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE

@@ -1,0 +1,31 @@
+{
+	"_aide": "Ennemis du prototype. vitesse en mètres par seconde (le joueur court à 7), distances en mètres, temps en secondes.",
+	"loup": {
+		"nom": "Loup des steppes",
+		"niveau": 1,
+		"points_de_vie": 110,
+		"degats": [7, 11],
+		"intervalle_attaque": 1.8,
+		"portee_attaque": 2.2,
+		"vitesse_course": 6.5,
+		"vitesse_marche": 1.8,
+		"distance_detection": 11,
+		"distance_laisse": 40,
+		"entraide": 12,
+		"temps_reapparition": 20
+	},
+	"loup_allie": {
+		"nom": "Loup de la meute",
+		"niveau": 1,
+		"points_de_vie": 80,
+		"degats": [6, 9],
+		"intervalle_attaque": 1.5,
+		"portee_attaque": 2.2,
+		"vitesse_course": 8.5,
+		"vitesse_marche": 7,
+		"distance_detection": 15,
+		"distance_laisse": 30,
+		"entraide": 0,
+		"temps_reapparition": 0
+	}
+}

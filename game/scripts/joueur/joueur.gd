@@ -49,9 +49,13 @@ var endurance := 100.0
 var _temps_esquive := 0.0
 var _direction_esquive := Vector3.ZERO
 var _point_depart := Vector3.ZERO
+var _bond_cible: Node3D = null
+var _bond_fin := 0.0
+var _bond_arrivee := Callable()
 
 @onready var camera: CameraJoueur = $CameraRig
 @onready var apparence: Node3D = $Apparence
+@onready var combat: Combattant = $Combat
 
 
 func _ready() -> void:
@@ -60,6 +64,8 @@ func _ready() -> void:
 	_point_depart = global_position
 	floor_snap_length = 0.5
 	floor_max_angle = deg_to_rad(50.0)
+	combat.mort.connect(func(_tueur): _rendre_translucide(true))
+	combat.reanime.connect(func(): _rendre_translucide(false))
 
 
 ## Place le personnage à un endroit et en fait son point de réapparition.
@@ -76,7 +82,38 @@ func est_en_esquive() -> bool:
 	return _temps_esquive > 0.0
 
 
+## Vrai si le personnage se déplace (ce qui interrompt les incantations).
+func bouge() -> bool:
+	return Vector2(velocity.x, velocity.z).length() > 0.5 or not is_on_floor()
+
+
+## Compétence « Bond » : fonce vers la cible puis appelle « a_l_arrivee ».
+func bondir_vers(cible: Node3D, a_l_arrivee: Callable) -> void:
+	_bond_cible = cible
+	_bond_fin = Regles.maintenant() + 1.2
+	_bond_arrivee = a_l_arrivee
+	velocity.y = 4.0
+
+
+## Désynchronisé (mort) : le personnage devient une silhouette translucide.
+func _rendre_translucide(oui: bool) -> void:
+	for n in apparence.find_children("*", "GeometryInstance3D", true, false):
+		(n as GeometryInstance3D).transparency = 0.65 if oui else 0.0
+
+
 func _physics_process(delta: float) -> void:
+	if not combat.est_vivant():
+		velocity.x = 0.0
+		velocity.z = 0.0
+		if not is_on_floor():
+			velocity.y -= gravite * delta
+		move_and_slide()
+		return
+
+	if _bond_cible != null:
+		_bondir(delta)
+		return
+
 	var clic_droit := camera.clic_droit_maintenu()
 
 	# 1. Orientation du personnage.
@@ -102,6 +139,7 @@ func _physics_process(delta: float) -> void:
 	if direction.length() > 1.0:
 		direction = direction.normalized()
 	var vitesse := vitesse_course if avant >= 0.0 else vitesse_recul
+	vitesse *= combat.multiplicateur_vitesse()
 
 	# 3. Endurance.
 	endurance = minf(endurance + recuperation_endurance * delta, endurance_max)
@@ -146,3 +184,27 @@ func _physics_process(delta: float) -> void:
 			progression = 1.0 - _temps_esquive / duree_esquive
 			direction_locale = transform.basis.inverse() * _direction_esquive
 		apparence.animer(delta, vitesse_locale, is_on_floor(), progression, direction_locale)
+
+
+func _bondir(delta: float) -> void:
+	if not is_instance_valid(_bond_cible) or Regles.maintenant() > _bond_fin:
+		_bond_cible = null
+		return
+	var ecart := _bond_cible.global_position - global_position
+	ecart.y = 0.0
+	if ecart.length() < 1.8:
+		_bond_cible = null
+		velocity.x = 0.0
+		velocity.z = 0.0
+		if _bond_arrivee.is_valid():
+			_bond_arrivee.call()
+		return
+	rotation.y = atan2(-ecart.x, -ecart.z)
+	camera.recentrer_doucement()
+	var v := ecart.normalized() * 24.0
+	velocity.x = v.x
+	velocity.z = v.z
+	velocity.y -= gravite * delta
+	move_and_slide()
+	if apparence.has_method("animer"):
+		apparence.animer(delta, Vector3(0, 0, -24.0), false, -1.0, Vector3.ZERO)

@@ -27,19 +27,19 @@ func _lancer() -> void:
 	var scene: Node = load("res://scenes/monde/colline_de_test.tscn").instantiate()
 	root.add_child(scene)
 	await _attendre(30)
-	var joueur: Joueur = scene.get_node("Joueur")
+	var joueur = scene.get_node("Joueur")
 	print("Test du déplacement")
 	_verifier(joueur.is_on_floor(), "le joueur est posé sur le sol au départ")
-	var depart := joueur.global_position
+	var depart = joueur.global_position
 
 	Input.action_press("avancer")
 	await _attendre(60)
 	Input.action_release("avancer")
-	var parcouru := joueur.global_position - depart
+	var parcouru = joueur.global_position - depart
 	_verifier(parcouru.z < -4.0, "Z/W fait avancer vers le sommet (%.1f m)" % -parcouru.z)
 	_verifier(absf(parcouru.x) < 0.5, "on avance tout droit")
 
-	var avant_rotation := joueur.rotation.y
+	var avant_rotation = joueur.rotation.y
 	Input.action_press("tourner_gauche")
 	await _attendre(30)
 	Input.action_release("tourner_gauche")
@@ -48,7 +48,7 @@ func _lancer() -> void:
 			"la caméra tourne avec le personnage")
 
 	await _attendre(10)
-	var avant_saut := joueur.global_position.y
+	var avant_saut = joueur.global_position.y
 	Input.action_press("sauter")
 	await _attendre(2)
 	Input.action_release("sauter")
@@ -57,8 +57,8 @@ func _lancer() -> void:
 	await _attendre(60)
 	_verifier(joueur.is_on_floor(), "le joueur retombe sur le sol")
 
-	var avant_esquive := joueur.global_position
-	var endurance := joueur.endurance
+	var avant_esquive = joueur.global_position
+	var endurance = joueur.endurance
 	Input.action_press("esquive")
 	await _attendre(2)
 	Input.action_release("esquive")

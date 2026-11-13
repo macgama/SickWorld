@@ -24,9 +24,11 @@ game/      Le projet Godot (ouvrir game/project.godot)
 
 - [Ouvrir et tester le projet](docs/guides/ouvrir-et-tester-le-projet.md)
 - [Créer le personnage avec MakeHuman et Mixamo](docs/guides/personnage-makehuman-mixamo.md)
+- [Régler le combat sans coder](docs/guides/regler-le-combat.md)
 
 ## Tests automatiques
 
 ```
 godot --headless --path game -s res://tests/test_deplacement.gd
+godot --headless --path game -s res://tests/test_combat.gd
 ```
