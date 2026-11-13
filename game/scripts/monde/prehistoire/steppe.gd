@@ -129,10 +129,13 @@ func hauteur(x: float, z: float) -> float:
 	var fond := lerpf(-1.0, -0.3, gue)
 	# La largeur et la pente des berges varient le long de la rivière.
 	var largeur := 1.0 + _rivage.get_noise_1d(x * 3.0 + 100.0) * 0.8
-	var douceur := 1.0 + absf(_rivage.get_noise_1d(x * 0.9 + 300.0)) * 1.4
+	var douceur := 1.0 + absf(_rivage.get_noise_1d(x * 0.9 + 300.0)) * 1.4 + gue * 1.5
 	# Berges irrégulières : petites anses, avancées de terre, bancs de galets.
 	var d := distance_riviere(x, z) + _details.get_noise_2d(x * 0.8, z * 0.8) * 2.5 + _relief.get_noise_2d(x * 4.0, z * 4.0) * 2.0
-	h = lerpf(fond, h, smoothstep(2.5 * largeur, (2.5 + 10.0 * douceur) * largeur, d))
+	# Une plaine basse et bosselée le long de l'eau, puis une petite berge irrégulière.
+	var plaine := 0.6 + absf(_details.get_noise_2d(x * 1.5, z * 1.5)) * 1.0 + _relief.get_noise_2d(x * 6.0, z * 6.0) * 0.4
+	h = lerpf(plaine, h, smoothstep(5.0 * largeur, (16.0 + 20.0 * douceur) * largeur, d))
+	h = lerpf(fond, h, smoothstep(2.0 * largeur, (3.0 + 2.5 * douceur) * largeur, d))
 	# Montagnes tout autour, sauf le col au sud.
 	var crete := 1.0 - absf(_relief.get_noise_2d(x * 3.0, z * 3.0 + 500.0))
 	var passe := exp(-pow((z - PASSE_EST.y) / 13.0, 2.0)) if x > 0.0 else 0.0
@@ -232,6 +235,9 @@ func _construire_rochers() -> void:
 			continue
 		_placer_rocher(dossier, p.x, p.y, hasard.randf_range(0.3, 1.2))
 		places += 1
+	# Les pierres du gué (à côté du passage à pied).
+	var zg := riviere_z(GUE_X)
+	_placer_gue(dossier, Vector2(GUE_X - 4.5, zg - 9.0), Vector2(GUE_X - 4.5, zg + 9.0), graine + 14)
 	# Galets le long de la rivière.
 	for k in 70:
 		var x := hasard.randf_range(-150.0, 150.0)

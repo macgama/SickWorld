@@ -167,6 +167,26 @@ func _preparer_rochers() -> void:
 
 
 ## Pose un rocher (avec collision), en partie enfoui, avec de la neige dessus si le sol est enneigé.
+## Un gué : une rangée de pierres plates qui dépassent de l'eau, de « depart » à
+## « arrivee », et des galets immergés autour (on voit où passer).
+func _placer_gue(dossier: Node3D, depart: Vector2, arrivee: Vector2, graine_gue: int) -> void:
+	var hasard := RandomNumberGenerator.new()
+	hasard.seed = graine_gue
+	var direction := (arrivee - depart).normalized()
+	var longueur := depart.distance_to(arrivee)
+	var t := 0.0
+	while t < longueur:
+		var p := depart + direction * t + direction.orthogonal() * hasard.randf_range(-0.3, 0.3)
+		if hauteur(p.x, p.y) < 0.3:
+			# De grosses pierres qui sortent nettement de l'eau.
+			_placer_rocher(dossier, p.x, p.y, hasard.randf_range(1.1, 1.4), -0.12)
+		t += hasard.randf_range(0.9, 1.3)
+	for k in 26:
+		var p := depart.lerp(arrivee, hasard.randf()) + direction.orthogonal() * hasard.randf_range(-4.0, 4.0)
+		if hauteur(p.x, p.y) < 0.2:
+			_placer_rocher(dossier, p.x, p.y, hasard.randf_range(0.25, 0.55), 0.3)
+
+
 func _placer_rocher(dossier: Node3D, x: float, z: float, taille: float, enfoui := 0.35) -> void:
 	if _formes_rochers.is_empty():
 		_preparer_rochers()

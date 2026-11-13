@@ -44,6 +44,7 @@ godot --headless --path game -s res://tests/test_inventaire.gd
 godot --headless --path game -s res://tests/test_cote_gelee.gd
 godot --headless --path game -s res://tests/test_steppe.gd
 godot --headless --path game -s res://tests/test_foret.gd
+godot --headless --path game -s res://tests/test_chapitre5.gd
 godot --headless --path game -s res://tests/test_quetes.gd
 
 # Multijoueur : un serveur dédié puis un ou plusieurs clients de test

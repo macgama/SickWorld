@@ -179,7 +179,7 @@ func _lancer() -> void:
 	await _aller_pres(aina)
 	await _appuyer_f()
 	lues = await _lire_dialogue()
-	_verifier(lues >= 4 and _quete.etape == -1, "Aïna conclut le chapitre 4 (%d bulles)" % lues)
+	_verifier(lues >= 4 and _id_etape() == "lenoir_failles", "Aïna conclut le chapitre 4 et envoie voir Lenoir (%d bulles, %s)" % [lues, _id_etape()])
 
 	# --- Branche 2 : laisser partir Grise.
 	await _jouer_foret("liberer")

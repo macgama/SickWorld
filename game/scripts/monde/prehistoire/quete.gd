@@ -59,6 +59,9 @@ var _canalisation_depart := Vector3.ZERO
 var _combat_joueur: Node = null
 ## Dernière zone demandée (pour les tests, quand voyage_reel est décoché).
 var zone_demandee := ""
+## Vrai quand le joueur rapporte la montre au QG (fin du chapitre 5) : le hub
+## lit Reseau.get_meta("visite_guidee_qg") pour lancer la visite guidée.
+var visite_qg_demandee := false
 ## L'étape « choix » telle qu'elle était avant de choisir (on peut se raviser si
 ## l'action est interrompue).
 var _avant_choix := {}
@@ -270,6 +273,8 @@ func _appliquer_apres(e: Dictionary, anime: bool) -> void:
 		_appliquer_effet(effet, anime)
 	if anime and e.has("recompense"):
 		_donner_recompense(e["recompense"])
+	if anime and e.has("recit"):
+		_annoncer(e["recit"].get("titre", ""), e["recit"].get("texte", ""))
 	if anime and e.get("fin_chapitre", false):
 		_annoncer("Chapitre %d terminé" % e.get("chapitre", 0), e.get("titre_chapitre", ""))
 
@@ -557,6 +562,9 @@ func _position_cible(e: Dictionary):
 		if sortie == Vector2.INF:
 			return null
 		return Vector3(sortie.x, ile.hauteur(sortie.x, sortie.y), sortie.y)
+	if e.get("portail", false) and ile != null and ile.get("PORTAIL") != null:
+		var portail: Vector2 = ile.get("PORTAIL")
+		return Vector3(portail.x, ile.hauteur(portail.x, portail.y), portail.y)
 	if e.has("choix"):
 		var premier := _trouver_objet(e["choix"][0].get("objet", "")) as Node3D
 		return premier.global_position if premier != null else null
@@ -653,6 +661,11 @@ func changer_de_zone(zone: String) -> void:
 func rentrer_au_hub() -> void:
 	if _en_voyage:
 		return
+	if etape_actuelle().get("portail", false) and _ici(etape_actuelle()):
+		# Le chapitre se termine au QG : le hub peut lancer la visite guidée.
+		_suivante()
+		visite_qg_demandee = true
+		Reseau.set_meta("visite_guidee_qg", true)
 	_en_voyage = true
 	_titre.text = "Hikari Bay"
 	_sous_titre.text = "Retour au QG de la Vigie"
