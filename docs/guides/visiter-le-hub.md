@@ -27,6 +27,12 @@ La première fois, un écran noir présente Hikari Bay, puis un **objectif** en 
 
 Ensuite l'intro ne se rejoue plus. Pour la revoir : clique sur le nœud **Intro** de la scène et coche **Toujours rejouer** dans l'Inspecteur. Tous les textes sont dans `game/data/hub_intro.json` (modifiables sans code). Le voyage par portail se fait en solo pour l'instant ; en groupe, il arrive bientôt.
 
+## Le Quartier des Artisans
+
+La rue du nord-est de la place mène au **Quartier des Artisans** : d'anciens entrepôts sous le **métro aérien** (une rame passe régulièrement). Deux ateliers se visitent :
+- la **forge Hinode**, avec son four rougeoyant, Maître Tetsuo et son apprentie ;
+- l'atelier **Fil & Fibre**, moitié couture, moitié impression 3D (Léa et Kofi).
+
 ## Le Marché de nuit et les missions secondaires
 
 La rue du nord-ouest de la place mène au **Marché de nuit** : trois ruelles étroites avec des stands de nourriture, des lanternes rouges et des enseignes empilées. Deux bâtiments se visitent :
@@ -40,6 +46,8 @@ Des habitants proposent des **missions secondaires** : un **« ! »** doré flot
 | Kuro a disparu | Madame Sato, sur la place (côté nord-ouest) |
 | Un bol pour la route | Le chef Goro, dans le restaurant Kaminari |
 | L'écran qui grésille | Nina, sous l'écran géant |
+| Ferraille temporelle | Maître Tetsuo, à la forge Hinode (Artisans) |
+| Une louche sur mesure | Kofi, à l'atelier Fil & Fibre (Artisans) |
 
 Tous les textes des missions sont dans `game/data/hub_quetes.json`, et ceux des habitants dans `game/data/hub_pnj.json`.
 

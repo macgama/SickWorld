@@ -98,7 +98,7 @@ func _lancer() -> void:
 	_dialogue = get_first_node_in_group("dialogue")
 	print("Test des missions secondaires")
 	_verifier(_quetes.quetes.size() >= 3, "%d missions chargées" % _quetes.quetes.size())
-	for id in ["kuro", "kaminari", "ecran"]:
+	for id in ["kuro", "kaminari", "ecran", "ferraille", "louche"]:
 		var donneur: String = _quetes.quete(id)["donneur"]
 		_verifier(_trouver_pnj(donneur) != null, "le donneur de « %s » est en ville (%s)" % [id, donneur])
 		var marque = _quetes._marques.get(donneur)
@@ -130,6 +130,22 @@ func _lancer() -> void:
 	_verifier(faits == 3 and _quetes.etats["ecran"]["etape"] == 1, "on installe les trois capteurs")
 	await _parler_a("nina")
 	_verifier(_quetes.etat("ecran") == "terminee", "mission « L'écran qui grésille » accomplie")
+
+	# 4. Ferraille temporelle : Tetsuo -> 3 morceaux -> Tetsuo.
+	await _parler_a("forgeron")
+	_verifier(_quetes.etat("ferraille") == "active", "Maître Tetsuo confie sa mission")
+	faits = await _utiliser_objets("ferraille")
+	_verifier(faits == 3 and _quetes.etats["ferraille"]["etape"] == 1, "on ramasse les trois morceaux de ferraille")
+	await _parler_a("forgeron")
+	_verifier(_quetes.etat("ferraille") == "terminee", "mission « Ferraille temporelle » accomplie")
+
+	# 5. Une louche sur mesure : Kofi -> Goro (au Marché) -> Kofi.
+	await _parler_a("kofi")
+	_verifier(_quetes.etat("louche") == "active", "Kofi confie sa mission")
+	await _parler_a("chef_goro")
+	_verifier(_quetes.etats["louche"]["etape"] == 1, "le chef Goro reçoit la louche")
+	await _parler_a("kofi")
+	_verifier(_quetes.etat("louche") == "terminee", "mission « Une louche sur mesure » accomplie")
 
 	# Après coup : plus de marques, des répliques de remerciement, le journal.
 	var visibles := 0
