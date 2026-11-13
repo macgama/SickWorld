@@ -140,7 +140,7 @@ func _ici(e: Dictionary) -> bool:
 ## suite (ex. soigner Grise ou la laisser partir). Le choix est gardé dans la sauvegarde.
 func _reprendre_choix() -> void:
 	var cfg := ConfigFile.new()
-	if cfg.load(fichier_progression) != OK:
+	if cfg.load(Profil.chemin(fichier_progression)) != OK:
 		return
 	for i in etapes.size():
 		var e: Dictionary = etapes[i]
@@ -166,9 +166,9 @@ func _choisir(option: Dictionary) -> void:
 	_avant_choix = e
 	etapes[etape] = _etape_choisie(e, option)
 	var cfg := ConfigFile.new()
-	cfg.load(fichier_progression)
+	cfg.load(Profil.chemin(fichier_progression))
 	cfg.set_value(SECTION, "choix_" + String(e.get("id", "")), option.get("objet", ""))
-	cfg.save(fichier_progression)
+	cfg.save(Profil.chemin(fichier_progression))
 	for objet in get_tree().get_nodes_in_group("objet_quete"):
 		if objet.get("identifiant") != option.get("objet", ""):
 			objet.actif = false
@@ -186,7 +186,7 @@ func _choisir(option: Dictionary) -> void:
 
 func _etape_sauvegardee() -> int:
 	var cfg := ConfigFile.new()
-	if cfg.load(fichier_progression) != OK:
+	if cfg.load(Profil.chemin(fichier_progression)) != OK:
 		return 0
 	var id := String(cfg.get_value(SECTION, "etape", ""))
 	if id == "fin":
@@ -199,9 +199,9 @@ func _etape_sauvegardee() -> int:
 
 func _sauvegarder() -> void:
 	var cfg := ConfigFile.new()
-	cfg.load(fichier_progression)
+	cfg.load(Profil.chemin(fichier_progression))
 	cfg.set_value(SECTION, "etape", etape_actuelle().get("id", "fin"))
-	cfg.save(fichier_progression)
+	cfg.save(Profil.chemin(fichier_progression))
 
 
 func etape_actuelle() -> Dictionary:
@@ -547,9 +547,9 @@ func _interrompre(raison: String) -> void:
 		etapes[etape] = _avant_choix
 		_avant_choix = {}
 		var cfg := ConfigFile.new()
-		cfg.load(fichier_progression)
+		cfg.load(Profil.chemin(fichier_progression))
 		cfg.set_value(SECTION, "choix_" + String(etape_actuelle().get("id", "")), "")
-		cfg.save(fichier_progression)
+		cfg.save(Profil.chemin(fichier_progression))
 		for option in etape_actuelle().get("choix", []):
 			var objet := _trouver_objet(option.get("objet", ""))
 			if objet != null:

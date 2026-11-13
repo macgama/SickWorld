@@ -85,10 +85,14 @@ func _unhandled_input(event: InputEvent) -> void:
 		cibler_suivant()
 		get_viewport().set_input_as_handled()
 	elif event.is_action_pressed("annuler"):
+		# Échap annule l'incantation, sinon enlève la cible ; sans cible,
+		# il laisse passer la touche pour ouvrir le menu de jeu.
 		if _barre_nom != "":
 			Regles.au_serveur(self, "_demander_annulation")
-		else:
+			get_viewport().set_input_as_handled()
+		elif cible != null:
 			changer_cible(null)
+			get_viewport().set_input_as_handled()
 	else:
 		for i in 8:
 			if event.is_action_pressed("competence_%d" % (i + 1)):

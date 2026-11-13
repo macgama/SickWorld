@@ -8,7 +8,7 @@ const TEXTE_AIDE := """[b]Contrôles[/b]  (F1 pour cacher)
 [b]Clic droit maintenu[/b] : orienter le personnage
 [b]Clic gauche maintenu[/b] : tourner la caméra     [b]Molette[/b] : zoom
 [b]Espace[/b] : sauter     [b]Maj[/b] : roulade d'esquive
-[b]Tab[/b] ou [b]clic[/b] sur un ennemi : le cibler     [b]Échap[/b] : enlever la cible
+[b]Tab[/b] ou [b]clic[/b] sur un ennemi : le cibler     [b]Échap[/b] : enlever la cible, sinon ouvrir le menu (options, quitter)
 [b]Clic droit[/b] sur un ennemi : l'attaquer
 [b]1 à 8[/b] : compétences (survole une case pour lire sa description)
 [b]C[/b], [b]I[/b] ou [b]B[/b] : personnage, sacs et tenues     [b]F[/b] : ramasser le butin
@@ -103,6 +103,10 @@ func _connecter() -> void:
 	_fenetre_personnage = preload("res://scripts/interface/fenetre_personnage.gd").new()
 	_racine.add_child(_fenetre_personnage)
 	_fenetre_personnage.relier(_joueur.get_node("Inventaire"), _combat_joueur)
+	# Établi des artisans du hub (s'ouvre après avoir parlé à la forge ou à Fil & Fibre).
+	var artisanat: PanelContainer = preload("res://scripts/interface/fenetre_artisanat.gd").new()
+	_racine.add_child(artisanat)
+	artisanat.relier(_joueur.get_node("Inventaire"))
 
 
 ## Écran Personnage (touches C, I ou B).

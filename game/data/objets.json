@@ -535,7 +535,7 @@
 			"nom": "Croc de loup",
 			"type": "materiau",
 			"rarete": "commun",
-			"description": "Servira à l'artisanat.",
+			"description": "Un croc solide. La forge Hinode en fait des colliers et des pointes.",
 			"pile": 20,
 			"epoque": "Préhistoire",
 			"icone": {
@@ -547,7 +547,7 @@
 			"nom": "Peau de loup",
 			"type": "materiau",
 			"rarete": "commun",
-			"description": "Servira à l'artisanat.",
+			"description": "Une peau épaisse. L'atelier Fil & Fibre en coud des tenues et des sacs.",
 			"pile": 20,
 			"epoque": "Préhistoire",
 			"icone": {
@@ -559,12 +559,72 @@
 			"nom": "Silex",
 			"type": "materiau",
 			"rarete": "commun",
-			"description": "Servira à l'artisanat.",
+			"description": "Une pierre qui se taille en lames tranchantes. Pour la forge Hinode.",
 			"pile": 20,
 			"epoque": "Préhistoire",
 			"icone": {
 				"forme": "silex",
 				"couleur": "#4a4744"
+			}
+		},
+		"tendon_seche": {
+			"nom": "Tendon séché",
+			"type": "materiau",
+			"rarete": "commun",
+			"description": "Le fil et la corde de la Préhistoire. Les deux artisans en réclament.",
+			"pile": 20,
+			"epoque": "Préhistoire",
+			"icone": {
+				"forme": "tendon",
+				"couleur": "#c9a77a"
+			}
+		},
+		"bois_de_renne": {
+			"nom": "Bois de renne",
+			"type": "materiau",
+			"rarete": "commun",
+			"description": "Dur et léger. La forge Hinode en fait des manches et des propulseurs.",
+			"pile": 20,
+			"epoque": "Préhistoire",
+			"icone": {
+				"forme": "bois_renne",
+				"couleur": "#d9c7a4"
+			}
+		},
+		"ocre_rouge": {
+			"nom": "Ocre rouge",
+			"type": "materiau",
+			"rarete": "commun",
+			"description": "Une terre rouge des falaises. On en teint les cuirs et on en peint les visages.",
+			"pile": 20,
+			"epoque": "Préhistoire",
+			"icone": {
+				"forme": "silex",
+				"couleur": "#a8402a"
+			}
+		},
+		"eclat_de_fracture": {
+			"nom": "Éclat de fracture",
+			"type": "materiau",
+			"rarete": "raffine",
+			"description": "Un morceau de temps cristallisé, tombé d'une créature fracturée. Il renforce n'importe quel objet.",
+			"pile": 20,
+			"epoque": "Préhistoire",
+			"icone": {
+				"forme": "eclat",
+				"couleur": "#8a6cff"
+			}
+		},
+		"fourrure_ours": {
+			"nom": "Fourrure de l'Ours Sans Mémoire",
+			"type": "materiau",
+			"rarete": "epique",
+			"description": "Une fourrure immense, encore parcourue de reflets violets. Les meilleurs artisans en rêvent.",
+			"pile": 5,
+			"epoque": "Préhistoire",
+			"icone": {
+				"forme": "peau",
+				"couleur": "#3b2c24"
 			}
 		},
 		"montre_gousset_brisee": {
@@ -578,6 +638,244 @@
 				"forme": "montre",
 				"couleur": "#c9a24a"
 			}
+		},
+		"capuche_chasseur_renforce": {
+			"nom": "Capuche de loup renforcée",
+			"type": "equipement",
+			"rarete": "rare",
+			"description": "La tête d'un loup, portée comme une capuche. Les autres prédateurs comprennent. Renforcé par les artisans de Hikari Bay avec des éclats de fracture.",
+			"emplacement": "tete",
+			"epoque": "Préhistoire",
+			"ensemble": "chasseur_du_clan",
+			"stats": {
+				"degats_pourcent": 5,
+				"critique_pourcent": 2,
+				"pv": 15
+			},
+			"visuel": {
+				"forme": "capuche_loup",
+				"couleur": "#7a7068"
+			},
+			"ameliore_de": "capuche_chasseur"
+		},
+		"cape_chasseur_renforce": {
+			"nom": "Cape de fourrure renforcée",
+			"type": "equipement",
+			"rarete": "rare",
+			"description": "Fourrure de loup grise, cousue au tendon. Renforcé par les artisans de Hikari Bay avec des éclats de fracture.",
+			"emplacement": "torse",
+			"epoque": "Préhistoire",
+			"ensemble": "chasseur_du_clan",
+			"stats": {
+				"degats_pourcent": 5,
+				"critique_pourcent": 2,
+				"pv": 15
+			},
+			"visuel": {
+				"forme": "cape_fourrure",
+				"couleur": "#7a7068",
+				"teinte": "#5e5a55"
+			},
+			"ameliore_de": "cape_chasseur"
+		},
+		"brassards_chasseur_renforce": {
+			"nom": "Brassards de cuir renforcés",
+			"type": "equipement",
+			"rarete": "rare",
+			"description": "Protègent l'avant-bras de la corde et des crocs. Renforcé par les artisans de Hikari Bay avec des éclats de fracture.",
+			"emplacement": "mains",
+			"epoque": "Préhistoire",
+			"ensemble": "chasseur_du_clan",
+			"stats": {
+				"degats_pourcent": 5,
+				"critique_pourcent": 2,
+				"pv": 15
+			},
+			"visuel": {
+				"forme": "brassards",
+				"couleur": "#7a7068"
+			},
+			"ameliore_de": "brassards_chasseur"
+		},
+		"jambieres_chasseur_renforce": {
+			"nom": "Jambières de fourrure renforcées",
+			"type": "equipement",
+			"rarete": "rare",
+			"description": "Chaudes et silencieuses dans les hautes herbes. Renforcé par les artisans de Hikari Bay avec des éclats de fracture.",
+			"emplacement": "jambes",
+			"epoque": "Préhistoire",
+			"ensemble": "chasseur_du_clan",
+			"stats": {
+				"degats_pourcent": 5,
+				"critique_pourcent": 2,
+				"pv": 15
+			},
+			"visuel": {
+				"forme": "jambieres",
+				"couleur": "#7a7068"
+			},
+			"ameliore_de": "jambieres_chasseur"
+		},
+		"mocassins_chasseur_renforce": {
+			"nom": "Mocassins du chasseur renforcés",
+			"type": "equipement",
+			"rarete": "rare",
+			"description": "On n'entend pas venir celui qui les porte. Renforcé par les artisans de Hikari Bay avec des éclats de fracture.",
+			"emplacement": "pieds",
+			"epoque": "Préhistoire",
+			"ensemble": "chasseur_du_clan",
+			"stats": {
+				"degats_pourcent": 5,
+				"critique_pourcent": 2,
+				"pv": 15
+			},
+			"visuel": {
+				"forme": "bottes_fourrure",
+				"couleur": "#7a7068"
+			},
+			"ameliore_de": "mocassins_chasseur"
+		},
+		"bandeau_gardien_renforce": {
+			"nom": "Bandeau de braises renforcé",
+			"type": "equipement",
+			"rarete": "rare",
+			"description": "Un bandeau de cuir orné de perles de charbon. Renforcé par les artisans de Hikari Bay avec des éclats de fracture.",
+			"emplacement": "tete",
+			"epoque": "Préhistoire",
+			"ensemble": "gardien_du_feu",
+			"stats": {
+				"pv": 30,
+				"reduction_pourcent": 3
+			},
+			"visuel": {
+				"forme": "bandeau",
+				"couleur": "#5a3d28"
+			},
+			"ameliore_de": "bandeau_gardien"
+		},
+		"manteau_gardien_renforce": {
+			"nom": "Manteau de bison renforcé",
+			"type": "equipement",
+			"rarete": "rare",
+			"description": "Lourd, épais, il sent la fumée. Renforcé par les artisans de Hikari Bay avec des éclats de fracture.",
+			"emplacement": "torse",
+			"epoque": "Préhistoire",
+			"ensemble": "gardien_du_feu",
+			"stats": {
+				"pv": 30,
+				"reduction_pourcent": 3
+			},
+			"visuel": {
+				"forme": "cape_fourrure",
+				"couleur": "#5a3d28",
+				"teinte": "#5a4030"
+			},
+			"ameliore_de": "manteau_gardien"
+		},
+		"gants_gardien_renforce": {
+			"nom": "Gants de peau renforcés",
+			"type": "equipement",
+			"rarete": "rare",
+			"description": "Pour porter les braises sans se brûler. Renforcé par les artisans de Hikari Bay avec des éclats de fracture.",
+			"emplacement": "mains",
+			"epoque": "Préhistoire",
+			"ensemble": "gardien_du_feu",
+			"stats": {
+				"pv": 30,
+				"reduction_pourcent": 3
+			},
+			"visuel": {
+				"forme": "brassards",
+				"couleur": "#5a3d28"
+			},
+			"ameliore_de": "gants_gardien"
+		},
+		"jambieres_gardien_renforce": {
+			"nom": "Jambières du gardien renforcées",
+			"type": "equipement",
+			"rarete": "rare",
+			"description": "Taillées dans le cuir le plus épais. Renforcé par les artisans de Hikari Bay avec des éclats de fracture.",
+			"emplacement": "jambes",
+			"epoque": "Préhistoire",
+			"ensemble": "gardien_du_feu",
+			"stats": {
+				"pv": 30,
+				"reduction_pourcent": 3
+			},
+			"visuel": {
+				"forme": "jambieres",
+				"couleur": "#5a3d28"
+			},
+			"ameliore_de": "jambieres_gardien"
+		},
+		"bottes_gardien_renforce": {
+			"nom": "Bottes du gardien renforcées",
+			"type": "equipement",
+			"rarete": "rare",
+			"description": "Elles tiennent chaud même sur la glace. Renforcé par les artisans de Hikari Bay avec des éclats de fracture.",
+			"emplacement": "pieds",
+			"epoque": "Préhistoire",
+			"ensemble": "gardien_du_feu",
+			"stats": {
+				"pv": 30,
+				"reduction_pourcent": 3
+			},
+			"visuel": {
+				"forme": "bottes_fourrure",
+				"couleur": "#5a3d28"
+			},
+			"ameliore_de": "bottes_gardien"
+		},
+		"couteau_obsidienne_renforce": {
+			"nom": "Couteau d'obsidienne affûté",
+			"type": "equipement",
+			"rarete": "rare",
+			"description": "Plus tranchant que n'importe quel acier. Renforcé par les artisans de Hikari Bay avec des éclats de fracture.",
+			"emplacement": "arme_secondaire",
+			"epoque": "Préhistoire",
+			"stats": {
+				"degats_pourcent": 6,
+				"critique_pourcent": 5
+			},
+			"visuel": {
+				"forme": "couteau",
+				"couleur": "#1b1820"
+			},
+			"ameliore_de": "couteau_obsidienne"
+		},
+		"massue_os_renforce": {
+			"nom": "Massue d'os cerclée",
+			"type": "equipement",
+			"rarete": "rare",
+			"description": "Lourde. Très lourde. Renforcé par les artisans de Hikari Bay avec des éclats de fracture.",
+			"emplacement": "arme_principale",
+			"epoque": "Préhistoire",
+			"stats": {
+				"degats_pourcent": 12,
+				"pv": 30
+			},
+			"visuel": {
+				"forme": "massue",
+				"couleur": "#d8ccb0"
+			},
+			"ameliore_de": "massue_os"
+		},
+		"lance_silex_renforce": {
+			"nom": "Lance de silex trempée",
+			"type": "equipement",
+			"rarete": "epique",
+			"description": "Une pointe taillée avec patience, renforcée d'un éclat de technologie Vigie. Renforcé par les artisans de Hikari Bay avec des éclats de fracture.",
+			"emplacement": "arme_principale",
+			"epoque": "Préhistoire",
+			"stats": {
+				"degats_pourcent": 15,
+				"critique_pourcent": 5
+			},
+			"visuel": {
+				"forme": "lance",
+				"couleur": "#6b4a2b"
+			},
+			"ameliore_de": "lance_silex"
 		}
 	},
 	"ensembles": {
@@ -648,6 +946,10 @@
 				"chance": 0.35
 			},
 			{
+				"objet": "tendon_seche",
+				"chance": 0.3
+			},
+			{
 				"parmi": [
 					"capuche_chasseur",
 					"cape_chasseur",
@@ -680,6 +982,152 @@
 					"dent_alpha"
 				],
 				"chance": 0.04
+			}
+		],
+		"loup_fracture": [
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 0.45
+			},
+			{
+				"objet": "croc_loup",
+				"chance": 0.5,
+				"quantite": [
+					1,
+					2
+				]
+			},
+			{
+				"objet": "tendon_seche",
+				"chance": 0.3
+			}
+		],
+		"loup_fracture_faille": [
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 0.45
+			},
+			{
+				"objet": "croc_loup",
+				"chance": 0.5,
+				"quantite": [
+					1,
+					2
+				]
+			},
+			{
+				"objet": "tendon_seche",
+				"chance": 0.3
+			}
+		],
+		"loup_fracture_foret": [
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 0.45
+			},
+			{
+				"objet": "croc_loup",
+				"chance": 0.5,
+				"quantite": [
+					1,
+					2
+				]
+			},
+			{
+				"objet": "tendon_seche",
+				"chance": 0.3
+			},
+			{
+				"objet": "peau_loup",
+				"chance": 0.35
+			}
+		],
+		"loup_fracture_falaises": [
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 0.45
+			},
+			{
+				"objet": "croc_loup",
+				"chance": 0.5,
+				"quantite": [
+					1,
+					2
+				]
+			},
+			{
+				"objet": "tendon_seche",
+				"chance": 0.3
+			},
+			{
+				"objet": "ocre_rouge",
+				"chance": 0.5,
+				"quantite": [
+					1,
+					2
+				]
+			},
+			{
+				"objet": "silex",
+				"chance": 0.4,
+				"quantite": [
+					1,
+					2
+				]
+			}
+		],
+		"loup_fracture_grotte": [
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 0.6,
+				"quantite": [
+					1,
+					2
+				]
+			},
+			{
+				"objet": "silex",
+				"chance": 0.5,
+				"quantite": [
+					1,
+					3
+				]
+			},
+			{
+				"objet": "ocre_rouge",
+				"chance": 0.4
+			}
+		],
+		"renne": [
+			{
+				"objet": "bois_de_renne",
+				"chance": 0.8,
+				"quantite": [
+					1,
+					2
+				]
+			},
+			{
+				"objet": "tendon_seche",
+				"chance": 0.7,
+				"quantite": [
+					1,
+					2
+				]
+			}
+		],
+		"ours_sans_memoire": [
+			{
+				"objet": "fourrure_ours",
+				"chance": 1.0
+			},
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 1.0,
+				"quantite": [
+					4,
+					6
+				]
 			}
 		]
 	},
