@@ -3,7 +3,6 @@
 // (bords dorés, ventre gris-bleu). La direction du soleil vient de la lumière
 // « Soleil » de la scène.
 shader_type sky;
-render_mode use_half_res_pass;
 
 uniform vec3 couleur_zenith : source_color = vec3(0.10, 0.22, 0.45);
 uniform vec3 horizon_froid : source_color = vec3(0.58, 0.68, 0.80);
@@ -19,7 +18,11 @@ uniform vec3 nuage_lumiere : source_color = vec3(1.0, 0.82, 0.62);
 uniform vec2 decalage = vec2(0.0);
 
 float hasard(vec2 p) {
-	return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453);
+	// Hachage sans sin() : sin() sur de grandes valeurs est imprécis sur les cartes
+	// NVIDIA et dessinait des facettes (bandes, quadrilatères) dans les motifs.
+	vec3 p3 = fract(vec3(p.xyx) * 0.1031);
+	p3 += dot(p3, p3.yzx + 33.33);
+	return fract((p3.x + p3.y) * p3.z);
 }
 
 float bruit(vec2 p) {
@@ -50,9 +53,13 @@ void sky() {
 	// Dégradé : l'horizon prend la couleur du soleil de son côté.
 	vec3 horizon = mix(horizon_froid, horizon_soleil, pow(vers_soleil, 3.0));
 	vec3 c = mix(horizon, couleur_zenith, pow(h, 0.55));
-	// Halo autour du soleil.
+	// Halo autour du soleil. Le halo serré et le disque ne vont pas dans la carte
+	// de reflets (cubemap basse résolution) : leurs fortes valeurs y faisaient
+	// des carrés lumineux autour du soleil, repris par la brume et les reflets.
 	c += couleur_soleil * pow(max(cos_soleil, 0.0), 24.0) * 0.8;
-	c += couleur_soleil * pow(max(cos_soleil, 0.0), 300.0) * 3.0;
+	if (!AT_CUBEMAP_PASS) {
+		c += couleur_soleil * pow(max(cos_soleil, 0.0), 300.0) * 3.0;
+	}
 	if (d.y < 0.0) {
 		c = mix(horizon, horizon_froid * 0.55, clamp(-d.y * 3.0, 0.0, 1.0));
 	} else {
@@ -74,6 +81,8 @@ void sky() {
 	}
 	// Disque du soleil (devant les nuages fins).
 	float disque = smoothstep(taille_soleil - 0.00004, taille_soleil, cos_soleil);
-	c += couleur_soleil * disque * force_soleil * step(0.0, d.y);
+	if (!AT_CUBEMAP_PASS) {
+		c += couleur_soleil * disque * force_soleil * step(0.0, d.y);
+	}
 	COLOR = c;
 }

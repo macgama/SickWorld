@@ -25,9 +25,9 @@ func _initialize() -> void:
 
 
 func _lancer() -> void:
-	if FileAccess.file_exists(FICHIER):
-		_sauvegarde_existante = FileAccess.get_file_as_string(FICHIER)
-		DirAccess.remove_absolute(ProjectSettings.globalize_path(FICHIER))
+	if FileAccess.file_exists(Profil.chemin(FICHIER)):
+		_sauvegarde_existante = FileAccess.get_file_as_string(Profil.chemin(FICHIER))
+		DirAccess.remove_absolute(ProjectSettings.globalize_path(Profil.chemin(FICHIER)))
 	var catalogue: Dictionary = root.get_node("Donnees").creation
 	_tester_fiche(catalogue)
 	_tester_apparence(catalogue)
@@ -161,7 +161,7 @@ func _tester_ecran(catalogue: Dictionary) -> void:
 	_verifier(champ != null, "le nom se choisit à la dernière étape")
 	champ.text = "Al"
 	_verifier(ecran.terminer() != "", "un nom trop court empêche de valider")
-	_verifier(not FileAccess.file_exists(FICHIER), "rien n'est sauvegardé tant que le nom est refusé")
+	_verifier(not FileAccess.file_exists(Profil.chemin(FICHIER)), "rien n'est sauvegardé tant que le nom est refusé")
 	champ.text = "Aiko Tanaka"
 	_verifier(ecran.terminer() == "", "un bon nom permet de créer le personnage")
 	await _attendre(3)
@@ -197,7 +197,7 @@ func _tester_en_jeu(catalogue: Dictionary) -> void:
 func _finir() -> void:
 	FichePersonnage.effacer()
 	if _sauvegarde_existante != null:
-		var f := FileAccess.open(FICHIER, FileAccess.WRITE)
+		var f := FileAccess.open(Profil.chemin(FICHIER), FileAccess.WRITE)
 		f.store_string(_sauvegarde_existante)
 		f.close()
 	print("Résultat : %s" % ("TOUT EST BON" if _echecs == 0 else "%d échec(s)" % _echecs))

@@ -1,0 +1,31 @@
+# Réglages du serveur de comptes SickWorld (Nakama).
+# Ce fichier est lu par les scripts de demarrer_serveur.bat (Windows)
+# et par Nakama sur le futur serveur Oracle Cloud.
+#
+# IMPORTANT avant d'ouvrir le serveur à Internet : changer les trois clés
+# marquées « À CHANGER » (et la clé serveur dans le jeu, autoload Compte).
+
+name: sickworld
+data_dir: "./donnees/"
+
+logger:
+  stdout: true
+  level: "info"
+
+session:
+  # Durée d'une connexion avant renouvellement automatique (en secondes).
+  token_expiry_sec: 7200          # 2 h
+  refresh_token_expiry_sec: 2592000  # 30 jours : « se souvenir de moi »
+  encryption_key: "sickworld-session-a-changer"          # À CHANGER
+  refresh_encryption_key: "sickworld-refresh-a-changer"  # À CHANGER
+
+socket:
+  server_key: "sickworld-cle-locale"   # À CHANGER (même valeur dans le jeu)
+  port: 7350
+  # Les sauvegardes envoyées par le jeu peuvent dépasser la limite par défaut (256 Ko).
+  max_request_size_bytes: 4194304
+
+console:
+  port: 7351
+  username: "admin"
+  password: "sickworld-console"   # À CHANGER (console web http://127.0.0.1:7351)
