@@ -8,9 +8,9 @@ Ce guide explique comment essayer l'inventaire dans le prototype, et comment cha
 
 1. Lance le jeu (bouton ▶ de Godot), puis **Jouer seul**.
 2. Appuie sur **C** (ou **I**, ou **B**) : l'écran **Personnage** s'ouvre.
-   - **À gauche** : ce que ton personnage porte (12 emplacements) et tes sacs.
+   - **À gauche** : ton personnage en 3D, entouré de ce qu'il porte (armure à gauche, armes, bijoux et relique à droite). Il change dès que tu l'équipes. Glisse la souris dessus pour le faire tourner. En dessous, tes sacs portés.
    - **Au milieu** : tes caractéristiques, les ensembles actifs, tes compétences d'époque (touches 6, 7 et 8) et tes **tenues de mission**.
-   - **À droite** : le contenu de tes sacs. Les couleurs des bords indiquent la rareté (blanc, vert, bleu, violet, orange).
+   - **À droite** : le contenu de tes sacs, chaque objet avec son image. Les couleurs des bords indiquent la rareté (blanc, vert, bleu, violet, orange), le chiffre en bas à droite la quantité.
 3. **Clic** sur un objet des sacs : tu l'équipes (l'ancien revient dans le sac). **Clic** sur un emplacement porté : tu le retires. **Clic droit** sur un objet des sacs : tu le jettes (une confirmation est demandée).
 4. Survole un objet pour lire ses bonus et ceux de son ensemble.
 
@@ -52,6 +52,12 @@ Tout est dans le fichier `game/data/objets.json` (à ouvrir avec le Bloc-notes o
 - **`inventaire`** : taille du sac de départ, nombre de tenues, durée du changement de tenue.
 
 Après une modification, relance le jeu. Attention aux virgules et aux guillemets : si le fichier est mal écrit, Godot l'indique en rouge dans la console.
+
+## Les images des objets
+
+Chaque objet a son image dans `game/interface/icones/` (un fichier PNG au nom de l'objet, par exemple `lance_silex.png`). Elles sont fabriquées automatiquement en photographiant la maquette 3D de l'objet. Tu peux remplacer n'importe laquelle par ta propre image (128 × 128 pixels, fond transparent) en gardant le même nom.
+
+Quand on ajoute un objet, on refabrique les images avec `godot --path game -s res://tests/generer_icones.gd`. La forme utilisée est celle de `visuel` (ce qui se voit sur le corps) ou, à défaut, celle de `icone` dans `objets.json`.
 
 ## Recommencer avec un inventaire neuf
 

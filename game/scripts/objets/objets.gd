@@ -330,6 +330,24 @@ static func decrocher_sac(cat: Dictionary, etat: Dictionary, place: int) -> Stri
 	return ""
 
 
+## Ce qui se voit sur le personnage : emplacement -> visuel (forme, couleur, teinte).
+static func visuels(cat: Dictionary, equipement: Dictionary) -> Dictionary:
+	var resultat := {}
+	for e in equipement:
+		var o := objet(cat, String(equipement[e]))
+		if o.has("visuel"):
+			resultat[e] = o["visuel"]
+	return resultat
+
+
+## Image de l'objet (interface/icones/<id>.png), ou null s'il n'y en a pas encore.
+static func icone(id: String) -> Texture2D:
+	var chemin := "res://interface/icones/%s.png" % id
+	if id == "" or not ResourceLoader.exists(chemin):
+		return null
+	return load(chemin) as Texture2D
+
+
 # --- Bonus ---------------------------------------------------------------------
 
 ## Additionne tout ce que donne l'équipement porté :
