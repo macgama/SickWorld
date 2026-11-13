@@ -1,5 +1,14 @@
 {
 	"_aide": "Personnages du hub Hikari Bay. Pour changer ce qu'ils disent, modifie le texte entre guillemets (une ligne = une bulle de dialogue). Garde les virgules entre les lignes.",
+	"recruteur": {
+		"nom": "Kenji Duval",
+		"role": "Agent de la Vigie",
+		"modele": "homme",
+		"repliques": [
+			"Toujours pas de chiens dans les rues. Tant que la Préhistoire est malade, ils ne reviendront pas.",
+			"Le QG est sous la station Asahi, à l'ouest de la place. La grille s'ouvre pour les agents."
+		]
+	},
 	"commandante": {
 		"nom": "Commandante Hana Morel",
 		"role": "Vigie · Hall des opérations",

@@ -12,6 +12,11 @@ extends Node3D
 ## (la tour de la Vigie et son écran géant) ; la mer est au sud (+Z).
 ## Le bouton « Reconstruire la place » de l'Inspecteur refait tout.
 
+## Chargés directement (et non par nom de classe) : le jeu fonctionne même si
+## l'éditeur Godot était ouvert pendant la mise à jour du dossier.
+const QgVigie := preload("res://scripts/monde/qg_vigie.gd")
+const Pnj := preload("res://scripts/monde/pnj.gd")
+
 ## Quand c'est coché, la Préhistoire est réparée : la statue du Gardien est
 ## intacte. Sinon, elle est fissurée et entourée d'éclats de fracture.
 @export var prehistoire_reparee := false:
@@ -109,15 +114,19 @@ func _sur_portail(corps: Node3D, zone: Area3D) -> void:
 		return
 	var epoque: String = zone.get_meta("epoque", "")
 	portail_franchi.emit(epoque)
-	if portail_franchi.get_connections().is_empty():
-		# Personne ne gère encore le voyage : on prévient et on fait reculer le joueur.
-		var dialogue := get_tree().get_first_node_in_group("dialogue")
-		if dialogue != null:
-			dialogue.ouvrir("portail", "Portail · " + epoque,
-					PackedStringArray(["Le portail bourdonne, mais refuse de s'ouvrir.",
-					"(Le voyage vers les îles arrive à la prochaine étape du prototype.)"]))
-		if corps.has_method("teleporter"):
-			corps.teleporter(corps.global_position + zone.global_transform.basis.z * -3.0, corps.rotation.y)
+	# Le voyage est géré par l'intro (IntroHub, groupe « voyage ») ; sans elle, ou
+	# si elle refuse, on prévient et on fait reculer le joueur.
+	var lignes := PackedStringArray(["Le portail bourdonne, mais refuse de s'ouvrir."])
+	var voyage := get_tree().get_first_node_in_group("voyage")
+	if voyage != null:
+		lignes = voyage.demander_voyage(epoque)
+		if lignes.is_empty():
+			return
+	var dialogue := get_tree().get_first_node_in_group("dialogue")
+	if dialogue != null:
+		dialogue.ouvrir("portail", "Portail · " + epoque, lignes)
+	if corps.has_method("teleporter"):
+		corps.teleporter(corps.global_position + zone.global_transform.basis.z * -3.0, corps.rotation.y)
 
 
 ## Hauteur du sol à une position x, z (utilisé pour poser les joueurs et la balise).
@@ -146,6 +155,7 @@ func reconstruire() -> void:
 	_construire_sol()
 	_construire_immeubles()
 	_construire_statue()
+	_construire_recruteur()
 	_construire_station_asahi()
 	QgVigie.construire(self)
 	if not Engine.is_editor_hint():
@@ -527,6 +537,19 @@ func _construire_immeubles() -> void:
 	_lumiere(Vector3(0, 16, -28), Color(0.7, 0.45, 1.0), 6.0, 34.0)
 	# Enseigne au sommet de la tour.
 	_texte("KAIRO HOLDINGS", Vector3(0, 90, -33.8), Color(0.4, 0.9, 1.0), 600, 0.0, 2.0)
+
+
+# --- Kenji Duval, l'agent qui recrute le joueur (intro) ------------------
+
+func _construire_recruteur() -> void:
+	var pnj := Pnj.new()
+	pnj.identifiant = "recruteur"
+	pnj.name = "Pnj_recruteur"
+	pnj.position = Vector3(-5.5, 0, 10.0)
+	# Tourné vers le point d'arrivée des joueurs.
+	var vers := Vector3(point_apparition.x, 0, point_apparition.y) - pnj.position
+	pnj.rotation.y = atan2(-vers.x, -vers.z)
+	_contenu.add_child(pnj)
 
 
 # --- Statue du Gardien ---------------------------------------------------

@@ -1,10 +1,11 @@
-[gd_scene load_steps=9 format=3]
+[gd_scene load_steps=10 format=3]
 
 [ext_resource type="Script" path="res://scripts/monde/hikari_bay.gd" id="1_hub"]
 [ext_resource type="Script" path="res://scripts/interface/hud.gd" id="3_hud"]
 [ext_resource type="Script" path="res://scripts/monde/balise_vigie.gd" id="4_balise"]
 [ext_resource type="Script" path="res://scripts/monde/partie.gd" id="6_partie"]
 [ext_resource type="Script" path="res://scripts/interface/dialogue.gd" id="7_dialogue"]
+[ext_resource type="Script" path="res://scripts/monde/intro_hub.gd" id="8_intro"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_nuit"]
 sky_top_color = Color(0.01, 0.012, 0.03, 1)
@@ -78,3 +79,6 @@ script = ExtResource("4_balise")
 
 [node name="Dialogue" type="CanvasLayer" parent="."]
 script = ExtResource("7_dialogue")
+
+[node name="Intro" type="Node" parent="."]
+script = ExtResource("8_intro")

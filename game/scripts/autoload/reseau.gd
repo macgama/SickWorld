@@ -20,11 +20,16 @@ const PORT_PAR_DEFAUT := 7777
 const JOUEURS_MAX := 32
 const SCENE_MONDE := "res://scenes/monde/colline_de_test.tscn"
 const SCENE_MENU := "res://scenes/interface/menu.tscn"
+## On commence en ville (Hikari Bay) : intro, QG de la Vigie, puis portail vers l'île.
+const SCENE_HUB := "res://scenes/monde/hikari_bay.tscn"
 
 var mode := Mode.SEUL
 var adresse := "127.0.0.1"
 var port := PORT_PAR_DEFAUT
 var nom_joueur := "Agent"
+## Scène où la partie commence : la ville. L'option « --colline » (tests, serveur
+## de combat) démarre directement sur la colline de test.
+var scene_depart := SCENE_HUB
 ## Fiche du personnage de ce PC (voir FichePersonnage), envoyée au serveur en arrivant.
 var fiche := {}
 ## Sur le serveur : identifiant réseau -> nom du joueur.
@@ -46,6 +51,8 @@ func _ready() -> void:
 		elif argument.begins_with("--rejoindre="):
 			mode = Mode.REJOINDRE
 			adresse = argument.get_slice("=", 1)
+	if "--colline" in arguments:
+		scene_depart = SCENE_MONDE
 	if "--serveur" in arguments:
 		mode = Mode.SERVEUR_DEDIE
 	multiplayer.peer_connected.connect(_sur_pair_connecte)
@@ -141,7 +148,8 @@ func _sur_pair_deconnecte(id: int) -> void:
 
 func _sur_echec() -> void:
 	statut_change.emit("Connexion impossible")
-	_retour_menu("Impossible de joindre le serveur %s:%d." % [adresse, port])
+	_retour_menu(("Aucun serveur ne répond à %s:%d. Pour jouer à plusieurs, un joueur doit "
+			+ "d'abord cliquer sur « Héberger » ; pour jouer seul, clique sur « Jouer seul ».") % [adresse, port])
 
 
 func _sur_serveur_perdu() -> void:
