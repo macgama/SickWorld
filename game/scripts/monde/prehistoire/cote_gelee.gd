@@ -62,7 +62,8 @@ func _chaque_image(_delta: float) -> void:
 
 
 func sortie_vers(zone: String) -> Vector2:
-	return COL + Vector2(0, 8) if zone == "steppe" else Vector2.INF
+	# Toutes les autres zones de l'île passent par le col et la steppe.
+	return COL + Vector2(0, 8) if zone != "cote_gelee" else Vector2.INF
 
 
 # --- Relief ----------------------------------------------------------------

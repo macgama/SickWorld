@@ -49,6 +49,8 @@ func _construire() -> void:
 	add_child(_visuel)
 	if forme == "trousse":
 		_construire_trousse()
+	elif forme == "montre":
+		_construire_montre()
 	elif COULEURS_TAS.has(forme):
 		_construire_tas(COULEURS_TAS[forme])
 	_etiquette = Label3D.new()
@@ -111,6 +113,68 @@ func _construire_tas(couleur: Color) -> void:
 
 
 ## Trousse de soin de la Vigie : une mallette blanche frappée d'une croix rouge.
+## Une montre à gousset dorée, le verre fendu, à moitié dans la neige.
+func _construire_montre() -> void:
+	var or_mat := StandardMaterial3D.new()
+	or_mat.albedo_color = Color(0.83, 0.66, 0.32)
+	or_mat.metallic = 1.0
+	or_mat.roughness = 0.3
+	var verre := StandardMaterial3D.new()
+	verre.albedo_color = Color(0.92, 0.9, 0.82)
+	verre.roughness = 0.15
+	var boitier := MeshInstance3D.new()
+	var c := CylinderMesh.new()
+	c.top_radius = 0.06
+	c.bottom_radius = 0.06
+	c.height = 0.018
+	c.radial_segments = 24
+	boitier.mesh = c
+	boitier.material_override = or_mat
+	boitier.position.y = 0.012
+	_visuel.add_child(boitier)
+	var cadran := MeshInstance3D.new()
+	var d := CylinderMesh.new()
+	d.top_radius = 0.05
+	d.bottom_radius = 0.05
+	d.height = 0.004
+	cadran.mesh = d
+	cadran.material_override = verre
+	cadran.position.y = 0.022
+	_visuel.add_child(cadran)
+	var noir := StandardMaterial3D.new()
+	noir.albedo_color = Color(0.05, 0.05, 0.05)
+	for k in 2:
+		var aiguille := MeshInstance3D.new()
+		var b := BoxMesh.new()
+		b.size = Vector3(0.003, 0.002, 0.04 if k == 0 else 0.028)
+		aiguille.mesh = b
+		aiguille.material_override = noir
+		aiguille.position = Vector3(0, 0.025, 0)
+		aiguille.rotation.y = 0.9 + k * 2.2
+		aiguille.translate_object_local(Vector3(0, 0, -b.size.z * 0.5))
+		_visuel.add_child(aiguille)
+	# La bélière et un bout de chaîne.
+	var anneau := MeshInstance3D.new()
+	var t := TorusMesh.new()
+	t.inner_radius = 0.008
+	t.outer_radius = 0.016
+	anneau.mesh = t
+	anneau.material_override = or_mat
+	anneau.position = Vector3(0, 0.012, -0.072)
+	_visuel.add_child(anneau)
+	for k in 8:
+		var maillon := MeshInstance3D.new()
+		var tm := TorusMesh.new()
+		tm.inner_radius = 0.004
+		tm.outer_radius = 0.009
+		maillon.mesh = tm
+		maillon.material_override = or_mat
+		maillon.position = Vector3(sin(k * 0.5) * 0.03, 0.006, -0.09 - k * 0.014)
+		maillon.rotation.z = PI / 2 if k % 2 == 0 else 0.0
+		_visuel.add_child(maillon)
+	_visuel.rotation = Vector3(0.12, 0.7, 0.05)
+
+
 func _construire_trousse() -> void:
 	var blanc := StandardMaterial3D.new()
 	blanc.albedo_color = Color(0.9, 0.9, 0.88)
