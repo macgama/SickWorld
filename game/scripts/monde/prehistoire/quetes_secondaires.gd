@@ -106,7 +106,7 @@ func _sauvegarder() -> void:
 
 
 func _fichier() -> String:
-	return String(_quete.get("fichier_progression"))
+	return Profil.chemin(String(_quete.get("fichier_progression")))
 
 
 # --- État des quêtes ----------------------------------------------------------------
