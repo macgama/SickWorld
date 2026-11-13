@@ -1,0 +1,97 @@
+{
+	"_aide": "Compétences du prototype. Tu peux changer les valeurs librement (dégâts, recharge en secondes, portée en mètres…), puis relancer le jeu. Couleur = couleur de la case dans la barre.",
+
+	"taille_rapide": {
+		"nom": "Taille rapide",
+		"origine": "Lame",
+		"description": "Attaque rapide au corps à corps. Génère 20 points d'Élan.",
+		"type": "melee",
+		"portee": 3.5,
+		"degats": [14, 18],
+		"recharge": 0,
+		"gain_elan": 20,
+		"couleur": "#c0392b"
+	},
+	"entaille": {
+		"nom": "Entaille",
+		"origine": "Lame",
+		"description": "Ouvre une plaie : la cible saigne et perd 5 points de vie par seconde pendant 12 secondes.",
+		"type": "melee",
+		"portee": 3.5,
+		"degats": [6, 8],
+		"recharge": 0,
+		"cout_elan": 15,
+		"saignement": { "degats_par_seconde": 5, "duree": 12 },
+		"couleur": "#8e1b1b"
+	},
+	"frappe_tournoyante": {
+		"nom": "Frappe tournoyante",
+		"origine": "Lame",
+		"description": "Tournoie sur soi-même et frappe tous les ennemis à moins de 5 mètres.",
+		"type": "zone_autour",
+		"rayon": 5,
+		"degats": [12, 16],
+		"recharge": 8,
+		"cout_elan": 30,
+		"couleur": "#d35400"
+	},
+	"bond": {
+		"nom": "Bond",
+		"origine": "Lame",
+		"description": "Bondit jusqu'à la cible (de 6 à 25 mètres) et la ralentit pendant 4 secondes.",
+		"type": "bond",
+		"portee": 25,
+		"portee_min": 6,
+		"degats": [8, 10],
+		"recharge": 15,
+		"gain_elan": 15,
+		"ralenti": { "facteur": 0.5, "duree": 4 },
+		"couleur": "#2980b9"
+	},
+	"execution": {
+		"nom": "Exécution",
+		"origine": "Lame",
+		"description": "Coup fatal : énormes dégâts, utilisable seulement sur une cible à moins de 20 % de vie.",
+		"type": "melee",
+		"portee": 3.5,
+		"degats": [45, 55],
+		"recharge": 6,
+		"cout_elan": 40,
+		"pv_cible_max_pourcent": 20,
+		"couleur": "#6c3483"
+	},
+	"feu_des_ancetres": {
+		"nom": "Feu des ancêtres",
+		"origine": "Préhistoire",
+		"description": "Allume un feu au sol pendant 8 secondes : brûle les ennemis (6 par seconde) et soigne les alliés (8 par seconde) à moins de 4 mètres.",
+		"type": "zone_au_sol",
+		"rayon": 4,
+		"duree": 8,
+		"degats_par_seconde": 6,
+		"soin_par_seconde": 8,
+		"recharge": 25,
+		"couleur": "#e67e22"
+	},
+	"lancer_au_propulseur": {
+		"nom": "Lancer au propulseur",
+		"origine": "Préhistoire",
+		"description": "Après 1 seconde de préparation (sans bouger), lance une sagaie à longue distance qui ralentit la cible de 50 % pendant 6 secondes.",
+		"type": "distance",
+		"portee": 30,
+		"incantation": 1.0,
+		"degats": [20, 26],
+		"recharge": 10,
+		"ralenti": { "facteur": 0.5, "duree": 6 },
+		"couleur": "#a0522d"
+	},
+	"appel_de_la_meute": {
+		"nom": "Appel de la meute",
+		"origine": "Préhistoire (ultime)",
+		"description": "Compétence ultime : invoque deux loups qui combattent à tes côtés pendant 20 secondes.",
+		"type": "invocation",
+		"nombre": 2,
+		"duree": 20,
+		"recharge": 90,
+		"couleur": "#f1c40f"
+	}
+}

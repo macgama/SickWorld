@@ -1,0 +1,109 @@
+[gd_scene load_steps=11 format=3]
+
+[ext_resource type="Script" path="res://scripts/joueur/joueur.gd" id="1_joueur"]
+[ext_resource type="Script" path="res://scripts/joueur/camera_joueur.gd" id="2_camera"]
+[ext_resource type="Script" path="res://scripts/joueur/apparence_provisoire.gd" id="3_apparence"]
+
+[ext_resource type="Script" path="res://scripts/combat/combattant.gd" id="4_combat"]
+[ext_resource type="Script" path="res://scripts/combat/combat_joueur.gd" id="5_combat_joueur"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_corps"]
+radius = 0.35
+height = 1.8
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_camera"]
+radius = 0.25
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_joueur"]
+properties/0/path = NodePath(".:position_reseau")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:lacet_reseau")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath(".:vitesse_reseau")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+properties/3/path = NodePath(".:esquive_reseau")
+properties/3/spawn = true
+properties/3/replication_mode = 1
+properties/4/path = NodePath(".:direction_esquive_reseau")
+properties/4/spawn = true
+properties/4/replication_mode = 1
+properties/5/path = NodePath(".:nom")
+properties/5/spawn = true
+properties/5/replication_mode = 2
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_combat"]
+properties/0/path = NodePath(".:pv")
+properties/0/spawn = true
+properties/0/replication_mode = 2
+properties/1/path = NodePath(".:pv_max")
+properties/1/spawn = true
+properties/1/replication_mode = 2
+properties/2/path = NodePath(".:nom_affiche")
+properties/2/spawn = true
+properties/2/replication_mode = 2
+properties/3/path = NodePath(".:niveau")
+properties/3/spawn = true
+properties/3/replication_mode = 2
+properties/4/path = NodePath(".:faction")
+properties/4/spawn = true
+properties/4/replication_mode = 2
+properties/5/path = NodePath(".:effets_affiches")
+properties/5/spawn = true
+properties/5/replication_mode = 2
+properties/6/path = NodePath(".:vitesse_synchro")
+properties/6/spawn = true
+properties/6/replication_mode = 2
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_elan"]
+properties/0/path = NodePath(".:elan")
+properties/0/spawn = true
+properties/0/replication_mode = 2
+
+[node name="Joueur" type="CharacterBody3D"]
+collision_layer = 2
+collision_mask = 3
+script = ExtResource("1_joueur")
+
+[node name="Collision" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+shape = SubResource("CapsuleShape3D_corps")
+
+[node name="Apparence" type="Node3D" parent="."]
+script = ExtResource("3_apparence")
+
+[node name="CameraRig" type="Node3D" parent="."]
+script = ExtResource("2_camera")
+
+[node name="Pivot" type="Node3D" parent="CameraRig"]
+
+[node name="Bras" type="SpringArm3D" parent="CameraRig/Pivot"]
+collision_mask = 1
+shape = SubResource("SphereShape3D_camera")
+spring_length = 7.0
+margin = 0.1
+
+[node name="Camera3D" type="Camera3D" parent="CameraRig/Pivot/Bras"]
+fov = 70.0
+far = 1000.0
+
+[node name="Combat" type="Node" parent="."]
+script = ExtResource("4_combat")
+faction = "joueur"
+
+[node name="Synchro" type="MultiplayerSynchronizer" parent="Combat"]
+replication_interval = 0.1
+replication_config = SubResource("SceneReplicationConfig_combat")
+
+[node name="CombatJoueur" type="Node" parent="."]
+script = ExtResource("5_combat_joueur")
+
+[node name="Synchro" type="MultiplayerSynchronizer" parent="CombatJoueur"]
+replication_interval = 0.1
+replication_config = SubResource("SceneReplicationConfig_elan")
+
+[node name="Synchro" type="MultiplayerSynchronizer" parent="."]
+replication_interval = 0.05
+replication_config = SubResource("SceneReplicationConfig_joueur")

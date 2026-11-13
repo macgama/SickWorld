@@ -1,0 +1,90 @@
+[gd_scene load_steps=10 format=3]
+
+[ext_resource type="Script" path="res://scripts/monde/colline_de_test.gd" id="1_colline"]
+[ext_resource type="Script" path="res://scripts/interface/hud.gd" id="3_hud"]
+[ext_resource type="Script" path="res://scripts/monde/balise_vigie.gd" id="4_balise"]
+[ext_resource type="Script" path="res://scripts/monde/camp_de_loups.gd" id="5_camp"]
+[ext_resource type="Script" path="res://scripts/monde/partie.gd" id="6_partie"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ciel"]
+sky_top_color = Color(0.32, 0.5, 0.78, 1)
+sky_horizon_color = Color(0.72, 0.78, 0.84, 1)
+ground_bottom_color = Color(0.2, 0.2, 0.18, 1)
+ground_horizon_color = Color(0.72, 0.78, 0.84, 1)
+sun_angle_max = 20.0
+
+[sub_resource type="Sky" id="Sky_ciel"]
+sky_material = SubResource("ProceduralSkyMaterial_ciel")
+
+[sub_resource type="Environment" id="Environment_monde"]
+background_mode = 2
+sky = SubResource("Sky_ciel")
+ambient_light_source = 3
+reflected_light_source = 2
+tonemap_mode = 4
+ssao_enabled = true
+glow_enabled = true
+fog_enabled = true
+fog_light_color = Color(0.7, 0.76, 0.83, 1)
+fog_density = 0.004
+fog_sky_affect = 0.3
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_monde"]
+
+[node name="CollineDeTest" type="Node3D"]
+script = ExtResource("1_colline")
+
+[node name="Partie" type="Node3D" parent="."]
+script = ExtResource("6_partie")
+
+[node name="Joueurs" type="Node3D" parent="Partie"]
+
+[node name="Loups" type="Node3D" parent="Partie"]
+
+[node name="SpawnerJoueurs" type="MultiplayerSpawner" parent="Partie"]
+_spawnable_scenes = PackedStringArray("res://scenes/joueur/joueur.tscn")
+spawn_path = NodePath("../Joueurs")
+
+[node name="SpawnerLoups" type="MultiplayerSpawner" parent="Partie"]
+_spawnable_scenes = PackedStringArray("res://scenes/ennemis/loup.tscn")
+spawn_path = NodePath("../Loups")
+
+[node name="Environnement" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_monde")
+camera_attributes = SubResource("CameraAttributesPractical_monde")
+
+[node name="Soleil" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.866025, -0.321394, 0.383022, 0, 0.766044, 0.642788, -0.5, -0.556670, 0.663414, 0, 30, 0)
+light_color = Color(1, 0.96, 0.88, 1)
+light_energy = 1.3
+shadow_enabled = true
+directional_shadow_max_distance = 120.0
+
+[node name="Interface" type="CanvasLayer" parent="."]
+script = ExtResource("3_hud")
+
+[node name="BaliseVigie" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 3, 52)
+script = ExtResource("4_balise")
+
+[node name="CampNord" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 10, 24)
+script = ExtResource("5_camp")
+nombre = 2
+
+[node name="CampOuest" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32, 5, 8)
+script = ExtResource("5_camp")
+
+[node name="CampEst" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 5, 2)
+script = ExtResource("5_camp")
+
+[node name="CampSommet" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 16, -10)
+script = ExtResource("5_camp")
+nombre = 4
+
+[node name="CampSud" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 5, -42)
+script = ExtResource("5_camp")
