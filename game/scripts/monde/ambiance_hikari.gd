@@ -36,12 +36,19 @@ const PROJECTEURS := [
 	[Vector3(0, 12, 16), Vector3(0, 3, 2), Color(0.95, 0.85, 1.0), 40.0],
 	[Vector3(-15, 10, 18), Vector3(-10, 0, 12), Color(1.0, 0.82, 0.62), 30.0],
 	[Vector3(15, 10, 18), Vector3(10, 0, 12), Color(1.0, 0.82, 0.62), 30.0],
+	# Esplanade du Musée et des Jardins suspendus.
+	[Vector3(76, 13, -20), Vector3(82, 0, -14), Color(1.0, 0.86, 0.68), 35.0],
+	[Vector3(76, 13, 20), Vector3(82, 0, 14), Color(1.0, 0.86, 0.68), 35.0],
+	[Vector3(92, 14, 0), Vector3(96, 0, 0), Color(0.85, 0.95, 1.0), 40.0],
+	[Vector3(90, 12, -26), Vector3(96, 0, -20), Color(0.8, 1.0, 0.85), 30.0],
+	[Vector3(90, 12, 26), Vector3(96, 0, 20), Color(0.8, 1.0, 0.85), 30.0],
 ]
 ## Sondes de reflets (le sol mouillé et les vitres reflètent les néons, même
 ## hors de l'écran) : [centre, taille].
 const SONDES := [
 	[Vector3(0, 10, 0), Vector3(132, 36, 132)],
 	[Vector3(0, 10, 52), Vector3(16, 36, 46)],
+	[Vector3(100, 10, 0), Vector3(64, 36, 64)],
 ]
 
 
