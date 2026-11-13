@@ -199,13 +199,13 @@ func _lancer() -> void:
 	lues = await _lire_dialogue()
 	_verifier(lues >= 5, "Aïna peint et parle de Kéo (%d bulles)" % lues)
 	_verifier(main.visible, "une main peinte apparaît sur la paroi")
-	_verifier(_quete.etape == -1, "fin des chapitres disponibles")
+	_verifier(_id_etape() == "keo_disparu", "chapitre 4 : Kéo a disparu (%s)" % _id_etape())
 
 	# --- Rechargement : tout reste en place.
 	_scene.queue_free()
 	await _attendre(5)
 	await _charger()
-	_verifier(_quete.etape == -1, "la progression est gardée")
+	_verifier(_id_etape() == "keo_disparu", "la progression est gardée")
 	toran = _scene.find_child("Toran", true, false)
 	_verifier(Vector2(toran.global_position.x, toran.global_position.z).distance_to(_scene.CAMP) < 10.0, "Toran est au camp")
 	_verifier(_scene.find_child("MainPeinte", true, false).visible, "la main peinte est toujours là")

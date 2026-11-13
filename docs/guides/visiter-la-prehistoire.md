@@ -1,4 +1,4 @@
-# Visiter la Préhistoire : la Côte Gelée et la Steppe des Mammouths
+# Visiter la Préhistoire : Côte Gelée, Steppe des Mammouths, Forêt des Bouleaux
 
 La première zone de l'île de la Préhistoire est jouable : **la Côte Gelée** (niveaux 1 à 3), il y a environ 17 000 ans, en pleine période glaciaire. C'est là que mène le portail de la Préhistoire du QG de la Vigie.
 
@@ -60,7 +60,27 @@ Pour l'ouvrir directement : `scenes/monde/prehistoire/steppe.tscn` puis **F6**. 
 4. détacher **2 morceaux de pierre noire** (manganèse) dans les rochers du nord-ouest, gardés par des loups fracturés ;
 5. rapporter les pigments à Aïna : elle peint une **main** sur la paroi du camp et te donne de l'**ocre sacrée**.
 
-La suite (chapitre 4, Kéo et la louve grise dans la Forêt des Bouleaux) arrive dans une prochaine mise à jour. Au camp, tu peux aussi parler à **la Vieille Mère**.
+Au camp, tu peux aussi parler à **la Vieille Mère**.
+
+## La Forêt des Bouleaux (zone 3)
+
+À l'est de la steppe, une **passe** mène à une forêt clairsemée de bouleaux aux troncs blancs et aux feuilles dorées, sur des collines enneigées. Une rivière la traverse du nord au sud (un gué de pierres plates permet de passer). C'est le territoire des loups, et quatre **failles** y sont ouvertes, gardées par des fracturés. Les bouleaux sont fabriqués par le code (Poly Haven n'en a pas).
+
+![La Forêt des Bouleaux](../images/prehistoire-foret.jpg)
+
+Pour l'ouvrir directement : `scenes/monde/prehistoire/foret.tscn` puis **F6**. Pour revenir à la steppe : la passe, à l'ouest.
+
+### Chapitre 4 : « La louve grise »
+
+1. au camp, **Toran** raconte que Kéo a suivi sa louve Grise vers l'est ;
+2. passer à l'est, dans la Forêt des Bouleaux ;
+3. **suivre les traces** de Kéo et de Grise dans la neige, jusqu'au gué puis à une clairière ;
+4. Kéo est **encerclé par quatre loups fracturés** : les éliminer ;
+5. parler à Kéo : Grise est contaminée par la faille ;
+6. **le choix** : soigner Grise (rester immobile 8 secondes, deux loups viennent l'en empêcher : il faut d'abord s'en occuper) **ou** dire à Kéo de la laisser partir (elle s'enfuit). Les deux choix permettent de continuer, et le jeu s'en souvient : si Grise est soignée, elle est au camp à côté de Kéo ;
+7. rentrer au camp et parler à **Aïna**.
+
+La suite (chapitre 5, « L'objet impossible ») arrive dans une prochaine mise à jour.
 
 ## Ce que tu peux régler toi-même
 
@@ -78,12 +98,13 @@ godot --headless --path game -s res://tests/test_cote_gelee.gd
 
 ```
 godot --headless --path game -s res://tests/test_steppe.gd
+godot --headless --path game -s res://tests/test_foret.gd
 ```
 
-Le premier test parcourt tout le chapitre 1 (Lenoir, trousse, soins, fracturés, faille, rapport), vérifie que l'avancement est gardé, que le col mène à la Steppe et que le portail ramène au hub. Le second parcourt les chapitres 2 et 3 dans la Steppe (Toran, chasse, gué, Aïna, pigments, main peinte) et le retour par le col.
+Le premier test parcourt tout le chapitre 1 (Lenoir, trousse, soins, fracturés, faille, rapport), vérifie que l'avancement est gardé, que le col mène à la Steppe et que le portail ramène au hub. Le second parcourt les chapitres 2 et 3 dans la Steppe (Toran, chasse, gué, Aïna, pigments, main peinte) et le retour par le col. Le troisième joue le chapitre 4 deux fois (Grise soignée, puis Grise libérée).
 
 ## Ce qui viendra ensuite
 
-- La **Forêt des Bouleaux** (zone 3) et le chapitre 4 (Kéo et la louve grise).
+- Le chapitre 5 (« L'objet impossible ») et les **Falaises Peintes** (zone 4).
 - De vrais modèles animés pour les loups, rennes et mammouths (pour l'instant des silhouettes simples), et de vrais vêtements de peau pour le clan.
 - Des sons : vent, vagues, craquements de la glace.

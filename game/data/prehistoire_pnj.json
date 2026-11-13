@@ -98,5 +98,22 @@
 			"Mon collier de cérémonie s'est brisé. Un jour, peut-être, tu m'aideras à en faire un nouveau."
 		],
 		"habits": "#5e4a3a"
+	},
+	"keo": {
+		"nom": "Kéo",
+		"role": "Jeune chasseur · clan du Bison",
+		"modele": "homme",
+		"taille_cm": 160,
+		"peau": "#b98d6c",
+		"habits": "#7d6248",
+		"tenue": [
+			"cape_chasseur",
+			"couteau_obsidienne",
+			"collier_dents_loup"
+		],
+		"repliques": [
+			"Grise est la meilleure louve du monde. Un jour, tous les loups suivront le clan, comme elle.",
+			"Toran dit que je suis trop jeune pour chasser seul. Toran dit beaucoup de choses."
+		]
 	}
 }
