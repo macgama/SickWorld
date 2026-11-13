@@ -99,6 +99,22 @@
 		],
 		"habits": "#5e4a3a"
 	},
+	"sae": {
+		"nom": "Saé",
+		"role": "Gardienne du feu · clan du Bison",
+		"modele": "femme",
+		"taille_cm": 158,
+		"peau": "#b88a66",
+		"tenue": [
+			"manteau_gardien",
+			"collier_coquillages"
+		],
+		"repliques": [
+			"Le feu, c'est la vie du camp. Tant qu'il brûle, les loups restent loin et les histoires peuvent être racontées.",
+			"Je l'ai appris de ma mère, qui l'a appris de la sienne. Une braise ne doit jamais mourir."
+		],
+		"habits": "#6c5038"
+	},
 	"keo": {
 		"nom": "Kéo",
 		"role": "Jeune chasseur · clan du Bison",

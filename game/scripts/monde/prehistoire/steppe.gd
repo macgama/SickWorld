@@ -646,6 +646,8 @@ func _construire_quete() -> void:
 	# Au camp d'été.
 	pnj.call("aina", "Aina", CAMP + Vector2(-4, 3), -0.9)
 	pnj.call("vieille_mere", "VieilleMere", CAMP + Vector2(4.5, -3), 2.2)
+	# Saé, la gardienne du feu (quête secondaire « Le feu qui ne prend pas »).
+	pnj.call("sae", "Sae", CAMP + Vector2(10, 3), -2.0)
 	# Kéo, de retour au camp à la fin du chapitre 4 (caché jusque-là).
 	pnj.call("keo", "KeoCamp", CAMP + Vector2(-6, -6), 0.6)
 	var keo := dossier.get_node("KeoCamp")
