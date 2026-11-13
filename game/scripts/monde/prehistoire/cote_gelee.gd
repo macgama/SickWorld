@@ -17,6 +17,7 @@ extends Node3D
 const Pnj := preload("res://scripts/monde/prehistoire/pnj_epoque.gd")
 const Faille := preload("res://scripts/monde/prehistoire/faille.gd")
 const ObjetQuete := preload("res://scripts/monde/prehistoire/objet_quete.gd")
+const MarqueurCarte := preload("res://scripts/carte/marqueur_carte.gd")
 
 ## Nombre qui détermine la forme du relief. Même graine = même île.
 @export var graine := 17000:
@@ -58,7 +59,7 @@ const TEXTURES_SOLS := {
 	"roche": ["cliff_side", "rock_wall_10", "rock_boulder_dry"],
 }
 ## Rochers Poly Haven (avec leur taille habituelle en mètres, pour les mettre à l'échelle).
-const MODELES_ROCHERS := ["rock_07", "rock_09", "stone_01", "boulder_01", "namaqualand_boulder_04"]
+const MODELES_ROCHERS := ["rock_07", "rock_09", "stone_01", "boulder_01"]
 const MODELES_BOIS := ["dead_tree_trunk", "dead_tree_trunk_02", "tree_stump_01", "dry_branches_medium_01"]
 
 ## Taille du terrain (mètres, carré centré sur 0).
@@ -1147,6 +1148,16 @@ func _construire_quete() -> void:
 	faille.identifiant = "faille_cote"
 	faille.position = Vector3(FAILLE.x, hauteur(FAILLE.x, FAILLE.y), FAILLE.y)
 	dossier.add_child(faille)
+	# Repères de la carte.
+	var repere := func(type: int, texte: String, p: Vector2) -> void:
+		MarqueurCarte.creer(dossier, type, texte, Vector3(p.x, hauteur(p.x, p.y), p.y))
+	repere.call(MarqueurCarte.Type.PORTAIL, "Portail de la Vigie", PORTAIL)
+	repere.call(MarqueurCarte.Type.DANGER, "Faille", FAILLE)
+	repere.call(MarqueurCarte.Type.LIEU, "Col de la Steppe", COL + Vector2(0, 12))
+	repere.call(MarqueurCarte.Type.LIEU, "Squelette de mammouth", MAMMOUTH)
+	repere.call(MarqueurCarte.Type.LIEU, "Camp de la Vigie", Vector2(2, 36))
+	repere.call(MarqueurCarte.Type.DANGER, "Tanière des loups", Vector2(-46, -58))
+	repere.call(MarqueurCarte.Type.DANGER, "Tanière des loups", Vector2(48, -72))
 
 
 # --- Neige qui tombe ---------------------------------------------------------------------

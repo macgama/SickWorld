@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3]
+[gd_scene load_steps=12 format=3]
 
 [ext_resource type="Script" path="res://scripts/monde/prehistoire/cote_gelee.gd" id="1_ile"]
 [ext_resource type="Script" path="res://scripts/interface/hud.gd" id="3_hud"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://scripts/monde/partie.gd" id="6_partie"]
 [ext_resource type="Script" path="res://scripts/interface/dialogue.gd" id="7_dialogue"]
 [ext_resource type="Script" path="res://scripts/monde/prehistoire/quete.gd" id="8_quete"]
+[ext_resource type="Script" path="res://scripts/carte/zone_carte.gd" id="9_carte"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_froid"]
 sky_top_color = Color(0.36, 0.48, 0.64, 1)
@@ -93,3 +94,10 @@ script = ExtResource("7_dialogue")
 
 [node name="Quete" type="Node" parent="."]
 script = ExtResource("8_quete")
+
+[node name="ZoneCarte" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 25, 0)
+script = ExtResource("9_carte")
+identifiant = "prehistoire_cote_gelee"
+nom_affiche = "La Côte Gelée"
+taille = Vector3(300, 110, 300)

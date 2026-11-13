@@ -4,7 +4,7 @@ extends SceneTree
 
 const VUES := [
 	# nom, position caméra, point visé
-	["arrivee", Vector3(2.5, 3.2, 47.5), Vector3(-2, 1.0, 20)],
+	["arrivee", Vector3(-3.5, 3.0, 56.0), Vector3(-2, 1.5, 20)],
 	["crique", Vector3(-35, 14, 95), Vector3(10, 2, 20)],
 	["camp", Vector3(-12, 3.0, 44), Vector3(4, 1.0, 32)],
 	["faille", Vector3(-4, 4.5, 12), Vector3(3, 3.0, 0)],
@@ -25,7 +25,7 @@ func _initialize() -> void:
 func _lancer() -> void:
 	var args := OS.get_cmdline_user_args()
 	var dossier := args[0] if args.size() > 0 else ProjectSettings.globalize_path("user://")
-	root.size = Vector2i(1600, 900)
+	root.size = Vector2i(1280, 720)
 	var scene: Node = load("res://scenes/monde/prehistoire/cote_gelee.tscn").instantiate()
 	scene.get_node("Quete").voyage_reel = false
 	scene.get_node("Quete").fichier_progression = "user://capture_progression.cfg"
@@ -46,7 +46,7 @@ func _lancer() -> void:
 		cible.y += scene.hauteur(cible.x, cible.z)
 		camera.global_position = pos
 		camera.look_at(cible)
-		await _attendre(12)
+		await _attendre(5)
 		var image := root.get_texture().get_image()
 		var sortie := dossier.path_join("cote_gelee_%s.jpg" % vue[0])
 		image.save_jpg(sortie, 0.88)

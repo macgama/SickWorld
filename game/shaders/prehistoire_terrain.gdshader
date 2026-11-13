@@ -28,6 +28,9 @@ uniform sampler2D sol_arm : filter_linear_mipmap_anisotropic, repeat_enable;
 uniform bool sol_texture = false;
 uniform float sol_motif = 4.0;
 uniform vec3 sol_simple : source_color = vec3(0.33, 0.29, 0.22);
+// Couleur de la terre : 0 = gris, 1 = couleurs d'origine de la photo.
+uniform float sol_saturation : hint_range(0.0, 1.5) = 0.45;
+uniform vec3 sol_teinte : source_color = vec3(0.92, 0.93, 0.95);
 
 uniform sampler2D roche_couleur : source_color, filter_linear_mipmap_anisotropic, repeat_enable;
 uniform sampler2D roche_relief : hint_normal, filter_linear_mipmap_anisotropic, repeat_enable;
@@ -35,8 +38,9 @@ uniform sampler2D roche_arm : filter_linear_mipmap_anisotropic, repeat_enable;
 uniform bool roche_texture = false;
 uniform float roche_motif = 8.0;
 uniform vec3 roche_simple : source_color = vec3(0.52, 0.50, 0.46);
-// Teinte appliquée à la roche (calcaire clair des falaises).
-uniform vec3 roche_teinte : source_color = vec3(1.0, 0.97, 0.92);
+// Teinte appliquée à la roche (calcaire gris clair des falaises).
+uniform vec3 roche_teinte : source_color = vec3(0.95, 0.96, 0.98);
+uniform float roche_saturation : hint_range(0.0, 1.5) = 0.25;
 
 // Hauteur de la mer : les galets en dessous sont mouillés (plus sombres et brillants).
 uniform float niveau_mer = 0.0;
@@ -52,6 +56,10 @@ varying vec4 parts;
 // Échantillonne une texture à deux échelles pour casser la répétition visible.
 vec4 deux_echelles(sampler2D t, vec2 uv, float melange) {
 	return mix(texture(t, uv), texture(t, uv * 0.27 + vec2(0.31, 0.17)), melange);
+}
+
+vec3 desature(vec3 c, float saturation) {
+	return mix(vec3(dot(c, vec3(0.299, 0.587, 0.114))), c, saturation);
 }
 
 void vertex() {
@@ -109,6 +117,7 @@ void fragment() {
 		a_sol = deux_echelles(sol_arm, uv_s, melange).rgb;
 		n_sol = deux_echelles(sol_relief, uv_s, melange).rgb;
 	}
+	c_sol = desature(c_sol, sol_saturation) * sol_teinte;
 	// Givre léger sur la terre.
 	c_sol = mix(c_sol, vec3(0.78, 0.82, 0.86), smoothstep(0.55, 0.8, moyen) * 0.35);
 
@@ -138,7 +147,7 @@ void fragment() {
 		n_roche = texture(roche_relief, p.zy).rgb * poids.x + texture(roche_relief, p.xz).rgb * poids.y
 				+ texture(roche_relief, p.xy).rgb * poids.z;
 	}
-	c_roche *= roche_teinte;
+	c_roche = desature(c_roche, roche_saturation) * roche_teinte;
 
 	// --- Mélange final ---
 	vec3 c = c_galets * w_galets + c_sol * w_sol;
