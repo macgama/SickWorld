@@ -1,6 +1,6 @@
 # SickWorld — Document de conception (GDD)
 
-> **Version 0.2 — 13 novembre 2026**
+> **Version 0.3 — 13 novembre 2026** (ajout : écran de création du personnage)
 > Document vivant : il sera complété au fil des décisions. Toutes les propositions de la version 0.1 ont été validées par Gaël le 13 novembre 2026.
 
 ---
@@ -320,9 +320,42 @@ Quatre classes au lancement, qui couvrent les trois rôles classiques. Toutes so
 
 ### Création du personnage
 
-- Personnages humains réalistes, créés avec **MakeHuman** comme base (corps, visages, morphologies).
-- Réglages proposés au joueur : sexe, morphologie, visage (préréglages + curseurs), peau, coiffure, couleur des cheveux et des yeux.
-- Origine du personnage : choix d'une ville d'origine purement narrative (une ligne de dialogue change selon le choix), sans effet sur les statistiques.
+Validé par Gaël le 13 novembre 2026. L'écran de création se fait en **3 étapes** :
+
+**1. Apparence**
+- **Corps :** femme ou homme (les deux bases MakeHuman), taille (150 à 200 cm), corpulence, musculature, couleur de peau (8 teintes), couleur des yeux.
+- **Visage : personnalisation détaillée par curseurs**, avec des visages de départ en un clic (Équilibré, Anguleux, Doux, Robuste, Fin, Rieur) qu'on affine ensuite. 17 curseurs : largeur et longueur du visage, mâchoire, menton, pommettes ; écart, taille, hauteur et inclinaison des yeux ; hauteur et épaisseur des sourcils ; longueur, largeur et profil du nez ; largeur de la bouche et épaisseur des lèvres ; taille des oreilles.
+- **Cheveux :** 7 coiffures, 10 couleurs, barbe et moustache (6 choix, ouverts à tous).
+- **Tenue de départ de la Vigie :** terrain, urbaine ou expédition. D'autres tenues se gagnent en jouant.
+- Un bouton « Au hasard » tire un personnage complet, et l'aperçu 3D se tourne à la souris et zoome sur le visage.
+
+**2. Classe**
+- L'une des 4 classes (Rempart, Lame, Traqueur, Tisseur), avec sa description, son rôle, son arme, sa ressource, sa difficulté et quelques compétences. L'aperçu montre l'arme de la classe.
+- Une courte vidéo de présentation par classe viendra plus tard, quand les classes auront leurs animations.
+- Plus tard : une **deuxième classe** à débloquer pour mélanger les rôles (voir questions ouvertes).
+
+**3. Origine et nom**
+- La **ville d'origine** du voyageur (idée inspirée de The Secret World). Elle donne **un petit bonus** et **une quête d'introduction personnelle** : un souvenir du joueur que les fractures ont déjà modifié.
+- Le nom (3 à 20 lettres ; espaces, tirets et apostrophes permis).
+
+| Ville | Bonus | Quête personnelle |
+|---|---|---|
+| Paris | +5 % de réputation auprès des peuples des époques | « La toile manquante » : un tableau du Louvre a disparu des mémoires. |
+| Le Caire | Objets de collection repérés 20 % plus loin | « Le nom effacé » : un nom de pharaon s'efface d'une stèle. |
+| Tokyo | Roulade d'esquive 10 % moins chère en endurance | « Le sanctuaire du quartier » : remplacé par un immeuble « de toujours ». |
+| New York | Endurance rechargée 10 % plus vite | « La photo de famille » : un ancêtre a disparu d'une photo d'Ellis Island. |
+| Rio de Janeiro | Vie rechargée 25 % plus vite hors combat | « La chanson oubliée » : plus personne ne connaît la berceuse de ta grand-mère. |
+| Lagos | -5 % chez les marchands | « Le masque du musée » : une inscription dans une langue qui n'existe pas. |
+| Bombay | +5 % d'expérience des quêtes | « Le train de 6 h 12 » : il passe par une gare jamais construite. |
+| Istanbul | Voyages entre balises 10 % moins chers | « La mosaïque » : un personnage de la mosaïque a pris ton visage. |
+
+Les bonus restent volontairement **petits** (et souvent hors combat) pour que l'origine soit un choix d'histoire, pas un calcul. Tous ces textes et valeurs sont dans `game/data/creation_personnage.json` : Gaël peut les modifier, ajouter une ville ou une coiffure sans toucher au code.
+
+**La fiche du personnage (format de sauvegarde)**
+- Tous les choix tiennent dans une petite « fiche » (un texte JSON de quelques centaines d'octets) : nom, sexe, curseurs du corps et du visage, peau, yeux, coiffure, barbe, tenue, classe, origine, et un numéro de version du format.
+- Dans le prototype, elle est enregistrée sur le PC du joueur. À l'étape 4 (comptes Nakama), elle sera rangée sur le serveur, dans le compte du joueur.
+- **Le serveur ne fait jamais confiance à la fiche reçue** : il remplace tout ce qui est inconnu ou hors limites (classe inventée, curseur exagéré, nom interdit).
+- Côté 3D, chaque curseur du visage correspondra à deux « formes » (shape keys) du modèle MakeHuman, nommées dans le fichier de données. En attendant, la silhouette provisoire du prototype suit déjà tous les curseurs.
 
 ---
 
@@ -552,6 +585,7 @@ Gaël a validé l'ensemble des propositions de la version 0.1, notamment :
 - le combat par ciblage avec roulade d'esquive, les règles de mort et de progression ;
 - l'architecture technique (serveur Godot + Nakama, hébergement gratuit Oracle Cloud pour les tests) ;
 - le plan du prototype et la répartition du travail (Gaël : décors, textes, choix ; Claude : code et intégration).
+- l'écran de création du personnage en 3 étapes (apparence avec visage détaillé par curseurs, classe, origine avec bonus et quête personnelle).
 
 **Rythme de travail :** le plus soutenu possible. Le PC de Gaël est disponible 24 h sur 24.
 
@@ -559,7 +593,7 @@ Gaël a validé l'ensemble des propositions de la version 0.1, notamment :
 
 1. Ton du jeu : plutôt sérieux, avec de l'humour, ou un mélange (comme The Secret World) ?
 2. Artisanat (fabriquer ses objets) : dès la première version, ou plus tard ?
-3. Classe secondaire (comme dans Guild Wars) ou changement de classe possible ?
+3. Classe secondaire (comme dans Guild Wars) ou changement de classe possible ? (L'écran de création prévoit d'en débloquer une plus tard.)
 4. Langues : français uniquement, ou aussi anglais (dès le début ou plus tard) ?
 5. Des amis sont-ils prêts à tester le multijoueur (étapes 3 et 7 du prototype) ?
 

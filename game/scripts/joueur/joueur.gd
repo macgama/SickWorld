@@ -45,6 +45,9 @@ extends CharacterBody3D
 @export var altitude_minimum := -30.0
 
 var endurance := 100.0
+# Valeurs de base (avant les bonus d'origine).
+var _cout_esquive_base := 0.0
+var _recuperation_endurance_base := 0.0
 
 # --- État partagé sur le réseau (voir le nœud « Synchro ») ---
 ## Nom choisi par le joueur.
@@ -68,6 +71,7 @@ var _bond_arrivee := Callable()
 @onready var camera: CameraJoueur = $CameraRig
 @onready var apparence: Node3D = $Apparence
 @onready var combat: Combattant = $Combat
+@onready var fiche: Node = $Fiche
 
 
 func _enter_tree() -> void:
@@ -77,6 +81,7 @@ func _enter_tree() -> void:
 		set_multiplayer_authority(name.to_int(), true)
 	$Combat.set_multiplayer_authority(1, true)
 	$CombatJoueur.set_multiplayer_authority(1, true)
+	$Fiche.set_multiplayer_authority(1, true)
 
 
 ## Numéro réseau du joueur qui contrôle ce personnage.
@@ -94,9 +99,30 @@ func _ready() -> void:
 	if est_local():
 		add_to_group("joueur_local")
 	endurance = endurance_max
+	_cout_esquive_base = cout_esquive
+	_recuperation_endurance_base = recuperation_endurance
+	fiche.changee.connect(_appliquer_fiche)
+	_appliquer_fiche()
 	_point_depart = global_position
 	floor_snap_length = 0.5
 	floor_max_angle = deg_to_rad(50.0)
+
+
+## Applique la fiche du personnage : apparence et bonus d'origine.
+func _appliquer_fiche() -> void:
+	var catalogue: Dictionary = Donnees.creation
+	if apparence.has_method("appliquer"):
+		apparence.appliquer(FichePersonnage.resoudre(fiche.donnees, catalogue))
+	var bonus_esquive := FichePersonnage.bonus(fiche.donnees, catalogue, "cout_esquive_pourcent")
+	cout_esquive = _cout_esquive_base * (1.0 + bonus_esquive / 100.0)
+	var bonus_endurance := FichePersonnage.bonus(fiche.donnees, catalogue, "recuperation_endurance_pourcent")
+	recuperation_endurance = _recuperation_endurance_base * (1.0 + bonus_endurance / 100.0)
+
+
+## Nom de la classe du personnage (ex. « Lame »).
+func nom_classe() -> String:
+	var id := String(fiche.donnees.get("classe", "lame"))
+	return String(FichePersonnage.element(Donnees.creation, "classes", id).get("nom", id.capitalize()))
 
 
 ## Place le personnage à un endroit et en fait son point de réapparition.

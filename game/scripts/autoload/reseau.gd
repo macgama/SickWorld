@@ -25,11 +25,18 @@ var mode := Mode.SEUL
 var adresse := "127.0.0.1"
 var port := PORT_PAR_DEFAUT
 var nom_joueur := "Agent"
+## Fiche du personnage de ce PC (voir FichePersonnage), envoyée au serveur en arrivant.
+var fiche := {}
 ## Sur le serveur : identifiant réseau -> nom du joueur.
 var noms := {}
+## Sur le serveur : identifiant réseau -> fiche du personnage (déjà vérifiée).
+var fiches := {}
 
 
 func _ready() -> void:
+	fiche = FichePersonnage.charger(Donnees.creation)
+	if not fiche.is_empty():
+		nom_joueur = fiche["nom"]
 	var arguments := OS.get_cmdline_user_args()
 	for argument in arguments:
 		if argument.begins_with("--port="):
@@ -80,27 +87,40 @@ func demarrer() -> Error:
 			statut_change.emit("Connexion à %s…" % adresse)
 	if a_un_joueur_local() and est_serveur():
 		noms[1] = nom_joueur
+		fiches[1] = fiche_a_envoyer()
 	return OK
+
+
+## La fiche de ce PC, complétée si besoin (personnage par défaut pour les tests
+## et le serveur dédié) et avec le nom choisi.
+func fiche_a_envoyer() -> Dictionary:
+	var f := FichePersonnage.valider(fiche, Donnees.creation)
+	if FichePersonnage.erreur_nom(nom_joueur) == "":
+		f["nom"] = FichePersonnage.nettoyer_nom(nom_joueur)
+	return f
 
 
 func quitter() -> void:
 	multiplayer.multiplayer_peer = OfflineMultiplayerPeer.new()
 	noms.clear()
+	fiches.clear()
 	get_tree().change_scene_to_file(SCENE_MENU)
 
 
 func _sur_pair_connecte(id: int) -> void:
 	# Le nouveau venu donne son nom au serveur dès qu'il est connecté.
 	if id == 1 and not est_serveur():
-		_se_presenter.rpc_id(1, nom_joueur)
+		_se_presenter.rpc_id(1, nom_joueur, fiche_a_envoyer())
 
 
 @rpc("any_peer", "call_remote", "reliable")
-func _se_presenter(nom: String) -> void:
+func _se_presenter(nom: String, fiche_recue: Dictionary) -> void:
 	if not est_serveur():
 		return
 	var id := multiplayer.get_remote_sender_id()
 	noms[id] = nom.strip_edges().left(20) if nom.strip_edges() != "" else "Agent %d" % id
+	# Le serveur ne fait pas confiance à la fiche reçue : il la vérifie.
+	fiches[id] = FichePersonnage.valider(fiche_recue, Donnees.creation)
 	print("%s a rejoint la partie (%d joueurs)" % [noms[id], noms.size()])
 	var monde := get_tree().get_first_node_in_group("partie")
 	if monde != null and monde.has_method("ajouter_joueur"):
@@ -113,6 +133,7 @@ func _sur_pair_deconnecte(id: int) -> void:
 	if noms.has(id):
 		print("%s a quitté la partie" % noms[id])
 	noms.erase(id)
+	fiches.erase(id)
 	var monde := get_tree().get_first_node_in_group("partie")
 	if monde != null and monde.has_method("retirer_joueur"):
 		monde.retirer_joueur(id)

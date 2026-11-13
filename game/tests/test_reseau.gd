@@ -46,6 +46,12 @@ func _lancer() -> void:
 	_verifier(not root.multiplayer.is_server(), "on est bien un client (numéro %d)" % root.multiplayer.get_unique_id())
 	_verifier(joueur.name == str(root.multiplayer.get_unique_id()), "le personnage porte notre numéro")
 	_verifier(joueur.get_node("Combat").nom_affiche == nom, "notre nom est connu du serveur")
+	var fiche_recue: Dictionary = joueur.get_node("Fiche").donnees
+	_verifier(fiche_recue.get("nom") == nom and fiche_recue.get("classe") != null,
+			"le serveur nous renvoie notre fiche de personnage vérifiée (%s, %s)" % [fiche_recue.get("nom"), fiche_recue.get("classe")])
+	# Triche : une fiche avec une classe inventée et des curseurs hors limites.
+	root.get_node("Reseau").rpc_id(1, "_se_presenter", nom, {"classe": "dieu", "visage": {"menton": 50.0}})
+	await _secondes(0.5)
 	var loups = get_nodes_in_group("loups")
 	_verifier(loups.size() >= 15, "on voit les loups créés par le serveur (%d)" % loups.size())
 	_verifier(Vector2(joueur.global_position.x, joueur.global_position.z).distance_to(Vector2(0, 55)) < 5.0,
