@@ -16,6 +16,7 @@ signal change
 signal porte_change
 
 const DOSSIER_SAUVEGARDE := "user://sauvegardes/inventaires/"
+const Artisanat := preload("res://scripts/objets/artisanat.gd")
 
 ## État complet (voir Objets). Sur le serveur : la référence. Chez le joueur : la copie reçue.
 var etat: Dictionary = {}
@@ -91,6 +92,11 @@ func mettre_tenue(numero: int) -> void:
 	Regles.au_serveur(self, "_demander", ["mettre_tenue", [numero]])
 
 
+## Fabrique (ou améliore) un objet chez un artisan du hub (voir data/artisanat.json).
+func fabriquer(recette: String) -> void:
+	Regles.au_serveur(self, "_demander", ["fabriquer", [recette]])
+
+
 ## Numéro de la tenue qui correspond exactement à ce que l'on porte (-1 si aucune).
 func tenue_portee() -> int:
 	var tenues: Array = etat.get("tenues", [])
@@ -150,6 +156,8 @@ func _executer(action: String, a: Array) -> String:
 			if r == "":
 				_dire("Tenue « %s » enregistrée" % etat["tenues"][int(a[0])]["nom"])
 			return r
+		"fabriquer":
+			return _fabriquer(String(a[0]))
 		"mettre_tenue":
 			var numero := int(a[0])
 			var r := Objets.raison_tenue_impossible(c, etat, numero)
@@ -164,6 +172,23 @@ func _executer(action: String, a: Array) -> String:
 					["Se changer : " + String(etat["tenues"][numero]["nom"]), duree])
 			return ""
 	return "Action inconnue"
+
+
+## Serveur : il faut être près d'un artisan qui connaît la recette.
+func _fabriquer(id_recette: String) -> String:
+	var art: Dictionary = Donnees.artisanat
+	var r := Artisanat.recette(art, id_recette)
+	if r.is_empty():
+		return "Recette inconnue"
+	var id_artisan := String(r.get("artisan", ""))
+	if not Artisanat.artisan_proche(get_tree(), art, id_artisan, joueur.global_position):
+		return "Approche-toi de l'artisan (%s)" % Artisanat.artisan(art, id_artisan).get("nom", id_artisan)
+	var raison := Artisanat.fabriquer(cat(), art, etat, id_recette)
+	if raison == "":
+		var donne := String(r["donne"])
+		var n := maxi(1, int(r.get("quantite", 1)))
+		_dire("Fabriqué : %s%s" % [Objets.objet(cat(), donne).get("nom", donne), " × %d" % n if n > 1 else ""])
+	return raison
 
 
 func _process(_delta: float) -> void:

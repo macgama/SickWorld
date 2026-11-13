@@ -269,7 +269,7 @@ static func utiliser(cat: Dictionary, etat: Dictionary, index: int) -> String:
 			return equiper_dans(cat, etat, index, emplacement_pour(cat, etat, id))
 		"sac":
 			return accrocher_sac(cat, etat, index)
-	return "Cet objet ne s'utilise pas (il servira à l'artisanat)"
+	return "Matériau d'artisanat : apporte-le à la forge Hinode ou à l'atelier Fil & Fibre (Quartier des Artisans)"
 
 
 ## Met l'objet de la case « index » dans l'emplacement donné. L'ancien objet prend sa place dans le sac.

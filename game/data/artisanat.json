@@ -1,0 +1,389 @@
+{
+	"_aide": "Recettes d'artisanat. « artisan » : forge (Forge Hinode) ou atelier (Fil & Fibre). « donne » : l'objet fabriqué (voir data/objets.json), « quantite » : combien. « ingredients » : objet -> nombre à apporter (ils doivent être dans les sacs, pas portés). Une amélioration est une recette dont un ingrédient est l'objet à améliorer : l'objet renforcé le remplace aussi dans les tenues de mission. « distance » : à combien de mètres de l'artisan il faut être.",
+	"distance": 4.5,
+	"artisans": {
+		"forge": {
+			"nom": "Forge Hinode",
+			"titre": "日の出 Forge Hinode",
+			"pnj": [
+				"forgeron",
+				"apprentie_forge"
+			],
+			"couleur": "#ff8a3a",
+			"accueil": "Pose tes matériaux sur l'établi. Le feu fera le reste.",
+			"categories": [
+				"armes",
+				"bijoux",
+				"reliques",
+				"ameliorations"
+			]
+		},
+		"atelier": {
+			"nom": "Fil & Fibre",
+			"titre": "Fil & Fibre · FabLab 3D",
+			"pnj": [
+				"lea",
+				"kofi"
+			],
+			"couleur": "#3fe0ff",
+			"accueil": "Fourrures, cuirs, pigments : on coud, on teint, on imprime.",
+			"categories": [
+				"armures",
+				"sacs",
+				"reliques",
+				"ameliorations"
+			]
+		}
+	},
+	"categories": {
+		"armes": "Armes",
+		"armures": "Armures",
+		"bijoux": "Bijoux",
+		"sacs": "Sacs",
+		"reliques": "Reliques",
+		"ameliorations": "Améliorations"
+	},
+	"recettes": {
+		"couteau_obsidienne": {
+			"artisan": "forge",
+			"categorie": "armes",
+			"donne": "couteau_obsidienne",
+			"quantite": 1,
+			"ingredients": {
+				"silex": 4,
+				"tendon_seche": 1
+			}
+		},
+		"massue_os": {
+			"artisan": "forge",
+			"categorie": "armes",
+			"donne": "massue_os",
+			"quantite": 1,
+			"ingredients": {
+				"bois_de_renne": 3,
+				"croc_loup": 2,
+				"tendon_seche": 2
+			}
+		},
+		"lance_silex": {
+			"artisan": "forge",
+			"categorie": "armes",
+			"donne": "lance_silex",
+			"quantite": 1,
+			"ingredients": {
+				"silex": 6,
+				"bois_de_renne": 2,
+				"tendon_seche": 3,
+				"eclat_de_fracture": 1
+			}
+		},
+		"collier_dents_loup": {
+			"artisan": "forge",
+			"categorie": "bijoux",
+			"donne": "collier_dents_loup",
+			"quantite": 1,
+			"ingredients": {
+				"croc_loup": 8,
+				"tendon_seche": 2
+			}
+		},
+		"propulseur_sculpte": {
+			"artisan": "forge",
+			"categorie": "reliques",
+			"donne": "propulseur_sculpte",
+			"quantite": 1,
+			"ingredients": {
+				"bois_de_renne": 4,
+				"tendon_seche": 3,
+				"eclat_de_fracture": 3
+			}
+		},
+		"dent_alpha": {
+			"artisan": "forge",
+			"categorie": "reliques",
+			"donne": "dent_alpha",
+			"quantite": 1,
+			"ingredients": {
+				"croc_loup": 12,
+				"eclat_de_fracture": 6,
+				"fourrure_ours": 1
+			}
+		},
+		"couteau_obsidienne_renforce": {
+			"artisan": "forge",
+			"categorie": "ameliorations",
+			"donne": "couteau_obsidienne_renforce",
+			"quantite": 1,
+			"ingredients": {
+				"couteau_obsidienne": 1,
+				"eclat_de_fracture": 3,
+				"silex": 2
+			}
+		},
+		"massue_os_renforce": {
+			"artisan": "forge",
+			"categorie": "ameliorations",
+			"donne": "massue_os_renforce",
+			"quantite": 1,
+			"ingredients": {
+				"massue_os": 1,
+				"eclat_de_fracture": 3,
+				"bois_de_renne": 2
+			}
+		},
+		"lance_silex_renforce": {
+			"artisan": "forge",
+			"categorie": "ameliorations",
+			"donne": "lance_silex_renforce",
+			"quantite": 1,
+			"ingredients": {
+				"lance_silex": 1,
+				"eclat_de_fracture": 3,
+				"silex": 3,
+				"fourrure_ours": 1
+			}
+		},
+		"capuche_chasseur": {
+			"artisan": "atelier",
+			"categorie": "armures",
+			"donne": "capuche_chasseur",
+			"quantite": 1,
+			"ingredients": {
+				"peau_loup": 3,
+				"croc_loup": 2,
+				"tendon_seche": 1
+			}
+		},
+		"cape_chasseur": {
+			"artisan": "atelier",
+			"categorie": "armures",
+			"donne": "cape_chasseur",
+			"quantite": 1,
+			"ingredients": {
+				"peau_loup": 4,
+				"croc_loup": 2,
+				"tendon_seche": 1
+			}
+		},
+		"brassards_chasseur": {
+			"artisan": "atelier",
+			"categorie": "armures",
+			"donne": "brassards_chasseur",
+			"quantite": 1,
+			"ingredients": {
+				"peau_loup": 2,
+				"croc_loup": 2,
+				"tendon_seche": 1
+			}
+		},
+		"jambieres_chasseur": {
+			"artisan": "atelier",
+			"categorie": "armures",
+			"donne": "jambieres_chasseur",
+			"quantite": 1,
+			"ingredients": {
+				"peau_loup": 3,
+				"croc_loup": 2,
+				"tendon_seche": 1
+			}
+		},
+		"mocassins_chasseur": {
+			"artisan": "atelier",
+			"categorie": "armures",
+			"donne": "mocassins_chasseur",
+			"quantite": 1,
+			"ingredients": {
+				"peau_loup": 2,
+				"croc_loup": 2,
+				"tendon_seche": 1
+			}
+		},
+		"bandeau_gardien": {
+			"artisan": "atelier",
+			"categorie": "armures",
+			"donne": "bandeau_gardien",
+			"quantite": 1,
+			"ingredients": {
+				"peau_loup": 2,
+				"ocre_rouge": 2,
+				"tendon_seche": 1
+			}
+		},
+		"manteau_gardien": {
+			"artisan": "atelier",
+			"categorie": "armures",
+			"donne": "manteau_gardien",
+			"quantite": 1,
+			"ingredients": {
+				"peau_loup": 4,
+				"ocre_rouge": 2,
+				"tendon_seche": 1
+			}
+		},
+		"gants_gardien": {
+			"artisan": "atelier",
+			"categorie": "armures",
+			"donne": "gants_gardien",
+			"quantite": 1,
+			"ingredients": {
+				"peau_loup": 2,
+				"ocre_rouge": 2,
+				"tendon_seche": 1
+			}
+		},
+		"jambieres_gardien": {
+			"artisan": "atelier",
+			"categorie": "armures",
+			"donne": "jambieres_gardien",
+			"quantite": 1,
+			"ingredients": {
+				"peau_loup": 3,
+				"ocre_rouge": 2,
+				"tendon_seche": 1
+			}
+		},
+		"bottes_gardien": {
+			"artisan": "atelier",
+			"categorie": "armures",
+			"donne": "bottes_gardien",
+			"quantite": 1,
+			"ingredients": {
+				"peau_loup": 2,
+				"ocre_rouge": 2,
+				"tendon_seche": 1
+			}
+		},
+		"besace_peau_loup": {
+			"artisan": "atelier",
+			"categorie": "sacs",
+			"donne": "besace_peau_loup",
+			"quantite": 1,
+			"ingredients": {
+				"peau_loup": 6,
+				"tendon_seche": 3
+			}
+		},
+		"ocre_sacree": {
+			"artisan": "atelier",
+			"categorie": "reliques",
+			"donne": "ocre_sacree",
+			"quantite": 1,
+			"ingredients": {
+				"ocre_rouge": 6,
+				"eclat_de_fracture": 2
+			}
+		},
+		"capuche_chasseur_renforce": {
+			"artisan": "atelier",
+			"categorie": "ameliorations",
+			"donne": "capuche_chasseur_renforce",
+			"quantite": 1,
+			"ingredients": {
+				"capuche_chasseur": 1,
+				"eclat_de_fracture": 2,
+				"peau_loup": 2
+			}
+		},
+		"cape_chasseur_renforce": {
+			"artisan": "atelier",
+			"categorie": "ameliorations",
+			"donne": "cape_chasseur_renforce",
+			"quantite": 1,
+			"ingredients": {
+				"cape_chasseur": 1,
+				"eclat_de_fracture": 2,
+				"peau_loup": 2,
+				"fourrure_ours": 1
+			}
+		},
+		"brassards_chasseur_renforce": {
+			"artisan": "atelier",
+			"categorie": "ameliorations",
+			"donne": "brassards_chasseur_renforce",
+			"quantite": 1,
+			"ingredients": {
+				"brassards_chasseur": 1,
+				"eclat_de_fracture": 2,
+				"peau_loup": 2
+			}
+		},
+		"jambieres_chasseur_renforce": {
+			"artisan": "atelier",
+			"categorie": "ameliorations",
+			"donne": "jambieres_chasseur_renforce",
+			"quantite": 1,
+			"ingredients": {
+				"jambieres_chasseur": 1,
+				"eclat_de_fracture": 2,
+				"peau_loup": 2
+			}
+		},
+		"mocassins_chasseur_renforce": {
+			"artisan": "atelier",
+			"categorie": "ameliorations",
+			"donne": "mocassins_chasseur_renforce",
+			"quantite": 1,
+			"ingredients": {
+				"mocassins_chasseur": 1,
+				"eclat_de_fracture": 2,
+				"peau_loup": 2
+			}
+		},
+		"bandeau_gardien_renforce": {
+			"artisan": "atelier",
+			"categorie": "ameliorations",
+			"donne": "bandeau_gardien_renforce",
+			"quantite": 1,
+			"ingredients": {
+				"bandeau_gardien": 1,
+				"eclat_de_fracture": 2,
+				"ocre_rouge": 2
+			}
+		},
+		"manteau_gardien_renforce": {
+			"artisan": "atelier",
+			"categorie": "ameliorations",
+			"donne": "manteau_gardien_renforce",
+			"quantite": 1,
+			"ingredients": {
+				"manteau_gardien": 1,
+				"eclat_de_fracture": 2,
+				"ocre_rouge": 2,
+				"fourrure_ours": 1
+			}
+		},
+		"gants_gardien_renforce": {
+			"artisan": "atelier",
+			"categorie": "ameliorations",
+			"donne": "gants_gardien_renforce",
+			"quantite": 1,
+			"ingredients": {
+				"gants_gardien": 1,
+				"eclat_de_fracture": 2,
+				"ocre_rouge": 2
+			}
+		},
+		"jambieres_gardien_renforce": {
+			"artisan": "atelier",
+			"categorie": "ameliorations",
+			"donne": "jambieres_gardien_renforce",
+			"quantite": 1,
+			"ingredients": {
+				"jambieres_gardien": 1,
+				"eclat_de_fracture": 2,
+				"ocre_rouge": 2
+			}
+		},
+		"bottes_gardien_renforce": {
+			"artisan": "atelier",
+			"categorie": "ameliorations",
+			"donne": "bottes_gardien_renforce",
+			"quantite": 1,
+			"ingredients": {
+				"bottes_gardien": 1,
+				"eclat_de_fracture": 2,
+				"ocre_rouge": 2
+			}
+		}
+	}
+}

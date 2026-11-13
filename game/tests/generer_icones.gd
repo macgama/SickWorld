@@ -97,8 +97,23 @@ func _lancer() -> void:
 		await RenderingServer.frame_post_draw
 		var image := vue.get_texture().get_image()
 		image.resize(FINALE, FINALE, Image.INTERPOLATE_LANCZOS)
+		if o.has("ameliore_de"):
+			_marque_renforce(image)
 		image.save_png(DOSSIER + id + ".png")
 		pivot.free()
 		n += 1
 	print("%d icônes enregistrées dans %s" % [n, DOSSIER])
 	quit()
+
+
+## Petit losange violet en haut à droite : objet renforcé par les artisans (éclats de fracture).
+func _marque_renforce(image: Image) -> void:
+	var centre := Vector2(FINALE - 17, 17)
+	for y in 34:
+		for x in 34:
+			var p := Vector2(FINALE - 34 + x, y)
+			var d := absf(p.x - centre.x) + absf(p.y - centre.y)
+			if d <= 11.0:
+				image.set_pixelv(Vector2i(p), Color(0.62, 0.45, 1.0).lerp(Color(0.95, 0.9, 1.0), clampf(1.0 - d / 6.0, 0.0, 1.0)))
+			elif d <= 14.0:
+				image.set_pixelv(Vector2i(p), Color(0.1, 0.05, 0.2, 1.0))
