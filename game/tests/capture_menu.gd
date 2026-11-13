@@ -43,7 +43,7 @@ func _lancer() -> void:
 	var menu: Node = load("res://scenes/interface/menu.tscn").instantiate()
 	root.add_child(menu)
 	current_scene = menu
-	await _attendre_secondes(7.0)
+	await _attendre_secondes(12.0)
 	await _capturer("titre_1")
 	for plan in [1, 2]:
 		menu._plan = plan

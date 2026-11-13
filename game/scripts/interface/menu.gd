@@ -242,7 +242,7 @@ func _construire() -> void:
 	compte.name = "Compte"
 	compte.set_anchors_preset(Control.PRESET_TOP_RIGHT)
 	compte.grow_horizontal = Control.GROW_DIRECTION_BEGIN
-	compte.offset_left = -360
+	compte.offset_left = -440
 	compte.offset_right = -30
 	compte.offset_top = 30
 	add_child(compte)

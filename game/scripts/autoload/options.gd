@@ -193,10 +193,12 @@ func nom_evenement(ev: InputEventKey) -> String:
 	if ev == null:
 		return "—"
 	var code: Key = ev.keycode
-	if ev.physical_keycode != KEY_NONE:
+	if ev.physical_keycode != KEY_NONE and DisplayServer.get_name() != "headless":
 		code = DisplayServer.keyboard_get_keycode_from_physical(ev.physical_keycode)
 		if code == KEY_NONE:
 			code = ev.physical_keycode
+	elif ev.physical_keycode != KEY_NONE:
+		code = ev.physical_keycode
 	return traduire_touche(OS.get_keycode_string(code))
 
 
