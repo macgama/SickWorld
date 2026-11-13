@@ -277,3 +277,28 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, -62.5, -29)
 script = ExtResource("21_marqueur_carte")
 type = 0
 libelle = "Stand de takoyaki"
+
+[node name="ZoneResidences" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -100, 62.5, 0)
+script = ExtResource("20_zone_carte")
+identifiant = "hikari_bay_residences"
+nom_affiche = "Hikari Bay · Résidences"
+taille = Vector3(60, 140, 60)
+
+[node name="Konbini" type="Node3D" parent="ZoneResidences"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, -62.5, -24)
+script = ExtResource("21_marqueur_carte")
+type = 0
+libelle = "Konbini Hoshi (24 h)"
+
+[node name="Sakura" type="Node3D" parent="ZoneResidences"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11, -62.5, 23)
+script = ExtResource("21_marqueur_carte")
+type = 0
+libelle = "Résidence Sakura"
+
+[node name="Guildes" type="Node3D" parent="ZoneResidences"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19, -62.5, 0)
+script = ExtResource("21_marqueur_carte")
+type = 0
+libelle = "Maison des guildes"

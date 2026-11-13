@@ -138,7 +138,7 @@ func _sur_dialogue_termine(id_pnj: String) -> void:
 			_avancer(q["id"])
 			return
 	for q in quetes:
-		if etat(q["id"]) == "disponible" and q.get("donneur", "") == id_pnj:
+		if etat(q["id"]) == "disponible" and q.get("donneur", "") == id_pnj and not q.get("automatique", false):
 			accepter(q["id"])
 			return
 
@@ -230,6 +230,8 @@ func _mettre_a_jour_pnj() -> void:
 		var pnj_id := ""
 		match etat(id):
 			"disponible":
+				if q.get("automatique", false):
+					continue # mission lancée par le jeu (pas de « ! »), voir accepter()
 				pnj_id = q["donneur"]
 				candidat = ["!", q.get("proposition", []), 2]
 			"active":
@@ -485,6 +487,27 @@ func _creer_objet(type: String, p: Array) -> Node3D:
 			papier.material_override = m
 			papier.position.y = 1.5
 			racine.add_child(papier)
+		"lettre":
+			# Enveloppe tombée par terre, un peu détrempée.
+			var enveloppe := MeshInstance3D.new()
+			var b := BoxMesh.new()
+			b.size = Vector3(0.3, 0.01, 0.2)
+			enveloppe.mesh = b
+			var m := StandardMaterial3D.new()
+			m.albedo_color = Color(0.95, 0.92, 0.85)
+			m.emission_enabled = true
+			m.emission = Color(1.0, 0.95, 0.85)
+			m.emission_energy_multiplier = 0.25
+			enveloppe.material_override = m
+			enveloppe.position.y = 0.04
+			enveloppe.rotation.y = 0.5
+			racine.add_child(enveloppe)
+			var lumiere := OmniLight3D.new()
+			lumiere.light_color = Color(1.0, 0.92, 0.75)
+			lumiere.light_energy = 0.6
+			lumiere.omni_range = 2.0
+			lumiere.position.y = 0.6
+			racine.add_child(lumiere)
 		_:
 			# Type inconnu : une petite sphère lumineuse, pour qu'on le voie quand même.
 			var boule := MeshInstance3D.new()
