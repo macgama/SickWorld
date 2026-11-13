@@ -1,0 +1,50 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://scripts/monde/colline_de_test.gd" id="1_colline"]
+[ext_resource type="PackedScene" path="res://scenes/joueur/joueur.tscn" id="2_joueur"]
+[ext_resource type="Script" path="res://scripts/interface/hud.gd" id="3_hud"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ciel"]
+sky_top_color = Color(0.32, 0.5, 0.78, 1)
+sky_horizon_color = Color(0.72, 0.78, 0.84, 1)
+ground_bottom_color = Color(0.2, 0.2, 0.18, 1)
+ground_horizon_color = Color(0.72, 0.78, 0.84, 1)
+sun_angle_max = 20.0
+
+[sub_resource type="Sky" id="Sky_ciel"]
+sky_material = SubResource("ProceduralSkyMaterial_ciel")
+
+[sub_resource type="Environment" id="Environment_monde"]
+background_mode = 2
+sky = SubResource("Sky_ciel")
+ambient_light_source = 3
+reflected_light_source = 2
+tonemap_mode = 4
+ssao_enabled = true
+glow_enabled = true
+fog_enabled = true
+fog_light_color = Color(0.7, 0.76, 0.83, 1)
+fog_density = 0.004
+fog_sky_affect = 0.3
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_monde"]
+
+[node name="CollineDeTest" type="Node3D"]
+script = ExtResource("1_colline")
+
+[node name="Environnement" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_monde")
+camera_attributes = SubResource("CameraAttributesPractical_monde")
+
+[node name="Soleil" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.866025, -0.321394, 0.383022, 0, 0.766044, 0.642788, -0.5, -0.556670, 0.663414, 0, 30, 0)
+light_color = Color(1, 0.96, 0.88, 1)
+light_energy = 1.3
+shadow_enabled = true
+directional_shadow_max_distance = 120.0
+
+[node name="Joueur" parent="." instance=ExtResource("2_joueur")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 55)
+
+[node name="Interface" type="CanvasLayer" parent="."]
+script = ExtResource("3_hud")
