@@ -52,6 +52,10 @@ La rue de l'ouest de la place mène au quartier d'habitation. Autour d'une petit
 - le hall de la **Résidence Sakura** : boîtes aux lettres et ascenseurs (les appartements des joueurs viendront plus tard) ;
 - la **Maison des guildes** : bannières, grande table et registre (la fondation des guildes viendra plus tard).
 
+## L'Arène de la baie
+
+Au bout est de la promenade, un quai en bois mène à une plateforme posée sur l'eau : l'**Arène**, un stade circulaire en pleine rénovation (échafaudages, projecteurs, grand écran). On entre sur le terrain par l'ouest. Les combats entre joueurs (JcJ) y auront lieu plus tard.
+
 ## Le Marché de nuit et les missions secondaires
 
 La rue du nord-ouest de la place mène au **Marché de nuit** : trois ruelles étroites avec des stands de nourriture, des lanternes rouges et des enseignes empilées. Deux bâtiments se visitent :
@@ -73,6 +77,8 @@ Des habitants proposent des **missions secondaires** : un **« ! »** doré flot
 | Billet pour nulle part | Rina, au guichet du Terminal des ferries |
 | Courrier égaré | Madame Fujimoto, dans le hall de la Résidence Sakura |
 | Trois signatures | Aleksander, à la Maison des guildes |
+| Lumière sur l'Arène | Kenta, l'électricien, sur le terrain de l'Arène |
+| Tête d'affiche | DJ Volt, sur le quai de l'Arène |
 | L'objet impossible | Commence tout seul quand tu reviens de la Côte Gelée avec la montre à gousset : visite guidée du QG |
 
 Tous les textes des missions sont dans `game/data/hub_quetes.json`, et ceux des habitants dans `game/data/hub_pnj.json`.
@@ -82,7 +88,7 @@ Tous les textes des missions sont dans `game/data/hub_quetes.json`, et ceux des 
 - Se promener sur la place, sous la pluie, au milieu des néons.
 - Descendre l'escalier de la **station Asahi** (coin sud-ouest de la place) : la porte blindée s'ouvre sur le **QG de la Vigie** (hall, coffre, entraînement, portails).
 - Descendre la rue du sud jusqu'au **front de mer** : la grande roue, et au large, la lumière de l'île de la Préhistoire.
-- Le quai de l'Arène (sud-est) est encore fermé par une barrière de chantier.
+- Tous les quartiers prévus sont ouverts. Seul le bout ouest de la promenade reste fermé par une barrière de chantier.
 
 ## Ce que tu peux régler toi-même
 

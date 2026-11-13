@@ -404,5 +404,41 @@
 			"Trois tours de la place, puis la promenade jusqu'à la grande roue. La pluie ? Ça rafraîchit !",
 			"Le distributeur rouge, là-bas, a les meilleures boissons chaudes de la ville."
 		]
+	},
+	"chef_chantier": {
+		"nom": "Marco Bellini",
+		"role": "Chef de chantier de l'Arène",
+		"modele": "homme",
+		"repliques": [
+			"Attention où tu mets les pieds : c'est un chantier ici. Casque obligatoire... enfin, en théorie.",
+			"Quand on aura fini, cette arène accueillera les plus beaux combats de la baie. Agent contre agent."
+		]
+	},
+	"ouvrier_arene": {
+		"nom": "Kenta Mori",
+		"role": "Électricien",
+		"modele": "homme",
+		"repliques": [
+			"Ces projecteurs datent d'une autre époque. Comme tout le reste ici, d'ailleurs.",
+			"Le jour de l'ouverture, toute la baie verra la lumière de l'Arène."
+		]
+	},
+	"championne": {
+		"nom": "Akane « l'Éclair » Shiba",
+		"role": "Championne de l'Arène",
+		"modele": "femme",
+		"repliques": [
+			"Je m'entraîne ici même pendant les travaux. Le sable ne se plaint jamais.",
+			"Quand l'Arène rouvrira, je t'attendrai au centre. Ne me déçois pas, agent."
+		]
+	},
+	"commentateur": {
+		"nom": "DJ Volt",
+		"role": "Commentateur des combats",
+		"modele": "homme",
+		"repliques": [
+			"Mesdames et messieurs, bienvenue à l'Arène de la baie ! Bon, d'accord, je répète. On n'ouvre pas encore.",
+			"Ma voix porte jusqu'à la grande roue. Les jours de match, tu m'entendras de partout."
+		]
 	}
 }

@@ -1,5 +1,5 @@
 {
-	"_aide": "Missions secondaires de Hikari Bay. Chaque mission a un donneur (un personnage de data/hub_pnj.json), des répliques pour la proposer, des étapes et une récompense. Types d'étapes : « parler » (aller voir un personnage), « objets » (trouver ou utiliser des objets placés dans la ville, positions [x, y, z, angle] ; types : affiche, capteur, ferraille, photo, vanne, lanterne, lettre). Pour changer un texte, modifie ce qui est entre guillemets ; garde les virgules. Une mission avec « automatique » : true n'est proposée par personne : c'est le jeu qui la lance (par exemple au retour d'une île).",
+	"_aide": "Missions secondaires de Hikari Bay. Chaque mission a un donneur (un personnage de data/hub_pnj.json), des répliques pour la proposer, des étapes et une récompense. Types d'étapes : « parler » (aller voir un personnage), « objets » (trouver ou utiliser des objets placés dans la ville, positions [x, y, z, angle] ; types : affiche, capteur, ferraille, photo, vanne, lanterne, lettre, fusible). Pour changer un texte, modifie ce qui est entre guillemets ; garde les virgules. Une mission avec « automatique » : true n'est proposée par personne : c'est le jeu qui la lance (par exemple au retour d'une île).",
 	"quetes": [
 		{
 			"id": "kuro",
@@ -596,6 +596,99 @@
 			"recompense": "Accès complet au QG de la Vigie",
 			"apres": [
 				"La montre est au Coffre. Ses aiguilles n'ont pas bougé. Moi non plus, je ne dors plus beaucoup."
+			]
+		},
+		{
+			"id": "projecteurs",
+			"titre": "Lumière sur l'Arène",
+			"donneur": "ouvrier_arene",
+			"resume": "Kenta, l'électricien du chantier, doit rallumer les projecteurs de l'Arène. Trois boîtiers électriques ont sauté.",
+			"proposition": [
+				"Hé, tu as deux minutes ? Trois boîtiers ont sauté au pied des tours de projecteurs.",
+				"Il suffit de remettre les fusibles en place. Un au nord-ouest, un au sud-ouest et un au sud-est du stade, à l'extérieur du mur.",
+				"Moi, je dois rester ici au tableau principal. Si je lâche ce levier, tout le chantier saute."
+			],
+			"etapes": [
+				{
+					"objectif": "Remets les fusibles des projecteurs de l'Arène",
+					"objets": {
+						"type": "fusible",
+						"verbe": "Remettre le fusible",
+						"positions": [
+							[
+								106.0,
+								0.0,
+								83.0,
+								0.0
+							],
+							[
+								106.0,
+								0.0,
+								121.0,
+								0.0
+							],
+							[
+								144.0,
+								0.0,
+								121.0,
+								0.0
+							]
+						]
+					}
+				},
+				{
+					"objectif": "Retourne voir Kenta sur le terrain de l'Arène",
+					"parler": "ouvrier_arene",
+					"repliques": [
+						"Lumière ! Regarde-moi ces tours. On se croirait déjà un soir de finale.",
+						"Tiens, prends ce casque de chantier. Il a vu plus de chantiers que moi."
+					]
+				}
+			],
+			"recompense": "Casque de chantier (tenue, bientôt)",
+			"apres": [
+				"Les projecteurs tiennent le coup. Merci encore."
+			]
+		},
+		{
+			"id": "affiche",
+			"titre": "Tête d'affiche",
+			"donneur": "commentateur",
+			"resume": "DJ Volt prépare l'annonce de la réouverture de l'Arène. Il lui faut l'accord du chef de chantier et une déclaration de la championne.",
+			"proposition": [
+				"Agent ! J'écris l'annonce de la réouverture et il me manque deux choses : une date et une star.",
+				"Pour la date, va voir Marco, le chef de chantier, sur la plateforme. Pour la star, Akane t'attend sur le terrain.",
+				"Rapporte-moi leurs réponses et je te garde une place au premier rang."
+			],
+			"etapes": [
+				{
+					"objectif": "Demande une date à Marco, le chef de chantier",
+					"parler": "chef_chantier",
+					"repliques": [
+						"Une date ? Ha ! Dis-lui « bientôt ». C'est le mot préféré de tous les chantiers du monde.",
+						"Mais tu peux ajouter que les tribunes sont presque prêtes. Ça, c'est vrai."
+					]
+				},
+				{
+					"objectif": "Demande une déclaration à Akane, sur le terrain",
+					"parler": "championne",
+					"repliques": [
+						"Une déclaration ? Écris ça : « Le sable de cette arène attend son prochain challenger. »",
+						"Et ajoute que je n'ai jamais perdu ici. Jamais."
+					]
+				},
+				{
+					"objectif": "Rapporte tout à DJ Volt (quai de l'Arène)",
+					"parler": "commentateur",
+					"repliques": [
+						"« Bientôt » et « jamais perdu »... C'est parfait, c'est du grand spectacle !",
+						"Voilà ton billet VIP pour la réouverture. Premier rang, juste derrière les cordes."
+					]
+				}
+			],
+			"recompense": "Billet VIP de l'Arène (réouverture bientôt)",
+			"apres": [
+				"Le jour J, je dirai ton nom au micro. Promis."
 			]
 		}
 	]
