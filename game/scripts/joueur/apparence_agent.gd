@@ -58,6 +58,10 @@ var _materiau_yeux: ShaderMaterial
 ## Maillages de la tête (avec les formes du visage) et maillage de la peau.
 var _tete: Array[MeshInstance3D] = []
 var _peau: MeshInstance3D
+## Cheveux livrés avec le modèle, et coiffure accrochée à la tête (si on en a choisi une autre).
+var _cheveux_integres: Array[MeshInstance3D] = []
+var _coiffure_accrochee: Node3D
+var _coiffure_actuelle := ""
 ## Teinte de la veste donnée par l'équipement (blanc = aucune).
 var _teinte_equipement := Color.WHITE
 ## Équipement visible (emplacement -> visuel, voir Inventaire et data/objets.json).
@@ -98,6 +102,8 @@ func _construire() -> void:
 	_corps.rotation.y = PI
 	_corps.scale = Vector3.ONE * echelle
 	add_child(_corps)
+	_coiffure_accrochee = null
+	_coiffure_actuelle = ""
 	_appliquer_materiaux()
 	_appliquer_teintes()
 	_appliquer_equipement()
@@ -233,6 +239,7 @@ func _squelette() -> Skeleton3D:
 
 
 func _appliquer_teintes() -> void:
+	_appliquer_coiffure()
 	# Visage : intensité de chaque forme.
 	var visage: Dictionary = _apparence.get("visage", {})
 	for mi in _tete:
@@ -514,6 +521,7 @@ func _matiere_teinte(sorte: String, albedo: Texture2D, normale: Texture2D = null
 
 func _appliquer_materiaux() -> void:
 	_materiaux_poils.clear()
+	_cheveux_integres.clear()
 	_tete.clear()
 	_materiau_tenue = null
 	_materiau_yeux = null
@@ -559,6 +567,8 @@ func _appliquer_materiaux() -> void:
 			_materiaux_poils.append(m)
 			mi.material_override = m
 			sorte = FormesVisage.Sorte.SOURCILS if base.begins_with("eyebrow") else FormesVisage.Sorte.CHEVEUX
+			if sorte == FormesVisage.Sorte.CHEVEUX:
+				_cheveux_integres.append(mi)
 		elif base.contains("suit"):
 			var albedo := _texture(base + "_diffuse")
 			if base.begins_with("female_casualsuit01"):
@@ -617,6 +627,63 @@ static func _sans_logo(texture: Texture2D) -> Texture2D:
 	image.generate_mipmaps()
 	_sans_logo_cache = ImageTexture.create_from_image(image)
 	return _sans_logo_cache
+
+
+# ---------------------------------------------------------------------------
+# Coiffures (exportées de MakeHuman par tools/personnages/exporter_coiffures.py)
+# ---------------------------------------------------------------------------
+## Fichier d'une coiffure pour ce modèle, ou "" si elle n'existe pas (encore).
+func _fichier_coiffure(id: String) -> String:
+	var chemin := "res://assets/personnages/coiffures/%s/%s.glb" % [modele, id]
+	return chemin if ResourceLoader.exists(chemin) else ""
+
+
+func _appliquer_coiffure() -> void:
+	var squelette := _squelette()
+	if squelette == null or not _apparence.has("coiffure"):
+		return
+	var id := String(_apparence["coiffure"])
+	if id == _coiffure_actuelle:
+		return
+	_coiffure_actuelle = id
+	if _coiffure_accrochee != null:
+		for m in _coiffure_accrochee.find_children("*", "MeshInstance3D", true, false):
+			_materiaux_poils.erase((m as MeshInstance3D).material_override)
+		_coiffure_accrochee.queue_free()
+		_coiffure_accrochee = null
+	var fichier := _fichier_coiffure(id) if id != "rase" else ""
+	# Crâne rasé : pas de cheveux. Coiffure pas encore exportée : on garde celle du modèle.
+	var garder_integres := id != "rase" and fichier == ""
+	for mi in _cheveux_integres:
+		mi.visible = garder_integres
+	if fichier == "":
+		return
+	var scene := load(fichier) as PackedScene
+	if scene == null:
+		for mi in _cheveux_integres:
+			mi.visible = true
+		return
+	# Les cheveux sont modélisés dans l'espace du personnage au repos (mètres, pieds au sol) :
+	# on les accroche à l'os de la tête en compensant la position de repos de cet os.
+	var os := squelette.find_bone("mixamorig_Head")
+	var accroche := BoneAttachment3D.new()
+	accroche.name = "Coiffure"
+	accroche.bone_name = "mixamorig_Head"
+	squelette.add_child(accroche)
+	var cheveux := scene.instantiate() as Node3D
+	cheveux.transform = squelette.get_bone_global_rest(os).affine_inverse()
+	accroche.add_child(cheveux)
+	for n in cheveux.find_children("*", "MeshInstance3D", true, false):
+		var mi := n as MeshInstance3D
+		var origine := mi.mesh.surface_get_material(0) as BaseMaterial3D if mi.mesh else null
+		var m := _matiere_teinte("poils", origine.albedo_texture if origine else null)
+		if _apparence.has("cheveux"):
+			m.set_shader_parameter("couleur", _couleur_poils(1.0))
+			m.set_shader_parameter("force", 1.0)
+		_materiaux_poils.append(m)
+		mi.material_override = m
+		mi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON
+	_coiffure_accrochee = accroche
 
 
 func _est_cheveux(base: String) -> bool:

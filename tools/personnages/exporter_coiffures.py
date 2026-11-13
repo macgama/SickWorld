@@ -47,7 +47,8 @@ def cheveux_disponibles():
     for ident, nom in COIFFURES.items():
         for racine in (os.path.join(cp.MAKEHUMAN, "makehuman", "data", "hair"),
                        os.path.join(cp.MAKEHUMAN_UTILISATEUR, "data", "hair")):
-            if os.path.exists(os.path.join(racine, nom, nom + ".mhclo")):
+            # Une installation MakeHuman peut ne contenir que la forme compilée (.mhpxy).
+            if any(os.path.exists(os.path.join(racine, nom, nom + ext)) for ext in (".mhclo", ".mhpxy")):
                 dispo[ident] = nom
                 break
         else:
@@ -109,7 +110,11 @@ def extraire_cheveux(nom_job, nom_cheveux, sortie):
 
 
 def main():
+    os.makedirs(SORTIE, exist_ok=True)
     dispo = cheveux_disponibles()
+    if not dispo:
+        print("Aucune coiffure MakeHuman trouvée : rien à exporter.")
+        return
     rapport = lancer_makehuman(dispo)
     bilan = {}
     for r in rapport:
