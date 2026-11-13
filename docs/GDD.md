@@ -1,7 +1,7 @@
 # SickWorld — Document de conception (GDD)
 
-> **Version 0.1 — 13 novembre 2026**
-> Document vivant : il sera complété au fil des décisions. Les passages marqués **[Proposition]** sont des idées à valider par Gaël ; tout le reste reprend des décisions déjà prises.
+> **Version 0.2 — 13 novembre 2026**
+> Document vivant : il sera complété au fil des décisions. Toutes les propositions de la version 0.1 ont été validées par Gaël le 13 novembre 2026.
 
 ---
 
@@ -68,7 +68,7 @@ Presque personne ne s'en rend compte, puisque pour les gens, la nouvelle version
 
 ### L'organisation secrète
 
-**[Proposition]** Une organisation discrète, **la Vigie** (nom provisoire), surveille la « santé » de l'histoire depuis des décennies. Elle a découvert un moyen d'envoyer des agents dans le passé grâce à des **ancres temporelles** : des lieux où le temps est plus « mince ». Le joueur est une nouvelle recrue de la Vigie.
+Une organisation discrète, **la Vigie**, surveille la « santé » de l'histoire depuis des décennies. Elle a découvert un moyen d'envoyer des agents dans le passé grâce à des **ancres temporelles** : des lieux où le temps est plus « mince ». Le joueur est une nouvelle recrue de la Vigie.
 
 Fonctionnement de la Vigie :
 - Son quartier général est caché sous la ville du hub.
@@ -85,7 +85,7 @@ Les fractures sont à la fois **des lieux** et **des créatures** :
 
 ### Le fil rouge : qui cause les fractures ?
 
-**[Proposition]** Les fractures ne sont pas un accident. Île après île, le joueur découvre des indices qui pointent vers **un autre groupe de voyageurs temporels**, surnommés **les Effaceurs**, qui veulent « réécrire » l'histoire pour créer un présent qui leur convient. Leur chef reste un mystère pendant longtemps. Révélations possibles au fil des îles :
+Les fractures ne sont pas un accident. Île après île, le joueur découvre des indices qui pointent vers **un autre groupe de voyageurs temporels**, surnommés **les Effaceurs**, qui veulent « réécrire » l'histoire pour créer un présent qui leur convient. Leur chef reste un mystère pendant longtemps. Révélations possibles au fil des îles :
 
 1. **Préhistoire :** les fractures semblent naturelles… mais on trouve un objet fabriqué qui ne peut pas venir de cette époque.
 2. **Antiquité :** première rencontre avec un Effaceur.
@@ -95,7 +95,7 @@ Ce fil rouge reste ouvert : Gaël pourra le faire évoluer (voir questions ouver
 
 ### L'ordre des îles
 
-Les îles suivent l'ordre chronologique. **[Proposition]** de liste (à ajuster) :
+Les îles suivent l'ordre chronologique. Liste prévue (elle pourra encore être ajustée) :
 
 | N° | Époque | Idée de moment clé à protéger |
 |---|---|---|
@@ -116,7 +116,7 @@ On commence par la Préhistoire, et **une seule île sera construite pour la pre
 
 ### Ambiance
 
-**[Proposition]** La ville s'appelle **Hikari Bay** (nom provisoire). C'est une métropole d'aujourd'hui inspirée de **Tokyo** et **Singapour** :
+La ville s'appelle **Hikari Bay**. C'est une métropole d'aujourd'hui inspirée de **Tokyo** et **Singapour** :
 - gratte-ciel, néons, écrans géants, enseignes lumineuses ;
 - jardins suspendus et végétation partout (esprit Singapour) ;
 - petites ruelles commerçantes, stands de nourriture, métro aérien (esprit Tokyo) ;
@@ -137,7 +137,7 @@ C'est un lieu **sûr** : pas de combat (sauf dans l'arène, voir plus bas). Les 
 
 ### Une idée forte : la ville qui change
 
-**[Proposition]** Quand une époque est « malade », le hub en porte les traces : une statue manque sur une place, une fresque est effacée, un quartier est plongé dans le brouillard. Quand les joueurs réparent une époque, **la ville se « soigne » visiblement**. Cela donne un sens concret aux quêtes et montre les progrès de tout le serveur.
+Quand une époque est « malade », le hub en porte les traces : une statue manque sur une place, une fresque est effacée, un quartier est plongé dans le brouillard. Quand les joueurs réparent une époque, **la ville se « soigne » visiblement**. Cela donne un sens concret aux quêtes et montre les progrès de tout le serveur.
 
 ---
 
@@ -179,7 +179,7 @@ Chaque île suit le même modèle, pour que le contenu soit plus facile à produ
 
 ### Le moment clé à protéger
 
-**[Proposition]** La fracture de la Préhistoire menace **deux naissances** :
+La fracture de la Préhistoire menace **deux naissances** :
 1. **La naissance de l'art** : le clan du Bison doit peindre la Grande Grotte, première trace d'une mémoire collective. Si ces peintures n'existent jamais, l'humanité perd « l'idée » de raconter son histoire.
 2. **L'amitié entre l'homme et le loup** : un jeune chasseur est en train d'apprivoiser une louve. Si ce lien est rompu, le chien n'existera jamais.
 
@@ -187,7 +187,7 @@ Dans le hub, cela se voit : **les chiens ont disparu des rues** et **les fresque
 
 ### Le peuple : le clan du Bison
 
-**[Proposition]** Personnages principaux :
+Personnages principaux :
 
 | Personnage | Rôle |
 |---|---|
@@ -217,7 +217,7 @@ Les habitants ne comprennent pas d'où vient le joueur : pour eux, c'est un **«
 | 2 | **Le Venu-du-Brouillard** | Le joueur rencontre une partie de chasse du clan du Bison. Toran se méfie. Il faut prouver sa valeur en aidant à une chasse au renne. | Combat en groupe avec des alliés non-joueurs, première récompense d'époque. |
 | 3 | **Le rêve d'Aïna** | La chamane a rêvé de « lumières qui mangent les images ». Elle demande au joueur de récolter des pigments (ocre, charbon, manganèse) pour une peinture rituelle. | Récolte, exploration de la steppe, combats contre des animaux. |
 | 4 | **La louve grise** | Kéo a disparu dans la forêt en suivant sa louve. Le joueur le retrouve encerclé par des loups fracturés. Grise est contaminée. | Pistage (suivre des traces au sol), combat, choix : soigner Grise (plus difficile) ou la laisser fuir. *Les deux choix permettent de continuer.* |
-| 5 | **L'objet impossible** | En fermant une faille, le joueur trouve un objet qui ne peut pas exister à cette époque (**[Proposition]** une montre à gousset brisée). Lenoir est troublé : quelqu'un d'autre voyage dans le temps. | Enquête : examiner l'objet, retourner au QG de la Vigie dans le hub (première visite guidée du hub). |
+| 5 | **L'objet impossible** | En fermant une faille, le joueur trouve un objet qui ne peut pas exister à cette époque (une montre à gousset brisée). Lenoir est troublé : quelqu'un d'autre voyage dans le temps. | Enquête : examiner l'objet, retourner au QG de la Vigie dans le hub (première visite guidée du hub). |
 | 6 | **L'hiver qui vient trop tôt** | Une tempête anormale (provoquée par la fracture) pousse le clan vers les Falaises Peintes. Le joueur escorte les familles. | Escorte, défense de camp, event scénarisé. |
 | 7 | **Les murs vides** | Dans la grotte, les peintures commencent à s'effacer d'elles-mêmes. Aïna comprend que la source est au fond de la Grande Grotte. | Préparation : recruter un groupe, réunir l'équipement. |
 | 8 | **Ce que les murs se rappellent** | Donjon de la Grande Grotte. Le groupe affronte la fracture majeure : **l'Ours Sans Mémoire**, un ours des cavernes géant fusionné avec la faille. Après la victoire, Aïna peint la fresque, avec le joueur dedans. | Donjon à 5, boss final. Cinématique de fin. Dans le hub, les fresques du musée réapparaissent et les chiens reviennent dans les rues. |
@@ -253,7 +253,7 @@ Ces événements arrivent régulièrement dans le monde, sans prévenir (avec un
 |---|---|
 | **Compétences d'époque** | Feu des ancêtres, Cri du clan, Pistage, Peinture de guerre, Lancer au propulseur, Appel de la meute *(voir section 6)* |
 | **Compagnon** | **Un louveteau** (cosmétique, il suit le joueur). Récompense phare : c'est l'ancêtre du chien. |
-| **Monture** | **[Proposition]** Un cheval de Przewalski (le cheval sauvage de l'époque), obtenu avec une réputation élevée. Le mammouth serait une récompense très rare. |
+| **Monture** | Un cheval de Przewalski (le cheval sauvage de l'époque), obtenu avec une réputation élevée. Le mammouth serait une récompense très rare. |
 | **Tenues** | Fourrures, peintures corporelles, colliers de dents et de coquillages. |
 | **Armes** | Lance à pointe de silex, propulseur, massue, couteau en obsidienne (avec un éclat de « technologie Vigie » pour rester efficaces). |
 | **Musée** | Objets exposés dans le hub : statuette de « Vénus », flûte en os, lampe à graisse, propulseur sculpté. |
@@ -271,7 +271,7 @@ L'idée centrale (inspirée de Guild Wars) : **chaque joueur compose sa propre b
 
 ### La barre de compétences
 
-**[Proposition]** La barre compte **8 emplacements** :
+La barre compte **8 emplacements** :
 
 | Emplacements | Contenu |
 |---|---|
@@ -283,7 +283,7 @@ Hors combat, on peut changer librement de compétences (près d'un **feu de camp
 
 ### Les classes de départ
 
-**[Proposition]** Quatre classes au lancement, qui couvrent les trois rôles classiques. Toutes sont des « spécialités » de la Vigie, avec un équipement moderne adapté au voyage temporel.
+Quatre classes au lancement, qui couvrent les trois rôles classiques. Toutes sont des « spécialités » de la Vigie, avec un équipement moderne adapté au voyage temporel.
 
 | Classe | Rôle | Arme | Ressource | Style |
 |---|---|---|---|---|
@@ -321,8 +321,8 @@ Hors combat, on peut changer librement de compétences (près d'un **feu de camp
 ### Création du personnage
 
 - Personnages humains réalistes, créés avec **MakeHuman** comme base (corps, visages, morphologies).
-- **[Proposition]** Réglages proposés au joueur : sexe, morphologie, visage (préréglages + curseurs), peau, coiffure, couleur des cheveux et des yeux.
-- Origine du personnage : **[Proposition]** choix d'une ville d'origine purement narrative (une ligne de dialogue change selon le choix), sans effet sur les statistiques.
+- Réglages proposés au joueur : sexe, morphologie, visage (préréglages + curseurs), peau, coiffure, couleur des cheveux et des yeux.
+- Origine du personnage : choix d'une ville d'origine purement narrative (une ligne de dialogue change selon le choix), sans effet sur les statistiques.
 
 ---
 
@@ -344,7 +344,7 @@ Hors combat, on peut changer librement de compétences (près d'un **feu de camp
 | **Temps de recharge** | Chaque compétence a son propre délai avant de pouvoir être réutilisée. |
 | **Menace (« aggro »)** | Les ennemis attaquent celui qui les dérange le plus. Le Rempart génère beaucoup de menace pour protéger les autres. |
 | **Contrôles** | Étourdir, ralentir, immobiliser, interrompre. Avec un temps de résistance pour éviter de bloquer un ennemi indéfiniment. |
-| **Esquive** | **[Proposition]** Une roulade d'esquive (touche dédiée, consomme une petite jauge) pour éviter les attaques puissantes signalées au sol. Ajoute un peu de dynamisme sans sortir du système de ciblage. |
+| **Esquive** | Une roulade d'esquive (touche dédiée, consomme une petite jauge) pour éviter les attaques puissantes signalées au sol. Ajoute un peu de dynamisme sans sortir du système de ciblage. |
 
 ### Les attaques signalées
 
@@ -354,7 +354,7 @@ Les ennemis importants préparent des attaques puissantes **visibles au sol** (z
 
 - Quand un personnage tombe à 0 point de vie, il est **« désynchronisé »** : il devient une silhouette translucide.
 - Un allié peut le **relever** (compétence ou action de quelques secondes hors combat).
-- Sinon, il réapparaît à la **balise de la Vigie** la plus proche, avec une petite pénalité temporaire (**[Proposition]** -10 % de statistiques pendant 2 minutes), sans perte d'objets ni d'expérience.
+- Sinon, il réapparaît à la **balise de la Vigie** la plus proche, avec une petite pénalité temporaire (-10 % de statistiques pendant 2 minutes), sans perte d'objets ni d'expérience.
 
 ### Les combats de groupe
 
@@ -370,7 +370,7 @@ Le joueur progresse sur plusieurs axes en parallèle, pour toujours avoir un obj
 
 ### 1. Le niveau
 
-- **[Proposition]** Chaque île couvre environ 10 niveaux : Préhistoire 1-10, deuxième île 10-20, etc.
+- Chaque île couvre environ 10 niveaux : Préhistoire 1-10, deuxième île 10-20, etc.
 - L'expérience vient des quêtes (surtout), des events, des ennemis et des découvertes de lieux.
 - Monter de niveau augmente les statistiques et débloque de nouvelles compétences de classe.
 
@@ -404,7 +404,7 @@ Le joueur progresse sur plusieurs axes en parallèle, pour toujours avoir un obj
 
 ### 7. Le modèle économique
 
-**[Proposition]** Jeu à **achat unique ou gratuit**, sans abonnement (comme Guild Wars), avec éventuellement une boutique **uniquement cosmétique**. Aucun avantage de puissance à vendre. À décider plus tard (voir questions ouvertes).
+Jeu à **achat unique ou gratuit**, sans abonnement (comme Guild Wars), avec éventuellement une boutique **uniquement cosmétique**. Aucun avantage de puissance à vendre. Le choix exact entre gratuit et achat unique sera fait avant l'ouverture au public.
 
 ---
 
@@ -489,14 +489,14 @@ Un seul serveur ne peut pas accueillir des milliers de joueurs dans le même mon
 | Étape | Où | Coût |
 |---|---|---|
 | Développement et tests | Le PC de Gaël (serveur lancé en local) | 0 € |
-| Premiers tests avec des amis | **[Proposition]** Offre gratuite permanente d'**Oracle Cloud** (« Always Free » : une machine de 4 cœurs et 24 Go de mémoire, suffisante pour des dizaines de joueurs) | 0 € |
+| Premiers tests avec des amis | Offre gratuite permanente d'**Oracle Cloud** (« Always Free » : une machine de 4 cœurs et 24 Go de mémoire, suffisante pour des dizaines de joueurs) | 0 € |
 | Ouverture plus large | Hébergement payant à prévoir le moment venu (non nécessaire avant d'avoir beaucoup de joueurs) | À décider |
 
 > **Point d'attention :** l'hébergement est le seul poste qui pourrait devenir payant quand le jeu grandira. Tout le reste reste gratuit.
 
 ### Organisation du dépôt GitHub
 
-**[Proposition]**
+Structure retenue :
 
 ```
 SickWorld/
@@ -539,41 +539,29 @@ Objectif : avancer **par petites étapes jouables**. Chaque étape produit quelq
 
 ---
 
-## 12. Questions ouvertes pour Gaël
+## 12. Décisions et questions ouvertes
 
-Les réponses à ces questions permettront de compléter le document. Pas besoin de tout trancher maintenant : les questions **en gras** sont les plus utiles pour démarrer le prototype.
+### Décisions validées (13 novembre 2026)
 
-### Univers et scénario
+Gaël a validé l'ensemble des propositions de la version 0.1, notamment :
 
-1. **Le nom de l'organisation secrète : « la Vigie » te convient-il, ou as-tu une autre idée ?**
-2. **Le nom de la ville hub : « Hikari Bay » te convient-il ? Est-ce une ville imaginaire ou une vraie ville (Tokyo, Singapour) ?**
-3. Les ennemis humains derrière les fractures, « les Effaceurs » : l'idée te plaît-elle ? Préfères-tu une cause plus mystérieuse (une entité, une maladie du temps) ?
-4. Le joueur doit-il parfois faire des **choix moraux** qui changent un peu l'histoire (comme la louve Grise), ou préfères-tu une histoire linéaire ?
-5. La liste des époques (section 2) te convient-elle ? Y a-t-il une époque que tu veux absolument, ou que tu veux éviter ?
-6. Ton : plutôt **sérieux**, plutôt **avec de l'humour**, ou un mélange (comme The Secret World) ?
+- l'organisation **la Vigie**, la ville hub **Hikari Bay** et les antagonistes **les Effaceurs** ;
+- la liste et l'ordre des époques ;
+- l'île de la Préhistoire telle que décrite (moments clés, personnages, quêtes, boss « l'Ours Sans Mémoire », récompenses) ;
+- les 4 classes (**Rempart, Lame, Traqueur, Tisseur**) et la barre de 8 compétences (5 de classe, 2 d'époque, 1 ultime) ;
+- le combat par ciblage avec roulade d'esquive, les règles de mort et de progression ;
+- l'architecture technique (serveur Godot + Nakama, hébergement gratuit Oracle Cloud pour les tests) ;
+- le plan du prototype et la répartition du travail (Gaël : décors, textes, choix ; Claude : code et intégration).
 
-### Préhistoire
+**Rythme de travail :** le plus soutenu possible. Le PC de Gaël est disponible 24 h sur 24.
 
-7. **Les deux « moments clés » (naissance de l'art et amitié homme-loup) te plaisent-ils ?**
-8. Le boss final « l'Ours Sans Mémoire » te convient-il ?
-9. Faut-il un mammouth comme monture (très rare), ou le garder comme animal à protéger uniquement ?
+### Questions encore ouvertes (pas urgentes)
 
-### Gameplay
-
-10. **Les 4 classes (Rempart, Lame, Traqueur, Tisseur) te conviennent-elles ? Leurs noms ?**
-11. La barre de 8 compétences (5 de classe, 2 d'époque, 1 ultime) te semble-t-elle bien ?
-12. Veux-tu une **roulade d'esquive** en plus du ciblage classique, ou rester 100 % façon WoW ?
-13. Veux-tu du **combat entre joueurs** (JcJ) ? Si oui : seulement dans l'arène, ou aussi dans le monde ?
-14. Veux-tu un système d'**artisanat** (fabriquer ses objets) dès le début, ou plus tard ?
-15. Un joueur pourra-t-il changer de classe, ou avoir une **classe secondaire** (comme dans Guild Wars) ?
-
-### Technique et organisation
-
-16. **Combien de temps par semaine comptes-tu consacrer au projet ?** (Cela aide à planifier les étapes.)
-17. **Es-tu d'accord pour la répartition proposée** (toi sur les décors, textes et choix ; Claude sur le code) ?
-18. Le jeu sera-t-il en **français uniquement**, ou aussi en anglais (dès le début ou plus tard) ?
-19. Modèle économique envisagé : gratuit, achat unique, boutique cosmétique ? (Pas urgent.)
-20. As-tu déjà des **amis prêts à tester** le multijoueur ?
+1. Ton du jeu : plutôt sérieux, avec de l'humour, ou un mélange (comme The Secret World) ?
+2. Artisanat (fabriquer ses objets) : dès la première version, ou plus tard ?
+3. Classe secondaire (comme dans Guild Wars) ou changement de classe possible ?
+4. Langues : français uniquement, ou aussi anglais (dès le début ou plus tard) ?
+5. Des amis sont-ils prêts à tester le multijoueur (étapes 3 et 7 du prototype) ?
 
 ---
 
