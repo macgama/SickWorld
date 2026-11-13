@@ -55,8 +55,36 @@ func _lancer() -> void:
 	await _placer(joueur, Vector3(-23, 0.3, 9), PI)
 	await _avancer(joueur, 300)
 	_verifier(joueur.global_position.y < -3.5, "l'escalier descend jusqu'au couloir (y = %.2f)" % joueur.global_position.y)
-	_verifier(joueur.global_position.z > 30.0 and joueur.global_position.z < 40.0,
-			"le couloir mène à la porte du QG (z = %.1f)" % joueur.global_position.z)
+	_verifier(joueur.global_position.z > 40.5,
+			"la porte du QG s'ouvre devant l'agent (z = %.1f)" % joueur.global_position.z)
+	# Le grand escalier du QG descend jusqu'au Hall des opérations (y = -12).
+	await _placer(joueur, Vector3(-23, -3.7, 42), PI)
+	await _avancer(joueur, 330)
+	_verifier(joueur.global_position.y < -11.5 and joueur.global_position.z > 70.0,
+			"l'escalier mène au Hall des opérations (y = %.1f, z = %.1f)" % [joueur.global_position.y, joueur.global_position.z])
+	# Parler à la commandante (touche F).
+	var commandante = scene.find_child("Pnj_commandante", true, false)
+	_verifier(commandante != null, "la commandante est dans le hall")
+	await _placer(joueur, commandante.global_position + Vector3(0, 0.3, -2.0), PI)
+	var dialogue = get_first_node_in_group("dialogue")
+	var appui := InputEventAction.new()
+	appui.action = "interagir"
+	appui.pressed = true
+	Input.parse_input_event(appui)
+	await _attendre(5)
+	_verifier(dialogue.est_ouvert(), "F ouvre le dialogue de la commandante")
+	for i in commandante.repliques.size():
+		Input.parse_input_event(appui)
+		await _attendre(3)
+	_verifier(not dialogue.est_ouvert(), "F fait défiler puis ferme le dialogue")
+	# Le portail de la Préhistoire réagit quand on le traverse.
+	var franchi := [""]
+	scene.portail_franchi.connect(func(e): franchi[0] = e)
+	var portail = scene.qg["portails"][0]
+	await _placer(joueur, portail.global_position + Vector3(0, -3.0, -4.0), PI)
+	await _avancer(joueur, 60)
+	_verifier(franchi[0] == "Préhistoire", "traverser le portail actif déclenche le voyage (%s, joueur en %s, portail en %s)" % [franchi[0], joueur.global_position, portail.global_position])
+	# Et on remonte par le couloir de la station.
 	# Et on remonte.
 	await _placer(joueur, Vector3(-23, -3.7, 30), 0.0)
 	await _avancer(joueur, 300)

@@ -4,6 +4,7 @@
 [ext_resource type="Script" path="res://scripts/interface/hud.gd" id="3_hud"]
 [ext_resource type="Script" path="res://scripts/monde/balise_vigie.gd" id="4_balise"]
 [ext_resource type="Script" path="res://scripts/monde/partie.gd" id="6_partie"]
+[ext_resource type="Script" path="res://scripts/interface/dialogue.gd" id="7_dialogue"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_nuit"]
 sky_top_color = Color(0.01, 0.012, 0.03, 1)
@@ -74,3 +75,6 @@ script = ExtResource("3_hud")
 [node name="BaliseVigie" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0, 24)
 script = ExtResource("4_balise")
+
+[node name="Dialogue" type="CanvasLayer" parent="."]
+script = ExtResource("7_dialogue")
