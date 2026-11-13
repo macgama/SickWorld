@@ -332,5 +332,77 @@
 			"Je viens ici écouter la mer. La pluie sur l'eau, c'est le plus beau bruit du monde.",
 			"Tu as vu la lumière, là-bas, au large ? Elle n'était pas là la semaine dernière."
 		]
+	},
+	"caissier_konbini": {
+		"nom": "Kaito",
+		"role": "Caissier du konbini Hoshi",
+		"modele": "homme",
+		"repliques": [
+			"Irasshaimase ! Onigiri, oden, café chaud : tout ce qu'il faut pour une nuit blanche.",
+			"Ouvert vingt-quatre heures sur vingt-quatre. Même quand le monde s'arrête, le konbini, lui, reste ouvert."
+		]
+	},
+	"client_konbini": {
+		"nom": "Yuna Shimizu",
+		"role": "Étudiante",
+		"modele": "femme",
+		"repliques": [
+			"Je révise mon examen d'histoire. Bizarre : mon manuel parle des chiens, mais je n'en ai jamais vu.",
+			"Onigiri au thon ou au saumon ? C'est la seule vraie question de la nuit."
+		]
+	},
+	"concierge": {
+		"nom": "Madame Fujimoto",
+		"role": "Concierge de la Résidence Sakura",
+		"modele": "femme",
+		"repliques": [
+			"Bonsoir. Les appartements des agents sont presque prêts. Encore un peu de patience.",
+			"Je connais chaque habitant de cette tour. Enfin... je croyais. Certaines boîtes aux lettres portent des noms que je n'ai jamais lus."
+		]
+	},
+	"registraire": {
+		"nom": "Aleksander Nowak",
+		"role": "Registraire de la Maison des guildes",
+		"modele": "homme",
+		"repliques": [
+			"Bienvenue à la Maison des guildes. Ici, les agents se regroupent pour voyager ensemble.",
+			"Le registre ouvrira bientôt. Choisis bien tes compagnons : on ne traverse pas les époques seul bien longtemps."
+		]
+	},
+	"membre_guilde": {
+		"nom": "Freya Lindqvist",
+		"role": "Membre des Veilleurs",
+		"modele": "femme",
+		"repliques": [
+			"Les Veilleurs cherchent des agents courageux. Reviens quand tu auras quelques missions à ton actif.",
+			"On raconte que l'Ordre du Loup a déjà traversé trois fois le portail de la Préhistoire."
+		]
+	},
+	"retraite_banc": {
+		"nom": "Monsieur Hayashi",
+		"role": "Retraité",
+		"modele": "homme",
+		"repliques": [
+			"Ce cerisier fleurit hors saison depuis trois jours. Il fleurit pour quelque chose, crois-moi.",
+			"Avant, je promenais un chien ici, tous les soirs. Enfin... je crois. Je ne sais plus très bien."
+		]
+	},
+	"enfant_balancoire": {
+		"nom": "Haruto",
+		"role": "Enfant",
+		"modele": "homme",
+		"repliques": [
+			"Pousse-moi ! Plus haut ! Si on va assez haut, on voit la mer.",
+			"Mon grand frère dit qu'il existe des agents secrets qui voyagent dans le temps. C'est toi ?"
+		]
+	},
+	"joggeuse": {
+		"nom": "Chloé Dubois",
+		"role": "Joggeuse",
+		"modele": "femme",
+		"repliques": [
+			"Trois tours de la place, puis la promenade jusqu'à la grande roue. La pluie ? Ça rafraîchit !",
+			"Le distributeur rouge, là-bas, a les meilleures boissons chaudes de la ville."
+		]
 	}
 }

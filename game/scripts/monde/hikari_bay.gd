@@ -22,6 +22,7 @@ const QuartierMarche := preload("res://scripts/monde/quartier_marche.gd")
 const QuartierArtisans := preload("res://scripts/monde/quartier_artisans.gd")
 const QuartierMusee := preload("res://scripts/monde/quartier_musee.gd")
 const FrontDeMer := preload("res://scripts/monde/quartier_front_de_mer.gd")
+const Residences := preload("res://scripts/monde/quartier_residences.gd")
 
 ## Quand c'est coché, la Préhistoire est réparée : la statue du Gardien est
 ## intacte. Sinon, elle est fissurée et entourée d'éclats de fracture.
@@ -92,6 +93,11 @@ func _ready() -> void:
 	if not Engine.is_editor_hint() and reseau != null and reseau.get_meta("arrivee_hub", "") == "portails":
 		reseau.remove_meta("arrivee_hub")
 		_arrivee_qg = true
+	# Retour de la Côte Gelée avec la montre à gousset (chapitre 5 de la Préhistoire) :
+	# la visite guidée du QG commence (mission automatique « montre », data/hub_quetes.json).
+	if not Engine.is_editor_hint() and reseau != null and reseau.get_meta("visite_guidee_qg", false):
+		reseau.remove_meta("visite_guidee_qg")
+		_lancer_visite_guidee.call_deferred()
 		point_apparition = Vector2(QgVigie.PORTAILS.position.x + 5.0, QgVigie.PORTAILS.end.y - 11.0)
 	reconstruire()
 
@@ -182,6 +188,7 @@ func reconstruire() -> void:
 	QuartierArtisans.construire(self)
 	QuartierMusee.construire(self)
 	FrontDeMer.construire(self)
+	Residences.construire(self)
 	if not Engine.is_editor_hint():
 		for zone: Area3D in qg.get("portails", []):
 			zone.body_entered.connect(_sur_portail.bind(zone))
@@ -557,8 +564,12 @@ const IMMEUBLES := [
 	[130, -30, 150, 30, 44, 0.3],
 	[70, 30, 72, 62, 12, 0.3],
 	[100, 30, 140, 62, 26, 0.35],
+	# Résidences (voir quartier_residences.gd) : immeubles d'habitation autour de la place.
+	[-130, -70, -70, -30, 26, 0.5],
+	[-150, -30, -128.6, 30, 40, 0.45],
+	[-140, 30, -100, 62, 22, 0.5],
+	[-72, 30, -70, 62, 18, 0.4],
 	# Fonds des rues (ferment la vue derrière les barrières).
-	[-96, -12, -70, 12, 48, 0.3],
 	[72, 30, 100, 74, 30, 0.3],
 	[-100, 30, -72, 74, 34, 0.3],
 ]
@@ -678,6 +689,12 @@ func _construire_eclats() -> void:
 	lueur.omni_range = 10.0
 	lueur.position = Vector3(0, 5, 0)
 	_fracture.add_child(lueur)
+
+
+func _lancer_visite_guidee() -> void:
+	var quetes := get_tree().get_first_node_in_group("quetes")
+	if quetes != null:
+		quetes.accepter("montre")
 
 
 func _mettre_a_jour_fracture() -> void:
@@ -902,7 +919,7 @@ func _construire_enseignes() -> void:
 		["博物館 · Musée & Jardins", Vector3(33.8, 4, -13.0), -PI / 2, vert, 60],
 		["ホテル HOTEL LUMEN", Vector3(33.8, 12, -20), -PI / 2, bleu, 120],
 		["コンビニ KONBINI", Vector3(33.8, 4.5, 20), -PI / 2, cyan, 110],
-		["住宅街 · Résidences · bientôt", Vector3(-33.8, 4, 13.0), PI / 2, orange, 60],
+		["住宅街 · Résidences & Guildes", Vector3(-33.8, 4, 13.0), PI / 2, orange, 60],
 		["海辺 · Front de mer", Vector3(-14.0, 4, 33.8), PI, bleu, 60],
 		["寿司 SUSHI BAR", Vector3(-24, 5, 33.8), PI, rose, 100],
 		["ゲームセンター ARCADE", Vector3(22, 7, 33.8), PI, cyan, 130],
@@ -938,7 +955,6 @@ func _construire_enseignes() -> void:
 func _construire_barrieres() -> void:
 	# [centre, largeur, angle, panneau]
 	var barrieres := [
-		[Vector3(-FIN_RUES, 0, 0), RUE * 2, PI / 2, "工事中 · TRAVAUX · Résidences bientôt"],
 		[Vector3(-70, 0, (62 + QUAI) * 0.5), QUAI - 62, PI / 2, "TRAVAUX"],
 		[Vector3(70, 0, (62 + QUAI) * 0.5), QUAI - 62, -PI / 2, "工事中 · TRAVAUX · Arène bientôt"],
 	]

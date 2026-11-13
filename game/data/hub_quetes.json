@@ -1,5 +1,5 @@
 {
-	"_aide": "Missions secondaires de Hikari Bay. Chaque mission a un donneur (un personnage de data/hub_pnj.json), des répliques pour la proposer, des étapes et une récompense. Types d'étapes : « parler » (aller voir un personnage), « objets » (trouver ou utiliser des objets placés dans la ville, positions [x, y, z, angle] ; types : affiche, capteur, ferraille, photo, vanne, lanterne). Pour changer un texte, modifie ce qui est entre guillemets ; garde les virgules.",
+	"_aide": "Missions secondaires de Hikari Bay. Chaque mission a un donneur (un personnage de data/hub_pnj.json), des répliques pour la proposer, des étapes et une récompense. Types d'étapes : « parler » (aller voir un personnage), « objets » (trouver ou utiliser des objets placés dans la ville, positions [x, y, z, angle] ; types : affiche, capteur, ferraille, photo, vanne, lanterne, lettre). Pour changer un texte, modifie ce qui est entre guillemets ; garde les virgules. Une mission avec « automatique » : true n'est proposée par personne : c'est le jeu qui la lance (par exemple au retour d'une île).",
 	"quetes": [
 		{
 			"id": "kuro",
@@ -441,6 +441,161 @@
 			"recompense": "Billet « −17 000 » (souvenir)",
 			"apres": [
 				"La commandante a reçu les billets. Elle a dit de te remercier... et de garder les yeux ouverts."
+			]
+		},
+		{
+			"id": "courrier",
+			"titre": "Courrier égaré",
+			"donneur": "concierge",
+			"resume": "Le vent a dispersé le courrier de la Résidence Sakura sur la place. Madame Fujimoto ne retrouve pas trois lettres.",
+			"proposition": [
+				"Oh, quelle soirée... Le facteur a posé le courrier dehors, et une rafale a tout emporté.",
+				"J'ai presque tout ramassé, mais il manque trois lettres. Une près du cerisier, une vers les distributeurs, et une devant la Maison des guildes.",
+				"Tu veux bien me les rapporter ? Mes genoux et la pluie ne s'entendent pas."
+			],
+			"etapes": [
+				{
+					"objectif": "Ramasse les lettres égarées sur la place des Résidences",
+					"objets": {
+						"type": "lettre",
+						"verbe": "Ramasser la lettre",
+						"positions": [
+							[
+								-94.0,
+								0.0,
+								-6.0,
+								0.0
+							],
+							[
+								-82.0,
+								0.0,
+								-26.0,
+								0.0
+							],
+							[
+								-107.0,
+								0.0,
+								-8.0,
+								0.0
+							]
+						]
+					}
+				},
+				{
+					"objectif": "Rapporte les lettres à Madame Fujimoto (Résidence Sakura)",
+					"parler": "concierge",
+					"repliques": [
+						"Les trois ! Merci. Voyons les noms... Appartement 1204 : « Agent »... C'est toi ?",
+						"Il y a ton nom sur cette enveloppe. Pourtant, personne ne m'a prévenue de ton arrivée.",
+						"Tiens, voilà aussi la clé de ta boîte aux lettres. Ton appartement sera bientôt prêt."
+					]
+				}
+			],
+			"recompense": "Clé de la boîte aux lettres 1204 (appartement bientôt)",
+			"apres": [
+				"Ta boîte aux lettres est la 1204. Je la garde à l'œil pour toi."
+			]
+		},
+		{
+			"id": "guilde",
+			"titre": "Trois signatures",
+			"donneur": "registraire",
+			"resume": "Aleksander, le registraire de la Maison des guildes, prépare l'ouverture du registre. Il lui faut deux témoins du quartier.",
+			"proposition": [
+				"Ah, un agent ! Tu tombes à pic. Le registre des guildes doit ouvrir, mais le règlement exige deux témoins du quartier.",
+				"Va voir Madame Fujimoto, à la Résidence Sakura, puis Kaito, au konbini. Ils doivent signer le formulaire.",
+				"Ensuite, reviens me voir : la troisième signature, ce sera la tienne."
+			],
+			"etapes": [
+				{
+					"objectif": "Fais signer Madame Fujimoto (Résidence Sakura)",
+					"parler": "concierge",
+					"repliques": [
+						"Le registre des guildes ? Enfin ! Donne-moi ce stylo.",
+						"Voilà. Écrit bien droit, comme il se doit."
+					]
+				},
+				{
+					"objectif": "Fais signer Kaito au konbini Hoshi",
+					"parler": "caissier_konbini",
+					"repliques": [
+						"Une signature ? Pour Aleksander ? Il vient acheter un café ici chaque nuit à trois heures.",
+						"Tiens. Et prends un onigiri, c'est la maison qui offre."
+					]
+				},
+				{
+					"objectif": "Rapporte le formulaire au registraire (Maison des guildes)",
+					"parler": "registraire",
+					"repliques": [
+						"Deux témoins, et ta signature en dernier. Parfait.",
+						"Le registre est officiellement prêt. Le jour où tu voudras fonder ta guilde, c'est ici que ça se passera.",
+						"Garde ce double du formulaire : tu en seras le premier signataire."
+					]
+				}
+			],
+			"recompense": "Formulaire de guilde (fondation bientôt)",
+			"apres": [
+				"Le registre attend ta guilde. Réfléchis bien à son nom."
+			]
+		},
+		{
+			"id": "montre",
+			"titre": "L'objet impossible",
+			"donneur": "commandante",
+			"automatique": true,
+			"resume": "Tu as rapporté de la Préhistoire une montre à gousset brisée, gravée « E. ». Un objet qui ne peut pas exister il y a dix-sept mille ans. La commandante Morel veut comprendre, et en profite pour te faire visiter le QG.",
+			"etapes": [
+				{
+					"objectif": "Montre la montre à gousset à la commandante Morel (Hall des opérations)",
+					"parler": "commandante",
+					"repliques": [
+						"Une montre à gousset ? Là-bas ? Fais voir...",
+						"Laiton, verre bombé, mécanisme du dix-neuvième siècle. Et cette gravure : « E. ». Ce n'est pas à nous.",
+						"Quelqu'un d'autre voyage dans le temps, agent. Et il laisse des traces.",
+						"Puisque tu es là, je vais te faire découvrir le QG. Commence par Yuki, à la salle des portails : qu'elle analyse cet objet."
+					]
+				},
+				{
+					"objectif": "Fais analyser la montre par Yuki Tanabe (salle des portails)",
+					"parler": "technicienne",
+					"repliques": [
+						"Oh, elle est magnifique. Et complètement anormale : elle émet une signature temporelle, comme nos portails.",
+						"Les aiguilles sont arrêtées sur 23 h 47. L'heure exacte où la pluie a commencé à Hikari Bay, il y a trois jours.",
+						"Il faut la mettre en sécurité. Théo, au Coffre, s'en occupera. C'est à l'ouest du hall."
+					]
+				},
+				{
+					"objectif": "Confie la montre à Théo Kessler (le Coffre, à l'ouest du hall)",
+					"parler": "banquier",
+					"repliques": [
+						"Bienvenue au Coffre, agent. Ici, on garde tout ce que les agents rapportent des époques.",
+						"Une montre temporelle ? Je la range dans le coffre blindé, à côté des objets les plus... bavards.",
+						"Ton propre coffre est ouvert, lui aussi : tu pourras y déposer tes affaires entre deux missions.",
+						"Passe saluer les instructeurs à la salle d'entraînement, à l'est du hall. Maître Ishida t'attend."
+					]
+				},
+				{
+					"objectif": "Rends visite à Maître Ishida (salle d'entraînement, à l'est du hall)",
+					"parler": "lame",
+					"repliques": [
+						"Ah, l'agent qui revient de la Préhistoire. Tu as les épaules de quelqu'un qui a croisé des loups.",
+						"Ici, chaque classe a son instructeur : Rempart, Lame, Traqueur et Tisseur. Reviens t'entraîner quand tu veux.",
+						"La commandante t'attend. Elle a l'air inquiète. Ce n'est pas bon signe."
+					]
+				},
+				{
+					"objectif": "Retourne voir la commandante Morel (Hall des opérations)",
+					"parler": "commandante",
+					"repliques": [
+						"Te voilà. Tu connais maintenant le QG : les portails, le Coffre, la salle d'entraînement. C'est ta maison, désormais.",
+						"Pour la montre, une seule certitude : « E. » n'est pas un Effaceur ordinaire. Il voyage, comme nous.",
+						"Retourne à la Préhistoire, agent. Lenoir aura besoin de toi. Et ouvre l'œil : si tu croises d'autres objets impossibles, rapporte-les."
+					]
+				}
+			],
+			"recompense": "Accès complet au QG de la Vigie",
+			"apres": [
+				"La montre est au Coffre. Ses aiguilles n'ont pas bougé. Moi non plus, je ne dors plus beaucoup."
 			]
 		}
 	]
