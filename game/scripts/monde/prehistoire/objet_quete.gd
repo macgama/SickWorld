@@ -53,6 +53,8 @@ func _construire() -> void:
 		_construire_montre()
 	elif COULEURS_TAS.has(forme):
 		_construire_tas(COULEURS_TAS[forme])
+	elif forme != "" and has_method("_construire_" + forme):
+		call("_construire_" + forme)
 	_etiquette = Label3D.new()
 	_etiquette.text = invite
 	_etiquette.position = Vector3(0, 1.0, 0)
@@ -226,6 +228,8 @@ func _unhandled_input(event: InputEvent) -> void:
 	if (dialogue != null and dialogue.est_ouvert()) or not joueur_proche():
 		return
 	var quete := get_tree().get_first_node_in_group("quete")
+	if has_meta("secondaire"):
+		quete = get_tree().get_first_node_in_group("quetes_secondaires")
 	if quete == null:
 		return
 	get_viewport().set_input_as_handled()
@@ -237,3 +241,162 @@ func cacher() -> void:
 	actif = false
 	if _visuel != null:
 		_visuel.visible = false
+
+
+# --- Objets des quêtes secondaires -----------------------------------------------
+
+func _mat(couleur: Color, rugosite := 0.8, metal := 0.0) -> StandardMaterial3D:
+	var m := StandardMaterial3D.new()
+	m.albedo_color = couleur
+	m.roughness = rugosite
+	m.metallic = metal
+	return m
+
+
+func _piece(maillage: Mesh, materiau: Material, pos: Vector3, rot := Vector3.ZERO, echelle := Vector3.ONE) -> MeshInstance3D:
+	var mi := MeshInstance3D.new()
+	mi.mesh = maillage
+	mi.material_override = materiau
+	mi.position = pos
+	mi.rotation = rot
+	mi.scale = echelle
+	_visuel.add_child(mi)
+	return mi
+
+
+## Un coquillage nacré (une coquille Saint-Jacques) posé sur les galets.
+func _construire_coquillage() -> void:
+	var nacre := _mat(Color(0.93, 0.85, 0.76), 0.35)
+	var raie := _mat(Color(0.78, 0.52, 0.42), 0.4)
+	for k in 7:
+		var c := CylinderMesh.new()
+		c.top_radius = 0.004
+		c.bottom_radius = 0.03
+		c.height = 0.16
+		c.radial_segments = 6
+		var a := -0.9 + k * 0.3
+		_piece(c, nacre if k % 2 == 0 else raie, Vector3(sin(a) * 0.06, 0.02, -cos(a) * 0.06 + 0.04),
+				Vector3(PI / 2 - 0.15, a, 0), Vector3(1, 1, 0.35))
+	_visuel.rotation.y = hash(identifiant) % 7
+
+
+## L'empreinte d'une grosse patte d'ours dans la terre, avec des griffes.
+func _construire_empreinte_ours() -> void:
+	var creux := _mat(Color(0.18, 0.13, 0.09), 1.0)
+	var paume := CylinderMesh.new()
+	paume.top_radius = 0.13
+	paume.bottom_radius = 0.13
+	paume.height = 0.02
+	_piece(paume, creux, Vector3(0, 0.005, 0.03), Vector3.ZERO, Vector3(1.3, 1, 1))
+	for k in 5:
+		var doigt := CylinderMesh.new()
+		doigt.top_radius = 0.04
+		doigt.bottom_radius = 0.04
+		doigt.height = 0.02
+		var x := -0.14 + k * 0.07
+		_piece(doigt, creux, Vector3(x, 0.006, -0.12 - absf(x) * -0.3))
+		var griffe := BoxMesh.new()
+		griffe.size = Vector3(0.012, 0.015, 0.06)
+		_piece(griffe, creux, Vector3(x * 1.1, 0.006, -0.19))
+	var seconde := _piece(paume, creux, Vector3(0.35, 0.005, 0.75), Vector3.ZERO, Vector3(1.2, 1, 0.9))
+	seconde.rotation.y = 0.2
+
+
+## Une canette de soda en aluminium, cabossée, tachée de violet.
+func _construire_canette() -> void:
+	var c := CylinderMesh.new()
+	c.top_radius = 0.033
+	c.bottom_radius = 0.033
+	c.height = 0.12
+	_piece(c, _mat(Color(0.75, 0.08, 0.1), 0.3, 0.8), Vector3(0, 0.035, 0), Vector3(PI / 2, 0.4, 0))
+	var bout := CylinderMesh.new()
+	bout.top_radius = 0.03
+	bout.bottom_radius = 0.033
+	bout.height = 0.01
+	_piece(bout, _mat(Color(0.8, 0.8, 0.82), 0.25, 1.0), Vector3(0.024, 0.035, -0.052), Vector3(PI / 2, 0.4, 0))
+	_trace_violette()
+
+
+## Un téléphone portable, l'écran fendu.
+func _construire_telephone() -> void:
+	var b := BoxMesh.new()
+	b.size = Vector3(0.075, 0.009, 0.155)
+	_piece(b, _mat(Color(0.08, 0.08, 0.09), 0.3, 0.5), Vector3(0, 0.006, 0), Vector3(0, 0.7, 0.05))
+	var ecran := BoxMesh.new()
+	ecran.size = Vector3(0.068, 0.002, 0.145)
+	var m := _mat(Color(0.1, 0.15, 0.25), 0.05)
+	m.emission_enabled = true
+	m.emission = Color(0.25, 0.35, 0.6)
+	m.emission_energy_multiplier = 0.6
+	_piece(ecran, m, Vector3(0, 0.0115, 0), Vector3(0, 0.7, 0.05))
+	_trace_violette()
+
+
+## Des lunettes de soleil modernes.
+func _construire_lunettes() -> void:
+	var noir := _mat(Color(0.03, 0.03, 0.035), 0.2, 0.3)
+	for cote in [-1.0, 1.0]:
+		var verre := CylinderMesh.new()
+		verre.top_radius = 0.028
+		verre.bottom_radius = 0.028
+		verre.height = 0.004
+		_piece(verre, noir, Vector3(cote * 0.035, 0.03, 0), Vector3(PI / 2 - 0.3, 0, 0))
+		var branche := BoxMesh.new()
+		branche.size = Vector3(0.004, 0.004, 0.12)
+		_piece(branche, noir, Vector3(cote * 0.065, 0.02, 0.06), Vector3(0, cote * 0.1, 0))
+	var pont := BoxMesh.new()
+	pont.size = Vector3(0.02, 0.004, 0.004)
+	_piece(pont, noir, Vector3(0, 0.04, 0))
+	_visuel.rotation.y = 0.6
+	_trace_violette()
+
+
+## La marque des Effaceurs : une petite lueur violette sur le sol.
+func _trace_violette() -> void:
+	var lueur := OmniLight3D.new()
+	lueur.light_color = Color(0.6, 0.25, 1.0)
+	lueur.light_energy = 0.5
+	lueur.omni_range = 1.4
+	lueur.position = Vector3(0, 0.2, 0)
+	_visuel.add_child(lueur)
+
+
+## Un rognon de pyrite doré, à l'éclat métallique.
+func _construire_pyrite() -> void:
+	var m := _mat(Color(0.78, 0.66, 0.36), 0.3, 0.9)
+	for k in 5:
+		var b := BoxMesh.new()
+		b.size = Vector3.ONE * (0.09 + k * 0.012)
+		_piece(b, m, Vector3((k % 3 - 1) * 0.07, 0.05 + (k % 2) * 0.04, (k / 3 - 0.5) * 0.08), Vector3(k * 0.7, k * 1.3, k * 0.4))
+
+
+## De l'amadou : des champignons en console sur un vieux tronc couché.
+func _construire_amadou() -> void:
+	var bois := _mat(Color(0.32, 0.26, 0.2), 0.95)
+	var tronc := CylinderMesh.new()
+	tronc.top_radius = 0.16
+	tronc.bottom_radius = 0.2
+	tronc.height = 1.8
+	_piece(tronc, bois, Vector3(0, 0.15, 0), Vector3(0, 0.3, PI / 2))
+	var champi := _mat(Color(0.55, 0.42, 0.28), 0.9)
+	for k in 3:
+		var c := SphereMesh.new()
+		c.radius = 0.12
+		c.height = 0.08
+		_piece(c, champi, Vector3(-0.4 + k * 0.35, 0.3 + k * 0.02, 0.15), Vector3(0.3, 0, 0), Vector3(1, 0.6, 0.8))
+
+
+## Un ancien foyer éteint : un cercle de pierres et des cendres.
+func _construire_foyer() -> void:
+	var pierre := _mat(Color(0.45, 0.43, 0.4), 0.95)
+	for k in 10:
+		var a := k * TAU / 10.0
+		var s := SphereMesh.new()
+		s.radius = 0.16
+		s.height = 0.22
+		_piece(s, pierre, Vector3(cos(a) * 0.6, 0.06, sin(a) * 0.6), Vector3(0, a, 0), Vector3(1.2, 1, 0.9))
+	var cendres := CylinderMesh.new()
+	cendres.top_radius = 0.48
+	cendres.bottom_radius = 0.5
+	cendres.height = 0.03
+	_piece(cendres, _mat(Color(0.2, 0.19, 0.18), 1.0), Vector3(0, 0.01, 0))

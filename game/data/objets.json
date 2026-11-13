@@ -376,6 +376,67 @@
 				"couleur": "#f0d8c0"
 			}
 		},
+		"collier_du_clan": {
+			"nom": "Collier du clan",
+			"type": "equipement",
+			"rarete": "rare",
+			"description": "Fait par la Vieille Mère : des coquillages de la Côte Gelée et des crocs de loup. On le porte aux grandes cérémonies.",
+			"emplacement": "bijou",
+			"epoque": "Préhistoire",
+			"stats": {
+				"pv": 30,
+				"critique_pourcent": 2
+			},
+			"visuel": {
+				"forme": "collier",
+				"couleur": "#e8d2b0"
+			}
+		},
+		"cape_grand_ours": {
+			"nom": "Cape du grand ours",
+			"type": "equipement",
+			"rarete": "rare",
+			"description": "La fourrure brune du grand ours que tu as pisté avec Toran. Lourde, chaude, impressionnante.",
+			"emplacement": "torse",
+			"epoque": "Préhistoire",
+			"stats": {
+				"pv": 45,
+				"degats_pourcent": 2
+			},
+			"visuel": {
+				"forme": "cape_fourrure",
+				"couleur": "#5a3f2a",
+				"teinte": "#46301f"
+			}
+		},
+		"pierre_a_feu": {
+			"nom": "Pierre à feu de Saé",
+			"type": "equipement",
+			"rarete": "rare",
+			"description": "Un rognon de pyrite usé par les étincelles. Le feu prend toujours quand on la porte.",
+			"emplacement": "relique",
+			"epoque": "Préhistoire",
+			"stats": {
+				"pv": 20,
+				"degats_pourcent": 3
+			},
+			"icone": {
+				"forme": "silex",
+				"couleur": "#c9a24a"
+			}
+		},
+		"eclat_effaceur": {
+			"nom": "Éclat d'Effaceur",
+			"type": "materiau",
+			"rarete": "historique",
+			"description": "Ce qui reste des objets modernes semés dans la Préhistoire, une fois détruits. La Vigie veut l'étudier.",
+			"pile": 10,
+			"epoque": "Préhistoire",
+			"icone": {
+				"forme": "silex",
+				"couleur": "#8a4ad8"
+			}
+		},
 		"griffe_sans_memoire": {
 			"nom": "Griffe de l'Ours Sans Mémoire",
 			"type": "equipement",

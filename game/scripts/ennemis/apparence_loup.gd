@@ -49,8 +49,10 @@ func _ready() -> void:
 		espece = "ours"
 	if ResourceLoader.exists(MODELES[espece]):
 		_construire_modele()
-		if espece == "ours":
+		if type.begins_with("ours_sans"):
 			scale = Vector3.ONE * 2.4
+		elif type.contains("alpha"):
+			scale = Vector3.ONE * 1.5
 		return
 	_construire()
 	if espece == "ours":
