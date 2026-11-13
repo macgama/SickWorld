@@ -50,7 +50,7 @@ func _ready() -> void:
 	if ResourceLoader.exists(MODELES[espece]):
 		_construire_modele()
 		if espece == "ours":
-			scale = Vector3.ONE * 1.8
+			scale = Vector3.ONE * 2.4
 		return
 	_construire()
 	if espece == "ours":

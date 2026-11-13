@@ -387,7 +387,7 @@ func _faire_apparaitre(groupe: Dictionary, unique: bool) -> void:
 		loup.rotation.y = randf() * TAU
 		if unique:
 			loup.set_meta("unique", true)
-		dossier.add_child(loup)
+		dossier.add_child(loup, true)
 		if unique and groupe.get("attaque", false):
 			# Ils sortent de la faille et foncent sur le joueur.
 			var joueur := get_tree().get_first_node_in_group("joueur_local")
