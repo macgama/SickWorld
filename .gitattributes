@@ -10,5 +10,7 @@ game/assets/**/*.bin filter=lfs diff=lfs merge=lfs -text
 game/assets/**/*.hdr filter=lfs diff=lfs merge=lfs -text
 game/assets/**/*.exr filter=lfs diff=lfs merge=lfs -text
 
+# Les sons (game/audio/, Ogg légers) restent dans git : le cloud ne peut pas pousser de fichiers LFS.
+
 # Godot réécrit ces fichiers avec des fins de ligne Windows : on les normalise.
 *.import text eol=lf
