@@ -22,6 +22,7 @@ Controles="*res://scripts/autoload/controles.gd"
 Donnees="*res://scripts/autoload/donnees.gd"
 Regles="*res://scripts/autoload/regles.gd"
 Reseau="*res://scripts/autoload/reseau.gd"
+Cartographe="*res://scripts/autoload/cartographe.gd"
 
 [display]
 
