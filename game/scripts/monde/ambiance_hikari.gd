@@ -52,6 +52,16 @@ const PROJECTEURS := [
 	# Terminal des ferries.
 	[Vector3(-42, 10, 76), Vector3(-40, 0, 80), Color(1.0, 0.85, 0.66), 30.0],
 	[Vector3(-28, 10, 76), Vector3(-30, 0, 80), Color(1.0, 0.85, 0.66), 30.0],
+	# Marché de nuit : rue d'approche puis ruelle principale (lumière chaude
+	# des lanternes, portée courte).
+	[Vector3(-20, 8, -60), Vector3(-20, 0, -64), Color(1.0, 0.8, 0.6), 20.0, 16.0, 44.0],
+	[Vector3(-20, 7, -78), Vector3(-20, 0, -82), Color(1.0, 0.62, 0.45), 16.0, 14.0, 44.0],
+	[Vector3(-20, 7, -94), Vector3(-20, 0, -98), Color(1.0, 0.62, 0.45), 16.0, 14.0, 44.0],
+	[Vector3(-20, 7, -110), Vector3(-20, 0, -114), Color(1.0, 0.62, 0.45), 16.0, 14.0, 44.0],
+	[Vector3(-37, 7, -99.5), Vector3(-37, 0, -99.5), Color(1.0, 0.55, 0.4), 14.0, 12.0, 44.0],
+	# Promenade du front de mer.
+	[Vector3(-22, 9, 68), Vector3(-20, 0, 72), Color(1.0, 0.84, 0.66), 26.0],
+	[Vector3(-6, 9, 68), Vector3(-4, 0, 72), Color(0.85, 0.9, 1.0), 26.0],
 	# Arène de la baie : quai d'accès, puis les quatre mâts d'éclairage du stade
 	# (portée et ouverture plus grandes, peu de halo dans le brouillard :
 	# [.., portée, angle, brouillard]).
