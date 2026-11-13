@@ -32,6 +32,7 @@ func ajouter_joueur(id: int, nom: String) -> void:
 	var joueur: Joueur = SCENE_JOUEUR.instantiate()
 	joueur.name = str(id)
 	joueur.nom = nom
+	joueur.get_node("Fiche").donnees = Reseau.fiches.get(id, FichePersonnage.par_defaut(Donnees.creation))
 	var depart := point_de_depart(joueurs.get_child_count())
 	joueur.position = depart
 	joueur.position_reseau = depart

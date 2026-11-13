@@ -1,0 +1,211 @@
+{
+	"_aide": "Tout ce que le joueur peut choisir à la création du personnage. Tu peux modifier les noms, les couleurs (#RRVVBB), les textes et les bornes des curseurs sans toucher au code. Les « id » servent à la sauvegarde : ne les change pas une fois que des joueurs ont créé des personnages (sinon leur choix est remplacé par celui par défaut).",
+
+	"sexes": [
+		{ "id": "femme", "nom": "Femme", "taille_par_defaut": 168 },
+		{ "id": "homme", "nom": "Homme", "taille_par_defaut": 180 }
+	],
+
+	"_aide_corps": "Curseurs du corps. La taille est en centimètres, les autres vont de -1 à 1 (0 = moyen).",
+	"corps": [
+		{ "id": "taille_cm", "nom": "Taille (cm)", "min": 150, "max": 200, "pas": 1 },
+		{ "id": "corpulence", "nom": "Corpulence", "min": -1, "max": 1, "pas": 0.05, "gauche": "Mince", "droite": "Fort" },
+		{ "id": "musculature", "nom": "Musculature", "min": -1, "max": 1, "pas": 0.05, "gauche": "Fin", "droite": "Athlétique" }
+	],
+
+	"_aide_visage": "Curseurs du visage, de -1 à 1 (0 = moyen). « forme_3d » est le nom des deux formes (shape keys) que le vrai modèle MakeHuman portera : <forme_3d>_moins et <forme_3d>_plus.",
+	"visage": [
+		{ "id": "largeur_visage", "groupe": "Forme du visage", "nom": "Largeur du visage", "gauche": "Étroit", "droite": "Large", "forme_3d": "visage_largeur" },
+		{ "id": "longueur_visage", "groupe": "Forme du visage", "nom": "Longueur du visage", "gauche": "Court", "droite": "Long", "forme_3d": "visage_longueur" },
+		{ "id": "machoire", "groupe": "Forme du visage", "nom": "Mâchoire", "gauche": "Fine", "droite": "Carrée", "forme_3d": "machoire_largeur" },
+		{ "id": "menton", "groupe": "Forme du visage", "nom": "Menton", "gauche": "Fuyant", "droite": "Prononcé", "forme_3d": "menton_avancee" },
+		{ "id": "pommettes", "groupe": "Forme du visage", "nom": "Pommettes", "gauche": "Plates", "droite": "Saillantes", "forme_3d": "pommettes_volume" },
+
+		{ "id": "ecart_yeux", "groupe": "Yeux", "nom": "Écart des yeux", "gauche": "Rapprochés", "droite": "Écartés", "forme_3d": "yeux_ecart" },
+		{ "id": "taille_yeux", "groupe": "Yeux", "nom": "Taille des yeux", "gauche": "Petits", "droite": "Grands", "forme_3d": "yeux_taille" },
+		{ "id": "hauteur_yeux", "groupe": "Yeux", "nom": "Hauteur des yeux", "gauche": "Bas", "droite": "Hauts", "forme_3d": "yeux_hauteur" },
+		{ "id": "inclinaison_yeux", "groupe": "Yeux", "nom": "Inclinaison des yeux", "gauche": "Tombants", "droite": "Relevés", "forme_3d": "yeux_inclinaison" },
+
+		{ "id": "hauteur_sourcils", "groupe": "Sourcils", "nom": "Hauteur des sourcils", "gauche": "Bas", "droite": "Hauts", "forme_3d": "sourcils_hauteur" },
+		{ "id": "epaisseur_sourcils", "groupe": "Sourcils", "nom": "Épaisseur des sourcils", "gauche": "Fins", "droite": "Épais", "forme_3d": "sourcils_epaisseur" },
+
+		{ "id": "longueur_nez", "groupe": "Nez", "nom": "Longueur du nez", "gauche": "Court", "droite": "Long", "forme_3d": "nez_longueur" },
+		{ "id": "largeur_nez", "groupe": "Nez", "nom": "Largeur du nez", "gauche": "Fin", "droite": "Large", "forme_3d": "nez_largeur" },
+		{ "id": "bosse_nez", "groupe": "Nez", "nom": "Profil du nez", "gauche": "Retroussé", "droite": "Busqué", "forme_3d": "nez_bosse" },
+
+		{ "id": "largeur_bouche", "groupe": "Bouche", "nom": "Largeur de la bouche", "gauche": "Petite", "droite": "Large", "forme_3d": "bouche_largeur" },
+		{ "id": "epaisseur_levres", "groupe": "Bouche", "nom": "Épaisseur des lèvres", "gauche": "Fines", "droite": "Pulpeuses", "forme_3d": "levres_epaisseur" },
+
+		{ "id": "taille_oreilles", "groupe": "Oreilles", "nom": "Taille des oreilles", "gauche": "Petites", "droite": "Grandes", "forme_3d": "oreilles_taille" }
+	],
+
+	"_aide_visages_types": "Visages de départ proposés en un clic (le joueur peut ensuite les retoucher avec les curseurs). Les curseurs absents valent 0.",
+	"visages_types": [
+		{ "id": "equilibre", "nom": "Équilibré", "valeurs": {} },
+		{ "id": "anguleux", "nom": "Anguleux", "valeurs": { "largeur_visage": -0.3, "longueur_visage": 0.4, "machoire": 0.6, "menton": 0.5, "pommettes": 0.7, "taille_yeux": -0.2, "bosse_nez": 0.5, "epaisseur_levres": -0.3 } },
+		{ "id": "doux", "nom": "Doux", "valeurs": { "largeur_visage": 0.3, "longueur_visage": -0.3, "machoire": -0.5, "menton": -0.2, "taille_yeux": 0.4, "longueur_nez": -0.3, "bosse_nez": -0.4, "epaisseur_levres": 0.4 } },
+		{ "id": "robuste", "nom": "Robuste", "valeurs": { "largeur_visage": 0.6, "machoire": 0.8, "menton": 0.3, "epaisseur_sourcils": 0.7, "hauteur_sourcils": -0.4, "largeur_nez": 0.5, "largeur_bouche": 0.3 } },
+		{ "id": "fin", "nom": "Fin", "valeurs": { "largeur_visage": -0.6, "longueur_visage": 0.2, "machoire": -0.6, "pommettes": 0.4, "largeur_nez": -0.5, "longueur_nez": 0.2, "largeur_bouche": -0.3, "taille_oreilles": -0.3 } },
+		{ "id": "rieur", "nom": "Rieur", "valeurs": { "largeur_visage": 0.2, "pommettes": 0.8, "inclinaison_yeux": 0.5, "hauteur_sourcils": 0.5, "largeur_bouche": 0.6, "epaisseur_levres": 0.2, "longueur_nez": -0.2 } }
+	],
+
+	"peaux": [
+		{ "id": "peau_1", "nom": "Très claire", "couleur": "#f3d9c8" },
+		{ "id": "peau_2", "nom": "Claire", "couleur": "#e8bfa0" },
+		{ "id": "peau_3", "nom": "Claire dorée", "couleur": "#d9a77f" },
+		{ "id": "peau_4", "nom": "Mate", "couleur": "#c18c62" },
+		{ "id": "peau_5", "nom": "Hâlée", "couleur": "#a2704a" },
+		{ "id": "peau_6", "nom": "Brune", "couleur": "#7f5236" },
+		{ "id": "peau_7", "nom": "Foncée", "couleur": "#5e3a25" },
+		{ "id": "peau_8", "nom": "Très foncée", "couleur": "#3f2618" }
+	],
+
+	"couleurs_yeux": [
+		{ "id": "marron_fonce", "nom": "Marron foncé", "couleur": "#3b2416" },
+		{ "id": "marron", "nom": "Marron", "couleur": "#6b4226" },
+		{ "id": "noisette", "nom": "Noisette", "couleur": "#8a6a2f" },
+		{ "id": "ambre", "nom": "Ambre", "couleur": "#b07a1f" },
+		{ "id": "vert", "nom": "Vert", "couleur": "#4f7a3a" },
+		{ "id": "bleu", "nom": "Bleu", "couleur": "#4a77a8" },
+		{ "id": "gris", "nom": "Gris", "couleur": "#7d8a93" }
+	],
+
+	"coiffures": [
+		{ "id": "rase", "nom": "Crâne rasé" },
+		{ "id": "tres_courte", "nom": "Très courte" },
+		{ "id": "courte", "nom": "Courte" },
+		{ "id": "mi_longue", "nom": "Mi-longue" },
+		{ "id": "longue", "nom": "Longue" },
+		{ "id": "queue", "nom": "Queue-de-cheval" },
+		{ "id": "chignon", "nom": "Chignon" }
+	],
+
+	"couleurs_cheveux": [
+		{ "id": "noir", "nom": "Noir", "couleur": "#151210" },
+		{ "id": "brun_fonce", "nom": "Brun foncé", "couleur": "#2e1d13" },
+		{ "id": "chatain", "nom": "Châtain", "couleur": "#5a3a22" },
+		{ "id": "auburn", "nom": "Auburn", "couleur": "#7a3519" },
+		{ "id": "roux", "nom": "Roux", "couleur": "#a8501f" },
+		{ "id": "blond_fonce", "nom": "Blond foncé", "couleur": "#8f6a3a" },
+		{ "id": "blond", "nom": "Blond", "couleur": "#c9a35f" },
+		{ "id": "platine", "nom": "Blond platine", "couleur": "#e2d3b0" },
+		{ "id": "gris", "nom": "Gris", "couleur": "#8c8a86" },
+		{ "id": "blanc", "nom": "Blanc", "couleur": "#e6e4df" }
+	],
+
+	"pilosites": [
+		{ "id": "aucune", "nom": "Aucune" },
+		{ "id": "trois_jours", "nom": "Barbe de trois jours" },
+		{ "id": "barbe_courte", "nom": "Barbe courte" },
+		{ "id": "barbe_longue", "nom": "Barbe longue" },
+		{ "id": "moustache", "nom": "Moustache" },
+		{ "id": "bouc", "nom": "Bouc" }
+	],
+
+	"_aide_tenues": "Tenues de départ de la Vigie (couleurs de la veste, du pantalon et de l'insigne lumineux).",
+	"tenues": [
+		{ "id": "terrain", "nom": "Tenue de terrain", "description": "La tenue standard des agents : sobre, solide, discrète.", "veste": "#262f42", "pantalon": "#1c1c21", "insigne": "#40d9e6" },
+		{ "id": "urbaine", "nom": "Tenue urbaine", "description": "Pour se fondre dans la foule de Hikari Bay.", "veste": "#3a3a3d", "pantalon": "#141416", "insigne": "#40d9e6", "manteau": true },
+		{ "id": "expedition", "nom": "Tenue d'expédition", "description": "Pensée pour les époques froides et les longues marches.", "veste": "#5b5440", "pantalon": "#2f2b22", "insigne": "#40d9e6" }
+	],
+
+	"_aide_classes": "« jouable » = la classe a déjà ses propres compétences dans le prototype. Les autres jouent provisoirement avec les compétences de la Lame.",
+	"classes": [
+		{
+			"id": "rempart", "nom": "Rempart", "role": "Tank", "jouable": false,
+			"arme": "epee_bouclier", "arme_texte": "Bouclier et arme d'une main", "ressource": "Endurance",
+			"description": "Le Rempart se place entre le danger et ses alliés. Il attire l'attention des ennemis, encaisse les coups et tient la ligne quand tout le reste vacille.",
+			"difficulte": 2,
+			"competences": [
+				{ "nom": "Provocation", "texte": "Force l'ennemi ciblé à t'attaquer." },
+				{ "nom": "Mur de bouclier", "texte": "Réduit fortement les dégâts reçus pendant 6 secondes." },
+				{ "nom": "Charge protectrice", "texte": "Bondit vers un allié et encaisse le prochain coup à sa place." }
+			]
+		},
+		{
+			"id": "lame", "nom": "Lame", "role": "Dégâts au corps à corps", "jouable": true,
+			"arme": "epee", "arme_texte": "Deux armes ou arme à deux mains", "ressource": "Élan",
+			"description": "La Lame vit au cœur de la mêlée. Plus elle enchaîne les attaques, plus son Élan grimpe et plus ses coups font mal. Rapide et mobile, elle abat une cible après l'autre.",
+			"difficulte": 1,
+			"competences": [
+				{ "nom": "Taille rapide", "texte": "Attaque rapide qui génère de l'Élan." },
+				{ "nom": "Bond", "texte": "Fonce sur la cible et la frappe à l'arrivée." },
+				{ "nom": "Exécution", "texte": "Gros dégâts sur une cible à moins de 20 % de vie." }
+			]
+		},
+		{
+			"id": "traqueur", "nom": "Traqueur", "role": "Dégâts à distance", "jouable": false,
+			"arme": "arc", "arme_texte": "Arc, fusil léger ou armes de jet", "ressource": "Concentration",
+			"description": "Le Traqueur garde ses distances. Il choisit son moment, pose des pièges et vise les points faibles. Patient et précis, il frappe avant d'être vu.",
+			"difficulte": 2,
+			"competences": [
+				{ "nom": "Tir visé", "texte": "Tir puissant avec un temps de préparation." },
+				{ "nom": "Piège à collet", "texte": "Immobilise le premier ennemi qui marche dessus." },
+				{ "nom": "Repli", "texte": "Saute en arrière et ralentit les ennemis proches." }
+			]
+		},
+		{
+			"id": "tisseur", "nom": "Tisseur", "role": "Soins et soutien", "jouable": false,
+			"arme": "baton", "arme_texte": "Bâton ou appareil « chrono »", "ressource": "Flux",
+			"description": "Le Tisseur manipule le fil du temps autour de lui : il soigne ses alliés, les protège et ralentit ou accélère le temps localement. Le groupe compte sur lui pour rester debout.",
+			"difficulte": 3,
+			"competences": [
+				{ "nom": "Fil de vie", "texte": "Soigne un allié." },
+				{ "nom": "Retour en arrière", "texte": "Remet la vie d'un allié au niveau d'il y a 5 secondes." },
+				{ "nom": "Bulle lente", "texte": "Ralentit le temps pour les ennemis dans une zone." }
+			]
+		}
+	],
+
+	"_aide_origines": "Ville d'origine du voyageur. « bonus.type » doit être l'un de : cout_esquive_pourcent, recuperation_endurance_pourcent, regeneration_hors_combat_pourcent (actifs dans le prototype), ou reputation_pourcent, distance_collections_pourcent, prix_marchands_pourcent, experience_quetes_pourcent, cout_voyage_pourcent (actifs quand ces systèmes existeront). La « quete_intro » est la première quête personnelle du personnage.",
+	"origines": [
+		{
+			"id": "paris", "nom": "Paris", "pays": "France",
+			"description": "Tu as grandi entre les musées et les bouquinistes des quais. L'histoire, pour toi, c'était d'abord des visages dans des tableaux.",
+			"bonus": { "type": "reputation_pourcent", "valeur": 5, "texte": "Œil d'historien : +5 % de réputation gagnée auprès des peuples des époques." },
+			"quete_intro": { "titre": "La toile manquante", "texte": "Un tableau que tu connais par cœur depuis l'enfance a disparu du Louvre… et personne d'autre ne se souvient qu'il ait existé." }
+		},
+		{
+			"id": "le_caire", "nom": "Le Caire", "pays": "Égypte",
+			"description": "Ta famille travaille sur les chantiers de fouilles depuis trois générations. Tu as appris à lire la poussière avant de savoir lire.",
+			"bonus": { "type": "distance_collections_pourcent", "valeur": 20, "texte": "Enfant des fouilles : les objets de collection sont repérés 20 % plus loin." },
+			"quete_intro": { "titre": "Le nom effacé", "texte": "Sur une stèle que ton grand-père a découverte, un nom de pharaon s'efface un peu plus chaque jour." }
+		},
+		{
+			"id": "tokyo", "nom": "Tokyo", "pays": "Japon",
+			"description": "Tu as appris à te faufiler dans la foule la plus dense du monde. Rien ne te surprend, tout te fait réagir.",
+			"bonus": { "type": "cout_esquive_pourcent", "valeur": -10, "texte": "Réflexes urbains : la roulade d'esquive coûte 10 % d'endurance en moins." },
+			"quete_intro": { "titre": "Le sanctuaire du quartier", "texte": "Le petit sanctuaire au coin de ta rue n'est plus là. À sa place, un immeuble qui semble y être depuis toujours." }
+		},
+		{
+			"id": "new_york", "nom": "New York", "pays": "États-Unis",
+			"description": "Coursier à vélo, puis secouriste : ta ville t'a appris à ne jamais t'arrêter.",
+			"bonus": { "type": "recuperation_endurance_pourcent", "valeur": 10, "texte": "Souffle de marathonien : l'endurance se recharge 10 % plus vite." },
+			"quete_intro": { "titre": "La photo de famille", "texte": "Sur la photo de l'arrivée de tes arrière-grands-parents à Ellis Island, quelqu'un a disparu." }
+		},
+		{
+			"id": "rio", "nom": "Rio de Janeiro", "pays": "Brésil",
+			"description": "Entre la mer et les collines, tu as toujours eu le don de te relever, quoi qu'il arrive.",
+			"bonus": { "type": "regeneration_hors_combat_pourcent", "valeur": 25, "texte": "Énergie solaire : la vie remonte 25 % plus vite hors combat." },
+			"quete_intro": { "titre": "La chanson oubliée", "texte": "Plus personne ne connaît la chanson que ta grand-mère te chantait. Même les vieux enregistrements sont muets." }
+		},
+		{
+			"id": "lagos", "nom": "Lagos", "pays": "Nigeria",
+			"description": "Tu as grandi au milieu des marchés les plus vivants d'Afrique. Tu sais toujours ce que vaut une chose.",
+			"bonus": { "type": "prix_marchands_pourcent", "valeur": -5, "texte": "Sens du marché : les marchands te font 5 % de réduction." },
+			"quete_intro": { "titre": "Le masque du musée", "texte": "Le masque royal que tu admirais au musée national porte maintenant une inscription dans une langue qui n'existe pas." }
+		},
+		{
+			"id": "bombay", "nom": "Bombay", "pays": "Inde",
+			"description": "Une ville de vingt millions d'histoires. Tu les écoutes toutes et tu n'en oublies aucune.",
+			"bonus": { "type": "experience_quetes_pourcent", "valeur": 5, "texte": "Mémoire vive : +5 % d'expérience gagnée en terminant des quêtes." },
+			"quete_intro": { "titre": "Le train de 6 h 12", "texte": "Le train que tu prends depuis toujours passe par une gare qui, selon les cartes, n'a jamais été construite." }
+		},
+		{
+			"id": "istanbul", "nom": "Istanbul", "pays": "Turquie",
+			"description": "Ta ville est un pont entre deux continents. Tu as toujours su passer d'un monde à l'autre.",
+			"bonus": { "type": "cout_voyage_pourcent", "valeur": -10, "texte": "Carrefour des mondes : les voyages entre balises de la Vigie coûtent 10 % moins cher." },
+			"quete_intro": { "titre": "La mosaïque", "texte": "Dans la mosaïque de la vieille citerne, un personnage a changé de visage. Il te ressemble." }
+		}
+	]
+}
