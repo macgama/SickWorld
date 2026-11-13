@@ -252,3 +252,28 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, -62.5, -27)
 script = ExtResource("21_marqueur_carte")
 type = 0
 libelle = "Cascade des Souvenirs"
+
+[node name="ZoneFrontDeMer" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 62.5, 93)
+script = ExtResource("20_zone_carte")
+identifiant = "hikari_bay_front_de_mer"
+nom_affiche = "Hikari Bay · Front de mer"
+taille = Vector3(140, 140, 62)
+
+[node name="Terminal" type="Node3D" parent="ZoneFrontDeMer"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35, -62.5, -1)
+script = ExtResource("21_marqueur_carte")
+type = 0
+libelle = "Terminal des ferries"
+
+[node name="GrandeRoue" type="Node3D" parent="ZoneFrontDeMer"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 55, -62.5, 23)
+script = ExtResource("21_marqueur_carte")
+type = 0
+libelle = "Grande roue"
+
+[node name="Takoyaki" type="Node3D" parent="ZoneFrontDeMer"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, -62.5, -29)
+script = ExtResource("21_marqueur_carte")
+type = 0
+libelle = "Stand de takoyaki"

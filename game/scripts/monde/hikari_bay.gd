@@ -21,6 +21,7 @@ const Ambiance := preload("res://scripts/monde/ambiance_hikari.gd")
 const QuartierMarche := preload("res://scripts/monde/quartier_marche.gd")
 const QuartierArtisans := preload("res://scripts/monde/quartier_artisans.gd")
 const QuartierMusee := preload("res://scripts/monde/quartier_musee.gd")
+const FrontDeMer := preload("res://scripts/monde/quartier_front_de_mer.gd")
 
 ## Quand c'est coché, la Préhistoire est réparée : la statue du Gardien est
 ## intacte. Sinon, elle est fissurée et entourée d'éclats de fracture.
@@ -180,6 +181,7 @@ func reconstruire() -> void:
 	QuartierMarche.construire(self)
 	QuartierArtisans.construire(self)
 	QuartierMusee.construire(self)
+	FrontDeMer.construire(self)
 	if not Engine.is_editor_hint():
 		for zone: Area3D in qg.get("portails", []):
 			zone.body_entered.connect(_sur_portail.bind(zone))
@@ -983,13 +985,23 @@ func _construire_front_de_mer() -> void:
 	_contenu.add_child(mer)
 	# Mur du quai et garde-corps.
 	_bloc(-200, QUAI, 200, QUAI + 1, -3, 0, _mat("beton"))
-	_bloc(-70, QUAI - 0.1, 70, QUAI + 0.1, 0.9, 1.0, metal, false)
-	_collision_boite(Vector3(140, 4, 0.4), Transform3D(Basis(), Vector3(0, 2, QUAI)))
-	for i in 29:
-		var x := -70.0 + i * 5.0
-		_bloc(x - 0.05, QUAI - 0.05, x + 0.05, QUAI + 0.05, 0, 0.95, metal, false)
+	# Garde-corps, ouvert devant les jetées (voir quartier_front_de_mer.gd).
+	var debut := -70.0
+	var troncons := []
+	for o in FrontDeMer.OUVERTURES_QUAI:
+		troncons.append([debut, o[0]])
+		debut = o[1]
+	troncons.append([debut, 70.0])
+	for t in troncons:
+		var x1: float = t[0]
+		var x2: float = t[1]
+		_bloc(x1, QUAI - 0.1, x2, QUAI + 0.1, 0.9, 1.0, metal, false)
+		_collision_boite(Vector3(x2 - x1, 4, 0.4), Transform3D(Basis(), Vector3((x1 + x2) * 0.5, 2, QUAI)))
+		for i in int((x2 - x1) / 5.0) + 1:
+			var x := minf(x1 + i * 5.0, x2)
+			_bloc(x - 0.05, QUAI - 0.05, x + 0.05, QUAI + 0.05, 0, 0.95, metal, false)
 	# Grande roue (décor, au bout d'une jetée à l'est).
-	_bloc(40, QUAI, 70, QUAI + 50, -1.2, 0, _mat("beton"), false)
+	_bloc(40, QUAI, 70, QUAI + 50, -1.2, 0, _mat("beton"))
 	_roue = Node3D.new()
 	_roue.name = "GrandeRoue"
 	_roue.position = Vector3(55, 28, QUAI + 42)

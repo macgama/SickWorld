@@ -37,6 +37,13 @@ La rue du nord-est de la place mène au **Quartier des Artisans** : d'anciens en
 
 La rue de l'est de la place mène à une grande **esplanade** : un bassin, des **super-arbres** lumineux reliés par une passerelle, deux **terrasses plantées** (on y monte par les marches) et la **Cascade des Souvenirs**. Au fond, le **Musée de verre** se visite : la salle Préhistoire montre trois objets en vitrine et un mur de **fresques**, effacées tant que la Préhistoire est malade. Elles reviennent quand l'époque est réparée. Les autres salles sont fermées (« époque instable »).
 
+## Le Front de mer
+
+La rue du sud de la place descend jusqu'à la **promenade** au bord de la baie : platelage en bois, bancs face à la mer, guirlandes d'ampoules et un stand de takoyaki. Deux jetées partent du quai :
+
+- la jetée du **Terminal des ferries** (compagnie « Vigie Lines », en réalité une façade de la Vigie). On entre dans le terminal : guichets, tableau des départs (les « destinations » sont les époques) et baie vitrée sur la mer. Le ferry *Hikari Maru* est à quai, mais il ne part plus ;
+- la jetée de la **grande roue**, fermée pour maintenance.
+
 ## Le Marché de nuit et les missions secondaires
 
 La rue du nord-ouest de la place mène au **Marché de nuit** : trois ruelles étroites avec des stands de nourriture, des lanternes rouges et des enseignes empilées. Deux bâtiments se visitent :
@@ -54,6 +61,8 @@ Des habitants proposent des **missions secondaires** : un **« ! »** doré flot
 | Une louche sur mesure | Kofi, à l'atelier Fil & Fibre (Artisans) |
 | Les fresques effacées | La Dr Diallo, à l'accueil du Musée |
 | L'eau des jardins | M. Tan Wei, sur la terrasse nord des Jardins suspendus |
+| Les lanternes de la baie | Grand-mère Ume, sur la promenade du Front de mer |
+| Billet pour nulle part | Rina, au guichet du Terminal des ferries |
 
 Tous les textes des missions sont dans `game/data/hub_quetes.json`, et ceux des habitants dans `game/data/hub_pnj.json`.
 
