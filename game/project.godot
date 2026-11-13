@@ -1,5 +1,10 @@
-; Fichier de configuration du projet Godot SickWorld.
-; Ne pas modifier à la main : passer par Projet > Paramètres du projet dans Godot.
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
 
 config_version=5
 
@@ -17,11 +22,16 @@ Controles="*res://scripts/autoload/controles.gd"
 Donnees="*res://scripts/autoload/donnees.gd"
 Regles="*res://scripts/autoload/regles.gd"
 Reseau="*res://scripts/autoload/reseau.gd"
+Cartographe="*res://scripts/autoload/cartographe.gd"
 
 [display]
 
 window/size/viewport_width=1600
 window/size/viewport_height=900
+
+[dotnet]
+
+project/assembly_name="SickWorld"
 
 [physics]
 

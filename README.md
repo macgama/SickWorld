@@ -28,6 +28,7 @@ game/      Le projet Godot (ouvrir game/project.godot)
 - [Créer le personnage avec MakeHuman et Mixamo](docs/guides/personnage-makehuman-mixamo.md)
 - [Régler le combat sans coder](docs/guides/regler-le-combat.md)
 - [Jouer à plusieurs](docs/guides/jouer-a-plusieurs.md)
+- [La carte (mini-carte, brouillard, repères)](docs/guides/la-carte.md)
 
 ## Tests automatiques
 

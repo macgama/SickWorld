@@ -3,9 +3,10 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://ceiw12w5qj6kk"
-path="res://.godot/imported/immobile_2.png-b66e102f4b9eab454eda78c3db86687a.ctex"
+path.s3tc="res://.godot/imported/immobile_2.png-b66e102f4b9eab454eda78c3db86687a.s3tc.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
 }
 generator_parameters={
 "md5": "d8e0ef59826b3dbe48db6084c36c65c8"
@@ -14,11 +15,11 @@ generator_parameters={
 [deps]
 
 source_file="res://assets/personnages/homme/immobile_2.png"
-dest_files=["res://.godot/imported/immobile_2.png-b66e102f4b9eab454eda78c3db86687a.ctex"]
+dest_files=["res://.godot/imported/immobile_2.png-b66e102f4b9eab454eda78c3db86687a.s3tc.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0
@@ -40,4 +41,4 @@ process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
-detect_3d/compress_to=1
+detect_3d/compress_to=0

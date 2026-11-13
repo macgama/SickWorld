@@ -6,6 +6,8 @@
 [ext_resource type="Script" path="res://scripts/monde/camp_de_loups.gd" id="5_camp"]
 [ext_resource type="Script" path="res://scripts/monde/partie.gd" id="6_partie"]
 
+[ext_resource type="Script" path="res://scripts/carte/zone_carte.gd" id="20_zone_carte"]
+[ext_resource type="Script" path="res://scripts/carte/marqueur_carte.gd" id="21_marqueur_carte"]
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ciel"]
 sky_top_color = Color(0.32, 0.5, 0.78, 1)
 sky_horizon_color = Color(0.72, 0.78, 0.84, 1)
@@ -88,3 +90,40 @@ nombre = 4
 [node name="CampSud" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 5, -42)
 script = ExtResource("5_camp")
+
+[node name="ZoneCarte" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 20, 0)
+script = ExtResource("20_zone_carte")
+identifiant = "colline_de_test"
+nom_affiche = "Colline de test"
+taille = Vector3(200, 60, 200)
+
+[node name="MarqueurCarte" type="Node3D" parent="CampNord"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+script = ExtResource("21_marqueur_carte")
+type = 6
+libelle = "Loups"
+
+[node name="MarqueurCarte" type="Node3D" parent="CampOuest"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+script = ExtResource("21_marqueur_carte")
+type = 6
+libelle = "Loups"
+
+[node name="MarqueurCarte" type="Node3D" parent="CampEst"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+script = ExtResource("21_marqueur_carte")
+type = 6
+libelle = "Loups"
+
+[node name="MarqueurCarte" type="Node3D" parent="CampSommet"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+script = ExtResource("21_marqueur_carte")
+type = 6
+libelle = "Loups"
+
+[node name="MarqueurCarte" type="Node3D" parent="CampSud"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+script = ExtResource("21_marqueur_carte")
+type = 6
+libelle = "Loups"
