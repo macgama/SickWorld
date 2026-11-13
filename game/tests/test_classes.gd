@@ -175,8 +175,13 @@ func _tester_traqueur() -> void:
 	_verifier(cj.elan == cj.elan_max, "la Concentration commence pleine")
 
 	var loup = scene.get_node("Partie/Loups/CampOuest_Loup1")
-	joueur.placer(loup.global_position + Vector3(0, 0.5, 24), 0.0)
-	await _attendre(5)
+	# On cherche un endroit à 24 m d'où l'on voit le loup (le décor peut cacher la vue).
+	for angle in [0.0, PI / 2, PI, -PI / 2, PI / 4, -PI / 4, 3 * PI / 4, -3 * PI / 4]:
+		var ecart := Vector3(sin(angle), 0, cos(angle)) * 24.0
+		joueur.placer(loup.global_position + ecart + Vector3(0, 0.5, 0), angle)
+		await _attendre(5)
+		if _r().ligne_de_vue(joueur.get_node("Combat"), loup.combat):
+			break
 	_verifier(await _utiliser(cj, 3), "Piège à collet posé à ses pieds")
 	await _attendre(2)
 	_verifier(get_nodes_in_group("pieges").size() == 1, "le piège est au sol")
