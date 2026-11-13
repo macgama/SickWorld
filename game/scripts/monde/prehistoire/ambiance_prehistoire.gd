@@ -15,13 +15,23 @@ const SHADER_POST := preload("res://shaders/post_traitement.gdshader")
 const CLIMATS := {
 	"cote_gelee": {
 		"soleil": Vector2(-62.0, 13.0),
-		"couleur_soleil": Color(1.0, 0.8, 0.58),
+		"couleur_soleil": Color(1.0, 0.87, 0.72),
 		"energie_soleil": 2.4,
 		"couverture": 0.55,
 		"brume": Color(0.56, 0.66, 0.8),
-		"densite_brume": 0.0018,
+		"densite_brume": 0.0014,
 		"brume_volume": 0.0035,
 		"ambiance": 0.55,
+	},
+	"foret": {
+		"soleil": Vector2(-100.0, 16.0),
+		"couleur_soleil": Color(1.0, 0.85, 0.68),
+		"energie_soleil": 2.5,
+		"couverture": 0.45,
+		"brume": Color(0.6, 0.68, 0.78),
+		"densite_brume": 0.0025,
+		"brume_volume": 0.006,
+		"ambiance": 0.6,
 	},
 	"steppe": {
 		"soleil": Vector2(-125.0, 21.0),
@@ -96,7 +106,7 @@ static func appliquer(zone: Node, climat := "cote_gelee") -> void:
 	env.fog_mode = Environment.FOG_MODE_EXPONENTIAL
 	env.fog_light_color = r["brume"]
 	env.fog_light_energy = 1.0
-	env.fog_sun_scatter = 0.22
+	env.fog_sun_scatter = 0.12
 	env.fog_density = r["densite_brume"]
 	env.fog_aerial_perspective = 0.55
 	env.fog_sky_affect = 0.35
