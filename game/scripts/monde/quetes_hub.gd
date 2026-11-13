@@ -132,17 +132,15 @@ func _apres_changement() -> void:
 
 
 func _sur_dialogue_termine(id_pnj: String) -> void:
+	# Une étape en cours passe avant une nouvelle mission (même ordre que les marques).
 	for q in quetes:
-		var id: String = q["id"]
-		match etat(id):
-			"disponible":
-				if q.get("donneur", "") == id_pnj:
-					accepter(id)
-					return
-			"active":
-				if etape_de(id).get("parler", "") == id_pnj:
-					_avancer(id)
-					return
+		if etat(q["id"]) == "active" and etape_de(q["id"]).get("parler", "") == id_pnj:
+			_avancer(q["id"])
+			return
+	for q in quetes:
+		if etat(q["id"]) == "disponible" and q.get("donneur", "") == id_pnj:
+			accepter(q["id"])
+			return
 
 
 ## Le joueur utilise l'objet numéro n de l'étape en cours.
@@ -223,19 +221,28 @@ func _trouver_pnj(id: String) -> Pnj:
 
 ## Répliques et marques « ! » / « ? » au-dessus des personnages concernés.
 func _mettre_a_jour_pnj() -> void:
-	var voulu := {} # id pnj -> [marque, répliques]
+	# id pnj -> [marque, répliques, priorité] : « ? » (étape en cours) passe avant
+	# « ! » (nouvelle mission), qui passe avant les remerciements d'après mission.
+	var voulu := {}
 	for q in quetes:
 		var id: String = q["id"]
+		var candidat := []
+		var pnj_id := ""
 		match etat(id):
 			"disponible":
-				voulu[q["donneur"]] = ["!", q.get("proposition", [])]
+				pnj_id = q["donneur"]
+				candidat = ["!", q.get("proposition", []), 2]
 			"active":
 				var e := etape_de(id)
 				if e.has("parler"):
-					voulu[e["parler"]] = ["?", e.get("repliques", [])]
+					pnj_id = e["parler"]
+					candidat = ["?", e.get("repliques", []), 3]
 			"terminee":
-				if not voulu.has(q["donneur"]) and q.has("apres"):
-					voulu[q["donneur"]] = ["", q["apres"]]
+				if q.has("apres"):
+					pnj_id = q["donneur"]
+					candidat = ["", q["apres"], 1]
+		if pnj_id != "" and (not voulu.has(pnj_id) or voulu[pnj_id][2] < candidat[2]):
+			voulu[pnj_id] = candidat
 	for pnj_id in voulu.keys():
 		var pnj := _trouver_pnj(pnj_id)
 		if pnj == null:
@@ -361,6 +368,110 @@ func _creer_objet(type: String, p: Array) -> Node3D:
 			lumiere.omni_range = 3.0
 			lumiere.position.y = 0.6
 			racine.add_child(lumiere)
+		"ferraille":
+			# Morceau de métal rouillé qui luit d'un éclat violet (touché par une fracture).
+			var morceau := MeshInstance3D.new()
+			var b := BoxMesh.new()
+			b.size = Vector3(0.5, 0.18, 0.3)
+			morceau.mesh = b
+			var m := StandardMaterial3D.new()
+			m.albedo_color = Color(0.35, 0.2, 0.12)
+			m.metallic = 0.7
+			m.roughness = 0.6
+			m.emission_enabled = true
+			m.emission = Color(0.6, 0.3, 1.0)
+			m.emission_energy_multiplier = 0.6
+			morceau.material_override = m
+			morceau.position.y = 0.1
+			morceau.rotation = Vector3(0.2, 0.7, 0.1)
+			racine.add_child(morceau)
+			var halo := OmniLight3D.new()
+			halo.light_color = Color(0.6, 0.35, 1.0)
+			halo.light_energy = 0.8
+			halo.omni_range = 2.5
+			halo.position.y = 0.5
+			racine.add_child(halo)
+		"photo":
+			# Vieux tirage photo posé sur un petit pupitre, éclairé d'une lumière chaude.
+			var pied := MeshInstance3D.new()
+			var c := CylinderMesh.new()
+			c.top_radius = 0.04
+			c.bottom_radius = 0.12
+			c.height = 0.9
+			pied.mesh = c
+			var mp := StandardMaterial3D.new()
+			mp.albedo_color = Color(0.2, 0.18, 0.16)
+			mp.metallic = 0.5
+			pied.material_override = mp
+			pied.position.y = 0.45
+			racine.add_child(pied)
+			var tirage := MeshInstance3D.new()
+			var b := BoxMesh.new()
+			b.size = Vector3(0.36, 0.26, 0.02)
+			tirage.mesh = b
+			var m := StandardMaterial3D.new()
+			m.albedo_color = Color(0.75, 0.6, 0.42)
+			m.emission_enabled = true
+			m.emission = Color(1.0, 0.85, 0.6)
+			m.emission_energy_multiplier = 0.3
+			tirage.material_override = m
+			tirage.position.y = 0.98
+			tirage.rotation.x = -0.6
+			racine.add_child(tirage)
+			var lumiere := OmniLight3D.new()
+			lumiere.light_color = Color(1.0, 0.85, 0.6)
+			lumiere.light_energy = 0.8
+			lumiere.omni_range = 2.5
+			lumiere.position.y = 1.4
+			racine.add_child(lumiere)
+		"vanne":
+			# Tuyau qui sort du sol et volant rouge à tourner.
+			var tuyau := MeshInstance3D.new()
+			var c := CylinderMesh.new()
+			c.top_radius = 0.08
+			c.bottom_radius = 0.08
+			c.height = 0.8
+			tuyau.mesh = c
+			var mt := StandardMaterial3D.new()
+			mt.albedo_color = Color(0.45, 0.47, 0.5)
+			mt.metallic = 0.8
+			mt.roughness = 0.4
+			tuyau.material_override = mt
+			tuyau.position.y = 0.4
+			racine.add_child(tuyau)
+			var volant := MeshInstance3D.new()
+			var t := TorusMesh.new()
+			t.inner_radius = 0.18
+			t.outer_radius = 0.24
+			volant.mesh = t
+			var mv := StandardMaterial3D.new()
+			mv.albedo_color = Color(0.8, 0.1, 0.08)
+			mv.emission_enabled = true
+			mv.emission = Color(1.0, 0.2, 0.1)
+			mv.emission_energy_multiplier = 0.4
+			volant.material_override = mv
+			volant.position.y = 0.85
+			volant.rotation.x = PI / 2
+			racine.add_child(volant)
+			var lumiere := OmniLight3D.new()
+			lumiere.light_color = Color(0.4, 0.8, 1.0)
+			lumiere.light_energy = 0.8
+			lumiere.omni_range = 2.5
+			lumiere.position.y = 0.8
+			racine.add_child(lumiere)
+		_:
+			# Type inconnu : une petite sphère lumineuse, pour qu'on le voie quand même.
+			var boule := MeshInstance3D.new()
+			var s := SphereMesh.new()
+			s.radius = 0.2
+			s.height = 0.4
+			boule.mesh = s
+			var m := StandardMaterial3D.new()
+			m.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+			m.albedo_color = OR
+			boule.material_override = m
+			boule.position.y = 0.5
+			racine.add_child(boule)
 	# Petite flèche dorée qui tourne au-dessus (visible à travers les murs).
 	var fleche := MeshInstance3D.new()
 	fleche.name = "Fleche"

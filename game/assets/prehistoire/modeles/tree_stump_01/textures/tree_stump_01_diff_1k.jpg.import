@@ -3,15 +3,11 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bd45v7xgc37ru"
-path="res://.godot/imported/tree_stump_01_diff_1k.jpg-dca1ea7771affe65c3016592efea3267.ctex"
-metadata={
-"vram_texture": false
-}
+valid=false
 
 [deps]
 
 source_file="res://assets/prehistoire/modeles/tree_stump_01/textures/tree_stump_01_diff_1k.jpg"
-dest_files=["res://.godot/imported/tree_stump_01_diff_1k.jpg-dca1ea7771affe65c3016592efea3267.ctex"]
 
 [params]
 

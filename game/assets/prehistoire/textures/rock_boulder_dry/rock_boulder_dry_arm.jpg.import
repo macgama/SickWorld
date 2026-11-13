@@ -3,15 +3,11 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bpa5wom21ilrm"
-path="res://.godot/imported/rock_boulder_dry_arm.jpg-0aa7843bebe8aed1311e222657b25dc6.ctex"
-metadata={
-"vram_texture": false
-}
+valid=false
 
 [deps]
 
 source_file="res://assets/prehistoire/textures/rock_boulder_dry/rock_boulder_dry_arm.jpg"
-dest_files=["res://.godot/imported/rock_boulder_dry_arm.jpg-0aa7843bebe8aed1311e222657b25dc6.ctex"]
 
 [params]
 
