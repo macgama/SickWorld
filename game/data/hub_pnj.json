@@ -356,7 +356,7 @@
 		"role": "Concierge de la Résidence Sakura",
 		"modele": "femme",
 		"repliques": [
-			"Bonsoir. Les appartements des agents sont presque prêts. Encore un peu de patience.",
+			"Bonsoir. Les agents de la Vigie logent au douzième étage. Il paraît que la vue sur la baie est la plus belle de la ville.",
 			"Je connais chaque habitant de cette tour. Enfin... je croyais. Certaines boîtes aux lettres portent des noms que je n'ai jamais lus."
 		]
 	},
@@ -366,7 +366,7 @@
 		"modele": "homme",
 		"repliques": [
 			"Bienvenue à la Maison des guildes. Ici, les agents se regroupent pour voyager ensemble.",
-			"Le registre ouvrira bientôt. Choisis bien tes compagnons : on ne traverse pas les époques seul bien longtemps."
+			"Choisis bien tes compagnons : on ne traverse pas les époques seul bien longtemps."
 		]
 	},
 	"membre_guilde": {

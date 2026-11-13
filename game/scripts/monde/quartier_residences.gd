@@ -4,7 +4,8 @@ extends RefCounted
 ## Un quartier d'habitation calme autour d'une petite place plantée : un
 ## cerisier, des balançoires, des distributeurs automatiques. Trois lieux se
 ## visitent : le konbini Hoshi (ouvert 24 h/24), le hall de la Résidence Sakura
-## (les appartements des joueurs, bientôt) et la Maison des guildes.
+## (avec l'ascenseur vers l'appartement 1204 du joueur) et la Maison des guildes.
+## L'appartement est au 12e étage de la tour Sakura (voir appartement.gd).
 ##
 ## Plan (le nord est vers -Z) :
 ##   - Rue des Résidences : z de -6 à 6, de x = -30 à -70 ;
@@ -12,6 +13,7 @@ extends RefCounted
 ## Les volumes des immeubles sont dans HikariBay.IMMEUBLES.
 
 const Marche := preload("res://scripts/monde/quartier_marche.gd")
+const Musee := preload("res://scripts/monde/quartier_musee.gd")
 
 const KONBINI := Rect2(-100, -29.4, 16, 11.4)
 const HALL := Rect2(-98, 17, 18, 12)
@@ -19,6 +21,22 @@ const GUILDES := Rect2(-128, -14, 18, 28)
 const HAUTEUR_KONBINI := 4.0
 const HAUTEUR_HALL := 4.5
 const HAUTEUR_GUILDES := 9.0
+
+## Appartement 1204, au 12e étage de la tour Sakura (au-dessus du hall).
+const APPART := Rect2(-96, 19, 14, 9)
+const SOL_APPART := 40.0
+const HAUTEUR_APPART := 3.0
+## Ascenseurs : bouton dans le hall et dans l'appartement, et où l'on arrive.
+const ASCENSEUR_HALL := Vector3(-92.0, 0.0, 28.4)
+const ARRIVEE_HALL := Vector3(-92.0, 0.1, 26.4)
+const ASCENSEUR_APPART := Vector3(-87.0, SOL_APPART, 27.6)
+const ARRIVEE_APPART := Vector3(-87.0, SOL_APPART + 0.1, 25.6)
+## Étagère des souvenirs (mur ouest de l'appartement) : 4 rangées de 4.
+const SOUVENIRS_COLONNES := 4
+const SOUVENIRS_RANGEES := 4
+## Bannière de la guilde du joueur : dans la Maison des guildes et chez lui.
+const BANNIERE_MAISON := Vector3(-111.6, 5.5, -13.88)
+const BANNIERE_APPART := Vector3(-82.04, SOL_APPART + 1.95, 25.6)
 
 const CHAUD := Color(1.0, 0.82, 0.6)
 const ROSE := Color(1.0, 0.6, 0.78)
@@ -31,10 +49,24 @@ static func construire(hub: HikariBay) -> void:
 	_construire_entree(hub)
 	_construire_konbini(hub)
 	_construire_hall(hub)
+	_construire_appartement(hub)
 	_construire_guildes(hub)
 	_construire_parc(hub)
 	_construire_distributeurs(hub)
 	_construire_habitants(hub)
+	# Ascenseurs, souvenirs et fondation de guilde (seulement en jeu).
+	if not Engine.is_editor_hint():
+		var appart := Node3D.new()
+		appart.name = "Appartement"
+		appart.set_script(load("res://scripts/monde/appartement.gd"))
+		hub._contenu.add_child(appart)
+
+
+## Où poser le souvenir numéro i sur l'étagère (rangée du haut d'abord).
+static func emplacement_souvenir(i: int) -> Vector3:
+	var colonne := i % SOUVENIRS_COLONNES
+	var rangee := int(i / SOUVENIRS_COLONNES)
+	return Vector3(APPART.position.x + 0.22, SOL_APPART + 2.32 - rangee * 0.6, APPART.position.y + 1.8 + colonne * 1.6)
 
 
 # --- Entrée du quartier --------------------------------------------------------------
@@ -115,8 +147,9 @@ static func _construire_hall(hub: HikariBay) -> void:
 	hub._texte("桜レジデンス · RÉSIDENCE SAKURA", Vector3(-89.0, 3.5, r.position.y - 0.36), ROSE, 48, PI, 2.5)
 	hub._lumiere(Vector3(-89.0, 3.0, r.position.y - 1.5), CHAUD, 1.8, 9.0)
 	# La tour de la résidence, au-dessus du hall.
+	# (sans collision : l'appartement 1204 est à l'intérieur)
 	hub._bloc(r.position.x - 0.3, r.position.y - 0.3, r.end.x + 0.3, r.end.y + 0.3,
-			HAUTEUR_HALL + 0.3, 46.0, hub._facade(62, 0.45))
+			HAUTEUR_HALL + 0.3, 46.0, hub._facade(62, 0.45), false)
 	# Auvent au-dessus de la porte.
 	hub._bloc(-92.5, r.position.y - 2.0, -85.5, r.position.y, 3.0, 3.15, hub._mat("metal"), false)
 	# Boîtes aux lettres (mur ouest).
@@ -125,22 +158,132 @@ static func _construire_hall(hub: HikariBay) -> void:
 		for col in 6:
 			hub._boite(Vector3(0.12, 0.35, 0.5), Vector3(r.position.x + 0.07, 0.8 + rang * 0.4, 19.0 + col * 0.55), laiton, false)
 	hub._texte("郵便受け · Courrier", Vector3(r.position.x + 0.15, 2.6, 20.4), CHAUD, 24, PI / 2, 1.5)
-	# Ascenseurs (mur sud) : bientôt, ton appartement.
+	# Ascenseurs (mur sud) : celui de gauche monte à l'appartement 1204.
 	var acier := hub._mat_pbr("metal_plate", 1.0, "metal", Color(0.8, 0.82, 0.85))
 	for x in [-92.0, -86.0]:
 		hub._bloc(x - 1.0, r.end.y - 0.1, x + 1.0, r.end.y, 0, 2.4, acier, false)
 		hub._bloc(x - 0.02, r.end.y - 0.12, x + 0.02, r.end.y - 0.1, 0, 2.4, hub._mat("metal"), false)
 		hub._boite(Vector3(0.5, 0.15, 0.05), Vector3(x, 2.65, r.end.y - 0.08), hub._neon(Color(1.0, 0.5, 0.2), 2.0), false)
-	hub._texte("Ascenseurs · エレベーター\nTon appartement : bientôt", Vector3(-89.0, 3.3, r.end.y - 0.12), BLANC, 26, PI, 1.5)
+	hub._texte("Ascenseurs · エレベーター\nAppartements · 12e étage", Vector3(-89.0, 3.3, r.end.y - 0.12), BLANC, 26, PI, 1.5)
 	# Comptoir de la concierge (mur est) et banquette.
 	var bois := Marche._bois(hub)
 	hub._bloc(-82.5, 19.0, -81.8, 24.0, 0, 1.1, bois)
-	hub._bloc(-95.5, 26.6, -92.5, 27.4, 0.4, 0.5, bois)
+	hub._bloc(-97.6, 26.4, -95.0, 27.2, 0.4, 0.5, bois)
 	var plante := hub._modele("potted_plant_01", Vector3(-96.8, 0, 18.2), 0.0, 2.2)
 	if plante == null:
 		hub._cylindre(0.4, 0.3, 1.3, Vector3(-96.8, 0.65, 18.2), hub._mat("feuillage"), false)
 	for x in [-94.0, -85.0]:
 		hub._lumiere(Vector3(x, HAUTEUR_HALL - 0.7, 23.0), CHAUD, 1.8, 9.0)
+
+
+# --- Appartement 1204 (12e étage de la tour Sakura) ------------------------------------------
+
+static func _construire_appartement(hub: HikariBay) -> void:
+	var r := APPART
+	var s := SOL_APPART
+	var h := HAUTEUR_APPART
+	var x1 := r.position.x
+	var x2 := r.end.x
+	var z1 := r.position.y
+	var z2 := r.end.y
+	var mur := StandardMaterial3D.new()
+	mur.albedo_color = Color(0.86, 0.82, 0.76)
+	mur.roughness = 0.92
+	var parquet := hub._mat_pbr("painted_metal_shutter", 1.0, "bois", Color(0.72, 0.52, 0.34))
+	var bois := Marche._bois(hub)
+	var blanc := hub._mat("blanc")
+	var metal := hub._mat("metal")
+	# Sol, plafond et murs (le mur nord est une grande baie vitrée sur la place).
+	hub._bloc(x1 - 0.3, z1 - 0.3, x2 + 0.3, z2 + 0.3, s - 0.3, s, parquet)
+	hub._bloc(x1 - 0.3, z1 - 0.3, x2 + 0.3, z2 + 0.3, s + h, s + h + 0.2, mur, false)
+	hub._bloc(x1 - 0.3, z1 - 0.3, x1, z2 + 0.3, s, s + h, mur)
+	hub._bloc(x2, z1 - 0.3, x2 + 0.3, z2 + 0.3, s, s + h, mur)
+	hub._bloc(x1, z2, x2, z2 + 0.3, s, s + h, mur)
+	hub._bloc(x1, z1 - 0.3, x2, z1, s, s + 0.5, mur)
+	hub._bloc(x1, z1 - 0.3, x2, z1, s + 2.7, s + h, mur, false)
+	hub._bloc(x1, z1 - 0.15, x2, z1 - 0.12, s + 0.5, s + 2.7, Musee._verre(hub), false)
+	hub._collision_boite(Vector3(r.size.x, h, 0.3), Transform3D(Basis(), Vector3(r.get_center().x, s + h * 0.5, z1 - 0.15)))
+	for x in [x1 + 0.1, x1 + 3.5, x1 + 7.0, x1 + 10.5, x2 - 0.1]:
+		hub._bloc(x - 0.06, z1 - 0.2, x + 0.06, z1 - 0.06, s + 0.5, s + 2.7, metal, false)
+	hub._bloc(x1, z1 - 0.2, x2, z1 + 0.15, s + 0.48, s + 0.55, blanc, false)
+	# Lumière chaude du plafond et lampadaire près du canapé.
+	for x in [x1 + 4.0, x2 - 4.0]:
+		hub._cylindre(0.35, 0.35, 0.05, Vector3(x, s + h - 0.03, r.get_center().y), hub._neon(CHAUD, 2.0), false)
+		hub._lumiere(Vector3(x, s + h - 0.4, r.get_center().y), CHAUD, 2.4, 11.0)
+	hub._lumiere(Vector3(-84.0, s + 2.2, 23.0), CHAUD, 1.4, 7.0)
+	hub._cylindre(0.03, 0.03, 1.6, Vector3(-92.8, s + 0.8, 26.4), metal, false)
+	hub._cylindre(0.12, 0.22, 0.3, Vector3(-92.8, s + 1.7, 26.4), Marche._papier(hub, CHAUD, 2.5), false)
+	hub._lumiere(Vector3(-92.8, s + 1.6, 26.0), CHAUD, 1.0, 5.0)
+	# Tapis, canapé tourné vers la baie, table basse.
+	var tapis := StandardMaterial3D.new()
+	tapis.albedo_color = Color(0.45, 0.2, 0.22)
+	tapis.roughness = 1.0
+	hub._bloc(-92.5, 21.4, -86.5, 25.0, s, s + 0.015, tapis, false)
+	var tissu := StandardMaterial3D.new()
+	tissu.albedo_color = Color(0.2, 0.27, 0.36)
+	tissu.roughness = 0.95
+	hub._bloc(-92.0, 25.0, -88.0, 26.0, s, s + 0.45, tissu)
+	hub._bloc(-92.0, 25.7, -88.0, 26.05, s + 0.45, s + 0.95, tissu, false)
+	for x in [-92.2, -87.8]:
+		hub._bloc(x - 0.2, 25.0, x + 0.2, 26.05, s, s + 0.65, tissu, false)
+	for k in 3:
+		hub._boite(Vector3(1.15, 0.12, 0.6), Vector3(-90.0 + (k - 1) * 1.25, s + 0.5, 25.35), tissu, false)
+	hub._bloc(-91.0, 22.6, -89.0, 23.6, s + 0.36, s + 0.42, bois)
+	for x in [-90.85, -89.15]:
+		for z in [22.75, 23.45]:
+			hub._bloc(x - 0.04, z - 0.04, x + 0.04, z + 0.04, s, s + 0.36, metal, false)
+	hub._cylindre(0.1, 0.08, 0.12, Vector3(-90.4, s + 0.48, 23.1), blanc, false)
+	# Lit (contre le mur est, près de la baie) et table de nuit.
+	hub._bloc(-84.8, 19.4, -82.0, 21.6, s, s + 0.35, bois)
+	hub._bloc(-84.7, 19.5, -82.1, 21.5, s + 0.35, s + 0.55, blanc, false)
+	var couette := StandardMaterial3D.new()
+	couette.albedo_color = Color(0.75, 0.62, 0.45)
+	couette.roughness = 1.0
+	hub._bloc(-84.75, 19.45, -83.0, 21.55, s + 0.55, s + 0.62, couette, false)
+	hub._boite(Vector3(0.45, 0.14, 0.8), Vector3(-82.45, s + 0.62, 20.0), blanc, false)
+	hub._boite(Vector3(0.45, 0.14, 0.8), Vector3(-82.45, s + 0.62, 21.0), blanc, false)
+	hub._bloc(-82.15, 19.4, -82.0, 21.6, s, s + 1.1, bois, false)
+	hub._bloc(-82.6, 21.8, -82.0, 22.4, s, s + 0.5, bois)
+	hub._cylindre(0.08, 0.12, 0.25, Vector3(-82.3, s + 0.63, 22.1), Marche._papier(hub, CHAUD, 2.0), false)
+	hub._lumiere(Vector3(-82.5, s + 0.9, 22.1), CHAUD, 0.6, 4.0)
+	# Bureau (mur est) avec un écran allumé, et sa chaise.
+	hub._bloc(-82.9, 24.4, -82.0, 26.8, s + 0.72, s + 0.77, bois)
+	for z in [24.5, 26.7]:
+		hub._bloc(-82.85, z - 0.05, -82.05, z + 0.05, s, s + 0.72, metal, false)
+	hub._collision_boite(Vector3(0.9, 0.77, 2.4), Transform3D(Basis(), Vector3(-82.45, s + 0.385, 25.6)))
+	var ecran := hub._boite(Vector3(0.04, 0.42, 0.75), Vector3(-82.25, s + 1.02, 25.6), hub._neon(Color(0.4, 0.75, 1.0), 1.5), false)
+	ecran.name = "EcranAppartement"
+	hub._boite(Vector3(0.25, 0.02, 0.6), Vector3(-82.6, s + 0.78, 25.6), metal, false)
+	hub._boite(Vector3(0.5, 0.06, 0.5), Vector3(-83.4, s + 0.48, 25.6), tissu, false)
+	hub._cylindre(0.03, 0.03, 0.45, Vector3(-83.4, s + 0.225, 25.6), metal, false)
+	hub._boite(Vector3(0.06, 0.5, 0.5), Vector3(-83.65, s + 0.78, 25.6), tissu, false)
+	# Cuisine (mur sud, côté ouest) : plan de travail, évier, placards, frigo.
+	hub._bloc(-95.0, 27.35, -91.0, z2, s, s + 0.88, blanc)
+	hub._bloc(-95.0, 27.3, -91.0, z2, s + 0.88, s + 0.92, hub._mat_pbr("granite_tile", 1.0, "pierre", Color(0.25, 0.25, 0.27)), false)
+	hub._bloc(-93.6, 27.45, -92.6, 27.85, s + 0.86, s + 0.93, metal, false)
+	hub._bloc(-95.0, 27.6, -91.0, z2, s + 1.6, s + 2.3, blanc, false)
+	hub._bloc(-94.9, 27.55, -91.1, 27.6, s + 1.58, s + 1.6, hub._neon(CHAUD, 2.0), false)
+	hub._bloc(-96.0, 27.2, -95.1, z2, s, s + 2.0, metal)
+	hub._lumiere(Vector3(-93.0, s + 1.4, 27.4), CHAUD, 0.7, 4.0)
+	# Étagère des souvenirs (mur ouest) : appartement.gd y pose un objet par mission accomplie.
+	for k in SOUVENIRS_RANGEES:
+		var y := SOL_APPART + 2.3 - k * 0.6
+		hub._bloc(x1, z1 + 0.9, x1 + 0.42, z1 + 7.5, y - 0.04, y, bois, false)
+	for z in [z1 + 0.9, z1 + 7.46]:
+		hub._bloc(x1, z - 0.04, x1 + 0.42, z, s, s + 2.4, bois, false)
+	hub._collision_boite(Vector3(0.42, 2.4, 6.6), Transform3D(Basis(), Vector3(x1 + 0.21, s + 1.2, z1 + 4.2)))
+	hub._texte("Souvenirs de mission · 思い出", Vector3(x1 + 0.05, s + 2.78, z1 + 4.2), CHAUD, 26, PI / 2, 1.2)
+	hub._lumiere(Vector3(x1 + 1.2, s + 2.6, z1 + 4.2), Color(1.0, 0.9, 0.75), 1.0, 5.0)
+	# Porte de l'ascenseur et numéro de l'appartement.
+	var acier := hub._mat_pbr("metal_plate", 1.0, "metal", Color(0.8, 0.82, 0.85))
+	hub._bloc(-88.0, z2 - 0.1, -86.0, z2, s, s + 2.4, acier, false)
+	hub._bloc(-87.02, z2 - 0.12, -86.98, z2 - 0.1, s, s + 2.4, metal, false)
+	hub._boite(Vector3(0.5, 0.15, 0.05), Vector3(-87.0, s + 2.6, z2 - 0.08), hub._neon(Color(1.0, 0.5, 0.2), 2.0), false)
+	hub._texte("1204", Vector3(-85.3, s + 1.9, z2 - 0.05), CHAUD, 40, PI, 1.2)
+	# Plantes dans les coins.
+	for p in [Vector3(x1 + 0.6, s, z1 + 0.45), Vector3(x2 - 0.5, s, z2 - 0.5)]:
+		if hub._modele("potted_plant_01", p, 0.0, 2.0) == null:
+			hub._cylindre(0.35, 0.25, 1.2, p + Vector3(0, 0.6, 0), hub._mat("feuillage"), false)
 
 
 # --- Maison des guildes (on y entre) -------------------------------------------------------------
@@ -184,7 +327,7 @@ static func _construire_guildes(hub: HikariBay) -> void:
 		hub._boite(Vector3(0.45, 0.6, 0.02), Vector3(-117.5 + k * 0.6, 2.0 + (k % 2) * 0.3, r.position.y + 0.15), hub._mat("blanc"), false)
 	hub._texte("Recrutement · 募集中", Vector3(-116.0, 3.25, r.position.y + 0.16), CHAUD, 28, 0.0, 1.5)
 	hub._bloc(-127.0, -3.0, -126.0, 3.0, 0, 1.1, bois)
-	hub._texte("Registre des guildes\nFondation : bientôt", Vector3(-127.65, 3.6, 0.0), CHAUD, 26, PI / 2, 1.5)
+	hub._texte("Registre des guildes\nFondation : parle au registraire", Vector3(-127.65, 3.6, 0.0), CHAUD, 26, PI / 2, 1.5)
 	# Lustres.
 	for x in [-123.0, -115.0]:
 		hub._cylindre(0.8, 0.5, 0.25, Vector3(x, 6.5, 0), hub._mat("metal"), false)

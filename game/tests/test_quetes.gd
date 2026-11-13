@@ -11,6 +11,9 @@ var _scene: Node
 var _joueur
 var _quetes
 var _dialogue
+var _appart
+
+const Residences := preload("res://scripts/monde/quartier_residences.gd")
 
 
 func _verifier(condition: bool, message: String) -> void:
@@ -70,6 +73,13 @@ func _parler_a(id: String) -> int:
 		lues += 1
 		await _appuyer_f()
 	return lues
+
+
+## Se place devant un bouton d'ascenseur, appuie sur F et attend la fin du fondu.
+func _prendre_ascenseur(bouton: Vector3) -> void:
+	await _placer(bouton + Vector3(0, 0.3, -0.8), PI)
+	await _appuyer_f()
+	await _attendre(90)
 
 
 ## Ramasse ou utilise tous les objets de l'étape en cours.
@@ -191,6 +201,14 @@ func _lancer() -> void:
 	await _parler_a("guichetiere")
 	_verifier(_quetes.etat("billet") == "terminee", "mission « Billet pour nulle part » accomplie")
 
+	# Sans la clé, l'ascenseur de la Résidence Sakura refuse de monter.
+	_appart = get_first_node_in_group("appartement")
+	_verifier(_appart != null, "l'appartement 1204 existe")
+	await _prendre_ascenseur(Residences.ASCENSEUR_HALL)
+	_verifier(_dialogue.est_ouvert() and _joueur.global_position.y < 5.0, "sans clé, l'ascenseur reste au rez-de-chaussée")
+	while _dialogue.est_ouvert():
+		await _appuyer_f()
+
 	# 10. Courrier égaré : Mme Fujimoto -> 3 lettres -> Mme Fujimoto.
 	await _parler_a("concierge")
 	_verifier(_quetes.etat("courrier") == "active", "Madame Fujimoto confie sa mission")
@@ -198,6 +216,15 @@ func _lancer() -> void:
 	_verifier(faits == 3 and _quetes.etats["courrier"]["etape"] == 1, "on ramasse les trois lettres (%s)" % _quetes.etats["courrier"])
 	await _parler_a("concierge")
 	_verifier(_quetes.etat("courrier") == "terminee", "mission « Courrier égaré » accomplie")
+	# Avec la clé : l'ascenseur monte au 12e, les souvenirs sont sur l'étagère.
+	await _prendre_ascenseur(Residences.ASCENSEUR_HALL)
+	_verifier(absf(_joueur.global_position.y - Residences.SOL_APPART) < 1.0, "l'ascenseur monte à l'appartement 1204 (y = %.1f)" % _joueur.global_position.y)
+	var souvenirs: int = _appart.get_node("Souvenirs").get_child_count()
+	_verifier(souvenirs == 10, "10 souvenirs de mission sur l'étagère (%d)" % souvenirs)
+	await _attendre(60)
+	_verifier(absf(_joueur.global_position.y - Residences.SOL_APPART) < 1.0, "on tient debout dans l'appartement (y = %.1f)" % _joueur.global_position.y)
+	await _prendre_ascenseur(Residences.ASCENSEUR_APPART)
+	_verifier(_joueur.global_position.y < 1.0, "l'ascenseur redescend au hall")
 
 	# 11. Trois signatures : registraire -> concierge -> Kaito -> registraire.
 	await _parler_a("registraire")
@@ -208,6 +235,19 @@ func _lancer() -> void:
 	_verifier(_quetes.etats["guilde"]["etape"] == 2, "Kaito signe")
 	await _parler_a("registraire")
 	_verifier(_quetes.etat("guilde") == "terminee", "mission « Trois signatures » accomplie")
+	# Le registraire propose aussitôt de fonder sa guilde.
+	await _attendre(5)
+	_verifier(_appart.fondation_ouverte(), "la fenêtre « Fonder une guilde » s'ouvre")
+	_appart._champ_nom.text = "Ab"
+	_appart._valider()
+	_verifier(_appart.fondation_ouverte() and _appart._erreur.text != "", "un nom trop court est refusé : %s" % _appart._erreur.text)
+	_appart._champ_nom.text = "Les Gardiens de Kairo"
+	_appart._choisir_couleur(2)
+	_appart._valider()
+	_verifier(not _appart.fondation_ouverte() and _appart.guilde().get("nom", "") == "Les Gardiens de Kairo", "la guilde est fondée et sauvegardée (%s)" % _appart.guilde())
+	_verifier(_appart.get_node_or_null("BanniereGuildeMaison") != null and _appart.get_node_or_null("BanniereGuildeAppart") != null, "sa bannière est accrochée à la Maison des guildes et dans l'appartement")
+	await _parler_a("registraire")
+	_verifier(not _appart.fondation_ouverte(), "une seule guilde : le registraire ne repropose plus la fondation")
 
 	# 13. Lumière sur l'Arène : Kenta -> 3 fusibles -> Kenta.
 	await _parler_a("ouvrier_arene")
@@ -232,6 +272,8 @@ func _lancer() -> void:
 	_verifier(_quetes.etats["montre"]["etape"] == 4, "la visite passe par les portails, le Coffre et l'entraînement (%s)" % _quetes.etats["montre"])
 	await _parler_a("commandante")
 	_verifier(_quetes.etat("montre") == "terminee", "mission « L'objet impossible » accomplie")
+	souvenirs = _appart.get_node("Souvenirs").get_child_count()
+	_verifier(souvenirs == _quetes.quetes.size(), "toutes les missions ont leur souvenir (%d)" % souvenirs)
 
 	# Après coup : plus de marques, des répliques de remerciement, le journal.
 	var visibles := 0

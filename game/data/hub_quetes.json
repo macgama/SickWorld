@@ -487,13 +487,13 @@
 					"repliques": [
 						"Les trois ! Merci. Voyons les noms... Appartement 1204 : « Agent »... C'est toi ?",
 						"Il y a ton nom sur cette enveloppe. Pourtant, personne ne m'a prévenue de ton arrivée.",
-						"Tiens, voilà aussi la clé de ta boîte aux lettres. Ton appartement sera bientôt prêt."
+						"Tiens, voilà la clé de l'appartement 1204, au douzième étage. L'ascenseur est au fond du hall."
 					]
 				}
 			],
-			"recompense": "Clé de la boîte aux lettres 1204 (appartement bientôt)",
+			"recompense": "Clé de l'appartement 1204",
 			"apres": [
-				"Ta boîte aux lettres est la 1204. Je la garde à l'œil pour toi."
+				"Ton appartement te plaît ? L'ascenseur de gauche monte directement au douzième."
 			]
 		},
 		{
@@ -529,13 +529,13 @@
 					"repliques": [
 						"Deux témoins, et ta signature en dernier. Parfait.",
 						"Le registre est officiellement prêt. Le jour où tu voudras fonder ta guilde, c'est ici que ça se passera.",
-						"Garde ce double du formulaire : tu en seras le premier signataire."
+						"Et puisque tu es là... Veux-tu fonder ta propre guilde ? Remplis le registre, je l'enregistre tout de suite."
 					]
 				}
 			],
-			"recompense": "Formulaire de guilde (fondation bientôt)",
+			"recompense": "Formulaire de guilde signé",
 			"apres": [
-				"Le registre attend ta guilde. Réfléchis bien à son nom."
+				"Ta bannière a fière allure dans la grande salle. Longue vie à ta guilde !"
 			]
 		},
 		{
