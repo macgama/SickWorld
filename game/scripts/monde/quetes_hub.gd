@@ -391,6 +391,87 @@ func _creer_objet(type: String, p: Array) -> Node3D:
 			halo.omni_range = 2.5
 			halo.position.y = 0.5
 			racine.add_child(halo)
+		"photo":
+			# Vieux tirage photo posé sur un petit pupitre, éclairé d'une lumière chaude.
+			var pied := MeshInstance3D.new()
+			var c := CylinderMesh.new()
+			c.top_radius = 0.04
+			c.bottom_radius = 0.12
+			c.height = 0.9
+			pied.mesh = c
+			var mp := StandardMaterial3D.new()
+			mp.albedo_color = Color(0.2, 0.18, 0.16)
+			mp.metallic = 0.5
+			pied.material_override = mp
+			pied.position.y = 0.45
+			racine.add_child(pied)
+			var tirage := MeshInstance3D.new()
+			var b := BoxMesh.new()
+			b.size = Vector3(0.36, 0.26, 0.02)
+			tirage.mesh = b
+			var m := StandardMaterial3D.new()
+			m.albedo_color = Color(0.75, 0.6, 0.42)
+			m.emission_enabled = true
+			m.emission = Color(1.0, 0.85, 0.6)
+			m.emission_energy_multiplier = 0.3
+			tirage.material_override = m
+			tirage.position.y = 0.98
+			tirage.rotation.x = -0.6
+			racine.add_child(tirage)
+			var lumiere := OmniLight3D.new()
+			lumiere.light_color = Color(1.0, 0.85, 0.6)
+			lumiere.light_energy = 0.8
+			lumiere.omni_range = 2.5
+			lumiere.position.y = 1.4
+			racine.add_child(lumiere)
+		"vanne":
+			# Tuyau qui sort du sol et volant rouge à tourner.
+			var tuyau := MeshInstance3D.new()
+			var c := CylinderMesh.new()
+			c.top_radius = 0.08
+			c.bottom_radius = 0.08
+			c.height = 0.8
+			tuyau.mesh = c
+			var mt := StandardMaterial3D.new()
+			mt.albedo_color = Color(0.45, 0.47, 0.5)
+			mt.metallic = 0.8
+			mt.roughness = 0.4
+			tuyau.material_override = mt
+			tuyau.position.y = 0.4
+			racine.add_child(tuyau)
+			var volant := MeshInstance3D.new()
+			var t := TorusMesh.new()
+			t.inner_radius = 0.18
+			t.outer_radius = 0.24
+			volant.mesh = t
+			var mv := StandardMaterial3D.new()
+			mv.albedo_color = Color(0.8, 0.1, 0.08)
+			mv.emission_enabled = true
+			mv.emission = Color(1.0, 0.2, 0.1)
+			mv.emission_energy_multiplier = 0.4
+			volant.material_override = mv
+			volant.position.y = 0.85
+			volant.rotation.x = PI / 2
+			racine.add_child(volant)
+			var lumiere := OmniLight3D.new()
+			lumiere.light_color = Color(0.4, 0.8, 1.0)
+			lumiere.light_energy = 0.8
+			lumiere.omni_range = 2.5
+			lumiere.position.y = 0.8
+			racine.add_child(lumiere)
+		_:
+			# Type inconnu : une petite sphère lumineuse, pour qu'on le voie quand même.
+			var boule := MeshInstance3D.new()
+			var s := SphereMesh.new()
+			s.radius = 0.2
+			s.height = 0.4
+			boule.mesh = s
+			var m := StandardMaterial3D.new()
+			m.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+			m.albedo_color = OR
+			boule.material_override = m
+			boule.position.y = 0.5
+			racine.add_child(boule)
 	# Petite flèche dorée qui tourne au-dessus (visible à travers les murs).
 	var fleche := MeshInstance3D.new()
 	fleche.name = "Fleche"

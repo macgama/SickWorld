@@ -75,7 +75,9 @@ func _utiliser_objets(id: String) -> int:
 			continue
 		var objet: Node3D = _quetes._objets[cle]
 		var p := objet.global_position
-		await _placer(Vector3(p.x, 0.3, p.z) + objet.global_transform.basis.z * 1.0, 0.0)
+		# Les objets posés en hauteur (terrasses) : on se place à leur niveau.
+		var y := p.y + 0.3 if p.y < 1.5 else 0.3
+		await _placer(Vector3(p.x, y, p.z) + objet.global_transform.basis.z * 1.0, 0.0)
 		await _appuyer_f()
 		faits += 1
 	return faits
@@ -98,7 +100,7 @@ func _lancer() -> void:
 	_dialogue = get_first_node_in_group("dialogue")
 	print("Test des missions secondaires")
 	_verifier(_quetes.quetes.size() >= 3, "%d missions chargées" % _quetes.quetes.size())
-	for id in ["kuro", "kaminari", "ecran", "ferraille", "louche"]:
+	for id in ["kuro", "kaminari", "ecran", "ferraille", "louche", "fresques", "jardins"]:
 		var donneur: String = _quetes.quete(id)["donneur"]
 		_verifier(_trouver_pnj(donneur) != null, "le donneur de « %s » est en ville (%s)" % [id, donneur])
 		var marque = _quetes._marques.get(donneur)
@@ -146,6 +148,22 @@ func _lancer() -> void:
 	_verifier(_quetes.etats["louche"]["etape"] == 1, "le chef Goro reçoit la louche")
 	await _parler_a("kofi")
 	_verifier(_quetes.etat("louche") == "terminee", "mission « Une louche sur mesure » accomplie")
+
+	# 6. Les fresques effacées : Dr Diallo -> 3 photos -> Dr Diallo.
+	await _parler_a("conservatrice")
+	_verifier(_quetes.etat("fresques") == "active", "la Dr Diallo confie sa mission")
+	faits = await _utiliser_objets("fresques")
+	_verifier(faits == 3 and _quetes.etats["fresques"]["etape"] == 1, "on retrouve les trois photos des fresques (%d, %s)" % [faits, _quetes.etats["fresques"]])
+	await _parler_a("conservatrice")
+	_verifier(_quetes.etat("fresques") == "terminee", "mission « Les fresques effacées » accomplie")
+
+	# 7. L'eau des jardins : M. Tan -> 3 vannes -> M. Tan.
+	await _parler_a("jardinier")
+	_verifier(_quetes.etat("jardins") == "active", "M. Tan Wei confie sa mission")
+	faits = await _utiliser_objets("jardins")
+	_verifier(faits == 3 and _quetes.etats["jardins"]["etape"] == 1, "on rouvre les trois vannes")
+	await _parler_a("jardinier")
+	_verifier(_quetes.etat("jardins") == "terminee", "mission « L'eau des jardins » accomplie")
 
 	# Après coup : plus de marques, des répliques de remerciement, le journal.
 	var visibles := 0

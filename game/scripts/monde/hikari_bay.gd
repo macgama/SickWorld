@@ -20,6 +20,7 @@ const Immeubles := preload("res://scripts/monde/immeubles_hikari.gd")
 const Ambiance := preload("res://scripts/monde/ambiance_hikari.gd")
 const QuartierMarche := preload("res://scripts/monde/quartier_marche.gd")
 const QuartierArtisans := preload("res://scripts/monde/quartier_artisans.gd")
+const QuartierMusee := preload("res://scripts/monde/quartier_musee.gd")
 
 ## Quand c'est coché, la Préhistoire est réparée : la statue du Gardien est
 ## intacte. Sinon, elle est fissurée et entourée d'éclats de fracture.
@@ -178,6 +179,7 @@ func reconstruire() -> void:
 	QgVigie.construire(self)
 	QuartierMarche.construire(self)
 	QuartierArtisans.construire(self)
+	QuartierMusee.construire(self)
 	if not Engine.is_editor_hint():
 		for zone: Area3D in qg.get("portails", []):
 			zone.body_entered.connect(_sur_portail.bind(zone))
@@ -547,9 +549,14 @@ const IMMEUBLES := [
 	[48.3, -107.3, 51.7, -89, 9, 0.3],
 	[72.3, -107.3, 84, -89, 10, 0.35],
 	[84, -112, 100, -70, 16, 0.3],
+	# Esplanade du Musée et Jardins suspendus (voir quartier_musee.gd) : tours tout autour.
+	[70, -70, 140, -30, 30, 0.35],
+	[100, -100, 140, -70, 60, 0.3],
+	[130, -30, 150, 30, 44, 0.3],
+	[70, 30, 72, 62, 12, 0.3],
+	[100, 30, 140, 62, 26, 0.35],
 	# Fonds des rues (ferment la vue derrière les barrières).
 	[-96, -12, -70, 12, 48, 0.3],
-	[70, -12, 96, 12, 38, 0.3],
 	[72, 30, 100, 74, 30, 0.3],
 	[-100, 30, -72, 74, 34, 0.3],
 ]
@@ -677,6 +684,13 @@ func _mettre_a_jour_fracture() -> void:
 	_fracture.visible = not prehistoire_reparee
 	# Statue « malade » : penchée, comme sur le point de se briser.
 	_statue_intacte.rotation = Vector3.ZERO if prehistoire_reparee else Vector3(0.0, 0.0, 0.06)
+	# Au Musée, les fresques de la salle Préhistoire reviennent une fois l'époque réparée.
+	var fresques := _contenu.find_child("FresquesPrehistoire", false, false)
+	if fresques != null:
+		fresques.visible = prehistoire_reparee
+	var effacees := _contenu.find_child("FresquesEffacees", false, false)
+	if effacees != null:
+		effacees.visible = not prehistoire_reparee
 
 
 # --- Station Asahi (entrée du QG) ----------------------------------------
@@ -923,7 +937,6 @@ func _construire_barrieres() -> void:
 	# [centre, largeur, angle, panneau]
 	var barrieres := [
 		[Vector3(-FIN_RUES, 0, 0), RUE * 2, PI / 2, "工事中 · TRAVAUX · Résidences bientôt"],
-		[Vector3(FIN_RUES, 0, 0), RUE * 2, -PI / 2, "工事中 · TRAVAUX · Musée bientôt"],
 		[Vector3(-70, 0, (62 + QUAI) * 0.5), QUAI - 62, PI / 2, "TRAVAUX"],
 		[Vector3(70, 0, (62 + QUAI) * 0.5), QUAI - 62, -PI / 2, "工事中 · TRAVAUX · Arène bientôt"],
 	]
