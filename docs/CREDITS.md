@@ -16,6 +16,17 @@
   Right Strafe, Jump (Jump In Place), Falling Idle, Sprinting Forward Roll,
   Punching, Hit Reaction, Dying.
 
+## Hub Hikari Bay
+
+- **Textures et modèles 3D : Poly Haven** (https://polyhaven.com), licence **CC0**
+  (domaine public). Fichiers : `game/assets/hub/textures/` et `game/assets/hub/modeles/`
+  (un dossier par ressource, au nom de son identifiant Poly Haven).
+  Script de téléchargement : `tools/hub/telecharger_polyhaven.ps1`.
+- **Police des enseignes : Noto Sans JP** (Google / Adobe), licence **SIL Open Font
+  License 1.1** (texte dans `game/assets/polices/OFL.txt`). Version réduite aux
+  caractères utiles : `game/assets/polices/NotoSansJP-Bold-hub.ttf`
+  (script : `tools/hub/police_enseignes.py`).
+
 ## Moteur
 
 - **Godot Engine 4.7** (https://godotengine.org), licence MIT.

@@ -1,6 +1,6 @@
 # Plan du hub : Hikari Bay
 
-*Version 0.1 du 13 novembre 2026, à valider par Gaël. Complète la section 3 du [GDD](GDD.md).*
+*Version 0.2 du 13 novembre 2026, validée par Gaël. Complète la section 3 du [GDD](GDD.md).*
 
 ![Carte schématique de Hikari Bay](images/hub-carte.png)
 
@@ -108,9 +108,9 @@ Quand les joueurs du serveur réparent l'époque (taux de stabilité), les chien
 
 C'est le point d'arrivée des joueurs et l'endroit le plus visité : c'est lui qui doit donner le ton. Le QG et la salle des portails suivront (étape 6 du prototype : départ du hub vers la Préhistoire).
 
-## 8. Questions pour Gaël
+## 8. Décisions de Gaël (13 novembre 2026)
 
-1. **Où commence le joueur ?** Une courte introduction dans la ville (5 minutes : on est recruté, on descend au QG, on passe le portail) ou directement sur la Côte Gelée de la Préhistoire, avec la première visite du hub à la quête 5 comme prévu dans le GDD ?
-2. **Nuit permanente** pour le hub (proposé), ou un cycle jour/nuit ?
-3. **Les enseignes et écrans** : en japonais, en anglais, en français, ou un mélange (proposé : mélange, avec des textes amusants que tu pourrais écrire) ?
-4. **Ton implication dans les décors** : préfères-tu que je construise tout et que tu donnes ton avis sur des captures, ou veux-tu apprendre à placer toi-même des objets dans Godot (je te ferais un guide pas à pas) ?
+1. **Le joueur commence en ville** par une courte introduction d'environ 5 minutes : il est recruté, descend au QG de la Vigie par la station Asahi, puis passe le portail vers la Préhistoire.
+2. **Nuit permanente** pour commencer (un cycle jour/nuit pourra venir plus tard).
+3. **Enseignes en japonais, anglais et français mélangés.**
+4. **Claude construit les décors**, en style réaliste ; Gaël les juge en jouant.
