@@ -75,6 +75,8 @@ var _relief: FastNoiseLite
 var _details: FastNoiseLite
 var _contenu: Node3D
 var _materiaux := {}
+## Les feux de camp de la zone (leur lumière vacille).
+var _feux: Array[OmniLight3D] = []
 var _reconstruction_demandee := false
 var _neige: GPUParticles3D
 var _bruit_tex: NoiseTexture2D
@@ -102,6 +104,10 @@ func _process(delta: float) -> void:
 		var camera := get_viewport().get_camera_3d()
 		if camera != null:
 			_neige.global_position = camera.global_position + Vector3(0, 6, 0)
+	if _tempete != null and is_instance_valid(_tempete):
+		var camera_t := get_viewport().get_camera_3d()
+		if camera_t != null:
+			_tempete.global_position = camera_t.global_position + Vector3(-12, 4, -4)
 	_chaque_image(delta)
 
 
@@ -671,6 +677,57 @@ func _modele_hub(id: String, position_m: Vector3, angle_y: float, parent: Node3D
 	return instance
 
 
+## Tempête de neige (chapitre 6) : flocons serrés poussés par le vent, brouillard épais.
+var en_tempete := false
+var _tempete: GPUParticles3D
+var _brouillard_normal := -1.0
+
+
+func tempete(active: bool, _anime := true) -> void:
+	en_tempete = active
+	var environnement := get_node_or_null("Environnement") as WorldEnvironment
+	if environnement != null and environnement.environment != null:
+		var env := environnement.environment
+		if _brouillard_normal < 0.0:
+			_brouillard_normal = env.fog_density
+		env.fog_density = _brouillard_normal * (10.0 if active else 1.0)
+	if _tempete != null and is_instance_valid(_tempete):
+		_tempete.queue_free()
+		_tempete = null
+	if not active or DisplayServer.get_name() == "headless" or _contenu == null:
+		return
+	_tempete = GPUParticles3D.new()
+	_tempete.name = "Tempete"
+	_tempete.amount = 16000
+	_tempete.lifetime = 3.0
+	_tempete.preprocess = 3.0
+	_tempete.visibility_aabb = AABB(Vector3(-40, -30, -40), Vector3(80, 50, 80))
+	var processus := ParticleProcessMaterial.new()
+	processus.emission_shape = ParticleProcessMaterial.EMISSION_SHAPE_BOX
+	processus.emission_box_extents = Vector3(30, 8, 30)
+	processus.direction = Vector3(1, -0.35, 0.3)
+	processus.spread = 20.0
+	processus.initial_velocity_min = 9.0
+	processus.initial_velocity_max = 15.0
+	processus.gravity = Vector3(2.0, -2.0, 0.5)
+	processus.turbulence_enabled = true
+	processus.turbulence_noise_strength = 2.0
+	processus.scale_min = 0.6
+	processus.scale_max = 1.6
+	_tempete.process_material = processus
+	var flocon := QuadMesh.new()
+	flocon.size = Vector2(0.05, 0.05)
+	var m := StandardMaterial3D.new()
+	m.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	m.billboard_mode = BaseMaterial3D.BILLBOARD_PARTICLES
+	m.albedo_color = Color(0.95, 0.97, 1.0, 0.8)
+	m.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	flocon.material = m
+	_tempete.draw_pass_1 = flocon
+	_tempete.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	_contenu.add_child(_tempete)
+
+
 func _construire_neige_qui_tombe() -> void:
 	_neige = null
 	if not neige_qui_tombe or DisplayServer.get_name() == "headless":
@@ -756,3 +813,158 @@ func _distance_piste(p: Vector2) -> float:
 		var t := clampf((p - a).dot(b - a) / (b - a).length_squared(), 0.0, 1.0)
 		meilleure = minf(meilleure, p.distance_to(a + (b - a) * t))
 	return meilleure
+
+
+# --- Feux, peaux et peintures (partagés par les zones du clan) ---------------------------
+
+func _mat_peau() -> StandardMaterial3D:
+	var m := _mat_pbr("brown_leather", Color(0.6, 0.55, 0.5), 0.95, 1.2)
+	m.uv1_triplanar = false
+	m.uv1_scale = Vector3.ONE
+	m.roughness = 1.0
+	m.metallic_specular = 0.2
+	return m
+
+
+func _cylindre(haut: float, bas: float, hauteur_c: float, segments := 12) -> CylinderMesh:
+	var c := CylinderMesh.new()
+	c.top_radius = haut
+	c.bottom_radius = bas
+	c.height = hauteur_c
+	c.radial_segments = segments
+	return c
+
+
+func _feu(parent: Node3D, p: Vector2, taille: float) -> void:
+	var feu := Node3D.new()
+	feu.position = Vector3(p.x, hauteur(p.x, p.y), p.y)
+	parent.add_child(feu)
+	var pierre := _mat_pbr("rock_boulder_dry", Color(0.6, 0.58, 0.55), 0.9, 0.6)
+	for k in 9:
+		var a := k * TAU / 9.0
+		var caillou := MeshInstance3D.new()
+		var sphere := SphereMesh.new()
+		sphere.radius = 0.22 * taille
+		sphere.height = 0.3 * taille
+		caillou.mesh = sphere
+		caillou.material_override = pierre
+		caillou.position = Vector3(cos(a), 0.05, sin(a)) * 0.9 * taille
+		feu.add_child(caillou)
+	var braise := _lumineux(Color(1.0, 0.35, 0.08), 2.5)
+	for k in 4:
+		var buche := MeshInstance3D.new()
+		buche.mesh = _cylindre(0.07, 0.08, 1.1 * taille, 6)
+		buche.material_override = _mat_pbr("", Color(0.12, 0.09, 0.07), 0.95)
+		buche.position.y = 0.25 * taille
+		buche.rotation = Vector3(1.1, k * PI / 2, 0)
+		feu.add_child(buche)
+	var coeur := MeshInstance3D.new()
+	var sphere := SphereMesh.new()
+	sphere.radius = 0.35 * taille
+	sphere.height = 0.2 * taille
+	coeur.mesh = sphere
+	coeur.material_override = braise
+	coeur.position.y = 0.05
+	feu.add_child(coeur)
+	var lumiere := OmniLight3D.new()
+	lumiere.light_color = Color(1.0, 0.6, 0.3)
+	lumiere.light_energy = 3.2
+	lumiere.omni_range = 12.0 * taille
+	lumiere.shadow_enabled = true
+	lumiere.position.y = 1.0
+	lumiere.add_to_group("lumiere_secondaire")
+	feu.add_child(lumiere)
+	_feux.append(lumiere)
+	if DisplayServer.get_name() == "headless":
+		return
+	var flammes := GPUParticles3D.new()
+	flammes.amount = 60
+	flammes.lifetime = 0.9
+	var processus := ParticleProcessMaterial.new()
+	processus.emission_shape = ParticleProcessMaterial.EMISSION_SHAPE_SPHERE
+	processus.emission_sphere_radius = 0.3 * taille
+	processus.direction = Vector3.UP
+	processus.spread = 12.0
+	processus.initial_velocity_min = 0.8
+	processus.initial_velocity_max = 1.6
+	processus.gravity = Vector3(0, 0.6, 0)
+	processus.scale_min = 0.6
+	processus.scale_max = 1.2
+	var courbe := CurveTexture.new()
+	var c := Curve.new()
+	c.add_point(Vector2(0, 0.6))
+	c.add_point(Vector2(0.3, 1.0))
+	c.add_point(Vector2(1, 0))
+	courbe.curve = c
+	processus.scale_curve = courbe
+	var degrade := Gradient.new()
+	degrade.set_color(0, Color(1.0, 0.85, 0.4, 1))
+	degrade.set_color(1, Color(0.9, 0.2, 0.02, 0))
+	var couleurs := GradientTexture1D.new()
+	couleurs.gradient = degrade
+	processus.color_ramp = couleurs
+	flammes.process_material = processus
+	var quad := QuadMesh.new()
+	quad.size = Vector2(0.45, 0.6) * taille
+	var m := StandardMaterial3D.new()
+	m.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	m.billboard_mode = BaseMaterial3D.BILLBOARD_PARTICLES
+	m.vertex_color_use_as_albedo = true
+	m.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	m.blend_mode = BaseMaterial3D.BLEND_MODE_ADD
+	m.albedo_texture = _texture_flamme()
+	quad.material = m
+	flammes.draw_pass_1 = quad
+	flammes.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	flammes.position.y = 0.2
+	feu.add_child(flammes)
+
+
+func _texture_flamme() -> Texture2D:
+	if _materiaux.has("tex_flamme"):
+		return _materiaux["tex_flamme"]
+	var t := GradientTexture2D.new()
+	t.fill = GradientTexture2D.FILL_RADIAL
+	t.fill_from = Vector2(0.5, 0.6)
+	t.fill_to = Vector2(0.5, 0.0)
+	var g := Gradient.new()
+	g.set_color(0, Color(1, 1, 1, 1))
+	g.set_color(1, Color(1, 1, 1, 0))
+	t.gradient = g
+	_materiaux["tex_flamme"] = t
+	return t
+
+
+## Une main négative soufflée à l'ocre (comme dans les vraies grottes ornées).
+func _texture_main() -> Texture2D:
+	var taille_img := 256
+	var image := Image.create(taille_img, taille_img, false, Image.FORMAT_RGBA8)
+	image.fill(Color(1, 1, 1, 0))
+	var hasard := RandomNumberGenerator.new()
+	hasard.seed = 7
+	# La paume et les doigts (positions sur l'image, de 0 à 1).
+	var doigts := [[Vector2(0.30, 0.42), Vector2(0.18, 0.22)], [Vector2(0.42, 0.36), Vector2(0.38, 0.08)],
+			[Vector2(0.52, 0.35), Vector2(0.53, 0.05)], [Vector2(0.61, 0.38), Vector2(0.67, 0.1)],
+			[Vector2(0.66, 0.5), Vector2(0.84, 0.36)]]
+	var dans_main := func(u: Vector2) -> bool:
+		if Vector2((u.x - 0.48) / 0.2, (u.y - 0.58) / 0.22).length() < 1.0:
+			return true
+		if u.y > 0.62 and u.y < 0.95 and absf(u.x - 0.48) < 0.13:
+			return true
+		for d in doigts:
+			var a: Vector2 = d[0]
+			var b: Vector2 = d[1]
+			var t := clampf((u - a).dot(b - a) / (b - a).length_squared(), 0.0, 1.0)
+			if u.distance_to(a + (b - a) * t) < 0.045:
+				return true
+		return false
+	for j in taille_img:
+		for i in taille_img:
+			var u := Vector2(i, j) / taille_img
+			var centre := u.distance_to(Vector2(0.5, 0.5))
+			# Pigment soufflé autour de la main, qui s'estompe vers les bords.
+			var alpha := clampf(1.0 - centre * 2.1, 0.0, 1.0) * (0.75 + hasard.randf() * 0.25)
+			if dans_main.call(u):
+				alpha *= 0.05
+			image.set_pixel(i, j, Color(1, 1, 1, alpha))
+	return ImageTexture.create_from_image(image)

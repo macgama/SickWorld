@@ -167,7 +167,7 @@ func _lancer() -> void:
 	_verifier(repere != null and Vector2(repere.x, repere.z).distance_to(_scene.PORTAIL) < 1.0, "le repère montre le portail")
 	_quete.rentrer_au_hub()
 	await _attendre(5)
-	_verifier(_quete.etape == -1 and _quete.visite_qg_demandee, "le chapitre 5 se termine au QG")
+	_verifier(_id_etape() == "retour_qg" and _quete.visite_qg_demandee, "le chapitre 5 se termine au QG (%s)" % _id_etape())
 	_verifier(root.get_node("Reseau").get_meta("visite_guidee_qg", false), "le hub sait qu'il faut une visite guidée")
 
 	DirAccess.remove_absolute(ProjectSettings.globalize_path(FICHIER))

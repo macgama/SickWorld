@@ -1,5 +1,5 @@
 {
-	"_aide": "Quête principale de la Préhistoire : « Ce que les murs se rappellent ». Les étapes se jouent dans l'ordre. Types d'étape : pnj (parler), zone (aller à un endroit [x, z]), objet (utiliser avec F ; duree = secondes à rester immobile), tuer (type d'ennemi + nombre), recolter (ramasser plusieurs objets d'un même groupe), arriver (passer dans une autre zone). « ou » = zone où se passe l'étape (cote_gelee, steppe). « recit » = petit texte raconté à l'écran à la fin de l'étape. « portail » = l'étape se termine en passant le portail de la Vigie. « recompense » = objets donnés à la fin de l'étape. Pour changer un texte, modifie ce qui est entre guillemets. Garde les virgules.",
+	"_aide": "Quête principale de la Préhistoire : « Ce que les murs se rappellent ». Les étapes se jouent dans l'ordre. Types d'étape : pnj (parler), zone (aller à un endroit [x, z]), objet (utiliser avec F ; duree = secondes à rester immobile), tuer (type d'ennemi + nombre), recolter (ramasser plusieurs objets d'un même groupe), arriver (passer dans une autre zone). « ou » = zone où se passe l'étape (cote_gelee, steppe). « recit » = petit texte raconté à l'écran à la fin de l'étape. « portail » = l'étape se termine en passant le portail de la Vigie. « escorte » = personnages à accompagner le long de « chemin » (ils avancent si on reste près d'eux ; « vagues » = ennemis qui attaquent en route). Effets : « tempete » (vrai/faux), « masquer » (un personnage s'en va). « recompense » = objets donnés à la fin de l'étape. Pour changer un texte, modifie ce qui est entre guillemets. Garde les virgules.",
 	"zones": {
 		"cote_gelee": {
 			"scene": "res://scenes/monde/prehistoire/cote_gelee.tscn",
@@ -23,6 +23,14 @@
 				"titre": "La Forêt des Bouleaux",
 				"sous_titre": "Préhistoire · territoire des loups",
 				"texte": "Les troncs blancs se serrent les uns contre les autres. Les feuilles dorées tombent sans bruit. Dans la neige fraîche, des traces : un enfant, et un loup."
+			}
+		},
+		"falaises": {
+			"scene": "res://scenes/monde/prehistoire/falaises.tscn",
+			"arrivee": {
+				"titre": "Les Falaises Peintes",
+				"sous_titre": "Préhistoire · il y a environ 17 000 ans",
+				"texte": "La vallée s'ouvre sur une immense muraille de calcaire. Au pied de la falaise, sous un surplomb, la fumée d'anciens foyers a noirci la roche. C'est ici que le clan passe l'hiver."
 			}
 		}
 	},
@@ -190,6 +198,44 @@
 				"position": [
 					-40,
 					-104
+				],
+				"nombre": 2,
+				"rayon": 4
+			}
+		],
+		"falaises": [
+			{
+				"type": "loup",
+				"position": [
+					-92,
+					60
+				],
+				"nombre": 3,
+				"rayon": 5
+			},
+			{
+				"type": "loup",
+				"position": [
+					96,
+					70
+				],
+				"nombre": 3,
+				"rayon": 5
+			},
+			{
+				"type": "loup_fracture",
+				"position": [
+					70,
+					-20
+				],
+				"nombre": 2,
+				"rayon": 4
+			},
+			{
+				"type": "loup_fracture",
+				"position": [
+					-80,
+					-10
 				],
 				"nombre": 2,
 				"rayon": 4
@@ -708,12 +754,202 @@
 					"fin_chapitre": true
 				}
 			]
+		},
+		{
+			"numero": 6,
+			"titre": "L'hiver qui vient trop tôt",
+			"ou": "steppe",
+			"etapes": [
+				{
+					"id": "retour_qg",
+					"ou": "cote_gelee",
+					"objectif": "Retourne voir l'agent Lenoir, au portail",
+					"pnj": "lenoir",
+					"repliques": [
+						"Te revoilà. Au QG, ils ont gardé la montre. Personne ne sait qui est ce « E. »... mais ils cherchent.",
+						"Pendant ton absence, le ciel du nord a viré au noir. Une tempête. En plein été.",
+						"Il y a des lueurs violettes dans les nuages. Ce n'est pas la nature, c'est la faille.",
+						"Le clan est en danger. File au camp d'été, vite."
+					]
+				},
+				{
+					"id": "vers_le_camp_tempete",
+					"ou": "cote_gelee",
+					"objectif": "Rejoins le camp d'été du clan, dans la steppe",
+					"arriver": "steppe",
+					"apres": [
+						{
+							"tempete": true
+						}
+					]
+				},
+				{
+					"id": "aina_tempete",
+					"ou": "steppe",
+					"objectif": "Parle à Aïna, au camp d'été",
+					"pnj": "aina",
+					"repliques": [
+						"Venu-du-Brouillard ! Tu sens ce froid ? L'hiver arrive avec trois lunes d'avance.",
+						"Ce n'est pas un vrai hiver. Il y a la lumière violette dans les nuages. Elle mange le ciel.",
+						"Nous ne pouvons pas rester ici. Nous partons pour les Falaises Peintes, notre abri d'hiver, au nord.",
+						"Toran est parti devant avec les chasseurs pour ouvrir la passe. Il reste les anciens et les enfants.",
+						"Marche avec nous. Reste près de nous. Si les bêtes de la lumière viennent, protège-nous."
+					],
+					"apres": [
+						{
+							"masquer": "toran"
+						},
+						{
+							"masquer": "chasseur_ulm"
+						},
+						{
+							"masquer": "grise_camp"
+						}
+					]
+				},
+				{
+					"id": "escorte",
+					"ou": "steppe",
+					"objectif": "Escorte les familles jusqu'à la passe du nord (reste près d'elles)",
+					"escorte": [
+						"aina",
+						"vieille_mere",
+						"chasseuse_naya",
+						"keo"
+					],
+					"chemin": [
+						[
+							24,
+							-62
+						],
+						[
+							14,
+							-88
+						],
+						[
+							-6,
+							-112
+						],
+						[
+							-28,
+							-136
+						],
+						[
+							-42,
+							-152
+						],
+						[
+							-46,
+							-158
+						]
+					],
+					"vitesse": 2.4,
+					"vagues": [
+						{
+							"a": 0.3,
+							"annonce": "Des fracturés sortent de la tempête !",
+							"apparition": {
+								"type": "loup_fracture",
+								"position": [
+									22,
+									-104
+								],
+								"nombre": 3,
+								"rayon": 4,
+								"attaque": true
+							}
+						},
+						{
+							"a": 0.7,
+							"annonce": "Une meute attaque le groupe !",
+							"apparition": {
+								"type": "loup_fracture",
+								"position": [
+									-14,
+									-142
+								],
+								"nombre": 4,
+								"rayon": 5,
+								"attaque": true
+							}
+						}
+					],
+					"apres": [
+						{
+							"masquer": "aina"
+						},
+						{
+							"masquer": "vieille_mere"
+						},
+						{
+							"masquer": "chasseuse_naya"
+						},
+						{
+							"masquer": "keo"
+						}
+					]
+				},
+				{
+					"id": "vers_les_falaises",
+					"ou": "steppe",
+					"objectif": "Franchis la passe du nord, vers les Falaises Peintes",
+					"arriver": "falaises",
+					"apres": [
+						{
+							"montrer": "clan_abri"
+						},
+						{
+							"tempete": true
+						}
+					]
+				},
+				{
+					"id": "defendre_abri",
+					"ou": "falaises",
+					"objectif": "Défends l'abri : des fracturés ont suivi le clan dans la tempête",
+					"tuer": "loup_fracture_falaises",
+					"nombre": 5,
+					"lieu": [
+						0,
+						-30
+					],
+					"apparition": {
+						"type": "loup_fracture_falaises",
+						"position": [
+							0,
+							-22
+						],
+						"nombre": 5,
+						"rayon": 7,
+						"attaque": true
+					}
+				},
+				{
+					"id": "aina_abri",
+					"ou": "falaises",
+					"objectif": "Parle à Aïna, dans l'abri",
+					"pnj": "aina",
+					"repliques": [
+						"Tout le monde est là. Les anciens, les enfants, Kéo... Personne n'est resté dans la neige. Grâce à toi.",
+						"Écoute : le vent tombe. Les lueurs s'éloignent. La tempête avait faim de nous, elle n'a rien eu.",
+						"Regarde nos murs. Les bisons, les chevaux, les mains de nos ancêtres. Ils nous protègent depuis toujours.",
+						"Mais cette nuit, j'ai cru voir un des bisons... pâlir. Comme de la buée qui s'en va.",
+						"Repose-toi, Venu-du-Brouillard. Demain, nous regarderons les murs ensemble."
+					],
+					"apres": [
+						{
+							"tempete": false
+						}
+					],
+					"fin_chapitre": true
+				}
+			]
 		}
 	],
 	"fin_provisoire": {
 		"chapitre": "LA SUITE ARRIVE BIENTÔT",
-		"objectif": "Le chapitre 6, « L'hiver qui vient trop tôt », arrive dans une prochaine mise à jour",
-		"titre": "L'hiver qui vient trop tôt",
-		"message": "Au QG, on examine la montre. Là-bas, sur l'île, le ciel se charge d'un froid qui n'est pas de saison..."
+		"objectif": "Le chapitre 7, « Les murs vides », arrive dans une prochaine mise à jour",
+		"titre": "Les murs vides",
+		"message": "Dans l'abri, à la lueur du feu, une peinture s'efface lentement..."
 	}
 }

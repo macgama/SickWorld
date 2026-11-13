@@ -62,6 +62,9 @@ var zone_demandee := ""
 ## Vrai quand le joueur rapporte la montre au QG (fin du chapitre 5) : le hub
 ## lit Reseau.get_meta("visite_guidee_qg") pour lancer la visite guidée.
 var visite_qg_demandee := false
+## Escorte en cours : distance parcourue le long du chemin, vagues déjà lancées.
+var escorte_distance := 0.0
+var _vagues_faites: Array[int] = []
 ## L'étape « choix » telle qu'elle était avant de choisir (on peut se raviser si
 ## l'action est interrompue).
 var _avant_choix := {}
@@ -208,6 +211,8 @@ func _aller_a(numero: int) -> void:
 	etape = numero if numero >= 0 and numero < etapes.size() else -1
 	compteur = 0
 	_avant_choix = {}
+	escorte_distance = 0.0
+	_vagues_faites.clear()
 	var e := etape_actuelle()
 	_sauvegarder()
 	if etape >= 0:
@@ -306,6 +311,15 @@ func _appliquer_effet(effet: Dictionary, anime: bool) -> void:
 		for n in get_tree().get_nodes_in_group("decor_quete"):
 			if n.get_meta("identifiant", "") == effet["montrer"]:
 				n.visible = true
+	if effet.has("masquer"):
+		# Un personnage (ou un décor) quitte les lieux.
+		for n in get_tree().get_nodes_in_group("pnj") + get_tree().get_nodes_in_group("decor_quete"):
+			if n.get("identifiant") == effet["masquer"] or n.get_meta("identifiant", "") == effet["masquer"]:
+				n.visible = false
+	if effet.has("tempete"):
+		var ile := get_tree().get_first_node_in_group("ile")
+		if ile != null and ile.has_method("tempete"):
+			ile.tempete(bool(effet["tempete"]))
 
 
 ## Ajoute des objets dans les sacs du joueur (ex. [{"id": "lance_silex", "n": 1}]).
@@ -512,6 +526,8 @@ func _process(delta: float) -> void:
 	_temps += delta
 	_avancer_canalisation(delta)
 	var e := etape_actuelle()
+	if e.has("escorte") and _ici(e) and not _en_voyage:
+		_avancer_escorte(e, delta)
 	var cible = _position_cible(e)
 	var joueur := get_tree().get_first_node_in_group("joueur_local") as Node3D
 	_repere.visible = cible != null and not _en_voyage
@@ -562,6 +578,10 @@ func _position_cible(e: Dictionary):
 		if sortie == Vector2.INF:
 			return null
 		return Vector3(sortie.x, ile.hauteur(sortie.x, sortie.y), sortie.y)
+	if e.has("escorte"):
+		var tete := _trouver_pnj(e["escorte"][0]) as Node3D
+		if tete != null:
+			return tete.global_position
 	if e.get("portail", false) and ile != null and ile.get("PORTAIL") != null:
 		var portail: Vector2 = ile.get("PORTAIL")
 		return Vector3(portail.x, ile.hauteur(portail.x, portail.y), portail.y)
@@ -823,3 +843,74 @@ func _construire_repere() -> void:
 	_cone.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	_repere.add_child(_cone)
 	_repere.visible = false
+
+
+# --- Escorte ------------------------------------------------------------------------------
+
+## Fait avancer le groupe escorté le long de « chemin ». Il n'avance que si le
+## joueur est près de lui et qu'aucun ennemi ne le menace ; des « vagues »
+## d'ennemis l'attaquent à certains moments (a = part du chemin, de 0 à 1).
+func _avancer_escorte(e: Dictionary, delta: float) -> void:
+	var ile := get_tree().get_first_node_in_group("ile")
+	var joueur := get_tree().get_first_node_in_group("joueur_local") as Node3D
+	var chemin: Array = e.get("chemin", [])
+	if ile == null or joueur == null or chemin.size() < 2:
+		return
+	var points: Array[Vector2] = []
+	for c in chemin:
+		points.append(Vector2(c[0], c[1]))
+	var longueur := 0.0
+	for i in points.size() - 1:
+		longueur += points[i].distance_to(points[i + 1])
+	var ids: Array = e["escorte"]
+	var tete := _trouver_pnj(ids[0]) as Node3D
+	var proche := tete != null and joueur.global_position.distance_to(tete.global_position) < float(e.get("distance_joueur", 18.0))
+	var menace := false
+	for bete in get_tree().get_nodes_in_group("loups"):
+		if bete.has_meta("unique") and bete.combat.est_vivant() and tete != null \
+				and bete.global_position.distance_to(tete.global_position) < 35.0:
+			menace = true
+	var vitesse := 0.0
+	if proche and not menace:
+		vitesse = float(e.get("vitesse", 2.0))
+	escorte_distance = minf(escorte_distance + vitesse * delta, longueur)
+	# Chaque personnage suit, quelques mètres derrière le précédent.
+	for k in ids.size():
+		var pnj := _trouver_pnj(ids[k]) as Node3D
+		if pnj == null:
+			continue
+		var d := maxf(escorte_distance - k * 2.6, 0.0)
+		var p := _point_sur_chemin(points, d)
+		var devant := _point_sur_chemin(points, d + 0.5)
+		var cote := (devant - p).normalized().orthogonal() * (0.9 if k % 2 == 0 else -0.9) * (1.0 if k > 0 else 0.0)
+		p += cote
+		var avant := pnj.global_position
+		pnj.global_position = Vector3(p.x, ile.hauteur(p.x, p.y), p.y)
+		var pas := Vector2(pnj.global_position.x - avant.x, pnj.global_position.z - avant.z)
+		if pas.length() > 0.001:
+			pnj.rotation.y = atan2(-pas.x, -pas.y)
+		var apparence = pnj.get("_apparence")
+		if apparence != null and apparence.has_method("animer"):
+			var v := pas.length() / maxf(delta, 0.001)
+			apparence.animer(delta, Vector3(0, 0, -v), true, -1.0, Vector3.ZERO)
+	# Les vagues d'ennemis.
+	var vagues: Array = e.get("vagues", [])
+	for i in vagues.size():
+		if i in _vagues_faites or escorte_distance < float(vagues[i].get("a", 0.5)) * longueur:
+			continue
+		_vagues_faites.append(i)
+		if multiplayer.is_server():
+			_faire_apparaitre(vagues[i]["apparition"], true)
+		if vagues[i].has("annonce"):
+			_annoncer(vagues[i]["annonce"], "")
+	if escorte_distance >= longueur and not menace:
+		_suivante()
+
+
+func _point_sur_chemin(points: Array[Vector2], d: float) -> Vector2:
+	for i in points.size() - 1:
+		var l := points[i].distance_to(points[i + 1])
+		if d <= l:
+			return points[i].lerp(points[i + 1], d / l)
+		d -= l
+	return points[-1]

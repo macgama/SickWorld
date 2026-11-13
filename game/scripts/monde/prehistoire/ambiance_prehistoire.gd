@@ -33,6 +33,16 @@ const CLIMATS := {
 		"brume_volume": 0.006,
 		"ambiance": 0.6,
 	},
+	"falaises": {
+		"soleil": Vector2(-150.0, 14.0),
+		"couleur_soleil": Color(1.0, 0.82, 0.62),
+		"energie_soleil": 2.5,
+		"couverture": 0.5,
+		"brume": Color(0.6, 0.66, 0.76),
+		"densite_brume": 0.0018,
+		"brume_volume": 0.004,
+		"ambiance": 0.6,
+	},
 	"steppe": {
 		"soleil": Vector2(-125.0, 21.0),
 		"couleur_soleil": Color(1.0, 0.84, 0.62),

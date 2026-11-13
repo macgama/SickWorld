@@ -85,5 +85,19 @@
 		"distance_laisse": 45,
 		"entraide": 14,
 		"temps_reapparition": 0
+	},
+	"loup_fracture_falaises": {
+		"nom": "Loup fracturé de la tempête",
+		"niveau": 8,
+		"points_de_vie": 230,
+		"degats": [13, 19],
+		"intervalle_attaque": 1.7,
+		"portee_attaque": 2.2,
+		"vitesse_course": 6.8,
+		"vitesse_marche": 1.8,
+		"distance_detection": 13,
+		"distance_laisse": 45,
+		"entraide": 14,
+		"temps_reapparition": 0
 	}
 }
