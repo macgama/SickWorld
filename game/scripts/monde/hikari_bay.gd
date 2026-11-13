@@ -16,6 +16,8 @@ extends Node3D
 ## l'éditeur Godot était ouvert pendant la mise à jour du dossier.
 const QgVigie := preload("res://scripts/monde/qg_vigie.gd")
 const Pnj := preload("res://scripts/monde/pnj.gd")
+const Immeubles := preload("res://scripts/monde/immeubles_hikari.gd")
+const Ambiance := preload("res://scripts/monde/ambiance_hikari.gd")
 const QuartierMarche := preload("res://scripts/monde/quartier_marche.gd")
 const QuartierArtisans := preload("res://scripts/monde/quartier_artisans.gd")
 
@@ -30,8 +32,9 @@ const QuartierArtisans := preload("res://scripts/monde/quartier_artisans.gd")
 	set(valeur):
 		pluie = valeur
 		_demander_reconstruction()
-## Nombre de gouttes de pluie affichées en même temps.
-@export var gouttes := 8000:
+## Nombre de gouttes de pluie affichées en même temps (en qualité Ultra ;
+## réduit automatiquement aux niveaux de qualité inférieurs).
+@export var gouttes := 14000:
 	set(valeur):
 		gouttes = valeur
 		_demander_reconstruction()
@@ -43,6 +46,8 @@ const QuartierArtisans := preload("res://scripts/monde/quartier_artisans.gd")
 const SHADER_FACADE := preload("res://shaders/facade_nuit.gdshader")
 const SHADER_ECRAN := preload("res://shaders/ecran_geant.gdshader")
 const SHADER_SOL := preload("res://shaders/sol_mouille.gdshader")
+const SHADER_EAU := preload("res://shaders/eau.gdshader")
+const SHADER_VITRINE := preload("res://shaders/vitrine.gdshader")
 ## Police des enseignes (japonais + alphabet latin). Pour ajouter des kanji :
 ## voir tools/hub/police_enseignes.py.
 const POLICE := preload("res://assets/polices/NotoSansJP-Bold-hub.ttf")
@@ -181,8 +186,7 @@ func reconstruire() -> void:
 	_construire_barrieres()
 	_construire_front_de_mer()
 	_construire_horizon()
-	if pluie:
-		_construire_pluie()
+	_construire_ambiance()
 	_mettre_a_jour_fracture()
 
 
@@ -191,6 +195,13 @@ func reconstruire() -> void:
 func _mat(nom: String) -> Material:
 	if _materiaux.has(nom):
 		return _materiaux[nom]
+	if nom.begins_with("eau"):
+		# Eau animée (vagues et ronds de pluie) ; « eau_calme » pour la fontaine.
+		var eau := ShaderMaterial.new()
+		eau.shader = SHADER_EAU
+		eau.set_shader_parameter("houle", 0.0 if nom == "eau_calme" else 1.0)
+		_materiaux[nom] = eau
+		return eau
 	var m := StandardMaterial3D.new()
 	match nom:
 		"asphalte":
@@ -273,26 +284,16 @@ func _facade(graine: float, part_allumee := 0.35) -> ShaderMaterial:
 	return m
 
 
-## Vitre de boutique éclairée de l'intérieur : plus lumineuse en haut (plafonniers).
-func _vitrine(couleur: Color) -> StandardMaterial3D:
+## Vitre de boutique : on voit une vraie boutique en profondeur derrière
+## (shader vitrine : plafond lumineux, rayonnages colorés).
+func _vitrine(couleur: Color) -> Material:
 	var cle := "vitrine_%s" % couleur.to_html()
 	if _materiaux.has(cle):
 		return _materiaux[cle]
-	var degrade := Gradient.new()
-	degrade.set_color(0, couleur * 0.15)
-	degrade.set_color(1, couleur * 0.55)
-	var texture := GradientTexture2D.new()
-	texture.gradient = degrade
-	texture.fill_from = Vector2(0, 1)
-	texture.fill_to = Vector2(0, 0)
-	var m := StandardMaterial3D.new()
-	m.albedo_color = Color(0.02, 0.02, 0.02)
-	m.roughness = 0.05
-	m.metallic = 0.3
-	m.emission_enabled = true
-	m.emission_texture = texture
-	m.emission = Color.WHITE
-	m.emission_energy_multiplier = 0.7
+	var m := ShaderMaterial.new()
+	m.shader = SHADER_VITRINE
+	m.set_shader_parameter("couleur", couleur)
+	m.set_shader_parameter("graine", float(_materiaux.size()))
 	_materiaux[cle] = m
 	return m
 
@@ -555,10 +556,15 @@ const IMMEUBLES := [
 
 
 func _construire_immeubles() -> void:
+	# Vrais immeubles (soubassement, tour en retrait, corniche, toit équipé) :
+	# voir immeubles_hikari.gd. La tour de la Vigie (la première) garde une
+	# façade droite car l'écran géant et l'enseigne y sont accrochés.
 	var i := 0
 	for b in IMMEUBLES:
-		_bloc(b[0], b[1], b[2], b[3], 0, b[4], _facade(i, b[5]))
+		Immeubles.batiment(self, minf(b[0], b[2]), minf(b[1], b[3]), maxf(b[0], b[2]), maxf(b[1], b[3]),
+				b[4], b[5], i, true, Immeubles.Style.VERRE if i == 0 else -1, i != 0)
 		i += 1
+	Immeubles.enseignes_verticales(self)
 	# Écran géant sur la façade sud de la tour de la Vigie.
 	var ecran := MeshInstance3D.new()
 	var quad := QuadMesh.new()
@@ -598,7 +604,7 @@ func _construire_statue() -> void:
 	var pierre := _mat_pbr("granite_tile", 2.0, "pierre", Color(0.8, 0.8, 0.8))
 	# Bassin de la fontaine.
 	_cylindre(7.0, 7.2, 0.7, Vector3(0, 0.35, 0), pierre)
-	var eau := _cylindre(6.5, 6.5, 0.1, Vector3(0, 0.6, 0), _mat("eau"), false)
+	var eau := _cylindre(6.5, 6.5, 0.1, Vector3(0, 0.6, 0), _mat("eau_calme"), false)
 	eau.name = "EauFontaine"
 	_cylindre(1.6, 1.8, 3.0, Vector3(0, 1.5, 0), pierre)
 	# Le Gardien : silhouette debout tenant un sablier (forme provisoire).
@@ -1009,19 +1015,9 @@ func _construire_front_de_mer() -> void:
 # --- Ville au loin et métro aérien --------------------------------------
 
 func _construire_horizon() -> void:
-	var hasard := RandomNumberGenerator.new()
-	hasard.seed = 2026
-	# Une couronne de gratte-ciel (sans collision : on ne peut pas y aller).
-	for i in 70:
-		var angle := hasard.randf_range(-PI * 1.05, PI * 0.05) # surtout au nord, pas sur la mer
-		var distance := hasard.randf_range(130.0, 260.0)
-		var p := Vector2(cos(angle), sin(angle)) * distance
-		var largeur := hasard.randf_range(16.0, 34.0)
-		var profondeur := hasard.randf_range(16.0, 34.0)
-		var haut := hasard.randf_range(40.0, 180.0)
-		_boite(Vector3(largeur, haut, profondeur), Vector3(p.x, haut * 0.5, p.y), _facade(i + 40, 0.3), false)
-		if i % 6 == 0:
-			_boite(Vector3(largeur * 0.4, 1.0, 1.0), Vector3(p.x, haut + 0.5, p.y), _neon(Color(1, 0.15, 0.15), 3.0), false)
+	# Une couronne de gratte-ciel (sans collision : on ne peut pas y aller),
+	# au-delà des futurs quartiers du hub. Voir immeubles_hikari.gd.
+	Immeubles.horizon(self)
 	# Métro aérien : un viaduc au nord, au-dessus du Quartier des Artisans.
 	var z_metro := -82.0
 	var beton := _mat("beton")
@@ -1037,31 +1033,12 @@ func _construire_horizon() -> void:
 		_boite(Vector3(18, 0.8, 3.25), Vector3(i * 20.0, 15.0, z_metro), _neon(Color(1.0, 0.95, 0.8), 2.5), false, _metro)
 
 
-# --- Pluie ---------------------------------------------------------------
+# --- Ambiance : pluie, éclairs, finition de l'image -------------------
 
-func _construire_pluie() -> void:
-	var particules := GPUParticles3D.new()
-	particules.name = "Pluie"
-	particules.amount = gouttes
-	particules.lifetime = 1.15
-	particules.preprocess = 1.6
-	particules.visibility_aabb = AABB(Vector3(-70, -40, -70), Vector3(140, 50, 140))
-	particules.position = Vector3(0, 30, 10)
-	var processus := ParticleProcessMaterial.new()
-	processus.emission_shape = ParticleProcessMaterial.EMISSION_SHAPE_BOX
-	processus.emission_box_extents = Vector3(65, 1, 65)
-	processus.direction = Vector3(0.1, -1, 0)
-	processus.spread = 2.0
-	processus.initial_velocity_min = 18.0
-	processus.initial_velocity_max = 22.0
-	processus.gravity = Vector3(0, -9.8, 0)
-	particules.process_material = processus
-	var goutte := BoxMesh.new()
-	goutte.size = Vector3(0.012, 0.55, 0.012)
-	var mat := StandardMaterial3D.new()
-	mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-	mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
-	mat.albedo_color = Color(0.75, 0.82, 1.0, 0.28)
-	goutte.material = mat
-	particules.draw_pass_1 = goutte
-	_contenu.add_child(particules)
+## Voir ambiance_hikari.gd (la pluie suit la caméra, s'arrête sous les toits).
+func _construire_ambiance() -> void:
+	var ambiance := Ambiance.new()
+	ambiance.gouttes = gouttes if pluie else 0
+	ambiance.environnement = get_node_or_null("Environnement") as WorldEnvironment
+	ambiance.lune = get_node_or_null("Lune") as DirectionalLight3D
+	_contenu.add_child(ambiance)
