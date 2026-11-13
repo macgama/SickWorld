@@ -27,5 +27,33 @@
 		"distance_laisse": 30,
 		"entraide": 0,
 		"temps_reapparition": 0
+	},
+	"loup_fracture": {
+		"nom": "Loup fracturé",
+		"niveau": 2,
+		"points_de_vie": 130,
+		"degats": [8, 12],
+		"intervalle_attaque": 1.7,
+		"portee_attaque": 2.2,
+		"vitesse_course": 6.5,
+		"vitesse_marche": 1.8,
+		"distance_detection": 12,
+		"distance_laisse": 40,
+		"entraide": 12,
+		"temps_reapparition": 45
+	},
+	"loup_fracture_faille": {
+		"nom": "Loup sorti de la faille",
+		"niveau": 2,
+		"points_de_vie": 130,
+		"degats": [8, 12],
+		"intervalle_attaque": 1.7,
+		"portee_attaque": 2.2,
+		"vitesse_course": 6.5,
+		"vitesse_marche": 1.8,
+		"distance_detection": 13,
+		"distance_laisse": 40,
+		"entraide": 12,
+		"temps_reapparition": 0
 	}
 }

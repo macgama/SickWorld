@@ -1,0 +1,15 @@
+{
+	"_aide": "Personnages de l'île de la Préhistoire. Pour changer ce qu'ils disent, modifie le texte entre guillemets (une ligne = une bulle de dialogue). Garde les virgules entre les lignes.",
+	"lenoir": {
+		"nom": "Agent Lenoir",
+		"role": "Vigie · Côte Gelée",
+		"modele": "homme",
+		"repliques_blesse": [
+			"Ugh... Ma jambe. La trousse... elle est tombée près des caisses, quand ils ont attaqué."
+		],
+		"repliques": [
+			"Le portail tient, grâce à toi. Tant que la faille restera fermée, ils ne reviendront pas par ici.",
+			"Le clan du Bison chasse dans la Steppe, au nord, derrière le col. Méfie-toi de Toran : il n'aime pas les inconnus."
+		]
+	}
+}
