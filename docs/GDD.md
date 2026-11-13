@@ -458,6 +458,32 @@ Le joueur progresse sur plusieurs axes en parallèle, pour toujours avoir un obj
 
 **Côté technique.** Tout est décidé par le serveur (on ne peut pas tricher en modifiant son jeu) : ramasser, équiper, se changer. Pour le prototype, le serveur enregistre l'inventaire dans un fichier par personnage ; il passera dans Nakama à l'étape 4 (comptes et sauvegarde).
 
+### 3 bis. L'artisanat (forge Hinode et atelier Fil & Fibre)
+
+*Ajouté le 13 novembre 2026.*
+
+Le butin des époques sert à **fabriquer** et **améliorer** son équipement chez les artisans du Quartier des Artisans de Hikari Bay. On parle à l'artisan (touche **F**), puis son établi s'ouvre : recettes rangées par onglets, matériaux nécessaires (ce qu'on a / ce qu'il faut, en vert ou en rouge) et un bouton **Fabriquer**.
+
+| Artisan | Qui | Ce qu'on y fabrique |
+|---|---|---|
+| **Forge Hinode** | Maître Tetsuo, Mika | Armes, bijoux, reliques, amélioration des armes |
+| **Fil & Fibre** | Léa (couture), Kofi (FabLab 3D) | Pièces d'armure des ensembles, sacs, Ocre sacrée, amélioration des armures |
+
+**Les matériaux de la Préhistoire** (ils tombent dans le butin personnel) :
+
+| Matériau | Où le trouver |
+|---|---|
+| Croc de loup, Peau de loup | Loups des steppes (et loups fracturés de la forêt) |
+| Tendon séché | Loups, rennes, loups fracturés |
+| Bois de renne | Rennes |
+| Silex, Ocre rouge | Loups fracturés des falaises et souvenirs fracturés de la grotte |
+| Éclat de fracture (raffiné) | Toutes les créatures fracturées |
+| Fourrure de l'Ours Sans Mémoire (épique) | Le boss, à chaque victoire |
+
+**Les améliorations.** Un objet (rangé dans le sac, pas porté) + des éclats de fracture donnent sa version **renforcée** : rareté au-dessus, bonus × 1,5, même ensemble et même apparence (un losange violet sur l'icône). Les **tenues de mission** qui prévoyaient l'ancien objet prennent automatiquement le nouveau.
+
+**Côté technique.** Les recettes sont dans `data/artisanat.json` (modifiables sans code). C'est le serveur qui décide : il vérifie qu'on est près de l'artisan, qu'on a les matériaux et la place dans les sacs. Plus tard : métiers d'artisan pour les joueurs, recettes rares trouvées en exploration, matériaux des autres époques.
+
 ### 4. La réputation par époque
 
 - Chaque peuple (clan du Bison, Égyptiens, etc.) a une jauge de réputation : *Méfiant → Neutre → Accueilli → Honoré → Membre du clan*.
@@ -631,7 +657,7 @@ Gaël a validé l'ensemble des propositions de la version 0.1, notamment :
 ### Questions encore ouvertes (pas urgentes)
 
 1. Ton du jeu : plutôt sérieux, avec de l'humour, ou un mélange (comme The Secret World) ?
-2. Artisanat (fabriquer ses objets) : dès la première version, ou plus tard ?
+2. ~~Artisanat : dès la première version, ou plus tard ?~~ Réglé le 13/11 : dès maintenant (section 8, « L'artisanat »).
 3. Classe secondaire (comme dans Guild Wars) ou changement de classe possible ? (L'écran de création prévoit d'en débloquer une plus tard.)
 4. Langues : français uniquement, ou aussi anglais (dès le début ou plus tard) ?
 5. Des amis sont-ils prêts à tester le multijoueur (étapes 3 et 7 du prototype) ?

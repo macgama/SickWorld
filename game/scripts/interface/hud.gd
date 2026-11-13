@@ -103,6 +103,10 @@ func _connecter() -> void:
 	_fenetre_personnage = preload("res://scripts/interface/fenetre_personnage.gd").new()
 	_racine.add_child(_fenetre_personnage)
 	_fenetre_personnage.relier(_joueur.get_node("Inventaire"), _combat_joueur)
+	# Établi des artisans du hub (s'ouvre après avoir parlé à la forge ou à Fil & Fibre).
+	var artisanat: PanelContainer = preload("res://scripts/interface/fenetre_artisanat.gd").new()
+	_racine.add_child(artisanat)
+	artisanat.relier(_joueur.get_node("Inventaire"))
 
 
 ## Écran Personnage (touches C, I ou B).
