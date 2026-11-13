@@ -10,7 +10,7 @@ extends Control
 ## puis envoyée au serveur quand on rejoint une partie.
 
 const SCENE_MENU := "res://scenes/interface/menu.tscn"
-const APPARENCE := preload("res://scripts/joueur/apparence_provisoire.gd")
+const APPARENCE := preload("res://scripts/joueur/apparence_agent.gd")
 const COULEUR_ACCENT := Color(0.25, 0.85, 0.9)
 const ETAPES := ["Apparence", "Classe", "Origine"]
 const SOUS_ONGLETS := ["Corps", "Visage", "Cheveux", "Tenue"]
