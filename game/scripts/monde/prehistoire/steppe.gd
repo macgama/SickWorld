@@ -128,10 +128,11 @@ func hauteur(x: float, z: float) -> float:
 	var gue := exp(-pow((x - GUE_X) / 6.0, 2.0))
 	var fond := lerpf(-1.0, -0.3, gue)
 	# La largeur et la pente des berges varient le long de la rivière.
-	var largeur := 1.0 + _rivage.get_noise_1d(x * 1.7 + 100.0) * 0.45
+	var largeur := 1.0 + _rivage.get_noise_1d(x * 3.0 + 100.0) * 0.8
 	var douceur := 1.0 + absf(_rivage.get_noise_1d(x * 0.9 + 300.0)) * 1.4
-	h = lerpf(fond, h, smoothstep(2.5 * largeur, (2.5 + 10.0 * douceur) * largeur + _details.get_noise_2d(x, z) * 2.0,
-			distance_riviere(x, z)))
+	# Berges irrégulières : petites anses, avancées de terre, bancs de galets.
+	var d := distance_riviere(x, z) + _details.get_noise_2d(x * 0.8, z * 0.8) * 2.5 + _relief.get_noise_2d(x * 4.0, z * 4.0) * 2.0
+	h = lerpf(fond, h, smoothstep(2.5 * largeur, (2.5 + 10.0 * douceur) * largeur, d))
 	# Montagnes tout autour, sauf le col au sud.
 	var crete := 1.0 - absf(_relief.get_noise_2d(x * 3.0, z * 3.0 + 500.0))
 	var passe := exp(-pow((z - PASSE_EST.y) / 13.0, 2.0)) if x > 0.0 else 0.0
@@ -258,7 +259,7 @@ func _construire_vegetation() -> void:
 		var arbuste := _modele("searsia_lucida", Vector3(x, hauteur(x, z) - 0.1, z), hasard.randf() * TAU,
 				hasard.randf_range(0.8, 1.4))
 		if arbuste != null:
-			_teinter_feuillage(arbuste, Color(0.78, 0.56, 0.3))
+			_teinter(arbuste, Color(0.8, 0.6, 0.35), 0.0)
 	# Bois mort.
 	for k in 20:
 		var p := Vector2(hasard.randf_range(-130.0, 130.0), hasard.randf_range(-120.0, 130.0))
@@ -266,19 +267,6 @@ func _construire_vegetation() -> void:
 			continue
 		_modele(MODELES_BOIS[k % MODELES_BOIS.size()], Vector3(p.x, hauteur(p.x, p.y) - 0.1, p.y),
 				hasard.randf() * TAU, hasard.randf_range(0.8, 1.3))
-
-
-## Assombrit et jaunit le feuillage d'un modèle (verdure d'Afrique → arbuste de steppe froide).
-func _teinter_feuillage(modele: Node3D, teinte: Color) -> void:
-	for n in modele.find_children("*", "MeshInstance3D", true, false):
-		var mi := n as MeshInstance3D
-		for s in mi.mesh.get_surface_count():
-			var m := mi.mesh.surface_get_material(s) as StandardMaterial3D
-			if m == null:
-				continue
-			var copie := m.duplicate() as StandardMaterial3D
-			copie.albedo_color = copie.albedo_color * teinte
-			mi.set_surface_override_material(s, copie)
 
 
 ## Sème un modèle Poly Haven par milliers (MultiMesh par carrés de 30 m, cachés au loin).
@@ -333,7 +321,11 @@ func _semer(id: String, nombre: int, echelle_min: float, echelle_max: float, por
 # --- Le camp d'été du clan du Bison -----------------------------------------------------
 
 func _mat_peau() -> StandardMaterial3D:
-	var m := _mat_pbr("brown_leather", Color(0.56, 0.52, 0.47), 0.95, 1.2)
+	var m := _mat_pbr("brown_leather", Color(0.6, 0.55, 0.5), 0.95, 1.2)
+	m.uv1_triplanar = false
+	m.uv1_scale = Vector3.ONE
+	m.roughness = 1.0
+	m.metallic_specular = 0.2
 	return m
 
 
@@ -400,7 +392,7 @@ func _construire_camp_du_clan() -> void:
 		_placer_rocher(camp, PAROI.x, PAROI.y, 3.0, 0.2)
 	else:
 		# Ce bloc scanné est très orange : on le ramène vers un calcaire gris-beige.
-		_teinter_feuillage(paroi, Color(0.7, 0.6, 0.55))
+		_teinter(paroi, Color(0.62, 0.58, 0.56), 0.75)
 	var main := Decal.new()
 	main.name = "MainPeinte"
 	main.size = Vector3(1.4, 4.0, 1.4)
@@ -434,9 +426,8 @@ func _tente(parent: Node3D, p: Vector2, angle: float, taille: float, bois: Mater
 	tente.scale = Vector3.ONE * taille
 	parent.add_child(tente)
 	var toile := MeshInstance3D.new()
-	toile.mesh = _cylindre(0.25, 2.5, 3.8, 16)
+	toile.mesh = _maillage_tente(hash(p))
 	toile.material_override = _mat_peau()
-	toile.position.y = 1.9
 	tente.add_child(toile)
 	# Perches qui dépassent du sommet.
 	for k in 7:
@@ -468,6 +459,41 @@ func _tente(parent: Node3D, p: Vector2, angle: float, taille: float, bois: Mater
 	forme.position.y = 1.5
 	corps.add_child(forme)
 	tente.add_child(corps)
+
+
+## Toile de tente : un cône de peaux cousues, plissé entre les perches,
+## au bas irrégulier (pas un cône parfait).
+func _maillage_tente(graine_t: int) -> ArrayMesh:
+	var hasard := RandomNumberGenerator.new()
+	hasard.seed = graine_t
+	var outil := SurfaceTool.new()
+	outil.begin(Mesh.PRIMITIVE_TRIANGLES)
+	var cotes := 28
+	var etages := 8
+	var points := []
+	for e in etages + 1:
+		var t := float(e) / etages
+		var ligne := []
+		for c in cotes + 1:
+			var a := TAU * c / cotes
+			# Plis : la peau se creuse entre les 7 perches.
+			var pli := 1.0 - 0.07 * absf(sin(a * 3.5))
+			var rayon := lerpf(2.5, 0.22, t) * pli
+			if e == 0:
+				rayon += hasard.randf_range(-0.12, 0.18)
+			var y := t * 3.8 + (hasard.randf_range(-0.08, 0.05) if e == 0 else 0.0)
+			ligne.append(Vector3(cos(a) * rayon, y, sin(a) * rayon))
+		points.append(ligne)
+	for e in etages:
+		for c in cotes:
+			var quad := [points[e][c], points[e][c + 1], points[e + 1][c + 1], points[e + 1][c]]
+			var uv := [Vector2(float(c) / cotes * 4.0, float(e) / etages * 2.0), Vector2(float(c + 1) / cotes * 4.0, float(e) / etages * 2.0),
+					Vector2(float(c + 1) / cotes * 4.0, float(e + 1) / etages * 2.0), Vector2(float(c) / cotes * 4.0, float(e + 1) / etages * 2.0)]
+			for i in [0, 2, 1, 0, 3, 2]:
+				outil.set_uv(uv[i])
+				outil.add_vertex(quad[i])
+	outil.generate_normals()
+	return outil.commit()
 
 
 ## Un séchoir : deux montants, une traverse, une peau tendue.
