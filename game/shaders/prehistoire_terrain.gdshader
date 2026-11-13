@@ -176,7 +176,9 @@ void fragment() {
 	// Paillettes : quelques cristaux de glace scintillent selon le point de vue.
 	vec3 vue = normalize(position_monde - CAMERA_POSITION_WORLD);
 	vec3 cellule = floor(position_monde * 40.0);
-	float cristal = fract(sin(dot(cellule + floor(vue * 6.0), vec3(12.9898, 78.233, 37.719))) * 43758.5453);
+	vec3 c3 = fract((cellule + floor(vue * 6.0)) * 0.1031);
+	c3 += dot(c3, c3.zyx + 31.32);
+	float cristal = fract((c3.x + c3.y) * c3.z);
 	EMISSION = vec3(0.9, 0.95, 1.0) * step(0.9992, cristal) * w_neige * neige_paillettes * 0.9;
 	// La neige laisse un peu passer la lumière (aspect moins « plâtre »).
 	SSS_STRENGTH = w_neige * 0.25;
