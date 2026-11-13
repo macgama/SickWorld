@@ -16,6 +16,7 @@ extends Node3D
 ## l'éditeur Godot était ouvert pendant la mise à jour du dossier.
 const QgVigie := preload("res://scripts/monde/qg_vigie.gd")
 const Pnj := preload("res://scripts/monde/pnj.gd")
+const QuartierMarche := preload("res://scripts/monde/quartier_marche.gd")
 
 ## Quand c'est coché, la Préhistoire est réparée : la statue du Gardien est
 ## intacte. Sinon, elle est fissurée et entourée d'éclats de fracture.
@@ -72,7 +73,18 @@ var qg := {}
 var _materiaux := {}
 
 
+## Vrai quand le joueur revient d'une île : il apparaît devant les portails du QG.
+var _arrivee_qg := false
+
+
 func _ready() -> void:
+	# Retour d'une île : l'île fait Reseau.set_meta("arrivee_hub", "portails") avant
+	# de recharger le hub, et le joueur apparaît dans la salle des portails.
+	var reseau := get_node_or_null("/root/Reseau")
+	if not Engine.is_editor_hint() and reseau != null and reseau.get_meta("arrivee_hub", "") == "portails":
+		reseau.remove_meta("arrivee_hub")
+		_arrivee_qg = true
+		point_apparition = Vector2(QgVigie.PORTAILS.position.x + 5.0, QgVigie.PORTAILS.end.y - 11.0)
 	reconstruire()
 
 
@@ -131,7 +143,7 @@ func _sur_portail(corps: Node3D, zone: Area3D) -> void:
 
 ## Hauteur du sol à une position x, z (utilisé pour poser les joueurs et la balise).
 func hauteur(_x: float, _z: float) -> float:
-	return 0.0
+	return QgVigie.SOL if _arrivee_qg else 0.0
 
 
 func _demander_reconstruction() -> void:
@@ -158,6 +170,7 @@ func reconstruire() -> void:
 	_construire_recruteur()
 	_construire_station_asahi()
 	QgVigie.construire(self)
+	QuartierMarche.construire(self)
 	if not Engine.is_editor_hint():
 		for zone: Area3D in qg.get("portails", []):
 			zone.body_entered.connect(_sur_portail.bind(zone))
@@ -504,8 +517,22 @@ const IMMEUBLES := [
 	[6, 34, 70, 62, 24, 0.3],
 	[-30, 40, -6, 62, 52, 0.3],
 	[6, 38, 26, 62, 70, 0.4],
+	# Marché de nuit (voir quartier_marche.gd) : petites maisons-boutiques le long
+	# des ruelles et tours derrière.
+	[-70, -97, -23, -70, 9, 0.45],
+	[-66, -94, -40, -76, 38, 0.35],
+	[-17, -135, -8, -70, 8, 0.5],
+	[-8, -125, 12, -96, 62, 0.35],
+	[-80, -135, -52, -97, 12, 0.4],
+	[-78, -132, -60, -110, 46, 0.3],
+	[-80, -165, -8, -133, 14, 0.4],
+	[-60, -165, -28, -142, 66, 0.3],
+	[-48, -112, -31, -102, 10, 0.4],
+	[-36, -128, -23, -116, 11, 0.4],
+	[-48, -128, -36, -126, 10, 0.3],
+	[-31, -104, -23, -102, 9, 0.3],
+	[-36, -116, -31, -112, 9, 0.3],
 	# Fonds des rues (ferment la vue derrière les barrières).
-	[-34, -96, -8, -70, 44, 0.3],
 	[8, -96, 34, -70, 36, 0.3],
 	[-96, -12, -70, 12, 48, 0.3],
 	[70, -12, 96, 12, 38, 0.3],
@@ -876,7 +903,6 @@ func _construire_enseignes() -> void:
 func _construire_barrieres() -> void:
 	# [centre, largeur, angle, panneau]
 	var barrieres := [
-		[Vector3(-20, 0, -FIN_RUES), RUE * 2, 0.0, "工事中 · TRAVAUX · Marché de nuit bientôt"],
 		[Vector3(20, 0, -FIN_RUES), RUE * 2, 0.0, "工事中 · TRAVAUX · Artisans bientôt"],
 		[Vector3(-FIN_RUES, 0, 0), RUE * 2, PI / 2, "工事中 · TRAVAUX · Résidences bientôt"],
 		[Vector3(FIN_RUES, 0, 0), RUE * 2, -PI / 2, "工事中 · TRAVAUX · Musée bientôt"],
