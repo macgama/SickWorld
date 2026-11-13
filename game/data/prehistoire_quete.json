@@ -1,0 +1,114 @@
+{
+	"_aide": "Quête principale de la Préhistoire : « Ce que les murs se rappellent ». Les étapes se jouent dans l'ordre. Types d'étape : pnj (parler), zone (aller à un endroit [x, z]), objet (utiliser avec F ; duree = secondes à rester immobile), tuer (type d'ennemi + nombre). Pour changer un texte, modifie ce qui est entre guillemets. Garde les virgules.",
+	"arrivee": {
+		"titre": "La Côte Gelée",
+		"sous_titre": "Préhistoire · il y a environ 17 000 ans",
+		"texte": "Le froid te mord le visage. Derrière toi, le portail grésille. Devant toi, la neige est piétinée... et tachée de sang."
+	},
+	"camps": [
+		{ "type": "loup_fracture", "position": [-24, 16], "nombre": 2, "rayon": 4 },
+		{ "type": "loup_fracture", "position": [27, 10], "nombre": 2, "rayon": 4 },
+		{ "type": "loup", "position": [-46, -58], "nombre": 3, "rayon": 5 },
+		{ "type": "loup", "position": [48, -72], "nombre": 3, "rayon": 5 },
+		{ "type": "loup", "position": [-10, -96], "nombre": 2, "rayon": 4 }
+	],
+	"chapitres": [
+		{
+			"numero": 1,
+			"titre": "Arrivée dans le froid",
+			"etapes": [
+				{
+					"id": "retrouver_lenoir",
+					"objectif": "Retrouve l'agent Lenoir, près du portail",
+					"pnj": "lenoir",
+					"repliques": [
+						"Une recrue ? Enfin... La Vigie a fini par m'entendre.",
+						"Je suis Lenoir. Ça fait trois jours que je tiens ce portail. Cette nuit, des loups sont sortis de la faille, au nord. Des loups... fracturés.",
+						"Tu les reconnaîtras : des veines violettes sous le pelage, des yeux qui brillent. Ils ne sont plus vraiment d'ici, ni de maintenant.",
+						"Ils m'ont eu à la jambe. Ma trousse de soin est tombée près des caisses renversées, à l'est du camp. Rapporte-la-moi, vite."
+					]
+				},
+				{
+					"id": "trousse",
+					"objectif": "Récupère la trousse de soin près des caisses renversées",
+					"objet": "trousse",
+					"consomme": true
+				},
+				{
+					"id": "soigner",
+					"objectif": "Soigne l'agent Lenoir (reste immobile)",
+					"objet": "soin_lenoir",
+					"duree": 3,
+					"action": "Soins en cours…",
+					"pnj": "lenoir",
+					"repliques": [
+						"Aaah... Merci. Le bio-gel de la Vigie fait des miracles. Je tiens debout, c'est déjà ça.",
+						"Écoute bien, les règles sont simples. Ici, personne ne doit savoir d'où nous venons. Pour les gens du coin, tu es un « Venu-du-Brouillard ».",
+						"Ton implant de traduction te permettra de parler avec eux. Mais garde ta technologie pour toi.",
+						"Maintenant, les fracturés. Il en reste quatre qui rôdent autour du camp. Appuie sur Tab pour viser le plus proche, puis frappe avec tes techniques : touches 1 à 5.",
+						"Garde un œil sur ta vie. Si ça tourne mal, roule sur le côté pour esquiver. Et si tu tombes, la balise de la Vigie te ramènera ici.",
+						"Nettoie les abords du portail. Ensuite, on s'occupera de la faille."
+					],
+					"apres": [ { "pnj": "lenoir", "blesse": false } ]
+				},
+				{
+					"id": "fractures",
+					"objectif": "Élimine les loups fracturés qui rôdent autour du camp",
+					"tuer": "loup_fracture",
+					"nombre": 4
+				},
+				{
+					"id": "rapport_lenoir",
+					"objectif": "Retourne voir l'agent Lenoir",
+					"pnj": "lenoir",
+					"repliques": [
+						"Beau travail. Tu te bats bien, pour une recrue.",
+						"Mais tant que la faille reste ouverte, d'autres viendront. Elle est juste au nord du camp : tu ne peux pas la rater, elle brille comme un orage violet.",
+						"Ton gant de la Vigie peut la refermer. Tiens-toi devant elle et ne bouge plus jusqu'à ce que la déchirure se recouse.",
+						"Attention : une faille se défend. Si quelque chose en sort, élimine-le avant de recommencer."
+					]
+				},
+				{
+					"id": "faille",
+					"objectif": "Referme la faille au nord du camp (reste immobile)",
+					"objet": "faille_cote",
+					"duree": 5,
+					"action": "Fermeture de la faille…",
+					"apparition": { "type": "loup_fracture_faille", "position": [3, -4], "nombre": 2, "rayon": 3, "attaque": false },
+					"apres": [ { "cacher": "faille_cote" } ]
+				},
+				{
+					"id": "fin_chapitre_1",
+					"objectif": "Fais ton rapport à l'agent Lenoir",
+					"pnj": "lenoir",
+					"repliques": [
+						"Tu l'as refermée ! Regarde : le ciel est plus calme, déjà.",
+						"Mais ce n'était qu'une petite faille. Les grandes sont plus loin dans les terres, et quelque chose les ouvre exprès. Ce n'est pas naturel.",
+						"Il y a un clan dans la région, le clan du Bison. Leur chamane, Aïna, peint des choses étonnantes sur les parois des grottes. Si l'histoire est attaquée, c'est autour d'eux.",
+						"Leur partie de chasse est montée vers le col, au nord, en suivant la piste. Va à leur rencontre. Moi, je garde le portail.",
+						"Et si tu veux faire ton rapport à la commandante, le portail te ramène au QG. Bonne route, Venu-du-Brouillard."
+					],
+					"fin_chapitre": true
+				}
+			]
+		},
+		{
+			"numero": 2,
+			"titre": "Le Venu-du-Brouillard",
+			"etapes": [
+				{
+					"id": "vers_le_col",
+					"objectif": "Suis la piste du clan du Bison jusqu'au col, au nord",
+					"zone": [10, -128],
+					"rayon": 9
+				}
+			]
+		}
+	],
+	"fin_provisoire": {
+		"chapitre": "LA SUITE ARRIVE BIENTÔT",
+		"objectif": "La Steppe des Mammouths s'ouvrira dans une prochaine mise à jour",
+		"titre": "La Steppe des Mammouths",
+		"message": "Au-delà du col, des traces de pas humains... La suite de l'aventure arrive bientôt."
+	}
+}

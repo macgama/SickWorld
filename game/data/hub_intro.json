@@ -62,9 +62,9 @@
 	],
 	"destinations": {
 		"Préhistoire": {
-			"scene": "res://scenes/monde/colline_de_test.tscn",
+			"scene": "res://scenes/monde/prehistoire/cote_gelee.tscn",
 			"titre": "Préhistoire",
-			"sous_titre": "Il y a environ 40 000 ans"
+			"sous_titre": "Il y a environ 17 000 ans"
 		}
 	}
 }

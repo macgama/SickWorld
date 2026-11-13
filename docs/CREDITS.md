@@ -27,6 +27,14 @@
   caractères utiles : `game/assets/polices/NotoSansJP-Bold-hub.ttf`
   (script : `tools/hub/police_enseignes.py`).
 
+## Île de la Préhistoire
+
+- **Textures, modèles 3D et ciels (HDRI) : Poly Haven** (https://polyhaven.com),
+  licence **CC0** (domaine public). Fichiers : `game/assets/prehistoire/textures/`,
+  `game/assets/prehistoire/modeles/` et `game/assets/prehistoire/ciel/`
+  (un dossier ou fichier par ressource, au nom de son identifiant Poly Haven).
+  Script de téléchargement : `tools/prehistoire/telecharger_polyhaven.ps1`.
+
 ## Moteur
 
 - **Godot Engine 4.7** (https://godotengine.org), licence MIT.
