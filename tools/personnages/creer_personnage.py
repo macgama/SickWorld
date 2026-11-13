@@ -296,4 +296,5 @@ def main():
                 shutil.copy2(a, os.path.join(DEPOT_APERCUS, os.path.basename(a)))
 
 
-main()
+if __name__ == "__main__" and os.environ.get("SICKWORLD_SANS_MAIN") != "1":
+    main()

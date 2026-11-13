@@ -16,8 +16,16 @@ extends Node3D
 const EN_BOUCLE := ["immobile", "courir", "reculer", "pas_gauche", "pas_droite", "chute"]
 const ANIMATIONS := ["immobile", "courir", "reculer", "pas_gauche", "pas_droite", "saut", "chute",
 	"roulade", "attaque", "touche", "mort"]
-## Vitesse (m/s) à laquelle chaque animation de déplacement est jouée à vitesse normale.
-const VITESSE_NATURELLE := {"courir": 5.0, "reculer": 2.0, "pas_gauche": 4.5, "pas_droite": 4.5}
+## Vitesse (m/s) des pieds au sol dans chaque animation de déplacement, mesurée sur les
+## animations Mixamo (pied d'appui). En jouant l'animation à vitesse × (vitesse réelle /
+## vitesse naturelle), les pieds ne glissent pas sur le sol.
+const VITESSE_NATURELLE := {
+	"homme": {"courir": 5.96, "reculer": 0.90, "pas_gauche": 4.55, "pas_droite": 4.58},
+	"femme": {"courir": 5.32, "reculer": 0.80, "pas_gauche": 4.08, "pas_droite": 4.11},
+}
+## Au-delà de cette vitesse en marche arrière, l'animation « reculer » (une marche lente)
+## devrait être jouée beaucoup trop vite : on passe alors à la course jouée à l'envers.
+const RECUL_MAX_EN_MARCHANT := 1.6
 const FONDU := 0.18
 ## Taille réelle des modèles MakeHuman (cm), pieds au sol, sans les cheveux.
 const TAILLE_MODELE := {"homme": 178.0, "femme": 168.0}
@@ -44,7 +52,14 @@ static var _bibliotheques := {}
 ## Dernière apparence reçue (dictionnaire de FichePersonnage.resoudre).
 var _apparence := {}
 var _materiau_peau: StandardMaterial3D
-var _materiau_tenue: StandardMaterial3D
+var _materiau_tenue: ShaderMaterial
+var _materiaux_poils: Array[ShaderMaterial] = []   # cheveux et sourcils
+var _materiau_yeux: ShaderMaterial
+## Maillages de la tête (avec les formes du visage) et maillage de la peau.
+var _tete: Array[MeshInstance3D] = []
+var _peau: MeshInstance3D
+## Teinte de la veste donnée par l'équipement (blanc = aucune).
+var _teinte_equipement := Color.WHITE
 ## Équipement visible (emplacement -> visuel, voir Inventaire et data/objets.json).
 var _visuels := {}
 
@@ -139,13 +154,16 @@ static func _retirer_deplacement(anim: Animation) -> void:
 func _jouer(nom: String, fondu := FONDU, vitesse := 1.0, depuis := -1.0) -> void:
 	if _lecteur == null:
 		return
-	var cle := "agent/" + nom
+	# « courir_arriere » : la course jouée à l'envers.
+	var cle := "agent/" + ("courir" if nom == "courir_arriere" else nom)
+	if nom == "courir_arriere":
+		vitesse = -absf(vitesse)
 	if not _lecteur.has_animation(cle):
 		return
 	if _actuelle == nom:
 		return
 	_lecteur.speed_scale = 1.0
-	_lecteur.play(cle, fondu, vitesse)
+	_lecteur.play(cle, fondu, vitesse, vitesse < 0.0)
 	if depuis >= 0.0:
 		_lecteur.seek(depuis, true)
 	_actuelle = nom
@@ -160,10 +178,10 @@ func _duree(nom: String) -> float:
 # Interface utilisée par le Joueur
 # ---------------------------------------------------------------------------
 ## Change l'apparence (dictionnaire produit par FichePersonnage.resoudre).
-## Gérés : sexe (modèle homme/femme), taille_cm (échelle), peau (teinte de la peau).
-## Ignorés pour l'instant (pas encore de variantes du modèle) : visage, yeux, cheveux,
-## coiffure, pilosité, couleurs de la tenue (une seule texture pour toute la tenue),
-## insigne, manteau, arme.
+## Gérés : sexe (modèle homme/femme), taille_cm (échelle), peau, visage (les 17 curseurs,
+## voir FormesVisage), yeux, cheveux (couleur), pilosité (barbe peinte sur la peau),
+## veste (couleur de la tenue).
+## Ignorés pour l'instant : coiffure (une seule coupe par modèle), insigne, manteau, arme.
 func appliquer(apparence: Dictionary) -> void:
 	_apparence = apparence.duplicate()
 	var sexe := String(apparence.get("sexe", modele))
@@ -188,12 +206,11 @@ func _appliquer_equipement() -> void:
 	if squelette == null:
 		return
 	VisuelEquipement.habiller(squelette, _visuels)
-	if _materiau_tenue != null:
-		var teinte := Color.WHITE
-		for e in _visuels:
-			if _visuels[e].has("teinte"):
-				teinte = Color.from_string(String(_visuels[e]["teinte"]), Color.WHITE).lightened(0.25)
-		_materiau_tenue.albedo_color = teinte
+	_teinte_equipement = Color.WHITE
+	for e in _visuels:
+		if _visuels[e].has("teinte"):
+			_teinte_equipement = Color.from_string(String(_visuels[e]["teinte"]), Color.WHITE)
+	_appliquer_teintes()
 
 
 ## Position du visage dans le monde (pour que la caméra de l'écran de création le cadre).
@@ -216,14 +233,55 @@ func _squelette() -> Skeleton3D:
 
 
 func _appliquer_teintes() -> void:
-	if _materiau_peau == null or not _apparence.has("peau"):
-		return
-	var peau: Color = _apparence["peau"]
-	# La texture de peau correspond à PEAU_DE_REFERENCE : on la module par le rapport.
-	_materiau_peau.albedo_color = Color(
-			clampf(peau.r / PEAU_DE_REFERENCE.r, 0.15, 1.25),
-			clampf(peau.g / PEAU_DE_REFERENCE.g, 0.15, 1.25),
-			clampf(peau.b / PEAU_DE_REFERENCE.b, 0.15, 1.25))
+	# Visage : intensité de chaque forme.
+	var visage: Dictionary = _apparence.get("visage", {})
+	for mi in _tete:
+		if is_instance_valid(mi):
+			FormesVisage.regler(mi, visage)
+	if _materiau_peau != null and _apparence.has("peau"):
+		var peau: Color = _apparence["peau"]
+		# La texture de peau correspond à PEAU_DE_REFERENCE : on la module par le rapport.
+		_materiau_peau.albedo_color = Color(
+				clampf(peau.r / PEAU_DE_REFERENCE.r, 0.15, 1.25),
+				clampf(peau.g / PEAU_DE_REFERENCE.g, 0.15, 1.25),
+				clampf(peau.b / PEAU_DE_REFERENCE.b, 0.15, 1.25))
+	# Barbe : un masque peint par-dessus la peau, de la couleur des cheveux.
+	if _materiau_peau != null and _peau != null:
+		var masque := FormesVisage.masque_barbe(modele, _peau, String(_apparence.get("pilosite", "aucune")))
+		_materiau_peau.detail_enabled = masque != null
+		if masque != null:
+			_materiau_peau.detail_mask = masque
+			_materiau_peau.detail_albedo = _texture_unie(_couleur_poils(0.8))
+			_materiau_peau.detail_blend_mode = BaseMaterial3D.BLEND_MODE_MIX
+	if _apparence.has("cheveux"):
+		for m in _materiaux_poils:
+			m.set_shader_parameter("couleur", _couleur_poils(1.0))
+			m.set_shader_parameter("force", 1.0)
+	if _materiau_yeux != null and _apparence.has("yeux"):
+		_materiau_yeux.set_shader_parameter("iris", _apparence["yeux"])
+		_materiau_yeux.set_shader_parameter("force", 1.0)
+	if _materiau_tenue != null:
+		var couleur := _teinte_equipement
+		if couleur == Color.WHITE and _apparence.has("veste"):
+			couleur = _apparence["veste"]
+		var teinte := couleur != Color.WHITE
+		_materiau_tenue.set_shader_parameter("couleur", couleur.lightened(0.15) if teinte else Color.WHITE)
+		_materiau_tenue.set_shader_parameter("force", 0.85 if teinte else 0.0)
+
+
+func _couleur_poils(intensite: float) -> Color:
+	var c: Color = _apparence.get("cheveux", Color(0.2, 0.13, 0.08))
+	return c * intensite
+
+
+static var _textures_unies := {}
+static func _texture_unie(couleur: Color) -> Texture2D:
+	var cle := couleur.to_html(false)
+	if not _textures_unies.has(cle):
+		var image := Image.create(4, 4, false, Image.FORMAT_RGB8)
+		image.fill(couleur)
+		_textures_unies[cle] = ImageTexture.create_from_image(image)
+	return _textures_unies[cle]
 
 
 ## Coup (attaque de base ou compétence).
@@ -331,10 +389,16 @@ func animer(delta: float, vitesse_locale: Vector3, au_sol: bool, progression_esq
 	if absf(vitesse_locale.x) > absf(vitesse_locale.z) * 1.2:
 		nom = "pas_droite" if vitesse_locale.x > 0.0 else "pas_gauche"
 	elif vitesse_locale.z > 0.0:
-		nom = "reculer"
-	var allure := clampf(vitesse / float(VITESSE_NATURELLE[nom]), 0.6, 2.2)
+		nom = "reculer" if vitesse <= RECUL_MAX_EN_MARCHANT * echelle else "courir_arriere"
 	_jouer(nom, FONDU)
-	_lecteur.speed_scale = allure
+	_lecteur.speed_scale = vitesse_animation(nom, vitesse)
+
+
+## Vitesse de lecture d'une animation de déplacement pour que les pieds ne glissent pas.
+func vitesse_animation(nom: String, vitesse: float) -> float:
+	var naturelles: Dictionary = VITESSE_NATURELLE.get(modele, VITESSE_NATURELLE["homme"])
+	var naturelle := float(naturelles.get("courir" if nom == "courir_arriere" else nom, 5.0)) * echelle
+	return clampf(vitesse / naturelle, 0.4, 2.5)
 
 
 # ---------------------------------------------------------------------------
@@ -350,14 +414,118 @@ func _texture(debut: String, contient := "") -> Texture2D:
 	return null
 
 
+## Shader des matières teintables : on garde le relief de la texture mais on remplace
+## sa couleur par « couleur » (cheveux, sourcils, tenue). force = 0 : texture d'origine.
+const SHADER_TEINTE := """
+shader_type spatial;
+render_mode %s;
+uniform sampler2D texture_albedo : source_color, filter_linear_mipmap, repeat_enable;
+uniform sampler2D texture_normale : hint_normal, filter_linear_mipmap, repeat_enable;
+uniform bool avec_normale = false;
+uniform vec4 couleur : source_color = vec4(1.0);
+uniform float force = 0.0;
+uniform float luminance_moyenne = 0.35;
+uniform float rugosite = 0.75;
+void fragment() {
+	vec4 c = texture(texture_albedo, UV);
+	float l = dot(c.rgb, vec3(0.299, 0.587, 0.114));
+	vec3 teinte = couleur.rgb * clamp(l / luminance_moyenne, 0.0, 2.0);
+	ALBEDO = mix(c.rgb, teinte, force);
+	ROUGHNESS = rugosite;
+	%s
+	if (avec_normale) {
+		NORMAL_MAP = texture(texture_normale, UV).rgb;
+		NORMAL_MAP_DEPTH = 0.6;
+	}
+}
+"""
+## Yeux : on recolore seulement l'iris (deux yeux dans la texture MakeHuman).
+const SHADER_YEUX := """
+shader_type spatial;
+uniform sampler2D texture_albedo : source_color, filter_linear_mipmap;
+uniform vec4 iris : source_color = vec4(0.3, 0.2, 0.1, 1.0);
+uniform float force = 0.0;
+void fragment() {
+	vec4 c = texture(texture_albedo, UV);
+	float d = min(distance(UV, vec2(0.703, 0.293)), distance(UV, vec2(0.293, 0.703)));
+	float masque = (1.0 - smoothstep(0.108, 0.13, d)) * force;
+	float l = dot(c.rgb, vec3(0.299, 0.587, 0.114));
+	ALBEDO = mix(c.rgb, iris.rgb * clamp(0.45 + l * 2.2, 0.0, 1.8), masque);
+	ROUGHNESS = 0.12;
+	SPECULAR = 0.6;
+}
+"""
+static var _shaders := {}
+
+
+static func _shader(nom: String) -> Shader:
+	if not _shaders.has(nom):
+		var sh := Shader.new()
+		match nom:
+			"opaque":
+				sh.code = SHADER_TEINTE % ["cull_back", ""]
+			"poils":
+				sh.code = SHADER_TEINTE % ["cull_disabled",
+						"ALPHA = c.a; ALPHA_SCISSOR_THRESHOLD = 0.35; ALPHA_ANTIALIASING_EDGE = 0.3;"]
+			"yeux":
+				sh.code = SHADER_YEUX
+		_shaders[nom] = sh
+	return _shaders[nom]
+
+
+## Luminance moyenne d'une texture (pixels visibles), pour que la teinte garde sa clarté.
+static var _luminances := {}
+static func _luminance(texture: Texture2D) -> float:
+	if texture == null:
+		return 0.35
+	var cle := texture.resource_path
+	if _luminances.has(cle):
+		return _luminances[cle]
+	var image := texture.get_image()
+	if image == null:
+		return 0.35
+	if image.is_compressed():
+		image.decompress()
+	image.resize(48, 48, Image.INTERPOLATE_BILINEAR)
+	var somme := 0.0
+	var n := 0
+	for y in 48:
+		for x in 48:
+			var c := image.get_pixel(x, y)
+			if c.a > 0.5:
+				somme += c.r * 0.299 + c.g * 0.587 + c.b * 0.114
+				n += 1
+	var l := clampf(somme / maxi(n, 1), 0.05, 1.0)
+	_luminances[cle] = l
+	return l
+
+
+func _matiere_teinte(sorte: String, albedo: Texture2D, normale: Texture2D = null) -> ShaderMaterial:
+	var m := ShaderMaterial.new()
+	m.shader = _shader(sorte)
+	m.set_shader_parameter("texture_albedo", albedo)
+	m.set_shader_parameter("luminance_moyenne", _luminance(albedo))
+	if normale:
+		m.set_shader_parameter("texture_normale", normale)
+		m.set_shader_parameter("avec_normale", true)
+	m.set_shader_parameter("rugosite", 0.85 if sorte == "poils" else 0.75)
+	return m
+
+
 func _appliquer_materiaux() -> void:
+	_materiaux_poils.clear()
+	_tete.clear()
+	_materiau_tenue = null
+	_materiau_yeux = null
+	_peau = null
+	var sortes := {}
 	for n in _corps.find_children("*", "MeshInstance3D", true, false):
 		var mi := n as MeshInstance3D
 		var base := String(mi.name).trim_suffix("Mesh")
-		var m := StandardMaterial3D.new()
-		m.roughness = 0.75
+		var sorte := FormesVisage.Sorte.AUTRE
 		if base.contains("1591") or base.contains("1605") or base.contains("proxy") or base.contains("generic"):
 			# Peau : moins cireuse, avec un peu de diffusion sous la surface.
+			var m := StandardMaterial3D.new()
 			m.albedo_texture = _texture("young_", "skinned")
 			m.roughness = 0.6
 			m.metallic_specular = 0.35
@@ -365,13 +533,43 @@ func _appliquer_materiaux() -> void:
 			m.subsurf_scatter_strength = 0.25
 			m.subsurf_scatter_skin_mode = true
 			_materiau_peau = m
+			mi.material_override = m
+			sorte = FormesVisage.Sorte.PEAU
+			_peau = mi
 		elif base.contains("poly"):
-			m.albedo_texture = _texture("", "_eye")
-			m.roughness = 0.15
+			_materiau_yeux = ShaderMaterial.new()
+			_materiau_yeux.shader = _shader("yeux")
+			_materiau_yeux.set_shader_parameter("texture_albedo", _texture("", "_eye"))
+			mi.material_override = _materiau_yeux
+			sorte = FormesVisage.Sorte.YEUX
+		elif base.begins_with("eyelash"):
+			var m := StandardMaterial3D.new()
+			m.albedo_texture = _texture(base)
+			m.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA_SCISSOR
+			m.alpha_scissor_threshold = 0.35
+			m.alpha_antialiasing_mode = BaseMaterial3D.ALPHA_ANTIALIASING_ALPHA_TO_COVERAGE
+			m.cull_mode = BaseMaterial3D.CULL_DISABLED
+			mi.material_override = m
+			sorte = FormesVisage.Sorte.CILS
+		elif base.begins_with("eyebrow") or _est_cheveux(base):
+			var albedo := _texture(base + "_diffuse")
+			if albedo == null:
+				albedo = _texture(base)
+			var m := _matiere_teinte("poils", albedo)
+			_materiaux_poils.append(m)
+			mi.material_override = m
+			sorte = FormesVisage.Sorte.SOURCILS if base.begins_with("eyebrow") else FormesVisage.Sorte.CHEVEUX
+		elif base.contains("suit"):
+			var albedo := _texture(base + "_diffuse")
+			if base.begins_with("female_casualsuit01"):
+				albedo = _sans_logo(albedo)
+			var m := _matiere_teinte("opaque", albedo, _texture(base + "_normal"))
+			_materiau_tenue = m
+			mi.material_override = m
 		else:
+			var m := StandardMaterial3D.new()
+			m.roughness = 0.75
 			m.albedo_texture = _texture(base + "_diffuse")
-			if base.contains("suit"):
-				_materiau_tenue = m
 			if m.albedo_texture == null:
 				m.albedo_texture = _texture(base)
 			var normale := _texture(base + "_normal")
@@ -379,13 +577,46 @@ func _appliquer_materiaux() -> void:
 				m.normal_enabled = true
 				m.normal_texture = normale
 				m.normal_scale = 0.6
-			if base.begins_with("eyebrow") or base.begins_with("eyelash") or _est_cheveux(base):
-				m.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA_SCISSOR
-				m.alpha_scissor_threshold = 0.35
-				m.alpha_antialiasing_mode = BaseMaterial3D.ALPHA_ANTIALIASING_ALPHA_TO_COVERAGE
-				m.cull_mode = BaseMaterial3D.CULL_DISABLED
-				m.roughness = 0.55
-		mi.material_override = m
+			mi.material_override = m
+		sortes[mi] = sorte
+		if sorte != FormesVisage.Sorte.AUTRE:
+			_tete.append(mi)
+	# Les formes du visage (curseurs de l'écran de création).
+	FormesVisage.preparer(modele, sortes)
+
+
+## Le t-shirt MakeHuman de la femme porte le logo MakeHuman sur la poitrine : on le
+## recouvre avec le tissu voisin (copié 170 pixels plus à gauche), bords adoucis.
+static var _sans_logo_cache: Texture2D
+static func _sans_logo(texture: Texture2D) -> Texture2D:
+	if texture == null:
+		return null
+	if _sans_logo_cache != null:
+		return _sans_logo_cache
+	var image := texture.get_image()
+	if image == null:
+		return texture
+	if image.is_compressed():
+		image.decompress()
+	image.clear_mipmaps()
+	image.convert(Image.FORMAT_RGBA8)
+	var k := image.get_width() / 1024.0
+	var centre := Vector2(810, 237) * k       # logo, dans la texture 1024 × 1024
+	var rayons := Vector2(90, 83) * k
+	var decalage := int(170 * k)
+	var source := image.duplicate() as Image
+	var masque := Image.create(image.get_width(), image.get_height(), false, Image.FORMAT_RGBA8)
+	var boite := Rect2i(Vector2i(centre - rayons) - Vector2i(decalage + 4, 4), Vector2i(rayons * 2.0) + Vector2i(8, 8))
+	for y in range(boite.position.y, boite.end.y):
+		for x in range(boite.position.x, boite.end.x):
+			var d := Vector2((x + decalage - centre.x) / rayons.x, (y - centre.y) / rayons.y).length()
+			var alpha := 1.0 - smoothstep(0.88, 1.0, d)
+			if alpha > 0.0:
+				masque.set_pixel(x, y, Color(1, 1, 1, alpha))
+	image.blend_rect_mask(source, masque, boite, boite.position + Vector2i(decalage, 0))
+	image.generate_mipmaps()
+	_sans_logo_cache = ImageTexture.create_from_image(image)
+	return _sans_logo_cache
 
 
 func _est_cheveux(base: String) -> bool:
