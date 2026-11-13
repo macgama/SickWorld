@@ -6,6 +6,10 @@ On y trouve une crique de galets entre deux falaises de calcaire, une mer glacia
 
 Les textures (galets, neige, terre gelée, falaises), les rochers scannés, le bois mort et le ciel viennent de **Poly Haven** (gratuits, licence CC0). Le reste (relief, mer, glace, squelette, faille) est fabriqué par le code.
 
+![Arrivée par le portail](../images/prehistoire-arrivee.jpg)
+
+![Le col de la Steppe, au nord](../images/prehistoire-col.jpg)
+
 ## L'ouvrir
 
 1. Dans GitHub Desktop, sur la branche **main** : **Fetch origin** puis **Pull origin** (Claude le fait pour toi quand il le peut).

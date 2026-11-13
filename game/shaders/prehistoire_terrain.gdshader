@@ -87,7 +87,7 @@ void fragment() {
 	float w_roche = max(smoothstep(0.30, 0.48, pente + (moyen - 0.5) * 0.18), roche_forcee);
 	// La neige tient sur les pentes douces, glisse des falaises.
 	// (Sur un rocher, elle ne reste que sur le dessus.)
-	w_neige *= mix(1.0 - smoothstep(0.25, 0.42, pente), smoothstep(0.55, 0.85, normale_monde.y), roche_forcee);
+	w_neige *= mix(1.0 - smoothstep(0.32, 0.55, pente + (fin - 0.5) * 0.2), smoothstep(0.55, 0.85, normale_monde.y), roche_forcee);
 	float total = max(w_galets + w_sol, 0.001);
 	w_galets /= total;
 	w_sol /= total;

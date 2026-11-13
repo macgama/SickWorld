@@ -167,17 +167,20 @@ func hauteur(x: float, z: float) -> float:
 	h += absf(_details.get_noise_2d(x * 0.6, z * 1.4)) * 0.9 * terres
 	h += _details.get_noise_2d(x * 4.0, z * 4.0) * 0.08
 	# Falaises de calcaire à l'ouest et à l'est (elles plongent dans la mer).
-	var bord := absf(x) + _relief.get_noise_2d(z * 0.9, 300.0) * 12.0
+	var bord := absf(x) + _relief.get_noise_2d(z * 0.9, 300.0) * 12.0 + _details.get_noise_2d(z * 0.6, 40.0) * 3.0
 	var limite := 98.0 if x < 0.0 else 106.0
 	var falaise := smoothstep(limite - 4.0, limite + 3.0, bord)
-	var haut_falaise := (23.0 if x < 0.0 else 29.0) + _relief.get_noise_2d(x * 1.5, z * 1.5) * 5.0
+	var haut_falaise := (23.0 if x < 0.0 else 29.0) + _relief.get_noise_2d(x * 1.5, z * 1.5) * 5.0 \
+			+ (1.0 - absf(_details.get_noise_2d(x * 0.3, z * 0.3))) * 6.0
 	h = lerpf(h, maxf(h, haut_falaise), falaise)
 	# Montagnes au nord, sauf le col qui mène à la Steppe.
 	var col := exp(-pow((x - COL.x) / 14.0, 2.0))
 	var nord := smoothstep(-108.0, -150.0, z + _relief.get_noise_2d(x * 0.8, 77.0) * 10.0)
-	h += nord * 36.0 * (1.0 - col * 0.8)
+	# Des crêtes découpées plutôt que des dunes arrondies.
+	var crete := 1.0 - absf(_relief.get_noise_2d(x * 2.2, z * 2.2 + 500.0))
+	h += nord * (26.0 + crete * crete * 26.0) * (1.0 - col * 0.8)
 	# Bords du terrain : de hautes crêtes pour ne jamais voir le vide.
-	h += smoothstep(138.0, 158.0, absf(x)) * 25.0
+	h += smoothstep(138.0, 158.0, absf(x)) * (18.0 + crete * 14.0)
 	return h
 
 
@@ -185,8 +188,8 @@ func hauteur(x: float, z: float) -> float:
 func _parts_sol(x: float, z: float, h: float) -> Color:
 	var s := ligne_rivage(x) - z
 	var n := _relief.get_noise_2d(x * 2.0 + 90.0, z * 2.0)
-	var galets := 1.0 - smoothstep(14.0, 30.0, s + n * 9.0)
-	var neige := smoothstep(24.0, 58.0, s + n * 22.0) + smoothstep(14.0, 20.0, h) * 0.6
+	var galets := 1.0 - smoothstep(14.0, 28.0, s + n * 9.0)
+	var neige := smoothstep(16.0, 46.0, s + n * 22.0) + smoothstep(10.0, 18.0, h) * 0.8
 	# Autour du camp de la Vigie et sur la piste, la neige est tassée et fondue.
 	var camp := exp(-Vector2(x, z).distance_squared_to(Vector2(2, 34)) / 260.0)
 	var piste := exp(-pow(_distance_piste(Vector2(x, z)) / 2.6, 2.0))
@@ -547,13 +550,15 @@ func _construire_glace() -> void:
 		berg.rotation.y = hasard.randf() * TAU
 		dossier.add_child(berg)
 	# Glace collée au pied des falaises.
-	for k in 26:
+	for k in 40:
 		var cote := -1.0 if k % 2 == 0 else 1.0
-		var x := cote * hasard.randf_range(88.0, 112.0)
-		var z := ligne_rivage(x) + hasard.randf_range(-6.0, 4.0)
+		var x := cote * hasard.randf_range(75.0, 115.0)
+		var z := ligne_rivage(x) + hasard.randf_range(-2.0, 14.0)
+		if hauteur(x, z) > NIVEAU_MER - 0.2:
+			continue
 		var bloc := MeshInstance3D.new()
 		bloc.mesh = _maillage_banquise(hasard, hasard.randf_range(2.0, 4.0), hasard.randf_range(0.6, 1.4))
-		bloc.position = Vector3(x, maxf(hauteur(x, z), NIVEAU_MER) + 0.1, z)
+		bloc.position = Vector3(x, NIVEAU_MER + 0.05, z)
 		bloc.rotation = Vector3(hasard.randf_range(-0.15, 0.15), hasard.randf() * TAU, hasard.randf_range(-0.15, 0.15))
 		dossier.add_child(bloc)
 
@@ -607,16 +612,39 @@ func _construire_rochers() -> void:
 		collision.scale = Vector3.ONE * taille
 		corps.add_child(collision)
 		dossier.add_child(corps)
-	# Éboulis au pied des falaises.
-	for k in 90:
+	# Éboulis au pied des falaises : on cherche, sur chaque ligne, où la pente commence.
+	for k in 150:
 		var cote := -1.0 if k % 2 == 0 else 1.0
 		var z := hasard.randf_range(-110.0, 75.0)
-		var x := cote * hasard.randf_range(90.0, 104.0)
-		placer.call(x, z, hasard.randf_range(0.8, 3.4))
+		var x := cote * 70.0
+		while absf(x) < 130.0 and hauteur(x + cote, z) - hauteur(x, z) < 0.6:
+			x += cote
+		x -= cote * hasard.randf_range(0.0, 7.0)
+		placer.call(x, z, hasard.randf_range(0.8, 4.2) * (1.6 if hasard.randf() < 0.15 else 1.0))
+	# Pans de roche scannés plaqués contre les falaises.
+	for k in 36:
+		var cote := -1.0 if k % 2 == 0 else 1.0
+		var z := hasard.randf_range(-105.0, 70.0)
+		var x := cote * 70.0
+		while absf(x) < 130.0 and hauteur(x + cote, z) - hauteur(x, z) < 0.8:
+			x += cote
+		var id := "rock_face_01" if hasard.randf() < 0.5 else "rock_face_02"
+		var pan := _modele(id, Vector3(x + cote * 1.5, hauteur(x, z) - 1.0, z), (PI / 2 if cote > 0 else -PI / 2) + hasard.randf_range(-0.4, 0.4),
+				hasard.randf_range(3.5, 6.5), dossier)
+		if pan != null:
+			pan.rotation.x = hasard.randf_range(-0.1, 0.1)
+	# Amas de gros rochers sur le plateau (on s'en sert pour se repérer).
+	for k in 16:
+		var cx := hasard.randf_range(-80.0, 85.0)
+		var cz := hasard.randf_range(-115.0, 20.0)
+		if Vector2(cx, cz).distance_to(FAILLE) < 14.0 or _distance_piste(Vector2(cx, cz)) < 8.0:
+			continue
+		for r in hasard.randi_range(2, 5):
+			placer.call(cx + hasard.randf_range(-5.0, 5.0), cz + hasard.randf_range(-5.0, 5.0), hasard.randf_range(1.2, 3.8))
 	# Rochers épars sur la plage et le plateau.
 	var places := 0
 	var essais := 0
-	while places < 140 and essais < 2000:
+	while places < 240 and essais < 3000:
 		essais += 1
 		var x := hasard.randf_range(-95.0, 100.0)
 		var z := hasard.randf_range(-130.0, 72.0)
@@ -886,9 +914,17 @@ func _construire_camp_vigie() -> void:
 	prisme.size = Vector3(3.2, 1.9, 3.6)
 	tente.mesh = prisme
 	tente.material_override = _mat_pbr("", Color(0.78, 0.33, 0.1), 0.8)
-	tente.position = Vector3(t.x, hauteur(t.x, t.y) + 0.6, t.y)
-	tente.rotation = Vector3(0.2, 0.7, 0.45)
+	tente.position = Vector3(t.x, hauteur(t.x, t.y) + 0.85, t.y)
+	tente.rotation = Vector3(0.0, 0.7, 0.14)
 	camp.add_child(tente)
+	# Toile déchirée : l'entrée est ouverte, un pan pend sur le côté.
+	var entree := MeshInstance3D.new()
+	var triangle := PrismMesh.new()
+	triangle.size = Vector3(1.4, 1.2, 0.05)
+	entree.mesh = triangle
+	entree.material_override = _mat_pbr("", Color(0.05, 0.05, 0.06), 1.0)
+	entree.position = Vector3(0, -0.33, 1.81)
+	tente.add_child(entree)
 	# --- Projecteurs sur trépied.
 	for p in [Vector2(-6, 44), Vector2(7, 43), Vector2(-3, 30)]:
 		_projecteur(camp, p, cyan)

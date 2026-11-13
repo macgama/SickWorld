@@ -10,6 +10,8 @@ const VUES := [
 	["faille", Vector3(-4, 4.5, 12), Vector3(3, 3.0, 0)],
 	["plateau", Vector3(-20, 12, -10), Vector3(-34, 4, -36)],
 	["falaises", Vector3(60, 6, 62), Vector3(105, 14, 30)],
+	["mer", Vector3(-8, 3.5, 50), Vector3(10, 0, 120)],
+	["nord", Vector3(0, 3.0, -60), Vector3(8, 10, -140)],
 ]
 
 
