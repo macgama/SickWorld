@@ -9,6 +9,8 @@ var ennemis: Dictionary = {}
 var creation: Dictionary = {}
 ## Objets, ensembles d'époque, butin et règles de l'inventaire (voir Objets).
 var objets: Dictionary = {}
+## Les 4 classes : vie, compétences 1 à 5, attaque automatique, ressource (voir classes.json).
+var classes: Dictionary = {}
 
 
 func _ready() -> void:
@@ -17,10 +19,19 @@ func _ready() -> void:
 	ennemis = _lire("res://data/ennemis.json")
 	creation = _lire("res://data/creation_personnage.json")
 	objets = _lire("res://data/objets.json")
+	classes = _lire("res://data/classes.json")
 
 
 func competence(id: String) -> Dictionary:
 	return competences.get(id, {})
+
+
+## Réglages d'une classe (la Lame si la classe est inconnue).
+func classe(id: String) -> Dictionary:
+	var c = classes.get(id)
+	if c is Dictionary:
+		return c
+	return classes.get("lame", {})
 
 
 func ennemi(id: String) -> Dictionary:

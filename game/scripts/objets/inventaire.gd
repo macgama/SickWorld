@@ -52,8 +52,9 @@ func cat() -> Dictionary:
 	return Donnees.objets
 
 
+## Barre par défaut de la classe du personnage (compétences 1 à 5 de sa classe).
 func _barre_par_defaut() -> Array:
-	return Donnees.joueur.get("barre", [])
+	return combat_joueur.barre_par_defaut()
 
 
 # --- Demandes du joueur (appelées par l'interface) ---------------------------
@@ -198,7 +199,7 @@ func recevoir(objets: Array) -> Array:
 ## enregistre et envoie le nouvel état au joueur.
 func _appliquer() -> void:
 	_calculer_bonus()
-	var base := float(Donnees.joueur.get("points_de_vie", 200))
+	var base := combat_joueur.pv_de_base()
 	var avant := combat.pv_max
 	combat.pv_max = base + float(bonus["stats"]["pv"])
 	if combat.est_vivant():

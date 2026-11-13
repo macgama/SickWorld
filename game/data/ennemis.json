@@ -116,6 +116,7 @@
 	},
 	"ours_sans_memoire": {
 		"nom": "L'Ours Sans Mémoire",
+		"insensible_controles": true,
 		"niveau": 12,
 		"points_de_vie": 3200,
 		"degats": [34, 48],
