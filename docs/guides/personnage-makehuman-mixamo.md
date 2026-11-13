@@ -1,5 +1,11 @@
 # Créer ton personnage avec MakeHuman et l'animer avec Mixamo
 
+> **État actuel (novembre 2026) : c'est fait.** Deux agents de la Vigie (homme et femme) ont été
+> créés et sont dans le jeu. Voir la section « Ce qui a été fait » en bas de page. La suite du
+> guide reste utile pour créer d'autres personnages à la main.
+
+![Le personnage dans le jeu](../images/personnage-en-jeu.jpg)
+
 Pour l'instant, le personnage du prototype est une silhouette provisoire faite de formes simples. Ce guide permet de fabriquer le **vrai personnage réaliste** et ses **animations**. Compte environ 1 heure la première fois.
 
 Tout est gratuit. Il faut seulement un **compte Adobe** gratuit pour Mixamo.
@@ -84,3 +90,52 @@ Pas besoin de trouver exactement le même nom : si une variante te plaît davant
 2. Préviens-moi dans le projet (« les fichiers du personnage sont prêts »). Je demanderai l'accès à ce dossier sur ton PC, j'importerai le personnage et les animations dans le jeu, et je remplacerai la silhouette provisoire.
 
 **Licences :** MakeHuman (CC0 pour les modèles exportés) et Mixamo (utilisation libre dans un jeu, y compris commercial) permettent de les utiliser dans SickWorld. Je noterai les crédits dans `docs/CREDITS.md`.
+
+---
+
+## Ce qui a été fait
+
+### 1. Les personnages (MakeHuman, automatique)
+
+`tools/personnages/creer_personnage.py` fabrique les deux personnages sans clic :
+
+```
+"C:\Program Files\Blender Foundation\Blender 5.2\blender.exe" --background --python tools\personnages\creer_personnage.py
+```
+
+- Les réglages (âge, taille, carrure, peau, yeux, cheveux, vêtements) sont en haut du fichier,
+  dans `PERSONNAGES`.
+- Le script lance MakeHuman avec un petit plugin (`tools/personnages/makehuman_auto/`), qui ne
+  fait rien quand on utilise MakeHuman normalement.
+- Blender corrige ensuite les normales (sinon l'aspect est facetté), enregistre un `.blend`, un
+  FBX propre, un ZIP pour Mixamo et deux aperçus (`docs/images/personnages/`).
+- Résultat dans `Bureau\SickWorld_personnage\` : agent_vigie_homme (1,78 m) et
+  agent_vigie_femme (1,68 m), 30 ans, corps allégé (environ 1 600 sommets), sans squelette.
+
+### 2. Mixamo
+
+- Téléversement d'un ZIP allégé (FBX + textures 1024 px), repères placés, squelette standard (65 os).
+- 11 animations par personnage, en FBX binaire, 30 images/s, sans réduction, « In Place » quand
+  c'est possible : immobile (avec le personnage), courir, reculer, pas_gauche, pas_droite, saut,
+  chute, roulade, attaque, touche, mort.
+- Mixamo n'a pas repris les textures : le jeu les réapplique lui-même.
+
+### 3. Dans Godot
+
+- Fichiers : `game/assets/personnages/homme/` et `femme/` (stockés avec **Git LFS** : installer
+  Git LFS avant de cloner, sinon les fichiers .fbx/.jpg/.png sont vides).
+- `scenes/joueur/apparence_agent.tscn` + `scripts/joueur/apparence_agent.gd` remplacent la
+  silhouette provisoire dans `joueur.tscn` (l'ancienne reste dans `apparence_provisoire.gd`).
+- Dans l'inspecteur du nœud **Apparence** du joueur : `modele` (homme/femme) et `echelle`.
+- L'agent choisit l'animation selon la vitesse (avant, arrière, côtés), saute, tombe, roule
+  pendant l'esquive, frappe, réagit aux coups et tombe à la mort, avec des fondus doux.
+- Peau : roughness 0,6 et un peu de diffusion sous la surface (moins cireuse).
+- Tests : `godot --headless --path game -s res://tests/test_apparence.gd`.
+- Capture : `godot --path game -s res://tests/capture_personnage.gd -- homme`.
+
+### Limites connues
+
+- L'attaque joue sur tout le corps : en courant, les jambes s'arrêtent le temps du coup.
+- Reculer utilise une marche arrière accélérée (les pieds glissent un peu).
+- Le t-shirt de la femme porte le logo MakeHuman (seule tenue féminine décontractée fournie).
+- Textures réduites à 1024 px pour le dépôt ; les originales sont dans `Bureau\SickWorld_personnage\`.
