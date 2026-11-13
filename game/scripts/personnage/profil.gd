@@ -22,7 +22,7 @@ const HORS_LIGNE := "hors_ligne"
 const FICHIER_SYNCHRO := "_synchro.cfg"
 
 ## Fichiers à la racine de user:// qui appartiennent au personnage.
-const FICHIERS := ["personnage.json", "progression.cfg"]
+const FICHIERS := ["personnage.json", "progression.cfg", "conseils.cfg"]
 ## Dossiers de user:// qui appartiennent au personnage.
 const DOSSIERS := ["sauvegardes", "cartes"]
 
