@@ -3,15 +3,11 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bi74lixkgh6gs"
-path="res://.godot/imported/dry_ground_rocks_Diffuse.jpg-ae3fb7922a50582ad506b14c9946201e.ctex"
-metadata={
-"vram_texture": false
-}
+valid=false
 
 [deps]
 
 source_file="res://assets/prehistoire/textures/dry_ground_rocks/dry_ground_rocks_Diffuse.jpg"
-dest_files=["res://.godot/imported/dry_ground_rocks_Diffuse.jpg-ae3fb7922a50582ad506b14c9946201e.ctex"]
 
 [params]
 

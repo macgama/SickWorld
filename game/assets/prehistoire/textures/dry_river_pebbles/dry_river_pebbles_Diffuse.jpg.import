@@ -3,15 +3,11 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://suiwm4b48qeu"
-path="res://.godot/imported/dry_river_pebbles_Diffuse.jpg-9d9cd2c61949317d92dcd0faf3cf1f10.ctex"
-metadata={
-"vram_texture": false
-}
+valid=false
 
 [deps]
 
 source_file="res://assets/prehistoire/textures/dry_river_pebbles/dry_river_pebbles_Diffuse.jpg"
-dest_files=["res://.godot/imported/dry_river_pebbles_Diffuse.jpg-9d9cd2c61949317d92dcd0faf3cf1f10.ctex"]
 
 [params]
 

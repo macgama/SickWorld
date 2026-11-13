@@ -3,15 +3,11 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bhn3x2gxtsnse"
-path="res://.godot/imported/rock_wall_10_arm.jpg-8c25bf91f147a53d3c8ac12a9797d431.ctex"
-metadata={
-"vram_texture": false
-}
+valid=false
 
 [deps]
 
 source_file="res://assets/prehistoire/textures/rock_wall_10/rock_wall_10_arm.jpg"
-dest_files=["res://.godot/imported/rock_wall_10_arm.jpg-8c25bf91f147a53d3c8ac12a9797d431.ctex"]
 
 [params]
 

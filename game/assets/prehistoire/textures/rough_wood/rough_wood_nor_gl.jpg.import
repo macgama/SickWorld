@@ -3,15 +3,11 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://c8gjqw0sibh5q"
-path="res://.godot/imported/rough_wood_nor_gl.jpg-35c2bd19b0c1b41fb7f4d648f8405992.ctex"
-metadata={
-"vram_texture": false
-}
+valid=false
 
 [deps]
 
 source_file="res://assets/prehistoire/textures/rough_wood/rough_wood_nor_gl.jpg"
-dest_files=["res://.godot/imported/rough_wood_nor_gl.jpg-35c2bd19b0c1b41fb7f4d648f8405992.ctex"]
 
 [params]
 
