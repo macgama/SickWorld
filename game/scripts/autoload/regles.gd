@@ -95,9 +95,18 @@ func allies_autour(pour: Combattant, centre: Vector3, rayon: float) -> Array[Com
 
 
 ## Nombre (dégâts, soins…) qui monte et disparaît au-dessus d'un combattant.
+## Décidé par le serveur, affiché chez tous les joueurs.
 func afficher_nombre(cible: Combattant, texte: String, couleur: Color, gros: bool) -> void:
+	if not multiplayer.is_server() or not cible.is_inside_tree():
+		return
+	_nombre.rpc(cible.get_path(), texte, couleur, gros)
+
+
+@rpc("authority", "call_local", "unreliable")
+func _nombre(chemin: NodePath, texte: String, couleur: Color, gros: bool) -> void:
+	var cible := get_node_or_null(chemin) as Combattant
 	var scene := get_tree().current_scene
-	if scene == null or DisplayServer.get_name() == "headless":
+	if cible == null or scene == null or DisplayServer.get_name() == "headless":
 		return
 	var etiquette := Label3D.new()
 	etiquette.text = texte
@@ -117,3 +126,25 @@ func afficher_nombre(cible: Combattant, texte: String, couleur: Color, gros: boo
 	animation.tween_property(etiquette, "global_position", depart + Vector3.UP * 1.4, 1.1)
 	animation.tween_property(etiquette, "modulate:a", 0.0, 0.5).set_delay(0.6)
 	animation.chain().tween_callback(etiquette.queue_free)
+
+
+## Exécute une méthode sur le serveur (directement si on EST le serveur).
+func au_serveur(noeud: Node, methode: StringName, arguments: Array = []) -> void:
+	if multiplayer.is_server():
+		noeud.callv(methode, arguments)
+	else:
+		noeud.callv("rpc_id", [1, methode] + arguments)
+
+
+## Exécute une méthode chez un joueur précis (directement si c'est nous).
+func chez(id: int, noeud: Node, methode: StringName, arguments: Array = []) -> void:
+	if id == multiplayer.get_unique_id():
+		noeud.callv(methode, arguments)
+	elif multiplayer.is_server() and id in multiplayer.get_peers():
+		noeud.callv("rpc_id", [id, methode] + arguments)
+
+
+## Identifiant de celui qui a envoyé la demande en cours (nous-même si appel direct).
+func expediteur() -> int:
+	var id := multiplayer.get_remote_sender_id()
+	return id if id != 0 else multiplayer.get_unique_id()

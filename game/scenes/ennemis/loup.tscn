@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene load_steps=7 format=3]
 
 [ext_resource type="Script" path="res://scripts/ennemis/loup.gd" id="1_loup"]
 [ext_resource type="Script" path="res://scripts/combat/combattant.gd" id="2_combat"]
@@ -7,7 +7,50 @@
 [sub_resource type="SphereShape3D" id="SphereShape3D_loup"]
 radius = 0.45
 
-[node name="Loup" type="CharacterBody3D" groups=["loups"]]
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_loup"]
+properties/0/path = NodePath(".:position_reseau")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:lacet_reseau")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath(".:vitesse_reseau")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+properties/3/path = NodePath(".:etat")
+properties/3/spawn = true
+properties/3/replication_mode = 2
+properties/4/path = NodePath(".:faction")
+properties/4/spawn = true
+properties/4/replication_mode = 2
+properties/5/path = NodePath(".:type_ennemi")
+properties/5/spawn = true
+properties/5/replication_mode = 2
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_combat"]
+properties/0/path = NodePath(".:pv")
+properties/0/spawn = true
+properties/0/replication_mode = 2
+properties/1/path = NodePath(".:pv_max")
+properties/1/spawn = true
+properties/1/replication_mode = 2
+properties/2/path = NodePath(".:nom_affiche")
+properties/2/spawn = true
+properties/2/replication_mode = 2
+properties/3/path = NodePath(".:niveau")
+properties/3/spawn = true
+properties/3/replication_mode = 2
+properties/4/path = NodePath(".:faction")
+properties/4/spawn = true
+properties/4/replication_mode = 2
+properties/5/path = NodePath(".:effets_affiches")
+properties/5/spawn = true
+properties/5/replication_mode = 2
+properties/6/path = NodePath(".:vitesse_synchro")
+properties/6/spawn = true
+properties/6/replication_mode = 2
+
+[node name="Loup" type="CharacterBody3D"]
 collision_layer = 2
 collision_mask = 3
 script = ExtResource("1_loup")
@@ -19,5 +62,13 @@ shape = SubResource("SphereShape3D_loup")
 [node name="Combat" type="Node" parent="."]
 script = ExtResource("2_combat")
 
+[node name="Synchro" type="MultiplayerSynchronizer" parent="Combat"]
+replication_interval = 0.1
+replication_config = SubResource("SceneReplicationConfig_combat")
+
 [node name="Apparence" type="Node3D" parent="."]
 script = ExtResource("3_apparence")
+
+[node name="Synchro" type="MultiplayerSynchronizer" parent="."]
+replication_interval = 0.05
+replication_config = SubResource("SceneReplicationConfig_loup")

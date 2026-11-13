@@ -27,7 +27,7 @@ func _lancer() -> void:
 	var scene: Node = load("res://scenes/monde/colline_de_test.tscn").instantiate()
 	root.add_child(scene)
 	await _attendre(30)
-	var joueur = scene.get_node("Joueur")
+	var joueur = get_first_node_in_group("joueur_local")
 	print("Test du déplacement")
 	_verifier(joueur.is_on_floor(), "le joueur est posé sur le sol au départ")
 	var depart = joueur.global_position

@@ -7,7 +7,7 @@ config_version=5
 
 config/name="SickWorld"
 config/description="MMORPG 3D : des voyageurs temporels réparent l'histoire, une époque à la fois."
-run/main_scene="res://scenes/monde/colline_de_test.tscn"
+run/main_scene="res://scenes/interface/menu.tscn"
 config/features=PackedStringArray("4.7", "Forward Plus")
 config/icon="res://icon.svg"
 
@@ -16,6 +16,7 @@ config/icon="res://icon.svg"
 Controles="*res://scripts/autoload/controles.gd"
 Donnees="*res://scripts/autoload/donnees.gd"
 Regles="*res://scripts/autoload/regles.gd"
+Reseau="*res://scripts/autoload/reseau.gd"
 
 [display]
 

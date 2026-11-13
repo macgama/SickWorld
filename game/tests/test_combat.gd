@@ -45,7 +45,7 @@ func _lancer() -> void:
 	root.add_child(scene)
 	current_scene = scene
 	await _attendre(30)
-	var joueur = scene.get_node("Joueur")
+	var joueur = get_first_node_in_group("joueur_local")
 	var cj = joueur.get_node("CombatJoueur")
 	var moi = joueur.get_node("Combat")
 
@@ -54,7 +54,7 @@ func _lancer() -> void:
 	_verifier(cj.barre.size() == 8, "la barre contient 8 compétences")
 
 	# On se place à 9 m d'un loup du camp nord, face à lui.
-	var loup = scene.get_node("CampNord_Loup1")
+	var loup = scene.get_node("Partie/Loups/CampNord_Loup1")
 	var p = loup.global_position + Vector3(0, 0.5, 9)
 	joueur.placer(p, 0.0)
 	await _attendre(5)
@@ -73,7 +73,7 @@ func _lancer() -> void:
 			joueur.global_position.z - loup.global_position.z).length() < 3.5, "Bond amène au contact")
 	_verifier(loup.combat.pv < loup.combat.pv_max, "le loup a pris des dégâts")
 	_verifier(loup.etat == loup.Etat.POURSUIVRE, "le loup attaque le joueur")
-	var voisin = scene.get_node("CampNord_Loup2")
+	var voisin = scene.get_node("Partie/Loups/CampNord_Loup2")
 	_verifier(voisin.etat == voisin.Etat.POURSUIVRE, "son voisin de meute vient l'aider")
 	_verifier(cj.elan > 0.0, "l'Élan monte (%.0f)" % cj.elan)
 
@@ -101,7 +101,7 @@ func _lancer() -> void:
 	_verifier(moi.pv > pv_avant, "le Feu des ancêtres soigne (%d -> %d)" % [pv_avant, moi.pv])
 
 	# Lancer au propulseur (avec préparation) sur un loup lointain.
-	var loin = scene.get_node("CampOuest_Loup1")
+	var loin = scene.get_node("Partie/Loups/CampOuest_Loup1")
 	cj.message.connect(func(t): print("    (message du jeu : %s)" % t))
 	joueur.placer(loin.global_position + Vector3(-20, 0.5, 0), -PI / 2)
 	await _secondes(1.0)

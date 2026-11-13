@@ -29,6 +29,8 @@ var _pv_joueur: ProgressBar
 var _texte_pv_joueur: Label
 var _elan: ProgressBar
 var _effets_joueur: Label
+var _nom_joueur: Label
+var _statut: Label
 var _cadre_cible: PanelContainer
 var _nom_cible: Label
 var _pv_cible: ProgressBar
@@ -69,19 +71,28 @@ func _ready() -> void:
 	_images.modulate.a = 0.6
 	_racine.add_child(_images)
 
+	_statut = Label.new()
+	_statut.set_anchors_preset(Control.PRESET_CENTER)
+	_statut.grow_horizontal = Control.GROW_DIRECTION_BOTH
+	_statut.add_theme_font_size_override("font_size", 22)
+	_statut.text = "Connexion au serveur…"
+	_racine.add_child(_statut)
+	Reseau.statut_change.connect(func(t): _statut.text = t)
+
 	_connecter.call_deferred()
 
 
 func _connecter() -> void:
-	_joueur = get_tree().get_first_node_in_group("joueur") as Joueur
+	_joueur = get_tree().get_first_node_in_group("joueur_local") as Joueur
 	if _joueur == null:
+		# Le personnage n'est pas encore arrivé du serveur : on réessaie un peu plus tard.
+		if is_inside_tree():
+			get_tree().create_timer(0.2).timeout.connect(_connecter)
 		return
 	_combat = _joueur.get_node("Combat")
 	_combat_joueur = _joueur.get_node("CombatJoueur")
 	_combat_joueur.message.connect(_afficher_message)
 	_combat_joueur.incantation_changee.connect(_sur_incantation)
-	_combat_joueur.desynchronise.connect(func(): _ecran_mort.visible = true)
-	_combat_joueur.resynchronise.connect(func(): _ecran_mort.visible = false)
 	for i in _cases.size():
 		var c := _combat_joueur.competence(i)
 		var case: Dictionary = _cases[i]
@@ -172,10 +183,8 @@ func _construire_cadre_joueur() -> void:
 	var colonne := VBoxContainer.new()
 	colonne.add_theme_constant_override("separation", 4)
 	cadre.add_child(colonne)
-	var nom := _petit_texte(15)
-	nom.text = "%s — %s niv. %d" % [Donnees.joueur.get("nom", ""), Donnees.joueur.get("classe", ""),
-			int(Donnees.joueur.get("niveau", 1))]
-	colonne.add_child(nom)
+	_nom_joueur = _petit_texte(15)
+	colonne.add_child(_nom_joueur)
 	_pv_joueur = _jauge(Color(0.2, 0.75, 0.25), 20)
 	_texte_pv_joueur = _texte_sur(_pv_joueur)
 	colonne.add_child(_pv_joueur)
@@ -377,8 +386,12 @@ func _noms_effets(c: Combattant) -> String:
 func _process(_delta: float) -> void:
 	_images.text = "%d images/s" % Engine.get_frames_per_second()
 	_message.visible = Regles.maintenant() < _message_fin
-	if _joueur == null:
+	if _joueur == null or not is_instance_valid(_joueur):
+		_statut.visible = Reseau.a_un_joueur_local()
 		return
+	_statut.visible = false
+	_nom_joueur.text = "%s — %s niv. %d" % [_combat.nom_affiche, Donnees.joueur.get("classe", ""), _combat.niveau]
+	_ecran_mort.visible = not _combat.est_vivant()
 
 	_endurance.max_value = _joueur.endurance_max
 	_endurance.value = _joueur.endurance

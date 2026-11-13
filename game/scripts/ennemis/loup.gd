@@ -33,27 +33,45 @@ var _prochaine_errance := 0.0
 var _moment_mort := 0.0
 var _gravite := 16.0
 
+# --- État partagé sur le réseau (le serveur fait réfléchir les loups,
+# les joueurs reçoivent seulement leur position et leur état) ---
+var position_reseau := Vector3.ZERO
+var lacet_reseau := 0.0
+var vitesse_reseau := 0.0
+var _colore := false
+
 @onready var combat: Combattant = $Combat
 @onready var apparence: Node3D = $Apparence
 
 
+func _enter_tree() -> void:
+	add_to_group("loups")
+
+
 func _ready() -> void:
+	combat.hauteur_centre = 0.6
+	if not multiplayer.is_server():
+		return
 	_donnees = Donnees.ennemi(type_ennemi)
 	combat.nom_affiche = _donnees.get("nom", "Loup")
 	combat.niveau = int(_donnees.get("niveau", 1))
 	combat.pv_max = float(_donnees.get("points_de_vie", 100))
 	combat.pv = combat.pv_max
 	combat.faction = faction
-	combat.hauteur_centre = 0.6
 	combat.degats_recus.connect(_sur_degats)
 	combat.mort.connect(_sur_mort)
-	camp = global_position
+	if camp == Vector3.ZERO:
+		camp = global_position
 	_point_errance = camp
-	if apparence.has_method("colorer"):
-		apparence.colorer(faction == "joueur")
 
 
 func _physics_process(delta: float) -> void:
+	if not _colore and apparence.has_method("colorer"):
+		_colore = true
+		apparence.colorer(faction == "joueur")
+	if not multiplayer.is_server():
+		_suivre_le_reseau(delta)
+		return
 	if not is_on_floor():
 		velocity.y -= _gravite * delta
 	else:
@@ -81,6 +99,9 @@ func _physics_process(delta: float) -> void:
 	if global_position.y < -30.0:
 		global_position = camp + Vector3.UP
 		reset_physics_interpolation()
+	position_reseau = global_position
+	lacet_reseau = rotation.y
+	vitesse_reseau = Vector2(velocity.x, velocity.z).length()
 	if apparence.has_method("animer"):
 		apparence.animer(get_physics_process_delta_time(), Vector2(velocity.x, velocity.z).length(),
 				etat == Etat.MORT)
@@ -153,8 +174,7 @@ func _poursuivre() -> void:
 	if distance <= portee and Regles.maintenant() >= _prochaine_attaque:
 		_prochaine_attaque = Regles.maintenant() + float(_donnees.get("intervalle_attaque", 1.8))
 		Regles.infliger(combat, _cible, Donnees.entre(_donnees.get("degats", [5, 8])))
-		if apparence.has_method("mordre"):
-			apparence.mordre()
+		_mordre.rpc()
 
 
 func _rentrer() -> void:
@@ -237,3 +257,26 @@ func _cible_du_maitre() -> Combattant:
 		if c.en_combat():
 			return c
 	return null
+
+
+
+@rpc("authority", "call_local", "unreliable")
+func _mordre() -> void:
+	if apparence.has_method("mordre"):
+		apparence.mordre()
+
+
+## Chez les joueurs : le loup glisse vers la position envoyée par le serveur.
+func _suivre_le_reseau(delta: float) -> void:
+	if position_reseau == Vector3.ZERO:
+		return
+	if global_position.distance_to(position_reseau) > 6.0:
+		global_position = position_reseau
+		reset_physics_interpolation()
+	else:
+		global_position = global_position.lerp(position_reseau, clampf(12.0 * delta, 0.0, 1.0))
+	rotation.y = lerp_angle(rotation.y, lacet_reseau, clampf(12.0 * delta, 0.0, 1.0))
+	# Un loup mort ne bloque plus le passage.
+	collision_layer = 0 if etat == Etat.MORT else Regles.COUCHE_PERSONNAGES
+	if apparence.has_method("animer"):
+		apparence.animer(delta, vitesse_reseau, etat == Etat.MORT)
