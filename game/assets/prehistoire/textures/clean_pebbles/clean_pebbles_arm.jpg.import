@@ -2,12 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://381dh1e5q8ma"
-valid=false
+uid="uid://bjyykv20bcdm8"
+path="res://.godot/imported/clean_pebbles_arm.jpg-6b712cca6d54b826b71479ba71d25a74.ctex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 
 source_file="res://assets/prehistoire/textures/clean_pebbles/clean_pebbles_arm.jpg"
+dest_files=["res://.godot/imported/clean_pebbles_arm.jpg-6b712cca6d54b826b71479ba71d25a74.ctex"]
 
 [params]
 

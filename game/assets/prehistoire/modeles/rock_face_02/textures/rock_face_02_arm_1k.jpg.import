@@ -2,12 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://nh1hfv07v3l0"
-valid=false
+uid="uid://br26raxwrx2h6"
+path="res://.godot/imported/rock_face_02_arm_1k.jpg-ad391ce985228bfcc40c813618a3e83d.ctex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 
 source_file="res://assets/prehistoire/modeles/rock_face_02/textures/rock_face_02_arm_1k.jpg"
+dest_files=["res://.godot/imported/rock_face_02_arm_1k.jpg-ad391ce985228bfcc40c813618a3e83d.ctex"]
 
 [params]
 

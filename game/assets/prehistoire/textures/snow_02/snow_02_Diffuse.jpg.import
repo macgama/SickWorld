@@ -2,12 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dcs0g64qmev2c"
-valid=false
+uid="uid://ciuypsxt7a3j2"
+path="res://.godot/imported/snow_02_Diffuse.jpg-6452e4534f2e16f6b30a2307035459aa.ctex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 
 source_file="res://assets/prehistoire/textures/snow_02/snow_02_Diffuse.jpg"
+dest_files=["res://.godot/imported/snow_02_Diffuse.jpg-6452e4534f2e16f6b30a2307035459aa.ctex"]
 
 [params]
 

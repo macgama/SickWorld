@@ -2,12 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bvugk7fix7oxk"
-valid=false
+uid="uid://b1dhqoubyt10n"
+path="res://.godot/imported/dry_ground_rocks_nor_gl.jpg-2bb4353be082e03e24d9a483357169a4.ctex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 
 source_file="res://assets/prehistoire/textures/dry_ground_rocks/dry_ground_rocks_nor_gl.jpg"
+dest_files=["res://.godot/imported/dry_ground_rocks_nor_gl.jpg-2bb4353be082e03e24d9a483357169a4.ctex"]
 
 [params]
 

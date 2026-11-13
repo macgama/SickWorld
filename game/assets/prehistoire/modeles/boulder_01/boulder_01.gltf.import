@@ -3,12 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://cbvit6k1g7ws3"
-valid=false
+uid="uid://dror8yy7qfla4"
+path="res://.godot/imported/boulder_01.gltf-5c2a1509bd122a39772ab459913ec6bf.scn"
 
 [deps]
 
 source_file="res://assets/prehistoire/modeles/boulder_01/boulder_01.gltf"
+dest_files=["res://.godot/imported/boulder_01.gltf-5c2a1509bd122a39772ab459913ec6bf.scn"]
 
 [params]
 

@@ -2,12 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://1fu4g7icw745"
-valid=false
+uid="uid://fa0q1ppdpfis"
+path="res://.godot/imported/dry_river_pebbles_arm.jpg-767ea662a70e650bd5838e17e65fb5ca.ctex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 
 source_file="res://assets/prehistoire/textures/dry_river_pebbles/dry_river_pebbles_arm.jpg"
+dest_files=["res://.godot/imported/dry_river_pebbles_arm.jpg-767ea662a70e650bd5838e17e65fb5ca.ctex"]
 
 [params]
 

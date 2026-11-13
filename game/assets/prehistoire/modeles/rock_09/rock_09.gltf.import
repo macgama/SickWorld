@@ -3,12 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://ckedvs1juygx6"
-valid=false
+uid="uid://dua8m05cq1wtf"
+path="res://.godot/imported/rock_09.gltf-bf807e313039ee33b68d44dab0251d65.scn"
 
 [deps]
 
 source_file="res://assets/prehistoire/modeles/rock_09/rock_09.gltf"
+dest_files=["res://.godot/imported/rock_09.gltf-bf807e313039ee33b68d44dab0251d65.scn"]
 
 [params]
 

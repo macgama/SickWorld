@@ -2,12 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cqawhamx1ike3"
-valid=false
+uid="uid://cj1m1k2vbfv7s"
+path="res://.godot/imported/dry_ground_rocks_arm.jpg-de7a673a908d69b34b771848c1ead62c.ctex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 
 source_file="res://assets/prehistoire/textures/dry_ground_rocks/dry_ground_rocks_arm.jpg"
+dest_files=["res://.godot/imported/dry_ground_rocks_arm.jpg-de7a673a908d69b34b771848c1ead62c.ctex"]
 
 [params]
 

@@ -3,12 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://bi5m5gdqh740e"
-valid=false
+uid="uid://cok78d8uj1pjs"
+path="res://.godot/imported/rock_moss_set_01.gltf-b7963e56ac0f0ff5d359c0d158409dfd.scn"
 
 [deps]
 
 source_file="res://assets/prehistoire/modeles/rock_moss_set_01/rock_moss_set_01.gltf"
+dest_files=["res://.godot/imported/rock_moss_set_01.gltf-b7963e56ac0f0ff5d359c0d158409dfd.scn"]
 
 [params]
 

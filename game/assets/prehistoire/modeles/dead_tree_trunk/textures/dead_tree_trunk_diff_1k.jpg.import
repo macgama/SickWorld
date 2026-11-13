@@ -2,12 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://fwfvoh3mns37"
-valid=false
+uid="uid://ewdbl0i8k0l4"
+path="res://.godot/imported/dead_tree_trunk_diff_1k.jpg-831ec29962b790efe8aa426fb46b8797.ctex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 
 source_file="res://assets/prehistoire/modeles/dead_tree_trunk/textures/dead_tree_trunk_diff_1k.jpg"
+dest_files=["res://.godot/imported/dead_tree_trunk_diff_1k.jpg-831ec29962b790efe8aa426fb46b8797.ctex"]
 
 [params]
 

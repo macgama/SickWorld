@@ -2,12 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cg3nbx7akf3hb"
-valid=false
+uid="uid://bdk8epxxntylj"
+path="res://.godot/imported/rock_boulder_dry_Diffuse.jpg-b0d89b2edf4251767bd0cacfd211ef18.ctex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 
 source_file="res://assets/prehistoire/textures/rock_boulder_dry/rock_boulder_dry_Diffuse.jpg"
+dest_files=["res://.godot/imported/rock_boulder_dry_Diffuse.jpg-b0d89b2edf4251767bd0cacfd211ef18.ctex"]
 
 [params]
 
