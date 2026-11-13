@@ -1,5 +1,5 @@
 {
-	"_aide": "Réglages du personnage du prototype (classe : Lame). La barre liste les 8 compétences dans l'ordre des touches 1 à 8 (voir competences.json).",
+	"_aide": "Réglages du personnage du prototype communs à toutes les classes (la vie, les touches 1 à 5, l'attaque automatique et la ressource de chaque classe sont dans classes.json). La barre liste les 8 compétences par défaut dans l'ordre des touches 1 à 8 (voir competences.json).",
 	"nom": "Agent de la Vigie",
 	"classe": "Lame",
 	"niveau": 1,
@@ -14,7 +14,7 @@
 		"lancer_au_propulseur",
 		"appel_de_la_meute"
 	],
-	"attaque_automatique": { "degats": [7, 10], "intervalle": 2.0, "portee": 3.5, "gain_elan": 8 },
+	"attaque_automatique": { "degats": [7, 10], "intervalle": 2.0, "portee": 3.5, "gain": 8 },
 	"elan_max": 100,
 	"perte_elan_hors_combat": 5,
 	"temps_de_recharge_global": 1.0,
