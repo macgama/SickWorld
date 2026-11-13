@@ -124,7 +124,7 @@ func _regles(cat: Dictionary, art: Dictionary, barre: Array) -> void:
 ## En jeu, dans le hub : demande au serveur, distance, fenêtre.
 func _en_jeu(cat: Dictionary, art: Dictionary) -> void:
 	print("Artisanat dans le hub")
-	DirAccess.remove_absolute(FICHIER)
+	DirAccess.remove_absolute(Profil.chemin(FICHIER))
 	root.get_node("Reseau").nom_joueur = NOM
 	var scene: Node = load("res://scenes/monde/hikari_bay.tscn").instantiate()
 	root.add_child(scene)
@@ -169,4 +169,4 @@ func _en_jeu(cat: Dictionary, art: Dictionary) -> void:
 	joueur.teleporter(forgeron.global_position + Vector3(0, 0.2, 12.0), PI)
 	await _attendre(10)
 	_verifier(not fenetre.visible, "en s'éloignant, la fenêtre se ferme")
-	DirAccess.remove_absolute(FICHIER)
+	DirAccess.remove_absolute(Profil.chemin(FICHIER))
