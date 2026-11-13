@@ -1,0 +1,68 @@
+{
+	"_aide": "Personnages du hub Hikari Bay. Pour changer ce qu'ils disent, modifie le texte entre guillemets (une ligne = une bulle de dialogue). Garde les virgules entre les lignes.",
+	"commandante": {
+		"nom": "Commandante Hana Morel",
+		"role": "Vigie · Hall des opérations",
+		"modele": "femme",
+		"repliques": [
+			"Bienvenue au QG de la Vigie, agent. Ici, sous la station Asahi, nous surveillons la santé de l'histoire.",
+			"Regarde la table : chaque lumière est une époque. Celle qui clignote, c'est la Préhistoire. Elle est malade.",
+			"Les fractures déforment le passé, et le présent change avec lui. Tu as vu la statue du Gardien, là-haut ?",
+			"Quand tu seras prêt, passe par la salle des portails, au sud. Lenoir t'attend de l'autre côté."
+		]
+	},
+	"banquier": {
+		"nom": "Théo Kessler",
+		"role": "Gardien du Coffre",
+		"modele": "homme",
+		"repliques": [
+			"Le Coffre de la Vigie. Tout ce que tu rapportes des époques peut être rangé ici, en sécurité.",
+			"Les casiers ouvriront bientôt. En attendant, garde tes trouvailles sur toi."
+		]
+	},
+	"rempart": {
+		"nom": "Instructrice Brune",
+		"role": "Entraîneuse · Rempart",
+		"modele": "femme",
+		"repliques": [
+			"Le Rempart tient la ligne quand tout s'effondre. Bouclier levé, tête froide.",
+			"Reviens me voir quand tu auras gagné en expérience : je t'apprendrai de nouvelles techniques."
+		]
+	},
+	"lame": {
+		"nom": "Maître Ishida",
+		"role": "Entraîneur · Lame",
+		"modele": "homme",
+		"repliques": [
+			"Une Lame frappe vite et fort, puis disparaît avant la riposte.",
+			"Tes premières techniques suffisent pour la Préhistoire. Les suivantes viendront avec l'expérience."
+		]
+	},
+	"traqueur": {
+		"nom": "Sergente Okafor",
+		"role": "Entraîneuse · Traqueur",
+		"modele": "femme",
+		"repliques": [
+			"Le Traqueur voit la cible avant qu'elle le voie. Distance, patience, précision.",
+			"Mon terrain d'entraînement ouvrira bientôt."
+		]
+	},
+	"tisseur": {
+		"nom": "Docteur Lune",
+		"role": "Entraîneur · Tisseur",
+		"modele": "homme",
+		"repliques": [
+			"Le Tisseur répare le fil du temps... et soigne ses alliés au passage.",
+			"Les Tisseurs rejoindront bientôt la Vigie. Mes recherches avancent."
+		]
+	},
+	"technicienne": {
+		"nom": "Yuki Tanabe",
+		"role": "Technicienne des portails",
+		"modele": "femme",
+		"repliques": [
+			"Salle des portails ! Un anneau par époque. Seul celui de la Préhistoire est stable pour l'instant.",
+			"Avance dans l'anneau bleu quand tu es prêt. Ne t'inquiète pas pour le picotement, c'est normal."
+		]
+	}
+}
