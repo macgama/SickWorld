@@ -341,7 +341,9 @@ func _meches(sommets: PackedVector3Array, normales: PackedVector3Array, os_s: Pa
 			longueur *= 0.7
 		# Les mèches ne descendent pas sous le genou.
 		# Bas de toison irrégulier.
-		longueur = minf(longueur, maxf(p.y - hasard.randf_range(0.75, 1.5), 0.12))
+		# (plus longue sous le ventre et derrière les pattes avant, plus courte vers l'arrière).
+		var plancher := lerpf(0.65, 1.45, smoothstep(-1.2, 1.8, p.z)) + hasard.randf_range(-0.25, 0.3)
+		longueur = minf(longueur * hasard.randf_range(0.8, 1.35), maxf(p.y - plancher, 0.12))
 		var bas := (Vector3(0, -1, 0) + nrm * 0.18 + Vector3(hasard.randf_range(-0.1, 0.1), 0,
 				hasard.randf_range(-0.1, 0.1))).normalized()
 		var cote := bas.cross(nrm).normalized()

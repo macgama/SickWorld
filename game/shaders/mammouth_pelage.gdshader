@@ -5,7 +5,7 @@ render_mode cull_disabled, depth_draw_opaque;
 
 uniform sampler2D bruit : filter_linear_mipmap, repeat_enable;
 uniform vec3 sombre : source_color = vec3(0.12, 0.075, 0.045);
-uniform vec3 roux : source_color = vec3(0.36, 0.21, 0.11);
+uniform vec3 roux : source_color = vec3(0.3, 0.19, 0.11);
 uniform bool meches = false;
 
 varying vec3 position_locale;
