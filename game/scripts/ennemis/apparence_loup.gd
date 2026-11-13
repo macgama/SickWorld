@@ -41,7 +41,7 @@ func _forme(parent: Node3D, maillage: Mesh, materiau: Material, pos: Vector3, ec
 
 func _construire() -> void:
 	var parent := get_parent()
-	if parent != null and String(parent.get("type_ennemi")).begins_with("renne"):
+	if parent != null and str(parent.get("type_ennemi")).begins_with("renne"):
 		_construire_renne()
 		return
 	var pelage := _mat(Color(0.42, 0.38, 0.33))

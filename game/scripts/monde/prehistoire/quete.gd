@@ -59,6 +59,10 @@ var _canalisation_depart := Vector3.ZERO
 var _combat_joueur: Node = null
 ## Dernière zone demandée (pour les tests, quand voyage_reel est décoché).
 var zone_demandee := ""
+## L'étape « choix » telle qu'elle était avant de choisir (on peut se raviser si
+## l'action est interrompue).
+var _avant_choix := {}
+var _renforts_venus: Array[String] = []
 
 
 func _ready() -> void:
@@ -76,6 +80,7 @@ func _ready() -> void:
 			if not copie.has("ou"):
 				copie["ou"] = c.get("ou", "")
 			etapes.append(copie)
+	_reprendre_choix()
 	_construire_ecran()
 	_construire_repere()
 	var dialogue := get_tree().get_first_node_in_group("dialogue")
@@ -117,6 +122,54 @@ func _ici(e: Dictionary) -> bool:
 
 # --- Progression ------------------------------------------------------------
 
+## Une étape « choix » propose plusieurs objets ; celui qu'on utilise décide de la
+## suite (ex. soigner Grise ou la laisser partir). Le choix est gardé dans la sauvegarde.
+func _reprendre_choix() -> void:
+	var cfg := ConfigFile.new()
+	if cfg.load(fichier_progression) != OK:
+		return
+	for i in etapes.size():
+		var e: Dictionary = etapes[i]
+		if not e.has("choix"):
+			continue
+		var pris := String(cfg.get_value(SECTION, "choix_" + String(e.get("id", "")), ""))
+		for option in e["choix"]:
+			if option.get("objet", "") == pris:
+				etapes[i] = _etape_choisie(e, option)
+
+
+func _etape_choisie(e: Dictionary, option: Dictionary) -> Dictionary:
+	var choisie := e.duplicate()
+	choisie.erase("choix")
+	choisie.merge(option, true)
+	choisie["choix_fait"] = option.get("objet", "")
+	return choisie
+
+
+## Choix : le joueur a utilisé l'objet d'une des options.
+func _choisir(option: Dictionary) -> void:
+	var e := etape_actuelle()
+	_avant_choix = e
+	etapes[etape] = _etape_choisie(e, option)
+	var cfg := ConfigFile.new()
+	cfg.load(fichier_progression)
+	cfg.set_value(SECTION, "choix_" + String(e.get("id", "")), option.get("objet", ""))
+	cfg.save(fichier_progression)
+	for objet in get_tree().get_nodes_in_group("objet_quete"):
+		if objet.get("identifiant") != option.get("objet", ""):
+			objet.actif = false
+	var choisie := etape_actuelle()
+	if choisie.has("pnj") and choisie.has("repliques"):
+		var pnj := _trouver_pnj(choisie["pnj"])
+		if pnj != null:
+			pnj.repliques_speciales = PackedStringArray(choisie["repliques"])
+	# Les renforts n'arrivent qu'une fois, même si on recommence l'action.
+	var cle := "%s_%s" % [choisie.get("id", ""), option.get("objet", "")]
+	if choisie.has("apparition") and multiplayer.is_server() and _ici(choisie) and not cle in _renforts_venus:
+		_renforts_venus.append(cle)
+		_faire_apparaitre(choisie["apparition"], true)
+	_mettre_a_jour_objectif()
+
 func _etape_sauvegardee() -> int:
 	var cfg := ConfigFile.new()
 	if cfg.load(fichier_progression) != OK:
@@ -151,6 +204,7 @@ func _aller_a(numero: int) -> void:
 		objet.actif = false
 	etape = numero if numero >= 0 and numero < etapes.size() else -1
 	compteur = 0
+	_avant_choix = {}
 	var e := etape_actuelle()
 	_sauvegarder()
 	if etape >= 0:
@@ -167,6 +221,10 @@ func _aller_a(numero: int) -> void:
 			var objet := _trouver_objet(e["objet"])
 			if objet != null:
 				objet.actif = true
+		for option in e.get("choix", []):
+			var objet_choix := _trouver_objet(option.get("objet", ""))
+			if objet_choix != null:
+				objet_choix.actif = true
 		if e.has("recolter"):
 			for objet in get_tree().get_nodes_in_group("objet_quete"):
 				if objet.get("groupe") == e["recolter"] and objet.visible and not objet.get("ramasse"):
@@ -234,6 +292,11 @@ func _appliquer_effet(effet: Dictionary, anime: bool) -> void:
 			objet.fermer(false)
 		elif objet != null:
 			objet.cacher()
+	if effet.has("appeler"):
+		# Appelle une méthode d'un décor de quête (ex. Grise : soigner, fuir).
+		for n in get_tree().get_nodes_in_group("decor_quete"):
+			if n.get_meta("identifiant", "") == effet["appeler"] and n.has_method(effet.get("methode", "")):
+				n.call(effet["methode"], anime)
 	if effet.has("montrer"):
 		for n in get_tree().get_nodes_in_group("decor_quete"):
 			if n.get_meta("identifiant", "") == effet["montrer"]:
@@ -343,6 +406,11 @@ func utiliser_objet(objet: Node3D) -> void:
 	if e.has("recolter") and objet.get("groupe") == e["recolter"]:
 		_recolter(objet)
 		return
+	for option in e.get("choix", []):
+		if option.get("objet", "") == objet.get("identifiant"):
+			_choisir(option)
+			e = etape_actuelle()
+			break
 	if e.get("objet", "") != objet.get("identifiant"):
 		return
 	var duree := float(e.get("duree", 0.0))
@@ -414,6 +482,19 @@ func _sur_degats_joueur(_montant: float, _source) -> void:
 
 func _interrompre(raison: String) -> void:
 	_canalisation = null
+	if not _avant_choix.is_empty() and etape_actuelle().has("choix_fait"):
+		# Action interrompue : le choix n'est pas encore fait, on peut changer d'avis.
+		etapes[etape] = _avant_choix
+		_avant_choix = {}
+		var cfg := ConfigFile.new()
+		cfg.load(fichier_progression)
+		cfg.set_value(SECTION, "choix_" + String(etape_actuelle().get("id", "")), "")
+		cfg.save(fichier_progression)
+		for option in etape_actuelle().get("choix", []):
+			var objet := _trouver_objet(option.get("objet", ""))
+			if objet != null:
+				objet.actif = true
+		_mettre_a_jour_objectif()
 	_texte_barre.text = raison
 	get_tree().create_timer(0.8).timeout.connect(func():
 		if _canalisation == null:
@@ -476,6 +557,9 @@ func _position_cible(e: Dictionary):
 		if sortie == Vector2.INF:
 			return null
 		return Vector3(sortie.x, ile.hauteur(sortie.x, sortie.y), sortie.y)
+	if e.has("choix"):
+		var premier := _trouver_objet(e["choix"][0].get("objet", "")) as Node3D
+		return premier.global_position if premier != null else null
 	if e.has("recolter"):
 		var joueur := get_tree().get_first_node_in_group("joueur_local") as Node3D
 		var meilleur = null

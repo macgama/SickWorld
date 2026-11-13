@@ -16,6 +16,14 @@
 				"sous_titre": "Préhistoire · il y a environ 17 000 ans",
 				"texte": "Derrière le col, la plaine s'étend à perte de vue. L'herbe sèche ondule sous le vent. Au loin, des silhouettes énormes avancent lentement : des mammouths."
 			}
+		},
+		"foret": {
+			"scene": "res://scenes/monde/prehistoire/foret.tscn",
+			"arrivee": {
+				"titre": "La Forêt des Bouleaux",
+				"sous_titre": "Préhistoire · territoire des loups",
+				"texte": "Les troncs blancs se serrent les uns contre les autres. Les feuilles dorées tombent sans bruit. Dans la neige fraîche, des traces : un enfant, et un loup."
+			}
 		}
 	},
 	"camps": {
@@ -120,6 +128,71 @@
 				],
 				"nombre": 3,
 				"rayon": 6
+			}
+		],
+		"foret": [
+			{
+				"type": "loup",
+				"position": [
+					-90,
+					40
+				],
+				"nombre": 3,
+				"rayon": 5
+			},
+			{
+				"type": "loup",
+				"position": [
+					60,
+					90
+				],
+				"nombre": 3,
+				"rayon": 5
+			},
+			{
+				"type": "loup",
+				"position": [
+					100,
+					-100
+				],
+				"nombre": 3,
+				"rayon": 5
+			},
+			{
+				"type": "loup_fracture",
+				"position": [
+					-66,
+					58
+				],
+				"nombre": 2,
+				"rayon": 4
+			},
+			{
+				"type": "loup_fracture",
+				"position": [
+					100,
+					36
+				],
+				"nombre": 2,
+				"rayon": 4
+			},
+			{
+				"type": "loup_fracture",
+				"position": [
+					20,
+					106
+				],
+				"nombre": 2,
+				"rayon": 4
+			},
+			{
+				"type": "loup_fracture",
+				"position": [
+					-40,
+					-104
+				],
+				"nombre": 2,
+				"rayon": 4
 			}
 		]
 	},
@@ -389,12 +462,167 @@
 					"fin_chapitre": true
 				}
 			]
+		},
+		{
+			"numero": 4,
+			"titre": "La louve grise",
+			"ou": "foret",
+			"etapes": [
+				{
+					"id": "keo_disparu",
+					"ou": "steppe",
+					"objectif": "Demande à Toran où est parti Kéo",
+					"pnj": "toran",
+					"repliques": [
+						"Kéo... Ce gamin n'écoute personne. Il a trouvé une louve blessée l'hiver dernier, il l'a nourrie, il l'appelle Grise.",
+						"Hier soir, Grise a hurlé d'une drôle de façon. Ses yeux brillaient. Elle est partie vers l'est, et Kéo l'a suivie.",
+						"La passe de l'est mène à la Forêt des Bouleaux. C'est le territoire des loups, et Aïna dit que les lumières violettes y sont nombreuses.",
+						"Ramène-le. Moi, je ne peux pas laisser le camp sans chasseurs."
+					]
+				},
+				{
+					"id": "vers_la_foret",
+					"ou": "steppe",
+					"objectif": "Passe à l'est de la steppe, vers la Forêt des Bouleaux",
+					"arriver": "foret"
+				},
+				{
+					"id": "traces_1",
+					"objectif": "Suis les traces de Kéo et de Grise dans la neige",
+					"zone": [
+						-80,
+						-26
+					],
+					"rayon": 7
+				},
+				{
+					"id": "traces_2",
+					"objectif": "Les traces continuent vers la rivière",
+					"zone": [
+						0,
+						-14
+					],
+					"rayon": 7
+				},
+				{
+					"id": "traces_3",
+					"objectif": "Les traces traversent le gué et montent vers une clairière",
+					"zone": [
+						46,
+						-38
+					],
+					"rayon": 7
+				},
+				{
+					"id": "fractures_keo",
+					"objectif": "Kéo est encerclé ! Élimine les loups fracturés",
+					"tuer": "loup_fracture_foret",
+					"nombre": 4,
+					"lieu": [
+						72,
+						-62
+					],
+					"apparition": {
+						"type": "loup_fracture_foret",
+						"position": [
+							72,
+							-62
+						],
+						"nombre": 4,
+						"rayon": 7,
+						"attaque": false
+					}
+				},
+				{
+					"id": "parler_keo",
+					"objectif": "Parle à Kéo",
+					"pnj": "keo",
+					"repliques": [
+						"Tu... tu es le Venu-du-Brouillard ? Toran t'a envoyé ? Merci. Ils étaient partout.",
+						"Regarde Grise. Ce n'est pas sa faute. Elle a bu à la flaque violette, près des arbres tordus, et depuis... elle ne me reconnaît plus vraiment.",
+						"Aïna sait soigner les bêtes. Mais toi, tu as des choses étranges dans tes mains. Tu peux l'aider ?",
+						"Si tu essaies, la lumière va se défendre. D'autres loups viendront. Sinon... on la laisse partir. Elle vivra peut-être, loin de nous.",
+						"C'est toi qui décides. Je ferai ce que tu dis."
+					]
+				},
+				{
+					"id": "choix_grise",
+					"objectif": "Soigne Grise (reste immobile, des loups viendront) ou dis à Kéo de la laisser partir",
+					"pnj": "keo",
+					"choix": [
+						{
+							"objet": "soigner_grise",
+							"objectif": "Soigne Grise : reste immobile malgré les loups",
+							"duree": 8,
+							"action": "Tu apaises la lumière violette…",
+							"apparition": {
+								"type": "loup_fracture_foret",
+								"position": [
+									80,
+									-56
+								],
+								"nombre": 2,
+								"rayon": 4,
+								"attaque": true
+							},
+							"repliques": [
+								"Grise ? Grise ! Elle me regarde. Elle me reconnaît !",
+								"Ses yeux sont redevenus jaunes. Tu l'as sauvée, Venu-du-Brouillard. Je ne l'oublierai jamais.",
+								"Rentrons au camp. Aïna doit voir ça."
+							],
+							"apres": [
+								{
+									"appeler": "grise",
+									"methode": "soigner"
+								},
+								{
+									"montrer": "keo_camp"
+								},
+								{
+									"montrer": "grise_camp"
+								}
+							]
+						},
+						{
+							"objet": "liberer_grise",
+							"objectif": "Dis à Kéo de laisser partir Grise",
+							"repliques": [
+								"...D'accord. Va, Grise. Va. Sois libre.",
+								"Elle hésite... et puis elle court. Elle ne se retourne pas.",
+								"Rentrons au camp. Je ne veux pas rester ici."
+							],
+							"apres": [
+								{
+									"appeler": "grise",
+									"methode": "fuir"
+								},
+								{
+									"montrer": "keo_camp"
+								}
+							]
+						}
+					]
+				},
+				{
+					"id": "retour_keo",
+					"ou": "steppe",
+					"objectif": "Retourne au camp d'été et parle à Aïna",
+					"pnj": "aina",
+					"repliques": [
+						"Kéo est rentré. Il ne parle que de toi, et de ce que tu as fait pour Grise.",
+						"Mais ce qu'il raconte m'inquiète. Une flaque de lumière violette, des arbres tordus... Les failles se multiplient dans la forêt.",
+						"Quelqu'un les ouvre, Venu-du-Brouillard. Ce n'est pas la nature. Je le sens jusque dans mes os.",
+						"Va voir celui qui garde le portail, sur la côte. Peut-être que lui comprendra ce que nous ne comprenons pas."
+					],
+					"fin_chapitre": true
+				}
+			]
 		}
 	],
 	"fin_provisoire": {
 		"chapitre": "LA SUITE ARRIVE BIENTÔT",
-		"objectif": "La Forêt des Bouleaux s'ouvrira dans une prochaine mise à jour",
-		"titre": "La louve grise",
-		"message": "Kéo a disparu dans la Forêt des Bouleaux... La suite de l'aventure arrive bientôt."
+		"objectif": "Le chapitre 5, « L'objet impossible », arrive dans une prochaine mise à jour",
+		"titre": "L'objet impossible",
+		"message": "Quelqu'un ouvre les failles exprès... La suite de l'aventure arrive bientôt."
 	}
 }

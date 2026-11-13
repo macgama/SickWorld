@@ -5,7 +5,8 @@ extends "res://scripts/monde/prehistoire/ile_prehistoire.gd"
 ## Une grande plaine d'herbe sèche, froide et venteuse, traversée par une rivière
 ## (un gué permet de la passer à pied). Des troupeaux de mammouths et de rennes y
 ## paissent. Le camp d'été du clan du Bison est installé au nord de la rivière.
-## On y arrive par le col, au sud, depuis la Côte Gelée.
+## On y arrive par le col, au sud, depuis la Côte Gelée. La passe de l'est mène
+## à la Forêt des Bouleaux.
 ##
 ## Tout est construit par le code au lancement (voir ile_prehistoire.gd).
 ## Repères : le nord est vers -Z, le col (Côte Gelée) au sud (+Z).
@@ -13,6 +14,7 @@ extends "res://scripts/monde/prehistoire/ile_prehistoire.gd"
 const Pnj := preload("res://scripts/monde/prehistoire/pnj_epoque.gd")
 const ObjetQuete := preload("res://scripts/monde/prehistoire/objet_quete.gd")
 const Mammouth := preload("res://scripts/monde/prehistoire/mammouth.gd")
+const Grise := preload("res://scripts/monde/prehistoire/grise.gd")
 const MarqueurCarte := preload("res://scripts/carte/marqueur_carte.gd")
 const SHADER_MER := preload("res://shaders/prehistoire_mer.gdshader")
 
@@ -34,6 +36,8 @@ const MANGANESE := Vector2(-94, -106)
 const HARDE := Vector2(-70, 78)
 ## Les rennes.
 const RENNES := Vector2(48, 78)
+## La passe de l'est, vers la Forêt des Bouleaux.
+const PASSE_EST := Vector2(170, -30)
 
 var _rivage: FastNoiseLite
 var _feux: Array[OmniLight3D] = []
@@ -52,13 +56,21 @@ func _init() -> void:
 		"sol": ["withered_grass", "dry_ground_rocks"],
 		"roche": ["cliff_side", "rock_wall_10", "rock_boulder_dry"],
 	}
-	reglages_terrain = {"sol_saturation": 0.75, "sol_motif": 3.0, "galets_motif": 3.5,
+	reglages_terrain = {"sol_saturation": 0.75, "sol_motif": 5.0, "galets_motif": 3.5,
 			"sol_teinte": Color(1.0, 0.97, 0.9), "roche_motif": 18.0}
 	reglages_herbe = {"couleur_base": Color(0.2, 0.17, 0.08), "couleur_pointe": Color(0.72, 0.62, 0.38),
 			"force_vent": 0.3}
 	# La piste du clan : du col au gué, puis au camp.
 	piste = [Vector2(0, 168), Vector2(6, 128), Vector2(14, 70), Vector2(20, 20), Vector2(GUE_X, -14),
 			Vector2(26, -48)]
+
+
+func _ready() -> void:
+	# On arrive par la passe de l'est quand on revient de la Forêt des Bouleaux.
+	if not Engine.is_editor_hint() and Reseau.get_meta("arrivee_prehistoire", "") == "foret":
+		Reseau.remove_meta("arrivee_prehistoire")
+		point_apparition = PASSE_EST + Vector2(-16, 0)
+	super._ready()
 
 
 func _chaque_image(_delta: float) -> void:
@@ -73,7 +85,11 @@ func _chaque_image(_delta: float) -> void:
 
 
 func sortie_vers(zone: String) -> Vector2:
-	return COL + Vector2(0, -2) if zone == "cote_gelee" else Vector2.INF
+	if zone == "cote_gelee":
+		return COL + Vector2(0, -2)
+	if zone == "foret":
+		return PASSE_EST + Vector2(-6, 0)
+	return Vector2.INF
 
 
 # --- Relief ----------------------------------------------------------------
@@ -111,10 +127,17 @@ func hauteur(x: float, z: float) -> float:
 	# La rivière creuse son lit (peu profonde au gué).
 	var gue := exp(-pow((x - GUE_X) / 6.0, 2.0))
 	var fond := lerpf(-1.0, -0.3, gue)
-	h = lerpf(fond, h, smoothstep(2.5, 15.0, distance_riviere(x, z)))
+	# La largeur et la pente des berges varient le long de la rivière.
+	var largeur := 1.0 + _rivage.get_noise_1d(x * 3.0 + 100.0) * 0.8
+	var douceur := 1.0 + absf(_rivage.get_noise_1d(x * 0.9 + 300.0)) * 1.4
+	# Berges irrégulières : petites anses, avancées de terre, bancs de galets.
+	var d := distance_riviere(x, z) + _details.get_noise_2d(x * 0.8, z * 0.8) * 2.5 + _relief.get_noise_2d(x * 4.0, z * 4.0) * 2.0
+	h = lerpf(fond, h, smoothstep(2.5 * largeur, (2.5 + 10.0 * douceur) * largeur, d))
 	# Montagnes tout autour, sauf le col au sud.
 	var crete := 1.0 - absf(_relief.get_noise_2d(x * 3.0, z * 3.0 + 500.0))
-	h += smoothstep(145.0, 172.0, absf(x) + _relief.get_noise_2d(z, 30.0) * 10.0) * (22.0 + crete * crete * 20.0)
+	var passe := exp(-pow((z - PASSE_EST.y) / 13.0, 2.0)) if x > 0.0 else 0.0
+	h += smoothstep(145.0, 172.0, absf(x) + _relief.get_noise_2d(z, 30.0) * 10.0) * (22.0 + crete * crete * 20.0) \
+			* (1.0 - passe * 0.85)
 	h += smoothstep(-138.0, -172.0, z + _relief.get_noise_2d(x, 60.0) * 10.0) * (24.0 + crete * crete * 24.0)
 	var col := exp(-pow((x - COL.x) / 13.0, 2.0))
 	h += smoothstep(150.0, 174.0, z) * (24.0 + crete * crete * 18.0) * (1.0 - col * 0.85)
@@ -128,8 +151,9 @@ func _parts_sol(x: float, z: float, h: float) -> Color:
 	var neige := smoothstep(11.0, 19.0, h + n * 4.0) + smoothstep(-120.0, -160.0, z) * 0.5
 	# Le camp et la piste : la terre est piétinée.
 	var camp := exp(-Vector2(x, z).distance_squared_to(CAMP) / 200.0)
-	var sur_piste := exp(-pow(_distance_piste(Vector2(x, z)) / 1.8, 2.0))
-	berge = maxf(berge, maxf(camp * 0.7, sur_piste * 0.55))
+	# Une piste discrète, interrompue par endroits (pas une route).
+	var sur_piste := exp(-pow(_distance_piste(Vector2(x, z)) / 1.2, 2.0)) * smoothstep(-0.2, 0.3, _details.get_noise_2d(x * 0.3, z * 0.3))
+	berge = maxf(berge, maxf(camp * 0.7, sur_piste * 0.3))
 	return Color(berge, clampf(neige * (1.0 - berge), 0.0, 1.0), 1.0 - berge, 1.0)
 
 
@@ -165,7 +189,7 @@ func _construire_riviere() -> void:
 	m.set_shader_parameter("couleur_profonde", Color(0.03, 0.07, 0.07))
 	m.set_shader_parameter("couleur_claire", Color(0.2, 0.3, 0.27))
 	m.set_shader_parameter("transparence", 1.6)
-	m.set_shader_parameter("largeur_ecume", 0.25)
+	m.set_shader_parameter("largeur_ecume", 0.05)
 	m.set_shader_parameter("vitesse", 0.05)
 	m.set_shader_parameter("hauteur_houle", 0.02)
 	var eau := MeshInstance3D.new()
@@ -235,7 +259,7 @@ func _construire_vegetation() -> void:
 		var arbuste := _modele("searsia_lucida", Vector3(x, hauteur(x, z) - 0.1, z), hasard.randf() * TAU,
 				hasard.randf_range(0.8, 1.4))
 		if arbuste != null:
-			_teinter_feuillage(arbuste, Color(0.85, 0.7, 0.45))
+			_teinter(arbuste, Color(0.8, 0.6, 0.35), 0.0)
 	# Bois mort.
 	for k in 20:
 		var p := Vector2(hasard.randf_range(-130.0, 130.0), hasard.randf_range(-120.0, 130.0))
@@ -243,19 +267,6 @@ func _construire_vegetation() -> void:
 			continue
 		_modele(MODELES_BOIS[k % MODELES_BOIS.size()], Vector3(p.x, hauteur(p.x, p.y) - 0.1, p.y),
 				hasard.randf() * TAU, hasard.randf_range(0.8, 1.3))
-
-
-## Assombrit et jaunit le feuillage d'un modèle (verdure d'Afrique → arbuste de steppe froide).
-func _teinter_feuillage(modele: Node3D, teinte: Color) -> void:
-	for n in modele.find_children("*", "MeshInstance3D", true, false):
-		var mi := n as MeshInstance3D
-		for s in mi.mesh.get_surface_count():
-			var m := mi.mesh.surface_get_material(s) as StandardMaterial3D
-			if m == null:
-				continue
-			var copie := m.duplicate() as StandardMaterial3D
-			copie.albedo_color = copie.albedo_color * teinte
-			mi.set_surface_override_material(s, copie)
 
 
 ## Sème un modèle Poly Haven par milliers (MultiMesh par carrés de 30 m, cachés au loin).
@@ -310,7 +321,11 @@ func _semer(id: String, nombre: int, echelle_min: float, echelle_max: float, por
 # --- Le camp d'été du clan du Bison -----------------------------------------------------
 
 func _mat_peau() -> StandardMaterial3D:
-	var m := _mat_pbr("brown_leather", Color(0.66, 0.6, 0.52), 0.9, 2.5)
+	var m := _mat_pbr("brown_leather", Color(0.6, 0.55, 0.5), 0.95, 1.2)
+	m.uv1_triplanar = false
+	m.uv1_scale = Vector3.ONE
+	m.roughness = 1.0
+	m.metallic_specular = 0.2
 	return m
 
 
@@ -375,6 +390,9 @@ func _construire_camp_du_clan() -> void:
 	var paroi := _modele("namaqualand_boulder_04", Vector3(PAROI.x, hauteur(PAROI.x, PAROI.y) - 0.6, PAROI.y), 0.3, 2.6, camp)
 	if paroi == null:
 		_placer_rocher(camp, PAROI.x, PAROI.y, 3.0, 0.2)
+	else:
+		# Ce bloc scanné est très orange : on le ramène vers un calcaire gris-beige.
+		_teinter(paroi, Color(0.62, 0.58, 0.56), 0.75)
 	var main := Decal.new()
 	main.name = "MainPeinte"
 	main.size = Vector3(1.4, 4.0, 1.4)
@@ -408,9 +426,8 @@ func _tente(parent: Node3D, p: Vector2, angle: float, taille: float, bois: Mater
 	tente.scale = Vector3.ONE * taille
 	parent.add_child(tente)
 	var toile := MeshInstance3D.new()
-	toile.mesh = _cylindre(0.25, 2.5, 3.8, 16)
+	toile.mesh = _maillage_tente(hash(p))
 	toile.material_override = _mat_peau()
-	toile.position.y = 1.9
 	tente.add_child(toile)
 	# Perches qui dépassent du sommet.
 	for k in 7:
@@ -442,6 +459,41 @@ func _tente(parent: Node3D, p: Vector2, angle: float, taille: float, bois: Mater
 	forme.position.y = 1.5
 	corps.add_child(forme)
 	tente.add_child(corps)
+
+
+## Toile de tente : un cône de peaux cousues, plissé entre les perches,
+## au bas irrégulier (pas un cône parfait).
+func _maillage_tente(graine_t: int) -> ArrayMesh:
+	var hasard := RandomNumberGenerator.new()
+	hasard.seed = graine_t
+	var outil := SurfaceTool.new()
+	outil.begin(Mesh.PRIMITIVE_TRIANGLES)
+	var cotes := 28
+	var etages := 8
+	var points := []
+	for e in etages + 1:
+		var t := float(e) / etages
+		var ligne := []
+		for c in cotes + 1:
+			var a := TAU * c / cotes
+			# Plis : la peau se creuse entre les 7 perches.
+			var pli := 1.0 - 0.07 * absf(sin(a * 3.5))
+			var rayon := lerpf(2.5, 0.22, t) * pli
+			if e == 0:
+				rayon += hasard.randf_range(-0.12, 0.18)
+			var y := t * 3.8 + (hasard.randf_range(-0.08, 0.05) if e == 0 else 0.0)
+			ligne.append(Vector3(cos(a) * rayon, y, sin(a) * rayon))
+		points.append(ligne)
+	for e in etages:
+		for c in cotes:
+			var quad := [points[e][c], points[e][c + 1], points[e + 1][c + 1], points[e + 1][c]]
+			var uv := [Vector2(float(c) / cotes * 4.0, float(e) / etages * 2.0), Vector2(float(c + 1) / cotes * 4.0, float(e) / etages * 2.0),
+					Vector2(float(c + 1) / cotes * 4.0, float(e + 1) / etages * 2.0), Vector2(float(c) / cotes * 4.0, float(e + 1) / etages * 2.0)]
+			for i in [0, 2, 1, 0, 3, 2]:
+				outil.set_uv(uv[i])
+				outil.add_vertex(quad[i])
+	outil.generate_normals()
+	return outil.commit()
 
 
 ## Un séchoir : deux montants, une traverse, une peau tendue.
@@ -733,6 +785,22 @@ func _construire_quete() -> void:
 	# Au camp d'été.
 	pnj.call("aina", "Aina", CAMP + Vector2(-4, 3), -0.9)
 	pnj.call("vieille_mere", "VieilleMere", CAMP + Vector2(4.5, -3), 2.2)
+	# Kéo, de retour au camp à la fin du chapitre 4 (caché jusque-là).
+	pnj.call("keo", "KeoCamp", CAMP + Vector2(-6, -6), 0.6)
+	var keo := dossier.get_node("KeoCamp")
+	keo.add_to_group("decor_quete")
+	keo.set_meta("identifiant", "keo_camp")
+	keo.visible = false
+	# Grise, guérie, couchée près de lui (si le joueur l'a soignée).
+	var grise := Grise.new()
+	grise.name = "GriseCamp"
+	grise.contaminee = false
+	var pg := CAMP + Vector2(-4.5, -7.5)
+	grise.position = Vector3(pg.x, hauteur(pg.x, pg.y), pg.y)
+	grise.add_to_group("decor_quete")
+	grise.set_meta("identifiant", "grise_camp")
+	grise.visible = false
+	dossier.add_child(grise)
 	# L'ocre rouge, sur la berge nord, à l'ouest du gué.
 	var k := 0
 	for x in [-14.0, -36.0, -58.0]:
@@ -748,6 +816,7 @@ func _construire_quete() -> void:
 		MarqueurCarte.creer(dossier, type, texte, Vector3(p.x, hauteur(p.x, p.y), p.y))
 	repere.call(MarqueurCarte.Type.LIEU, "Camp d'été du clan du Bison", CAMP)
 	repere.call(MarqueurCarte.Type.LIEU, "Col (vers la Côte Gelée)", COL + Vector2(0, -4))
+	repere.call(MarqueurCarte.Type.LIEU, "Passe de l'est (vers la Forêt des Bouleaux)", PASSE_EST + Vector2(-10, 0))
 	repere.call(MarqueurCarte.Type.LIEU, "Le gué", Vector2(GUE_X, riviere_z(GUE_X)))
 	repere.call(MarqueurCarte.Type.LIEU, "Troupeau de mammouths", HARDE)
 	repere.call(MarqueurCarte.Type.LIEU, "Rennes", RENNES)
@@ -775,7 +844,10 @@ func _surveiller_col() -> void:
 	if joueur == null:
 		return
 	var p := Vector2(joueur.global_position.x, joueur.global_position.z)
+	var quete := get_tree().get_first_node_in_group("quete")
+	if quete == null or not quete.has_method("changer_de_zone"):
+		return
 	if p.y > COL.y and absf(p.x - COL.x) < 16.0:
-		var quete := get_tree().get_first_node_in_group("quete")
-		if quete != null and quete.has_method("changer_de_zone"):
-			quete.changer_de_zone("cote_gelee")
+		quete.changer_de_zone("cote_gelee")
+	elif p.x > PASSE_EST.x - 4.0 and absf(p.y - PASSE_EST.y) < 16.0:
+		quete.changer_de_zone("foret")
