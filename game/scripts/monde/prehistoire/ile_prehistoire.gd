@@ -178,7 +178,8 @@ func _placer_gue(dossier: Node3D, depart: Vector2, arrivee: Vector2, graine_gue:
 	while t < longueur:
 		var p := depart + direction * t + direction.orthogonal() * hasard.randf_range(-0.3, 0.3)
 		if hauteur(p.x, p.y) < 0.3:
-			_placer_rocher(dossier, p.x, p.y, hasard.randf_range(0.8, 1.0), 0.05)
+			# De grosses pierres qui sortent nettement de l'eau.
+			_placer_rocher(dossier, p.x, p.y, hasard.randf_range(1.1, 1.4), -0.12)
 		t += hasard.randf_range(0.9, 1.3)
 	for k in 26:
 		var p := depart.lerp(arrivee, hasard.randf()) + direction.orthogonal() * hasard.randf_range(-4.0, 4.0)

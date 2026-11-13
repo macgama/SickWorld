@@ -105,7 +105,10 @@ func hauteur(x: float, z: float) -> float:
 	var largeur := 1.0 + _rivage.get_noise_1d(z * 3.0 + 100.0) * 0.7
 	var douceur := 1.0 + absf(_rivage.get_noise_1d(z * 0.9 + 300.0)) * 1.4 + gue * 1.5
 	var d := distance_riviere(x, z) + _details.get_noise_2d(x * 0.8, z * 0.8) * 2.5 + _relief.get_noise_2d(x * 4.0, z * 4.0) * 2.0
-	h = lerpf(lerpf(-1.1, -0.3, gue), h, smoothstep(2.5 * largeur, (2.5 + 9.0 * douceur) * largeur, d))
+	# Une plaine basse et bosselée le long de l'eau, puis une petite berge irrégulière.
+	var plaine := 0.7 + absf(_details.get_noise_2d(x * 1.5, z * 1.5)) * 1.2 + _relief.get_noise_2d(x * 6.0, z * 6.0) * 0.4
+	h = lerpf(plaine, h, smoothstep(5.0 * largeur, (18.0 + 22.0 * douceur) * largeur, d))
+	h = lerpf(lerpf(-1.1, -0.3, gue), h, smoothstep(2.0 * largeur, (3.0 + 2.5 * douceur) * largeur, d))
 	# Montagnes autour, sauf la passe à l'ouest (vers la Steppe).
 	var crete := 1.0 - absf(_relief.get_noise_2d(x * 3.0, z * 3.0 + 500.0))
 	var passe := exp(-pow((z - ENTREE.y) / 13.0, 2.0)) if x < 0.0 else 0.0
@@ -157,7 +160,7 @@ func _construire_riviere() -> void:
 	m.set_shader_parameter("couleur_profonde", Color(0.03, 0.06, 0.06))
 	m.set_shader_parameter("couleur_claire", Color(0.18, 0.26, 0.24))
 	m.set_shader_parameter("transparence", 1.6)
-	m.set_shader_parameter("largeur_ecume", 0.25)
+	m.set_shader_parameter("largeur_ecume", 0.06)
 	m.set_shader_parameter("vitesse", 0.05)
 	m.set_shader_parameter("hauteur_houle", 0.02)
 	var eau := MeshInstance3D.new()
@@ -198,7 +201,7 @@ func _construire_rochers() -> void:
 		places += 1
 	# Pierres plates du gué, qui dépassent de l'eau.
 	var xg := riviere_x(GUE_Z)
-	_placer_gue(dossier, Vector2(xg - 9.0, GUE_Z + 1.5), Vector2(xg + 9.0, GUE_Z + 1.5), graine + 13)
+	_placer_gue(dossier, Vector2(xg - 8.0, GUE_Z + 1.5), Vector2(xg + 8.0, GUE_Z + 1.5), graine + 13)
 	# Mousses et rochers moussus près de l'eau.
 	for k in 18:
 		var z := hasard.randf_range(-120.0, 120.0)
@@ -524,7 +527,7 @@ func _construire_traces() -> void:
 	for paire in [[pieds, _texture_empreinte()], [pattes, _texture_patte()]]:
 		var m := StandardMaterial3D.new()
 		m.albedo_texture = paire[1]
-		m.albedo_color = Color(0.2, 0.16, 0.12)
+		m.albedo_color = Color(0.3, 0.24, 0.18, 0.8)
 		m.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 		m.roughness = 1.0
 		m.texture_filter = BaseMaterial3D.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
@@ -534,7 +537,6 @@ func _construire_traces() -> void:
 		var instance := MeshInstance3D.new()
 		instance.mesh = outil.commit()
 		instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-		instance.visibility_range_end = 60.0
 		dossier.add_child(instance)
 
 
