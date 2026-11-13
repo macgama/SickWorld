@@ -55,7 +55,15 @@ if (-not (Test-Path (Join-Path $Donnees "PG_VERSION"))) {
     # Accessible seulement depuis ce PC (127.0.0.1), sans mot de passe.
     & (Join-Path $Pg "initdb.exe") -D $Donnees -U postgres --auth=trust -E UTF8 --locale=C | Out-Host
 }
-& (Join-Path $Pg "pg_ctl.exe") -D $Donnees -o "-p 5432 -h 127.0.0.1" -l (Join-Path $Dossier "postgres.log") -w start | Out-Host
+# Lancé en arrière-plan : avec « pg_ctl start » le script restait bloqué (sortie gardée ouverte).
+Start-Process -FilePath (Join-Path $Pg "postgres.exe") -ArgumentList @("-D", "`"$Donnees`"", "-p", "5432", "-h", "127.0.0.1") -WindowStyle Hidden -RedirectStandardError (Join-Path $Dossier "postgres.log")
+$pret = $false
+for ($i = 0; $i -lt 60; $i++) {
+    & (Join-Path $Pg "pg_isready.exe") -h 127.0.0.1 -p 5432 | Out-Null
+    if ($LASTEXITCODE -eq 0) { $pret = $true; break }
+    Start-Sleep -Seconds 1
+}
+if (-not $pret) { throw "PostgreSQL n'a pas démarré (voir $Dossier\postgres.log)." }
 & (Join-Path $Pg "psql.exe") -h 127.0.0.1 -U postgres -tc "SELECT 1 FROM pg_database WHERE datname='nakama'" | Out-String | ForEach-Object {
     if ($_.Trim() -ne "1") { & (Join-Path $Pg "createdb.exe") -h 127.0.0.1 -U postgres nakama }
 }
