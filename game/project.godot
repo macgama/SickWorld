@@ -24,6 +24,8 @@ Regles="*res://scripts/autoload/regles.gd"
 Reseau="*res://scripts/autoload/reseau.gd"
 QualiteGraphique="*res://scripts/autoload/qualite_graphique.gd"
 Cartographe="*res://scripts/autoload/cartographe.gd"
+Options="*res://scripts/autoload/options.gd"
+Conseils="*res://scripts/autoload/conseils.gd"
 
 [display]
 
