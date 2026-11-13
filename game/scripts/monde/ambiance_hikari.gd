@@ -42,6 +42,24 @@ const PROJECTEURS := [
 	[Vector3(92, 14, 0), Vector3(96, 0, 0), Color(0.85, 0.95, 1.0), 40.0],
 	[Vector3(90, 12, -26), Vector3(96, 0, -20), Color(0.8, 1.0, 0.85), 30.0],
 	[Vector3(90, 12, 26), Vector3(96, 0, 20), Color(0.8, 1.0, 0.85), 30.0],
+	# Place des Résidences (konbini, Résidence Sakura, Maison des guildes).
+	[Vector3(-86, 11, -10), Vector3(-90, 0, -6), Color(1.0, 0.84, 0.66), 32.0],
+	[Vector3(-86, 11, 10), Vector3(-90, 0, 6), Color(1.0, 0.84, 0.66), 32.0],
+	[Vector3(-104, 12, 0), Vector3(-100, 0, 0), Color(0.95, 0.88, 1.0), 36.0],
+	[Vector3(-76, 11, 0), Vector3(-82, 0, 0), Color(1.0, 0.84, 0.66), 30.0],
+	[Vector3(-104, 10, -18), Vector3(-98, 0, -16), Color(1.0, 0.86, 0.7), 28.0],
+	[Vector3(-104, 10, 18), Vector3(-96, 0, 15), Color(1.0, 0.86, 0.7), 28.0],
+	# Terminal des ferries.
+	[Vector3(-42, 10, 76), Vector3(-40, 0, 80), Color(1.0, 0.85, 0.66), 30.0],
+	[Vector3(-28, 10, 76), Vector3(-30, 0, 80), Color(1.0, 0.85, 0.66), 30.0],
+	# Arène de la baie : quai d'accès, puis les quatre mâts d'éclairage du stade
+	# (portée et ouverture plus grandes, peu de halo dans le brouillard :
+	# [.., portée, angle, brouillard]).
+	[Vector3(84, 9, 76), Vector3(86, 0, 78), Color(1.0, 0.75, 0.5), 26.0],
+	[Vector3(142.3, 23.5, 119.3), Vector3(125, 0, 102), Color(0.92, 0.96, 1.0), 26.0, 48.0, 34.0, 0.15],
+	[Vector3(107.7, 23.5, 119.3), Vector3(125, 0, 102), Color(0.92, 0.96, 1.0), 26.0, 48.0, 34.0, 0.15],
+	[Vector3(107.7, 23.5, 84.7), Vector3(125, 0, 102), Color(0.92, 0.96, 1.0), 26.0, 48.0, 34.0, 0.15],
+	[Vector3(142.3, 23.5, 84.7), Vector3(125, 0, 102), Color(0.92, 0.96, 1.0), 26.0, 48.0, 34.0, 0.15],
 ]
 ## Sondes de reflets (le sol mouillé et les vitres reflètent les néons, même
 ## hors de l'écran) : [centre, taille].
@@ -49,6 +67,9 @@ const SONDES := [
 	[Vector3(0, 10, 0), Vector3(132, 36, 132)],
 	[Vector3(0, 10, 52), Vector3(16, 36, 46)],
 	[Vector3(100, 10, 0), Vector3(64, 36, 64)],
+	[Vector3(-99, 10, 0), Vector3(60, 36, 62)],
+	[Vector3(-35, 10, 90), Vector3(36, 30, 36)],
+	[Vector3(125, 12, 102), Vector3(54, 40, 58)],
 ]
 
 
@@ -79,10 +100,10 @@ func _construire_eclairage() -> void:
 		l.look_at_from_position(p[0], p[1], Vector3.UP)
 		l.light_color = p[2]
 		l.light_energy = p[3]
-		l.spot_range = 26.0
-		l.spot_angle = 38.0
+		l.spot_range = p[4] if p.size() > 4 else 26.0
+		l.spot_angle = p[5] if p.size() > 5 else 38.0
 		l.spot_angle_attenuation = 1.6
-		l.light_volumetric_fog_energy = 1.5
+		l.light_volumetric_fog_energy = p[6] if p.size() > 6 else 1.5
 		_projecteurs.append(l)
 	for s in SONDES:
 		var sonde := ReflectionProbe.new()
