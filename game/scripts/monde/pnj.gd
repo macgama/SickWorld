@@ -76,9 +76,19 @@ func _construire() -> void:
 	add_child(_invite)
 
 
+## Vrai si le joueur est à portée ET que ce personnage est le plus proche de lui
+## (quand deux personnages sont côte à côte, seul le plus proche répond).
 func _joueur_proche() -> bool:
 	var joueur := get_tree().get_first_node_in_group("joueur_local") as Node3D
-	return joueur != null and joueur.global_position.distance_to(global_position) < PORTEE
+	if joueur == null:
+		return false
+	var distance := joueur.global_position.distance_to(global_position)
+	if distance >= PORTEE:
+		return false
+	for autre in get_tree().get_nodes_in_group("pnj"):
+		if autre != self and (autre as Node3D).global_position.distance_to(joueur.global_position) < distance:
+			return false
+	return true
 
 
 func _process(_delta: float) -> void:
