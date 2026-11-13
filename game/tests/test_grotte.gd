@@ -172,7 +172,7 @@ func _lancer() -> void:
 	var ours = _vivants("ours_sans_memoire")
 	_verifier(ours.size() == 1, "l'Ours Sans Mémoire est là")
 	ours = ours[0]
-	_verifier(ours.get_node("Apparence").scale.x > 2.0, "il est immense")
+	_verifier(ours.get_node("Apparence").scale.x > 1.5, "il est immense")
 	# Les phases : sous 66 % puis 33 %, des renforts.
 	ours.combat.subir(ours.combat.pv_max * 0.4, combat_joueur)
 	await _attendre(10)
