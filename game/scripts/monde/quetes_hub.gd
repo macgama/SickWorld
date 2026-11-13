@@ -81,7 +81,7 @@ func etape_de(id: String) -> Dictionary:
 
 func _charger() -> void:
 	var cfg := ConfigFile.new()
-	if cfg.load(fichier_progression) != OK:
+	if cfg.load(Profil.chemin(fichier_progression)) != OK:
 		return
 	for q in quetes:
 		var v = cfg.get_value("quetes", q["id"]) if cfg.has_section_key("quetes", q["id"]) else null
@@ -91,10 +91,10 @@ func _charger() -> void:
 
 func _sauver() -> void:
 	var cfg := ConfigFile.new()
-	cfg.load(fichier_progression)
+	cfg.load(Profil.chemin(fichier_progression))
 	for id in etats:
 		cfg.set_value("quetes", id, etats[id])
-	cfg.save(fichier_progression)
+	cfg.save(Profil.chemin(fichier_progression))
 
 
 # --- Avancement -----------------------------------------------------------------

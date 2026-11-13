@@ -51,6 +51,10 @@ func _construire() -> void:
 	colonne.add_child(sous_titre)
 	colonne.add_child(HSeparator.new())
 
+	# Compte en ligne (facultatif) : connexion, création, état de la sauvegarde.
+	colonne.add_child(preload("res://scripts/interface/panneau_compte.gd").new())
+	colonne.add_child(HSeparator.new())
+
 	# Le personnage : résumé + bouton pour le créer ou le modifier.
 	var fiche := FichePersonnage.charger(Donnees.creation)
 	_a_un_personnage = not fiche.is_empty()

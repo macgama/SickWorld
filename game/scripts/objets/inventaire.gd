@@ -239,19 +239,14 @@ func _habiller() -> void:
 	var apparence := joueur.get_node_or_null("Apparence")
 	if apparence == null or not apparence.has_method("equiper"):
 		return
-	var visuels := {}
-	for e in porte:
-		var o := Objets.objet(cat(), String(porte[e]))
-		if o.has("visuel"):
-			visuels[e] = o["visuel"]
-	apparence.equiper(visuels)
+	apparence.equiper(Objets.visuels(cat(), porte))
 
 
 # --- Sauvegarde (serveur) ----------------------------------------------------
 
 func _fichier() -> String:
 	var cle := joueur.nom.to_lower().validate_filename().replace(" ", "_")
-	return DOSSIER_SAUVEGARDE + (cle if cle != "" else "agent") + ".json"
+	return Profil.chemin(DOSSIER_SAUVEGARDE + (cle if cle != "" else "agent") + ".json")
 
 
 func _charger() -> Dictionary:
@@ -264,7 +259,7 @@ func _charger() -> Dictionary:
 func _sauvegarder() -> void:
 	if not sauvegarde_active:
 		return
-	DirAccess.make_dir_recursive_absolute(DOSSIER_SAUVEGARDE)
+	DirAccess.make_dir_recursive_absolute(Profil.chemin(DOSSIER_SAUVEGARDE))
 	var f := FileAccess.open(_fichier(), FileAccess.WRITE)
 	if f != null:
 		f.store_string(JSON.stringify(etat, "\t"))

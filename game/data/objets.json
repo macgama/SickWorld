@@ -1,5 +1,5 @@
 {
-	"_aide": "Objets, ensembles, butin et inventaire. Raretés : commun, raffine, rare, epique, historique. Emplacements : tete, torse, mains, jambes, pieds, arme_principale, arme_secondaire, bijou (2 places), relique. stats : pv, degats_pourcent, reduction_pourcent, critique_pourcent. « competences » modifie une compétence (on ajoute la valeur ; « ralenti.duree » = la durée du ralenti). Les chances de butin vont de 0 (jamais) à 1 (toujours).",
+	"_aide": "Objets, ensembles, butin et inventaire. Raretés : commun, raffine, rare, epique, historique. Emplacements : tete, torse, mains, jambes, pieds, arme_principale, arme_secondaire, bijou (2 places), relique. stats : pv, degats_pourcent, reduction_pourcent, critique_pourcent. « competences » modifie une compétence (on ajoute la valeur ; « ralenti.duree » = la durée du ralenti). Les chances de butin vont de 0 (jamais) à 1 (toujours). « icone » : forme utilisée pour dessiner l'icône d'un objet qui ne se voit pas sur le corps (les icônes sont dans interface/icones/, on peut les remplacer par ses propres images PNG 128×128).",
 	"inventaire": {
 		"places_sac_de_depart": 16,
 		"emplacements_de_sacs": 4,
@@ -43,6 +43,10 @@
 			},
 			"visuel": {
 				"teinte": "#2e3a52"
+			},
+			"icone": {
+				"forme": "veste",
+				"couleur": "#2e3a52"
 			}
 		},
 		"pantalon_terrain_vigie": {
@@ -54,6 +58,10 @@
 			"epoque": "Moderne",
 			"stats": {
 				"pv": 10
+			},
+			"icone": {
+				"forme": "pantalon",
+				"couleur": "#1f2430"
 			}
 		},
 		"rangers_vigie": {
@@ -65,6 +73,10 @@
 			"epoque": "Moderne",
 			"stats": {
 				"pv": 10
+			},
+			"icone": {
+				"forme": "rangers",
+				"couleur": "#2a2522"
 			}
 		},
 		"lame_courte_vigie": {
@@ -280,7 +292,11 @@
 			"rarete": "raffine",
 			"description": "Faite par la Vieille Mère. Elle brûle longtemps dans le noir des grottes.",
 			"pile": 10,
-			"epoque": "Préhistoire"
+			"epoque": "Préhistoire",
+			"icone": {
+				"forme": "torche",
+				"couleur": "#5a3a18"
+			}
 		},
 		"lance_silex": {
 			"nom": "Lance à pointe de silex",
@@ -370,6 +386,10 @@
 			"stats": {
 				"pv": 60,
 				"degats_pourcent": 8
+			},
+			"icone": {
+				"forme": "griffe",
+				"couleur": "#d8cfc0"
 			}
 		},
 		"propulseur_sculpte": {
@@ -384,6 +404,10 @@
 				"lancer_au_propulseur": {
 					"recharge": -4
 				}
+			},
+			"icone": {
+				"forme": "propulseur",
+				"couleur": "#9a7a52"
 			}
 		},
 		"ocre_sacree": {
@@ -398,6 +422,10 @@
 				"peinture_de_guerre": {
 					"duree": 4
 				}
+			},
+			"icone": {
+				"forme": "ocre",
+				"couleur": "#b0381f"
 			}
 		},
 		"dent_alpha": {
@@ -412,6 +440,10 @@
 				"appel_de_la_meute": {
 					"duree": 10
 				}
+			},
+			"icone": {
+				"forme": "dent",
+				"couleur": "#ece4d0"
 			}
 		},
 		"besace_peau_loup": {
@@ -420,7 +452,11 @@
 			"rarete": "raffine",
 			"description": "Un sac cousu dans une peau de loup. Ajoute 8 places.",
 			"places": 8,
-			"epoque": "Préhistoire"
+			"epoque": "Préhistoire",
+			"icone": {
+				"forme": "sac",
+				"couleur": "#7a6a5a"
+			}
 		},
 		"sac_expedition_vigie": {
 			"nom": "Sac d'expédition de la Vigie",
@@ -428,7 +464,11 @@
 			"rarete": "rare",
 			"description": "Le sac des agents de terrain. Ajoute 12 places.",
 			"places": 12,
-			"epoque": "Moderne"
+			"epoque": "Moderne",
+			"icone": {
+				"forme": "sac_a_dos",
+				"couleur": "#2e3a52"
+			}
 		},
 		"croc_loup": {
 			"nom": "Croc de loup",
@@ -436,7 +476,11 @@
 			"rarete": "commun",
 			"description": "Servira à l'artisanat.",
 			"pile": 20,
-			"epoque": "Préhistoire"
+			"epoque": "Préhistoire",
+			"icone": {
+				"forme": "croc",
+				"couleur": "#ece4d0"
+			}
 		},
 		"peau_loup": {
 			"nom": "Peau de loup",
@@ -444,7 +488,11 @@
 			"rarete": "commun",
 			"description": "Servira à l'artisanat.",
 			"pile": 20,
-			"epoque": "Préhistoire"
+			"epoque": "Préhistoire",
+			"icone": {
+				"forme": "peau",
+				"couleur": "#8a7f74"
+			}
 		},
 		"silex": {
 			"nom": "Silex",
@@ -452,7 +500,11 @@
 			"rarete": "commun",
 			"description": "Servira à l'artisanat.",
 			"pile": 20,
-			"epoque": "Préhistoire"
+			"epoque": "Préhistoire",
+			"icone": {
+				"forme": "silex",
+				"couleur": "#4a4744"
+			}
 		},
 		"montre_gousset_brisee": {
 			"nom": "Montre à gousset brisée",
@@ -460,7 +512,11 @@
 			"rarete": "historique",
 			"description": "Trouvée dans une faille de la Préhistoire. Gravée « E. ». Elle ne devrait pas exister ici.",
 			"pile": 1,
-			"epoque": "Inconnue"
+			"epoque": "Inconnue",
+			"icone": {
+				"forme": "montre",
+				"couleur": "#c9a24a"
+			}
 		}
 	},
 	"ensembles": {

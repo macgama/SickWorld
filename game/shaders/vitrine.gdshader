@@ -15,7 +15,11 @@ varying vec3 camera_locale;
 varying vec3 demi_taille;
 
 float hasard(vec2 p) {
-	return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453);
+	// Hachage sans sin() : sin() sur de grandes valeurs est imprécis sur les cartes
+	// NVIDIA et dessinait des facettes (bandes, quadrilatères) dans les motifs.
+	vec3 p3 = fract(vec3(p.xyx) * 0.1031);
+	p3 += dot(p3, p3.yzx + 33.33);
+	return fract((p3.x + p3.y) * p3.z);
 }
 
 // Étagères : planches sombres et petits produits de couleurs variées (assez

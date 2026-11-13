@@ -171,6 +171,95 @@ static func construire(forme: String, couleur: Color, cote := 1.0) -> Node3D:
 				var a := deg_to_rad(-40.0 + i * 20.0)
 				_piece(n, _cylindre(0.0, 0.009, 0.035), mat, Vector3(sin(a) * 0.075, -0.012, cos(a) * 0.086),
 						Vector3.ONE, Vector3(180, 0, 0))
+		# --- Formes utilisées seulement pour les icônes (objets qui ne se voient pas sur le corps) ---
+		"veste":
+			var tissu := _materiau(couleur, 0.8)
+			_piece(n, _boite(Vector3(0.34, 0.42, 0.16)), tissu, Vector3.ZERO)
+			_piece(n, _cylindre(0.05, 0.06, 0.36), tissu, Vector3(-0.22, 0.02, 0), Vector3.ONE, Vector3(0, 0, -18))
+			_piece(n, _cylindre(0.05, 0.06, 0.36), tissu, Vector3(0.22, 0.02, 0), Vector3.ONE, Vector3(0, 0, 18))
+			_piece(n, _cylindre(0.07, 0.08, 0.05), _materiau(couleur.darkened(0.3)), Vector3(0, 0.22, 0))
+			var insigne := _materiau(Color(0.25, 0.85, 0.9))
+			insigne.emission_enabled = true
+			insigne.emission = Color(0.25, 0.85, 0.9)
+			_piece(n, _boite(Vector3(0.05, 0.05, 0.01)), insigne, Vector3(-0.08, 0.1, 0.085))
+		"pantalon":
+			var tissu := _materiau(couleur, 0.8)
+			_piece(n, _boite(Vector3(0.3, 0.1, 0.16)), tissu, Vector3(0, 0.25, 0))
+			_piece(n, _cylindre(0.07, 0.06, 0.5), tissu, Vector3(-0.08, -0.03, 0), Vector3.ONE, Vector3(0, 0, -4))
+			_piece(n, _cylindre(0.07, 0.06, 0.5), tissu, Vector3(0.08, -0.03, 0), Vector3.ONE, Vector3(0, 0, 4))
+			_piece(n, _boite(Vector3(0.31, 0.025, 0.17)), _materiau(Color(0.15, 0.12, 0.1)), Vector3(0, 0.29, 0))
+		"rangers":
+			var cuir := _materiau(couleur, 0.5)
+			_piece(n, _cylindre(0.06, 0.065, 0.18), cuir, Vector3(0, 0.09, 0))
+			_piece(n, _boite(Vector3(0.11, 0.07, 0.26)), cuir, Vector3(0, -0.02, 0.06))
+			_piece(n, _boite(Vector3(0.12, 0.025, 0.27)), _materiau(Color(0.08, 0.08, 0.08)), Vector3(0, -0.06, 0.06))
+		"torche":
+			_piece(n, _cylindre(0.02, 0.025, 0.5), _materiau(Color(0.38, 0.26, 0.15)), Vector3.ZERO)
+			_piece(n, _sphere(0.045), _fourrure(couleur), Vector3(0, 0.26, 0), Vector3(1, 1.5, 1))
+			var flamme := _materiau(Color(1.0, 0.6, 0.15))
+			flamme.emission_enabled = true
+			flamme.emission = Color(1.0, 0.5, 0.1)
+			flamme.emission_energy_multiplier = 2.5
+			_piece(n, _cylindre(0.0, 0.05, 0.14), flamme, Vector3(0, 0.38, 0))
+		"griffe":
+			var corne := _materiau(couleur, 0.35)
+			for i in 3:
+				_piece(n, _cylindre(0.0, 0.022, 0.22), corne, Vector3((i - 1) * 0.05, 0.1 + (0.02 if i == 1 else 0.0), 0),
+						Vector3.ONE, Vector3(0, 0, (i - 1) * -12 - 10))
+			_piece(n, _sphere(0.07), _fourrure(Color(0.25, 0.18, 0.12)), Vector3(0, -0.02, 0), Vector3(1.4, 0.7, 0.8))
+		"propulseur":
+			var bois := _fourrure(couleur)
+			_piece(n, _cylindre(0.018, 0.026, 0.5), bois, Vector3.ZERO)
+			_piece(n, _cylindre(0.0, 0.02, 0.06), bois, Vector3(0.0, 0.27, 0.02), Vector3.ONE, Vector3(30, 0, 0))
+			_piece(n, _sphere(0.035), bois, Vector3(0, -0.24, 0), Vector3(1, 0.8, 1.3))
+		"ocre":
+			_piece(n, _sphere(0.11, true), _fourrure(Color(0.45, 0.35, 0.25)), Vector3(0, 0, 0), Vector3(1, 0.6, 1), Vector3(180, 0, 0))
+			_piece(n, _sphere(0.095), _fourrure(couleur), Vector3(0, 0.0, 0), Vector3(1, 0.35, 1))
+		"dent":
+			_piece(n, _cylindre(0.0, 0.04, 0.24), _materiau(couleur, 0.3), Vector3(0, 0.04, 0), Vector3.ONE, Vector3(0, 0, -12))
+			_piece(n, _cylindre(0.035, 0.03, 0.07), _materiau(couleur.darkened(0.25), 0.6), Vector3(0.012, -0.11, 0))
+		"croc":
+			for i in 2:
+				_piece(n, _cylindre(0.0, 0.028, 0.16), _materiau(couleur, 0.3), Vector3((i - 0.5) * 0.08, 0, 0),
+						Vector3.ONE, Vector3(0, 0, (i - 0.5) * 30))
+		"peau":
+			_piece(n, _sphere(0.18), _fourrure(couleur), Vector3.ZERO, Vector3(1.3, 0.12, 1.0), Vector3(60, 0, 15))
+		"silex":
+			var pierre := _materiau(couleur, 0.35)
+			var caillou := SphereMesh.new()
+			caillou.radius = 0.09
+			caillou.height = 0.16
+			caillou.radial_segments = 6
+			caillou.rings = 3
+			_piece(n, caillou, pierre, Vector3.ZERO, Vector3(1.3, 1, 0.8), Vector3(10, 30, 20))
+			_piece(n, caillou, pierre, Vector3(0.11, -0.04, 0.03), Vector3(0.6, 0.5, 0.5), Vector3(40, 10, 0))
+		"sac":
+			var cuir := _fourrure(couleur)
+			_piece(n, _sphere(0.15), cuir, Vector3.ZERO, Vector3(1, 1.05, 0.8))
+			_piece(n, _cylindre(0.05, 0.08, 0.08), cuir, Vector3(0, 0.15, 0))
+			var lien := TorusMesh.new()
+			lien.inner_radius = 0.045
+			lien.outer_radius = 0.058
+			_piece(n, lien, _materiau(Color(0.3, 0.2, 0.12)), Vector3(0, 0.15, 0))
+		"sac_a_dos":
+			var toile := _materiau(couleur, 0.85)
+			_piece(n, _boite(Vector3(0.28, 0.36, 0.14)), toile, Vector3.ZERO)
+			_piece(n, _sphere(0.14, true), toile, Vector3(0, 0.18, 0), Vector3(1, 0.5, 0.5))
+			_piece(n, _boite(Vector3(0.2, 0.14, 0.06)), _materiau(couleur.darkened(0.2)), Vector3(0, -0.07, 0.09))
+			var insigne := _materiau(Color(0.25, 0.85, 0.9))
+			insigne.emission_enabled = true
+			insigne.emission = Color(0.25, 0.85, 0.9)
+			_piece(n, _boite(Vector3(0.04, 0.04, 0.01)), insigne, Vector3(0, 0.08, 0.075))
+		"montre":
+			var or_ := _materiau(couleur, 0.25, 0.9)
+			_piece(n, _cylindre(0.09, 0.09, 0.03), or_, Vector3.ZERO, Vector3.ONE, Vector3(90, 0, 0))
+			_piece(n, _cylindre(0.078, 0.078, 0.005), _materiau(Color(0.92, 0.9, 0.84), 0.4), Vector3(0, 0, 0.016), Vector3.ONE, Vector3(90, 0, 0))
+			_piece(n, _boite(Vector3(0.004, 0.06, 0.004)), _materiau(Color(0.1, 0.1, 0.1)), Vector3(0, 0.02, 0.02))
+			_piece(n, _boite(Vector3(0.1, 0.004, 0.004)), _materiau(Color(0.1, 0.1, 0.1)), Vector3(0.01, -0.01, 0.021), Vector3.ONE, Vector3(0, 0, 35))
+			var anneau := TorusMesh.new()
+			anneau.inner_radius = 0.015
+			anneau.outer_radius = 0.025
+			_piece(n, anneau, or_, Vector3(0, 0.11, 0), Vector3.ONE, Vector3(90, 0, 0))
 		_:
 			n.free()
 			return null
