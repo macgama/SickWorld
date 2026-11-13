@@ -4,8 +4,8 @@ shader_type spatial;
 render_mode cull_disabled, depth_draw_opaque;
 
 uniform sampler2D bruit : filter_linear_mipmap, repeat_enable;
-uniform vec3 sombre : source_color = vec3(0.07, 0.045, 0.03);
-uniform vec3 roux : source_color = vec3(0.32, 0.19, 0.1);
+uniform vec3 sombre : source_color = vec3(0.12, 0.075, 0.045);
+uniform vec3 roux : source_color = vec3(0.36, 0.21, 0.11);
 uniform bool meches = false;
 
 varying vec3 position_locale;
@@ -25,7 +25,7 @@ void fragment() {
 		float bord = 1.0 - pow(abs(UV.x * 2.0 - 1.0), 2.0);
 		ALPHA = fil * bord * (1.0 - UV.y * 0.75) + brins * 0.3;
 		ALPHA_SCISSOR_THRESHOLD = 0.42;
-		vec3 c = mix(sombre, roux, 0.25 + clair * 0.55 + UV.y * 0.15);
+		vec3 c = mix(sombre, roux, 0.3 + clair * 0.45);
 		ALBEDO = c * (0.75 + fil * 0.35);
 		ROUGHNESS = 0.85;
 		SPECULAR = 0.25;
@@ -45,5 +45,8 @@ void fragment() {
 		NORMAL_MAP = normalize(vec3((h0 - hx) * 14.0, (h0 - hy) * 4.0, 1.0)) * 0.5 + 0.5;
 		NORMAL_MAP_DEPTH = 1.2;
 	}
-	BACKLIGHT = vec3(0.12, 0.07, 0.04);
+	// Le poil laisse passer la lumière : roux en contre-jour, liseré clair.
+	BACKLIGHT = vec3(0.28, 0.16, 0.08);
+	RIM = 0.45;
+	RIM_TINT = 0.7;
 }

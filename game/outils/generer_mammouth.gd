@@ -254,42 +254,63 @@ func _defenses() -> Array:
 	st.set_skin_weight_count(SurfaceTool.SKIN_4_WEIGHTS)
 	st.begin(Mesh.PRIMITIVE_TRIANGLES)
 	var base_tete := Vector3(0, 2.9, -1.65)
+	var n := 48
 	for cote in [-1.0, 1.0]:
 		var points: Array[Vector3] = []
-		for k in 25:
-			var u := k / 24.0
+		var rayons: Array[float] = []
+		var couleurs: Array[Color] = []
+		for k in n + 1:
+			var u := float(k) / n
 			points.append(base_tete + Vector3(cote * (0.3 + sin(u * 2.2) * 0.8), -0.3 - sin(u * 1.8) * 0.95 + u * u * 1.5,
 					-0.45 - sin(u * 2.0) * 1.8))
-		for k in points.size() - 1:
-			var u0 := k / 24.0
-			var u1 := (k + 1) / 24.0
-			_anneau(st, points[k], points[k + 1], 0.12 * (1.0 - u0 * 0.8), 0.12 * (1.0 - u1 * 0.8),
-					Color(0.74, 0.65, 0.48).darkened(0.35 * (1.0 - u0)))
+			# Pointe arrondie au bout.
+			rayons.append(0.125 * (1.0 - u * 0.78) * sqrt(clampf((1.0 - u) * 30.0, 0.0, 1.0)))
+			couleurs.append(Color(0.74, 0.65, 0.48).darkened(0.35 * (1.0 - u)))
+		_tube(st, points, rayons, couleurs)
 	for cote in [-1.0, 1.0]:
 		var oeil := Vector3(cote * 0.45, 3.25, -2.12)
-		for k in 6:
-			_anneau(st, oeil + Vector3(0, -0.05 + k * 0.0, 0) + Vector3(0, 0, -0.03 + k * 0.012),
-					oeil + Vector3(0, 0, -0.03 + (k + 1) * 0.012), sin(k / 6.0 * PI) * 0.05 + 0.005,
-					sin((k + 1) / 6.0 * PI) * 0.05 + 0.005, Color(0.02, 0.015, 0.01))
-	st.generate_normals()
+		var points: Array[Vector3] = []
+		var rayons: Array[float] = []
+		var couleurs: Array[Color] = []
+		for k in 9:
+			var u := k / 8.0
+			points.append(oeil + Vector3(0, 0, -0.03 + u * 0.08))
+			rayons.append(sin(u * PI) * 0.05)
+			couleurs.append(Color(0.02, 0.015, 0.01))
+		_tube(st, points, rayons, couleurs)
 	return st.commit_to_arrays()
 
 
-func _anneau(st: SurfaceTool, a: Vector3, b: Vector3, ra: float, rb: float, couleur: Color) -> void:
-	var axe := (b - a).normalized()
-	var x := axe.cross(Vector3.UP if absf(axe.y) < 0.9 else Vector3.RIGHT).normalized()
-	var y := axe.cross(x)
-	var cotes := 10
-	for s in cotes:
-		var a0 := s * TAU / cotes
-		var a1 := (s + 1) * TAU / cotes
-		var p := [a + (x * cos(a0) + y * sin(a0)) * ra, a + (x * cos(a1) + y * sin(a1)) * ra,
-				b + (x * cos(a1) + y * sin(a1)) * rb, b + (x * cos(a0) + y * sin(a0)) * rb]
-		for idx in [0, 1, 2, 0, 2, 3]:
-			st.set_color(couleur)
-			st.set_bones(PackedInt32Array([1, 0, 0, 0]))
-			st.set_weights(PackedFloat32Array([1.0, 0.0, 0.0, 0.0]))
-			st.add_vertex(p[idx])
+## Un tube lisse le long d'une courbe (repère transporté pour éviter les torsions).
+func _tube(st: SurfaceTool, points: Array[Vector3], rayons: Array[float], couleurs: Array[Color]) -> void:
+	var cotes := 16
+	var anneaux := []
+	var axe := (points[1] - points[0]).normalized()
+	var x := axe.cross(Vector3.UP).normalized()
+	for k in points.size():
+		var suivant := points[mini(k + 1, points.size() - 1)]
+		var precedent := points[maxi(k - 1, 0)]
+		var nouvel_axe := (suivant - precedent).normalized()
+		# Transport parallèle : on fait tourner le repère juste ce qu'il faut.
+		x = (x - nouvel_axe * x.dot(nouvel_axe)).normalized()
+		axe = nouvel_axe
+		var y := axe.cross(x)
+		var anneau := []
+		for s in cotes + 1:
+			var a := s * TAU / cotes
+			var radial := x * cos(a) + y * sin(a)
+			anneau.append([points[k] + radial * rayons[k], radial])
+		anneaux.append(anneau)
+	for k in points.size() - 1:
+		for s in cotes:
+			var quad := [anneaux[k][s], anneaux[k][s + 1], anneaux[k + 1][s + 1], anneaux[k + 1][s]]
+			var c := [couleurs[k], couleurs[k], couleurs[k + 1], couleurs[k + 1]]
+			for idx in [0, 2, 1, 0, 3, 2]:
+				st.set_color(c[idx])
+				st.set_normal(quad[idx][1])
+				st.set_bones(PackedInt32Array([1, 0, 0, 0]))
+				st.set_weights(PackedFloat32Array([1.0, 0.0, 0.0, 0.0]))
+				st.add_vertex(quad[idx][0])
 
 
 ## Longues mèches de poils qui pendent du ventre, des flancs, des épaules et du haut des pattes.
@@ -319,7 +340,8 @@ func _meches(sommets: PackedVector3Array, normales: PackedVector3Array, os_s: Pa
 		if b0 == 1:
 			longueur *= 0.7
 		# Les mèches ne descendent pas sous le genou.
-		longueur = minf(longueur, maxf(p.y - 1.15, 0.12))
+		# Bas de toison irrégulier.
+		longueur = minf(longueur, maxf(p.y - hasard.randf_range(0.75, 1.5), 0.12))
 		var bas := (Vector3(0, -1, 0) + nrm * 0.18 + Vector3(hasard.randf_range(-0.1, 0.1), 0,
 				hasard.randf_range(-0.1, 0.1))).normalized()
 		var cote := bas.cross(nrm).normalized()
