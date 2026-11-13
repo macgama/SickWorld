@@ -37,7 +37,7 @@ func _init() -> void:
 	}
 	# Calcaire clair et beige.
 	reglages_terrain = {"sol_saturation": 0.7, "sol_motif": 3.0, "sol_teinte": Color(1.0, 0.95, 0.85),
-			"roche_motif": 12.0, "roche_teinte": Color(1.05, 1.0, 0.9), "roche_saturation": 0.35}
+			"roche_motif": 12.0, "roche_teinte": Color(0.98, 0.97, 0.94), "roche_saturation": 0.12}
 	reglages_herbe = {"couleur_base": Color(0.2, 0.16, 0.08), "couleur_pointe": Color(0.72, 0.6, 0.38)}
 	piste = [ENTREE, Vector2(4, 100), Vector2(-6, 40), Vector2(0, -10), ABRI + Vector2(0, 10)]
 
@@ -207,7 +207,7 @@ func _construire_vegetation() -> void:
 # --- L'abri sous roche du clan -------------------------------------------------------------
 
 ## Un creux sombre dans la paroi (entrée d'abri ou de grotte).
-func _bouche(parent: Node3D, p: Vector2, largeur: float, haut: float, profondeur: float) -> void:
+func _bouche(parent: Node3D, p: Vector2, largeur: float, haut: float, profondeur: float, trou := true) -> void:
 	var noir := StandardMaterial3D.new()
 	noir.albedo_color = Color(0.04, 0.035, 0.03)
 	noir.roughness = 1.0
@@ -223,10 +223,33 @@ func _bouche(parent: Node3D, p: Vector2, largeur: float, haut: float, profondeur
 	var z := pied_falaise(p.x)
 	creux.position = Vector3(p.x, hauteur(p.x, z + 1.0) - 0.3, z + 0.5)
 	parent.add_child(creux)
-	# Une voûte de roche au-dessus de l'ouverture.
+	if not trou:
+		_voute(parent, p, largeur, haut, z, creux.position.y)
+		return
+	# Le noir de l'entrée : un voile opaque en demi-ellipse, sans lumière.
+	var ombre := MeshInstance3D.new()
+	var disque := SphereMesh.new()
+	disque.radius = 1.0
+	disque.height = 2.0
+	disque.is_hemisphere = true
+	ombre.mesh = disque
+	var nuit := StandardMaterial3D.new()
+	nuit.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	nuit.albedo_color = Color(0.01, 0.01, 0.012)
+	ombre.material_override = nuit
+	ombre.scale = Vector3(largeur * 0.47, haut * 0.92, 0.05)
+	ombre.position = creux.position + Vector3(0, 0.25, 1.2)
+	ombre.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	ombre.set_meta("bouche", true)
+	parent.add_child(ombre)
+	_voute(parent, p, largeur, haut, z, creux.position.y)
+
+
+## Une voûte de roche au-dessus d'une ouverture.
+func _voute(parent: Node3D, p: Vector2, largeur: float, haut: float, z: float, y: float) -> void:
 	for k in 3:
 		var bloc := _modele("rock_face_0%d" % (1 + k % 2), Vector3(p.x - largeur * 0.4 + k * largeur * 0.4,
-				creux.position.y + haut * 0.95, z + 0.5), PI + (k - 1) * 0.3, largeur * 0.32, parent)
+				y + haut * 0.95, z + 0.5), PI + (k - 1) * 0.3, largeur * 0.32, parent)
 		if bloc != null:
 			_teinter(bloc, Color(0.95, 0.9, 0.8), 0.5)
 
@@ -235,18 +258,19 @@ func _construire_abri() -> void:
 	var abri := Node3D.new()
 	abri.name = "Abri"
 	_contenu.add_child(abri)
-	_bouche(abri, ABRI, 16.0, 6.0, 7.0)
+	_bouche(abri, ABRI, 16.0, 6.0, 7.0, false)
 	var bois := _mat_pbr("rough_wood", Color(0.55, 0.45, 0.35), 0.9, 1.0)
 	var fond := pied_falaise(ABRI.x)
 	# Le feu au milieu de l'abri, des peaux tendues contre le vent.
 	_feu(abri, ABRI + Vector2(0, -2), 1.1)
 	var peau := _mat_peau()
 	for k in 5:
-		var x := ABRI.x - 8.0 + k * 4.0
-		var z := fond + 6.5 + absf(k - 2) * 1.2
+		var cote := -1.0 if k < 3 else 1.0
+		var x := ABRI.x + cote * (6.5 + (k % 3) * 1.6)
+		var z := fond + 4.0 + (k % 3) * 2.8
 		var pare_vent := Node3D.new()
 		pare_vent.position = Vector3(x, hauteur(x, z), z)
-		pare_vent.rotation.y = (k - 2) * 0.25
+		pare_vent.rotation.y = cote * 1.2
 		abri.add_child(pare_vent)
 		for c in [-1.0, 1.0]:
 			var perche := MeshInstance3D.new()
@@ -280,7 +304,10 @@ func _construire_abri() -> void:
 	fresque.name = "Fresque"
 	fresque.size = Vector3(11.0, 6.0, 4.0)
 	fresque.texture_albedo = _texture_fresque()
-	fresque.modulate = Color(0.78, 0.3, 0.16)
+	# Ocre mate : sombre et peu saturée, mêlée à la roche.
+	fresque.modulate = Color(0.42, 0.17, 0.09)
+	fresque.albedo_mix = 0.85
+	fresque.emission_energy = 0.0
 	fresque.position = Vector3(ABRI.x, hauteur(ABRI.x, fond + 1.0) + 2.6, fond - 1.0)
 	fresque.look_at_from_position(fresque.position, fresque.position + Vector3(0, 0, -1), Vector3.UP)
 	fresque.rotate_object_local(Vector3.RIGHT, -PI / 2)
