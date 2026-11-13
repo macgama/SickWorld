@@ -133,7 +133,7 @@ func _regles(cat: Dictionary, donnees) -> void:
 ## Dans le jeu : serveur, loups, butin personnel, changement de tenue.
 func _en_jeu(cat: Dictionary) -> void:
 	print("\nInventaire en jeu")
-	DirAccess.remove_absolute(FICHIER)
+	DirAccess.remove_absolute(Profil.chemin(FICHIER))
 	root.get_node("Reseau").nom_joueur = NOM
 	var scene: Node = load("res://scenes/monde/colline_de_test.tscn").instantiate()
 	root.add_child(scene)
@@ -146,7 +146,7 @@ func _en_jeu(cat: Dictionary) -> void:
 	_verifier(not inv.etat.is_empty(), "le joueur a un inventaire")
 	_verifier(moi.pv_max == 220 + 40, "PV : 220 + 40 de l'équipement de départ (%d)" % moi.pv_max)
 	_verifier(moi.bonus_degats == 8.0, "dégâts : +8 %% (lame + dague) (%s)" % moi.bonus_degats)
-	_verifier(FileAccess.file_exists(FICHIER), "l'inventaire est enregistré")
+	_verifier(FileAccess.file_exists(Profil.chemin(FICHIER)), "l'inventaire est enregistré")
 	var porte_visible: Dictionary = inv.porte
 	_verifier(porte_visible.get("arme_principale", "") == "lame_courte_vigie", "l'arme portée est partagée (visible par les autres)")
 
@@ -214,6 +214,6 @@ func _en_jeu(cat: Dictionary) -> void:
 	_verifier(inv.porte.get("arme_principale", "") == "lance_silex", "hors combat : la lance est équipée")
 
 	# Rechargement de la sauvegarde
-	var relu = JSON.parse_string(FileAccess.get_file_as_string(FICHIER))
+	var relu = JSON.parse_string(FileAccess.get_file_as_string(Profil.chemin(FICHIER)))
 	_verifier(relu is Dictionary and relu["equipement"]["arme_principale"] == "lance_silex", "la sauvegarde contient la lance équipée")
-	DirAccess.remove_absolute(FICHIER)
+	DirAccess.remove_absolute(Profil.chemin(FICHIER))
