@@ -1,0 +1,37 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://scripts/joueur/joueur.gd" id="1_joueur"]
+[ext_resource type="Script" path="res://scripts/joueur/camera_joueur.gd" id="2_camera"]
+[ext_resource type="Script" path="res://scripts/joueur/apparence_provisoire.gd" id="3_apparence"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_corps"]
+radius = 0.35
+height = 1.8
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_camera"]
+radius = 0.25
+
+[node name="Joueur" type="CharacterBody3D"]
+script = ExtResource("1_joueur")
+
+[node name="Collision" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+shape = SubResource("CapsuleShape3D_corps")
+
+[node name="Apparence" type="Node3D" parent="."]
+script = ExtResource("3_apparence")
+
+[node name="CameraRig" type="Node3D" parent="."]
+script = ExtResource("2_camera")
+
+[node name="Pivot" type="Node3D" parent="CameraRig"]
+
+[node name="Bras" type="SpringArm3D" parent="CameraRig/Pivot"]
+shape = SubResource("SphereShape3D_camera")
+spring_length = 7.0
+margin = 0.1
+
+[node name="Camera3D" type="Camera3D" parent="CameraRig/Pivot/Bras"]
+current = true
+fov = 70.0
+far = 1000.0
