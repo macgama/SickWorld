@@ -59,6 +59,11 @@ var _statue_intacte: Node3D
 var _metro: Node3D
 var _roue: Node3D
 var _reconstruction_demandee := false
+var _porte_qg: MeshInstance3D
+var _porte_qg_ferme_x := 0.0
+var _collision_porte: CollisionShape3D
+## Éléments du QG de la Vigie (portails...), remplis par QgVigie.construire().
+var qg := {}
 var _materiaux := {}
 
 
@@ -67,6 +72,8 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
+	_animer_porte_qg(delta)
+	QgVigie.animer(self, delta)
 	if _roue != null:
 		_roue.rotate_z(delta * 0.05)
 	if _metro != null:
@@ -74,6 +81,43 @@ func _process(delta: float) -> void:
 		_metro.position.x += delta * 30.0
 		if _metro.position.x > 260.0:
 			_metro.position.x = -900.0
+
+
+## La porte du QG s'ouvre (en glissant) quand un joueur est tout près.
+func _animer_porte_qg(delta: float) -> void:
+	if _porte_qg == null or not is_instance_valid(_porte_qg):
+		return
+	var ouverte := false
+	if not Engine.is_editor_hint():
+		for j in get_tree().get_nodes_in_group("joueur"):
+			if (j as Node3D).global_position.distance_to(_porte_qg.global_position) < 4.5:
+				ouverte = true
+		var local := get_tree().get_first_node_in_group("joueur_local") as Node3D
+		if local != null and local.global_position.distance_to(_porte_qg.global_position) < 4.5:
+			ouverte = true
+	var cible := _porte_qg_ferme_x + (3.1 if ouverte else 0.0)
+	_porte_qg.position.x = move_toward(_porte_qg.position.x, cible, delta * 4.0)
+	_collision_porte.disabled = absf(_porte_qg.position.x - _porte_qg_ferme_x) > 2.0
+
+
+## Un joueur entre dans un portail actif de la salle des portails.
+signal portail_franchi(epoque: String)
+
+
+func _sur_portail(corps: Node3D, zone: Area3D) -> void:
+	if not corps.is_in_group("joueur_local"):
+		return
+	var epoque: String = zone.get_meta("epoque", "")
+	portail_franchi.emit(epoque)
+	if portail_franchi.get_connections().is_empty():
+		# Personne ne gère encore le voyage : on prévient et on fait reculer le joueur.
+		var dialogue := get_tree().get_first_node_in_group("dialogue")
+		if dialogue != null:
+			dialogue.ouvrir("portail", "Portail · " + epoque,
+					PackedStringArray(["Le portail bourdonne, mais refuse de s'ouvrir.",
+					"(Le voyage vers les îles arrive à la prochaine étape du prototype.)"]))
+		if corps.has_method("teleporter"):
+			corps.teleporter(corps.global_position + zone.global_transform.basis.z * -3.0, corps.rotation.y)
 
 
 ## Hauteur du sol à une position x, z (utilisé pour poser les joueurs et la balise).
@@ -103,6 +147,10 @@ func reconstruire() -> void:
 	_construire_immeubles()
 	_construire_statue()
 	_construire_station_asahi()
+	QgVigie.construire(self)
+	if not Engine.is_editor_hint():
+		for zone: Area3D in qg.get("portails", []):
+			zone.body_entered.connect(_sur_portail.bind(zone))
 	_construire_mobilier()
 	_construire_enseignes()
 	_construire_barrieres()
@@ -589,11 +637,22 @@ func _construire_station_asahi() -> void:
 	_bloc(x1, z_bas, x2, z_porte, fond - 0.5, fond, sol_station)
 	_bloc(x1 - 0.5, z_haut, x1, z_porte, fond, 0, carrelage)
 	_bloc(x2, z_haut, x2 + 0.5, z_porte, fond, 0, carrelage)
-	_bloc(x1, z_porte, x2, z_porte + 0.5, fond, 0, carrelage)
-	# Porte blindée de la Vigie.
-	_bloc(x1 + 1.5, z_porte - 0.2, x2 - 1.5, z_porte, fond, fond + 2.6, _mat_pbr("painted_metal_shutter", 2.0, "metal", Color(0.5, 0.5, 0.55)), false)
-	_texte("VIGIE · ACCÈS RESTREINT", Vector3((x1 + x2) * 0.5, fond + 2.95, z_porte - 0.25), Color(0.75, 0.55, 1.0), 40, PI, 2.0)
-	_texte("QG en construction", Vector3((x1 + x2) * 0.5, fond + 1.4, z_porte - 0.25), Color(1, 1, 1), 32, PI, 1.2)
+	# Mur du fond, percé de la porte blindée de la Vigie (elle s'ouvre devant les agents).
+	var xm := (x1 + x2) * 0.5
+	_bloc(x1, z_porte, xm - 1.5, z_porte + 0.5, fond, 0, carrelage)
+	_bloc(xm + 1.5, z_porte, x2, z_porte + 0.5, fond, 0, carrelage)
+	_bloc(xm - 1.5, z_porte, xm + 1.5, z_porte + 0.5, fond + 2.8, 0, carrelage)
+	_porte_qg = _bloc(xm - 1.5, z_porte + 0.05, xm + 1.5, z_porte + 0.45, fond, fond + 2.8,
+			_mat_pbr("painted_metal_shutter", 2.0, "metal", Color(0.5, 0.5, 0.55)), false)
+	_porte_qg.name = "PorteQG"
+	_porte_qg_ferme_x = xm
+	_collision_porte = CollisionShape3D.new()
+	var forme := BoxShape3D.new()
+	forme.size = Vector3(3.0, 2.8, 0.4)
+	_collision_porte.shape = forme
+	_collision_porte.position = Vector3(xm, fond + 1.4, z_porte + 0.25)
+	_sol.add_child(_collision_porte)
+	_texte("VIGIE · ACCÈS RESTREINT", Vector3(xm, fond + 3.2, z_porte - 0.05), Color(0.75, 0.55, 1.0), 40, PI, 2.0)
 	_lumiere(Vector3((x1 + x2) * 0.5, fond + 2.6, z_porte - 3.0), Color(0.65, 0.5, 1.0), 2.0, 9.0)
 	_lumiere(Vector3((x1 + x2) * 0.5, fond + 2.6, z_bas + 2.0), Color(0.9, 0.95, 1.0), 1.0, 7.0)
 	# Rambardes autour du trou.
@@ -923,7 +982,7 @@ func _construire_pluie() -> void:
 	var particules := GPUParticles3D.new()
 	particules.name = "Pluie"
 	particules.amount = gouttes
-	particules.lifetime = 1.6
+	particules.lifetime = 1.15
 	particules.preprocess = 1.6
 	particules.visibility_aabb = AABB(Vector3(-70, -40, -70), Vector3(140, 50, 140))
 	particules.position = Vector3(0, 30, 10)
