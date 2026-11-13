@@ -1,0 +1,15 @@
+# Godot 4
+.godot/
+/android/
+*.translation
+export.cfg
+export_credentials.cfg
+
+# Blender
+*.blend1
+*.blend2
+
+# Systèmes
+.DS_Store
+Thumbs.db
+desktop.ini
