@@ -14,15 +14,23 @@ uniform bool rond = false;
 uniform vec4 couleur_brouillard : source_color = vec4(0.045, 0.06, 0.09, 0.94);
 uniform vec4 couleur_bord : source_color = vec4(0.62, 0.48, 1.0, 1.0);
 uniform vec4 couleur_dehors : source_color = vec4(0.02, 0.03, 0.05, 0.9);
+float hasard_carte(vec2 p) {
+	// Hachage sans sin() : sin() sur de grandes valeurs est imprécis sur les cartes
+	// NVIDIA et dessinait des facettes (bandes, quadrilatères) dans les motifs.
+	vec3 p3 = fract(vec3(p.xyx) * 0.1031);
+	p3 += dot(p3, p3.yzx + 33.33);
+	return fract((p3.x + p3.y) * p3.z);
+}
+
 
 float bruit(vec2 p) {
 	vec2 i = floor(p);
 	vec2 f = fract(p);
 	f = f * f * (3.0 - 2.0 * f);
-	float a = fract(sin(dot(i, vec2(127.1, 311.7))) * 43758.5453);
-	float b = fract(sin(dot(i + vec2(1.0, 0.0), vec2(127.1, 311.7))) * 43758.5453);
-	float c = fract(sin(dot(i + vec2(0.0, 1.0), vec2(127.1, 311.7))) * 43758.5453);
-	float d = fract(sin(dot(i + vec2(1.0, 1.0), vec2(127.1, 311.7))) * 43758.5453);
+	float a = hasard_carte(i);
+	float b = hasard_carte(i + vec2(1.0, 0.0));
+	float c = hasard_carte(i + vec2(0.0, 1.0));
+	float d = hasard_carte(i + vec2(1.0, 1.0));
 	return mix(mix(a, b, f.x), mix(c, d, f.x), f.y);
 }
 

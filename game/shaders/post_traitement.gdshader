@@ -17,7 +17,9 @@ void fragment() {
 	couleur.g = texture(ecran, uv).g;
 	couleur.b = texture(ecran, uv - decalage).b;
 	couleur *= 1.0 - vignettage * smoothstep(0.05, 0.6, r2 * 1.7);
-	float g = fract(sin(dot(uv * 1000.0 + fract(TIME * 7.13) * 100.0, vec2(12.9898, 78.233))) * 43758.5453);
+	vec3 g3 = fract(vec3((uv * 1000.0 + fract(TIME * 7.13) * 100.0).xyx) * 0.1031);
+	g3 += dot(g3, g3.yzx + 33.33);
+	float g = fract((g3.x + g3.y) * g3.z);
 	couleur += (g - 0.5) * grain;
 	COLOR = vec4(couleur, 1.0);
 }

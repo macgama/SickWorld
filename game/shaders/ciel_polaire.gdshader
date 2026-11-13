@@ -18,7 +18,11 @@ uniform vec3 nuage_lumiere : source_color = vec3(1.0, 0.82, 0.62);
 uniform vec2 decalage = vec2(0.0);
 
 float hasard(vec2 p) {
-	return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453);
+	// Hachage sans sin() : sin() sur de grandes valeurs est imprécis sur les cartes
+	// NVIDIA et dessinait des facettes (bandes, quadrilatères) dans les motifs.
+	vec3 p3 = fract(vec3(p.xyx) * 0.1031);
+	p3 += dot(p3, p3.yzx + 33.33);
+	return fract((p3.x + p3.y) * p3.z);
 }
 
 float bruit(vec2 p) {
