@@ -1,5 +1,5 @@
 {
-	"_aide": "Quête principale de la Préhistoire : « Ce que les murs se rappellent ». Les étapes se jouent dans l'ordre. Types d'étape : pnj (parler), zone (aller à un endroit [x, z]), objet (utiliser avec F ; duree = secondes à rester immobile), tuer (type d'ennemi + nombre), recolter (ramasser plusieurs objets d'un même groupe), arriver (passer dans une autre zone). « ou » = zone où se passe l'étape (cote_gelee, steppe). « recompense » = objets donnés à la fin de l'étape. Pour changer un texte, modifie ce qui est entre guillemets. Garde les virgules.",
+	"_aide": "Quête principale de la Préhistoire : « Ce que les murs se rappellent ». Les étapes se jouent dans l'ordre. Types d'étape : pnj (parler), zone (aller à un endroit [x, z]), objet (utiliser avec F ; duree = secondes à rester immobile), tuer (type d'ennemi + nombre), recolter (ramasser plusieurs objets d'un même groupe), arriver (passer dans une autre zone). « ou » = zone où se passe l'étape (cote_gelee, steppe). « recit » = petit texte raconté à l'écran à la fin de l'étape. « portail » = l'étape se termine en passant le portail de la Vigie. « recompense » = objets donnés à la fin de l'étape. Pour changer un texte, modifie ce qui est entre guillemets. Garde les virgules.",
 	"zones": {
 		"cote_gelee": {
 			"scene": "res://scenes/monde/prehistoire/cote_gelee.tscn",
@@ -617,12 +617,103 @@
 					"fin_chapitre": true
 				}
 			]
+		},
+		{
+			"numero": 5,
+			"titre": "L'objet impossible",
+			"ou": "foret",
+			"etapes": [
+				{
+					"id": "lenoir_failles",
+					"ou": "cote_gelee",
+					"objectif": "Retourne au portail de la Vigie et raconte tout à l'agent Lenoir",
+					"pnj": "lenoir",
+					"repliques": [
+						"Te revoilà ! Alors, ce clan ? ...Une chamane qui rêve de lumières qui mangent les images. Je note.",
+						"Des failles qui se multiplient dans la forêt... Ce n'est pas normal. Une faille, ça s'ouvre une fois, par accident. Pas dix.",
+						"Écoute. La plus grosse est au nord-ouest de la Forêt des Bouleaux. Referme-la, comme celle de la côte.",
+						"Et ouvre l'œil autour. Si quelqu'un les ouvre exprès, il a peut-être laissé une trace."
+					]
+				},
+				{
+					"id": "vers_la_faille",
+					"ou": "cote_gelee",
+					"objectif": "Rejoins la Forêt des Bouleaux (par la steppe)",
+					"arriver": "foret"
+				},
+				{
+					"id": "fermer_faille_foret",
+					"objectif": "Referme la grande faille au nord-ouest de la forêt (reste immobile)",
+					"objet": "faille_foret_0",
+					"duree": 8,
+					"action": "Fermeture de la faille…",
+					"apparition": {
+						"type": "loup_fracture_foret",
+						"position": [
+							-70,
+							62
+						],
+						"nombre": 3,
+						"rayon": 5,
+						"attaque": true
+					},
+					"apres": [
+						{
+							"cacher": "faille_foret_0"
+						},
+						{
+							"montrer": "montre_gousset"
+						}
+					]
+				},
+				{
+					"id": "objet_impossible",
+					"objectif": "Quelque chose brille dans la neige, là où était la faille",
+					"objet": "montre_gousset",
+					"consomme": true,
+					"recit": {
+						"titre": "Une montre à gousset",
+						"texte": "Un boîtier de métal doré, le verre fendu, les aiguilles arrêtées. Gravé au dos : « E. » et une date… dans 17 000 ans. Cet objet ne peut pas exister ici."
+					},
+					"recompense": [
+						{
+							"id": "montre_gousset_brisee",
+							"nom": "Montre à gousset brisée"
+						}
+					],
+					"apres": [
+						{
+							"cacher": "montre_gousset"
+						}
+					]
+				},
+				{
+					"id": "retour_lenoir",
+					"ou": "cote_gelee",
+					"objectif": "Montre la montre à l'agent Lenoir",
+					"pnj": "lenoir",
+					"repliques": [
+						"Fais voir. ...Une montre à gousset. Ici. Il y a dix-sept mille ans.",
+						"Ce n'est pas à nous. La Vigie n'utilise pas ce genre de matériel depuis un siècle, et aucun agent n'a jamais signé « E. ».",
+						"Ça veut dire une chose : quelqu'un d'autre voyage dans le temps. Et ce quelqu'un ouvre les failles.",
+						"Je ne peux pas quitter le portail. Rapporte-la au QG, à Hikari Bay. Ils doivent voir ça de leurs propres yeux.",
+						"Passe le portail. Et... ne parle de ça à personne en dehors de la Vigie."
+					]
+				},
+				{
+					"id": "qg_vigie",
+					"ou": "cote_gelee",
+					"objectif": "Passe le portail et rapporte la montre au QG de la Vigie",
+					"portail": true,
+					"fin_chapitre": true
+				}
+			]
 		}
 	],
 	"fin_provisoire": {
 		"chapitre": "LA SUITE ARRIVE BIENTÔT",
-		"objectif": "Le chapitre 5, « L'objet impossible », arrive dans une prochaine mise à jour",
-		"titre": "L'objet impossible",
-		"message": "Quelqu'un ouvre les failles exprès... La suite de l'aventure arrive bientôt."
+		"objectif": "Le chapitre 6, « L'hiver qui vient trop tôt », arrive dans une prochaine mise à jour",
+		"titre": "L'hiver qui vient trop tôt",
+		"message": "Au QG, on examine la montre. Là-bas, sur l'île, le ciel se charge d'un froid qui n'est pas de saison..."
 	}
 }

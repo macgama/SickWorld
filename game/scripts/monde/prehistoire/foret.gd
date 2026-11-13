@@ -64,7 +64,8 @@ func _chaque_image(_delta: float) -> void:
 
 
 func sortie_vers(zone: String) -> Vector2:
-	return ENTREE + Vector2(4, 0) if zone == "steppe" else Vector2.INF
+	# On ne sort de la forêt que par la passe, vers la steppe.
+	return ENTREE + Vector2(4, 0) if zone != "foret" else Vector2.INF
 
 
 # --- Relief ----------------------------------------------------------------
@@ -100,7 +101,14 @@ func hauteur(x: float, z: float) -> float:
 	h = lerpf(h, 5.0 + _relief.get_noise_2d(CLAIRIERE.x, CLAIRIERE.y) * 7.0, clairiere * 0.7)
 	# La rivière (peu profonde au gué).
 	var gue := exp(-pow((z - GUE_Z) / 6.0, 2.0))
-	h = lerpf(lerpf(-1.1, -0.3, gue), h, smoothstep(2.5, 13.0, distance_riviere(x, z)))
+	# Largeur et pente des berges variables, rives irrégulières, abords du gué en pente douce.
+	var largeur := 1.0 + _rivage.get_noise_1d(z * 3.0 + 100.0) * 0.7
+	var douceur := 1.0 + absf(_rivage.get_noise_1d(z * 0.9 + 300.0)) * 1.4 + gue * 1.5
+	var d := distance_riviere(x, z) + _details.get_noise_2d(x * 0.8, z * 0.8) * 2.5 + _relief.get_noise_2d(x * 4.0, z * 4.0) * 2.0
+	# Une plaine basse et bosselée le long de l'eau, puis une petite berge irrégulière.
+	var plaine := 0.7 + absf(_details.get_noise_2d(x * 1.5, z * 1.5)) * 1.2 + _relief.get_noise_2d(x * 6.0, z * 6.0) * 0.4
+	h = lerpf(plaine, h, smoothstep(5.0 * largeur, (18.0 + 22.0 * douceur) * largeur, d))
+	h = lerpf(lerpf(-1.1, -0.3, gue), h, smoothstep(2.0 * largeur, (3.0 + 2.5 * douceur) * largeur, d))
 	# Montagnes autour, sauf la passe à l'ouest (vers la Steppe).
 	var crete := 1.0 - absf(_relief.get_noise_2d(x * 3.0, z * 3.0 + 500.0))
 	var passe := exp(-pow((z - ENTREE.y) / 13.0, 2.0)) if x < 0.0 else 0.0
@@ -152,7 +160,7 @@ func _construire_riviere() -> void:
 	m.set_shader_parameter("couleur_profonde", Color(0.03, 0.06, 0.06))
 	m.set_shader_parameter("couleur_claire", Color(0.18, 0.26, 0.24))
 	m.set_shader_parameter("transparence", 1.6)
-	m.set_shader_parameter("largeur_ecume", 0.25)
+	m.set_shader_parameter("largeur_ecume", 0.06)
 	m.set_shader_parameter("vitesse", 0.05)
 	m.set_shader_parameter("hauteur_houle", 0.02)
 	var eau := MeshInstance3D.new()
@@ -191,11 +199,9 @@ func _construire_rochers() -> void:
 			continue
 		_placer_rocher(dossier, p.x, p.y, hasard.randf_range(0.4, 2.6) * (1.8 if hasard.randf() < 0.08 else 1.0))
 		places += 1
-	# Pierres plates du gué.
-	for k in 6:
-		var z := GUE_Z + hasard.randf_range(-2.0, 2.0)
-		var x := riviere_x(z) - 5.0 + k * 2.0
-		_placer_rocher(dossier, x, z, 0.7, 0.55)
+	# Pierres plates du gué, qui dépassent de l'eau.
+	var xg := riviere_x(GUE_Z)
+	_placer_gue(dossier, Vector2(xg - 8.0, GUE_Z + 1.5), Vector2(xg + 8.0, GUE_Z + 1.5), graine + 13)
 	# Mousses et rochers moussus près de l'eau.
 	for k in 18:
 		var z := hasard.randf_range(-120.0, 120.0)
@@ -456,25 +462,27 @@ func _construire_sous_bois() -> void:
 # --- Traces de Kéo et de Grise -------------------------------------------------------------
 
 func _texture_empreinte() -> Texture2D:
-	var image := Image.create(64, 128, false, Image.FORMAT_RGBA8)
+	# Semelle de peau : talon, voûte plus étroite, avant du pied large (orteils en haut).
+	var image := Image.create(64, 128, true, Image.FORMAT_RGBA8)
 	image.fill(Color(1, 1, 1, 0))
 	for j in 128:
 		for i in 64:
-			var u := Vector2((i - 32) / 18.0, (j - 70) / 46.0)
-			var alpha := 0.0
-			if u.length() < 1.0:
-				alpha = 0.8
-			# Les orteils.
-			for k in 5:
-				var o := Vector2(-12 + k * 6, 18 + absf(k - 1.5) * 3.0)
-				if Vector2(i, j).distance_to(o + Vector2(32 - 20, 0) + Vector2(8, 0)) < 3.5 + (2.0 if k == 0 else 0.0):
-					alpha = 0.8
-			image.set_pixel(i, j, Color(1, 1, 1, alpha))
+			var y := j / 127.0
+			var demi_largeur := 0.0
+			if y > 0.06 and y < 0.96:
+				demi_largeur = 0.36 + 0.1 * sin(y * PI * 1.0) - 0.12 * exp(-pow((y - 0.6) / 0.12, 2.0))
+				demi_largeur *= minf(1.0, minf((y - 0.06) / 0.08, (0.96 - y) / 0.1) * 1.5 + 0.35)
+			var x := absf(i / 63.0 - 0.5)
+			var bord := demi_largeur - x
+			if bord > 0.0:
+				# Plus sombre au fond de l'empreinte, bord adouci.
+				image.set_pixel(i, j, Color(1, 1, 1, clampf(bord * 14.0, 0.0, 0.92)))
+	image.generate_mipmaps()
 	return ImageTexture.create_from_image(image)
 
 
 func _texture_patte() -> Texture2D:
-	var image := Image.create(64, 64, false, Image.FORMAT_RGBA8)
+	var image := Image.create(64, 64, true, Image.FORMAT_RGBA8)
 	image.fill(Color(1, 1, 1, 0))
 	var coussinets := [[Vector2(32, 42), 12.0], [Vector2(18, 22), 6.0], [Vector2(28, 14), 6.0],
 			[Vector2(38, 14), 6.0], [Vector2(47, 22), 6.0]]
@@ -483,44 +491,66 @@ func _texture_patte() -> Texture2D:
 			for c in coussinets:
 				if Vector2(i, j).distance_to(c[0]) < c[1]:
 					image.set_pixel(i, j, Color(1, 1, 1, 0.9))
+	image.generate_mipmaps()
 	return ImageTexture.create_from_image(image)
 
 
+## Les traces sont de fines plaques posées sur le sol (plus lisibles qu'un
+## Decal sur la neige) : un pas de Kéo tous les 75 cm, en alternance
+## gauche-droite, et les pattes de Grise à côté.
 func _construire_traces() -> void:
 	var dossier := Node3D.new()
 	dossier.name = "Traces"
 	_contenu.add_child(dossier)
-	var texture := _texture_empreinte()
-	var texture_patte := _texture_patte()
+	var pieds := SurfaceTool.new()
+	pieds.begin(Mesh.PRIMITIVE_TRIANGLES)
+	var pattes := SurfaceTool.new()
+	pattes.begin(Mesh.PRIMITIVE_TRIANGLES)
+	var hasard := RandomNumberGenerator.new()
+	hasard.seed = graine + 80
 	var gauche := true
 	for i in TRACES.size() - 1:
 		var a: Vector2 = TRACES[i]
 		var b: Vector2 = TRACES[i + 1]
-		var pas := int(a.distance_to(b) / 1.6)
 		var direction := (b - a).normalized()
+		var pas := int(a.distance_to(b) / 0.75)
 		for k in pas:
-			var p := a + direction * k * 1.6 + direction.orthogonal() * (0.18 if gauche else -0.18)
+			var p := a + direction * k * 0.75 + direction.orthogonal() * (0.14 if gauche else -0.14)
 			gauche = not gauche
-			var trace := Decal.new()
-			trace.texture_albedo = texture
-			trace.size = Vector3(0.32, 1.2, 0.6)
-			trace.modulate = Color(0.1, 0.08, 0.06, 1.0)
-			trace.albedo_mix = 1.0
-			trace.position = Vector3(p.x, hauteur(p.x, p.y), p.y)
-			trace.rotation.y = atan2(-direction.x, -direction.y)
-			trace.cull_mask = 1
-			trace.distance_fade_enabled = true
-			trace.distance_fade_begin = 45.0
-			trace.distance_fade_length = 10.0
-			dossier.add_child(trace)
-			# Les pattes de Grise, à côté des pas de Kéo.
+			var d := direction.rotated(hasard.randf_range(-0.12, 0.12))
+			_ajouter_empreinte(pieds, p, d, Vector2(0.13, 0.28))
+			# Grise trotte à côté de Kéo (deux pattes à chaque pas).
 			if k % 2 == 0:
-				var patte := trace.duplicate() as Decal
-				patte.texture_albedo = texture_patte
-				patte.size = Vector3(0.2, 1.2, 0.2)
-				var q := p + direction.orthogonal() * 0.75 + direction * 0.5
-				patte.position = Vector3(q.x, hauteur(q.x, q.y), q.y)
-				dossier.add_child(patte)
+				var q := p + direction.orthogonal() * 0.8 + direction * hasard.randf_range(0.1, 0.4)
+				_ajouter_empreinte(pattes, q, direction, Vector2(0.09, 0.09))
+				_ajouter_empreinte(pattes, q + direction * 0.3 + direction.orthogonal() * 0.12, direction, Vector2(0.09, 0.09))
+	for paire in [[pieds, _texture_empreinte()], [pattes, _texture_patte()]]:
+		var m := StandardMaterial3D.new()
+		m.albedo_texture = paire[1]
+		m.albedo_color = Color(0.3, 0.24, 0.18, 0.8)
+		m.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+		m.roughness = 1.0
+		m.texture_filter = BaseMaterial3D.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
+		m.cull_mode = BaseMaterial3D.CULL_DISABLED
+		var outil: SurfaceTool = paire[0]
+		outil.set_material(m)
+		var instance := MeshInstance3D.new()
+		instance.mesh = outil.commit()
+		instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		dossier.add_child(instance)
+
+
+## Une empreinte : un petit rectangle (largeur x longueur) qui épouse le sol.
+func _ajouter_empreinte(outil: SurfaceTool, p: Vector2, direction: Vector2, taille: Vector2) -> void:
+	var avant := direction * taille.y
+	var cote := direction.orthogonal() * taille.x
+	var coins := [p - avant - cote, p - avant + cote, p + avant + cote, p + avant - cote]
+	var uvs := [Vector2(0, 1), Vector2(1, 1), Vector2(1, 0), Vector2(0, 0)]
+	for i in [0, 2, 1, 0, 3, 2]:
+		var c: Vector2 = coins[i]
+		outil.set_normal(Vector3.UP)
+		outil.set_uv(uvs[i])
+		outil.add_vertex(Vector3(c.x, hauteur(c.x, c.y) + 0.035, c.y))
 
 
 # --- Failles ---------------------------------------------------------------------------
@@ -613,6 +643,18 @@ func _construire_quete() -> void:
 	liberer.portee = 2.2
 	liberer.position = keo.position + Vector3(-0.8, 0, 0)
 	dossier.add_child(liberer)
+	# Chapitre 5 : la montre à gousset, cachée tant que la grande faille est ouverte.
+	var montre := ObjetQuete.new()
+	montre.name = "MontreGousset"
+	montre.identifiant = "montre_gousset"
+	montre.invite = "[F] Ramasser l'objet qui brille"
+	montre.forme = "montre"
+	var pm: Vector2 = FAILLES[0] + Vector2(2.2, -1.5)
+	montre.position = Vector3(pm.x, hauteur(pm.x, pm.y), pm.y)
+	montre.visible = false
+	montre.add_to_group("decor_quete")
+	montre.set_meta("identifiant", "montre_gousset")
+	dossier.add_child(montre)
 	# Repères de la carte.
 	var repere := func(type: int, texte: String, p: Vector2) -> void:
 		MarqueurCarte.creer(dossier, type, texte, Vector3(p.x, hauteur(p.x, p.y), p.y))

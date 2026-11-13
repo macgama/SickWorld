@@ -100,7 +100,7 @@ func _lancer() -> void:
 	_dialogue = get_first_node_in_group("dialogue")
 	print("Test des missions secondaires")
 	_verifier(_quetes.quetes.size() >= 3, "%d missions chargées" % _quetes.quetes.size())
-	for id in ["kuro", "kaminari", "ecran", "ferraille", "louche", "fresques", "jardins"]:
+	for id in ["kuro", "kaminari", "ecran", "ferraille", "louche", "fresques", "jardins", "lanternes", "billet"]:
 		var donneur: String = _quetes.quete(id)["donneur"]
 		_verifier(_trouver_pnj(donneur) != null, "le donneur de « %s » est en ville (%s)" % [id, donneur])
 		var marque = _quetes._marques.get(donneur)
@@ -164,6 +164,24 @@ func _lancer() -> void:
 	_verifier(faits == 3 and _quetes.etats["jardins"]["etape"] == 1, "on rouvre les trois vannes")
 	await _parler_a("jardinier")
 	_verifier(_quetes.etat("jardins") == "terminee", "mission « L'eau des jardins » accomplie")
+
+	# 8. Les lanternes de la baie : Ume -> 3 lanternes -> Ume.
+	await _parler_a("grand_mere_ume")
+	_verifier(_quetes.etat("lanternes") == "active", "Grand-mère Ume confie sa mission")
+	faits = await _utiliser_objets("lanternes")
+	_verifier(faits == 3 and _quetes.etats["lanternes"]["etape"] == 1, "on allume les trois lanternes (%s)" % _quetes.etats["lanternes"])
+	await _parler_a("grand_mere_ume")
+	_verifier(_quetes.etat("lanternes") == "terminee", "mission « Les lanternes de la baie » accomplie")
+
+	# 9. Billet pour nulle part : Rina -> capitaine -> Tomás -> Rina.
+	await _parler_a("guichetiere")
+	_verifier(_quetes.etat("billet") == "active", "Rina confie sa mission")
+	await _parler_a("capitaine")
+	_verifier(_quetes.etats["billet"]["etape"] == 1, "le capitaine envoie voir Tomás")
+	await _parler_a("gardien_roue")
+	_verifier(_quetes.etats["billet"]["etape"] == 2, "Tomás donne ses billets")
+	await _parler_a("guichetiere")
+	_verifier(_quetes.etat("billet") == "terminee", "mission « Billet pour nulle part » accomplie")
 
 	# Après coup : plus de marques, des répliques de remerciement, le journal.
 	var visibles := 0

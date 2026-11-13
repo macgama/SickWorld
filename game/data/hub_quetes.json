@@ -1,5 +1,5 @@
 {
-	"_aide": "Missions secondaires de Hikari Bay. Chaque mission a un donneur (un personnage de data/hub_pnj.json), des répliques pour la proposer, des étapes et une récompense. Types d'étapes : « parler » (aller voir un personnage), « objets » (trouver ou utiliser des objets placés dans la ville, positions [x, y, z, angle] ; types : affiche, capteur, ferraille, photo, vanne). Pour changer un texte, modifie ce qui est entre guillemets ; garde les virgules.",
+	"_aide": "Missions secondaires de Hikari Bay. Chaque mission a un donneur (un personnage de data/hub_pnj.json), des répliques pour la proposer, des étapes et une récompense. Types d'étapes : « parler » (aller voir un personnage), « objets » (trouver ou utiliser des objets placés dans la ville, positions [x, y, z, angle] ; types : affiche, capteur, ferraille, photo, vanne, lanterne). Pour changer un texte, modifie ce qui est entre guillemets ; garde les virgules.",
 	"quetes": [
 		{
 			"id": "kuro",
@@ -346,6 +346,101 @@
 			"recompense": "Graine de cerisier (bientôt)",
 			"apres": [
 				"Les jardins respirent. Merci, agent. Repasse quand tu veux, il y a toujours un banc libre."
+			]
+		},
+		{
+			"id": "lanternes",
+			"titre": "Les lanternes de la baie",
+			"donneur": "grand_mere_ume",
+			"resume": "Grand-mère Ume allume chaque soir trois lanternes au bout des jetées, pour guider ceux qui sont en mer. Ce soir, ses jambes ne la portent plus jusque-là.",
+			"proposition": [
+				"Tu as l'air d'avoir de bonnes jambes, toi. Les miennes ne veulent plus marcher jusqu'au bout des jetées.",
+				"Chaque soir, j'allume trois lanternes : une au bout de la jetée du terminal, une au bout de la jetée de la grande roue, et une au bout de la promenade, à l'ouest.",
+				"C'est pour ceux qui sont perdus en mer. Ma mère le faisait, et sa mère avant elle. Tu veux bien les allumer pour moi ?"
+			],
+			"etapes": [
+				{
+					"objectif": "Allume les lanternes de la baie",
+					"objets": {
+						"type": "lanterne",
+						"verbe": "Allumer la lanterne",
+						"positions": [
+							[
+								-50.0,
+								0.0,
+								106.0,
+								0.0
+							],
+							[
+								66.0,
+								0.0,
+								122.0,
+								0.0
+							],
+							[
+								-66.0,
+								0.0,
+								70.0,
+								0.0
+							]
+						]
+					}
+				},
+				{
+					"objectif": "Retourne voir Grand-mère Ume sur la promenade",
+					"parler": "grand_mere_ume",
+					"repliques": [
+						"Regarde-les briller. Trois petites lumières contre toute cette nuit.",
+						"On dit que ceux qui se perdent dans le temps voient aussi ces lanternes. Peut-être que c'est vrai.",
+						"Tiens, garde celle-ci. Si un jour tu te perds là où tu vas, allume-la."
+					]
+				}
+			],
+			"recompense": "Lanterne de la baie (décoration, bientôt)",
+			"apres": [
+				"Les lanternes brûlent toute la nuit. Merci, petit."
+			]
+		},
+		{
+			"id": "billet",
+			"titre": "Billet pour nulle part",
+			"donneur": "guichetiere",
+			"resume": "Rina, au guichet du terminal, a trouvé un billet de ferry que personne n'a imprimé. Destination : « −17 000 ».",
+			"proposition": [
+				"Agent, regarde ça. On l'a retrouvé dans la caisse ce soir. Un billet Vigie Lines... mais je ne l'ai jamais imprimé.",
+				"Destination : « −17 000 ». Et le papier, touche : on dirait de l'écorce de bouleau.",
+				"Demande au capitaine Ōshima s'il a vu quelque chose. Il est sur la jetée, près de son ferry."
+			],
+			"etapes": [
+				{
+					"objectif": "Montre le billet au capitaine Ōshima (jetée du terminal)",
+					"parler": "capitaine",
+					"repliques": [
+						"Un billet pour moins dix-sept mille ? Aucun bateau ne va là-bas, gamin. Aucun bateau normal.",
+						"Mais va voir Tomás, à la grande roue. Il ramasse des papiers bizarres depuis quelques nuits. Il dit qu'ils tombent du ciel quand la roue s'arrête en haut."
+					]
+				},
+				{
+					"objectif": "Va voir Tomás à la grande roue",
+					"parler": "gardien_roue",
+					"repliques": [
+						"Encore un ! J'en ai trois comme ça dans mon tiroir. Même écorce, même date.",
+						"Ils apparaissent les nuits d'orage, dans les nacelles du haut. Comme si quelqu'un, très loin, essayait d'acheter un passage pour venir ici.",
+						"Rapporte-les à Rina. Elle saura à qui les donner. Moi, je préfère ne pas savoir."
+					]
+				},
+				{
+					"objectif": "Rapporte les billets à Rina (Terminal des ferries)",
+					"parler": "guichetiere",
+					"repliques": [
+						"Quatre billets... Quelqu'un, de l'autre côté, essaie de traverser dans l'autre sens. Ce n'est pas normal.",
+						"Je transmets tout à la commandante Morel. Garde celui-ci : un jour, il pourrait te servir de preuve."
+					]
+				}
+			],
+			"recompense": "Billet « −17 000 » (souvenir)",
+			"apres": [
+				"La commandante a reçu les billets. Elle a dit de te remercier... et de garder les yeux ouverts."
 			]
 		}
 	]

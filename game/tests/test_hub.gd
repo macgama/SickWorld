@@ -146,6 +146,21 @@ func _lancer() -> void:
 	await _avancer(joueur, 120)
 	_verifier(joueur.global_position.z < 74.0, "le garde-corps retient au bord de l'eau (z = %.1f)" % joueur.global_position.z)
 
+	# Le Front de mer : la jetée et le Terminal des ferries, la jetée de la grande roue.
+	await _placer(joueur, Vector3(-35, 0.3, 66), PI)
+	await _avancer(joueur, 200)
+	_verifier(joueur.global_position.z > 84.0 and joueur.global_position.y > -0.5,
+			"on entre dans le Terminal des ferries par la jetée (z = %.1f)" % joueur.global_position.z)
+	_verifier(joueur.global_position.z < 102.0, "la baie vitrée arrête le joueur (z = %.1f)" % joueur.global_position.z)
+	await _placer(joueur, Vector3(-50, 0.3, 90), PI / 2)
+	await _avancer(joueur, 120)
+	_verifier(joueur.global_position.x > -52.5, "le garde-corps de la jetée retient au bord (x = %.1f)" % joueur.global_position.x)
+	await _placer(joueur, Vector3(55, 0.3, 66), PI)
+	await _avancer(joueur, 400)
+	_verifier(joueur.global_position.z > 105.0 and joueur.global_position.z < 124.0,
+			"la jetée de la grande roue est accessible (z = %.1f)" % joueur.global_position.z)
+	_verifier(scene.find_child("Pnj_guichetiere", true, false) != null, "la guichetière est au terminal")
+
 	# La ville qui change : réparer la Préhistoire cache les éclats de fracture.
 	var eclats = scene.find_child("EclatsDeFracture", true, false)
 	_verifier(eclats != null and eclats.visible, "la statue porte des éclats de fracture au départ")
