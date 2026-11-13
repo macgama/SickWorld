@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3]
+[gd_scene load_steps=11 format=3]
 
 [ext_resource type="Script" path="res://scripts/monde/hikari_bay.gd" id="1_hub"]
 [ext_resource type="Script" path="res://scripts/interface/hud.gd" id="3_hud"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://scripts/monde/partie.gd" id="6_partie"]
 [ext_resource type="Script" path="res://scripts/interface/dialogue.gd" id="7_dialogue"]
 [ext_resource type="Script" path="res://scripts/monde/intro_hub.gd" id="8_intro"]
+[ext_resource type="Script" path="res://scripts/monde/quetes_hub.gd" id="9_quetes"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_nuit"]
 sky_top_color = Color(0.01, 0.012, 0.03, 1)
@@ -82,3 +83,6 @@ script = ExtResource("7_dialogue")
 
 [node name="Intro" type="Node" parent="."]
 script = ExtResource("8_intro")
+
+[node name="Quetes" type="Node3D" parent="."]
+script = ExtResource("9_quetes")

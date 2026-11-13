@@ -27,6 +27,22 @@ La première fois, un écran noir présente Hikari Bay, puis un **objectif** en 
 
 Ensuite l'intro ne se rejoue plus. Pour la revoir : clique sur le nœud **Intro** de la scène et coche **Toujours rejouer** dans l'Inspecteur. Tous les textes sont dans `game/data/hub_intro.json` (modifiables sans code). Le voyage par portail se fait en solo pour l'instant ; en groupe, il arrive bientôt.
 
+## Le Marché de nuit et les missions secondaires
+
+La rue du nord-ouest de la place mène au **Marché de nuit** : trois ruelles étroites avec des stands de nourriture, des lanternes rouges et des enseignes empilées. Deux bâtiments se visitent :
+- le restaurant de ramen **Kaminari** (ruelle principale), avec le chef Goro et ses clients ;
+- la **salle Tsukimi** (ruelle de la fumée), le futur hôtel des ventes.
+
+Des habitants proposent des **missions secondaires** : un **« ! »** doré flotte au-dessus d'eux. Parle-leur avec **F**. La mission en cours s'affiche en haut à gauche, un **« ? »** montre qui aller voir, et des flèches dorées montrent les objets à trouver. La touche **J** ouvre le journal des missions.
+
+| Mission | Où la trouver |
+|---|---|
+| Kuro a disparu | Madame Sato, sur la place (côté nord-ouest) |
+| Un bol pour la route | Le chef Goro, dans le restaurant Kaminari |
+| L'écran qui grésille | Nina, sous l'écran géant |
+
+Tous les textes des missions sont dans `game/data/hub_quetes.json`, et ceux des habitants dans `game/data/hub_pnj.json`.
+
 ## Ce qu'on peut y faire
 
 - Se promener sur la place, sous la pluie, au milieu des néons.
