@@ -174,24 +174,24 @@ static func au_hasard(catalogue: Dictionary, base: Dictionary) -> Dictionary:
 	return valider(f, catalogue)
 
 
-# --- Sauvegarde sur le PC (en attendant les comptes Nakama, étape 4) -------
+# --- Sauvegarde (dans le profil actif : voir Profil et l'autoload Compte) ----
 
 static func existe() -> bool:
-	return FileAccess.file_exists(FICHIER)
+	return FileAccess.file_exists(Profil.chemin(FICHIER))
 
 
 ## La fiche sauvegardée sur ce PC, ou un dictionnaire vide s'il n'y en a pas.
 static func charger(catalogue: Dictionary) -> Dictionary:
 	if not existe():
 		return {}
-	var donnees = JSON.parse_string(FileAccess.get_file_as_string(FICHIER))
+	var donnees = JSON.parse_string(FileAccess.get_file_as_string(Profil.chemin(FICHIER)))
 	if not donnees is Dictionary:
 		return {}
 	return valider(donnees, catalogue)
 
 
 static func sauvegarder(fiche: Dictionary) -> Error:
-	var fichier := FileAccess.open(FICHIER, FileAccess.WRITE)
+	var fichier := FileAccess.open(Profil.chemin(FICHIER), FileAccess.WRITE)
 	if fichier == null:
 		return FileAccess.get_open_error()
 	fichier.store_string(JSON.stringify(fiche, "\t"))
@@ -200,7 +200,7 @@ static func sauvegarder(fiche: Dictionary) -> Error:
 
 static func effacer() -> void:
 	if existe():
-		DirAccess.remove_absolute(ProjectSettings.globalize_path(FICHIER))
+		DirAccess.remove_absolute(ProjectSettings.globalize_path(Profil.chemin(FICHIER)))
 
 
 # --- Outils internes ----------------------------------------------------------

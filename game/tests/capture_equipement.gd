@@ -31,7 +31,7 @@ func _lancer() -> void:
 	var fenetre := args.size() > 3 and args[3] == "fenetre"
 	root.size = Vector2i(1600, 900)
 	root.get_node("Reseau").nom_joueur = "Capture"
-	DirAccess.remove_absolute("user://sauvegardes/inventaires/capture.json")
+	DirAccess.remove_absolute(Profil.chemin("user://sauvegardes/inventaires/capture.json"))
 	var scene: Node = load("res://scenes/monde/colline_de_test.tscn").instantiate()
 	root.add_child(scene)
 	current_scene = scene
@@ -64,5 +64,5 @@ func _lancer() -> void:
 	var image := root.get_texture().get_image()
 	image.save_jpg(sortie, 0.9)
 	print("Capture : ", sortie)
-	DirAccess.remove_absolute("user://sauvegardes/inventaires/capture.json")
+	DirAccess.remove_absolute(Profil.chemin("user://sauvegardes/inventaires/capture.json"))
 	quit()

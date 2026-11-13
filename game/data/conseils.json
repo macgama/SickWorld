@@ -1,0 +1,78 @@
+{
+	"_aide": "Conseils pour les nouveaux joueurs. Chaque conseil s'affiche une seule fois, au moment indiqué par « quand ». Les mots entre accolades sont remplacés par la touche choisie par le joueur : {deplacement}, {interagir}, {sauter}, {esquive}, {carte}, {personnage}, {journal}, {aide}, {cible_suivante}. « quand » possibles : hub_debut (arrivée en ville), apres:<id> (juste après un autre conseil), etape:<id> (étape de l'intro, voir hub_intro.json), pres_pnj (près d'un personnage), hub_libre (en ville, intro finie), ile (arrivée sur une île), ennemi_proche, premiere_cible, pv_bas. « jusqua » : bouge (le conseil disparaît quand le joueur a marché), sinon il disparaît tout seul.",
+	"conseils": [
+		{
+			"id": "deplacement",
+			"quand": "hub_debut",
+			"titre": "Se déplacer",
+			"texte": "{deplacement} pour marcher.\nMaintiens le [b]clic droit[/b] pour orienter ton personnage, le [b]clic gauche[/b] pour tourner la caméra. [b]Molette[/b] : zoom.",
+			"jusqua": "bouge"
+		},
+		{
+			"id": "objectif",
+			"quand": "apres:deplacement",
+			"titre": "Ton objectif",
+			"texte": "Ta mission du moment s'affiche en haut de l'écran.\nSuis le [b]faisceau doré[/b] : il montre où aller."
+		},
+		{
+			"id": "parler",
+			"quand": "pres_pnj",
+			"titre": "Parler",
+			"texte": "Appuie sur {interagir} pour parler à ce personnage, puis encore sur {interagir} pour passer à la suite."
+		},
+		{
+			"id": "menu",
+			"quand": "apres:parler",
+			"titre": "Besoin d'aide ?",
+			"texte": "{aide} affiche toutes les touches.\n{echap} ouvre le menu : options, son, touches, quitter."
+		},
+		{
+			"id": "sauter",
+			"quand": "etape:station",
+			"titre": "Sauter et esquiver",
+			"texte": "{sauter} pour sauter.\n{esquive} pour une roulade d'esquive : en combat, elle permet d'éviter un coup."
+		},
+		{
+			"id": "carte",
+			"quand": "etape:commandante",
+			"titre": "La carte",
+			"texte": "{carte} ouvre la grande carte. La mini-carte, en haut à droite, montre les alentours et ton objectif."
+		},
+		{
+			"id": "personnage",
+			"quand": "etape:technicienne",
+			"titre": "Ton personnage",
+			"texte": "{personnage} ouvre ton personnage : équipement, sacs et tenues de mission."
+		},
+		{
+			"id": "combat_prepare",
+			"quand": "etape:portail",
+			"titre": "Avant de partir",
+			"texte": "Sur l'île, tu vas combattre. Ta barre de compétences est en bas : survole une case pour lire ce qu'elle fait."
+		},
+		{
+			"id": "journal",
+			"quand": "hub_libre",
+			"titre": "Missions en ville",
+			"texte": "Les habitants de Hikari Bay ont des missions pour toi. {journal} ouvre le journal des missions."
+		},
+		{
+			"id": "ennemi",
+			"quand": "ennemi_proche",
+			"titre": "Un ennemi approche",
+			"texte": "{cible_suivante} ou un clic sur l'ennemi pour le cibler.\n[b]Clic droit[/b] dessus pour l'attaquer, touches [b]1 à 8[/b] pour tes compétences."
+		},
+		{
+			"id": "competences",
+			"quand": "premiere_cible",
+			"titre": "Tes compétences",
+			"texte": "Touches [b]1 à 5[/b] : compétences de ta classe. [b]6 et 7[/b] : compétences de l'époque. [b]8[/b] : ton ultime. Certaines compétences coûtent de l'élan, que d'autres te font gagner.\n{echap} enlève la cible."
+		},
+		{
+			"id": "pv_bas",
+			"quand": "pv_bas",
+			"titre": "Attention !",
+			"texte": "Tes points de vie baissent. Recule, ou fais une roulade avec {esquive} pour éviter les coups."
+		}
+	]
+}

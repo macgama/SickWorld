@@ -303,7 +303,7 @@ func guilde() -> Dictionary:
 	if quetes == null:
 		return {}
 	var cfg := ConfigFile.new()
-	if cfg.load(quetes.fichier_progression) != OK or not cfg.has_section_key("guilde", "nom"):
+	if cfg.load(Profil.chemin(quetes.fichier_progression)) != OK or not cfg.has_section_key("guilde", "nom"):
 		return {}
 	return {"nom": String(cfg.get_value("guilde", "nom")), "couleur": int(cfg.get_value("guilde", "couleur", 0))}
 
@@ -352,10 +352,10 @@ func fonder_guilde(nom: String, couleur: int) -> String:
 	if quetes == null:
 		return "Le registre est fermé."
 	var cfg := ConfigFile.new()
-	cfg.load(quetes.fichier_progression)
+	cfg.load(Profil.chemin(quetes.fichier_progression))
 	cfg.set_value("guilde", "nom", nom)
 	cfg.set_value("guilde", "couleur", clampi(couleur, 0, COULEURS.size() - 1))
-	cfg.save(quetes.fichier_progression)
+	cfg.save(Profil.chemin(quetes.fichier_progression))
 	_afficher_bannieres()
 	if quetes.has_method("_annoncer"):
 		quetes._annoncer("Guilde fondée : %s\nTa bannière flotte dans la Maison des guildes." % nom)

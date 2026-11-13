@@ -164,11 +164,11 @@
 	},
 	"forgeron": {
 		"nom": "Maître Tetsuo Hinode",
-		"role": "Forge Hinode",
+		"role": "Forge Hinode · Armes et reliques",
 		"modele": "homme",
 		"repliques": [
 			"La forge Hinode. Trois générations de forgerons, et le feu ne s'est jamais éteint.",
-			"Rapporte-moi des matériaux des époques que tu visites. Silex, os, bronze... j'en tirerai des armes dignes de la Vigie. Bientôt."
+			"Rapporte-moi des matériaux des époques que tu visites. Silex, bois de renne, éclats de fracture... j'en tire des armes, des colliers et des reliques. Et j'améliore ce que tu portes."
 		]
 	},
 	"apprentie_forge": {
@@ -182,20 +182,20 @@
 	},
 	"lea": {
 		"nom": "Léa Fontaine",
-		"role": "Couturière · Fil & Fibre",
+		"role": "Fil & Fibre · Armures et sacs",
 		"modele": "femme",
 		"repliques": [
 			"Bienvenue chez Fil & Fibre ! Ici, on coud à la main et on imprime en 3D, parfois dans la même pièce.",
-			"Les fourrures et les cuirs que tu rapporteras deviendront des tenues pour les agents. Patience, les machines arrivent."
+			"Les fourrures et les cuirs que tu rapportes deviennent des tenues pour les agents. Montre-moi ce que tu as dans ton sac !"
 		]
 	},
 	"kofi": {
 		"nom": "Kofi Mensah",
-		"role": "Responsable du FabLab",
+		"role": "FabLab · Améliorations",
 		"modele": "homme",
 		"repliques": [
 			"Les imprimantes tournent jour et nuit. Pièces détachées, outils, prototypes : tout se fabrique ici.",
-			"Si tu as une idée d'objet, viens me voir. On trouvera bien comment l'imprimer."
+			"Les éclats de fracture que tu ramènes, je les scanne et je les imprime dans tes tenues. Plus solides, même look."
 		]
 	},
 	"livreur": {
