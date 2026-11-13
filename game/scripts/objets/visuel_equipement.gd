@@ -233,6 +233,38 @@ static func construire(forme: String, couleur: Color, cote := 1.0) -> Node3D:
 			caillou.rings = 3
 			_piece(n, caillou, pierre, Vector3.ZERO, Vector3(1.3, 1, 0.8), Vector3(10, 30, 20))
 			_piece(n, caillou, pierre, Vector3(0.11, -0.04, 0.03), Vector3(0.6, 0.5, 0.5), Vector3(40, 10, 0))
+		# --- Matériaux d'artisanat (data/artisanat.json) ---
+		"tendon":
+			# Un écheveau de tendon séché : trois boucles et un lien.
+			var fibre := _materiau(couleur, 0.6)
+			for i in 3:
+				var boucle := TorusMesh.new()
+				boucle.inner_radius = 0.075
+				boucle.outer_radius = 0.09
+				boucle.rings = 24
+				_piece(n, boucle, fibre, Vector3((i - 1) * 0.02, 0, 0), Vector3(1, 1, 0.55), Vector3(90, (i - 1) * 25, 0))
+			_piece(n, _cylindre(0.03, 0.03, 0.05), _materiau(couleur.darkened(0.35)), Vector3(0, -0.085, 0), Vector3.ONE, Vector3(0, 0, 90))
+		"bois_renne":
+			# Un bois de renne : merrain courbe et trois andouillers.
+			var bois := _materiau(couleur, 0.55)
+			_piece(n, _cylindre(0.014, 0.024, 0.42), bois, Vector3(0, 0.0, 0), Vector3.ONE, Vector3(0, 0, -14))
+			for i in 3:
+				var y := -0.1 + i * 0.12
+				_piece(n, _cylindre(0.0, 0.013, 0.14), bois, Vector3(0.05 + y * 0.25, y + 0.04, 0), Vector3.ONE, Vector3(0, 0, -55 + i * 8))
+		"eclat":
+			# Éclat de fracture : cristal violet qui luit.
+			var cristal := _materiau(couleur, 0.1, 0.3)
+			cristal.emission_enabled = true
+			cristal.emission = couleur
+			cristal.emission_energy_multiplier = 1.4
+			var pointe := CylinderMesh.new()
+			pointe.top_radius = 0.0
+			pointe.bottom_radius = 0.05
+			pointe.height = 0.26
+			pointe.radial_segments = 5
+			_piece(n, pointe, cristal, Vector3(0, 0.05, 0), Vector3.ONE, Vector3(0, 0, -8))
+			_piece(n, pointe, cristal, Vector3(0.06, -0.01, 0.01), Vector3(0.7, 0.6, 0.7), Vector3(0, 0, -35))
+			_piece(n, pointe, cristal, Vector3(-0.055, -0.02, 0.0), Vector3(0.6, 0.5, 0.6), Vector3(0, 0, 30))
 		"sac":
 			var cuir := _fourrure(couleur)
 			_piece(n, _sphere(0.15), cuir, Vector3.ZERO, Vector3(1, 1.05, 0.8))
