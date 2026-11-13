@@ -21,6 +21,10 @@ uniform sampler2D neige_arm : filter_linear_mipmap_anisotropic, repeat_enable;
 uniform bool neige_texture = false;
 uniform float neige_motif = 6.0;
 uniform vec3 neige_simple : source_color = vec3(0.86, 0.89, 0.93);
+// La texture de neige Poly Haven est assez grise : on l'éclaircit (1 = telle quelle).
+uniform float neige_eclat = 1.4;
+// Paillettes de la neige au soleil (0 = aucune).
+uniform float neige_paillettes = 1.0;
 
 uniform sampler2D sol_couleur : source_color, filter_linear_mipmap_anisotropic, repeat_enable;
 uniform sampler2D sol_relief : hint_normal, filter_linear_mipmap_anisotropic, repeat_enable;
@@ -128,6 +132,8 @@ void fragment() {
 	vec3 n_neige = vec3(0.5, 0.5, 1.0);
 	if (neige_texture) {
 		c_neige = deux_echelles(neige_couleur, uv_n, melange).rgb;
+		// Neige blanche, légèrement bleutée (et jamais au-dessus de 0,9 : reste réaliste).
+		c_neige = min(c_neige * neige_eclat * vec3(0.97, 0.99, 1.03), vec3(0.9));
 		a_neige = deux_echelles(neige_arm, uv_n, melange).rgb;
 		n_neige = deux_echelles(neige_relief, uv_n, melange).rgb;
 	}
@@ -167,6 +173,11 @@ void fragment() {
 	METALLIC = 0.0;
 	NORMAL_MAP = n;
 	SPECULAR = mix(0.4, 0.55, w_neige);
+	// Paillettes : quelques cristaux de glace scintillent selon le point de vue.
+	vec3 vue = normalize(position_monde - CAMERA_POSITION_WORLD);
+	vec3 cellule = floor(position_monde * 40.0);
+	float cristal = fract(sin(dot(cellule + floor(vue * 6.0), vec3(12.9898, 78.233, 37.719))) * 43758.5453);
+	EMISSION = vec3(0.9, 0.95, 1.0) * step(0.9992, cristal) * w_neige * neige_paillettes * 0.9;
 	// La neige laisse un peu passer la lumière (aspect moins « plâtre »).
 	SSS_STRENGTH = w_neige * 0.25;
 }

@@ -59,6 +59,12 @@ func _parler_a(id: String) -> int:
 	var devant: Vector3 = pnj.global_position - pnj.global_transform.basis.z * 1.6
 	await _placer(devant + Vector3(0, 0.3, 0), pnj.rotation.y + PI)
 	await _appuyer_f()
+	# Au tout premier appui, la scène peut encore finir de se charger : on réessaie.
+	for essai in 3:
+		if _dialogue.est_ouvert():
+			break
+		await _attendre(10)
+		await _appuyer_f()
 	var lues := 0
 	while _dialogue.est_ouvert() and lues < 30:
 		lues += 1
@@ -94,13 +100,15 @@ func _lancer() -> void:
 	var cfg := ConfigFile.new()
 	cfg.set_value("intro", "terminee", true)
 	cfg.save(FICHIER)
+	# Retour de la Côte Gelée avec la montre : la visite guidée du QG démarre seule.
+	root.get_node("Reseau").set_meta("visite_guidee_qg", true)
 	root.add_child(_scene)
 	await _attendre(30)
 	_joueur = get_first_node_in_group("joueur_local")
 	_dialogue = get_first_node_in_group("dialogue")
 	print("Test des missions secondaires")
 	_verifier(_quetes.quetes.size() >= 3, "%d missions chargées" % _quetes.quetes.size())
-	for id in ["kuro", "kaminari", "ecran", "ferraille", "louche", "fresques", "jardins", "lanternes", "billet"]:
+	for id in ["kuro", "kaminari", "ecran", "ferraille", "louche", "fresques", "jardins", "lanternes", "billet", "courrier", "guilde"]:
 		var donneur: String = _quetes.quete(id)["donneur"]
 		_verifier(_trouver_pnj(donneur) != null, "le donneur de « %s » est en ville (%s)" % [id, donneur])
 		var marque = _quetes._marques.get(donneur)
@@ -182,6 +190,32 @@ func _lancer() -> void:
 	_verifier(_quetes.etats["billet"]["etape"] == 2, "Tomás donne ses billets")
 	await _parler_a("guichetiere")
 	_verifier(_quetes.etat("billet") == "terminee", "mission « Billet pour nulle part » accomplie")
+
+	# 10. Courrier égaré : Mme Fujimoto -> 3 lettres -> Mme Fujimoto.
+	await _parler_a("concierge")
+	_verifier(_quetes.etat("courrier") == "active", "Madame Fujimoto confie sa mission")
+	faits = await _utiliser_objets("courrier")
+	_verifier(faits == 3 and _quetes.etats["courrier"]["etape"] == 1, "on ramasse les trois lettres (%s)" % _quetes.etats["courrier"])
+	await _parler_a("concierge")
+	_verifier(_quetes.etat("courrier") == "terminee", "mission « Courrier égaré » accomplie")
+
+	# 11. Trois signatures : registraire -> concierge -> Kaito -> registraire.
+	await _parler_a("registraire")
+	_verifier(_quetes.etat("guilde") == "active", "le registraire confie sa mission")
+	await _parler_a("concierge")
+	_verifier(_quetes.etats["guilde"]["etape"] == 1, "Madame Fujimoto signe")
+	await _parler_a("caissier_konbini")
+	_verifier(_quetes.etats["guilde"]["etape"] == 2, "Kaito signe")
+	await _parler_a("registraire")
+	_verifier(_quetes.etat("guilde") == "terminee", "mission « Trois signatures » accomplie")
+
+	# 12. L'objet impossible (visite guidée du QG) : Morel -> Yuki -> Théo -> Ishida -> Morel.
+	_verifier(_quetes.etat("montre") == "active", "au retour de la Côte Gelée, la visite guidée du QG commence")
+	for pnj in ["commandante", "technicienne", "banquier", "lame"]:
+		await _parler_a(pnj)
+	_verifier(_quetes.etats["montre"]["etape"] == 4, "la visite passe par les portails, le Coffre et l'entraînement (%s)" % _quetes.etats["montre"])
+	await _parler_a("commandante")
+	_verifier(_quetes.etat("montre") == "terminee", "mission « L'objet impossible » accomplie")
 
 	# Après coup : plus de marques, des répliques de remerciement, le journal.
 	var visibles := 0

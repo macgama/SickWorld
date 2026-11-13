@@ -44,6 +44,14 @@ La rue du sud de la place descend jusqu'à la **promenade** au bord de la baie :
 - la jetée du **Terminal des ferries** (compagnie « Vigie Lines », en réalité une façade de la Vigie). On entre dans le terminal : guichets, tableau des départs (les « destinations » sont les époques) et baie vitrée sur la mer. Le ferry *Hikari Maru* est à quai, mais il ne part plus ;
 - la jetée de la **grande roue**, fermée pour maintenance.
 
+## Les Résidences
+
+La rue de l'ouest de la place mène au quartier d'habitation. Autour d'une petite place, on trouve un parc avec un **cerisier en fleurs** (hors saison...), des balançoires et des distributeurs de boissons. Trois lieux se visitent :
+
+- le **konbini Hoshi**, ouvert 24 h/24 : rayons, frigos lumineux, caisse ;
+- le hall de la **Résidence Sakura** : boîtes aux lettres et ascenseurs (les appartements des joueurs viendront plus tard) ;
+- la **Maison des guildes** : bannières, grande table et registre (la fondation des guildes viendra plus tard).
+
 ## Le Marché de nuit et les missions secondaires
 
 La rue du nord-ouest de la place mène au **Marché de nuit** : trois ruelles étroites avec des stands de nourriture, des lanternes rouges et des enseignes empilées. Deux bâtiments se visitent :
@@ -63,6 +71,9 @@ Des habitants proposent des **missions secondaires** : un **« ! »** doré flot
 | L'eau des jardins | M. Tan Wei, sur la terrasse nord des Jardins suspendus |
 | Les lanternes de la baie | Grand-mère Ume, sur la promenade du Front de mer |
 | Billet pour nulle part | Rina, au guichet du Terminal des ferries |
+| Courrier égaré | Madame Fujimoto, dans le hall de la Résidence Sakura |
+| Trois signatures | Aleksander, à la Maison des guildes |
+| L'objet impossible | Commence tout seul quand tu reviens de la Côte Gelée avec la montre à gousset : visite guidée du QG |
 
 Tous les textes des missions sont dans `game/data/hub_quetes.json`, et ceux des habitants dans `game/data/hub_pnj.json`.
 
@@ -71,7 +82,7 @@ Tous les textes des missions sont dans `game/data/hub_quetes.json`, et ceux des 
 - Se promener sur la place, sous la pluie, au milieu des néons.
 - Descendre l'escalier de la **station Asahi** (coin sud-ouest de la place) : la porte blindée s'ouvre sur le **QG de la Vigie** (hall, coffre, entraînement, portails).
 - Descendre la rue du sud jusqu'au **front de mer** : la grande roue, et au large, la lumière de l'île de la Préhistoire.
-- La rue des Résidences (ouest) et le quai de l'Arène sont encore fermés par des barrières de chantier.
+- Le quai de l'Arène (sud-est) est encore fermé par une barrière de chantier.
 
 ## Ce que tu peux régler toi-même
 
