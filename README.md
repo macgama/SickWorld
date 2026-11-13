@@ -31,6 +31,7 @@ game/      Le projet Godot (ouvrir game/project.godot)
 - [Jouer à plusieurs](docs/guides/jouer-a-plusieurs.md)
 - [Visiter la Préhistoire : Côte Gelée, Steppe, Forêt des Bouleaux](docs/guides/visiter-la-prehistoire.md)
 - [La carte (mini-carte, brouillard, repères)](docs/guides/la-carte.md)
+- [Le son : musiques, ambiances, bruitages](docs/guides/le-son.md)
 
 ## Tests automatiques
 
