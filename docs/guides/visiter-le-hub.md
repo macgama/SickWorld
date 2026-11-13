@@ -49,8 +49,18 @@ La rue du sud de la place descend jusqu'à la **promenade** au bord de la baie :
 La rue de l'ouest de la place mène au quartier d'habitation. Autour d'une petite place, on trouve un parc avec un **cerisier en fleurs** (hors saison...), des balançoires et des distributeurs de boissons. Trois lieux se visitent :
 
 - le **konbini Hoshi**, ouvert 24 h/24 : rayons, frigos lumineux, caisse ;
-- le hall de la **Résidence Sakura** : boîtes aux lettres et ascenseurs (les appartements des joueurs viendront plus tard) ;
-- la **Maison des guildes** : bannières, grande table et registre (la fondation des guildes viendra plus tard).
+- le hall de la **Résidence Sakura** : boîtes aux lettres et ascenseurs ;
+- la **Maison des guildes** : bannières, grande table et registre.
+
+### Ton appartement (1204)
+
+L'ascenseur de gauche, au fond du hall de la Résidence Sakura, monte à ton appartement du 12e étage (**F** devant la porte). Il faut d'abord la clé : fais la mission **Courrier égaré** de Madame Fujimoto, la concierge. Sinon, l'ascenseur refuse de bouger.
+
+En haut : un salon avec une grande baie vitrée sur la place, une cuisine, un lit, un bureau et une **étagère des souvenirs**. Chaque mission accomplie y pose un objet (l'affiche de Kuro, le bol de ramen, la montre à gousset...), avec son nom. Le compteur indique combien tu en as rapporté. Pour redescendre : **F** devant l'ascenseur de l'appartement.
+
+### Fonder ta guilde
+
+Une fois la mission **Trois signatures** terminée, Aleksander, le registraire, te propose de fonder ta guilde : tu choisis son **nom** (3 à 24 lettres) et la **couleur** de sa bannière. La bannière est ensuite accrochée dans la grande salle de la Maison des guildes et au-dessus de ton bureau. Pour l'instant, la guilde est gardée sur ton PC : inviter d'autres joueurs viendra avec le serveur.
 
 ## L'Arène de la baie
 
