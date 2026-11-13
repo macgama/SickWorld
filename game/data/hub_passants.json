@@ -1,0 +1,258 @@
+{
+	"_aide": "Passants de Hikari Bay. chemin : points [x, z] parcourus en aller-retour. vitesse en m/s (0 = reste sur place). parapluie : numéro dans la liste « parapluies » (-1 = sans). regarde : orientation en degrés quand il attend (0 = nord). Le nord est vers -z.",
+	"parapluies": [
+		"#1a1a1f",
+		"#b8202e",
+		"#e8e4dc",
+		"#2a4f8f",
+		"#f2c230",
+		"#3d7a4a",
+		"#d9d9e6"
+	],
+	"passants": [
+		{
+			"modele": "homme",
+			"vitesse": 2.4,
+			"parapluie": 0,
+			"chemin": [
+				[
+					-27,
+					-25
+				],
+				[
+					27,
+					-25
+				],
+				[
+					27,
+					27
+				]
+			]
+		},
+		{
+			"modele": "femme",
+			"vitesse": 2.2,
+			"parapluie": 1,
+			"chemin": [
+				[
+					27,
+					28
+				],
+				[
+					-27,
+					28
+				],
+				[
+					-27,
+					-25
+				]
+			]
+		},
+		{
+			"modele": "homme",
+			"vitesse": 2.6,
+			"parapluie": 2,
+			"chemin": [
+				[
+					-30,
+					1
+				],
+				[
+					-78,
+					1
+				]
+			]
+		},
+		{
+			"modele": "femme",
+			"vitesse": 2.3,
+			"parapluie": 3,
+			"chemin": [
+				[
+					-76,
+					-1
+				],
+				[
+					-32,
+					-1
+				]
+			]
+		},
+		{
+			"modele": "homme",
+			"vitesse": 2.5,
+			"parapluie": -1,
+			"chemin": [
+				[
+					30,
+					-1
+				],
+				[
+					92,
+					-1
+				]
+			]
+		},
+		{
+			"modele": "femme",
+			"vitesse": 2.2,
+			"parapluie": 4,
+			"chemin": [
+				[
+					90,
+					1
+				],
+				[
+					32,
+					1
+				]
+			]
+		},
+		{
+			"modele": "homme",
+			"vitesse": 2.4,
+			"parapluie": 5,
+			"chemin": [
+				[
+					0,
+					29
+				],
+				[
+					0,
+					68
+				],
+				[
+					60,
+					68
+				]
+			]
+		},
+		{
+			"modele": "femme",
+			"vitesse": 2.3,
+			"parapluie": 6,
+			"chemin": [
+				[
+					-2,
+					30
+				],
+				[
+					-2,
+					67
+				],
+				[
+					-62,
+					67
+				]
+			]
+		},
+		{
+			"modele": "femme",
+			"vitesse": 4.0,
+			"parapluie": -1,
+			"chemin": [
+				[
+					-64,
+					70
+				],
+				[
+					70,
+					70
+				]
+			]
+		},
+		{
+			"modele": "homme",
+			"vitesse": 4.2,
+			"parapluie": -1,
+			"chemin": [
+				[
+					68,
+					72.6
+				],
+				[
+					-62,
+					72.6
+				]
+			]
+		},
+		{
+			"modele": "homme",
+			"vitesse": 2.4,
+			"parapluie": 0,
+			"chemin": [
+				[
+					-18,
+					-32
+				],
+				[
+					-18,
+					-90
+				]
+			]
+		},
+		{
+			"modele": "femme",
+			"vitesse": 2.2,
+			"parapluie": 1,
+			"chemin": [
+				[
+					22,
+					-78
+				],
+				[
+					22,
+					-32
+				]
+			]
+		},
+		{
+			"modele": "homme",
+			"vitesse": 0,
+			"parapluie": 2,
+			"regarde": 180,
+			"chemin": [
+				[
+					-50,
+					72
+				]
+			]
+		},
+		{
+			"modele": "femme",
+			"vitesse": 0,
+			"parapluie": 3,
+			"regarde": 160,
+			"chemin": [
+				[
+					-48.6,
+					72.2
+				]
+			]
+		},
+		{
+			"modele": "homme",
+			"vitesse": 0,
+			"parapluie": 0,
+			"regarde": 90,
+			"chemin": [
+				[
+					14,
+					-18
+				]
+			]
+		},
+		{
+			"modele": "femme",
+			"vitesse": 0,
+			"parapluie": 4,
+			"regarde": -90,
+			"chemin": [
+				[
+					12.6,
+					-18
+				]
+			]
+		}
+	]
+}
