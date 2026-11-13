@@ -142,7 +142,7 @@ func _process(_delta: float) -> void:
 		return
 	var dialogue := get_tree().get_first_node_in_group("dialogue")
 	var occupe: bool = dialogue != null and dialogue.est_ouvert()
-	_invite.visible = _joueur_proche() and not occupe and not _action_de_quete_proche() \
+	_invite.visible = is_visible_in_tree() and _joueur_proche() and not occupe and not _action_de_quete_proche() \
 			and not repliques_du_moment().is_empty()
 
 
@@ -150,7 +150,8 @@ func _unhandled_input(event: InputEvent) -> void:
 	if Engine.is_editor_hint() or not event.is_action_pressed("interagir"):
 		return
 	var dialogue := get_tree().get_first_node_in_group("dialogue")
-	if dialogue == null or dialogue.est_ouvert() or not _joueur_proche() or _action_de_quete_proche():
+	if dialogue == null or dialogue.est_ouvert() or not is_visible_in_tree() or not _joueur_proche() \
+			or _action_de_quete_proche():
 		return
 	get_viewport().set_input_as_handled()
 	parler()

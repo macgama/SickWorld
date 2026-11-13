@@ -71,5 +71,19 @@
 		"entraide": 14,
 		"temps_reapparition": 25,
 		"craintif": true
+	},
+	"loup_fracture_foret": {
+		"nom": "Loup fracturé de la forêt",
+		"niveau": 6,
+		"points_de_vie": 190,
+		"degats": [11, 16],
+		"intervalle_attaque": 1.7,
+		"portee_attaque": 2.2,
+		"vitesse_course": 6.8,
+		"vitesse_marche": 1.8,
+		"distance_detection": 13,
+		"distance_laisse": 45,
+		"entraide": 14,
+		"temps_reapparition": 0
 	}
 }
