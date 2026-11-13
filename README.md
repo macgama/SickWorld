@@ -29,6 +29,7 @@ game/      Le projet Godot (ouvrir game/project.godot)
 - [Régler le combat sans coder](docs/guides/regler-le-combat.md)
 - [Jouer à plusieurs](docs/guides/jouer-a-plusieurs.md)
 - [Visiter la Préhistoire : la Côte Gelée](docs/guides/visiter-la-prehistoire.md)
+- [La carte (mini-carte, brouillard, repères)](docs/guides/la-carte.md)
 
 ## Tests automatiques
 

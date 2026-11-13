@@ -28,6 +28,12 @@ const TOUCHES := {
 	"competence_7": [KEY_7], "competence_8": [KEY_8],
 }
 
+## Touches choisies pour leur LETTRE (et non leur position) : M reste M en
+## AZERTY comme en QWERTY.
+const TOUCHES_LETTRES := {
+	"carte": [KEY_M],                    # M : ouvrir / fermer la grande carte
+}
+
 
 func _ready() -> void:
 	for action: String in TOUCHES:
@@ -36,4 +42,11 @@ func _ready() -> void:
 		for touche: Key in TOUCHES[action]:
 			var evenement := InputEventKey.new()
 			evenement.physical_keycode = touche
+			InputMap.action_add_event(action, evenement)
+	for action: String in TOUCHES_LETTRES:
+		if not InputMap.has_action(action):
+			InputMap.add_action(action)
+		for touche: Key in TOUCHES_LETTRES[action]:
+			var evenement := InputEventKey.new()
+			evenement.keycode = touche
 			InputMap.action_add_event(action, evenement)
