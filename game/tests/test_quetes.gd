@@ -4,7 +4,8 @@ extends SceneTree
 ## installer) et on vérifie la récompense et la sauvegarde.
 ## Lancement : godot --headless --path game -s res://tests/test_quetes.gd
 
-const FICHIER := "user://test_quetes_progression.cfg"
+## Un fichier par lancement : deux tests lancés en même temps ne se gênent pas.
+var FICHIER := "user://test_quetes_progression_%d.cfg" % OS.get_process_id()
 
 var _echecs := 0
 var _scene: Node
@@ -93,8 +94,18 @@ func _utiliser_objets(id: String) -> int:
 		var p := objet.global_position
 		# Les objets posés en hauteur (terrasses) : on se place à leur niveau.
 		var y := p.y + 0.3 if p.y < 1.5 else 0.3
-		await _placer(Vector3(p.x, y, p.z) + objet.global_transform.basis.z * 1.0, 0.0)
-		await _appuyer_f()
+		var avant: int = _quetes.etats[id].get("faits", []).size()
+		var etape: int = _quetes.etats[id].get("etape", 0)
+		# Un passant (PNJ qui se promène) peut se trouver tout près : F ouvre alors
+		# son dialogue. On le ferme et on réessaie.
+		for essai in 3:
+			await _placer(Vector3(p.x, y, p.z) + objet.global_transform.basis.z * 1.0, 0.0)
+			await _appuyer_f()
+			while _dialogue.est_ouvert():
+				await _appuyer_f()
+			if _quetes.etats[id].get("faits", []).size() > avant or _quetes.etats[id].get("etape", 0) != etape:
+				break
+			await _attendre(30)
 		faits += 1
 	return faits
 
