@@ -20,8 +20,9 @@ game/      Le projet Godot (ouvrir game/project.godot)
 
 ![Étape 1 : la colline de test](docs/images/etape-1-colline.jpg)
 
-## Guides
+## Documentation
 
+- [Document de conception (GDD)](docs/GDD.md)
 - [Ouvrir et tester le projet](docs/guides/ouvrir-et-tester-le-projet.md)
 - [Créer le personnage avec MakeHuman et Mixamo](docs/guides/personnage-makehuman-mixamo.md)
 - [Régler le combat sans coder](docs/guides/regler-le-combat.md)
