@@ -63,6 +63,25 @@ static func _construire_quai(hub: HikariBay) -> void:
 		hub._boite(Vector3(0.4, 0.12, 0.4), Vector3(x, 4.05, 81.4), hub._neon(ORANGE, 3.0), false)
 
 
+## Terre battue mouillée, avec flaques et ronds de pluie (repli : sable uni).
+static func _materiau_terre(hub: HikariBay) -> Material:
+	var base := hub._mat_sol("concrete_pavement", 3.0, "beton", 0.45)
+	var d := "res://assets/prehistoire/textures/brown_mud_02/brown_mud_02_"
+	if not base is ShaderMaterial or not ResourceLoader.exists(d + "Diffuse.jpg"):
+		var sable := StandardMaterial3D.new()
+		sable.albedo_color = Color(0.62, 0.52, 0.38)
+		sable.roughness = 1.0
+		return sable
+	var m := (base as ShaderMaterial).duplicate() as ShaderMaterial
+	m.set_shader_parameter("texture_couleur", load(d + "Diffuse.jpg"))
+	m.set_shader_parameter("texture_relief", load(d + "nor_gl.jpg"))
+	m.set_shader_parameter("texture_arm", load(d + "arm.jpg"))
+	m.set_shader_parameter("taille_motif", 3.5)
+	m.set_shader_parameter("teinte", Color(1.25, 1.05, 0.82))
+	m.set_shader_parameter("flaques", 0.38)
+	return m
+
+
 ## Pose une boîte tournée autour de l'axe vertical (avec collision si demandé).
 static func _boite_tournee(hub: HikariBay, taille: Vector3, centre: Vector3, angle: float, mat: Material, collision: bool) -> void:
 	var b := hub._boite(taille, centre, mat, false)
@@ -92,9 +111,7 @@ static func _construire_stade(hub: HikariBay) -> void:
 	hub._boite(Vector3(1.4, 1.2, 10.0), entree + Vector3(0, 6.8, 0), beton, false)
 	hub._texte("ENTRÉE · 入口", entree + Vector3(-0.75, 6.8, 0), BLANC, 50, -PI / 2, 2.5)
 	# Terrain en sable, avec les marques du centre.
-	var sable := StandardMaterial3D.new()
-	sable.albedo_color = Color(0.62, 0.52, 0.38)
-	sable.roughness = 1.0
+	var sable := _materiau_terre(hub)
 	var terrain := hub._cylindre(RAYON_TERRAIN, RAYON_TERRAIN, 0.05, CENTRE + Vector3(0, 0.025, 0), sable, false)
 	terrain.name = "TerrainArene"
 	var anneau := MeshInstance3D.new()

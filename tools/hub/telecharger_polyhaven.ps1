@@ -13,7 +13,7 @@ $textures = [ordered]@{
 	"concrete_tile_facade" = "1k"; "rectangular_facade_tiles" = "1k"; "concrete_wall_008" = "1k";
 	"painted_metal_shutter" = "1k"; "metal_plate" = "1k"; "square_tiled_wall" = "1k";
 	"terrazzo_tiles" = "1k"; "granite_tile" = "1k"; "brushed_concrete" = "1k";
-	"white_rough_plaster" = "1k"; "corrugated_iron" = "1k"
+	"white_rough_plaster" = "1k"; "corrugated_iron" = "1k"; "wood_planks" = "2k"
 }
 $cartes = @("Diffuse", "nor_gl", "arm")
 
