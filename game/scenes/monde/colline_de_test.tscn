@@ -1,8 +1,10 @@
-[gd_scene load_steps=8 format=3]
+[gd_scene load_steps=10 format=3]
 
 [ext_resource type="Script" path="res://scripts/monde/colline_de_test.gd" id="1_colline"]
 [ext_resource type="PackedScene" path="res://scenes/joueur/joueur.tscn" id="2_joueur"]
 [ext_resource type="Script" path="res://scripts/interface/hud.gd" id="3_hud"]
+[ext_resource type="Script" path="res://scripts/monde/balise_vigie.gd" id="4_balise"]
+[ext_resource type="Script" path="res://scripts/monde/camp_de_loups.gd" id="5_camp"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ciel"]
 sky_top_color = Color(0.32, 0.5, 0.78, 1)
@@ -48,3 +50,29 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 55)
 
 [node name="Interface" type="CanvasLayer" parent="."]
 script = ExtResource("3_hud")
+
+[node name="BaliseVigie" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 3, 52)
+script = ExtResource("4_balise")
+
+[node name="CampNord" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 10, 24)
+script = ExtResource("5_camp")
+nombre = 2
+
+[node name="CampOuest" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32, 5, 8)
+script = ExtResource("5_camp")
+
+[node name="CampEst" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 5, 2)
+script = ExtResource("5_camp")
+
+[node name="CampSommet" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 16, -10)
+script = ExtResource("5_camp")
+nombre = 4
+
+[node name="CampSud" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 5, -42)
+script = ExtResource("5_camp")

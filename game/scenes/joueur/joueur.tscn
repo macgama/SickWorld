@@ -1,8 +1,11 @@
-[gd_scene load_steps=6 format=3]
+[gd_scene load_steps=8 format=3]
 
 [ext_resource type="Script" path="res://scripts/joueur/joueur.gd" id="1_joueur"]
 [ext_resource type="Script" path="res://scripts/joueur/camera_joueur.gd" id="2_camera"]
 [ext_resource type="Script" path="res://scripts/joueur/apparence_provisoire.gd" id="3_apparence"]
+
+[ext_resource type="Script" path="res://scripts/combat/combattant.gd" id="4_combat"]
+[ext_resource type="Script" path="res://scripts/combat/combat_joueur.gd" id="5_combat_joueur"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_corps"]
 radius = 0.35
@@ -12,6 +15,8 @@ height = 1.8
 radius = 0.25
 
 [node name="Joueur" type="CharacterBody3D"]
+collision_layer = 2
+collision_mask = 3
 script = ExtResource("1_joueur")
 
 [node name="Collision" type="CollisionShape3D" parent="."]
@@ -27,6 +32,7 @@ script = ExtResource("2_camera")
 [node name="Pivot" type="Node3D" parent="CameraRig"]
 
 [node name="Bras" type="SpringArm3D" parent="CameraRig/Pivot"]
+collision_mask = 1
 shape = SubResource("SphereShape3D_camera")
 spring_length = 7.0
 margin = 0.1
@@ -35,3 +41,10 @@ margin = 0.1
 current = true
 fov = 70.0
 far = 1000.0
+
+[node name="Combat" type="Node" parent="."]
+script = ExtResource("4_combat")
+faction = "joueur"
+
+[node name="CombatJoueur" type="Node" parent="."]
+script = ExtResource("5_combat_joueur")

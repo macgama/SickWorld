@@ -21,6 +21,7 @@ var _epaule_g: Node3D
 var _epaule_d: Node3D
 var _phase := 0.0
 var _temps := 0.0
+var _attaque := 0.0
 
 
 func _ready() -> void:
@@ -97,6 +98,15 @@ func _construire() -> void:
 		main.radius = 0.055
 		main.height = 0.11
 		_forme(epaule, main, peau, Vector3(0, -0.62, 0))
+	# Lame (classe du prototype) : une épée dans la main droite.
+	var metal := _materiau(Color(0.75, 0.78, 0.82), 0.25)
+	metal.metallic = 0.9
+	var lame := BoxMesh.new()
+	lame.size = Vector3(0.025, 0.07, 0.85)
+	_forme(_epaule_d, lame, metal, Vector3(0, -0.64, -0.5))
+	var garde := BoxMesh.new()
+	garde.size = Vector3(0.18, 0.03, 0.04)
+	_forme(_epaule_d, garde, sombre, Vector3(0, -0.64, -0.07))
 
 	_hanche_g = _articulation(_centre, Vector3(-0.1, 0, 0))
 	_hanche_d = _articulation(_centre, Vector3(0.1, 0, 0))
@@ -105,6 +115,11 @@ func _construire() -> void:
 		var chaussure := BoxMesh.new()
 		chaussure.size = Vector3(0.12, 0.08, 0.26)
 		_forme(hanche, chaussure, sombre, Vector3(0, -0.91, -0.05))
+
+
+## Joue un coup d'épée.
+func attaquer() -> void:
+	_attaque = 0.35
 
 
 ## Appelée par le Joueur à chaque image physique.
@@ -140,6 +155,11 @@ func animer(delta: float, vitesse_locale: Vector3, au_sol: bool, progression_esq
 	_hanche_d.rotation = Vector3(-jambe_d * (1.0 - absf(cote) * 0.6), 0, -sin(_phase) * 0.25 * cote)
 	_epaule_g.rotation = Vector3(-bras_g, 0, -0.08)
 	_epaule_d.rotation = Vector3(-bras_d, 0, 0.08)
+	if _attaque > 0.0:
+		# Coup d'épée : le bras droit se lève puis frappe en diagonale.
+		_attaque = maxf(0.0, _attaque - delta)
+		var t := 1.0 - _attaque / 0.35
+		_epaule_d.rotation = Vector3(lerpf(2.6, 0.6, t), lerpf(-0.3, 0.6, t), 0.3)
 	# Penché légèrement vers l'avant quand on court.
 	_buste.rotation = Vector3(-0.12 * allure * (1.0 if sens > 0.0 else -0.5), 0, 0)
 	_buste.scale = Vector3(1.0, 1.0 + respiration, 1.0)

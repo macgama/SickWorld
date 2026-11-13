@@ -39,6 +39,10 @@ Les fois suivantes, le projet SickWorld apparaît directement dans la liste : do
 | **Molette** | Zoomer / dézoomer |
 | **Espace** | Sauter |
 | **Maj** | Roulade d'esquive (consomme l'endurance, la barre jaune en bas) |
+| **Tab** | Cibler l'ennemi suivant |
+| **Clic** sur un ennemi | Le cibler (clic droit : le cibler et l'attaquer) |
+| **Échap** | Enlever la cible / annuler une préparation |
+| **1 à 8** (rangée du haut) | Compétences (survole une case pour lire sa description) |
 | **F1** | Cacher / afficher l'aide |
 
 Sur un clavier anglais, ce sont W A S D au lieu de Z Q S D : le jeu s'adapte tout seul.
@@ -57,6 +61,8 @@ De la même façon :
 - le nœud **CollineDeTest** (tout en haut) règle la colline : change la **Graine** pour obtenir un autre paysage, la quantité d'herbe et de rochers. Le bouton **Régénérer le terrain** met l'aperçu à jour.
 
 Si une valeur te plaît, dis-le-moi (ou enregistre avec **Ctrl+S** et envoie la modification avec GitHub Desktop : *Commit* puis *Push origin*).
+
+Pour régler les compétences et les loups, voir [Régler le combat sans coder](regler-le-combat.md).
 
 ## 5. Si quelque chose ne va pas
 
