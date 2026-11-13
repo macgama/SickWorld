@@ -24,6 +24,8 @@ const COL := Vector2(0, 170)
 const CHASSE := Vector2(10, 124)
 ## Le gué : là, la rivière n'arrive qu'aux chevilles.
 const GUE_X := 22.0
+## La passe du nord, vers les Falaises Peintes (chapitre 6).
+const PASSE_NORD := Vector2(-46, -160)
 ## Le camp d'été du clan du Bison.
 const CAMP := Vector2(28, -58)
 ## La paroi où Aïna peint, au bord du camp.
@@ -40,7 +42,6 @@ const RENNES := Vector2(48, 78)
 const PASSE_EST := Vector2(170, -30)
 
 var _rivage: FastNoiseLite
-var _feux: Array[OmniLight3D] = []
 
 
 func _init() -> void:
@@ -70,6 +71,9 @@ func _ready() -> void:
 	if not Engine.is_editor_hint() and Reseau.get_meta("arrivee_prehistoire", "") == "foret":
 		Reseau.remove_meta("arrivee_prehistoire")
 		point_apparition = PASSE_EST + Vector2(-16, 0)
+	elif not Engine.is_editor_hint() and Reseau.get_meta("arrivee_prehistoire", "") == "falaises":
+		Reseau.remove_meta("arrivee_prehistoire")
+		point_apparition = PASSE_NORD + Vector2(0, 14)
 	super._ready()
 
 
@@ -89,6 +93,8 @@ func sortie_vers(zone: String) -> Vector2:
 		return COL + Vector2(0, -2)
 	if zone == "foret":
 		return PASSE_EST + Vector2(-6, 0)
+	if zone == "falaises":
+		return PASSE_NORD + Vector2(0, 4)
 	return Vector2.INF
 
 
@@ -141,7 +147,9 @@ func hauteur(x: float, z: float) -> float:
 	var passe := exp(-pow((z - PASSE_EST.y) / 13.0, 2.0)) if x > 0.0 else 0.0
 	h += smoothstep(145.0, 172.0, absf(x) + _relief.get_noise_2d(z, 30.0) * 10.0) * (22.0 + crete * crete * 20.0) \
 			* (1.0 - passe * 0.85)
-	h += smoothstep(-138.0, -172.0, z + _relief.get_noise_2d(x, 60.0) * 10.0) * (24.0 + crete * crete * 24.0)
+	var nord := exp(-pow((x - PASSE_NORD.x) / 16.0, 2.0))
+	h -= smoothstep(-50.0, -150.0, z) * 5.0 * nord
+	h += smoothstep(-138.0, -172.0, z + _relief.get_noise_2d(x, 60.0) * 10.0) * (24.0 + crete * crete * 24.0) * (1.0 - nord * 0.92)
 	var col := exp(-pow((x - COL.x) / 13.0, 2.0))
 	h += smoothstep(150.0, 174.0, z) * (24.0 + crete * crete * 18.0) * (1.0 - col * 0.85)
 	return h
@@ -325,24 +333,6 @@ func _semer(id: String, nombre: int, echelle_min: float, echelle_max: float, por
 
 
 # --- Le camp d'été du clan du Bison -----------------------------------------------------
-
-func _mat_peau() -> StandardMaterial3D:
-	var m := _mat_pbr("brown_leather", Color(0.6, 0.55, 0.5), 0.95, 1.2)
-	m.uv1_triplanar = false
-	m.uv1_scale = Vector3.ONE
-	m.roughness = 1.0
-	m.metallic_specular = 0.2
-	return m
-
-
-func _cylindre(haut: float, bas: float, hauteur_c: float, segments := 12) -> CylinderMesh:
-	var c := CylinderMesh.new()
-	c.top_radius = haut
-	c.bottom_radius = bas
-	c.height = hauteur_c
-	c.radial_segments = segments
-	return c
-
 
 func _construire_camp_du_clan() -> void:
 	var camp := Node3D.new()
@@ -531,141 +521,6 @@ func _sechoir(parent: Node3D, p: Vector2, angle: float, bois: Material) -> void:
 
 
 ## Un feu de camp : pierres, braises, flammes et lumière qui vacille.
-func _feu(parent: Node3D, p: Vector2, taille: float) -> void:
-	var feu := Node3D.new()
-	feu.position = Vector3(p.x, hauteur(p.x, p.y), p.y)
-	parent.add_child(feu)
-	var pierre := _mat_pbr("rock_boulder_dry", Color(0.6, 0.58, 0.55), 0.9, 0.6)
-	for k in 9:
-		var a := k * TAU / 9.0
-		var caillou := MeshInstance3D.new()
-		var sphere := SphereMesh.new()
-		sphere.radius = 0.22 * taille
-		sphere.height = 0.3 * taille
-		caillou.mesh = sphere
-		caillou.material_override = pierre
-		caillou.position = Vector3(cos(a), 0.05, sin(a)) * 0.9 * taille
-		feu.add_child(caillou)
-	var braise := _lumineux(Color(1.0, 0.35, 0.08), 2.5)
-	for k in 4:
-		var buche := MeshInstance3D.new()
-		buche.mesh = _cylindre(0.07, 0.08, 1.1 * taille, 6)
-		buche.material_override = _mat_pbr("", Color(0.12, 0.09, 0.07), 0.95)
-		buche.position.y = 0.25 * taille
-		buche.rotation = Vector3(1.1, k * PI / 2, 0)
-		feu.add_child(buche)
-	var coeur := MeshInstance3D.new()
-	var sphere := SphereMesh.new()
-	sphere.radius = 0.35 * taille
-	sphere.height = 0.2 * taille
-	coeur.mesh = sphere
-	coeur.material_override = braise
-	coeur.position.y = 0.05
-	feu.add_child(coeur)
-	var lumiere := OmniLight3D.new()
-	lumiere.light_color = Color(1.0, 0.6, 0.3)
-	lumiere.light_energy = 3.2
-	lumiere.omni_range = 12.0 * taille
-	lumiere.shadow_enabled = true
-	lumiere.position.y = 1.0
-	lumiere.add_to_group("lumiere_secondaire")
-	feu.add_child(lumiere)
-	_feux.append(lumiere)
-	if DisplayServer.get_name() == "headless":
-		return
-	var flammes := GPUParticles3D.new()
-	flammes.amount = 60
-	flammes.lifetime = 0.9
-	var processus := ParticleProcessMaterial.new()
-	processus.emission_shape = ParticleProcessMaterial.EMISSION_SHAPE_SPHERE
-	processus.emission_sphere_radius = 0.3 * taille
-	processus.direction = Vector3.UP
-	processus.spread = 12.0
-	processus.initial_velocity_min = 0.8
-	processus.initial_velocity_max = 1.6
-	processus.gravity = Vector3(0, 0.6, 0)
-	processus.scale_min = 0.6
-	processus.scale_max = 1.2
-	var courbe := CurveTexture.new()
-	var c := Curve.new()
-	c.add_point(Vector2(0, 0.6))
-	c.add_point(Vector2(0.3, 1.0))
-	c.add_point(Vector2(1, 0))
-	courbe.curve = c
-	processus.scale_curve = courbe
-	var degrade := Gradient.new()
-	degrade.set_color(0, Color(1.0, 0.85, 0.4, 1))
-	degrade.set_color(1, Color(0.9, 0.2, 0.02, 0))
-	var couleurs := GradientTexture1D.new()
-	couleurs.gradient = degrade
-	processus.color_ramp = couleurs
-	flammes.process_material = processus
-	var quad := QuadMesh.new()
-	quad.size = Vector2(0.45, 0.6) * taille
-	var m := StandardMaterial3D.new()
-	m.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-	m.billboard_mode = BaseMaterial3D.BILLBOARD_PARTICLES
-	m.vertex_color_use_as_albedo = true
-	m.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
-	m.blend_mode = BaseMaterial3D.BLEND_MODE_ADD
-	m.albedo_texture = _texture_flamme()
-	quad.material = m
-	flammes.draw_pass_1 = quad
-	flammes.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-	flammes.position.y = 0.2
-	feu.add_child(flammes)
-
-
-func _texture_flamme() -> Texture2D:
-	if _materiaux.has("tex_flamme"):
-		return _materiaux["tex_flamme"]
-	var t := GradientTexture2D.new()
-	t.fill = GradientTexture2D.FILL_RADIAL
-	t.fill_from = Vector2(0.5, 0.6)
-	t.fill_to = Vector2(0.5, 0.0)
-	var g := Gradient.new()
-	g.set_color(0, Color(1, 1, 1, 1))
-	g.set_color(1, Color(1, 1, 1, 0))
-	t.gradient = g
-	_materiaux["tex_flamme"] = t
-	return t
-
-
-## Une main négative soufflée à l'ocre (comme dans les vraies grottes ornées).
-func _texture_main() -> Texture2D:
-	var taille_img := 256
-	var image := Image.create(taille_img, taille_img, false, Image.FORMAT_RGBA8)
-	image.fill(Color(1, 1, 1, 0))
-	var hasard := RandomNumberGenerator.new()
-	hasard.seed = 7
-	# La paume et les doigts (positions sur l'image, de 0 à 1).
-	var doigts := [[Vector2(0.30, 0.42), Vector2(0.18, 0.22)], [Vector2(0.42, 0.36), Vector2(0.38, 0.08)],
-			[Vector2(0.52, 0.35), Vector2(0.53, 0.05)], [Vector2(0.61, 0.38), Vector2(0.67, 0.1)],
-			[Vector2(0.66, 0.5), Vector2(0.84, 0.36)]]
-	var dans_main := func(u: Vector2) -> bool:
-		if Vector2((u.x - 0.48) / 0.2, (u.y - 0.58) / 0.22).length() < 1.0:
-			return true
-		if u.y > 0.62 and u.y < 0.95 and absf(u.x - 0.48) < 0.13:
-			return true
-		for d in doigts:
-			var a: Vector2 = d[0]
-			var b: Vector2 = d[1]
-			var t := clampf((u - a).dot(b - a) / (b - a).length_squared(), 0.0, 1.0)
-			if u.distance_to(a + (b - a) * t) < 0.045:
-				return true
-		return false
-	for j in taille_img:
-		for i in taille_img:
-			var u := Vector2(i, j) / taille_img
-			var centre := u.distance_to(Vector2(0.5, 0.5))
-			# Pigment soufflé autour de la main, qui s'estompe vers les bords.
-			var alpha := clampf(1.0 - centre * 2.1, 0.0, 1.0) * (0.75 + hasard.randf() * 0.25)
-			if dans_main.call(u):
-				alpha *= 0.05
-			image.set_pixel(i, j, Color(1, 1, 1, alpha))
-	return ImageTexture.create_from_image(image)
-
-
 # --- Le vieux foyer des chasseurs (charbon) ---------------------------------------------
 
 func _construire_vieux_foyer() -> void:
@@ -824,6 +679,7 @@ func _construire_quete() -> void:
 	repere.call(MarqueurCarte.Type.LIEU, "Col (vers la Côte Gelée)", COL + Vector2(0, -4))
 	repere.call(MarqueurCarte.Type.LIEU, "Passe de l'est (vers la Forêt des Bouleaux)", PASSE_EST + Vector2(-10, 0))
 	repere.call(MarqueurCarte.Type.LIEU, "Le gué", Vector2(GUE_X, riviere_z(GUE_X)))
+	repere.call(MarqueurCarte.Type.LIEU, "Passe du nord (vers les Falaises Peintes)", PASSE_NORD + Vector2(0, 8))
 	repere.call(MarqueurCarte.Type.LIEU, "Troupeau de mammouths", HARDE)
 	repere.call(MarqueurCarte.Type.LIEU, "Rennes", RENNES)
 	repere.call(MarqueurCarte.Type.LIEU, "Vieux foyer", VIEUX_FOYER)
@@ -857,3 +713,5 @@ func _surveiller_col() -> void:
 		quete.changer_de_zone("cote_gelee")
 	elif p.x > PASSE_EST.x - 4.0 and absf(p.y - PASSE_EST.y) < 16.0:
 		quete.changer_de_zone("foret")
+	elif p.y < PASSE_NORD.y - 2.0 and absf(p.x - PASSE_NORD.x) < 16.0:
+		quete.changer_de_zone("falaises")
