@@ -128,5 +128,33 @@
 		"distance_laisse": 70,
 		"entraide": 0,
 		"temps_reapparition": 0
+	},
+	"ours_brun": {
+		"nom": "Grand ours brun",
+		"niveau": 6,
+		"points_de_vie": 900,
+		"degats": [16, 24],
+		"intervalle_attaque": 2.2,
+		"portee_attaque": 3.2,
+		"vitesse_course": 6.0,
+		"vitesse_marche": 1.4,
+		"distance_detection": 14,
+		"distance_laisse": 50,
+		"entraide": 0,
+		"temps_reapparition": 0
+	},
+	"loup_alpha_fracture": {
+		"nom": "Alpha fracturé",
+		"niveau": 8,
+		"points_de_vie": 1400,
+		"degats": [18, 26],
+		"intervalle_attaque": 1.8,
+		"portee_attaque": 2.8,
+		"vitesse_course": 7.0,
+		"vitesse_marche": 2.0,
+		"distance_detection": 22,
+		"distance_laisse": 60,
+		"entraide": 0,
+		"temps_reapparition": 0
 	}
 }

@@ -693,6 +693,7 @@ func _recevoir_bond(chemin_cible: NodePath, frapper: bool) -> void:
 
 @rpc("authority", "call_local", "reliable")
 func _animer_attaque() -> void:
+	Audio.effet("attaque", joueur)
 	if joueur.apparence.has_method("attaquer"):
 		joueur.apparence.attaquer()
 
@@ -704,6 +705,10 @@ func _effet_projectile(chemin_cible: NodePath, duree: float, style: String) -> v
 		return
 	EffetsVisuels.projectile(self, combat.centre() + Vector3.UP * 0.4, victime.acteur(),
 			victime.hauteur_centre, duree, style)
+	Audio.effet("lancer", joueur)
+	get_tree().create_timer(duree).timeout.connect(func():
+		if is_instance_valid(victime):
+			Audio.effet("impact_sagaie", victime.centre()))
 
 
 ## Effets visuels courts, vus par tous les joueurs.

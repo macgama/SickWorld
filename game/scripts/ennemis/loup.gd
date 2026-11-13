@@ -321,6 +321,8 @@ func _cible_du_maitre() -> Combattant:
 
 @rpc("authority", "call_local", "unreliable")
 func _mordre() -> void:
+	if has_node("Bruiteur"):
+		$Bruiteur.attaque()
 	if apparence.has_method("mordre"):
 		apparence.mordre()
 

@@ -1,0 +1,278 @@
+{
+	"_aide": "Quêtes secondaires de l'île de la Préhistoire. Chaque quête est proposée par un personnage (« donneur ») une fois l'étape « apres » de la quête principale passée. Les répliques « offre » sont dites quand on lui parle ; à la fin de la conversation, la quête commence. Types d'étapes : « pnj » (parler), « recolter » (ramasser N objets du même groupe), « tuer » (vaincre N ennemis), « objet » (utiliser un objet, avec une durée). « ou » = zone où se passe l'étape.",
+	"quetes": [
+		{
+			"id": "premier_collier",
+			"titre": "Le premier collier",
+			"donneur": "vieille_mere",
+			"apres": "vers_le_camp",
+			"offre": [
+				"Mon collier de cérémonie s'est brisé pendant la dernière lune. Sans lui, je ne peux pas raconter les grandes histoires.",
+				"Il me faut des coquillages de la mer froide, là où tu es arrivé. Et des crocs de loup, pris à des bêtes qui t'ont vraiment attaqué.",
+				"Quatre coquillages, trois crocs. Rapporte-les-moi et je ferai un collier pour toi aussi."
+			],
+			"etapes": [
+				{
+					"objectif": "Ramasse 4 coquillages sur la plage de la Côte Gelée",
+					"recolter": "coquillage",
+					"nombre": 4,
+					"ou": "cote_gelee",
+					"duree": 1.0,
+					"action": "Tu ramasses le coquillage…"
+				},
+				{
+					"objectif": "Prends 3 crocs sur des loups",
+					"tuer": "loup",
+					"nombre": 3
+				},
+				{
+					"objectif": "Rapporte les coquillages et les crocs à la Vieille Mère",
+					"pnj": "vieille_mere",
+					"repliques": [
+						"Montre-moi… Oui. Ces coquillages ont voyagé avec la mer, ces crocs avec la chasse. C'est ce qu'il faut.",
+						"Je les perce, je les enfile sur un tendon… Voilà. Un pour moi, et un pour toi.",
+						"Porte-le aux grandes cérémonies. Comme ça, même dans ton monde à toi, tu seras un peu du clan du Bison."
+					]
+				}
+			],
+			"recompense": [
+				{
+					"id": "collier_du_clan",
+					"nom": "Collier du clan"
+				}
+			]
+		},
+		{
+			"id": "traces_du_grand_ours",
+			"titre": "Les traces du grand ours",
+			"donneur": "toran",
+			"apres": "toran_confiance",
+			"offre": [
+				"Un grand ours brun rôde autour du camp. Il a déjà pris deux rennes de la harde.",
+				"Ce n'est pas un ours fracturé, juste un vieil ours qui a faim. Mais il finira par venir chez nous.",
+				"Ses traces partent du camp vers l'est, vers les collines. Suis-les, trouve-le, et ramène sa fourrure."
+			],
+			"etapes": [
+				{
+					"objectif": "Suis les traces du grand ours (1/3)",
+					"objet": "trace_ours_0",
+					"ou": "steppe",
+					"duree": 1.5,
+					"action": "Tu examines l'empreinte…"
+				},
+				{
+					"objectif": "Suis les traces du grand ours (2/3)",
+					"objet": "trace_ours_1",
+					"ou": "steppe",
+					"duree": 1.5,
+					"action": "Tu examines l'empreinte…"
+				},
+				{
+					"objectif": "Suis les traces du grand ours (3/3)",
+					"objet": "trace_ours_2",
+					"ou": "steppe",
+					"duree": 1.5,
+					"action": "Des poils bruns accrochés à un buisson…"
+				},
+				{
+					"objectif": "Vaincs le grand ours brun",
+					"tuer": "ours_brun",
+					"nombre": 1,
+					"ou": "steppe",
+					"apparition": {
+						"type": "ours_brun",
+						"position": [
+							70,
+							-120
+						],
+						"nombre": 1,
+						"rayon": 2
+					}
+				},
+				{
+					"objectif": "Rapporte la fourrure à Toran",
+					"pnj": "toran",
+					"repliques": [
+						"Tu l'as eu. Seul.",
+						"Les anciens disent qu'on ne prend pas la fourrure d'un ours sans lui demander pardon. Je l'ai fait pour toi.",
+						"Tiens. Garde-la sur tes épaules. Quand le clan te verra, il saura."
+					]
+				}
+			],
+			"recompense": [
+				{
+					"id": "cape_grand_ours",
+					"nom": "Cape du grand ours"
+				}
+			]
+		},
+		{
+			"id": "intrus_moderne",
+			"titre": "L'intrus moderne",
+			"donneur": "lenoir",
+			"apres": "fin_chapitre_1",
+			"offre": [
+				"Agent, une chose m'inquiète. Les fractures ne font pas que déformer l'histoire : elles laissent des objets qui n'ont rien à faire ici.",
+				"Mes capteurs en repèrent trois sur l'île. Une canette sur le plateau, quelque chose d'électronique dans la steppe, et un objet en verre dans la forêt.",
+				"Si un chasseur du clan en trouve un, l'histoire peut dérailler. Trouve-les et détruis-les. Ensuite, reviens me voir."
+			],
+			"etapes": [
+				{
+					"objectif": "Détruis la canette sur le plateau de la Côte Gelée",
+					"objet": "intrus_canette",
+					"ou": "cote_gelee",
+					"duree": 2.0,
+					"action": "Tu désintègres la canette…"
+				},
+				{
+					"objectif": "Détruis l'objet électronique dans la Steppe",
+					"objet": "intrus_telephone",
+					"ou": "steppe",
+					"duree": 2.0,
+					"action": "Tu désintègres le téléphone…"
+				},
+				{
+					"objectif": "Détruis l'objet en verre dans la Forêt des Bouleaux",
+					"objet": "intrus_lunettes",
+					"ou": "foret",
+					"duree": 2.0,
+					"action": "Tu désintègres les lunettes…"
+				},
+				{
+					"objectif": "Fais ton rapport à l'agent Lenoir, sur la Côte Gelée",
+					"pnj": "lenoir",
+					"repliques": [
+						"Une canette, un téléphone, des lunettes de soleil… Tous fabriqués après 2020.",
+						"Et sur chacun, cette même trace violette. Quelqu'un les a semés exprès. Les Effaceurs, sans doute.",
+						"Garde ces éclats. La Vigie voudra les étudier. Beau travail, agent."
+					]
+				}
+			],
+			"recompense": [
+				{
+					"id": "eclat_effaceur",
+					"nom": "Éclats d'Effaceur",
+					"n": 3
+				}
+			]
+		},
+		{
+			"id": "feu_qui_ne_prend_pas",
+			"titre": "Le feu qui ne prend pas",
+			"donneur": "sae",
+			"apres": "vers_le_camp",
+			"offre": [
+				"Je suis Saé. Je garde le feu du camp. Depuis que les lumières violettes sont arrivées, il s'éteint tout seul.",
+				"Pour rallumer le foyer des anciens, il me faut de la pyrite, la pierre qui fait des étincelles, près des rochers noirs à l'ouest.",
+				"Et de l'amadou, le champignon sec qui pousse sur les vieux troncs, dans la plaine. Deux de chaque."
+			],
+			"etapes": [
+				{
+					"objectif": "Ramasse 2 morceaux de pyrite près des rochers de pierre noire",
+					"recolter": "pyrite",
+					"nombre": 2,
+					"ou": "steppe",
+					"duree": 1.5,
+					"action": "Tu détaches la pyrite…"
+				},
+				{
+					"objectif": "Récolte 2 morceaux d'amadou sur les vieux troncs",
+					"recolter": "amadou",
+					"nombre": 2,
+					"ou": "steppe",
+					"duree": 1.5,
+					"action": "Tu découpes l'amadou…"
+				},
+				{
+					"objectif": "Rallume le foyer des anciens, au camp",
+					"objet": "foyer_anciens",
+					"ou": "steppe",
+					"duree": 4.0,
+					"action": "Tu frappes la pyrite… des étincelles…",
+					"effet": "allumer"
+				},
+				{
+					"objectif": "Protège le feu : des fracturés arrivent !",
+					"tuer": "loup_fracture",
+					"nombre": 3,
+					"ou": "steppe",
+					"apparition": {
+						"type": "loup_fracture",
+						"position": [
+							40,
+							-44
+						],
+						"nombre": 3,
+						"rayon": 4,
+						"attaque": true
+					}
+				},
+				{
+					"objectif": "Parle à Saé",
+					"pnj": "sae",
+					"repliques": [
+						"Il tient ! Regarde comme il est haut. Les lumières violettes n'ont pas réussi à l'éteindre.",
+						"Prends ma vieille pierre à feu. Elle m'a servi depuis que je suis petite.",
+						"Avec elle, le feu prendra toujours pour toi. Même là où tu vas, après."
+					]
+				}
+			],
+			"recompense": [
+				{
+					"id": "pierre_a_feu",
+					"nom": "Pierre à feu de Saé"
+				}
+			]
+		},
+		{
+			"id": "main_sur_la_paroi",
+			"titre": "La main sur la paroi",
+			"donneur": "aina",
+			"apres": "fin",
+			"offre": [
+				"Tu es déjà sur la fresque. Mais il manque quelque chose : ta trace à toi.",
+				"Chez nous, on pose la main sur la paroi et on souffle l'ocre autour, avec la bouche. La main reste, même quand on est parti.",
+				"Va près de la fresque, pose ta main sur la roche, et souffle."
+			],
+			"etapes": [
+				{
+					"objectif": "Laisse l'empreinte de ta main sur la paroi de l'abri",
+					"objet": "paroi_main",
+					"ou": "falaises",
+					"duree": 3.0,
+					"action": "Tu souffles l'ocre autour de ta main…",
+					"effet": "main"
+				},
+				{
+					"objectif": "Montre-la à Aïna",
+					"pnj": "aina",
+					"repliques": [
+						"Elle est belle. Plus grande que les nôtres, et les doigts plus fins.",
+						"Dans très longtemps, des gens viendront ici avec des lumières et la regarderont. Ils ne sauront pas qui tu étais.",
+						"Mais ils sauront que tu étais là."
+					]
+				}
+			],
+			"titre_obtenu": "Celui qui a laissé sa trace"
+		}
+	],
+	"objets": [
+		{"id": "coquillage_0", "groupe": "coquillage", "forme": "coquillage", "ou": "cote_gelee", "position": [-20, 52], "invite": "[F] Ramasser le coquillage"},
+		{"id": "coquillage_1", "groupe": "coquillage", "forme": "coquillage", "ou": "cote_gelee", "position": [20, 55], "invite": "[F] Ramasser le coquillage"},
+		{"id": "coquillage_2", "groupe": "coquillage", "forme": "coquillage", "ou": "cote_gelee", "position": [30, 50], "invite": "[F] Ramasser le coquillage"},
+		{"id": "coquillage_3", "groupe": "coquillage", "forme": "coquillage", "ou": "cote_gelee", "position": [-30, 48], "invite": "[F] Ramasser le coquillage"},
+		{"id": "coquillage_4", "groupe": "coquillage", "forme": "coquillage", "ou": "cote_gelee", "position": [-38, 50], "invite": "[F] Ramasser le coquillage"},
+		{"id": "trace_ours_0", "forme": "empreinte_ours", "ou": "steppe", "position": [52, -72], "invite": "[F] Examiner l'empreinte"},
+		{"id": "trace_ours_1", "forme": "empreinte_ours", "ou": "steppe", "position": [64, -84], "invite": "[F] Examiner l'empreinte"},
+		{"id": "trace_ours_2", "forme": "empreinte_ours", "ou": "steppe", "position": [76, -98], "invite": "[F] Examiner les poils"},
+		{"id": "intrus_canette", "forme": "canette", "ou": "cote_gelee", "position": [-40, -10], "invite": "[F] Désintégrer la canette"},
+		{"id": "intrus_telephone", "forme": "telephone", "ou": "steppe", "position": [-30, 40], "invite": "[F] Désintégrer le téléphone"},
+		{"id": "intrus_lunettes", "forme": "lunettes", "ou": "foret", "position": [30, 20], "invite": "[F] Désintégrer les lunettes"},
+		{"id": "pyrite_0", "groupe": "pyrite", "forme": "pyrite", "ou": "steppe", "position": [-80, -110], "invite": "[F] Détacher la pyrite"},
+		{"id": "pyrite_1", "groupe": "pyrite", "forme": "pyrite", "ou": "steppe", "position": [-100, -95], "invite": "[F] Détacher la pyrite"},
+		{"id": "amadou_0", "groupe": "amadou", "forme": "amadou", "ou": "steppe", "position": [100, -60], "invite": "[F] Découper l'amadou"},
+		{"id": "amadou_1", "groupe": "amadou", "forme": "amadou", "ou": "steppe", "position": [40, -50], "invite": "[F] Découper l'amadou"},
+		{"id": "foyer_anciens", "forme": "foyer", "ou": "steppe", "position": [36, -52], "invite": "[F] Rallumer le foyer"},
+		{"id": "paroi_main", "forme": "", "ou": "falaises", "position": [6, -58], "invite": "[F] Poser ta main sur la paroi"}
+	]
+}
