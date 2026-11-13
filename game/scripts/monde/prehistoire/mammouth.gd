@@ -2,8 +2,12 @@
 extends Node3D
 ## Mammouth laineux : un géant paisible qui broute dans la steppe avec son troupeau.
 ## Il marche lentement d'un point à l'autre autour du centre du troupeau.
-## Pour l'instant c'est une silhouette faite de formes simples (pelage sombre,
-## défenses recourbées, trompe articulée), en attendant un vrai modèle 3D.
+## Le modèle est fabriqué par outils/generer_mammouth.gd (corps sculpté, défenses,
+## longues mèches) et animé ici par son squelette : pas lourds, trompe, queue.
+## S'il manque, on retombe sur une silhouette en formes simples.
+
+const MAILLAGE := "res://assets/animaux/mammouth/mammouth.res"
+const SHADER_PELAGE := preload("res://shaders/mammouth_pelage.gdshader")
 
 ## Centre du troupeau (x, z) et rayon dans lequel il se promène.
 @export var centre := Vector2.ZERO
@@ -27,6 +31,9 @@ var _attente := 0.0
 var _phase := 0.0
 var _temps := 0.0
 var _vitesse := 0.0
+var _squelette: Skeleton3D
+var _os: Array = []
+static var _materiaux_modele: Array = []
 
 
 func _ready() -> void:
@@ -99,6 +106,11 @@ func _construire() -> void:
 		enfant.free()
 	_trompe.clear()
 	_pattes.clear()
+	_squelette = null
+	if ResourceLoader.exists(MAILLAGE):
+		_construire_modele()
+		_ajouter_collision()
+		return
 	var poil := _fourrure(Color(0.15, 0.1, 0.065))
 	var poil_clair := _fourrure(Color(0.25, 0.17, 0.1))
 	var ivoire := StandardMaterial3D.new()
@@ -178,6 +190,11 @@ func _construire() -> void:
 	q.bottom_radius = 0.03
 	q.height = 0.6
 	_forme(_queue, q, poil, Vector3(0, -0.3, 0))
+	_ajouter_collision()
+
+
+func _ajouter_collision() -> void:
+	var t := taille
 	# On ne peut pas traverser un mammouth.
 	var corps := AnimatableBody3D.new()
 	corps.sync_to_physics = false
@@ -192,13 +209,91 @@ func _construire() -> void:
 	add_child(corps)
 
 
+func _materiaux() -> Array:
+	if _materiaux_modele.is_empty():
+		var bruit := NoiseTexture2D.new()
+		bruit.width = 256
+		bruit.height = 256
+		bruit.seamless = true
+		var n := FastNoiseLite.new()
+		n.frequency = 0.03
+		n.fractal_octaves = 4
+		bruit.noise = n
+		var corps := ShaderMaterial.new()
+		corps.shader = SHADER_PELAGE
+		corps.set_shader_parameter("bruit", bruit)
+		var meches := corps.duplicate() as ShaderMaterial
+		meches.set_shader_parameter("meches", true)
+		var ivoire := StandardMaterial3D.new()
+		ivoire.vertex_color_use_as_albedo = true
+		ivoire.roughness = 0.55
+		_materiaux_modele = [corps, ivoire, meches]
+	return _materiaux_modele
+
+
+func _construire_modele() -> void:
+	var maillage := load(MAILLAGE) as ArrayMesh
+	_os = maillage.get_meta("os", [])
+	_squelette = Skeleton3D.new()
+	_squelette.name = "Squelette"
+	_squelette.scale = Vector3.ONE * taille
+	add_child(_squelette)
+	var skin := Skin.new()
+	for i in _os.size():
+		var o: Dictionary = _os[i]
+		_squelette.add_bone(o.nom)
+		_squelette.set_bone_parent(i, o.parent)
+		var origine: Vector3 = o.position
+		if int(o.parent) >= 0:
+			origine -= (_os[o.parent] as Dictionary).position
+		_squelette.set_bone_rest(i, Transform3D(Basis(), origine))
+		skin.add_bind(i, Transform3D(Basis(), o.position).affine_inverse())
+	_squelette.reset_bone_poses()
+	var mi := MeshInstance3D.new()
+	mi.name = "Mammouth"
+	mi.mesh = maillage
+	mi.skin = skin
+	var mats := _materiaux()
+	for i in mini(maillage.get_surface_count(), mats.size()):
+		mi.set_surface_override_material(i, mats[i])
+	_squelette.add_child(mi)
+	mi.skeleton = NodePath("..")
+
+
+func _pose_os(nom: String, rotation_os: Quaternion, decalage := Vector3.ZERO) -> void:
+	var i := _squelette.find_bone(nom)
+	if i < 0:
+		return
+	_squelette.set_bone_pose_rotation(i, rotation_os)
+	if decalage != Vector3.ZERO:
+		_squelette.set_bone_pose_position(i, _squelette.get_bone_rest(i).origin + decalage)
+
+
+func _animer_squelette(allure: float) -> void:
+	var pas := sin(_phase) * 0.3 * allure
+	var phases := [pas, -pas, -pas, pas]
+	for k in 4:
+		_pose_os("patte%d" % k, Quaternion(Vector3.RIGHT, phases[k]))
+	var rebond := absf(sin(_phase)) * 0.05 * allure
+	_pose_os("corps", Quaternion(Vector3.FORWARD, sin(_phase) * 0.025 * allure), Vector3(0, rebond, 0))
+	# À l'arrêt, il broute : la tête s'abaisse et la trompe fouille l'herbe.
+	var broute := 1.0 - allure
+	_pose_os("tete", Quaternion(Vector3.RIGHT, -broute * 0.12 + sin(_temps * 0.5) * 0.03))
+	for k in 5:
+		var balance := sin(_temps * 0.9 - k * 0.6) * (0.06 + broute * 0.05)
+		var lateral := sin(_temps * 0.6 - k * 0.4) * 0.05
+		_pose_os("trompe%d" % k, Quaternion(Vector3.RIGHT, balance - broute * 0.06 * k * 0.3)
+				* Quaternion(Vector3.FORWARD, lateral))
+	_pose_os("queue", Quaternion(Vector3.FORWARD, sin(_temps * 2.0) * 0.3))
+
+
 func _hauteur_sol(x: float, z: float) -> float:
 	var ile := get_tree().get_first_node_in_group("ile") if is_inside_tree() else null
 	return ile.hauteur(x, z) if ile != null else global_position.y
 
 
 func _process(delta: float) -> void:
-	if Engine.is_editor_hint() or _corps == null:
+	if Engine.is_editor_hint() or (_corps == null and _squelette == null):
 		return
 	_temps += delta
 	# Choisir un nouveau coin d'herbe de temps en temps.
@@ -220,6 +315,9 @@ func _process(delta: float) -> void:
 	# Démarche lourde, trompe qui se balance, queue qui bat.
 	_phase += delta * (0.8 + _vitesse * 1.6)
 	var allure := clampf(_vitesse / 1.1, 0.0, 1.0)
+	if _squelette != null:
+		_animer_squelette(allure)
+		return
 	var pas := sin(_phase) * 0.28 * allure
 	_pattes[0].rotation.x = pas
 	_pattes[1].rotation.x = -pas
