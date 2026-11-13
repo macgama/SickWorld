@@ -3,7 +3,7 @@ extends SceneTree
 ## Lancement : godot --headless --path game -s res://tests/test_menu.gd
 ## (Les fichiers options.cfg et conseils.cfg du PC sont mis de côté puis remis.)
 
-const FICHIERS := ["user://options.cfg", "user://conseils.cfg"]
+var FICHIERS := []
 const PROGRESSION := "user://test_menu_progression.cfg"
 
 var _echecs := 0
@@ -37,6 +37,7 @@ func _touche(code: Key) -> void:
 
 
 func _lancer() -> void:
+	FICHIERS = ["user://options.cfg", Profil.chemin("user://conseils.cfg")]
 	for f in FICHIERS:
 		if FileAccess.file_exists(f):
 			_sauvegardes[f] = FileAccess.get_file_as_bytes(f)

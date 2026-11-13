@@ -4,7 +4,7 @@ extends SceneTree
 ##   godot --path game -s res://tests/capture_menu.gd -- <dossier_sortie> [qualite]
 ## (options.cfg et conseils.cfg du PC sont mis de côté puis remis.)
 
-const FICHIERS := ["user://options.cfg", "user://conseils.cfg"]
+var FICHIERS := []
 const PROGRESSION := "user://capture_menu_progression.cfg"
 
 var _dossier := ""
@@ -29,6 +29,7 @@ func _initialize() -> void:
 
 
 func _lancer() -> void:
+	FICHIERS = ["user://options.cfg", Profil.chemin("user://conseils.cfg")]
 	var args := OS.get_cmdline_user_args()
 	_dossier = args[0] if args.size() > 0 else ProjectSettings.globalize_path("user://captures_menu")
 	DirAccess.make_dir_recursive_absolute(_dossier)

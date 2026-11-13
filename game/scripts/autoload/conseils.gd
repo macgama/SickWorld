@@ -3,7 +3,8 @@ extends Node
 ##
 ## Petites bulles qui apparaissent à gauche de l'écran au bon moment
 ## (arrivée en ville, près d'un personnage, premier ennemi…). Chaque conseil
-## ne s'affiche qu'une fois ; ceux déjà vus sont notés dans user://conseils.cfg.
+## ne s'affiche qu'une fois ; ceux déjà vus sont notés dans user://conseils.cfg
+## (rangé dans le profil du joueur par Profil.chemin).
 ## Les textes et les moments viennent de data/conseils.json.
 ## On peut les couper dans Options > Jeu (Options.conseils).
 
@@ -21,6 +22,7 @@ var _attente := 0.0
 var _scene_vue: Node
 var _temps_scene := 0.0
 var _verif := 0.0
+var _profil_charge := ""
 
 var _calque: CanvasLayer
 var _bulle: PanelContainer
@@ -35,11 +37,18 @@ func _ready() -> void:
 		conseils = lu.get("conseils", [])
 	else:
 		push_error("Impossible de lire %s : vérifie les virgules et les guillemets." % DONNEES)
+	_charger_vus()
+	_construire()
+
+
+## Les conseils vus suivent le personnage (profil hors ligne ou compte en ligne).
+func _charger_vus() -> void:
+	_profil_charge = Profil.nom
+	_vus.clear()
 	var cfg := ConfigFile.new()
-	if cfg.load(FICHIER) == OK and cfg.has_section("vus"):
+	if cfg.load(Profil.chemin(FICHIER)) == OK and cfg.has_section("vus"):
 		for id in cfg.get_section_keys("vus"):
 			_vus[id] = true
-	_construire()
 
 
 # --- Vus / pas vus ----------------------------------------------------------
@@ -51,15 +60,15 @@ func deja_vu(id: String) -> bool:
 func marquer_vu(id: String) -> void:
 	_vus[id] = true
 	var cfg := ConfigFile.new()
-	cfg.load(FICHIER)
+	cfg.load(Profil.chemin(FICHIER))
 	cfg.set_value("vus", id, true)
-	cfg.save(FICHIER)
+	cfg.save(Profil.chemin(FICHIER))
 
 
 ## Options > Jeu > « Revoir tous les conseils ».
 func tout_revoir() -> void:
 	_vus.clear()
-	DirAccess.remove_absolute(ProjectSettings.globalize_path(FICHIER))
+	DirAccess.remove_absolute(ProjectSettings.globalize_path(Profil.chemin(FICHIER)))
 	Options.conseils = true
 	Options.sauver()
 
@@ -88,6 +97,8 @@ func montrer(id: String) -> void:
 # --- Déclencheurs -----------------------------------------------------------
 
 func _process(delta: float) -> void:
+	if Profil.nom != _profil_charge:
+		_charger_vus()
 	var scene := get_tree().current_scene
 	if scene != _scene_vue:
 		_scene_vue = scene

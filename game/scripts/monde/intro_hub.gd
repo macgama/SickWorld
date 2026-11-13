@@ -70,16 +70,16 @@ func _ready() -> void:
 
 func intro_terminee() -> bool:
 	var cfg := ConfigFile.new()
-	if cfg.load(fichier_progression) != OK:
+	if cfg.load(Profil.chemin(fichier_progression)) != OK:
 		return false
 	return bool(cfg.get_value("intro", "terminee", false))
 
 
 func _marquer_intro_terminee() -> void:
 	var cfg := ConfigFile.new()
-	cfg.load(fichier_progression)
+	cfg.load(Profil.chemin(fichier_progression))
 	cfg.set_value("intro", "terminee", true)
-	cfg.save(fichier_progression)
+	cfg.save(Profil.chemin(fichier_progression))
 
 
 func etape_actuelle() -> Dictionary:

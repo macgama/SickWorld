@@ -100,7 +100,7 @@ Les îles suivent l'ordre chronologique. Liste prévue (elle pourra encore être
 | N° | Époque | Idée de moment clé à protéger |
 |---|---|---|
 | 1 | **Préhistoire** (environ -17 000 ans) | La naissance de l'art et l'amitié entre l'homme et le loup |
-| 2 | Égypte antique | La construction d'une grande pyramide |
+| 2 | **Égypte antique** (vers -2560, règne de Khéops) | La fin du chantier de la Grande Pyramide et le journal de Merer *(conception détaillée : [ILE-2-EGYPTE.md](ILE-2-EGYPTE.md), à valider)* |
 | 3 | Grèce / Rome antique | Les premiers Jeux, une bibliothèque, un sénat |
 | 4 | Asie ancienne (Chine / Japon) | La route de la soie, un empire naissant |
 | 5 | Moyen Âge européen | Les cathédrales, les croisades, la peste |
@@ -109,6 +109,8 @@ Les îles suivent l'ordre chronologique. Liste prévue (elle pourra encore être
 | 8 | XXe siècle | Les grands conflits et la conquête spatiale |
 
 On commence par la Préhistoire, et **une seule île sera construite pour la première version**.
+
+La conception de la deuxième île (l'Égypte des bâtisseurs) est proposée dans un document à part : [ILE-2-EGYPTE.md](ILE-2-EGYPTE.md).
 
 ---
 

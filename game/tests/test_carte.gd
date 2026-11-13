@@ -104,7 +104,7 @@ func _lancer() -> void:
 			"de retour en zone A, le brouillard levé est gardé")
 
 	cartographe.sauver()
-	_verifier(FileAccess.file_exists("user://cartes/test_carte_a.cfg"), "la carte est enregistrée pour ce personnage")
+	_verifier(FileAccess.file_exists(Profil.chemin("user://cartes/test_carte_a.cfg")), "la carte est enregistrée pour ce personnage")
 	cartographe.forcer_personnage("test_carte_b")
 	joueur.position = Vector3(-30, 0, -30)
 	await _attendre(20)
