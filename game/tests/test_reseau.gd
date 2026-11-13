@@ -57,6 +57,22 @@ func _lancer() -> void:
 	_verifier(Vector2(joueur.global_position.x, joueur.global_position.z).distance_to(Vector2(0, 55)) < 5.0,
 			"on apparaît près de la balise")
 
+	# Inventaire : décidé par le serveur, envoyé seulement à nous.
+	var inv = joueur.get_node("Inventaire")
+	_verifier(not inv.etat.is_empty(), "le serveur nous envoie notre inventaire")
+	var capuche: int = Objets.trouver(inv.etat, "capuche_chasseur")
+	if capuche >= 0:
+		inv.utiliser(capuche)
+		await _secondes(1.0)
+		_verifier(inv.etat["equipement"]["tete"] == "capuche_chasseur", "le serveur accepte d'équiper la capuche")
+		_verifier(inv.porte.get("tete", "") == "capuche_chasseur", "ce qu'on porte est partagé par le serveur")
+		inv.retirer("tete")
+		await _secondes(0.5)
+	# Triche : demande au nom d'un objet qu'on n'a pas.
+	inv.rpc_id(1, "_demander", "utiliser", [999])
+	await _secondes(0.5)
+	_verifier(inv.etat["equipement"]["tete"] == "", "le serveur refuse une demande impossible")
+
 	# On attend un éventuel autre joueur pour vérifier qu'on se voit.
 	await _secondes(2.0)
 	var autres = get_nodes_in_group("joueur").filter(func(j): return j != joueur)

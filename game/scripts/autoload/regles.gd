@@ -31,7 +31,8 @@ func infliger(source: Combattant, cible: Combattant, montant: float, type := "no
 		return 0.0
 	if source != null:
 		montant *= source.multiplicateur_degats()
-	var critique := type == "normal" and aleatoire.randf() < 0.1
+	var chance_critique := 0.1 + (source.bonus_critique / 100.0 if source != null else 0.0)
+	var critique := type == "normal" and aleatoire.randf() < chance_critique
 	if critique:
 		montant *= 1.5
 	var subi := cible.subir(montant, source)

@@ -20,7 +20,8 @@ const TOUCHES := {
 	"aide": [KEY_F1],                    # F1 : afficher / cacher l'aide
 	"cible_suivante": [KEY_TAB],         # Tab : cibler l'ennemi suivant
 	"annuler": [KEY_ESCAPE],             # Échap : annuler / enlever la cible
-	"interagir": [KEY_F],                # F : parler à un personnage, utiliser un objet
+	"interagir": [KEY_F],                # F : parler à un personnage, ramasser le butin
+	"personnage": [KEY_C, KEY_I, KEY_B], # C, I ou B : écran Personnage (équipement, sacs, tenues)
 	# Barre de compétences : touches 1 à 8 de la rangée du haut
 	# (sur AZERTY, pas besoin d'appuyer sur Maj : & é " ' ( - è _ marchent).
 	"competence_1": [KEY_1], "competence_2": [KEY_2], "competence_3": [KEY_3],
