@@ -5,7 +5,12 @@
 			"id": "kuro",
 			"titre": "Kuro a disparu",
 			"donneur": "mme_sato",
-			"position_donneur": [-15.5, 0, -21.0, 2.4],
+			"position_donneur": [
+				-15.5,
+				0,
+				-21.0,
+				2.4
+			],
 			"resume": "Madame Sato cherche son chien, un shiba nommé Kuro. Étrange : elle n'arrive plus à se souvenir de lui.",
 			"proposition": [
 				"Excuse-moi, jeune agent... Tu n'aurais pas vu un petit chien ? Un shiba, roux, avec une tache blanche sur le museau.",
@@ -19,7 +24,26 @@
 					"objets": {
 						"type": "affiche",
 						"verbe": "Ramasser l'affiche",
-						"positions": [[-33.9, 1.6, 4.0, 1.5708], [-17.05, 1.6, -100.0, -1.5708], [-5.95, 1.6, 47.0, 1.5708]]
+						"positions": [
+							[
+								-33.9,
+								1.6,
+								4.0,
+								1.5708
+							],
+							[
+								-17.05,
+								1.6,
+								-100.0,
+								-1.5708
+							],
+							[
+								-5.95,
+								1.6,
+								47.0,
+								1.5708
+							]
+						]
 					}
 				},
 				{
@@ -76,7 +100,12 @@
 			"id": "ecran",
 			"titre": "L'écran qui grésille",
 			"donneur": "nina",
-			"position_donneur": [7.0, 0, -27.5, 0.4],
+			"position_donneur": [
+				7.0,
+				0,
+				-27.5,
+				0.4
+			],
 			"resume": "Nina, une bidouilleuse, a remarqué que l'écran géant de la place affiche parfois des images étranges. Elle veut placer des capteurs pour comprendre.",
 			"proposition": [
 				"Psst ! Tu es de la Vigie, hein ? Ne nie pas, j'ai vu la grille de la station s'ouvrir pour toi.",
@@ -90,7 +119,26 @@
 					"objets": {
 						"type": "capteur",
 						"verbe": "Installer le capteur",
-						"positions": [[9.0, 0.0, 3.5, 0.0], [-20.0, 0.0, -72.0, 0.0], [12.0, 0.0, 70.5, 0.0]]
+						"positions": [
+							[
+								9.0,
+								0.0,
+								3.5,
+								0.0
+							],
+							[
+								-20.0,
+								0.0,
+								-72.0,
+								0.0
+							],
+							[
+								12.0,
+								0.0,
+								70.5,
+								0.0
+							]
+						]
 					}
 				},
 				{
@@ -107,6 +155,91 @@
 			"recompense": "Clé USB de Nina (données de l'écran)",
 			"apres": [
 				"L'écran grésille encore. Moins dix-sept mille ans... Ce n'est pas un bug, c'est un message."
+			]
+		},
+		{
+			"id": "ferraille",
+			"titre": "Ferraille temporelle",
+			"donneur": "forgeron",
+			"resume": "Maître Tetsuo a remarqué des morceaux de métal qui brillent d'une lumière violette dans le quartier. Il veut les étudier.",
+			"proposition": [
+				"Agent. Tu as l'air de quelqu'un qui sait garder un secret.",
+				"Depuis quelques nuits, on trouve dans le quartier des morceaux de ferraille qui luisent d'un violet étrange. Ils sont froids comme la glace, même près de mon four.",
+				"Ce n'est pas un métal de notre époque. Rapporte-m'en trois : un dans la rue des Ateliers, deux sous le viaduc."
+			],
+			"etapes": [
+				{
+					"objectif": "Ramasse la ferraille violette",
+					"objets": {
+						"type": "ferraille",
+						"verbe": "Ramasser la ferraille",
+						"positions": [
+							[
+								20.0,
+								0.0,
+								-122.0,
+								0.0
+							],
+							[
+								44.0,
+								0.0,
+								-80.0,
+								0.0
+							],
+							[
+								80.0,
+								0.0,
+								-82.5,
+								0.0
+							]
+						]
+					}
+				},
+				{
+					"objectif": "Rapporte la ferraille à Maître Tetsuo (forge Hinode)",
+					"parler": "forgeron",
+					"repliques": [
+						"Fais voir... Regarde comme elle réagit au feu : elle refroidit la flamme au lieu de chauffer.",
+						"C'est du métal des fractures. La même lumière que les éclats autour de la statue du Gardien.",
+						"Je vais en tirer quelque chose. Tiens, en attendant, prends ce lingot d'acier : je l'ai trempé pour toi."
+					]
+				}
+			],
+			"recompense": "Lingot d'acier de Tetsuo (fabrication bientôt)",
+			"apres": [
+				"Le métal des fractures dort dans mon coffre. Il ne fond pas. Pas encore."
+			]
+		},
+		{
+			"id": "louche",
+			"titre": "Une louche sur mesure",
+			"donneur": "kofi",
+			"resume": "Kofi a imprimé une louche en 3D pour le chef Goro du restaurant Kaminari. Il faut la lui livrer.",
+			"proposition": [
+				"Hé, tu passes au Marché de nuit ? J'ai imprimé une louche pour le chef Goro, au restaurant Kaminari.",
+				"Forme sur mesure, poignée isolée, et un bec verseur parfait pour le bouillon. Tu peux la lui apporter ?"
+			],
+			"etapes": [
+				{
+					"objectif": "Livre la louche au chef Goro (restaurant Kaminari, Marché de nuit)",
+					"parler": "chef_goro",
+					"repliques": [
+						"Une louche imprimée ? Hmm... Le poids est bon. L'équilibre aussi.",
+						"Bon. Dis à Kofi qu'elle est parfaite. Mais ne lui dis pas que je l'ai dit avec le sourire."
+					]
+				},
+				{
+					"objectif": "Retourne voir Kofi au FabLab (Quartier des Artisans)",
+					"parler": "kofi",
+					"repliques": [
+						"Il a souri ? Goro a souri ? C'est la plus belle critique de ma carrière.",
+						"Tiens, prends ce badge du FabLab. Avec lui, tu pourras bientôt utiliser nos machines."
+					]
+				}
+			],
+			"recompense": "Badge du FabLab (accès aux machines, bientôt)",
+			"apres": [
+				"Goro m'a commandé une deuxième louche. Je crois qu'on est amis maintenant."
 			]
 		}
 	]

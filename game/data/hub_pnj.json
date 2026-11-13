@@ -161,5 +161,59 @@
 		"repliques": [
 			"Cet écran géant, je le connais mieux que ses propriétaires. Et il fait des choses bizarres en ce moment."
 		]
+	},
+	"forgeron": {
+		"nom": "Maître Tetsuo Hinode",
+		"role": "Forge Hinode",
+		"modele": "homme",
+		"repliques": [
+			"La forge Hinode. Trois générations de forgerons, et le feu ne s'est jamais éteint.",
+			"Rapporte-moi des matériaux des époques que tu visites. Silex, os, bronze... j'en tirerai des armes dignes de la Vigie. Bientôt."
+		]
+	},
+	"apprentie_forge": {
+		"nom": "Mika",
+		"role": "Apprentie forgeronne",
+		"modele": "femme",
+		"repliques": [
+			"Attention, l'enclume est encore chaude !",
+			"Le maître dit que le métal se souvient de tout. Moi, je trouve qu'il se souvient surtout de mes erreurs."
+		]
+	},
+	"lea": {
+		"nom": "Léa Fontaine",
+		"role": "Couturière · Fil & Fibre",
+		"modele": "femme",
+		"repliques": [
+			"Bienvenue chez Fil & Fibre ! Ici, on coud à la main et on imprime en 3D, parfois dans la même pièce.",
+			"Les fourrures et les cuirs que tu rapporteras deviendront des tenues pour les agents. Patience, les machines arrivent."
+		]
+	},
+	"kofi": {
+		"nom": "Kofi Mensah",
+		"role": "Responsable du FabLab",
+		"modele": "homme",
+		"repliques": [
+			"Les imprimantes tournent jour et nuit. Pièces détachées, outils, prototypes : tout se fabrique ici.",
+			"Si tu as une idée d'objet, viens me voir. On trouvera bien comment l'imprimer."
+		]
+	},
+	"livreur": {
+		"nom": "Sho",
+		"role": "Livreur à vélo",
+		"modele": "homme",
+		"repliques": [
+			"Toujours en retard, toujours sous la pluie. La vie de livreur à Hikari Bay !",
+			"Le métro passe juste au-dessus. Quand il arrive, tout le quartier tremble."
+		]
+	},
+	"soudeuse": {
+		"nom": "Inès",
+		"role": "Soudeuse",
+		"modele": "femme",
+		"repliques": [
+			"Je répare ce rideau de fer pour la troisième fois ce mois-ci.",
+			"Quelqu'un rôde la nuit dans le quartier. On retrouve de la ferraille qui brille d'une drôle de lumière violette..."
+		]
 	}
 }

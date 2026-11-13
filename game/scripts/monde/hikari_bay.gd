@@ -17,6 +17,7 @@ extends Node3D
 const QgVigie := preload("res://scripts/monde/qg_vigie.gd")
 const Pnj := preload("res://scripts/monde/pnj.gd")
 const QuartierMarche := preload("res://scripts/monde/quartier_marche.gd")
+const QuartierArtisans := preload("res://scripts/monde/quartier_artisans.gd")
 
 ## Quand c'est coché, la Préhistoire est réparée : la statue du Gardien est
 ## intacte. Sinon, elle est fissurée et entourée d'éclats de fracture.
@@ -171,6 +172,7 @@ func reconstruire() -> void:
 	_construire_station_asahi()
 	QgVigie.construire(self)
 	QuartierMarche.construire(self)
+	QuartierArtisans.construire(self)
 	if not Engine.is_editor_hint():
 		for zone: Area3D in qg.get("portails", []):
 			zone.body_entered.connect(_sur_portail.bind(zone))
@@ -520,20 +522,31 @@ const IMMEUBLES := [
 	# Marché de nuit (voir quartier_marche.gd) : petites maisons-boutiques le long
 	# des ruelles et tours derrière.
 	[-70, -97, -23, -70, 9, 0.45],
-	[-66, -94, -40, -76, 38, 0.35],
+	[-66, -96, -40, -88, 38, 0.35],
 	[-17, -135, -8, -70, 8, 0.5],
 	[-8, -125, 12, -96, 62, 0.35],
 	[-80, -135, -52, -97, 12, 0.4],
 	[-78, -132, -60, -110, 46, 0.3],
 	[-80, -165, -8, -133, 14, 0.4],
 	[-60, -165, -28, -142, 66, 0.3],
-	[-48, -112, -31, -102, 10, 0.4],
-	[-36, -128, -23, -116, 11, 0.4],
-	[-48, -128, -36, -126, 10, 0.3],
-	[-31, -104, -23, -102, 9, 0.3],
-	[-36, -116, -31, -112, 9, 0.3],
+	# (Les blocs autour des salles visitables s'arrêtent au dos de leurs murs,
+	# pour que leurs façades ne transparaissent pas à l'intérieur.)
+	[-48, -111.7, -31.3, -102, 10, 0.4],
+	[-35.7, -128, -23, -116.3, 11, 0.4],
+	[-48, -128, -36, -126.3, 10, 0.3],
+	[-31, -103.7, -23, -102, 9, 0.3],
+	[-35.7, -116, -31.3, -112, 9, 0.3],
+	# Quartier des Artisans (voir quartier_artisans.gd) : entrepôts sous le métro aérien.
+	[12, -140, 16, -70, 9, 0.4],
+	[24, -140, 25.7, -89, 9, 0.3],
+	[24, -77, 84, -70, 7, 0.3],
+	[24, -140, 84, -107.3, 12, 0.35],
+	[30, -160, 60, -145, 58, 0.3],
+	[12, -165, 90, -140, 18, 0.35],
+	[48.3, -107.3, 51.7, -89, 9, 0.3],
+	[72.3, -107.3, 84, -89, 10, 0.35],
+	[84, -112, 100, -70, 16, 0.3],
 	# Fonds des rues (ferment la vue derrière les barrières).
-	[8, -96, 34, -70, 36, 0.3],
 	[-96, -12, -70, 12, 48, 0.3],
 	[70, -12, 96, 12, 38, 0.3],
 	[72, 30, 100, 74, 30, 0.3],
@@ -903,7 +916,6 @@ func _construire_enseignes() -> void:
 func _construire_barrieres() -> void:
 	# [centre, largeur, angle, panneau]
 	var barrieres := [
-		[Vector3(20, 0, -FIN_RUES), RUE * 2, 0.0, "工事中 · TRAVAUX · Artisans bientôt"],
 		[Vector3(-FIN_RUES, 0, 0), RUE * 2, PI / 2, "工事中 · TRAVAUX · Résidences bientôt"],
 		[Vector3(FIN_RUES, 0, 0), RUE * 2, -PI / 2, "工事中 · TRAVAUX · Musée bientôt"],
 		[Vector3(-70, 0, (62 + QUAI) * 0.5), QUAI - 62, PI / 2, "TRAVAUX"],
