@@ -1,0 +1,566 @@
+{
+	"_aide": "Objets, ensembles, butin et inventaire. Raretés : commun, raffine, rare, epique, historique. Emplacements : tete, torse, mains, jambes, pieds, arme_principale, arme_secondaire, bijou (2 places), relique. stats : pv, degats_pourcent, reduction_pourcent, critique_pourcent. « competences » modifie une compétence (on ajoute la valeur ; « ralenti.duree » = la durée du ralenti). Les chances de butin vont de 0 (jamais) à 1 (toujours).",
+	"inventaire": {
+		"places_sac_de_depart": 16,
+		"emplacements_de_sacs": 4,
+		"tenues_max": 4,
+		"duree_changement_de_tenue": 2.0,
+		"distance_ramassage": 3.5,
+		"duree_butin": 180
+	},
+	"raretes": {
+		"commun": {
+			"nom": "Commun",
+			"couleur": "#e6e6e6"
+		},
+		"raffine": {
+			"nom": "Raffiné",
+			"couleur": "#3ec94a"
+		},
+		"rare": {
+			"nom": "Rare",
+			"couleur": "#3d8eff"
+		},
+		"epique": {
+			"nom": "Épique",
+			"couleur": "#b04dff"
+		},
+		"historique": {
+			"nom": "Historique",
+			"couleur": "#ff8a1f"
+		}
+	},
+	"objets": {
+		"veste_terrain_vigie": {
+			"nom": "Veste de terrain de la Vigie",
+			"type": "equipement",
+			"rarete": "commun",
+			"description": "La veste standard des agents. Renforcée, discrète.",
+			"emplacement": "torse",
+			"epoque": "Moderne",
+			"stats": {
+				"pv": 20
+			},
+			"visuel": {
+				"teinte": "#2e3a52"
+			}
+		},
+		"pantalon_terrain_vigie": {
+			"nom": "Pantalon de terrain de la Vigie",
+			"type": "equipement",
+			"rarete": "commun",
+			"description": "Tissu technique, poches partout.",
+			"emplacement": "jambes",
+			"epoque": "Moderne",
+			"stats": {
+				"pv": 10
+			}
+		},
+		"rangers_vigie": {
+			"nom": "Rangers de la Vigie",
+			"type": "equipement",
+			"rarete": "commun",
+			"description": "Des chaussures montantes qui ont vu plus d'époques que leur propriétaire.",
+			"emplacement": "pieds",
+			"epoque": "Moderne",
+			"stats": {
+				"pv": 10
+			}
+		},
+		"lame_courte_vigie": {
+			"nom": "Lame courte de la Vigie",
+			"type": "equipement",
+			"rarete": "commun",
+			"description": "Acier moderne, équilibre parfait.",
+			"emplacement": "arme_principale",
+			"epoque": "Moderne",
+			"stats": {
+				"degats_pourcent": 5
+			},
+			"visuel": {
+				"forme": "lame",
+				"couleur": "#b8c2cc"
+			}
+		},
+		"dague_vigie": {
+			"nom": "Dague de la Vigie",
+			"type": "equipement",
+			"rarete": "commun",
+			"description": "Pour la main gauche.",
+			"emplacement": "arme_secondaire",
+			"epoque": "Moderne",
+			"stats": {
+				"degats_pourcent": 3
+			},
+			"visuel": {
+				"forme": "dague",
+				"couleur": "#9aa4ad"
+			}
+		},
+		"capuche_chasseur": {
+			"nom": "Capuche de loup du chasseur",
+			"type": "equipement",
+			"rarete": "raffine",
+			"description": "La tête d'un loup, portée comme une capuche. Les autres prédateurs comprennent.",
+			"emplacement": "tete",
+			"epoque": "Préhistoire",
+			"ensemble": "chasseur_du_clan",
+			"stats": {
+				"degats_pourcent": 3,
+				"critique_pourcent": 1,
+				"pv": 10
+			},
+			"visuel": {
+				"forme": "capuche_loup",
+				"couleur": "#7a7068"
+			}
+		},
+		"cape_chasseur": {
+			"nom": "Cape de fourrure du chasseur",
+			"type": "equipement",
+			"rarete": "raffine",
+			"description": "Fourrure de loup grise, cousue au tendon.",
+			"emplacement": "torse",
+			"epoque": "Préhistoire",
+			"ensemble": "chasseur_du_clan",
+			"stats": {
+				"degats_pourcent": 3,
+				"critique_pourcent": 1,
+				"pv": 10
+			},
+			"visuel": {
+				"forme": "cape_fourrure",
+				"couleur": "#7a7068",
+				"teinte": "#5e5a55"
+			}
+		},
+		"brassards_chasseur": {
+			"nom": "Brassards de cuir du chasseur",
+			"type": "equipement",
+			"rarete": "raffine",
+			"description": "Protègent l'avant-bras de la corde et des crocs.",
+			"emplacement": "mains",
+			"epoque": "Préhistoire",
+			"ensemble": "chasseur_du_clan",
+			"stats": {
+				"degats_pourcent": 3,
+				"critique_pourcent": 1,
+				"pv": 10
+			},
+			"visuel": {
+				"forme": "brassards",
+				"couleur": "#7a7068"
+			}
+		},
+		"jambieres_chasseur": {
+			"nom": "Jambières de fourrure du chasseur",
+			"type": "equipement",
+			"rarete": "raffine",
+			"description": "Chaudes et silencieuses dans les hautes herbes.",
+			"emplacement": "jambes",
+			"epoque": "Préhistoire",
+			"ensemble": "chasseur_du_clan",
+			"stats": {
+				"degats_pourcent": 3,
+				"critique_pourcent": 1,
+				"pv": 10
+			},
+			"visuel": {
+				"forme": "jambieres",
+				"couleur": "#7a7068"
+			}
+		},
+		"mocassins_chasseur": {
+			"nom": "Mocassins du chasseur",
+			"type": "equipement",
+			"rarete": "raffine",
+			"description": "On n'entend pas venir celui qui les porte.",
+			"emplacement": "pieds",
+			"epoque": "Préhistoire",
+			"ensemble": "chasseur_du_clan",
+			"stats": {
+				"degats_pourcent": 3,
+				"critique_pourcent": 1,
+				"pv": 10
+			},
+			"visuel": {
+				"forme": "bottes_fourrure",
+				"couleur": "#7a7068"
+			}
+		},
+		"bandeau_gardien": {
+			"nom": "Bandeau de braises du gardien",
+			"type": "equipement",
+			"rarete": "raffine",
+			"description": "Un bandeau de cuir orné de perles de charbon.",
+			"emplacement": "tete",
+			"epoque": "Préhistoire",
+			"ensemble": "gardien_du_feu",
+			"stats": {
+				"pv": 20,
+				"reduction_pourcent": 2
+			},
+			"visuel": {
+				"forme": "bandeau",
+				"couleur": "#5a3d28"
+			}
+		},
+		"manteau_gardien": {
+			"nom": "Manteau de bison du gardien",
+			"type": "equipement",
+			"rarete": "raffine",
+			"description": "Lourd, épais, il sent la fumée.",
+			"emplacement": "torse",
+			"epoque": "Préhistoire",
+			"ensemble": "gardien_du_feu",
+			"stats": {
+				"pv": 20,
+				"reduction_pourcent": 2
+			},
+			"visuel": {
+				"forme": "cape_fourrure",
+				"couleur": "#5a3d28",
+				"teinte": "#5a4030"
+			}
+		},
+		"gants_gardien": {
+			"nom": "Gants de peau du gardien",
+			"type": "equipement",
+			"rarete": "raffine",
+			"description": "Pour porter les braises sans se brûler.",
+			"emplacement": "mains",
+			"epoque": "Préhistoire",
+			"ensemble": "gardien_du_feu",
+			"stats": {
+				"pv": 20,
+				"reduction_pourcent": 2
+			},
+			"visuel": {
+				"forme": "brassards",
+				"couleur": "#5a3d28"
+			}
+		},
+		"jambieres_gardien": {
+			"nom": "Jambières de bison du gardien",
+			"type": "equipement",
+			"rarete": "raffine",
+			"description": "Taillées dans le cuir le plus épais.",
+			"emplacement": "jambes",
+			"epoque": "Préhistoire",
+			"ensemble": "gardien_du_feu",
+			"stats": {
+				"pv": 20,
+				"reduction_pourcent": 2
+			},
+			"visuel": {
+				"forme": "jambieres",
+				"couleur": "#5a3d28"
+			}
+		},
+		"bottes_gardien": {
+			"nom": "Bottes de bison du gardien",
+			"type": "equipement",
+			"rarete": "raffine",
+			"description": "Elles tiennent chaud même sur la glace.",
+			"emplacement": "pieds",
+			"epoque": "Préhistoire",
+			"ensemble": "gardien_du_feu",
+			"stats": {
+				"pv": 20,
+				"reduction_pourcent": 2
+			},
+			"visuel": {
+				"forme": "bottes_fourrure",
+				"couleur": "#5a3d28"
+			}
+		},
+		"lance_silex": {
+			"nom": "Lance à pointe de silex",
+			"type": "equipement",
+			"rarete": "rare",
+			"description": "Une pointe taillée avec patience, renforcée d'un éclat de technologie Vigie.",
+			"emplacement": "arme_principale",
+			"epoque": "Préhistoire",
+			"stats": {
+				"degats_pourcent": 10,
+				"critique_pourcent": 3
+			},
+			"visuel": {
+				"forme": "lance",
+				"couleur": "#6b4a2b"
+			}
+		},
+		"massue_os": {
+			"nom": "Massue en os de mammouth",
+			"type": "equipement",
+			"rarete": "raffine",
+			"description": "Lourde. Très lourde.",
+			"emplacement": "arme_principale",
+			"epoque": "Préhistoire",
+			"stats": {
+				"degats_pourcent": 8,
+				"pv": 20
+			},
+			"visuel": {
+				"forme": "massue",
+				"couleur": "#d8ccb0"
+			}
+		},
+		"couteau_obsidienne": {
+			"nom": "Couteau en obsidienne",
+			"type": "equipement",
+			"rarete": "raffine",
+			"description": "Plus tranchant que n'importe quel acier.",
+			"emplacement": "arme_secondaire",
+			"epoque": "Préhistoire",
+			"stats": {
+				"degats_pourcent": 4,
+				"critique_pourcent": 3
+			},
+			"visuel": {
+				"forme": "couteau",
+				"couleur": "#1b1820"
+			}
+		},
+		"collier_dents_loup": {
+			"nom": "Collier de dents de loup",
+			"type": "equipement",
+			"rarete": "raffine",
+			"description": "Chaque dent raconte une chasse.",
+			"emplacement": "bijou",
+			"epoque": "Préhistoire",
+			"stats": {
+				"critique_pourcent": 3
+			},
+			"visuel": {
+				"forme": "collier",
+				"couleur": "#e8e0cc"
+			}
+		},
+		"collier_coquillages": {
+			"nom": "Collier de coquillages",
+			"type": "equipement",
+			"rarete": "commun",
+			"description": "Des coquillages percés, venus de très loin.",
+			"emplacement": "bijou",
+			"epoque": "Préhistoire",
+			"stats": {
+				"pv": 15
+			},
+			"visuel": {
+				"forme": "collier",
+				"couleur": "#f0d8c0"
+			}
+		},
+		"propulseur_sculpte": {
+			"nom": "Propulseur sculpté",
+			"type": "equipement",
+			"rarete": "rare",
+			"description": "Un propulseur en bois de renne, sculpté d'un bouquetin. Spécialisation : Lancer au propulseur se recharge 4 s plus vite.",
+			"emplacement": "relique",
+			"epoque": "Préhistoire",
+			"stats": {},
+			"competences": {
+				"lancer_au_propulseur": {
+					"recharge": -4
+				}
+			}
+		},
+		"ocre_sacree": {
+			"nom": "Ocre sacrée",
+			"type": "equipement",
+			"rarete": "rare",
+			"description": "Une poudre rouge broyée par les anciens du clan. Spécialisation : Peinture de guerre dure 4 s de plus.",
+			"emplacement": "relique",
+			"epoque": "Préhistoire",
+			"stats": {},
+			"competences": {
+				"peinture_de_guerre": {
+					"duree": 4
+				}
+			}
+		},
+		"dent_alpha": {
+			"nom": "Dent de l'alpha",
+			"type": "equipement",
+			"rarete": "epique",
+			"description": "La canine du chef de meute. Spécialisation : les loups de l'Appel de la meute restent 10 s de plus.",
+			"emplacement": "relique",
+			"epoque": "Préhistoire",
+			"stats": {},
+			"competences": {
+				"appel_de_la_meute": {
+					"duree": 10
+				}
+			}
+		},
+		"besace_peau_loup": {
+			"nom": "Besace en peau de loup",
+			"type": "sac",
+			"rarete": "raffine",
+			"description": "Un sac cousu dans une peau de loup. Ajoute 8 places.",
+			"places": 8,
+			"epoque": "Préhistoire"
+		},
+		"sac_expedition_vigie": {
+			"nom": "Sac d'expédition de la Vigie",
+			"type": "sac",
+			"rarete": "rare",
+			"description": "Le sac des agents de terrain. Ajoute 12 places.",
+			"places": 12,
+			"epoque": "Moderne"
+		},
+		"croc_loup": {
+			"nom": "Croc de loup",
+			"type": "materiau",
+			"rarete": "commun",
+			"description": "Servira à l'artisanat.",
+			"pile": 20,
+			"epoque": "Préhistoire"
+		},
+		"peau_loup": {
+			"nom": "Peau de loup",
+			"type": "materiau",
+			"rarete": "commun",
+			"description": "Servira à l'artisanat.",
+			"pile": 20,
+			"epoque": "Préhistoire"
+		},
+		"silex": {
+			"nom": "Silex",
+			"type": "materiau",
+			"rarete": "commun",
+			"description": "Servira à l'artisanat.",
+			"pile": 20,
+			"epoque": "Préhistoire"
+		}
+	},
+	"ensembles": {
+		"chasseur_du_clan": {
+			"nom": "Chasseur du clan",
+			"epoque": "Préhistoire",
+			"paliers": {
+				"2": {
+					"texte": "+8 % de dégâts",
+					"stats": {
+						"degats_pourcent": 8
+					}
+				},
+				"4": {
+					"texte": "Lancer au propulseur : +8 m de portée, ralentit 3 s de plus",
+					"competences": {
+						"lancer_au_propulseur": {
+							"portee": 8,
+							"ralenti.duree": 3
+						}
+					}
+				}
+			}
+		},
+		"gardien_du_feu": {
+			"nom": "Gardien du feu",
+			"epoque": "Préhistoire",
+			"paliers": {
+				"2": {
+					"texte": "+40 points de vie",
+					"stats": {
+						"pv": 40
+					}
+				},
+				"4": {
+					"texte": "Feu des ancêtres : +1,5 m de rayon, soigne 2 fois plus",
+					"competences": {
+						"feu_des_ancetres": {
+							"rayon": 1.5,
+							"soin_par_seconde": 8
+						}
+					}
+				}
+			}
+		}
+	},
+	"competences_d_epoque": [
+		"feu_des_ancetres",
+		"lancer_au_propulseur",
+		"cri_du_clan",
+		"peinture_de_guerre"
+	],
+	"ultimes": [
+		"appel_de_la_meute"
+	],
+	"butin": {
+		"loup": [
+			{
+				"objet": "croc_loup",
+				"chance": 0.6,
+				"quantite": [
+					1,
+					2
+				]
+			},
+			{
+				"objet": "peau_loup",
+				"chance": 0.35
+			},
+			{
+				"parmi": [
+					"capuche_chasseur",
+					"cape_chasseur",
+					"brassards_chasseur",
+					"jambieres_chasseur",
+					"mocassins_chasseur",
+					"bandeau_gardien",
+					"manteau_gardien",
+					"gants_gardien",
+					"jambieres_gardien",
+					"bottes_gardien",
+					"couteau_obsidienne",
+					"massue_os",
+					"collier_dents_loup",
+					"collier_coquillages"
+				],
+				"chance": 0.3
+			},
+			{
+				"parmi": [
+					"lance_silex",
+					"besace_peau_loup"
+				],
+				"chance": 0.08
+			},
+			{
+				"parmi": [
+					"propulseur_sculpte",
+					"ocre_sacree",
+					"dent_alpha"
+				],
+				"chance": 0.04
+			}
+		]
+	},
+	"depart": {
+		"equipement": {
+			"torse": "veste_terrain_vigie",
+			"jambes": "pantalon_terrain_vigie",
+			"pieds": "rangers_vigie",
+			"arme_principale": "lame_courte_vigie",
+			"arme_secondaire": "dague_vigie"
+		},
+		"sacs": [
+			"sac_expedition_vigie"
+		],
+		"objets": [
+			"capuche_chasseur",
+			"cape_chasseur",
+			"bandeau_gardien",
+			"manteau_gardien",
+			"ocre_sacree"
+		],
+		"tenues": [
+			{
+				"nom": "Agent de la Vigie",
+				"equipement": "equipement_de_depart"
+			}
+		]
+	}
+}

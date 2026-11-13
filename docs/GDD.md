@@ -1,6 +1,6 @@
 # SickWorld — Document de conception (GDD)
 
-> **Version 0.3 — 13 novembre 2026** (ajout : écran de création du personnage)
+> **Version 0.4 — 13 novembre 2026** (ajouts : écran de création du personnage ; inventaire, équipement et tenues de mission)
 > Document vivant : il sera complété au fil des décisions. Toutes les propositions de la version 0.1 ont été validées par Gaël le 13 novembre 2026.
 
 ---
@@ -413,11 +413,50 @@ Le joueur progresse sur plusieurs axes en parallèle, pour toujours avoir un obj
 - **Compétences d'époque :** gagnées par les quêtes et la réputation de chaque île.
 - Objectif à long terme : **collectionner** toutes les compétences et créer ses propres combinaisons.
 
-### 3. L'équipement
+### 3. L'équipement, l'inventaire et les tenues
 
-- Emplacements : tête, torse, mains, jambes, pieds, arme principale, arme secondaire, 2 bijoux, 1 relique d'époque.
-- Rareté : **commun** (blanc), **raffiné** (vert), **rare** (bleu), **épique** (violet), **historique** (orange, objets uniques liés à des personnages ou événements réels).
-- **Apparence séparée des statistiques :** le joueur peut porter la tenue d'une époque avec les statistiques d'une autre (**garde-robe**). Très important pour un jeu où chacun veut montrer ses tenues d'époque.
+*Proposé le 13 novembre 2026 (en attente de validation sur deux points : butin personnel, et se changer partout hors combat).*
+
+**Les emplacements (12).** Tête, torse, mains, jambes, pieds, arme principale, arme secondaire, 2 bijoux, 1 relique d'époque, plus les sacs (voir plus bas). Ce que le joueur porte **se voit sur son personnage** : arme dans la main, capuche, cape de fourrure, couleur de la veste…
+
+**Rareté :** **commun** (blanc), **raffiné** (vert), **rare** (bleu), **épique** (violet), **historique** (orange, objets uniques liés à des personnages ou événements réels).
+
+**Les statistiques.** Chaque pièce donne quelques bonus simples, lisibles par tous : **points de vie**, **dégâts** (%), **protection** (% de dégâts en moins), **coups critiques** (%). Pas de dizaines de statistiques comme dans certains MMO : on veut que le choix se fasse surtout sur les **ensembles** et les **compétences**.
+
+**L'inventaire (les sacs).**
+- Un sac de départ de **16 places**, plus **4 emplacements de sacs** à remplir avec des sacs trouvés ou gagnés (ex. *Besace en peau de loup*, 8 places). Chaque époque a ses sacs.
+- Les objets identiques s'empilent (ex. jusqu'à 20 crocs de loup), ce qui servira à l'artisanat plus tard.
+- On équipe un objet d'un clic, on le retire d'un clic, on jette avec le clic droit (confirmation demandée).
+
+**Le butin.**
+- Chaque ennemi vaincu laisse un **butin personnel** à chaque joueur qui a participé au combat : un petit sac lumineux apparaît, visible seulement par lui, qu'on ramasse avec **F**. Personne ne se dispute le butin (comme dans Guild Wars 2).
+- Chaque ennemi a sa **table de butin** (fichier `data/objets.json`) : matériaux, pièces d'ensemble d'époque, sacs, et rarement une relique.
+
+**Se changer : les « tenues de mission ».** C'est le cœur du système (inspiré des decks de The Secret World et des modèles de Guild Wars).
+- Le joueur enregistre jusqu'à **4 tenues**. Une tenue mémorise **tout l'équipement porté et la barre de compétences**.
+- On passe d'une tenue à l'autre en un clic, **hors combat** : le personnage se change en 2 secondes (sans bouger), et ses compétences d'époque changent avec.
+- Exemples : *« Chasseur du clan »* (dégâts, Lancer au propulseur renforcé) pour l'exploration, *« Gardien du feu »* (survie, soins) pour un donjon difficile.
+- Les objets restent dans les sacs : une tenue ne fait que dire « quoi mettre ». Si un objet manque (vendu, jeté), l'emplacement reste tel quel.
+
+**Les spécialisations d'époque.**
+- Chaque époque propose des **ensembles** de 5 pièces d'armure (tête, torse, mains, jambes, pieds). Porter **2 puis 4 pièces** du même ensemble donne des bonus qui **renforcent les compétences de cette époque** (portée, durée, puissance).
+- La **relique d'époque** donne une spécialisation précise sur une compétence (ex. *Propulseur sculpté* : Lancer au propulseur se recharge 4 secondes plus vite).
+- Ainsi, chaque île enrichit les tenues possibles, et les compétences d'époque se combinent avec n'importe quelle classe.
+
+| Ensemble (Préhistoire) | 2 pièces | 4 pièces | Style |
+|---|---|---|---|
+| **Chasseur du clan** | +8 % de dégâts | Lancer au propulseur : +8 m de portée, ralentit 3 s de plus | Fourrure de loup, peintures d'ocre |
+| **Gardien du feu** | +40 points de vie | Feu des ancêtres : +1,5 m de rayon, soigne 2 fois plus | Peau de bison, braises, cendres |
+
+| Relique (Préhistoire) | Spécialisation |
+|---|---|
+| **Propulseur sculpté** | Lancer au propulseur : recharge 4 s plus rapide |
+| **Ocre sacrée** | Peinture de guerre : dure 4 s de plus |
+| **Dent de l'alpha** | Appel de la meute : les loups restent 10 s de plus |
+
+**La garde-robe (plus tard).** L'apparence reste séparable des statistiques : on pourra porter le look d'une pièce avec les statistiques d'une autre. Très important pour un jeu où chacun veut montrer ses tenues d'époque.
+
+**Côté technique.** Tout est décidé par le serveur (on ne peut pas tricher en modifiant son jeu) : ramasser, équiper, se changer. Pour le prototype, le serveur enregistre l'inventaire dans un fichier par personnage ; il passera dans Nakama à l'étape 4 (comptes et sauvegarde).
 
 ### 4. La réputation par époque
 

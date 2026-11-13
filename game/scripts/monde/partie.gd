@@ -7,6 +7,7 @@ extends Node3D
 ## Les « Spawner » recopient automatiquement leur contenu chez tous les joueurs.
 
 const SCENE_JOUEUR := preload("res://scenes/joueur/joueur.tscn")
+const SCRIPT_BUTIN := preload("res://scripts/objets/butin.gd")
 
 @onready var joueurs: Node3D = $Joueurs
 @onready var loups: Node3D = $Loups
@@ -15,6 +16,10 @@ const SCENE_JOUEUR := preload("res://scenes/joueur/joueur.tscn")
 func _ready() -> void:
 	add_to_group("partie")
 	loups.add_to_group("dossier_loups")
+	# Butin des ennemis (même nom chez tout le monde, pour les échanges réseau).
+	var butin: Node = SCRIPT_BUTIN.new()
+	butin.name = "Butin"
+	add_child(butin)
 	if Engine.is_editor_hint():
 		return
 	if Reseau.demarrer() != OK:

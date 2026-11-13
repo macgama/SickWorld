@@ -25,6 +25,7 @@ const TAILLE_MODELE := {"homme": 178.0, "femme": 168.0}
 const TAILLE_REFERENCE := 180.0
 ## Couleur de peau qui correspond à la texture MakeHuman (teinte neutre).
 const PEAU_DE_REFERENCE := Color(0.80, 0.62, 0.50)
+const VisuelEquipement := preload("res://scripts/objets/visuel_equipement.gd")
 
 @export_enum("homme", "femme") var modele := "homme":
 	set(valeur):
@@ -43,6 +44,9 @@ static var _bibliotheques := {}
 ## Dernière apparence reçue (dictionnaire de FichePersonnage.resoudre).
 var _apparence := {}
 var _materiau_peau: StandardMaterial3D
+var _materiau_tenue: StandardMaterial3D
+## Équipement visible (emplacement -> visuel, voir Inventaire et data/objets.json).
+var _visuels := {}
 
 var _corps: Node3D
 var _lecteur: AnimationPlayer
@@ -81,6 +85,7 @@ func _construire() -> void:
 	add_child(_corps)
 	_appliquer_materiaux()
 	_appliquer_teintes()
+	_appliquer_equipement()
 	_lecteur = _corps.find_children("*", "AnimationPlayer", true, false)[0] as AnimationPlayer
 	_lecteur.add_animation_library("agent", _bibliotheque(modele))
 	_mort = false
@@ -170,6 +175,25 @@ func appliquer(apparence: Dictionary) -> void:
 		if not is_inside_tree():
 			return
 	_appliquer_teintes()
+
+
+## Accroche l'équipement porté (armes, capuche, cape…) et teinte la veste.
+func equiper(visuels: Dictionary) -> void:
+	_visuels = visuels.duplicate(true)
+	_appliquer_equipement()
+
+
+func _appliquer_equipement() -> void:
+	var squelette := _squelette()
+	if squelette == null:
+		return
+	VisuelEquipement.habiller(squelette, _visuels)
+	if _materiau_tenue != null:
+		var teinte := Color.WHITE
+		for e in _visuels:
+			if _visuels[e].has("teinte"):
+				teinte = Color.from_string(String(_visuels[e]["teinte"]), Color.WHITE).lightened(0.25)
+		_materiau_tenue.albedo_color = teinte
 
 
 ## Position du visage dans le monde (pour que la caméra de l'écran de création le cadre).
@@ -346,6 +370,8 @@ func _appliquer_materiaux() -> void:
 			m.roughness = 0.15
 		else:
 			m.albedo_texture = _texture(base + "_diffuse")
+			if base.contains("suit"):
+				_materiau_tenue = m
 			if m.albedo_texture == null:
 				m.albedo_texture = _texture(base)
 			var normale := _texture(base + "_normal")

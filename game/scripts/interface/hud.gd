@@ -11,11 +11,13 @@ const TEXTE_AIDE := """[b]Contrôles[/b]  (F1 pour cacher)
 [b]Tab[/b] ou [b]clic[/b] sur un ennemi : le cibler     [b]Échap[/b] : enlever la cible
 [b]Clic droit[/b] sur un ennemi : l'attaquer
 [b]1 à 8[/b] : compétences (survole une case pour lire sa description)
+[b]C[/b], [b]I[/b] ou [b]B[/b] : personnage, sacs et tenues     [b]F[/b] : ramasser le butin
 [b]M[/b] : carte     [b]Molette[/b] sur la mini-carte : zoom"""
 
 const TAILLE_CASE := 70
 const NOMS_EFFETS := {
 	"saignement": "Saignement", "ralenti": "Ralenti", "desynchronisation": "Désynchronisé (-10 %)",
+	"cri_du_clan": "Cri du clan (+15 % dégâts)", "peinture_de_guerre": "Peinture de guerre (-30 % dégâts subis)",
 }
 
 var _joueur: Joueur
@@ -44,6 +46,7 @@ var _message_fin := 0.0
 var _ecran_mort: PanelContainer
 var _cases: Array[Dictionary] = []
 var _plaques: Control
+var _fenetre_personnage: PanelContainer
 
 
 func _ready() -> void:
@@ -94,6 +97,23 @@ func _connecter() -> void:
 	_combat_joueur = _joueur.get_node("CombatJoueur")
 	_combat_joueur.message.connect(_afficher_message)
 	_combat_joueur.incantation_changee.connect(_sur_incantation)
+	_combat_joueur.barre_changee.connect(_rafraichir_barre)
+	_rafraichir_barre()
+	_fenetre_personnage = preload("res://scripts/interface/fenetre_personnage.gd").new()
+	_racine.add_child(_fenetre_personnage)
+	_fenetre_personnage.relier(_joueur.get_node("Inventaire"), _combat_joueur)
+
+
+## Écran Personnage (touches C, I ou B).
+func basculer_personnage() -> void:
+	if _fenetre_personnage != null:
+		_fenetre_personnage.basculer()
+
+
+## Noms, descriptions et couleurs des cases de la barre (rappelé quand on change de tenue).
+func _rafraichir_barre() -> void:
+	if _combat_joueur == null:
+		return
 	for i in _cases.size():
 		var c := _combat_joueur.competence(i)
 		var case: Dictionary = _cases[i]
@@ -360,6 +380,9 @@ func _construire_ecran_mort() -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("aide"):
 		_aide.visible = not _aide.visible
+	elif event.is_action_pressed("personnage") and not event.is_echo():
+		basculer_personnage()
+		get_viewport().set_input_as_handled()
 
 
 func _afficher_message(texte: String) -> void:
