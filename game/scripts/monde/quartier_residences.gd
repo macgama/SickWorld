@@ -187,7 +187,7 @@ static func _construire_appartement(hub: HikariBay) -> void:
 	var z1 := r.position.y
 	var z2 := r.end.y
 	var mur := StandardMaterial3D.new()
-	mur.albedo_color = Color(0.86, 0.82, 0.76)
+	mur.albedo_color = Color(0.72, 0.68, 0.62)
 	mur.roughness = 0.92
 	var parquet := hub._mat_pbr("painted_metal_shutter", 1.0, "bois", Color(0.72, 0.52, 0.34))
 	var bois := Marche._bois(hub)
@@ -213,7 +213,7 @@ static func _construire_appartement(hub: HikariBay) -> void:
 	hub._lumiere(Vector3(-84.0, s + 2.2, 23.0), CHAUD, 1.4, 7.0)
 	hub._cylindre(0.03, 0.03, 1.6, Vector3(-92.8, s + 0.8, 26.4), metal, false)
 	hub._cylindre(0.12, 0.22, 0.3, Vector3(-92.8, s + 1.7, 26.4), Marche._papier(hub, CHAUD, 2.5), false)
-	hub._lumiere(Vector3(-92.8, s + 1.6, 26.0), CHAUD, 1.0, 5.0)
+	hub._lumiere(Vector3(-92.8, s + 1.6, 26.0), CHAUD, 0.7, 4.0)
 	# Tapis, canapé tourné vers la baie, table basse.
 	var tapis := StandardMaterial3D.new()
 	tapis.albedo_color = Color(0.45, 0.2, 0.22)
@@ -264,7 +264,7 @@ static func _construire_appartement(hub: HikariBay) -> void:
 	hub._bloc(-95.0, 27.6, -91.0, z2, s + 1.6, s + 2.3, blanc, false)
 	hub._bloc(-94.9, 27.55, -91.1, 27.6, s + 1.58, s + 1.6, hub._neon(CHAUD, 2.0), false)
 	hub._bloc(-96.0, 27.2, -95.1, z2, s, s + 2.0, metal)
-	hub._lumiere(Vector3(-93.0, s + 1.4, 27.4), CHAUD, 0.7, 4.0)
+	hub._lumiere(Vector3(-93.0, s + 1.4, 27.4), CHAUD, 0.4, 3.0)
 	# Étagère des souvenirs (mur ouest) : appartement.gd y pose un objet par mission accomplie.
 	for k in SOUVENIRS_RANGEES:
 		var y := SOL_APPART + 2.3 - k * 0.6
