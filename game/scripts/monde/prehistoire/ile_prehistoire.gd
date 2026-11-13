@@ -785,7 +785,7 @@ func _appliquer_ciel() -> void:
 
 ## Les loups touchés par la faille reçoivent des veines violettes lumineuses.
 func _habiller_fracture(n: Node) -> void:
-	if not is_instance_valid(n) or not String(n.get("type_ennemi")).contains("fracture"):
+	if not is_instance_valid(n) or not (String(n.get("type_ennemi")).contains("fracture") or String(n.get("type_ennemi")).begins_with("ours")):
 		return
 	var apparence := n.get_node_or_null("Apparence")
 	if apparence == null:
@@ -967,4 +967,69 @@ func _texture_main() -> Texture2D:
 			if dans_main.call(u):
 				alpha *= 0.05
 			image.set_pixel(i, j, Color(1, 1, 1, alpha))
+	return ImageTexture.create_from_image(image)
+
+
+## Bisons, chevaux, points et mains, soufflés et tracés à l'ocre.
+func _texture_fresque(avec_voyageur := false) -> Texture2D:
+	var largeur_img := 1024
+	var hauteur_img := 384
+	var image := Image.create(largeur_img, hauteur_img, true, Image.FORMAT_RGBA8)
+	image.fill(Color(1, 1, 1, 0))
+	var hasard := RandomNumberGenerator.new()
+	hasard.seed = graine + 90
+	var tache := func(c: Vector2, rayons: Vector2, alpha: float) -> void:
+		for j in range(int(c.y - rayons.y) - 2, int(c.y + rayons.y) + 3):
+			for i in range(int(c.x - rayons.x) - 2, int(c.x + rayons.x) + 3):
+				if i < 0 or j < 0 or i >= largeur_img or j >= hauteur_img:
+					continue
+				var d := Vector2((i - c.x) / rayons.x, (j - c.y) / rayons.y).length()
+				if d < 1.0:
+					var a := alpha * clampf((1.0 - d) * 5.0, 0.0, 1.0) * (0.75 + hasard.randf() * 0.25)
+					var avant := image.get_pixel(i, j).a
+					image.set_pixel(i, j, Color(1, 1, 1, maxf(avant, a)))
+	var ligne := func(a: Vector2, b: Vector2, epaisseur: float, alpha: float) -> void:
+		var n := int(a.distance_to(b) / 2.0) + 1
+		for k in n + 1:
+			tache.call(a.lerp(b, float(k) / n), Vector2(epaisseur, epaisseur), alpha)
+	# Un bison : corps massif, bosse, tête basse, pattes fines.
+	var bison := func(o: Vector2, s: float) -> void:
+		tache.call(o, Vector2(70, 34) * s, 0.85)
+		tache.call(o + Vector2(-38, -26) * s, Vector2(40, 30) * s, 0.85)
+		tache.call(o + Vector2(-82, 6) * s, Vector2(22, 20) * s, 0.85)
+		for dx in [-45.0, -25.0, 30.0, 50.0]:
+			ligne.call(o + Vector2(dx, 20) * s, o + Vector2(dx + 4, 64) * s, 4.0 * s, 0.85)
+		ligne.call(o + Vector2(-92, -8) * s, o + Vector2(-102, -26) * s, 3.0 * s, 0.85)
+		ligne.call(o + Vector2(68, -8) * s, o + Vector2(84, 14) * s, 2.5 * s, 0.85)
+	# Un cheval : corps plus fin, long cou, crinière.
+	var cheval := func(o: Vector2, s: float) -> void:
+		tache.call(o, Vector2(58, 24) * s, 0.75)
+		ligne.call(o + Vector2(-46, -8) * s, o + Vector2(-78, -48) * s, 11.0 * s, 0.75)
+		tache.call(o + Vector2(-88, -52) * s, Vector2(18, 10) * s, 0.75)
+		for dx in [-38.0, -22.0, 28.0, 44.0]:
+			ligne.call(o + Vector2(dx, 14) * s, o + Vector2(dx + 2, 58) * s, 3.5 * s, 0.75)
+		ligne.call(o + Vector2(56, -4) * s, o + Vector2(74, 30) * s, 3.0 * s, 0.75)
+	bison.call(Vector2(230, 190), 1.15)
+	cheval.call(Vector2(520, 150), 1.0)
+	bison.call(Vector2(800, 210), 0.95)
+	cheval.call(Vector2(640, 280), 0.7)
+	# Des rangées de points et quelques signes.
+	for k in 14:
+		tache.call(Vector2(380 + k * 14, 320 + sin(k * 0.8) * 8.0), Vector2(5, 5), 0.9)
+	for k in 6:
+		ligne.call(Vector2(940 + k * 10, 60), Vector2(944 + k * 10, 120), 3.0, 0.8)
+	if avec_voyageur:
+		# Le Venu-du-Brouillard, peint parmi les bêtes : une silhouette debout
+		# entourée d'un cercle (le portail), et Aïna qui lui tend la main.
+		for centre in [Vector2(370, 200), Vector2(430, 205)]:
+			tache.call(centre + Vector2(0, -52), Vector2(10, 11), 0.9)
+			ligne.call(centre + Vector2(0, -40), centre + Vector2(0, 10), 5.0, 0.9)
+			ligne.call(centre + Vector2(0, 10), centre + Vector2(-12, 52), 4.0, 0.9)
+			ligne.call(centre + Vector2(0, 10), centre + Vector2(12, 52), 4.0, 0.9)
+			ligne.call(centre + Vector2(0, -28), centre + Vector2(-20, -2), 3.5, 0.9)
+			ligne.call(centre + Vector2(0, -28), centre + Vector2(22, -10), 3.5, 0.9)
+		for k in 48:
+			var a := k * TAU / 48.0
+			tache.call(Vector2(370, 195) + Vector2(cos(a) * 62, sin(a) * 74), Vector2(3.5, 3.5), 0.85)
+	image.generate_mipmaps()
 	return ImageTexture.create_from_image(image)

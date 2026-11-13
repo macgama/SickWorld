@@ -180,7 +180,7 @@ func _lancer() -> void:
 	await _aller_pres(aina)
 	await _appuyer_f()
 	lues = await _lire_dialogue()
-	_verifier(lues >= 5 and _quete.etape == -1, "Aïna conclut le chapitre 6 (%d bulles)" % lues)
+	_verifier(lues >= 5 and _id_etape() == "murs_vides", "Aïna conclut le chapitre 6 (%d bulles, %s)" % [lues, _id_etape()])
 	_verifier(not _scene.en_tempete, "la tempête est passée")
 
 	# --- Rechargements : tout reste en place.

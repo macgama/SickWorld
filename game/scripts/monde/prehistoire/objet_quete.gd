@@ -75,6 +75,7 @@ const COULEURS_TAS := {
 	"ocre": Color(0.62, 0.2, 0.08),
 	"charbon": Color(0.05, 0.045, 0.04),
 	"manganese": Color(0.13, 0.09, 0.12),
+	"resine": Color(0.78, 0.45, 0.08),
 }
 
 
