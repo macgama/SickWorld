@@ -1,4 +1,4 @@
-# Visiter la Préhistoire : Côte Gelée, Steppe des Mammouths, Forêt des Bouleaux
+# Visiter la Préhistoire : Côte Gelée, Steppe des Mammouths, Forêt des Bouleaux, Falaises Peintes
 
 La première zone de l'île de la Préhistoire est jouable : **la Côte Gelée** (niveaux 1 à 3), il y a environ 17 000 ans, en pleine période glaciaire. C'est là que mène le portail de la Préhistoire du QG de la Vigie.
 
@@ -87,7 +87,22 @@ Pour l'ouvrir directement : `scenes/monde/prehistoire/foret.tscn` puis **F6**. P
 3. Là où était la faille, ramasse l'objet qui brille : une montre à gousset brisée, gravée « E. ».
 4. Montre-la à Lenoir : quelqu'un d'autre voyage dans le temps. Passe le portail pour la rapporter au QG de la Vigie.
 
-La suite (chapitre 6, « L'hiver qui vient trop tôt ») arrive dans une prochaine mise à jour.
+## Les Falaises Peintes (zone 4)
+
+Au nord de la steppe, une **passe** mène à une vallée enneigée fermée par une immense **falaise de calcaire** en gradins. Au fond d'une anse de la falaise, l'**abri sous roche** du clan : un grand feu, des peaux tendues contre le vent, et sur la paroi les **peintures des ancêtres** (bisons, chevaux, points, signes). Plus à l'est, une lueur violette sort de l'entrée de la **Grande Grotte** : c'est là que se cache la fracture majeure (le futur donjon). Pour y aller directement : double-clique sur `scenes/monde/prehistoire/falaises.tscn` puis **F6**.
+
+![Les Falaises Peintes](../images/prehistoire-falaises.jpg)
+
+![L'abri d'hiver du clan](../images/prehistoire-falaises-abri.jpg)
+
+### Chapitre 6 : « L'hiver qui vient trop tôt »
+
+1. Lenoir, au portail, annonce une tempête anormale au nord. Rejoins le camp d'été : la neige et le brouillard tombent sur la steppe.
+2. Aïna décide de partir pour les **Falaises Peintes**, l'abri d'hiver. Toran est parti devant.
+3. Escorte les familles (Aïna, la Vieille Mère, Naya, Kéo) jusqu'à la passe du nord. Elles n'avancent que si tu restes près d'elles, et des fracturés attaquent deux fois en route.
+4. Aux Falaises Peintes, défends l'abri sous roche contre cinq fracturés, puis parle à Aïna : la tempête se calme… mais une peinture semble pâlir.
+
+La suite (chapitre 7, « Les murs vides ») arrive dans une prochaine mise à jour.
 
 ## Ce que tu peux régler toi-même
 
@@ -107,12 +122,13 @@ godot --headless --path game -s res://tests/test_cote_gelee.gd
 godot --headless --path game -s res://tests/test_steppe.gd
 godot --headless --path game -s res://tests/test_foret.gd
 godot --headless --path game -s res://tests/test_chapitre5.gd
+godot --headless --path game -s res://tests/test_falaises.gd
 ```
 
-Le premier test parcourt tout le chapitre 1 (Lenoir, trousse, soins, fracturés, faille, rapport), vérifie que l'avancement est gardé, que le col mène à la Steppe et que le portail ramène au hub. Le second parcourt les chapitres 2 et 3 dans la Steppe (Toran, chasse, gué, Aïna, pigments, main peinte) et le retour par le col. Le troisième joue le chapitre 4 deux fois (Grise soignée, puis Grise libérée). Le quatrième joue le chapitre 5 (faille de la forêt, montre, retour au portail).
+Le premier test parcourt tout le chapitre 1 (Lenoir, trousse, soins, fracturés, faille, rapport), vérifie que l'avancement est gardé, que le col mène à la Steppe et que le portail ramène au hub. Le second parcourt les chapitres 2 et 3 dans la Steppe (Toran, chasse, gué, Aïna, pigments, main peinte) et le retour par le col. Le troisième joue le chapitre 4 deux fois (Grise soignée, puis Grise libérée). Le quatrième joue le chapitre 5 (faille de la forêt, montre, retour au portail). Le cinquième joue le chapitre 6 (tempête, escorte, défense de l'abri) et vérifie les Falaises Peintes.
 
 ## Ce qui viendra ensuite
 
-- Le chapitre 6 (« L'hiver qui vient trop tôt ») et les **Falaises Peintes** (zone 4).
+- Le chapitre 7 (« Les murs vides ») et le donjon de la **Grande Grotte** (chapitre 8).
 - De vrais modèles animés pour les loups, rennes et mammouths (pour l'instant des silhouettes simples), et de vrais vêtements de peau pour le clan.
 - Des sons : vent, vagues, craquements de la glace.
