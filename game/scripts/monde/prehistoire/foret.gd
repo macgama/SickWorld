@@ -129,6 +129,7 @@ func reconstruire() -> void:
 	_construire_rochers()
 	_construire_touffes()
 	_construire_bouleaux()
+	_construire_sous_bois()
 	_construire_traces()
 	_construire_failles()
 	_construire_lointain()
@@ -246,16 +247,20 @@ func _texture_feuilles() -> Texture2D:
 	image.fill(Color(0, 0, 0, 0))
 	var hasard := RandomNumberGenerator.new()
 	hasard.seed = graine + 5
-	# Quelques brindilles.
-	for k in 6:
-		var a := Vector2(hasard.randf_range(20, 236), hasard.randf_range(20, 236))
-		var b := a + Vector2(hasard.randf_range(-90, 90), hasard.randf_range(-90, 90))
-		for t in 100:
-			var p := a.lerp(b, t / 100.0)
-			if p.x >= 0 and p.y >= 0 and p.x < taille_img and p.y < taille_img:
-				image.set_pixelv(Vector2i(p), Color(0.25, 0.2, 0.15, 1))
-	for k in 70:
-		var c := Vector2(hasard.randf_range(18, 238), hasard.randf_range(18, 238))
+	# Quelques rameaux fins et pendants : les feuilles se groupent le long.
+	var rameaux := []
+	for k in 4:
+		var a := Vector2(hasard.randf_range(40, 216), hasard.randf_range(20, 90))
+		var b := a + Vector2(hasard.randf_range(-60, 60), hasard.randf_range(90, 150))
+		rameaux.append([a, b])
+		for t in 80:
+			var p := a.lerp(b, t / 80.0)
+			if hasard.randf() < 0.7 and p.x >= 0 and p.y >= 0 and p.x < taille_img and p.y < taille_img:
+				image.set_pixelv(Vector2i(p), Color(0.42, 0.34, 0.26, 1))
+	for k in 110:
+		var r: Array = rameaux[k % rameaux.size()]
+		var c: Vector2 = (r[0] as Vector2).lerp(r[1], hasard.randf()) + Vector2(hasard.randf_range(-22, 22), hasard.randf_range(-14, 14))
+		c = c.clamp(Vector2(14, 14), Vector2(242, 242))
 		var angle := hasard.randf() * TAU
 		var longueur := hasard.randf_range(9.0, 15.0)
 		var largeur := longueur * 0.62
@@ -277,8 +282,14 @@ func _texture_feuilles() -> Texture2D:
 
 
 ## Un bouleau : tronc fin et blanc, légèrement penché, couronne légère.
-func _maillage_bouleau(hasard: RandomNumberGenerator, ecorce: Material, feuilles: Material) -> ArrayMesh:
+func _maillage_bouleau(hasard: RandomNumberGenerator, ecorce: Material, feuilles: Material, sorte := "adulte") -> ArrayMesh:
 	var hauteur_arbre := hasard.randf_range(7.0, 15.0)
+	var rayon_pied := hasard.randf_range(0.12, 0.26)
+	if sorte == "jeune":
+		hauteur_arbre = hasard.randf_range(2.2, 4.5)
+		rayon_pied = hasard.randf_range(0.04, 0.07)
+	elif sorte == "mort":
+		hauteur_arbre = hasard.randf_range(3.0, 8.0)
 	var outil := SurfaceTool.new()
 	outil.begin(Mesh.PRIMITIVE_TRIANGLES)
 	var cotes := 7
@@ -294,7 +305,7 @@ func _maillage_bouleau(hasard: RandomNumberGenerator, ecorce: Material, feuilles
 			for coin in [[t0, b0], [t0, b1], [t1, b1], [t1, b0]]:
 				var t: float = coin[0]
 				var ang: float = coin[1]
-				var rayon := lerpf(0.17, 0.035, t)
+				var rayon := lerpf(rayon_pied, rayon_pied * (0.6 if sorte == "mort" else 0.2), t)
 				var centre := Vector3(0, t * hauteur_arbre, 0) + penche * t * t
 				points.append([centre + Vector3(cos(ang), 0, sin(ang)) * rayon, Vector3(cos(ang), 0, sin(ang)),
 						Vector2(ang / TAU, t * hauteur_arbre / 2.0)])
@@ -304,17 +315,23 @@ func _maillage_bouleau(hasard: RandomNumberGenerator, ecorce: Material, feuilles
 				outil.add_vertex(points[i][0])
 	outil.set_material(ecorce)
 	var maillage := outil.commit()
+	if sorte == "mort":
+		return maillage
 	# La couronne : des cartes de feuilles autour du haut du tronc.
 	var couronne := SurfaceTool.new()
 	couronne.begin(Mesh.PRIMITIVE_TRIANGLES)
 	var nombre_cartes := hasard.randi_range(55, 85)
+	var largeur_couronne := hasard.randf_range(0.7, 1.3)
+	if sorte == "jeune":
+		nombre_cartes = hasard.randi_range(10, 18)
+		largeur_couronne = 0.35
 	for k in nombre_cartes:
 		var t := hasard.randf_range(0.35, 1.0)
 		var centre := Vector3(0, t * hauteur_arbre, 0) + penche * t * t
-		var rayon := lerpf(2.6, 0.9, (t - 0.35) / 0.65)
+		var rayon := lerpf(2.6, 0.9, (t - 0.35) / 0.65) * largeur_couronne
 		var a := hasard.randf() * TAU
 		centre += Vector3(cos(a), hasard.randf_range(-0.3, 0.3), sin(a)) * rayon * hasard.randf_range(0.3, 1.0)
-		var taille_carte := hasard.randf_range(1.4, 2.4)
+		var taille_carte := hasard.randf_range(1.4, 2.4) * (0.5 if sorte == "jeune" else 1.0)
 		var droite := Vector3(cos(a + PI / 2), 0, sin(a + PI / 2)).rotated(Vector3(cos(a), 0, sin(a)),
 				hasard.randf_range(-0.5, 0.5)) * taille_carte * 0.5
 		var haut := Vector3(0, 1, 0).rotated(Vector3(cos(a), 0, sin(a)), hasard.randf_range(-0.6, 0.6)) * taille_carte * 0.5
@@ -346,6 +363,11 @@ func _construire_bouleaux() -> void:
 	var modeles: Array[ArrayMesh] = []
 	for k in 10:
 		modeles.append(_maillage_bouleau(hasard, ecorce, feuilles))
+	# Modèles 10-11 : bouleaux morts ; 12-14 : jeunes bouleaux.
+	for k in 2:
+		modeles.append(_maillage_bouleau(hasard, ecorce, feuilles, "mort"))
+	for k in 3:
+		modeles.append(_maillage_bouleau(hasard, ecorce, feuilles, "jeune"))
 	var dossier := Node3D.new()
 	dossier.name = "Bouleaux"
 	_contenu.add_child(dossier)
@@ -369,9 +391,20 @@ func _construire_bouleaux() -> void:
 		var y := hauteur(p.x, p.y)
 		if y > 16.0:
 			continue
-		var t := Transform3D(Basis(Vector3.UP, hasard.randf() * TAU).scaled(Vector3.ONE * hasard.randf_range(0.8, 1.2)),
-				Vector3(p.x, y - 0.15, p.y))
-		par_modele[hasard.randi() % modeles.size()].append(t)
+		var tirage := hasard.randf()
+		var choix := hasard.randi() % 10
+		if tirage < 0.06:
+			choix = 10 + hasard.randi() % 2
+		elif tirage < 0.3:
+			choix = 12 + hasard.randi() % 3
+		var epaisseur := hasard.randf_range(0.75, 1.5)
+		var base := Basis(Vector3.UP, hasard.randf() * TAU).scaled(
+				Vector3(epaisseur, hasard.randf_range(0.7, 1.25), epaisseur))
+		base = Basis(Vector3(hasard.randf_range(-1, 1), 0, hasard.randf_range(-1, 1)).normalized(),
+				hasard.randf_range(0.0, 0.12)) * base
+		par_modele[choix].append(Transform3D(base, Vector3(p.x, y - 0.15, p.y)))
+		if choix >= 12:
+			continue
 		var corps := StaticBody3D.new()
 		corps.position = Vector3(p.x, y + 2.0, p.y)
 		var forme := CollisionShape3D.new()
@@ -394,6 +427,32 @@ func _construire_bouleaux() -> void:
 		dossier.add_child(instance)
 
 
+## Sous-bois : troncs tombés, souches, branches mortes et buissons.
+func _construire_sous_bois() -> void:
+	var hasard := RandomNumberGenerator.new()
+	hasard.seed = graine + 70
+	var dossier := Node3D.new()
+	dossier.name = "SousBois"
+	_contenu.add_child(dossier)
+	for groupe in [["dead_tree_trunk", 14, 0.9, 1.3], ["dead_tree_trunk_02", 12, 0.9, 1.3],
+			["tree_stump_01", 18, 0.8, 1.2], ["dry_branches_medium_01", 30, 0.8, 1.4],
+			["wild_rooibos_bush", 45, 0.7, 1.3]]:
+		var places := 0
+		var essais := 0
+		while places < int(groupe[1]) and essais < 400:
+			essais += 1
+			var p := Vector2(hasard.randf_range(-130.0, 130.0), hasard.randf_range(-130.0, 130.0))
+			if not _degage(p, 1.5) or hauteur(p.x, p.y) > 16.0:
+				continue
+			var objet := _modele(groupe[0], Vector3(p.x, hauteur(p.x, p.y) - 0.05, p.y), hasard.randf() * TAU,
+					hasard.randf_range(groupe[2], groupe[3]), dossier)
+			if objet == null:
+				break
+			if groupe[0] == "wild_rooibos_bush":
+				_teinter(objet, Color(0.85, 0.7, 0.4))
+			places += 1
+
+
 # --- Traces de Kéo et de Grise -------------------------------------------------------------
 
 func _texture_empreinte() -> Texture2D:
@@ -414,11 +473,25 @@ func _texture_empreinte() -> Texture2D:
 	return ImageTexture.create_from_image(image)
 
 
+func _texture_patte() -> Texture2D:
+	var image := Image.create(64, 64, false, Image.FORMAT_RGBA8)
+	image.fill(Color(1, 1, 1, 0))
+	var coussinets := [[Vector2(32, 42), 12.0], [Vector2(18, 22), 6.0], [Vector2(28, 14), 6.0],
+			[Vector2(38, 14), 6.0], [Vector2(47, 22), 6.0]]
+	for j in 64:
+		for i in 64:
+			for c in coussinets:
+				if Vector2(i, j).distance_to(c[0]) < c[1]:
+					image.set_pixel(i, j, Color(1, 1, 1, 0.9))
+	return ImageTexture.create_from_image(image)
+
+
 func _construire_traces() -> void:
 	var dossier := Node3D.new()
 	dossier.name = "Traces"
 	_contenu.add_child(dossier)
 	var texture := _texture_empreinte()
+	var texture_patte := _texture_patte()
 	var gauche := true
 	for i in TRACES.size() - 1:
 		var a: Vector2 = TRACES[i]
@@ -430,15 +503,24 @@ func _construire_traces() -> void:
 			gauche = not gauche
 			var trace := Decal.new()
 			trace.texture_albedo = texture
-			trace.size = Vector3(0.22, 1.0, 0.42)
-			trace.modulate = Color(0.25, 0.22, 0.2, 0.75)
+			trace.size = Vector3(0.32, 1.2, 0.6)
+			trace.modulate = Color(0.1, 0.08, 0.06, 1.0)
+			trace.albedo_mix = 1.0
 			trace.position = Vector3(p.x, hauteur(p.x, p.y), p.y)
 			trace.rotation.y = atan2(-direction.x, -direction.y)
 			trace.cull_mask = 1
 			trace.distance_fade_enabled = true
-			trace.distance_fade_begin = 30.0
+			trace.distance_fade_begin = 45.0
 			trace.distance_fade_length = 10.0
 			dossier.add_child(trace)
+			# Les pattes de Grise, à côté des pas de Kéo.
+			if k % 2 == 0:
+				var patte := trace.duplicate() as Decal
+				patte.texture_albedo = texture_patte
+				patte.size = Vector3(0.2, 1.2, 0.2)
+				var q := p + direction.orthogonal() * 0.75 + direction * 0.5
+				patte.position = Vector3(q.x, hauteur(q.x, q.y), q.y)
+				dossier.add_child(patte)
 
 
 # --- Failles ---------------------------------------------------------------------------

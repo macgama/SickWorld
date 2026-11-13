@@ -271,6 +271,31 @@ func _mat_terrain() -> ShaderMaterial:
 	return m
 
 
+## Change la couleur d'un modèle Poly Haven : « teinte » multiplie la couleur,
+## « desature » (0 à 1) la ramène vers le gris (ex. un rocher trop orange).
+func _teinter(modele: Node3D, teinte: Color, desature := 0.0) -> void:
+	for n in modele.find_children("*", "MeshInstance3D", true, false):
+		var mi := n as MeshInstance3D
+		for s in mi.mesh.get_surface_count():
+			var m := mi.mesh.surface_get_material(s) as BaseMaterial3D
+			if m == null:
+				continue
+			var copie := m.duplicate() as BaseMaterial3D
+			if desature > 0.0 and copie.albedo_texture != null:
+				var image := copie.albedo_texture.get_image()
+				if image != null:
+					image.decompress()
+					for j in image.get_height():
+						for i in image.get_width():
+							var c := image.get_pixel(i, j)
+							var gris := c.get_luminance()
+							image.set_pixel(i, j, c.lerp(Color(gris, gris, gris), desature))
+					image.generate_mipmaps()
+					copie.albedo_texture = ImageTexture.create_from_image(image)
+			copie.albedo_color = copie.albedo_color * teinte
+			mi.set_surface_override_material(s, copie)
+
+
 ## Matériau du sol pour les montagnes lointaines : motifs beaucoup plus grands,
 ## pour éviter l'effet « gâteau en couches » des strates répétées.
 func _mat_lointain() -> ShaderMaterial:
