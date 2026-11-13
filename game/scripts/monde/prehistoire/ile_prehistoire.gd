@@ -795,8 +795,16 @@ func _habiller_fracture(n: Node) -> void:
 		m.shader = SHADER_FRACTURE
 		m.set_shader_parameter("bruit", _bruit())
 		_materiaux["fracture"] = m
+	var surcouche: Material = _materiaux["fracture"]
+	if String(n.get("type_ennemi")).begins_with("ours"):
+		# L'Ours garde son pelage brun : la faille ne fait que le veiner.
+		if not _materiaux.has("fracture_ours"):
+			var m_ours := (_materiaux["fracture"] as ShaderMaterial).duplicate() as ShaderMaterial
+			m_ours.set_shader_parameter("intensite", 0.55)
+			_materiaux["fracture_ours"] = m_ours
+		surcouche = _materiaux["fracture_ours"]
 	for mi in apparence.find_children("*", "MeshInstance3D", true, false):
-		(mi as MeshInstance3D).material_overlay = _materiaux["fracture"]
+		(mi as MeshInstance3D).material_overlay = surcouche
 	var lueur := OmniLight3D.new()
 	lueur.light_color = Color(0.6, 0.25, 1.0)
 	lueur.light_energy = 0.8

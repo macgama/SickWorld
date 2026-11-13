@@ -10,7 +10,9 @@ uniform float intensite = 1.6;
 varying vec3 position_locale;
 
 void vertex() {
-	position_locale = VERTEX;
+	// En mètres, centré sur la créature (les modèles importés ont des
+	// échelles internes très différentes : 1 unité = 1 cm pour l'ours).
+	position_locale = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz - NODE_POSITION_WORLD;
 }
 
 void fragment() {
