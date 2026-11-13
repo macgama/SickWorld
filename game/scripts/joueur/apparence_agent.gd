@@ -10,14 +10,15 @@ extends Node3D
 ##   immobile.fbx  personnage + squelette + animation de repos
 ##   courir, reculer, pas_gauche, pas_droite, saut, chute, roulade, attaque,
 ##   touche, mort (.fbx) : animations seules, même squelette
+##   marcher.fbx (facultatif) : marche lente, utilisée sous 2 m/s (passants)
 ##   textures/     textures MakeHuman (réappliquées ici : Mixamo ne les garde pas)
 
 ## Animations qui tournent en boucle.
-const EN_BOUCLE := ["immobile", "courir", "reculer", "pas_gauche", "pas_droite", "chute"]
-const ANIMATIONS := ["immobile", "courir", "reculer", "pas_gauche", "pas_droite", "saut", "chute",
+const EN_BOUCLE := ["immobile", "marcher", "courir", "reculer", "pas_gauche", "pas_droite", "chute"]
+const ANIMATIONS := ["immobile", "marcher", "courir", "reculer", "pas_gauche", "pas_droite", "saut", "chute",
 	"roulade", "attaque", "touche", "mort"]
 ## Vitesse (m/s) à laquelle chaque animation de déplacement est jouée à vitesse normale.
-const VITESSE_NATURELLE := {"courir": 5.0, "reculer": 2.0, "pas_gauche": 4.5, "pas_droite": 4.5}
+const VITESSE_NATURELLE := {"marcher": 1.4, "courir": 5.0, "reculer": 2.0, "pas_gauche": 4.5, "pas_droite": 4.5}
 const FONDU := 0.18
 ## Taille réelle des modèles MakeHuman (cm), pieds au sol, sans les cheveux.
 const TAILLE_MODELE := {"homme": 178.0, "femme": 168.0}
@@ -104,6 +105,8 @@ static func _bibliotheque(nom_modele: String) -> AnimationLibrary:
 		return _bibliotheques[nom_modele]
 	var bib := AnimationLibrary.new()
 	for nom in ANIMATIONS:
+		if not ResourceLoader.exists("res://assets/personnages/%s/%s.fbx" % [nom_modele, nom]):
+			continue
 		var scene := load("res://assets/personnages/%s/%s.fbx" % [nom_modele, nom]) as PackedScene
 		if scene == null:
 			continue
@@ -332,6 +335,8 @@ func animer(delta: float, vitesse_locale: Vector3, au_sol: bool, progression_esq
 		nom = "pas_droite" if vitesse_locale.x > 0.0 else "pas_gauche"
 	elif vitesse_locale.z > 0.0:
 		nom = "reculer"
+	elif vitesse < 2.0 and _lecteur.has_animation("agent/marcher"):
+		nom = "marcher"
 	var allure := clampf(vitesse / float(VITESSE_NATURELLE[nom]), 0.6, 2.2)
 	_jouer(nom, FONDU)
 	_lecteur.speed_scale = allure
