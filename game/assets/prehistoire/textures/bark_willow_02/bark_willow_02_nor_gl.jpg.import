@@ -3,11 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://c554mbttvfvbd"
-valid=false
+path="res://.godot/imported/bark_willow_02_nor_gl.jpg-ec56f03a8fa6b757d82206ea83ae1444.ctex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 
 source_file="res://assets/prehistoire/textures/bark_willow_02/bark_willow_02_nor_gl.jpg"
+dest_files=["res://.godot/imported/bark_willow_02_nor_gl.jpg-ec56f03a8fa6b757d82206ea83ae1444.ctex"]
 
 [params]
 
