@@ -23,6 +23,7 @@ Donnees="*res://scripts/autoload/donnees.gd"
 Regles="*res://scripts/autoload/regles.gd"
 Reseau="*res://scripts/autoload/reseau.gd"
 QualiteGraphique="*res://scripts/autoload/qualite_graphique.gd"
+Cartographe="*res://scripts/autoload/cartographe.gd"
 
 [display]
 

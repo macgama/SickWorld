@@ -138,13 +138,12 @@ func _construire_pluie() -> void:
 	pe.scale_max = 1.2
 	_eclaboussures.process_material = pe
 	var goutte := QuadMesh.new()
-	goutte.size = Vector2(0.05, 0.05)
+	goutte.size = Vector2(0.035, 0.035)
 	var mg := StandardMaterial3D.new()
 	mg.billboard_mode = BaseMaterial3D.BILLBOARD_PARTICLES
+	mg.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	mg.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
-	mg.albedo_color = Color(0.7, 0.75, 0.85, 0.35)
-	mg.emission_enabled = true
-	mg.emission = Color(0.05, 0.05, 0.06)
+	mg.albedo_color = Color(0.6, 0.65, 0.75, 0.22)
 	goutte.material = mg
 	_eclaboussures.draw_pass_1 = goutte
 	add_child(_eclaboussures)

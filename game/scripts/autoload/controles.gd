@@ -21,11 +21,18 @@ const TOUCHES := {
 	"cible_suivante": [KEY_TAB],         # Tab : cibler l'ennemi suivant
 	"annuler": [KEY_ESCAPE],             # Échap : annuler / enlever la cible
 	"interagir": [KEY_F],                # F : parler à un personnage, utiliser un objet
+	"journal": [KEY_J],                  # J : journal des missions
 	# Barre de compétences : touches 1 à 8 de la rangée du haut
 	# (sur AZERTY, pas besoin d'appuyer sur Maj : & é " ' ( - è _ marchent).
 	"competence_1": [KEY_1], "competence_2": [KEY_2], "competence_3": [KEY_3],
 	"competence_4": [KEY_4], "competence_5": [KEY_5], "competence_6": [KEY_6],
 	"competence_7": [KEY_7], "competence_8": [KEY_8],
+}
+
+## Touches choisies pour leur LETTRE (et non leur position) : M reste M en
+## AZERTY comme en QWERTY.
+const TOUCHES_LETTRES := {
+	"carte": [KEY_M],                    # M : ouvrir / fermer la grande carte
 }
 
 
@@ -36,4 +43,11 @@ func _ready() -> void:
 		for touche: Key in TOUCHES[action]:
 			var evenement := InputEventKey.new()
 			evenement.physical_keycode = touche
+			InputMap.action_add_event(action, evenement)
+	for action: String in TOUCHES_LETTRES:
+		if not InputMap.has_action(action):
+			InputMap.add_action(action)
+		for touche: Key in TOUCHES_LETTRES[action]:
+			var evenement := InputEventKey.new()
+			evenement.keycode = touche
 			InputMap.action_add_event(action, evenement)

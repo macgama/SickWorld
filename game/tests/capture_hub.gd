@@ -14,6 +14,7 @@ const VUES := [
 	["skyline", Vector3(-40, 42, 70), Vector3(10, 55, -200)],
 	["vitrines", Vector3(-22, 1.7, -22), Vector3(-44, 4, -34)],
 	["front_de_mer", Vector3(-30, 3, 70), Vector3(60, 18, 110)],
+	["marche", Vector3(-20, 1.8, -58), Vector3(-22, 5, -120)],
 ]
 
 
@@ -49,6 +50,10 @@ func _lancer() -> void:
 		var we := scene.get_node("Environnement") as WorldEnvironment
 		we.camera_attributes.set_meta("flou_max", false)
 		we.camera_attributes.dof_blur_far_enabled = false
+	# Interface des autoloads (mini-carte...) cachée aussi.
+	for n in root.find_children("*", "CanvasLayer", true, false):
+		if n.name != "PostTraitement" and not scene.is_ancestor_of(n):
+			(n as CanvasLayer).visible = false
 	var camera := Camera3D.new()
 	camera.fov = 70.0
 	camera.far = 3000.0

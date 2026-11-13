@@ -73,5 +73,93 @@
 			"Salle des portails ! Un anneau par époque. Seul celui de la Préhistoire est stable pour l'instant.",
 			"Avance dans l'anneau bleu quand tu es prêt. Ne t'inquiète pas pour le picotement, c'est normal."
 		]
+	},
+	"chef_goro": {
+		"nom": "Chef Goro Tanaka",
+		"role": "Ramen Kaminari",
+		"modele": "homme",
+		"repliques": [
+			"Irasshai ! Bienvenue au Kaminari. Le bouillon mijote depuis dix-huit heures.",
+			"Assieds-toi au comptoir quand tu veux. Ici, on ne pose pas de questions aux agents de la ville."
+		]
+	},
+	"client_ramen": {
+		"nom": "Daichi",
+		"role": "Client fidèle",
+		"modele": "homme",
+		"repliques": [
+			"Le tonkotsu de Goro, c'est le meilleur de Hikari Bay. Je viens tous les soirs depuis vingt ans.",
+			"Bizarre, la ville est calme ces temps-ci. Comme s'il manquait quelque chose... Je n'arrive pas à dire quoi."
+		]
+	},
+	"courtiere": {
+		"nom": "Madame Rei Kurosawa",
+		"role": "Salle Tsukimi · Ventes",
+		"modele": "femme",
+		"repliques": [
+			"La salle Tsukimi. Autrefois, on y pariait sur tout et n'importe quoi. Aujourd'hui, on y vend des trésors.",
+			"Rapporte des objets des époques que tu visites : ici, d'autres agents les achèteront. Les enchères ouvrent bientôt."
+		]
+	},
+	"joueur_cartes": {
+		"nom": "Le vieux Sabu",
+		"role": "Joueur de hanafuda",
+		"modele": "homme",
+		"repliques": [
+			"Tu joues ? Non ? Dommage. Les cartes, ça aide à oublier.",
+			"Ou à se souvenir. Ça dépend des soirs."
+		]
+	},
+	"vendeur_yakitori": {
+		"nom": "Kenta",
+		"role": "Stand de yakitori",
+		"modele": "homme",
+		"repliques": [
+			"Brochettes de poulet, sauce tare maison ! Elles donneront de l'endurance aux aventuriers, bientôt.",
+			"Si tu passes au Kaminari, dis à Goro que Kenta le salue."
+		]
+	},
+	"mme_okada": {
+		"nom": "Madame Okada",
+		"role": "Légumes frais",
+		"modele": "femme",
+		"repliques": [
+			"Poireaux, gingembre, champignons shiitake ! Tout vient des fermes de la baie.",
+			"Goro m'achète mes poireaux depuis l'ouverture du Kaminari. Un homme de goût."
+		]
+	},
+	"passante_marche": {
+		"nom": "Aiko",
+		"role": "Étudiante",
+		"modele": "femme",
+		"repliques": [
+			"Le Marché de nuit, c'est l'endroit le plus vivant de la ville après minuit.",
+			"Tu as vu le petit sanctuaire au fond de la ruelle ? On dit qu'il porte bonheur aux voyageurs."
+		]
+	},
+	"musicien": {
+		"nom": "Hiro",
+		"role": "Musicien de rue",
+		"modele": "homme",
+		"repliques": [
+			"Je joue toujours la même chanson. Une berceuse que ma grand-mère chantait.",
+			"Sauf que ces jours-ci, j'oublie le deuxième couplet. Comme si quelqu'un l'avait effacé."
+		]
+	},
+	"mme_sato": {
+		"nom": "Madame Haruko Sato",
+		"role": "Habitante du quartier",
+		"modele": "femme",
+		"repliques": [
+			"Bonsoir, jeune agent. Les nuits sont longues, ces temps-ci."
+		]
+	},
+	"nina": {
+		"nom": "Nina « Pixel » Moreau",
+		"role": "Bidouilleuse",
+		"modele": "femme",
+		"repliques": [
+			"Cet écran géant, je le connais mieux que ses propriétaires. Et il fait des choses bizarres en ce moment."
+		]
 	}
 }

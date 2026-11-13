@@ -1,15 +1,16 @@
 // Goutte de pluie : un trait fin toujours tourné vers la caméra et allongé dans
 // le sens de la chute. Les gouttes s'éclairent près des néons et des lampadaires
 // (c'est ce qui donne l'ambiance des rues de Tokyo sous la pluie).
+// Mélange additif : une goutte ajoute de la lumière, elle n'assombrit jamais.
 shader_type spatial;
-render_mode world_vertex_coords, cull_disabled, shadows_disabled, depth_draw_never, blend_mix;
+render_mode world_vertex_coords, cull_disabled, shadows_disabled, depth_draw_never, blend_add;
 
 uniform float largeur = 0.012;
 uniform float longueur = 0.6;
-uniform float opacite = 0.35;
+uniform float opacite = 0.5;
 uniform vec3 couleur : source_color = vec3(0.55, 0.6, 0.7);
 // Lueur propre (pour voir la pluie même loin des lumières).
-uniform float lueur = 0.03;
+uniform float lueur = 0.05;
 
 void vertex() {
 	vec3 origine = MODEL_MATRIX[3].xyz;

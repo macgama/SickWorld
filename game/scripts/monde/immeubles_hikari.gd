@@ -201,7 +201,7 @@ static func batiment(hub: Node3D, x1: float, z1: float, x2: float, z2: float, ha
 ## La ville au loin : une couronne de gratte-ciel (sans collision), surtout au
 ## nord, et quelques tours géantes qui dessinent la silhouette de Hikari Bay.
 ## rayon_min laisse la place aux futurs quartiers du hub.
-static func horizon(hub: Node3D, rayon_min := 190.0, rayon_max := 520.0, nombre := 110) -> void:
+static func horizon(hub: Node3D, rayon_min := 215.0, rayon_max := 520.0, nombre := 110) -> void:
 	var parent := Node3D.new()
 	parent.name = "Horizon"
 	hub._contenu.add_child(parent)
@@ -219,8 +219,8 @@ static func horizon(hub: Node3D, rayon_min := 190.0, rayon_max := 520.0, nombre 
 				hasard.randf_range(0.2, 0.45), 100 + i, false, -1, true, parent)
 	# Sur l'autre rive de la baie, au sud : les lumières d'une autre partie de la ville.
 	for i in 45:
-		var x := hasard.randf_range(-1100.0, 1100.0)
-		var z := hasard.randf_range(820.0, 1050.0)
+		var x := hasard.randf_range(-800.0, 800.0)
+		var z := hasard.randf_range(560.0, 720.0)
 		var l := hasard.randf_range(20.0, 45.0)
 		var h := hasard.randf_range(25.0, 140.0)
 		batiment(hub, x - l * 0.5, z - l * 0.5, x + l * 0.5, z + l * 0.5, h, hasard.randf_range(0.3, 0.5),

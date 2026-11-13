@@ -10,7 +10,9 @@ const TEXTE_AIDE := """[b]Contrôles[/b]  (F1 pour cacher)
 [b]Espace[/b] : sauter     [b]Maj[/b] : roulade d'esquive
 [b]Tab[/b] ou [b]clic[/b] sur un ennemi : le cibler     [b]Échap[/b] : enlever la cible
 [b]Clic droit[/b] sur un ennemi : l'attaquer
-[b]1 à 8[/b] : compétences (survole une case pour lire sa description)"""
+[b]1 à 8[/b] : compétences (survole une case pour lire sa description)
+[b]M[/b] : carte     [b]Molette[/b] sur la mini-carte : zoom
+[b]F10[/b] : qualité des graphismes (Bas, Moyen, Haut, Ultra)"""
 
 const TAILLE_CASE := 70
 const NOMS_EFFETS := {
@@ -220,7 +222,7 @@ func _construire_aide() -> void:
 	_aide = PanelContainer.new()
 	_aide.add_theme_stylebox_override("panel", _fond())
 	_aide.set_anchors_preset(Control.PRESET_TOP_RIGHT)
-	_aide.position = Vector2(-500, 40)
+	_aide.position = Vector2(-500, 270)  # sous la mini-carte
 	_aide.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_racine.add_child(_aide)
 	var texte := RichTextLabel.new()

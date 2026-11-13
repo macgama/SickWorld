@@ -5,7 +5,7 @@
 shader_type spatial;
 
 uniform vec3 couleur : source_color = vec3(1.0, 0.8, 0.6);
-uniform float intensite = 1.4;
+uniform float intensite = 1.0;
 // Profondeur de la boutique (mètres).
 uniform float profondeur = 5.0;
 uniform float graine = 0.0;
@@ -16,6 +16,18 @@ varying vec3 demi_taille;
 
 float hasard(vec2 p) {
 	return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453);
+}
+
+// Étagères : planches sombres et petits produits de couleurs variées (assez
+// discrètes pour ne pas faire « mosaïque »). Renvoie une luminosité colorée.
+vec3 rayonnage(vec2 p, float g) {
+	float rang = fract(p.y * 2.6 + 0.3);
+	vec2 case_p = floor(vec2(p.x * 6.0, p.y * 2.6 + 0.3));
+	float h = hasard(case_p + g);
+	vec3 produit = 0.5 + 0.5 * cos(6.2832 * (h + vec3(0.0, 0.33, 0.67)));
+	produit = mix(vec3(0.7), produit, 0.45) * (0.6 + 0.8 * hasard(case_p + g + 3.0));
+	float present = step(0.18, h) * step(0.2, rang) * step(rang, 0.75) * step(0.08, fract(p.x * 6.0));
+	return mix(vec3(1.0), produit * 1.6, present) * mix(0.35, 1.0, step(0.12, rang));
 }
 
 void vertex() {
@@ -47,18 +59,12 @@ void fragment() {
 			float reflet = step(0.55, fract(h.z * 0.7)) * step(abs(h.x), d.x * 0.6);
 			lum = couleur * (0.25 + reflet * 0.35);
 		} else if (t == tx) {
-			// Rayonnages sur les murs de côté : étagères et produits colorés.
-			float etagere = fract(h.y * 2.2 + 0.3);
-			vec2 case_p = floor(vec2(h.z * 3.0, h.y * 2.2 + 0.3));
-			vec3 produit = 0.5 + 0.5 * cos(6.2832 * (hasard(case_p + graine) + vec3(0.0, 0.33, 0.67)));
-			lum = mix(couleur * 0.5, produit * couleur * 1.1, step(0.25, etagere) * step(etagere, 0.9));
-			lum *= 0.9 - fond * 0.4;
+			// Rayonnages sur les murs de côté : étagères et petits produits.
+			lum = couleur * 0.35 * rayonnage(vec2(h.z, h.y), graine);
+			lum *= 1.0 - fond * 0.4;
 		} else {
-			// Mur du fond : rayonnage et comptoir.
-			float etagere = fract(h.y * 2.2 + 0.3);
-			vec2 case_p = floor(vec2(h.x * 3.0, h.y * 2.2 + 0.3));
-			vec3 produit = 0.5 + 0.5 * cos(6.2832 * (hasard(case_p + graine + 5.0) + vec3(0.0, 0.33, 0.67)));
-			lum = mix(couleur * 0.45, produit * couleur, step(0.25, etagere) * step(etagere, 0.9) * step(h.y, 0.9));
+			// Mur du fond : rayonnage jusqu'à hauteur d'homme.
+			lum = couleur * mix(vec3(0.3), 0.35 * rayonnage(vec2(h.x, h.y), graine + 5.0), step(h.y, 0.9));
 		}
 		// Un peu plus sombre en bas (lumière qui vient du plafond).
 		lum *= mix(0.6, 1.0, clamp(h.y / d.y * 0.5 + 0.5, 0.0, 1.0));
