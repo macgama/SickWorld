@@ -95,8 +95,10 @@ func appliquer() -> void:
 			vp.scaling_3d_scale = 1.0
 			vp.mesh_lod_threshold = 1.0
 		Niveau.ULTRA:
-			vp.msaa_3d = Viewport.MSAA_4X
-			vp.screen_space_aa = Viewport.SCREEN_SPACE_AA_DISABLED
+			# MSAA 4x faisait apparaître des traits noirs sur la pluie (mélange
+			# additif) devant les projecteurs : 2x + SMAA lisse aussi bien.
+			vp.msaa_3d = Viewport.MSAA_2X
+			vp.screen_space_aa = Viewport.SCREEN_SPACE_AA_SMAA
 			vp.use_taa = false
 			vp.scaling_3d_mode = Viewport.SCALING_3D_MODE_BILINEAR
 			vp.scaling_3d_scale = 1.0
