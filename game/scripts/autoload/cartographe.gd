@@ -249,7 +249,7 @@ func _nettoyer(nom: String) -> String:
 # --- Sauvegarde -------------------------------------------------------------
 
 func _fichier() -> String:
-	return "%s/%s.cfg" % [DOSSIER, personnage]
+	return Profil.chemin("%s/%s.cfg" % [DOSSIER, personnage])
 
 
 func _charger_brouillard() -> void:
@@ -284,14 +284,14 @@ func sauver() -> void:
 	var id := String(zone.identifiant)
 	_sauvegarde.set_value("taille", id, _brouillard.get_size())
 	_sauvegarde.set_value("brouillard", id, _brouillard.get_data().compress(FileAccess.COMPRESSION_ZSTD))
-	DirAccess.make_dir_recursive_absolute(DOSSIER)
+	DirAccess.make_dir_recursive_absolute(Profil.chemin(DOSSIER))
 	if _sauvegarde.save(_fichier()) == OK:
 		_modifie = false
 
 
 ## Efface la carte d'un personnage (quand on le supprime, par exemple).
 func effacer_personnage(nom: String) -> void:
-	var chemin := "%s/%s.cfg" % [DOSSIER, _nettoyer(nom)]
+	var chemin := Profil.chemin("%s/%s.cfg" % [DOSSIER, _nettoyer(nom)])
 	if FileAccess.file_exists(chemin):
 		DirAccess.remove_absolute(ProjectSettings.globalize_path(chemin))
 	if _nettoyer(nom) == personnage:
