@@ -59,6 +59,12 @@ func _parler_a(id: String) -> int:
 	var devant: Vector3 = pnj.global_position - pnj.global_transform.basis.z * 1.6
 	await _placer(devant + Vector3(0, 0.3, 0), pnj.rotation.y + PI)
 	await _appuyer_f()
+	# Au tout premier appui, la scène peut encore finir de se charger : on réessaie.
+	for essai in 3:
+		if _dialogue.est_ouvert():
+			break
+		await _attendre(10)
+		await _appuyer_f()
 	var lues := 0
 	while _dialogue.est_ouvert() and lues < 30:
 		lues += 1
