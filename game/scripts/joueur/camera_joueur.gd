@@ -41,6 +41,13 @@ var _mouvement_cumule := 0.0
 
 
 func _ready() -> void:
+	# Seul le personnage qu'on contrôle a une caméra active.
+	if not _cible.is_multiplayer_authority() or not Reseau.a_un_joueur_local():
+		$Pivot/Bras/Camera3D.current = false
+		set_process(false)
+		set_process_unhandled_input(false)
+		return
+	$Pivot/Bras/Camera3D.make_current()
 	top_level = true
 	physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_OFF
 	_distance_voulue = distance

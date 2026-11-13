@@ -48,8 +48,6 @@ var _regeneration_demandee := false
 
 func _ready() -> void:
 	regenerer()
-	if not Engine.is_editor_hint():
-		_placer_joueurs()
 
 
 func _demander_regeneration() -> void:
@@ -92,17 +90,6 @@ func regenerer() -> void:
 	_creer_sol()
 	_creer_rochers()
 	_creer_herbe()
-
-
-func _placer_joueurs() -> void:
-	var x := point_apparition.x
-	var z := point_apparition.y
-	var position_depart := Vector3(x, hauteur(x, z) + 0.1, z)
-	# Le joueur regarde vers le sommet de la colline.
-	var orientation := atan2(x, z)
-	for joueur in get_tree().get_nodes_in_group("joueur"):
-		if joueur.has_method("placer"):
-			joueur.placer(position_depart, orientation)
 
 
 # --- Sol -------------------------------------------------------------------
@@ -241,7 +228,8 @@ func _maillage_rocher(bruit: FastNoiseLite, echelle: Vector3) -> ArrayMesh:
 # --- Herbe -----------------------------------------------------------------
 
 func _creer_herbe() -> void:
-	if nombre_brins_herbe <= 0:
+	# Pas d'herbe sur un serveur sans écran : personne ne la verrait.
+	if nombre_brins_herbe <= 0 or DisplayServer.get_name() == "headless":
 		return
 	var brin := _maillage_brin()
 	var materiau := ShaderMaterial.new()

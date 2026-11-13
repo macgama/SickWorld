@@ -46,6 +46,18 @@ extends CharacterBody3D
 
 var endurance := 100.0
 
+# --- État partagé sur le réseau (voir le nœud « Synchro ») ---
+## Nom choisi par le joueur.
+var nom := "Agent"
+## Position, orientation et vitesse envoyées par le joueur qui contrôle ce personnage.
+var position_reseau := Vector3.ZERO
+var lacet_reseau := 0.0
+var vitesse_reseau := Vector3.ZERO
+## Progression de la roulade (-1 = pas de roulade) et sa direction, pour l'animation.
+var esquive_reseau := -1.0
+var direction_esquive_reseau := Vector3.ZERO
+var _place := false
+
 var _temps_esquive := 0.0
 var _direction_esquive := Vector3.ZERO
 var _point_depart := Vector3.ZERO
@@ -58,14 +70,33 @@ var _bond_arrivee := Callable()
 @onready var combat: Combattant = $Combat
 
 
+func _enter_tree() -> void:
+	# Le personnage appartient au joueur dont il porte le numéro : c'est lui qui le déplace.
+	# Le combat (vie, compétences), lui, appartient toujours au serveur (numéro 1).
+	if name.is_valid_int():
+		set_multiplayer_authority(name.to_int(), true)
+	$Combat.set_multiplayer_authority(1, true)
+	$CombatJoueur.set_multiplayer_authority(1, true)
+
+
+## Numéro réseau du joueur qui contrôle ce personnage.
+func id_reseau() -> int:
+	return get_multiplayer_authority()
+
+
+## Vrai si ce personnage est celui qu'on contrôle sur ce PC.
+func est_local() -> bool:
+	return is_multiplayer_authority() and Reseau.a_un_joueur_local()
+
+
 func _ready() -> void:
 	add_to_group("joueur")
+	if est_local():
+		add_to_group("joueur_local")
 	endurance = endurance_max
 	_point_depart = global_position
 	floor_snap_length = 0.5
 	floor_max_angle = deg_to_rad(50.0)
-	combat.mort.connect(func(_tueur): _rendre_translucide(true))
-	combat.reanime.connect(func(): _rendre_translucide(false))
 
 
 ## Place le personnage à un endroit et en fait son point de réapparition.
@@ -74,6 +105,9 @@ func placer(position_monde: Vector3, orientation: float = 0.0) -> void:
 	rotation.y = orientation
 	_point_depart = position_monde
 	velocity = Vector3.ZERO
+	position_reseau = position_monde
+	lacet_reseau = orientation
+	_place = true
 	camera.recentrer()
 	reset_physics_interpolation()
 
@@ -84,7 +118,8 @@ func est_en_esquive() -> bool:
 
 ## Vrai si le personnage se déplace (ce qui interrompt les incantations).
 func bouge() -> bool:
-	return Vector2(velocity.x, velocity.z).length() > 0.5 or not is_on_floor()
+	var v := velocity if est_local() else vitesse_reseau
+	return Vector2(v.x, v.z).length() > 0.5 or absf(v.y) > 1.0
 
 
 ## Compétence « Bond » : fonce vers la cible puis appelle « a_l_arrivee ».
@@ -96,12 +131,56 @@ func bondir_vers(cible: Node3D, a_l_arrivee: Callable) -> void:
 
 
 ## Désynchronisé (mort) : le personnage devient une silhouette translucide.
+var _translucide := false
 func _rendre_translucide(oui: bool) -> void:
+	if oui == _translucide:
+		return
+	_translucide = oui
 	for n in apparence.find_children("*", "GeometryInstance3D", true, false):
 		(n as GeometryInstance3D).transparency = 0.65 if oui else 0.0
 
 
+## Le serveur demande de déplacer le personnage (réapparition…).
+@rpc("any_peer", "call_remote", "reliable")
+func teleporter(position_monde: Vector3, orientation: float) -> void:
+	if multiplayer.get_remote_sender_id() not in [0, 1]:
+		return
+	placer(position_monde, orientation)
+
+
+## Envoie notre état aux autres joueurs (via le nœud Synchro).
+func _publier() -> void:
+	position_reseau = global_position
+	lacet_reseau = rotation.y
+	vitesse_reseau = velocity
+	esquive_reseau = 1.0 - _temps_esquive / duree_esquive if _temps_esquive > 0.0 else -1.0
+	direction_esquive_reseau = transform.basis.inverse() * _direction_esquive
+
+
+## Personnage d'un autre joueur : on le fait glisser vers la position reçue.
+func _suivre_le_reseau(delta: float) -> void:
+	if position_reseau == Vector3.ZERO:
+		return
+	if global_position.distance_to(position_reseau) > 6.0:
+		global_position = position_reseau
+		reset_physics_interpolation()
+	else:
+		global_position = global_position.lerp(position_reseau, clampf(15.0 * delta, 0.0, 1.0))
+	rotation.y = lerp_angle(rotation.y, lacet_reseau, clampf(15.0 * delta, 0.0, 1.0))
+	if apparence.has_method("animer"):
+		var vitesse_locale := transform.basis.inverse() * Vector3(vitesse_reseau.x, 0.0, vitesse_reseau.z)
+		apparence.animer(delta, vitesse_locale, absf(vitesse_reseau.y) < 1.0, esquive_reseau,
+				direction_esquive_reseau)
+
+
 func _physics_process(delta: float) -> void:
+	_rendre_translucide(not combat.est_vivant())
+	if not est_local():
+		_suivre_le_reseau(delta)
+		return
+	if not _place and position_reseau != Vector3.ZERO:
+		placer(position_reseau, lacet_reseau)
+	_publier()
 	if not combat.est_vivant():
 		velocity.x = 0.0
 		velocity.z = 0.0
@@ -171,6 +250,8 @@ func _physics_process(delta: float) -> void:
 
 	move_and_slide()
 
+	_publier()
+
 	# 6. Sécurité : si on tombe hors du monde, on revient au départ.
 	if global_position.y < altitude_minimum:
 		placer(_point_depart, rotation.y)
@@ -206,5 +287,6 @@ func _bondir(delta: float) -> void:
 	velocity.z = v.z
 	velocity.y -= gravite * delta
 	move_and_slide()
+	_publier()
 	if apparence.has_method("animer"):
 		apparence.animer(delta, Vector3(0, 0, -24.0), false, -1.0, Vector3.ZERO)

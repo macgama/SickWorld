@@ -13,7 +13,8 @@ const SCENE_LOUP := preload("res://scenes/ennemis/loup.tscn")
 
 
 func _ready() -> void:
-	if Engine.is_editor_hint():
+	# Seul le serveur crée les loups ; les joueurs les reçoivent automatiquement.
+	if Engine.is_editor_hint() or not multiplayer.is_server():
 		return
 	# On attend que le terrain soit construit.
 	_peupler.call_deferred()
@@ -21,6 +22,9 @@ func _ready() -> void:
 
 func _peupler() -> void:
 	var terrain := _trouver_terrain()
+	var dossier := get_tree().get_first_node_in_group("dossier_loups")
+	if dossier == null:
+		dossier = get_parent()
 	for i in nombre:
 		var angle := TAU * i / nombre + randf() * 0.5
 		var p := global_position + Vector3(cos(angle), 0, sin(angle)) * rayon * randf_range(0.4, 1.0)
@@ -28,10 +32,11 @@ func _peupler() -> void:
 			p.y = terrain.hauteur(p.x, p.z) + 0.3
 		var loup: Loup = SCENE_LOUP.instantiate()
 		loup.name = "%s_Loup%d" % [name, i + 1]
-		get_parent().add_child(loup)
-		loup.global_position = p
+		loup.position = p
 		loup.camp = p
+		loup.position_reseau = p
 		loup.rotation.y = randf() * TAU
+		dossier.add_child(loup)
 
 
 func _trouver_terrain() -> Node:

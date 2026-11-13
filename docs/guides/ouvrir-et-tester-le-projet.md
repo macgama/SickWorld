@@ -22,7 +22,8 @@ Les fois suivantes, le projet SickWorld apparaît directement dans la liste : do
 
 ## 3. Jouer
 
-- Appuie sur **F5** (ou le bouton ▶ en haut à droite). Une fenêtre de jeu s'ouvre.
+- Appuie sur **F5** (ou le bouton ▶ en haut à droite). Une fenêtre de jeu s'ouvre sur le menu.
+- Tape le nom de ton personnage et clique sur **Jouer seul**. (Pour jouer à plusieurs, voir [Jouer à plusieurs](jouer-a-plusieurs.md).)
 - Le terrain est fabriqué au lancement : il peut y avoir 2 à 5 secondes d'écran gris au démarrage, c'est normal.
 - Pour quitter : ferme la fenêtre ou appuie sur **F8** dans Godot.
 

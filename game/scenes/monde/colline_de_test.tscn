@@ -1,10 +1,10 @@
 [gd_scene load_steps=10 format=3]
 
 [ext_resource type="Script" path="res://scripts/monde/colline_de_test.gd" id="1_colline"]
-[ext_resource type="PackedScene" path="res://scenes/joueur/joueur.tscn" id="2_joueur"]
 [ext_resource type="Script" path="res://scripts/interface/hud.gd" id="3_hud"]
 [ext_resource type="Script" path="res://scripts/monde/balise_vigie.gd" id="4_balise"]
 [ext_resource type="Script" path="res://scripts/monde/camp_de_loups.gd" id="5_camp"]
+[ext_resource type="Script" path="res://scripts/monde/partie.gd" id="6_partie"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ciel"]
 sky_top_color = Color(0.32, 0.5, 0.78, 1)
@@ -34,6 +34,21 @@ fog_sky_affect = 0.3
 [node name="CollineDeTest" type="Node3D"]
 script = ExtResource("1_colline")
 
+[node name="Partie" type="Node3D" parent="."]
+script = ExtResource("6_partie")
+
+[node name="Joueurs" type="Node3D" parent="Partie"]
+
+[node name="Loups" type="Node3D" parent="Partie"]
+
+[node name="SpawnerJoueurs" type="MultiplayerSpawner" parent="Partie"]
+_spawnable_scenes = PackedStringArray("res://scenes/joueur/joueur.tscn")
+spawn_path = NodePath("../Joueurs")
+
+[node name="SpawnerLoups" type="MultiplayerSpawner" parent="Partie"]
+_spawnable_scenes = PackedStringArray("res://scenes/ennemis/loup.tscn")
+spawn_path = NodePath("../Loups")
+
 [node name="Environnement" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_monde")
 camera_attributes = SubResource("CameraAttributesPractical_monde")
@@ -44,9 +59,6 @@ light_color = Color(1, 0.96, 0.88, 1)
 light_energy = 1.3
 shadow_enabled = true
 directional_shadow_max_distance = 120.0
-
-[node name="Joueur" parent="." instance=ExtResource("2_joueur")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 55)
 
 [node name="Interface" type="CanvasLayer" parent="."]
 script = ExtResource("3_hud")

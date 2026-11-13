@@ -27,9 +27,16 @@ var effets := {}
 var menace := {}
 var dernier_moment_de_combat := -1000.0
 
+## Copie simplifiée des effets, envoyée par le serveur aux joueurs pour l'affichage :
+## id de l'effet -> secondes restantes.
+var effets_affiches := {}
+## Ralentissement actuel, envoyé par le serveur (les joueurs n'ont pas le détail des effets).
+var vitesse_synchro := 1.0
+
 
 func _ready() -> void:
-	pv = pv_max
+	if multiplayer.is_server():
+		pv = pv_max
 	acteur().add_to_group("combattants")
 
 
@@ -113,11 +120,15 @@ func retirer_effet(id: String) -> void:
 
 
 func a_effet(id: String) -> bool:
+	if not multiplayer.is_server():
+		return effets_affiches.has(id)
 	return effets.has(id)
 
 
 ## Ralentissements : on garde le plus fort.
 func multiplicateur_vitesse() -> float:
+	if not multiplayer.is_server():
+		return vitesse_synchro
 	var m := 1.0
 	for effet in effets.values():
 		m = minf(m, float(effet.get("vitesse", 1.0)))
@@ -145,6 +156,9 @@ func plus_menacant() -> Combattant:
 
 
 func _process(_delta: float) -> void:
+	if not multiplayer.is_server():
+		return
+	_publier_effets()
 	if effets.is_empty():
 		return
 	var t := Regles.maintenant()
@@ -163,3 +177,16 @@ func _process(_delta: float) -> void:
 				Regles.soigner(source, self, float(effet["soin_par_seconde"]))
 		if effets.has(id) and t >= float(effet["fin"]):
 			effets.erase(id)
+
+
+## Prépare la version simplifiée des effets envoyée aux joueurs.
+func _publier_effets() -> void:
+	var t := Regles.maintenant()
+	var resume := {}
+	for id in effets:
+		resume[id] = int(ceil(float(effets[id]["fin"]) - t))
+	if resume != effets_affiches:
+		effets_affiches = resume
+	var v := multiplicateur_vitesse()
+	if not is_equal_approx(v, vitesse_synchro):
+		vitesse_synchro = v
