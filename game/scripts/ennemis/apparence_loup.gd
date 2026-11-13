@@ -17,6 +17,19 @@ func _ready() -> void:
 	for enfant in get_children():
 		enfant.queue_free()
 	_construire()
+	var parent := get_parent()
+	if parent != null and str(parent.get("type_ennemi")).begins_with("ours"):
+		_en_ours()
+
+
+## L'Ours Sans Mémoire : la même silhouette, massive, au pelage brun sombre.
+func _en_ours() -> void:
+	scale = Vector3(2.5, 2.4, 2.2)
+	if _materiaux.size() >= 2:
+		_materiaux[0].albedo_color = Color(0.2, 0.14, 0.1)
+		_materiaux[1].albedo_color = Color(0.3, 0.22, 0.15)
+	if _queue != null:
+		_queue.scale = Vector3.ONE * 0.3
 
 
 func _mat(couleur: Color) -> StandardMaterial3D:

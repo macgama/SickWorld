@@ -1,5 +1,5 @@
 {
-	"_aide": "Quête principale de la Préhistoire : « Ce que les murs se rappellent ». Les étapes se jouent dans l'ordre. Types d'étape : pnj (parler), zone (aller à un endroit [x, z]), objet (utiliser avec F ; duree = secondes à rester immobile), tuer (type d'ennemi + nombre), recolter (ramasser plusieurs objets d'un même groupe), arriver (passer dans une autre zone). « ou » = zone où se passe l'étape (cote_gelee, steppe). « recit » = petit texte raconté à l'écran à la fin de l'étape. « portail » = l'étape se termine en passant le portail de la Vigie. « escorte » = personnages à accompagner le long de « chemin » (ils avancent si on reste près d'eux ; « vagues » = ennemis qui attaquent en route). Effets : « tempete » (vrai/faux), « masquer » (un personnage s'en va). « recompense » = objets donnés à la fin de l'étape. Pour changer un texte, modifie ce qui est entre guillemets. Garde les virgules.",
+	"_aide": "Quête principale de la Préhistoire : « Ce que les murs se rappellent ». Les étapes se jouent dans l'ordre. Types d'étape : pnj (parler), zone (aller à un endroit [x, z]), objet (utiliser avec F ; duree = secondes à rester immobile), tuer (type d'ennemi + nombre), recolter (ramasser plusieurs objets d'un même groupe), arriver (passer dans une autre zone). « ou » = zone où se passe l'étape (cote_gelee, steppe). « recit » = petit texte raconté à l'écran à la fin de l'étape. « portail » = l'étape se termine en passant le portail de la Vigie. « escorte » = personnages à accompagner le long de « chemin » (ils avancent si on reste près d'eux ; « vagues » = ennemis qui attaquent en route). « phases » = un boss appelle des renforts quand sa vie passe sous un seuil (0 à 1). Effets : « estomper » (une peinture pâlit), « tempete » (vrai/faux), « masquer » (un personnage s'en va). « recompense » = objets donnés à la fin de l'étape. Pour changer un texte, modifie ce qui est entre guillemets. Garde les virgules.",
 	"zones": {
 		"cote_gelee": {
 			"scene": "res://scenes/monde/prehistoire/cote_gelee.tscn",
@@ -31,6 +31,14 @@
 				"titre": "Les Falaises Peintes",
 				"sous_titre": "Préhistoire · il y a environ 17 000 ans",
 				"texte": "La vallée s'ouvre sur une immense muraille de calcaire. Au pied de la falaise, sous un surplomb, la fumée d'anciens foyers a noirci la roche. C'est ici que le clan passe l'hiver."
+			}
+		},
+		"grotte": {
+			"scene": "res://scenes/monde/prehistoire/grotte.tscn",
+			"arrivee": {
+				"titre": "La Grande Grotte",
+				"sous_titre": "Donjon · niveau 10 · conseillé à 5",
+				"texte": "L'air est froid et immobile. Ta torche fait danser les ombres sur la roche. Très loin, au fond, quelque chose respire."
 			}
 		}
 	},
@@ -239,6 +247,17 @@
 				],
 				"nombre": 2,
 				"rayon": 4
+			}
+		],
+		"grotte": [
+			{
+				"type": "loup_fracture",
+				"position": [
+					0,
+					62
+				],
+				"nombre": 2,
+				"rayon": 5
 			}
 		]
 	},
@@ -944,12 +963,250 @@
 					"fin_chapitre": true
 				}
 			]
+		},
+		{
+			"numero": 7,
+			"titre": "Les murs vides",
+			"ou": "falaises",
+			"etapes": [
+				{
+					"id": "murs_vides",
+					"objectif": "Parle à Aïna, devant les peintures de l'abri",
+					"pnj": "aina",
+					"repliques": [
+						"Regarde. Le grand bison... il pâlit. Hier il était rouge comme le sang. Ce matin, on le voit à peine.",
+						"Les chevaux aussi s'effacent. C'est la lumière violette : elle mange les images, comme dans mon rêve.",
+						"Nos peintures, c'est notre mémoire. Si elles disparaissent, nous oublierons qui nous sommes.",
+						"Le souffle violet sort de la Grande Grotte, à l'est. La source est tout au fond. Je le sens.",
+						"Mais personne n'entre là-dedans sans lumière. Il nous faut des torches de résine."
+					],
+					"apres": [
+						{
+							"estomper": "fresque_abri",
+							"force": 0.35
+						}
+					]
+				},
+				{
+					"id": "resine",
+					"objectif": "Gratte la résine des troncs morts de la vallée",
+					"recolter": "resine",
+					"nombre": 3,
+					"duree": 2,
+					"action": "Tu grattes la résine…"
+				},
+				{
+					"id": "torches",
+					"objectif": "Apporte la résine à la Vieille Mère",
+					"pnj": "vieille_mere",
+					"repliques": [
+						"De la bonne résine, bien collante. Donne. Mes mains savent faire les torches depuis toujours.",
+						"Écoute ce que racontaient les anciens. Au fond de la Grande Grotte dort un ours, plus grand que trois hommes.",
+						"On l'appelle l'Ours Sans Mémoire. Il a oublié son nom, sa mère, la forme de son corps. Il ne lui reste que la faim.",
+						"Si la lumière violette l'a trouvé... alors c'est lui qui mange nos images.",
+						"Prends ces torches. Elles brûlent longtemps. Et ne va pas seul."
+					],
+					"recompense": [
+						{
+							"id": "torche_resine",
+							"n": 3,
+							"nom": "Torches de résine ×3"
+						}
+					]
+				},
+				{
+					"id": "recruter_toran",
+					"objectif": "Demande à Toran de t'accompagner dans la grotte",
+					"pnj": "toran",
+					"repliques": [
+						"La Grande Grotte ? Mon père y est entré une fois. Il en est ressorti sans un mot, et il n'a plus jamais chassé.",
+						"...Mais tu as sauvé Kéo. Tu as ramené le clan à travers la tempête. Je te dois ça.",
+						"Naya vient avec nous. Elle vise mieux que moi, ne le lui répète pas.",
+						"On t'attend devant l'entrée de la grotte. Prends le temps qu'il faut. Et prépare-toi : au fond, on sera peut-être plus de deux à en avoir besoin."
+					],
+					"apres": [
+						{
+							"pnj": "toran",
+							"aller": [
+								72,
+								-30
+							]
+						},
+						{
+							"pnj": "chasseuse_naya",
+							"aller": [
+								80,
+								-29
+							]
+						}
+					]
+				},
+				{
+					"id": "devant_la_grotte",
+					"objectif": "Rejoins Toran et Naya devant la Grande Grotte",
+					"zone": [
+						76,
+						-32
+					],
+					"rayon": 5,
+					"fin_chapitre": true
+				}
+			]
+		},
+		{
+			"numero": 8,
+			"titre": "Ce que les murs se rappellent",
+			"ou": "grotte",
+			"etapes": [
+				{
+					"id": "entrer_grotte",
+					"ou": "falaises",
+					"objectif": "Entre dans la Grande Grotte (donjon : venez à plusieurs)",
+					"arriver": "grotte"
+				},
+				{
+					"id": "galerie",
+					"objectif": "Traverse la galerie des peintures : des souvenirs fracturés la hantent",
+					"tuer": "loup_fracture_grotte",
+					"nombre": 4,
+					"lieu": [
+						-34,
+						18
+					],
+					"apparition": {
+						"type": "loup_fracture_grotte",
+						"position": [
+							-34,
+							18
+						],
+						"nombre": 4,
+						"rayon": 7,
+						"attaque": false
+					}
+				},
+				{
+					"id": "cristaux",
+					"objectif": "Libère la salle des cristaux",
+					"tuer": "loup_fracture_grotte",
+					"nombre": 4,
+					"lieu": [
+						14,
+						-24
+					],
+					"apparition": {
+						"type": "loup_fracture_grotte",
+						"position": [
+							14,
+							-24
+						],
+						"nombre": 4,
+						"rayon": 6,
+						"attaque": false
+					}
+				},
+				{
+					"id": "ours",
+					"objectif": "Affronte l'Ours Sans Mémoire",
+					"tuer": "ours_sans_memoire",
+					"nombre": 1,
+					"lieu": [
+						0,
+						-84
+					],
+					"apparition": {
+						"type": "ours_sans_memoire",
+						"position": [
+							0,
+							-86
+						],
+						"nombre": 1,
+						"rayon": 0.5,
+						"attaque": false
+					},
+					"phases": [
+						{
+							"seuil": 0.66,
+							"annonce": "L'Ours rugit",
+							"texte": "Ses souvenirs déchirés prennent forme autour de lui !",
+							"apparition": {
+								"type": "loup_fracture_grotte",
+								"position": [
+									0,
+									-74
+								],
+								"nombre": 3,
+								"rayon": 6,
+								"attaque": true
+							}
+						},
+						{
+							"seuil": 0.33,
+							"annonce": "L'Ours vacille",
+							"texte": "La fracture le pousse à bout : d'autres souvenirs surgissent !",
+							"apparition": {
+								"type": "loup_fracture_grotte",
+								"position": [
+									0,
+									-74
+								],
+								"nombre": 4,
+								"rayon": 7,
+								"attaque": true
+							}
+						}
+					],
+					"recit": {
+						"titre": "L'Ours Sans Mémoire est vaincu",
+						"texte": "Le géant s'effondre. Un instant, ses yeux redeviennent bruns, calmes... puis il s'endort pour de bon. Derrière lui, la fracture majeure tremble."
+					}
+				},
+				{
+					"id": "fermer_fracture",
+					"objectif": "Referme la fracture majeure (reste immobile)",
+					"objet": "fracture_majeure",
+					"duree": 6,
+					"action": "La fracture majeure se referme…",
+					"apres": [
+						{
+							"cacher": "fracture_majeure"
+						}
+					],
+					"recompense": [
+						{
+							"id": "griffe_sans_memoire",
+							"nom": "Griffe de l'Ours Sans Mémoire"
+						}
+					]
+				},
+				{
+					"id": "fresque_finale",
+					"ou": "falaises",
+					"objectif": "Retourne à l'abri : Aïna t'attend devant la paroi",
+					"pnj": "aina",
+					"repliques": [
+						"Tu es revenu. Regarde... regarde les murs !",
+						"Le grand bison est rouge de nouveau. Les chevaux courent. Tout est revenu, d'un coup, quand la lumière violette s'est éteinte.",
+						"J'ai ajouté quelque chose cette nuit. Là, au milieu des bêtes : un homme dans un cercle. C'est toi, Venu-du-Brouillard.",
+						"Comme ça, même quand tu seras reparti dans ton brouillard, les enfants de nos enfants se souviendront.",
+						"Les murs se rappellent. Grâce à toi."
+					],
+					"apres": [
+						{
+							"masquer": "fresque_abri"
+						},
+						{
+							"montrer": "fresque_voyageur"
+						}
+					],
+					"fin_chapitre": true
+				}
+			]
 		}
 	],
 	"fin_provisoire": {
-		"chapitre": "LA SUITE ARRIVE BIENTÔT",
-		"objectif": "Le chapitre 7, « Les murs vides », arrive dans une prochaine mise à jour",
-		"titre": "Les murs vides",
-		"message": "Dans l'abri, à la lueur du feu, une peinture s'efface lentement..."
+		"chapitre": "L'ÎLE DE LA PRÉHISTOIRE EST SAUVÉE",
+		"objectif": "Retourne au QG de la Vigie : la prochaine île arrive bientôt",
+		"titre": "Ce que les murs se rappellent",
+		"message": "La fracture majeure est refermée. À Hikari Bay, les fresques du musée réapparaissent... et les chiens reviennent dans les rues."
 	}
 }

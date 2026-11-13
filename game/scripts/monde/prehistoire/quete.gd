@@ -316,6 +316,11 @@ func _appliquer_effet(effet: Dictionary, anime: bool) -> void:
 		for n in get_tree().get_nodes_in_group("pnj") + get_tree().get_nodes_in_group("decor_quete"):
 			if n.get("identifiant") == effet["masquer"] or n.get_meta("identifiant", "") == effet["masquer"]:
 				n.visible = false
+	if effet.has("estomper"):
+		# Une peinture pâlit (force 1 = intacte, 0 = effacée).
+		for n in get_tree().get_nodes_in_group("decor_quete"):
+			if n.get_meta("identifiant", "") == effet["estomper"] and n is Decal:
+				(n as Decal).modulate.a = float(effet.get("force", 0.5))
 	if effet.has("tempete"):
 		var ile := get_tree().get_first_node_in_group("ile")
 		if ile != null and ile.has_method("tempete"):
@@ -528,6 +533,8 @@ func _process(delta: float) -> void:
 	var e := etape_actuelle()
 	if e.has("escorte") and _ici(e) and not _en_voyage:
 		_avancer_escorte(e, delta)
+	if e.has("phases") and _ici(e):
+		_surveiller_phases(e)
 	var cible = _position_cible(e)
 	var joueur := get_tree().get_first_node_in_group("joueur_local") as Node3D
 	_repere.visible = cible != null and not _en_voyage
@@ -905,6 +912,27 @@ func _avancer_escorte(e: Dictionary, delta: float) -> void:
 			_annoncer(vagues[i]["annonce"], "")
 	if escorte_distance >= longueur and not menace:
 		_suivante()
+
+
+## Un boss change de phase quand ses points de vie passent sous un seuil :
+## il appelle des renforts (« phases » : seuil de 0 à 1, apparition, annonce).
+func _surveiller_phases(e: Dictionary) -> void:
+	var boss = null
+	for bete in get_tree().get_nodes_in_group("loups"):
+		if String(bete.type_ennemi) == String(e.get("tuer", "")) and bete.combat.est_vivant():
+			boss = bete
+	if boss == null or boss.combat.pv_max <= 0.0:
+		return
+	var part: float = boss.combat.pv / boss.combat.pv_max
+	var phases: Array = e["phases"]
+	for i in phases.size():
+		if i in _vagues_faites or part > float(phases[i].get("seuil", 0.5)):
+			continue
+		_vagues_faites.append(i)
+		if phases[i].has("annonce"):
+			_annoncer(phases[i]["annonce"], phases[i].get("texte", ""))
+		if multiplayer.is_server() and phases[i].has("apparition"):
+			_faire_apparaitre(phases[i]["apparition"], true)
 
 
 func _point_sur_chemin(points: Array[Vector2], d: float) -> Vector2:

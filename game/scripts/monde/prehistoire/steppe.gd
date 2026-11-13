@@ -93,7 +93,7 @@ func sortie_vers(zone: String) -> Vector2:
 		return COL + Vector2(0, -2)
 	if zone == "foret":
 		return PASSE_EST + Vector2(-6, 0)
-	if zone == "falaises":
+	if zone == "falaises" or zone == "grotte":
 		return PASSE_NORD + Vector2(0, 4)
 	return Vector2.INF
 

@@ -274,6 +274,14 @@
 				"couleur": "#5a3d28"
 			}
 		},
+		"torche_resine": {
+			"nom": "Torche de résine",
+			"type": "materiau",
+			"rarete": "raffine",
+			"description": "Faite par la Vieille Mère. Elle brûle longtemps dans le noir des grottes.",
+			"pile": 10,
+			"epoque": "Préhistoire"
+		},
 		"lance_silex": {
 			"nom": "Lance à pointe de silex",
 			"type": "equipement",
@@ -350,6 +358,18 @@
 			"visuel": {
 				"forme": "collier",
 				"couleur": "#f0d8c0"
+			}
+		},
+		"griffe_sans_memoire": {
+			"nom": "Griffe de l'Ours Sans Mémoire",
+			"type": "equipement",
+			"rarete": "historique",
+			"description": "Une griffe longue comme une main, encore tiède. Ceux qui la portent n'oublient rien.",
+			"emplacement": "relique",
+			"epoque": "Préhistoire",
+			"stats": {
+				"pv": 60,
+				"degats_pourcent": 8
 			}
 		},
 		"propulseur_sculpte": {
