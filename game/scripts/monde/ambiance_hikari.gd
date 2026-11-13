@@ -52,6 +52,19 @@ const PROJECTEURS := [
 	# Terminal des ferries.
 	[Vector3(-42, 10, 76), Vector3(-40, 0, 80), Color(1.0, 0.85, 0.66), 30.0],
 	[Vector3(-28, 10, 76), Vector3(-30, 0, 80), Color(1.0, 0.85, 0.66), 30.0],
+	# Marché de nuit : rue d'approche puis ruelle principale (lumière chaude
+	# des lanternes, portée courte).
+	[Vector3(-20, 8, -60), Vector3(-20, 0, -64), Color(1.0, 0.8, 0.6), 20.0, 16.0, 44.0],
+	[Vector3(-20, 7, -78), Vector3(-20, 0, -82), Color(1.0, 0.62, 0.45), 16.0, 14.0, 44.0],
+	[Vector3(-20, 7, -94), Vector3(-20, 0, -98), Color(1.0, 0.62, 0.45), 16.0, 14.0, 44.0],
+	[Vector3(-20, 7, -110), Vector3(-20, 0, -114), Color(1.0, 0.62, 0.45), 16.0, 14.0, 44.0],
+	[Vector3(-37, 7, -99.5), Vector3(-37, 0, -99.5), Color(1.0, 0.55, 0.4), 14.0, 12.0, 44.0],
+	# Promenade du front de mer.
+	[Vector3(-22, 9, 68), Vector3(-20, 0, 72), Color(1.0, 0.84, 0.66), 26.0],
+	[Vector3(-6, 9, 68), Vector3(-4, 0, 72), Color(0.85, 0.9, 1.0), 26.0],
+	# Hall de la Résidence Sakura (plafonniers chauds, faible portée).
+	[Vector3(-93, 4.6, 23), Vector3(-93, 0, 23.2), Color(1.0, 0.86, 0.68), 12.0, 8.0, 70.0, 0.0],
+	[Vector3(-85, 4.6, 23), Vector3(-85, 0, 23.2), Color(1.0, 0.86, 0.68), 12.0, 8.0, 70.0, 0.0],
 	# Arène de la baie : quai d'accès, puis les quatre mâts d'éclairage du stade
 	# (portée et ouverture plus grandes, peu de halo dans le brouillard :
 	# [.., portée, angle, brouillard]).
@@ -70,6 +83,10 @@ const SONDES := [
 	[Vector3(-99, 10, 0), Vector3(60, 36, 62)],
 	[Vector3(-35, 10, 90), Vector3(36, 30, 36)],
 	[Vector3(125, 12, 102), Vector3(54, 40, 58)],
+	# Intérieurs (3e valeur = sonde d'intérieur, sans ciel) : hall de la
+	# Résidence Sakura, appartement 1204.
+	[Vector3(-89, 2.4, 23), Vector3(18, 4.8, 12), true],
+	[Vector3(-89, 41.5, 23.5), Vector3(14, 3.0, 9), true],
 ]
 
 
@@ -110,11 +127,25 @@ func _construire_eclairage() -> void:
 		sonde.position = s[0]
 		sonde.size = s[1]
 		sonde.box_projection = true
+		sonde.interior = s.size() > 2 and s[2]
+		sonde.max_distance = 30.0 if sonde.interior else 400.0
 		sonde.update_mode = ReflectionProbe.UPDATE_ONCE
-		sonde.max_distance = 400.0
 		sonde.mesh_lod_threshold = 4.0
 		add_child(sonde)
 		_sondes.append(sonde)
+		# Pas de brouillard de rue à l'intérieur (sinon la pièce paraît voilée).
+		if sonde.interior:
+			# Lumière ambiante d'une pièce fermée (pas celle du ciel).
+			sonde.ambient_mode = ReflectionProbe.AMBIENT_COLOR
+			sonde.ambient_color = Color(0.09, 0.075, 0.06)
+			var sans_brume := FogVolume.new()
+			sans_brume.shape = RenderingServer.FOG_VOLUME_SHAPE_BOX
+			sans_brume.size = s[1]
+			sans_brume.position = s[0]
+			var fm := FogMaterial.new()
+			fm.density = -1.0
+			sans_brume.material = fm
+			add_child(sans_brume)
 
 
 # --- Pluie ---------------------------------------------------------------
