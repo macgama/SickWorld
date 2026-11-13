@@ -498,6 +498,8 @@ func _logique_serveur(delta: float, t: float) -> void:
 	# Hors combat : la vie remonte, l'Élan redescend.
 	if combat.est_vivant() and not combat.en_combat():
 		var regen := float(_reglages.get("regeneration_hors_combat_pourcent", 4)) / 100.0
+		regen *= 1.0 + FichePersonnage.bonus(joueur.fiche.donnees, Donnees.creation,
+				"regeneration_hors_combat_pourcent") / 100.0
 		if combat.pv < combat.pv_max:
 			combat.soigner(combat.pv_max * regen * delta)
 		elan = maxf(0.0, elan - float(_reglages.get("perte_elan_hors_combat", 5)) * delta)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3]
+[gd_scene load_steps=14 format=3]
 
 [ext_resource type="Script" path="res://scripts/joueur/joueur.gd" id="1_joueur"]
 [ext_resource type="Script" path="res://scripts/joueur/camera_joueur.gd" id="2_camera"]
@@ -6,6 +6,7 @@
 
 [ext_resource type="Script" path="res://scripts/combat/combattant.gd" id="4_combat"]
 [ext_resource type="Script" path="res://scripts/combat/combat_joueur.gd" id="5_combat_joueur"]
+[ext_resource type="Script" path="res://scripts/personnage/fiche_joueur.gd" id="6_fiche"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_corps"]
 radius = 0.35
@@ -62,6 +63,11 @@ properties/0/path = NodePath(".:elan")
 properties/0/spawn = true
 properties/0/replication_mode = 2
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_fiche"]
+properties/0/path = NodePath(".:donnees")
+properties/0/spawn = true
+properties/0/replication_mode = 2
+
 [node name="Joueur" type="CharacterBody3D"]
 collision_layer = 2
 collision_mask = 3
@@ -106,3 +112,10 @@ replication_config = SubResource("SceneReplicationConfig_elan")
 [node name="Synchro" type="MultiplayerSynchronizer" parent="."]
 replication_interval = 0.05
 replication_config = SubResource("SceneReplicationConfig_joueur")
+
+[node name="Fiche" type="Node" parent="."]
+script = ExtResource("6_fiche")
+
+[node name="Synchro" type="MultiplayerSynchronizer" parent="Fiche"]
+replication_interval = 0.5
+replication_config = SubResource("SceneReplicationConfig_fiche")

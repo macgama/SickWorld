@@ -1,9 +1,11 @@
 extends Control
-## Menu de départ : choisir son nom, puis jouer seul, héberger une partie ou en rejoindre une.
+## Menu de départ : créer (ou modifier) son personnage, puis jouer seul,
+## héberger une partie ou en rejoindre une.
 
 const FICHIER_REGLAGES := "user://reglages.cfg"
+const SCENE_CREATION := "res://scenes/interface/creation_personnage.tscn"
 
-var _nom: LineEdit
+var _a_un_personnage := false
 var _adresse: LineEdit
 var _port: SpinBox
 var _message: Label
@@ -49,15 +51,31 @@ func _construire() -> void:
 	colonne.add_child(sous_titre)
 	colonne.add_child(HSeparator.new())
 
-	colonne.add_child(_etiquette("Nom de ton personnage"))
-	_nom = LineEdit.new()
-	_nom.max_length = 20
-	_nom.text = reglages.get_value("joueur", "nom", "Agent")
-	colonne.add_child(_nom)
+	# Le personnage : résumé + bouton pour le créer ou le modifier.
+	var fiche := FichePersonnage.charger(Donnees.creation)
+	_a_un_personnage = not fiche.is_empty()
+	var resume := Label.new()
+	resume.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	resume.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	if _a_un_personnage:
+		Reseau.fiche = fiche
+		Reseau.nom_joueur = fiche["nom"]
+		var classe := FichePersonnage.element(Donnees.creation, "classes", fiche["classe"])
+		var origine := FichePersonnage.element(Donnees.creation, "origines", fiche["origine"])
+		resume.text = "%s\n%s · originaire de %s" % [fiche["nom"], classe.get("nom", ""), origine.get("nom", "")]
+		resume.add_theme_font_size_override("font_size", 20)
+	else:
+		resume.text = "Crée ton agent de la Vigie pour commencer."
+	colonne.add_child(resume)
+	colonne.add_child(_bouton("Modifier mon personnage" if _a_un_personnage else "Créer mon personnage",
+			func(): get_tree().change_scene_to_file(SCENE_CREATION)))
+	colonne.add_child(HSeparator.new())
 
-	colonne.add_child(_bouton("Jouer seul", func(): _lancer(Reseau.Mode.SEUL)))
-	colonne.add_child(_bouton("Héberger une partie (tes amis te rejoignent)",
-			func(): _lancer(Reseau.Mode.HEBERGER)))
+	var jouer := _bouton("Jouer seul", func(): _lancer(Reseau.Mode.SEUL))
+	var heberger := _bouton("Héberger une partie (tes amis te rejoignent)",
+			func(): _lancer(Reseau.Mode.HEBERGER))
+	colonne.add_child(jouer)
+	colonne.add_child(heberger)
 	colonne.add_child(HSeparator.new())
 
 	colonne.add_child(_etiquette("Rejoindre une partie : adresse du serveur"))
@@ -73,7 +91,10 @@ func _construire() -> void:
 	_port.value = reglages.get_value("reseau", "port", Reseau.PORT_PAR_DEFAUT)
 	ligne.add_child(_port)
 	colonne.add_child(ligne)
-	colonne.add_child(_bouton("Rejoindre", func(): _lancer(Reseau.Mode.REJOINDRE)))
+	var rejoindre := _bouton("Rejoindre", func(): _lancer(Reseau.Mode.REJOINDRE))
+	colonne.add_child(rejoindre)
+	for b in [jouer, heberger, rejoindre]:
+		b.disabled = not _a_un_personnage
 
 	_message = Label.new()
 	_message.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -83,6 +104,13 @@ func _construire() -> void:
 	if Reseau.has_meta("message_menu"):
 		Reseau.remove_meta("message_menu")
 	colonne.add_child(_message)
+	if Reseau.has_meta("message_menu_ok"):
+		var ok := Label.new()
+		ok.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		ok.add_theme_color_override("font_color", Color(0.5, 0.9, 0.6))
+		ok.text = String(Reseau.get_meta("message_menu_ok"))
+		Reseau.remove_meta("message_menu_ok")
+		colonne.add_child(ok)
 
 
 func _etiquette(texte: String) -> Label:
@@ -101,12 +129,10 @@ func _bouton(texte: String, action: Callable) -> Button:
 
 func _lancer(mode: Reseau.Mode) -> void:
 	Reseau.mode = mode
-	if _nom != null:
-		Reseau.nom_joueur = _nom.text.strip_edges() if _nom.text.strip_edges() != "" else "Agent"
+	if _adresse != null:
 		Reseau.adresse = _adresse.text.strip_edges()
 		Reseau.port = int(_port.value)
 		var reglages := ConfigFile.new()
-		reglages.set_value("joueur", "nom", Reseau.nom_joueur)
 		reglages.set_value("reseau", "adresse", Reseau.adresse)
 		reglages.set_value("reseau", "port", Reseau.port)
 		reglages.save(FICHIER_REGLAGES)

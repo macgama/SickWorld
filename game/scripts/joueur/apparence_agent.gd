@@ -19,6 +19,12 @@ const ANIMATIONS := ["immobile", "courir", "reculer", "pas_gauche", "pas_droite"
 ## Vitesse (m/s) à laquelle chaque animation de déplacement est jouée à vitesse normale.
 const VITESSE_NATURELLE := {"courir": 5.0, "reculer": 2.0, "pas_gauche": 4.5, "pas_droite": 4.5}
 const FONDU := 0.18
+## Taille réelle des modèles MakeHuman (cm), pieds au sol, sans les cheveux.
+const TAILLE_MODELE := {"homme": 178.0, "femme": 168.0}
+## Taille de référence utilisée par l'écran de création pour cadrer la caméra.
+const TAILLE_REFERENCE := 180.0
+## Couleur de peau qui correspond à la texture MakeHuman (teinte neutre).
+const PEAU_DE_REFERENCE := Color(0.80, 0.62, 0.50)
 
 @export_enum("homme", "femme") var modele := "homme":
 	set(valeur):
@@ -33,6 +39,10 @@ const FONDU := 0.18
 
 ## Animations déjà préparées, partagées par tous les personnages du même modèle.
 static var _bibliotheques := {}
+
+## Dernière apparence reçue (dictionnaire de FichePersonnage.resoudre).
+var _apparence := {}
+var _materiau_peau: StandardMaterial3D
 
 var _corps: Node3D
 var _lecteur: AnimationPlayer
@@ -70,9 +80,15 @@ func _construire() -> void:
 	_corps.scale = Vector3.ONE * echelle
 	add_child(_corps)
 	_appliquer_materiaux()
+	_appliquer_teintes()
 	_lecteur = _corps.find_children("*", "AnimationPlayer", true, false)[0] as AnimationPlayer
 	_lecteur.add_animation_library("agent", _bibliotheque(modele))
+	_mort = false
 	_jouer("immobile", 0.0)
+	# Reconstruit pendant que le joueur est désynchronisé : on garde la translucidité.
+	if get_parent() != null and get_parent().get("_translucide") == true:
+		for n in _corps.find_children("*", "GeometryInstance3D", true, false):
+			(n as GeometryInstance3D).transparency = 0.65
 
 
 # ---------------------------------------------------------------------------
@@ -138,6 +154,54 @@ func _duree(nom: String) -> float:
 # ---------------------------------------------------------------------------
 # Interface utilisée par le Joueur
 # ---------------------------------------------------------------------------
+## Change l'apparence (dictionnaire produit par FichePersonnage.resoudre).
+## Gérés : sexe (modèle homme/femme), taille_cm (échelle), peau (teinte de la peau).
+## Ignorés pour l'instant (pas encore de variantes du modèle) : visage, yeux, cheveux,
+## coiffure, pilosité, couleurs de la tenue (une seule texture pour toute la tenue),
+## insigne, manteau, arme.
+func appliquer(apparence: Dictionary) -> void:
+	_apparence = apparence.duplicate()
+	var sexe := String(apparence.get("sexe", modele))
+	var nouveau_modele := "femme" if sexe == "femme" else "homme"
+	var taille := float(apparence.get("taille_cm", TAILLE_MODELE[nouveau_modele]))
+	echelle = clampf(taille / float(TAILLE_MODELE[nouveau_modele]), 0.5, 1.5)
+	if nouveau_modele != modele or _corps == null:
+		modele = nouveau_modele   # le setter reconstruit le personnage (avec les teintes)
+		if not is_inside_tree():
+			return
+	_appliquer_teintes()
+
+
+## Position du visage dans le monde (pour que la caméra de l'écran de création le cadre).
+func position_visage() -> Vector3:
+	var squelette := _squelette()
+	if squelette:
+		var os := squelette.find_bone("mixamorig_Head")
+		if os >= 0:
+			var tete := squelette.global_transform * squelette.get_bone_global_pose(os)
+			# L'os « Head » est à la base du crâne : le visage est un peu plus haut et devant.
+			return tete.origin + Vector3.UP * 0.09 * echelle
+	return global_position + Vector3.UP * 1.62 * echelle
+
+
+func _squelette() -> Skeleton3D:
+	if _corps == null:
+		return null
+	var trouves := _corps.find_children("*", "Skeleton3D", true, false)
+	return trouves[0] as Skeleton3D if not trouves.is_empty() else null
+
+
+func _appliquer_teintes() -> void:
+	if _materiau_peau == null or not _apparence.has("peau"):
+		return
+	var peau: Color = _apparence["peau"]
+	# La texture de peau correspond à PEAU_DE_REFERENCE : on la module par le rapport.
+	_materiau_peau.albedo_color = Color(
+			clampf(peau.r / PEAU_DE_REFERENCE.r, 0.15, 1.25),
+			clampf(peau.g / PEAU_DE_REFERENCE.g, 0.15, 1.25),
+			clampf(peau.b / PEAU_DE_REFERENCE.b, 0.15, 1.25))
+
+
 ## Coup (attaque de base ou compétence).
 func attaquer() -> void:
 	if _mort or _lecteur == null:
@@ -276,6 +340,7 @@ func _appliquer_materiaux() -> void:
 			m.subsurf_scatter_enabled = true
 			m.subsurf_scatter_strength = 0.25
 			m.subsurf_scatter_skin_mode = true
+			_materiau_peau = m
 		elif base.contains("poly"):
 			m.albedo_texture = _texture("", "_eye")
 			m.roughness = 0.15

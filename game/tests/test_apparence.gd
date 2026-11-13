@@ -84,5 +84,19 @@ func _lancer() -> void:
 	await _attendre(10)
 	_verifier(apparence._actuelle == "immobile", "se relève à la réanimation")
 
+	# La fiche du personnage choisit le modèle, la taille et la teinte de peau.
+	apparence.appliquer({"sexe": "femme", "taille_cm": 160.0, "peau": Color(0.45, 0.30, 0.22)})
+	await _attendre(5)
+	_verifier(apparence.modele == "femme", "la fiche choisit le modèle femme")
+	_verifier(absf(apparence.echelle - 160.0 / 168.0) < 0.01, "la taille règle l'échelle (%.2f)" % apparence.echelle)
+	var visage: Vector3 = apparence.position_visage()
+	var hauteur_visage: float = visage.y - joueur.global_position.y
+	_verifier(hauteur_visage > 1.30 and hauteur_visage < 1.60, "position du visage (%.2f m)" % hauteur_visage)
+	var peau: StandardMaterial3D = apparence.get("_materiau_peau")
+	_verifier(peau != null and peau.albedo_color.r < 0.7, "la teinte de peau est appliquée")
+	apparence.appliquer({"sexe": "homme", "taille_cm": 190.0})
+	await _attendre(5)
+	_verifier(apparence.modele == "homme" and apparence.echelle > 1.05, "retour au modèle homme, plus grand")
+
 	print("Résultat : ", "TOUT EST BON" if _echecs == 0 else "%d ÉCHEC(S)" % _echecs)
 	quit(0 if _echecs == 0 else 1)

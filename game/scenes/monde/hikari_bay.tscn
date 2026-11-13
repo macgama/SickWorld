@@ -1,0 +1,76 @@
+[gd_scene load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://scripts/monde/hikari_bay.gd" id="1_hub"]
+[ext_resource type="Script" path="res://scripts/interface/hud.gd" id="3_hud"]
+[ext_resource type="Script" path="res://scripts/monde/balise_vigie.gd" id="4_balise"]
+[ext_resource type="Script" path="res://scripts/monde/partie.gd" id="6_partie"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_nuit"]
+sky_top_color = Color(0.01, 0.012, 0.03, 1)
+sky_horizon_color = Color(0.11, 0.06, 0.16, 1)
+sky_energy_multiplier = 1.0
+ground_bottom_color = Color(0.01, 0.01, 0.02, 1)
+ground_horizon_color = Color(0.11, 0.06, 0.16, 1)
+sun_angle_max = 1.0
+
+[sub_resource type="Sky" id="Sky_nuit"]
+sky_material = SubResource("ProceduralSkyMaterial_nuit")
+
+[sub_resource type="Environment" id="Environment_nuit"]
+background_mode = 2
+sky = SubResource("Sky_nuit")
+ambient_light_source = 2
+ambient_light_color = Color(0.22, 0.24, 0.38, 1)
+ambient_light_energy = 0.9
+reflected_light_source = 2
+tonemap_mode = 4
+tonemap_exposure = 1.1
+ssr_enabled = true
+ssr_max_steps = 48
+ssao_enabled = true
+glow_enabled = true
+glow_intensity = 1.0
+glow_bloom = 0.08
+glow_hdr_threshold = 0.9
+fog_enabled = true
+fog_light_color = Color(0.12, 0.1, 0.2, 1)
+fog_density = 0.008
+fog_sky_affect = 0.6
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_nuit"]
+
+[node name="HikariBay" type="Node3D"]
+script = ExtResource("1_hub")
+
+[node name="Partie" type="Node3D" parent="."]
+script = ExtResource("6_partie")
+
+[node name="Joueurs" type="Node3D" parent="Partie"]
+
+[node name="Loups" type="Node3D" parent="Partie"]
+
+[node name="SpawnerJoueurs" type="MultiplayerSpawner" parent="Partie"]
+_spawnable_scenes = PackedStringArray("res://scenes/joueur/joueur.tscn")
+spawn_path = NodePath("../Joueurs")
+
+[node name="SpawnerLoups" type="MultiplayerSpawner" parent="Partie"]
+_spawnable_scenes = PackedStringArray("res://scenes/ennemis/loup.tscn")
+spawn_path = NodePath("../Loups")
+
+[node name="Environnement" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_nuit")
+camera_attributes = SubResource("CameraAttributesPractical_nuit")
+
+[node name="Lune" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.866025, -0.321394, 0.383022, 0, 0.766044, 0.642788, -0.5, -0.55667, 0.663414, 0, 30, 0)
+light_color = Color(0.55, 0.62, 0.9, 1)
+light_energy = 0.12
+shadow_enabled = true
+directional_shadow_max_distance = 90.0
+
+[node name="Interface" type="CanvasLayer" parent="."]
+script = ExtResource("3_hud")
+
+[node name="BaliseVigie" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0, 24)
+script = ExtResource("4_balise")

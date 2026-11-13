@@ -6,16 +6,16 @@ Depuis l'étape 3, le jeu s'ouvre sur un **menu** :
 - **Héberger une partie** : ton PC devient le serveur ET tu joues dessus. Tes amis te rejoignent.
 - **Rejoindre** : tu te connectes à la partie de quelqu'un d'autre en tapant son adresse.
 
-Le nom que tu tapes en haut s'affiche au-dessus de ton personnage chez les autres joueurs.
+Il faut d'abord avoir créé son personnage (voir [Créer son personnage](creer-son-personnage.md)). Son nom s'affiche au-dessus de lui chez les autres joueurs, qui voient aussi son apparence et son arme.
 
 ## 1. Essayer tout seul avec deux fenêtres (le plus simple)
 
 1. Dans Godot, menu **Débogage > Personnaliser les instances lancées…** (*Debug > Customize Run Instances…*).
 2. Coche **Activer plusieurs instances** et mets **2**. Valide.
 3. Appuie sur **F5** : deux fenêtres du jeu s'ouvrent.
-4. Dans la première : tape un nom, clique sur **Héberger une partie**. Windows peut demander d'autoriser Godot dans le pare-feu : clique sur **Autoriser**.
-5. Dans la seconde : tape un autre nom, laisse l'adresse `127.0.0.1` (qui veut dire « ce PC ») et clique sur **Rejoindre**.
-6. Tu vois tes deux personnages. Attaquez ensemble un loup : il s'en prend à celui qui lui fait le plus de dégâts.
+4. Dans la première, clique sur **Héberger une partie**. Windows peut demander d'autoriser Godot dans le pare-feu : clique sur **Autoriser**.
+5. Dans la seconde, laisse l'adresse `127.0.0.1` (qui veut dire « ce PC ») et clique sur **Rejoindre**.
+6. Tu vois tes deux personnages (ils se ressemblent, car les deux fenêtres lisent le même personnage enregistré sur ton PC). Attaquez ensemble un loup : il s'en prend à celui qui lui fait le plus de dégâts.
 
 Pour revenir à une seule fenêtre, remets **1** dans le même menu.
 

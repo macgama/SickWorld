@@ -390,7 +390,7 @@ func _process(_delta: float) -> void:
 		_statut.visible = Reseau.a_un_joueur_local()
 		return
 	_statut.visible = false
-	_nom_joueur.text = "%s — %s niv. %d" % [_combat.nom_affiche, Donnees.joueur.get("classe", ""), _combat.niveau]
+	_nom_joueur.text = "%s — %s niv. %d" % [_combat.nom_affiche, _joueur.nom_classe(), _combat.niveau]
 	_ecran_mort.visible = not _combat.est_vivant()
 
 	_endurance.max_value = _joueur.endurance_max
