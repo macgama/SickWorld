@@ -11,6 +11,7 @@ extends "res://scripts/monde/prehistoire/ile_prehistoire.gd"
 
 const Pnj := preload("res://scripts/monde/prehistoire/pnj_epoque.gd")
 const MarqueurCarte := preload("res://scripts/carte/marqueur_carte.gd")
+const ObjetQuete := preload("res://scripts/monde/prehistoire/objet_quete.gd")
 
 ## L'entrée de la vallée, depuis la passe du nord de la Steppe.
 const ENTREE := Vector2(0, 138)
@@ -18,6 +19,8 @@ const ENTREE := Vector2(0, 138)
 const ABRI := Vector2(0, -52)
 ## L'entrée de la Grande Grotte (le donjon).
 const GROTTE := Vector2(78, -46)
+## Les troncs morts où l'on gratte la résine des torches (chapitre 7).
+const RESINE := [Vector2(-46, 28), Vector2(38, 52), Vector2(-72, 84)]
 
 var _falaise: FastNoiseLite
 
@@ -42,6 +45,14 @@ func _init() -> void:
 	piste = [ENTREE, Vector2(4, 100), Vector2(-6, 40), Vector2(0, -10), ABRI + Vector2(0, 10)]
 
 
+func _ready() -> void:
+	# On ressort de la Grande Grotte devant son entrée.
+	if not Engine.is_editor_hint() and Reseau.get_meta("arrivee_prehistoire", "") == "grotte":
+		Reseau.remove_meta("arrivee_prehistoire")
+		point_apparition = Vector2(GROTTE.x, pied_falaise(GROTTE.x) + 14.0)
+	super._ready()
+
+
 func _chaque_image(_delta: float) -> void:
 	for k in _feux.size():
 		var feu := _feux[k]
@@ -54,6 +65,8 @@ func _chaque_image(_delta: float) -> void:
 
 func sortie_vers(zone: String) -> Vector2:
 	# Toutes les autres zones de l'île passent par la steppe, au sud.
+	if zone == "grotte":
+		return Vector2(GROTTE.x, pied_falaise(GROTTE.x) + 1.5)
 	return ENTREE + Vector2(0, -4) if zone != "falaises" else Vector2.INF
 
 
@@ -314,58 +327,14 @@ func _construire_abri() -> void:
 	fresque.add_to_group("decor_quete")
 	fresque.set_meta("identifiant", "fresque_abri")
 	abri.add_child(fresque)
-
-
-## Bisons, chevaux, points et mains, soufflés et tracés à l'ocre.
-func _texture_fresque() -> Texture2D:
-	var largeur_img := 1024
-	var hauteur_img := 384
-	var image := Image.create(largeur_img, hauteur_img, true, Image.FORMAT_RGBA8)
-	image.fill(Color(1, 1, 1, 0))
-	var hasard := RandomNumberGenerator.new()
-	hasard.seed = graine + 90
-	var tache := func(c: Vector2, rayons: Vector2, alpha: float) -> void:
-		for j in range(int(c.y - rayons.y) - 2, int(c.y + rayons.y) + 3):
-			for i in range(int(c.x - rayons.x) - 2, int(c.x + rayons.x) + 3):
-				if i < 0 or j < 0 or i >= largeur_img or j >= hauteur_img:
-					continue
-				var d := Vector2((i - c.x) / rayons.x, (j - c.y) / rayons.y).length()
-				if d < 1.0:
-					var a := alpha * clampf((1.0 - d) * 5.0, 0.0, 1.0) * (0.75 + hasard.randf() * 0.25)
-					var avant := image.get_pixel(i, j).a
-					image.set_pixel(i, j, Color(1, 1, 1, maxf(avant, a)))
-	var ligne := func(a: Vector2, b: Vector2, epaisseur: float, alpha: float) -> void:
-		var n := int(a.distance_to(b) / 2.0) + 1
-		for k in n + 1:
-			tache.call(a.lerp(b, float(k) / n), Vector2(epaisseur, epaisseur), alpha)
-	# Un bison : corps massif, bosse, tête basse, pattes fines.
-	var bison := func(o: Vector2, s: float) -> void:
-		tache.call(o, Vector2(70, 34) * s, 0.85)
-		tache.call(o + Vector2(-38, -26) * s, Vector2(40, 30) * s, 0.85)
-		tache.call(o + Vector2(-82, 6) * s, Vector2(22, 20) * s, 0.85)
-		for dx in [-45.0, -25.0, 30.0, 50.0]:
-			ligne.call(o + Vector2(dx, 20) * s, o + Vector2(dx + 4, 64) * s, 4.0 * s, 0.85)
-		ligne.call(o + Vector2(-92, -8) * s, o + Vector2(-102, -26) * s, 3.0 * s, 0.85)
-		ligne.call(o + Vector2(68, -8) * s, o + Vector2(84, 14) * s, 2.5 * s, 0.85)
-	# Un cheval : corps plus fin, long cou, crinière.
-	var cheval := func(o: Vector2, s: float) -> void:
-		tache.call(o, Vector2(58, 24) * s, 0.75)
-		ligne.call(o + Vector2(-46, -8) * s, o + Vector2(-78, -48) * s, 11.0 * s, 0.75)
-		tache.call(o + Vector2(-88, -52) * s, Vector2(18, 10) * s, 0.75)
-		for dx in [-38.0, -22.0, 28.0, 44.0]:
-			ligne.call(o + Vector2(dx, 14) * s, o + Vector2(dx + 2, 58) * s, 3.5 * s, 0.75)
-		ligne.call(o + Vector2(56, -4) * s, o + Vector2(74, 30) * s, 3.0 * s, 0.75)
-	bison.call(Vector2(230, 190), 1.15)
-	cheval.call(Vector2(520, 150), 1.0)
-	bison.call(Vector2(800, 210), 0.95)
-	cheval.call(Vector2(640, 280), 0.7)
-	# Des rangées de points et quelques signes.
-	for k in 14:
-		tache.call(Vector2(380 + k * 14, 320 + sin(k * 0.8) * 8.0), Vector2(5, 5), 0.9)
-	for k in 6:
-		ligne.call(Vector2(940 + k * 10, 60), Vector2(944 + k * 10, 120), 3.0, 0.8)
-	image.generate_mipmaps()
-	return ImageTexture.create_from_image(image)
+	# Fin de l'île : Aïna repeint la paroi, avec le Venu-du-Brouillard parmi les bêtes.
+	var finale := fresque.duplicate() as Decal
+	finale.name = "FresqueVoyageur"
+	finale.texture_albedo = _texture_fresque(true)
+	finale.modulate = Color(0.48, 0.18, 0.09)
+	finale.set_meta("identifiant", "fresque_voyageur")
+	finale.visible = false
+	abri.add_child(finale)
 
 
 # --- La Grande Grotte -------------------------------------------------------------------------
@@ -449,12 +418,27 @@ func _construire_quete() -> void:
 	pnj.call("chasseur_ulm", "Ulm", ABRI + Vector2(-7, 8), 0.3)
 	pnj.call("chasseuse_naya", "Naya", ABRI + Vector2(8, 3), -0.6)
 	pnj.call("keo", "Keo", ABRI + Vector2(-5, -4), 0.8)
+	# Chapitre 7 : la résine des troncs morts, pour les torches.
+	var k := 0
+	for p in RESINE:
+		var tronc := _modele("dead_tree_trunk", Vector3(p.x + 1.2, hauteur(p.x + 1.2, p.y) - 0.1, p.y), k * 1.7, 1.2, dossier)
+		if tronc == null:
+			_placer_rocher(dossier, p.x + 1.2, p.y, 0.8)
+		var o := ObjetQuete.new()
+		o.name = "Resine%d" % k
+		o.identifiant = "resine%d" % k
+		o.groupe = "resine"
+		o.forme = "resine"
+		o.invite = "[F] Gratter la résine"
+		o.position = Vector3(p.x, hauteur(p.x, p.y), p.y)
+		dossier.add_child(o)
+		k += 1
 	# Repères de la carte.
 	var repere := func(type: int, texte: String, p: Vector2) -> void:
 		MarqueurCarte.creer(dossier, type, texte, Vector3(p.x, hauteur(p.x, p.y), p.y))
 	repere.call(MarqueurCarte.Type.LIEU, "Passe (vers la Steppe)", ENTREE + Vector2(0, -6))
 	repere.call(MarqueurCarte.Type.LIEU, "Abri d'hiver du clan", ABRI)
-	repere.call(MarqueurCarte.Type.DANGER, "La Grande Grotte", GROTTE)
+	repere.call(MarqueurCarte.Type.DANGER, "La Grande Grotte (donjon)", GROTTE)
 
 
 func _surveiller_sortie() -> void:
@@ -462,7 +446,10 @@ func _surveiller_sortie() -> void:
 	if joueur == null:
 		return
 	var p := Vector2(joueur.global_position.x, joueur.global_position.z)
+	var quete := get_tree().get_first_node_in_group("quete")
+	if quete == null or not quete.has_method("changer_de_zone"):
+		return
 	if p.y > ENTREE.y + 4.0 and absf(p.x - ENTREE.x) < 16.0:
-		var quete := get_tree().get_first_node_in_group("quete")
-		if quete != null and quete.has_method("changer_de_zone"):
-			quete.changer_de_zone("steppe")
+		quete.changer_de_zone("steppe")
+	elif p.distance_to(Vector2(GROTTE.x, pied_falaise(GROTTE.x) + 1.0)) < 3.0:
+		quete.changer_de_zone("grotte")

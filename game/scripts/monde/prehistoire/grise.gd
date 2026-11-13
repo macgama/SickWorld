@@ -39,6 +39,8 @@ func _appliquer() -> void:
 	if _apparence == null:
 		return
 	# Un peu plus clair qu'un loup sauvage : c'est une louve grise.
+	if _apparence.get("_pivot") != null and _apparence.has_method("teinter"):
+		_apparence.teinter(Color(1.45, 1.42, 1.38))
 	for mi in _apparence.find_children("*", "MeshInstance3D", true, false):
 		var m := (mi as MeshInstance3D).material_override as StandardMaterial3D
 		if m != null and m.albedo_color.r > 0.3 and m.albedo_color.r < 0.5:
