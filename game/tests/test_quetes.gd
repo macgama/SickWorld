@@ -108,7 +108,7 @@ func _lancer() -> void:
 	_dialogue = get_first_node_in_group("dialogue")
 	print("Test des missions secondaires")
 	_verifier(_quetes.quetes.size() >= 3, "%d missions chargées" % _quetes.quetes.size())
-	for id in ["kuro", "kaminari", "ecran", "ferraille", "louche", "fresques", "jardins", "lanternes", "billet", "courrier", "guilde"]:
+	for id in ["kuro", "kaminari", "ecran", "ferraille", "louche", "fresques", "jardins", "lanternes", "billet", "courrier", "guilde", "projecteurs", "affiche"]:
 		var donneur: String = _quetes.quete(id)["donneur"]
 		_verifier(_trouver_pnj(donneur) != null, "le donneur de « %s » est en ville (%s)" % [id, donneur])
 		var marque = _quetes._marques.get(donneur)
@@ -208,6 +208,22 @@ func _lancer() -> void:
 	_verifier(_quetes.etats["guilde"]["etape"] == 2, "Kaito signe")
 	await _parler_a("registraire")
 	_verifier(_quetes.etat("guilde") == "terminee", "mission « Trois signatures » accomplie")
+
+	# 13. Lumière sur l'Arène : Kenta -> 3 fusibles -> Kenta.
+	await _parler_a("ouvrier_arene")
+	_verifier(_quetes.etat("projecteurs") == "active", "Kenta confie sa mission")
+	faits = await _utiliser_objets("projecteurs")
+	_verifier(faits == 3 and _quetes.etats["projecteurs"]["etape"] == 1, "on remet les trois fusibles (%s)" % _quetes.etats["projecteurs"])
+	await _parler_a("ouvrier_arene")
+	_verifier(_quetes.etat("projecteurs") == "terminee", "mission « Lumière sur l'Arène » accomplie")
+
+	# 14. Tête d'affiche : DJ Volt -> Marco -> Akane -> DJ Volt.
+	await _parler_a("commentateur")
+	_verifier(_quetes.etat("affiche") == "active", "DJ Volt confie sa mission")
+	await _parler_a("chef_chantier")
+	await _parler_a("championne")
+	await _parler_a("commentateur")
+	_verifier(_quetes.etat("affiche") == "terminee", "mission « Tête d'affiche » accomplie")
 
 	# 12. L'objet impossible (visite guidée du QG) : Morel -> Yuki -> Théo -> Ishida -> Morel.
 	_verifier(_quetes.etat("montre") == "active", "au retour de la Côte Gelée, la visite guidée du QG commence")

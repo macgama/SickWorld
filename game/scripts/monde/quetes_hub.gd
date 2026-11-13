@@ -508,6 +508,35 @@ func _creer_objet(type: String, p: Array) -> Node3D:
 			lumiere.omni_range = 2.0
 			lumiere.position.y = 0.6
 			racine.add_child(lumiere)
+		"fusible":
+			# Boîtier électrique gris, voyant rouge qui clignote (fusible sauté).
+			var boitier := MeshInstance3D.new()
+			var b := BoxMesh.new()
+			b.size = Vector3(0.6, 0.9, 0.3)
+			boitier.mesh = b
+			var m := StandardMaterial3D.new()
+			m.albedo_color = Color(0.55, 0.57, 0.6)
+			m.metallic = 0.6
+			boitier.material_override = m
+			boitier.position.y = 0.75
+			racine.add_child(boitier)
+			var voyant := MeshInstance3D.new()
+			var s := SphereMesh.new()
+			s.radius = 0.05
+			s.height = 0.1
+			voyant.mesh = s
+			var mv := StandardMaterial3D.new()
+			mv.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+			mv.albedo_color = Color(1.0, 0.15, 0.1) * 2.0
+			voyant.material_override = mv
+			voyant.position = Vector3(0.18, 1.05, 0.16)
+			racine.add_child(voyant)
+			var lumiere := OmniLight3D.new()
+			lumiere.light_color = Color(1.0, 0.25, 0.15)
+			lumiere.light_energy = 0.7
+			lumiere.omni_range = 2.5
+			lumiere.position = Vector3(0, 1.1, 0.4)
+			racine.add_child(lumiere)
 		_:
 			# Type inconnu : une petite sphère lumineuse, pour qu'on le voie quand même.
 			var boule := MeshInstance3D.new()

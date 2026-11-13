@@ -107,10 +107,23 @@ func _lancer() -> void:
 	await _placer(joueur, Vector3(-106, 0.3, 8), PI / 2)
 	await _avancer(joueur, 120)
 	_verifier(joueur.global_position.x > -110.0, "le mur de la Maison des guildes arrête le joueur (x = %.1f)" % joueur.global_position.x)
-	# Barrière de chantier de l'Arène (quai sud-est).
-	await _placer(joueur, Vector3(60, 0.3, 68), -PI / 2)
+	# L'Arène : le quai mène à la plateforme, on entre sur le terrain par l'ouest.
+	await _placer(joueur, Vector3(71, 0.3, 70), PI)
+	await _avancer(joueur, 60)
+	_verifier(joueur.global_position.z > 74.5 and joueur.global_position.y > -0.5, "le bout de la promenade mène au quai de l'Arène (z = %.1f)" % joueur.global_position.z)
+	await _placer(joueur, Vector3(75, 0.3, 78), -PI / 2)
+	await _avancer(joueur, 300)
+	_verifier(joueur.global_position.x > 101.0 and joueur.global_position.y > -0.5, "le quai mène à la plateforme de l'Arène (x = %.1f)" % joueur.global_position.x)
+	await _placer(joueur, Vector3(101, 0.3, 102), -PI / 2)
+	await _avancer(joueur, 200)
+	_verifier(joueur.global_position.x > 115.0, "on entre sur le terrain de l'Arène (x = %.1f)" % joueur.global_position.x)
+	await _placer(joueur, Vector3(125, 0.3, 76), PI)
+	await _avancer(joueur, 150)
+	_verifier(joueur.global_position.z < 80.5, "le mur du stade arrête le joueur ailleurs qu'à l'entrée (z = %.1f)" % joueur.global_position.z)
+	# La promenade reste fermée à l'ouest.
+	await _placer(joueur, Vector3(-60, 0.3, 68), PI / 2)
 	await _avancer(joueur, 180)
-	_verifier(joueur.global_position.x < 70.0, "la barrière de chantier bloque le quai de l'Arène (x = %.1f)" % joueur.global_position.x)
+	_verifier(joueur.global_position.x > -70.0, "la barrière de chantier ferme l'ouest de la promenade (x = %.1f)" % joueur.global_position.x)
 
 	# Le Quartier des Artisans est ouvert : la rue du nord-est mène sous le viaduc.
 	await _placer(joueur, Vector3(20, 0.3, -40), 0.0)
