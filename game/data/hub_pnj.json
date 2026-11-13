@@ -269,5 +269,68 @@
 			"L'esplanade est le plus bel endroit de la ville, la nuit. Les arbres de lumière, la cascade...",
 			"Un conseil : monte sur les terrasses. De là-haut, on voit tout le musée briller."
 		]
+	},
+	"guichetiere": {
+		"nom": "Rina Akiyama",
+		"role": "Guichet · Vigie Lines",
+		"modele": "femme",
+		"repliques": [
+			"Bienvenue au terminal Vigie Lines. Ce soir, un seul départ : la Préhistoire. Ah, pardon... la ligne « Préhistoire ». C'est un nom de croisière.",
+			"Si tu cherches la vraie entrée, agent, c'est par la station Asahi. Ici, on fait juste semblant d'être une compagnie maritime."
+		]
+	},
+	"voyageur_terminal": {
+		"nom": "Lucas Moreau",
+		"role": "Voyageur",
+		"modele": "homme",
+		"repliques": [
+			"Ça fait trois heures que j'attends le ferry de 23 h 55. Le tableau dit « embarquement », mais personne n'embarque.",
+			"Bah, la vue sur la baie vaut bien l'attente."
+		]
+	},
+	"capitaine": {
+		"nom": "Capitaine Daisuke Ōshima",
+		"role": "Commandant du Hikari Maru",
+		"modele": "homme",
+		"repliques": [
+			"Le Hikari Maru ne quitte plus le quai depuis trois jours. Le compas tourne dans tous les sens dès qu'on sort de la baie.",
+			"Trente ans de mer, et je n'ai jamais vu des lumières pareilles sur l'horizon."
+		]
+	},
+	"gardien_roue": {
+		"nom": "Tomás Rivera",
+		"role": "Gardien de la grande roue",
+		"modele": "homme",
+		"repliques": [
+			"La roue est en maintenance. Elle tourne toute seule, mais personne ne monte. Ordre de la mairie.",
+			"De là-haut, on voyait toute la baie. Et, certains soirs, des choses qui n'ont rien à faire là."
+		]
+	},
+	"grand_mere_ume": {
+		"nom": "Grand-mère Ume",
+		"role": "Pêcheuse de la baie",
+		"modele": "femme",
+		"repliques": [
+			"Soixante ans que je pêche sur ce quai. La mer, elle, se souvient de tout.",
+			"Les poissons ne mordent plus depuis trois jours. Ils sentent que quelque chose cloche."
+		]
+	},
+	"vendeur_takoyaki": {
+		"nom": "Sora",
+		"role": "Stand de takoyaki",
+		"modele": "homme",
+		"repliques": [
+			"Takoyaki tout chauds ! Six pièces, cinq cents yens. Attention, l'intérieur brûle la langue.",
+			"Les dockers en mangent avant chaque service de nuit. Enfin, quand il y a un service."
+		]
+	},
+	"promeneuse_quai": {
+		"nom": "Ines Okafor",
+		"role": "Promeneuse",
+		"modele": "femme",
+		"repliques": [
+			"Je viens ici écouter la mer. La pluie sur l'eau, c'est le plus beau bruit du monde.",
+			"Tu as vu la lumière, là-bas, au large ? Elle n'était pas là la semaine dernière."
+		]
 	}
 }

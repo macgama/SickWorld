@@ -459,6 +459,32 @@ func _creer_objet(type: String, p: Array) -> Node3D:
 			lumiere.omni_range = 2.5
 			lumiere.position.y = 0.8
 			racine.add_child(lumiere)
+		"lanterne":
+			# Lanterne de papier éteinte, accrochée à un poteau de bois.
+			var poteau := MeshInstance3D.new()
+			var c := CylinderMesh.new()
+			c.top_radius = 0.05
+			c.bottom_radius = 0.07
+			c.height = 1.8
+			poteau.mesh = c
+			var mb := StandardMaterial3D.new()
+			mb.albedo_color = Color(0.3, 0.2, 0.12)
+			poteau.material_override = mb
+			poteau.position.y = 0.9
+			racine.add_child(poteau)
+			var papier := MeshInstance3D.new()
+			var s := SphereMesh.new()
+			s.radius = 0.22
+			s.height = 0.55
+			papier.mesh = s
+			var m := StandardMaterial3D.new()
+			m.albedo_color = Color(0.85, 0.3, 0.15)
+			m.emission_enabled = true
+			m.emission = Color(1.0, 0.4, 0.15)
+			m.emission_energy_multiplier = 0.15
+			papier.material_override = m
+			papier.position.y = 1.5
+			racine.add_child(papier)
 		_:
 			# Type inconnu : une petite sphère lumineuse, pour qu'on le voie quand même.
 			var boule := MeshInstance3D.new()
