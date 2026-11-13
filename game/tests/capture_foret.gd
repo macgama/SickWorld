@@ -7,7 +7,7 @@ const VUES := [
 	["arrivee", Vector3(-138, 2.5, -8), Vector3(-100, 3.0, -20)],
 	["sous_bois", Vector3(-60, 2.0, 20), Vector3(-30, 4.0, 0)],
 	["riviere", Vector3(0, 2.5, 12), Vector3(0, 0.3, -15)],
-	["clairiere", Vector3(63, 2.2, -52), Vector3(72, 0.8, -62)],
+	["clairiere", Vector3(72, 1.7, -56), Vector3(72, 0.6, -62)],
 	["faille", Vector3(-60, 3.0, 50), Vector3(-70, 2.5, 62)],
 	["traces", Vector3(-101, 1.7, -21), Vector3(-92, 0.0, -23)],
 ]

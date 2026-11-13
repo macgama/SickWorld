@@ -80,7 +80,14 @@ Pour l'ouvrir directement : `scenes/monde/prehistoire/foret.tscn` puis **F6**. P
 6. **le choix** : soigner Grise (rester immobile 8 secondes, deux loups viennent l'en empêcher : il faut d'abord s'en occuper) **ou** dire à Kéo de la laisser partir (elle s'enfuit). Les deux choix permettent de continuer, et le jeu s'en souvient : si Grise est soignée, elle est au camp à côté de Kéo ;
 7. rentrer au camp et parler à **Aïna**.
 
-La suite (chapitre 5, « L'objet impossible ») arrive dans une prochaine mise à jour.
+### Chapitre 5 : « L'objet impossible »
+
+1. Retourne au portail, sur la Côte Gelée, et raconte tout à l'agent Lenoir.
+2. Repasse par la steppe jusqu'à la Forêt des Bouleaux et referme la grande faille au nord-ouest (des fracturés la gardent).
+3. Là où était la faille, ramasse l'objet qui brille : une montre à gousset brisée, gravée « E. ».
+4. Montre-la à Lenoir : quelqu'un d'autre voyage dans le temps. Passe le portail pour la rapporter au QG de la Vigie.
+
+La suite (chapitre 6, « L'hiver qui vient trop tôt ») arrive dans une prochaine mise à jour.
 
 ## Ce que tu peux régler toi-même
 
@@ -99,12 +106,13 @@ godot --headless --path game -s res://tests/test_cote_gelee.gd
 ```
 godot --headless --path game -s res://tests/test_steppe.gd
 godot --headless --path game -s res://tests/test_foret.gd
+godot --headless --path game -s res://tests/test_chapitre5.gd
 ```
 
-Le premier test parcourt tout le chapitre 1 (Lenoir, trousse, soins, fracturés, faille, rapport), vérifie que l'avancement est gardé, que le col mène à la Steppe et que le portail ramène au hub. Le second parcourt les chapitres 2 et 3 dans la Steppe (Toran, chasse, gué, Aïna, pigments, main peinte) et le retour par le col. Le troisième joue le chapitre 4 deux fois (Grise soignée, puis Grise libérée).
+Le premier test parcourt tout le chapitre 1 (Lenoir, trousse, soins, fracturés, faille, rapport), vérifie que l'avancement est gardé, que le col mène à la Steppe et que le portail ramène au hub. Le second parcourt les chapitres 2 et 3 dans la Steppe (Toran, chasse, gué, Aïna, pigments, main peinte) et le retour par le col. Le troisième joue le chapitre 4 deux fois (Grise soignée, puis Grise libérée). Le quatrième joue le chapitre 5 (faille de la forêt, montre, retour au portail).
 
 ## Ce qui viendra ensuite
 
-- Le chapitre 5 (« L'objet impossible ») et les **Falaises Peintes** (zone 4).
+- Le chapitre 6 (« L'hiver qui vient trop tôt ») et les **Falaises Peintes** (zone 4).
 - De vrais modèles animés pour les loups, rennes et mammouths (pour l'instant des silhouettes simples), et de vrais vêtements de peau pour le clan.
 - Des sons : vent, vagues, craquements de la glace.

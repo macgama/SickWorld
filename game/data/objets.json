@@ -433,6 +433,14 @@
 			"description": "Servira à l'artisanat.",
 			"pile": 20,
 			"epoque": "Préhistoire"
+		},
+		"montre_gousset_brisee": {
+			"nom": "Montre à gousset brisée",
+			"type": "materiau",
+			"rarete": "historique",
+			"description": "Trouvée dans une faille de la Préhistoire. Gravée « E. ». Elle ne devrait pas exister ici.",
+			"pile": 1,
+			"epoque": "Inconnue"
 		}
 	},
 	"ensembles": {
