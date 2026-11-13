@@ -1,0 +1,70 @@
+{
+	"_aide": "Introduction du jeu dans Hikari Bay (environ 5 minutes). Les étapes se jouent dans l'ordre. Pour changer un texte, modifie ce qui est entre guillemets (une ligne = une bulle). Garde les virgules entre les lignes.",
+	"ouverture": {
+		"titre": "Hikari Bay",
+		"sous_titre": "23 h 47 · Il pleut depuis trois jours.",
+		"texte": "Et depuis trois jours, plus un seul chien dans les rues. Personne ne semble s'en étonner. Personne, sauf toi."
+	},
+	"etapes": [
+		{
+			"id": "recrutement",
+			"objectif": "Parle à l'inconnu qui t'attend près de la fontaine",
+			"pnj": "recruteur",
+			"repliques": [
+				"Tu as remarqué, toi aussi. Les affiches « chien perdu », partout. Et pas un aboiement depuis trois jours.",
+				"Les autres ne voient rien. Pour eux, il n'y a jamais eu de chiens à Hikari Bay. Toi, tu t'en souviens. C'est rare.",
+				"Je m'appelle Kenji Duval. Je travaille pour la Vigie. Nous protégeons l'histoire de ceux qui veulent la réécrire.",
+				"Regarde la statue du Gardien. Ces éclats violets, ces fissures... C'est le signe qu'une époque est malade.",
+				"Nous avons besoin de gens comme toi. Descends dans la station Asahi, à l'ouest de la place. La grille s'ouvrira pour toi.",
+				"La commandante Morel t'attend en bas. Ne traîne pas, agent."
+			]
+		},
+		{
+			"id": "station",
+			"objectif": "Descends l'escalier de la station Asahi",
+			"zone": [-23, -4, 32],
+			"rayon": 5
+		},
+		{
+			"id": "commandante",
+			"objectif": "Rejoins le Hall des opérations et parle à la commandante Morel",
+			"pnj": "commandante",
+			"repliques": [
+				"Te voilà. Kenji avait raison : tu te souviens des chiens. Le changement ne t'a pas touché.",
+				"Bienvenue à la Vigie, agent. Sous la station Asahi, nous veillons sur la santé de l'histoire.",
+				"Regarde la table. Chaque lumière est une époque. Celle qui clignote, c'est la Préhistoire.",
+				"Des fractures y sont apparues. Les Effaceurs déforment le passé, et notre présent change avec lui. Les chiens en sont la première victime.",
+				"Il y a quarante mille ans, l'homme et le loup ont appris à vivre ensemble. Quelqu'un essaie de rompre ce lien.",
+				"Ta mission : traverser le portail, retrouver notre agent sur place et réparer ce qui a été brisé.",
+				"Yuki Tanabe prépare le portail, dans la salle au fond du hall. Bonne chance, agent."
+			]
+		},
+		{
+			"id": "technicienne",
+			"objectif": "Rejoins la salle des portails et parle à Yuki Tanabe",
+			"pnj": "technicienne",
+			"repliques": [
+				"Ah, la nouvelle recrue ! La commandante m'a prévenue. Le portail de la Préhistoire est réglé.",
+				"Un anneau par époque. Seul celui de la Préhistoire est stable : les autres sont encore sous bâche.",
+				"Avance dans l'anneau bleu. Tu sentiras un picotement, puis plus rien. Enfin, normalement.",
+				"Là-bas, l'air sent la fumée et la neige. Garde ton arme à portée de main : les loups y sont nerveux."
+			]
+		},
+		{
+			"id": "portail",
+			"objectif": "Traverse le portail de la Préhistoire",
+			"portail": "Préhistoire"
+		}
+	],
+	"portail_verrouille": [
+		"Le portail bourdonne, mais refuse de s'ouvrir.",
+		"Il faut d'abord recevoir ta mission de la commandante Morel."
+	],
+	"destinations": {
+		"Préhistoire": {
+			"scene": "res://scenes/monde/colline_de_test.tscn",
+			"titre": "Préhistoire",
+			"sous_titre": "Il y a environ 40 000 ans"
+		}
+	}
+}

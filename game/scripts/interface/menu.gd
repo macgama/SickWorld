@@ -136,4 +136,4 @@ func _lancer(mode: Reseau.Mode) -> void:
 		reglages.set_value("reseau", "adresse", Reseau.adresse)
 		reglages.set_value("reseau", "port", Reseau.port)
 		reglages.save(FICHIER_REGLAGES)
-	get_tree().change_scene_to_file(Reseau.SCENE_MONDE)
+	get_tree().change_scene_to_file(Reseau.scene_depart)

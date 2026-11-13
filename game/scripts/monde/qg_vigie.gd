@@ -1,4 +1,3 @@
-class_name QgVigie
 extends RefCounted
 ## Le QG de la Vigie, sous la station Asahi (voir docs/HUB.md, section 4).
 ##
@@ -8,6 +7,10 @@ extends RefCounted
 ## et la Salle des portails (sud).
 ##
 ## Repères (mètres) : sol du QG à y = -12, plafond à y = -4.
+
+## Chargés directement (et non par nom de classe) : le jeu fonctionne même si
+## l'éditeur Godot était ouvert pendant la mise à jour du dossier.
+const Pnj := preload("res://scripts/monde/pnj.gd")
 
 const SOL := -12.0
 const PLAFOND := -4.0
@@ -298,6 +301,7 @@ static func _amenager_portails(hub: HikariBay, metal: Material) -> void:
 			# Zone de passage : la traverser déclenche le voyage.
 			var zone := Area3D.new()
 			zone.name = "Portail_" + EPOQUES[i]
+			zone.add_to_group("portail_actif")
 			zone.position = anneau.position
 			zone.collision_layer = 0
 			zone.collision_mask = 2 # couche des joueurs

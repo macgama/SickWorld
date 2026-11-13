@@ -1,5 +1,4 @@
 @tool
-class_name Pnj
 extends Node3D
 ## Personnage non joueur du hub : un agent de la Vigie qui parle quand on
 ## s'approche et qu'on appuie sur F.
@@ -22,6 +21,8 @@ signal parle(id: String)
 var nom := ""
 var role := ""
 var repliques: PackedStringArray = []
+## Répliques imposées par une quête ou l'intro (prioritaires si non vides).
+var repliques_speciales: PackedStringArray = []
 var _invite: Label3D
 var _apparence: Node3D
 
@@ -103,5 +104,5 @@ func parler() -> void:
 	var dialogue := get_tree().get_first_node_in_group("dialogue")
 	if dialogue == null:
 		return
-	dialogue.ouvrir(identifiant, nom, repliques)
+	dialogue.ouvrir(identifiant, nom, repliques_speciales if not repliques_speciales.is_empty() else repliques)
 	parle.emit(identifiant)

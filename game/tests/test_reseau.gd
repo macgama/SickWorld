@@ -1,6 +1,6 @@
 extends SceneTree
 ## Test du multijoueur : à lancer comme CLIENT pendant qu'un serveur dédié tourne.
-##   godot --headless --path game -- --serveur --port=7790        (dans un terminal)
+##   godot --headless --path game -- --serveur --colline --port=7790   (dans un terminal)
 ##   godot --headless --path game -s res://tests/test_reseau.gd -- --port=7790 --nom=Alice
 ## Le test se connecte, vérifie qu'il reçoit le monde, combat un loup et vérifie
 ## que le serveur a bien appliqué les dégâts.
