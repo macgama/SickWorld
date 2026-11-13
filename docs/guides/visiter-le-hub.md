@@ -2,13 +2,13 @@
 
 La première partie du hub Hikari Bay est jouable : la **Place Hikari**, l'escalier de la **station Asahi** qui descend vers la porte du QG, la rue qui mène au **front de mer**. Le plan complet de la ville est dans [docs/HUB.md](../HUB.md).
 
-C'est une **maquette de blocs** : les formes sont simples (boîtes, cylindres) mais les dimensions sont les bonnes. Elle sert à vérifier les distances, les repères et l'ambiance avant de poser les vrais décors.
+Les décors deviennent réalistes : sol pavé mouillé avec des flaques, façades en béton, mobilier urbain (lampadaires, bacs plantés, bornes à incendie, climatiseurs, rideaux de fer, blocs de béton de chantier) et enseignes en japonais, anglais et français. Les textures et modèles viennent de **Poly Haven** (gratuits, licence CC0). Les immeubles restent des volumes simples avec des fenêtres calculées : ils seront détaillés plus tard.
 
 ![La Place Hikari](../images/hub-place-hikari.jpg)
 
 ## L'ouvrir
 
-1. Dans GitHub Desktop, récupère la branche du hub (**Fetch origin**, puis choisis la branche).
+1. Dans GitHub Desktop, sur la branche **main**, clique sur **Fetch origin** puis **Pull origin** (Claude le fait pour toi quand il le peut).
 2. Ouvre le projet dans Godot (version standard, pas « mono »).
 3. Dans le panneau **Système de fichiers** (en bas à gauche), double-clique sur `scenes/monde/hikari_bay.tscn`.
 4. Appuie sur **F6** (« Lancer la scène actuelle »). Tu arrives sur la place, face à la statue et à l'écran géant.

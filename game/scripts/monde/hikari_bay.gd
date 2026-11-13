@@ -35,6 +35,10 @@ extends Node3D
 
 const SHADER_FACADE := preload("res://shaders/facade_nuit.gdshader")
 const SHADER_ECRAN := preload("res://shaders/ecran_geant.gdshader")
+const SHADER_SOL := preload("res://shaders/sol_mouille.gdshader")
+## Police des enseignes (japonais + alphabet latin). Pour ajouter des kanji :
+## voir tools/hub/police_enseignes.py.
+const POLICE := preload("res://assets/polices/NotoSansJP-Bold-hub.ttf")
 
 ## Demi-largeur de la place (elle fait 60 m × 60 m).
 const PLACE := 30.0
@@ -183,8 +187,130 @@ func _facade(graine: float, part_allumee := 0.35) -> ShaderMaterial:
 	var m := ShaderMaterial.new()
 	m.shader = SHADER_FACADE
 	m.set_shader_parameter("part_allumee", part_allumee)
-	m.set_shader_parameter("couleur_mur", Color(0.09, 0.1, 0.12).lerp(Color(0.16, 0.15, 0.15), fmod(graine * 0.37, 1.0)))
+	var teinte := Color(0.09, 0.1, 0.12).lerp(Color(0.16, 0.15, 0.15), fmod(graine * 0.37, 1.0))
+	m.set_shader_parameter("couleur_mur", teinte)
+	# Mur texturé (Poly Haven), si les ressources sont téléchargées.
+	var id: String = TEXTURES_FACADES[int(graine) % TEXTURES_FACADES.size()]
+	var couleur := _texture(id, "Diffuse")
+	if couleur != null:
+		m.set_shader_parameter("avec_texture", true)
+		m.set_shader_parameter("texture_mur", couleur)
+		m.set_shader_parameter("relief_mur", _texture(id, "nor_gl"))
+		m.set_shader_parameter("couleur_mur", Color(0.16, 0.16, 0.17).lerp(Color(0.24, 0.22, 0.21), fmod(graine * 0.37, 1.0)))
 	return m
+
+
+## Vitre de boutique éclairée de l'intérieur : plus lumineuse en haut (plafonniers).
+func _vitrine(couleur: Color) -> StandardMaterial3D:
+	var cle := "vitrine_%s" % couleur.to_html()
+	if _materiaux.has(cle):
+		return _materiaux[cle]
+	var degrade := Gradient.new()
+	degrade.set_color(0, couleur * 0.15)
+	degrade.set_color(1, couleur * 0.55)
+	var texture := GradientTexture2D.new()
+	texture.gradient = degrade
+	texture.fill_from = Vector2(0, 1)
+	texture.fill_to = Vector2(0, 0)
+	var m := StandardMaterial3D.new()
+	m.albedo_color = Color(0.02, 0.02, 0.02)
+	m.roughness = 0.05
+	m.metallic = 0.3
+	m.emission_enabled = true
+	m.emission_texture = texture
+	m.emission = Color.WHITE
+	m.emission_energy_multiplier = 0.7
+	_materiaux[cle] = m
+	return m
+
+
+# --- Ressources réalistes (Poly Haven, voir docs/CREDITS.md) ------------
+
+const DOSSIER_RESSOURCES := "res://assets/hub/"
+const TEXTURES_FACADES := ["concrete_tile_facade", "rectangular_facade_tiles", "concrete_wall_008",
+		"brushed_concrete", "white_rough_plaster"]
+
+var _bruit_flaques: NoiseTexture2D
+
+
+## Une carte de texture Poly Haven (Diffuse, nor_gl ou arm), ou null si absente.
+func _texture(id: String, carte: String) -> Texture2D:
+	var chemin := DOSSIER_RESSOURCES + "textures/%s/%s_%s.jpg" % [id, id, carte]
+	if not ResourceLoader.exists(chemin):
+		return null
+	return load(chemin)
+
+
+## Sol mouillé réaliste ; revient au matériau simple si la texture manque.
+func _mat_sol(id: String, taille_motif: float, simple: String, humidite := 0.6) -> Material:
+	var cle := "sol_%s_%s" % [id, humidite]
+	if _materiaux.has(cle):
+		return _materiaux[cle]
+	var couleur := _texture(id, "Diffuse")
+	if couleur == null:
+		return _mat(simple)
+	if _bruit_flaques == null:
+		var bruit := FastNoiseLite.new()
+		bruit.frequency = 0.02
+		bruit.fractal_octaves = 3
+		_bruit_flaques = NoiseTexture2D.new()
+		_bruit_flaques.noise = bruit
+		_bruit_flaques.seamless = true
+		_bruit_flaques.width = 512
+		_bruit_flaques.height = 512
+	var m := ShaderMaterial.new()
+	m.shader = SHADER_SOL
+	m.set_shader_parameter("texture_couleur", couleur)
+	m.set_shader_parameter("texture_relief", _texture(id, "nor_gl"))
+	m.set_shader_parameter("texture_arm", _texture(id, "arm"))
+	m.set_shader_parameter("bruit_flaques", _bruit_flaques)
+	m.set_shader_parameter("taille_motif", taille_motif)
+	m.set_shader_parameter("humidite", humidite)
+	_materiaux[cle] = m
+	return m
+
+
+## Matériau réaliste plaqué en « triplanaire » (pour les boîtes : murs, socles...).
+func _mat_pbr(id: String, taille_motif: float, simple: String, teinte := Color.WHITE) -> Material:
+	var cle := "pbr_%s_%s" % [id, teinte.to_html()]
+	if _materiaux.has(cle):
+		return _materiaux[cle]
+	var couleur := _texture(id, "Diffuse")
+	if couleur == null:
+		return _mat(simple)
+	var m := ORMMaterial3D.new()
+	m.albedo_texture = couleur
+	m.albedo_color = teinte
+	m.normal_enabled = true
+	m.normal_texture = _texture(id, "nor_gl")
+	m.orm_texture = _texture(id, "arm")
+	m.uv1_triplanar = true
+	m.uv1_world_triplanar = true
+	m.uv1_scale = Vector3.ONE / taille_motif
+	_materiaux[cle] = m
+	return m
+
+
+## Place un modèle 3D Poly Haven ; ne fait rien si le modèle n'est pas téléchargé.
+func _modele(id: String, position_m: Vector3, angle_y := 0.0, echelle := 1.0, parent: Node3D = null, exclure: Array = []) -> Node3D:
+	var chemin := DOSSIER_RESSOURCES + "modeles/%s/%s.gltf" % [id, id]
+	if not ResourceLoader.exists(chemin):
+		return null
+	var scene: PackedScene = load(chemin)
+	var instance := scene.instantiate() as Node3D
+	# Certains fichiers contiennent plusieurs variantes : on retire celles qu'on ne veut pas.
+	for m in instance.find_children("*", "MeshInstance3D", true, false):
+		if not is_instance_valid(m):
+			continue
+		for mot in exclure:
+			if mot in String(m.name):
+				m.free()
+				break
+	instance.position = position_m
+	instance.rotation.y = angle_y
+	instance.scale = Vector3.ONE * echelle
+	(parent if parent != null else _contenu).add_child(instance)
+	return instance
 
 
 # --- Briques de base -----------------------------------------------------
@@ -255,6 +381,7 @@ func _texte(texte: String, position_t: Vector3, couleur: Color, taille_police :=
 	l.text = texte
 	l.position = position_t
 	l.rotation.y = angle_y
+	l.font = POLICE
 	l.font_size = taille_police
 	l.pixel_size = 0.01
 	l.modulate = Color(couleur.r * energie, couleur.g * energie, couleur.b * energie)
@@ -270,8 +397,8 @@ func _texte(texte: String, position_t: Vector3, couleur: Color, taille_police :=
 # --- Sol -----------------------------------------------------------------
 
 func _construire_sol() -> void:
-	var asphalte := _mat("asphalte")
-	var dalles := _mat("dalles")
+	var asphalte := _mat_sol("asphalt_02", 6.0, "asphalte", 0.7)
+	var dalles := _mat_sol("concrete_pavers_02", 3.0, "dalles", 0.5)
 	# La ville autour de la place (4 morceaux, la place est faite à part).
 	_bloc(-200, -200, 200, -PLACE, -1, 0, asphalte)
 	_bloc(-200, PLACE, 200, QUAI, -1, 0, asphalte)
@@ -285,7 +412,7 @@ func _construire_sol() -> void:
 	_bloc(e.position.x, -PLACE, e.end.x, e.position.y, -1, 0, dalles)
 	_bloc(e.position.x, e_fin, e.end.x, PLACE, -1, 0, dalles)
 	# Bordure de trottoir autour de la place (marque la limite piétonne).
-	var bord := _mat("trottoir")
+	var bord := _mat_pbr("brushed_concrete", 2.0, "trottoir")
 	for cote in [-1.0, 1.0]:
 		_bloc(-PLACE - 4, cote * PLACE - 0.3, PLACE + 4, cote * PLACE + 0.3, 0, 0.06, bord, false)
 		_bloc(cote * PLACE - 0.3, -PLACE, cote * PLACE + 0.3, PLACE, 0, 0.06, bord, false)
@@ -344,7 +471,7 @@ func _construire_immeubles() -> void:
 	ecran.material_override = mat
 	ecran.position = Vector3(0, 19, -33.9)
 	_contenu.add_child(ecran)
-	var titre := _texte("HIKARI BAY", Vector3(0, 21.5, -33.8), Color(1, 1, 1), 300, 0.0, 1.6)
+	var titre := _texte("光ベイ HIKARI BAY", Vector3(0, 21.5, -33.8), Color(1, 1, 1), 300, 0.0, 1.6)
 	var stabilite := _texte("Stabilité de la Préhistoire : 12 %", Vector3(0, 16.5, -33.8), Color(0.75, 0.95, 1.0), 110, 0.0, 1.6)
 	stabilite.name = "TexteStabilite"
 	for l in [titre, stabilite]:
@@ -357,7 +484,7 @@ func _construire_immeubles() -> void:
 # --- Statue du Gardien ---------------------------------------------------
 
 func _construire_statue() -> void:
-	var pierre := _mat("pierre")
+	var pierre := _mat_pbr("granite_tile", 2.0, "pierre", Color(0.8, 0.8, 0.8))
 	# Bassin de la fontaine.
 	_cylindre(7.0, 7.2, 0.7, Vector3(0, 0.35, 0), pierre)
 	var eau := _cylindre(6.5, 6.5, 0.1, Vector3(0, 0.6, 0), _mat("eau"), false)
@@ -367,6 +494,12 @@ func _construire_statue() -> void:
 	_statue_intacte = Node3D.new()
 	_statue_intacte.name = "Gardien"
 	_contenu.add_child(_statue_intacte)
+	# Statue réaliste (modèle Poly Haven, provisoire en attendant le vrai Gardien).
+	var statue := _modele("gothic_statue", Vector3(-0.1, 3.0, 1.1), 0.0, 2.6, _statue_intacte)
+	if statue != null:
+		_lumiere(Vector3(0, 2.5, 3.5), Color(1.0, 0.85, 0.65), 3.0, 12.0)
+		_construire_eclats()
+		return
 	var corps := MeshInstance3D.new()
 	var capsule := CapsuleMesh.new()
 	capsule.radius = 0.75
@@ -393,7 +526,11 @@ func _construire_statue() -> void:
 	sablier.position = Vector3(0, 8.9, 0.0)
 	_statue_intacte.add_child(sablier)
 	_lumiere(Vector3(0, 2.5, 3.5), Color(1.0, 0.85, 0.65), 3.0, 12.0)
-	# Les éclats de fracture (visibles tant que la Préhistoire est malade).
+	_construire_eclats()
+
+
+## Les éclats de fracture (visibles tant que la Préhistoire est malade).
+func _construire_eclats() -> void:
 	_fracture = Node3D.new()
 	_fracture.name = "EclatsDeFracture"
 	_contenu.add_child(_fracture)
@@ -435,25 +572,26 @@ func _construire_station_asahi() -> void:
 	var z_bas := e.end.y
 	var fond := -PROFONDEUR_STATION
 	var z_porte := z_bas + 16.0
-	var carrelage := _mat("carrelage")
-	var metal := _mat("metal")
+	var carrelage := _mat_pbr("square_tiled_wall", 1.5, "carrelage")
+	var sol_station := _mat_pbr("terrazzo_tiles", 2.0, "carrelage")
+	var metal := _mat_pbr("metal_plate", 1.5, "metal")
 	# Marches (visuelles) et pente (pour marcher dessus sans accrocher).
 	var marches := 20
 	for i in marches:
 		var z := z_haut + (i + 0.5) * e.size.y / marches
 		var y := -(i + 1.0) * PROFONDEUR_STATION / marches
-		_bloc(x1, z - e.size.y / marches * 0.5, x2, z + e.size.y / marches * 0.5, y - 0.3, y + PROFONDEUR_STATION / marches, _mat("beton"), false)
+		_bloc(x1, z - e.size.y / marches * 0.5, x2, z + e.size.y / marches * 0.5, y - 0.3, y + PROFONDEUR_STATION / marches, _mat_pbr("brushed_concrete", 1.5, "beton"), false)
 	var longueur := Vector2(e.size.y, PROFONDEUR_STATION).length()
 	var pente := atan2(PROFONDEUR_STATION, e.size.y)
 	var t := Transform3D(Basis(Vector3.RIGHT, pente), Vector3((x1 + x2) * 0.5, -PROFONDEUR_STATION * 0.5 - 0.1, (z_haut + z_bas) * 0.5))
 	_collision_boite(Vector3(x2 - x1, 0.2, longueur), t)
 	# Couloir carrelé jusqu'à la porte du QG.
-	_bloc(x1, z_bas, x2, z_porte, fond - 0.5, fond, carrelage)
+	_bloc(x1, z_bas, x2, z_porte, fond - 0.5, fond, sol_station)
 	_bloc(x1 - 0.5, z_haut, x1, z_porte, fond, 0, carrelage)
 	_bloc(x2, z_haut, x2 + 0.5, z_porte, fond, 0, carrelage)
 	_bloc(x1, z_porte, x2, z_porte + 0.5, fond, 0, carrelage)
 	# Porte blindée de la Vigie.
-	_bloc(x1 + 1.5, z_porte - 0.2, x2 - 1.5, z_porte, fond, fond + 2.6, metal, false)
+	_bloc(x1 + 1.5, z_porte - 0.2, x2 - 1.5, z_porte, fond, fond + 2.6, _mat_pbr("painted_metal_shutter", 2.0, "metal", Color(0.5, 0.5, 0.55)), false)
 	_texte("VIGIE · ACCÈS RESTREINT", Vector3((x1 + x2) * 0.5, fond + 2.95, z_porte - 0.25), Color(0.75, 0.55, 1.0), 40, PI, 2.0)
 	_texte("QG en construction", Vector3((x1 + x2) * 0.5, fond + 1.4, z_porte - 0.25), Color(1, 1, 1), 32, PI, 1.2)
 	_lumiere(Vector3((x1 + x2) * 0.5, fond + 2.6, z_porte - 3.0), Color(0.65, 0.5, 1.0), 2.0, 9.0)
@@ -466,46 +604,53 @@ func _construire_station_asahi() -> void:
 	for x in [x1 + 0.3, x2 - 0.3]:
 		_bloc(x - 0.1, z_haut - 0.4, x + 0.1, z_haut - 0.2, 0, 3.4, metal)
 	_bloc(x1, z_haut - 0.45, x2, z_haut - 0.15, 2.6, 3.6, metal, false)
-	_texte("STATION ASAHI", Vector3((x1 + x2) * 0.5, 3.25, z_haut - 0.5), Color(0.75, 0.55, 1.0), 60, PI, 2.5)
+	_texte("旭駅 STATION ASAHI", Vector3((x1 + x2) * 0.5, 3.25, z_haut - 0.5), Color(0.75, 0.55, 1.0), 60, PI, 2.5)
 	_texte("fermée au public", Vector3((x1 + x2) * 0.5, 2.85, z_haut - 0.5), Color(1, 1, 1), 32, PI, 1.2)
 
 
-# --- Arbres, bancs, lampadaires -----------------------------------------
+# --- Mobilier urbain (modèles Poly Haven quand ils sont téléchargés) ----
 
 func _construire_mobilier() -> void:
-	var tronc := _mat("tronc")
-	var feuillage := _mat("feuillage")
-	var metal := _mat("metal")
-	var bois := _mat("bois")
-	# Arbres le long des bords est, ouest et nord de la place.
-	var arbres: Array[Vector2] = []
+	var granit := _mat_pbr("granite_tile", 2.0, "pierre", Color(0.75, 0.75, 0.75))
+	var metal := _mat_pbr("metal_plate", 1.5, "metal")
+	var terre := _mat("tronc")
+	# Grands bacs de granit plantés, le long des bords de la place.
+	var bacs: Array[Vector2] = []
 	for z in [-22.0, -12.0, 12.0, 22.0]:
-		arbres.append(Vector2(-24, z))
-		arbres.append(Vector2(24, z))
+		bacs.append(Vector2(-24, z))
+		bacs.append(Vector2(24, z))
 	for x in [-22.0, -10.0, 10.0, 22.0]:
-		arbres.append(Vector2(x, -24))
-	# Pas d'arbre à l'endroit de l'escalier de la station Asahi.
-	arbres = arbres.filter(func(p: Vector2): return not (p.x < 0 and p.y > 0))
-	arbres.append(Vector2(-14, 24))
-	for p in arbres:
-		_cylindre(0.22, 0.3, 4.0, Vector3(p.x, 2.0, p.y), tronc)
-		var houppier := MeshInstance3D.new()
-		var sphere := SphereMesh.new()
-		sphere.radius = 2.4
-		sphere.height = 3.6
-		houppier.mesh = sphere
-		houppier.material_override = feuillage
-		houppier.position = Vector3(p.x, 5.2, p.y)
-		_contenu.add_child(houppier)
-		# Bac de l'arbre.
-		_bloc(p.x - 1.2, p.y - 1.2, p.x + 1.2, p.y + 1.2, 0, 0.45, _mat("pierre"))
-	# Bancs entre les arbres.
+		bacs.append(Vector2(x, -24))
+	# Pas de bac à l'endroit de l'escalier de la station Asahi.
+	bacs = bacs.filter(func(p: Vector2): return not (p.x < 0 and p.y > 0))
+	bacs.append(Vector2(-14, 24))
+	var hasard := RandomNumberGenerator.new()
+	hasard.seed = 11
+	for p in bacs:
+		_bloc(p.x - 1.3, p.y - 1.3, p.x + 1.3, p.y + 1.3, 0, 0.6, granit)
+		_bloc(p.x - 1.15, p.y - 1.15, p.x + 1.15, p.y + 1.15, 0.6, 0.62, terre, false)
+		# Plante en pot enfoncée dans le bac (on ne voit que le feuillage).
+		var plante := _modele("potted_plant_01", Vector3(p.x, -0.45, p.y), hasard.randf() * TAU,
+				hasard.randf_range(2.6, 3.2))
+		if plante == null:
+			# Sans les modèles : arbre simplifié.
+			_cylindre(0.22, 0.3, 4.0, Vector3(p.x, 2.0, p.y), terre)
+			var houppier := MeshInstance3D.new()
+			var sphere := SphereMesh.new()
+			sphere.radius = 2.4
+			sphere.height = 3.6
+			houppier.mesh = sphere
+			houppier.material_override = _mat("feuillage")
+			houppier.position = Vector3(p.x, 5.2, p.y)
+			_contenu.add_child(houppier)
+	# Bancs de granit (assise en bois) entre les bacs, et poubelles à côté.
 	for z in [-17.0, 17.0]:
 		for x in [-24.0, 24.0]:
 			if x < 0 and z > 0:
 				continue # emplacement de l'escalier
-			_bloc(x - 0.35, z - 1.2, x + 0.35, z + 1.2, 0.4, 0.5, bois)
-			_bloc(x - 0.3, z - 1.1, x + 0.3, z + 1.1, 0, 0.4, metal)
+			_bloc(x - 0.4, z - 1.4, x + 0.4, z + 1.4, 0, 0.42, granit)
+			_bloc(x - 0.42, z - 1.42, x + 0.42, z + 1.42, 0.42, 0.48, _mat("bois"), false)
+			_modele("metal_trash_can", Vector3(x, 0, z + 2.2), PI / 2, 0.75, null, ["rust"])
 	# Éclairage d'ambiance de la place (projecteurs cachés sur les façades).
 	for p in [Vector3(-16, 9, -10), Vector3(16, 9, -10), Vector3(0, 9, 14)]:
 		_lumiere(p, Color(0.75, 0.7, 1.0), 2.0, 26.0)
@@ -515,9 +660,82 @@ func _construire_mobilier() -> void:
 		Vector2(-28, 0), Vector2(28, 0), Vector2(-7, 44), Vector2(7, 54),
 	]
 	for p in lampes:
-		_cylindre(0.08, 0.12, 6.0, Vector3(p.x, 3.0, p.y), metal)
-		_boite(Vector3(0.6, 0.2, 0.6), Vector3(p.x, 6.1, p.y), _neon(Color(1.0, 0.85, 0.65), 3.0), false)
-		_lumiere(Vector3(p.x, 5.8, p.y), Color(1.0, 0.82, 0.6), 4.0, 22.0)
+		var lampe := _modele("street_lamp_01", Vector3(p.x, 0, p.y), atan2(-p.x, -p.y), 1.5)
+		if lampe == null:
+			_cylindre(0.08, 0.12, 6.0, Vector3(p.x, 3.0, p.y), metal)
+			_boite(Vector3(0.6, 0.2, 0.6), Vector3(p.x, 6.1, p.y), _neon(Color(1.0, 0.85, 0.65), 3.0), false)
+		else:
+			_collision_boite(Vector3(0.3, 5.8, 0.3), Transform3D(Basis(), Vector3(p.x, 2.9, p.y)))
+		_lumiere(Vector3(p.x, 5.4, p.y), Color(1.0, 0.82, 0.6), 4.0, 22.0)
+	# Petits détails de rue.
+	_modele("fire_hydrant", Vector3(-31.5, 0, -8.5), PI / 2, 1.0, null, ["aged"])
+	_modele("fire_hydrant", Vector3(31.5, 0, 8.5), -PI / 2, 1.0, null, ["aged"])
+	_modele("utility_box_01", Vector3(-31.8, 0, -31.8), PI / 4, 1.2)
+	_modele("utility_box_01", Vector3(31.8, 0, 31.8), -PI * 0.75, 1.2)
+	for p in [Vector3(-20, 0.01, -42), Vector3(20, 0.01, -45), Vector3(-42, 0.01, 0), Vector3(0, 0.01, 46)]:
+		_modele("water_manhole_cover", p, 0.0, 1.3)
+	_modele("korean_public_payphone_01", Vector3(33.75, 1.3, 25.5), -PI / 2, 1.0)
+	# Climatiseurs accrochés aux façades (un classique des villes asiatiques).
+	var climatiseurs := [
+		[Vector3(-44, 7, -33.8), 0.0], [Vector3(-58, 10.5, -33.8), 0.0], [Vector3(-38, 14, -33.8), 0.0],
+		[Vector3(46, 7, -33.8), 0.0], [Vector3(58, 14, -33.8), 0.0],
+		[Vector3(-33.8, 7, -28), PI / 2], [Vector3(-33.8, 10.5, -12), PI / 2],
+		[Vector3(33.8, 7, 12), -PI / 2], [Vector3(33.8, 14, 28), -PI / 2],
+		[Vector3(-40, 7, 33.8), PI], [Vector3(-52, 10.5, 33.8), PI], [Vector3(40, 10.5, 33.8), PI],
+	]
+	for c in climatiseurs:
+		_modele("exterior_aircon_unit", c[0], c[1], 1.0, null, ["rusted"])
+	# Caméras de surveillance de la Vigie (discrètes) aux coins de sa tour.
+	for x in [-13.8, 13.8]:
+		_modele("security_camera_01", Vector3(x, 6, -33.6), PI, 1.0)
+	_modele("security_light", Vector3(-23, 4.2, 11.6), PI, 1.2)
+	# Devant le sushi bar (côté sud) : caisses et sacs-poubelle.
+	for d in [[Vector3(-30, 0, 35.4), "plastic_crate_01", 0.3], [Vector3(-30.4, 0.26, 35.5), "plastic_crate_01", 0.1],
+			[Vector3(-28.5, 0, 35.6), "trashbag", 0.0], [Vector3(-27.8, 0, 35.3), "trashbag", 1.2],
+			[Vector3(-31.4, 0, 35.2), "cardboard_box_01", 0.5]]:
+		_modele(d[1], d[0], d[2], 1.0)
+	_construire_vitrines()
+
+
+## Rez-de-chaussée des immeubles : vitrines éclairées (boutiques ouvertes)
+## et rideaux de fer baissés (boutiques fermées pour la nuit).
+func _construire_vitrines() -> void:
+	# [centre, angle (face vers la place), ouverte ?, couleur de l'intérieur]
+	var vitrines := [
+		[Vector3(-40, 0, -34), 0.0, true, Color(1.0, 0.75, 0.5)],
+		[Vector3(-52, 0, -34), 0.0, false, Color()],
+		[Vector3(-62, 0, -34), 0.0, true, Color(0.6, 0.85, 1.0)],
+		[Vector3(44, 0, -34), 0.0, true, Color(1.0, 0.8, 0.55)],
+		[Vector3(56, 0, -34), 0.0, false, Color()],
+		[Vector3(-34, 0, -20), PI / 2, true, Color(0.7, 1.0, 0.7)],
+		[Vector3(-34, 0, -28), PI / 2, false, Color()],
+		[Vector3(34, 0, -20), -PI / 2, true, Color(0.95, 0.9, 1.0)],
+		[Vector3(34, 0, 20), -PI / 2, true, Color(0.9, 1.0, 1.0)],
+		[Vector3(34, 0, 28), -PI / 2, false, Color()],
+		[Vector3(-34, 0, 26), PI / 2, false, Color()],
+		[Vector3(-24, 0, 34), PI, true, Color(1.0, 0.7, 0.6)],
+		[Vector3(-14, 0, 34), PI, false, Color()],
+		[Vector3(22, 0, 34), PI, true, Color(0.7, 0.85, 1.0)],
+		[Vector3(32, 0, 34), PI, false, Color()],
+	]
+	for v in vitrines:
+		var centre: Vector3 = v[0]
+		var angle: float = v[1]
+		var avant := Vector3(sin(angle), 0, cos(angle))
+		if v[2]:
+			# Vitre éclairée de l'intérieur.
+			var vitre := _boite(Vector3(5.0, 3.0, 0.08), centre + avant * 0.02 + Vector3(0, 1.6, 0),
+					_vitrine(v[3]), false)
+			vitre.rotation.y = angle
+			# Encadrement et auvent au-dessus de la vitrine.
+			var auvent := _boite(Vector3(5.6, 0.12, 1.2), centre + avant * 0.6 + Vector3(0, 3.3, 0), _mat_pbr("metal_plate", 1.5, "metal"), false)
+			auvent.rotation.y = angle
+			_lumiere(centre + avant * 2.0 + Vector3(0, 2.0, 0), v[3], 1.2, 7.0)
+		else:
+			var rideau := _modele("rollershutter_window_01", centre + avant * 0.05, angle, 1.0)
+			if rideau == null:
+				var b := _boite(Vector3(5.0, 3.0, 0.08), centre + avant * 0.02 + Vector3(0, 1.6, 0), _mat("metal"), false)
+				b.rotation.y = angle
 
 
 # --- Enseignes et néons --------------------------------------------------
@@ -531,19 +749,19 @@ func _construire_enseignes() -> void:
 	# [texte, position, angle, couleur, taille]
 	# Les façades donnant sur la place : nord à z = -34, sud à z = 34, ouest à x = -34, est à x = 34.
 	var enseignes := [
-		["RAMEN", Vector3(-40, 6, -33.8), 0.0, rose, 110],
-		["KARAOKE STAR", Vector3(-50, 9, -33.8), 0.0, cyan, 90],
-		["Marché de nuit", Vector3(-20, 5.4, -32.8), 0.0, rose, 70],
-		["Quartier des Artisans", Vector3(20, 5.4, -32.8), 0.0, orange, 70],
-		["CAFÉ 24/7", Vector3(42, 5, -33.8), 0.0, orange, 90],
-		["PACHINKO", Vector3(-33.8, 8, -20), PI / 2, vert, 120],
-		["Musée & Jardins suspendus", Vector3(33.8, 4, -13.0), -PI / 2, vert, 60],
-		["HOTEL LUMEN", Vector3(33.8, 12, -20), -PI / 2, bleu, 120],
-		["KONBINI", Vector3(33.8, 4.5, 20), -PI / 2, cyan, 110],
-		["Résidences · bientôt", Vector3(-33.8, 4, 13.0), PI / 2, orange, 60],
-		["Front de mer", Vector3(-12.0, 4, 33.8), PI, bleu, 60],
-		["SUSHI BAR", Vector3(-18, 5, 33.8), PI, rose, 100],
-		["ARCADE", Vector3(18, 7, 33.8), PI, cyan, 130],
+		["ラーメン RAMEN", Vector3(-40, 6, -33.8), 0.0, rose, 110],
+		["カラオケ KARAOKE STAR", Vector3(-52, 9, -33.8), 0.0, cyan, 90],
+		["夜市 · Marché de nuit", Vector3(-20, 5.4, -32.8), 0.0, rose, 70],
+		["職人街 · Quartier des Artisans", Vector3(20, 5.4, -32.8), 0.0, orange, 70],
+		["喫茶 CAFÉ 24/7", Vector3(44, 5, -33.8), 0.0, orange, 90],
+		["パチンコ PACHINKO", Vector3(-33.8, 8, -20), PI / 2, vert, 120],
+		["博物館 · Musée & Jardins", Vector3(33.8, 4, -13.0), -PI / 2, vert, 60],
+		["ホテル HOTEL LUMEN", Vector3(33.8, 12, -20), -PI / 2, bleu, 120],
+		["コンビニ KONBINI", Vector3(33.8, 4.5, 20), -PI / 2, cyan, 110],
+		["住宅街 · Résidences · bientôt", Vector3(-33.8, 4, 13.0), PI / 2, orange, 60],
+		["海辺 · Front de mer", Vector3(-14.0, 4, 33.8), PI, bleu, 60],
+		["寿司 SUSHI BAR", Vector3(-24, 5, 33.8), PI, rose, 100],
+		["ゲームセンター ARCADE", Vector3(22, 7, 33.8), PI, cyan, 130],
 	]
 	# Portiques métalliques au-dessus des deux rues du nord (portent les panneaux).
 	for x in [-20.0, 20.0]:
@@ -576,12 +794,12 @@ func _construire_enseignes() -> void:
 func _construire_barrieres() -> void:
 	# [centre, largeur, angle, panneau]
 	var barrieres := [
-		[Vector3(-20, 0, -FIN_RUES), RUE * 2, 0.0, "TRAVAUX · Marché de nuit bientôt"],
-		[Vector3(20, 0, -FIN_RUES), RUE * 2, 0.0, "TRAVAUX · Quartier des Artisans bientôt"],
-		[Vector3(-FIN_RUES, 0, 0), RUE * 2, PI / 2, "TRAVAUX · Résidences bientôt"],
-		[Vector3(FIN_RUES, 0, 0), RUE * 2, -PI / 2, "TRAVAUX · Musée bientôt"],
+		[Vector3(-20, 0, -FIN_RUES), RUE * 2, 0.0, "工事中 · TRAVAUX · Marché de nuit bientôt"],
+		[Vector3(20, 0, -FIN_RUES), RUE * 2, 0.0, "工事中 · TRAVAUX · Artisans bientôt"],
+		[Vector3(-FIN_RUES, 0, 0), RUE * 2, PI / 2, "工事中 · TRAVAUX · Résidences bientôt"],
+		[Vector3(FIN_RUES, 0, 0), RUE * 2, -PI / 2, "工事中 · TRAVAUX · Musée bientôt"],
 		[Vector3(-70, 0, (62 + QUAI) * 0.5), QUAI - 62, PI / 2, "TRAVAUX"],
-		[Vector3(70, 0, (62 + QUAI) * 0.5), QUAI - 62, -PI / 2, "TRAVAUX · Arène bientôt"],
+		[Vector3(70, 0, (62 + QUAI) * 0.5), QUAI - 62, -PI / 2, "工事中 · TRAVAUX · Arène bientôt"],
 	]
 	for b in barrieres:
 		var centre: Vector3 = b[0]
@@ -592,12 +810,23 @@ func _construire_barrieres() -> void:
 		pivot.rotation.y = angle
 		_contenu.add_child(pivot)
 		var t := pivot.transform
-		# Palissade orange et blanche (bloque le passage).
-		for i in int(largeur / 2.0):
+		# Rangée de blocs de béton (ou palissade orange et blanche sans les modèles).
+		var nombre := int(largeur / 1.6)
+		var blocs_ok := true
+		for i in nombre:
+			var x := -largeur * 0.5 + 0.8 + i * largeur / nombre
+			if _modele("concrete_road_barrier", Vector3(x, 0, 0), (i % 3 - 1) * 0.05, 1.05, pivot) == null:
+				blocs_ok = false
+				break
+		# Panneau de chantier orange et blanc au-dessus des blocs.
+		_boite(Vector3(minf(largeur, 6.0), 0.9, 0.06), Vector3(0, 2.0, -0.1), _mat("chantier"), false, pivot)
+		for x in [-minf(largeur, 6.0) * 0.45, minf(largeur, 6.0) * 0.45]:
+			_boite(Vector3(0.08, 2.4, 0.08), Vector3(x, 1.2, -0.15), _mat("metal"), false, pivot)
+		for i in (0 if blocs_ok else int(largeur / 2.0)):
 			var x := -largeur * 0.5 + 1.0 + i * 2.0
 			_boite(Vector3(1.9, 1.1, 0.15), Vector3(x, 0.75, 0), _mat("chantier") if i % 2 == 0 else _mat("blanc"), false, pivot)
 		_collision_boite(Vector3(largeur, 3.0, 0.4), t.translated_local(Vector3(0, 1.5, 0)))
-		var panneau := _texte(b[3], centre + Vector3(0, 2.0, 0) + t.basis.z * 0.2, Color(1.0, 0.7, 0.3), 56, angle, 2.0)
+		var panneau := _texte(b[3], centre + Vector3(0, 2.0, 0) + t.basis.z * -0.05, Color(0.05, 0.05, 0.05), 40, angle, 1.0)
 		panneau.double_sided = true
 
 

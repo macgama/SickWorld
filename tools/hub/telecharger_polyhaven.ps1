@@ -19,11 +19,11 @@ $cartes = @("Diffuse", "nor_gl", "arm")
 
 # Modèles 3D (glTF, textures 1k).
 $modeles = @(
-	"street_lamp_01", "street_lamp_02", "modular_street_seating", "fire_hydrant", "metal_trash_can",
+	"street_lamp_01", "street_lamp_02", "fire_hydrant", "metal_trash_can",
 	"exterior_aircon_unit", "utility_box_01", "water_manhole_cover", "concrete_road_barrier",
-	"rollershutter_door", "rollershutter_window_01", "modular_urban_apartments_facade",
-	"modular_factory_facade", "modular_fire_escape", "security_light", "potted_plant_01",
-	"planter_box_01", "jacaranda_tree", "island_tree_01", "shrub_01", "shrub_02",
+	"rollershutter_door", "rollershutter_window_01",
+	"security_light", "potted_plant_01",
+	"planter_box_01",
 	"korean_public_payphone_01", "security_camera_01", "plastic_crate_01", "cardboard_box_01",
 	"trashbag", "gothic_statue", "modular_chainlink_fence"
 )
