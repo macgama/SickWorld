@@ -3,15 +3,11 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bb52rngoftjmu"
-path="res://.godot/imported/rock_07_nor_gl_1k.jpg-f93324a5db85859ef4f4584f864bca76.ctex"
-metadata={
-"vram_texture": false
-}
+valid=false
 
 [deps]
 
 source_file="res://assets/prehistoire/modeles/rock_07/textures/rock_07_nor_gl_1k.jpg"
-dest_files=["res://.godot/imported/rock_07_nor_gl_1k.jpg-f93324a5db85859ef4f4584f864bca76.ctex"]
 
 [params]
 

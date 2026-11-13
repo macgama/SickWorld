@@ -3,15 +3,11 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dfo7pinjds8gx"
-path="res://.godot/imported/rough_wood_Diffuse.jpg-c9ec6d88fa758ac0f13b2defc638a228.ctex"
-metadata={
-"vram_texture": false
-}
+valid=false
 
 [deps]
 
 source_file="res://assets/prehistoire/textures/rough_wood/rough_wood_Diffuse.jpg"
-dest_files=["res://.godot/imported/rough_wood_Diffuse.jpg-c9ec6d88fa758ac0f13b2defc638a228.ctex"]
 
 [params]
 

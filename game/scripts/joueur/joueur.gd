@@ -82,6 +82,7 @@ func _enter_tree() -> void:
 	$Combat.set_multiplayer_authority(1, true)
 	$CombatJoueur.set_multiplayer_authority(1, true)
 	$Fiche.set_multiplayer_authority(1, true)
+	$Inventaire.set_multiplayer_authority(1, true)
 
 
 ## Numéro réseau du joueur qui contrôle ce personnage.
@@ -220,24 +221,26 @@ func _physics_process(delta: float) -> void:
 		return
 
 	var clic_droit := camera.clic_droit_maintenu()
+	# Pendant qu'on écrit (nom d'une tenue…), les touches ne déplacent pas le personnage.
+	var clavier := 0.0 if get_viewport().gui_get_focus_owner() is LineEdit else 1.0
 
 	# 1. Orientation du personnage.
 	if clic_droit:
 		rotation.y = camera.lacet
 	else:
-		var tourner := Input.get_axis("tourner_droite", "tourner_gauche")
+		var tourner := Input.get_axis("tourner_droite", "tourner_gauche") * clavier
 		if tourner != 0.0:
 			var angle := deg_to_rad(vitesse_rotation_clavier) * tourner * delta
 			rotation.y += angle
 			camera.suivre_rotation(angle)
 
 	# 2. Direction voulue (dans le repère du personnage).
-	var avant := Input.get_axis("reculer", "avancer")
+	var avant := Input.get_axis("reculer", "avancer") * clavier
 	if camera.deux_clics_maintenus():
 		avant = 1.0
-	var cote := Input.get_axis("pas_gauche", "pas_droite")
+	var cote := Input.get_axis("pas_gauche", "pas_droite") * clavier
 	if clic_droit:
-		cote += Input.get_axis("tourner_gauche", "tourner_droite")
+		cote += Input.get_axis("tourner_gauche", "tourner_droite") * clavier
 	cote = clampf(cote, -1.0, 1.0)
 
 	var direction := -transform.basis.z * avant + transform.basis.x * cote
@@ -254,7 +257,7 @@ func _physics_process(delta: float) -> void:
 		_temps_esquive -= delta
 		velocity.x = _direction_esquive.x * vitesse_esquive
 		velocity.z = _direction_esquive.z * vitesse_esquive
-	elif Input.is_action_just_pressed("esquive") and is_on_floor() and endurance >= cout_esquive:
+	elif clavier > 0.0 and Input.is_action_just_pressed("esquive") and is_on_floor() and endurance >= cout_esquive:
 		endurance -= cout_esquive
 		_temps_esquive = duree_esquive
 		_direction_esquive = direction.normalized() if direction.length() > 0.1 else -transform.basis.z
@@ -269,7 +272,7 @@ func _physics_process(delta: float) -> void:
 
 	# 5. Saut et gravité.
 	if is_on_floor():
-		if Input.is_action_just_pressed("sauter") and _temps_esquive <= 0.0:
+		if clavier > 0.0 and Input.is_action_just_pressed("sauter") and _temps_esquive <= 0.0:
 			velocity.y = force_saut
 	else:
 		velocity.y -= gravite * delta

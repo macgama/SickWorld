@@ -4,12 +4,11 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://c8xloxl4bd3hm"
-path="res://.godot/imported/tree_stump_01.gltf-b12e5ec4dfca25c85ac160b949525933.scn"
+valid=false
 
 [deps]
 
 source_file="res://assets/prehistoire/modeles/tree_stump_01/tree_stump_01.gltf"
-dest_files=["res://.godot/imported/tree_stump_01.gltf-b12e5ec4dfca25c85ac160b949525933.scn"]
 
 [params]
 

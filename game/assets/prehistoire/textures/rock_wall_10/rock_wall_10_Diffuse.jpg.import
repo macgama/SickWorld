@@ -3,15 +3,11 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dvu8s88mr8agx"
-path="res://.godot/imported/rock_wall_10_Diffuse.jpg-a7b972f2d2f1d095cbd3e20c89cb087e.ctex"
-metadata={
-"vram_texture": false
-}
+valid=false
 
 [deps]
 
 source_file="res://assets/prehistoire/textures/rock_wall_10/rock_wall_10_Diffuse.jpg"
-dest_files=["res://.godot/imported/rock_wall_10_Diffuse.jpg-a7b972f2d2f1d095cbd3e20c89cb087e.ctex"]
 
 [params]
 

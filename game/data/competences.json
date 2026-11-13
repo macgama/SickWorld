@@ -93,5 +93,29 @@
 		"duree": 20,
 		"recharge": 90,
 		"couleur": "#f1c40f"
+	},
+	"cri_du_clan": {
+		"nom": "Cri du clan",
+		"origine": "Préhistoire",
+		"description": "Pousse le cri de guerre du clan : tes alliés et toi, à moins de 15 mètres, infligez 15 % de dégâts en plus pendant 10 secondes.",
+		"type": "renfort",
+		"rayon": 15,
+		"effet": "cri_du_clan",
+		"duree": 10,
+		"degats_infliges": 1.15,
+		"recharge": 30,
+		"couleur": "#c0392b"
+	},
+	"peinture_de_guerre": {
+		"nom": "Peinture de guerre",
+		"origine": "Préhistoire",
+		"description": "Tu te couvres d'ocre : tu subis 30 % de dégâts en moins pendant 8 secondes.",
+		"type": "renfort",
+		"rayon": 0,
+		"effet": "peinture_de_guerre",
+		"duree": 8,
+		"reduction_degats_subis": 0.3,
+		"recharge": 25,
+		"couleur": "#b03a2e"
 	}
 }

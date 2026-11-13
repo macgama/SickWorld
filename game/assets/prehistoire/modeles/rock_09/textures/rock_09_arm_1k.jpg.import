@@ -3,15 +3,11 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://duyrprkgkel2j"
-path="res://.godot/imported/rock_09_arm_1k.jpg-9d8d7d351a569ec09d9f127e94ba2937.ctex"
-metadata={
-"vram_texture": false
-}
+valid=false
 
 [deps]
 
 source_file="res://assets/prehistoire/modeles/rock_09/textures/rock_09_arm_1k.jpg"
-dest_files=["res://.godot/imported/rock_09_arm_1k.jpg-9d8d7d351a569ec09d9f127e94ba2937.ctex"]
 
 [params]
 

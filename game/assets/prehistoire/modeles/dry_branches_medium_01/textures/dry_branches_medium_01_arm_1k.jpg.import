@@ -3,15 +3,11 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bgiafy0eu1xq5"
-path="res://.godot/imported/dry_branches_medium_01_arm_1k.jpg-23602a4c9302327c1dc13b1054c08ad3.ctex"
-metadata={
-"vram_texture": false
-}
+valid=false
 
 [deps]
 
 source_file="res://assets/prehistoire/modeles/dry_branches_medium_01/textures/dry_branches_medium_01_arm_1k.jpg"
-dest_files=["res://.godot/imported/dry_branches_medium_01_arm_1k.jpg-23602a4c9302327c1dc13b1054c08ad3.ctex"]
 
 [params]
 

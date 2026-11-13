@@ -3,15 +3,11 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cok3ldts7i34y"
-path="res://.godot/imported/cliff_side_nor_gl.jpg-9dae3c51ee6fe13dafa88f9a9ba69a29.ctex"
-metadata={
-"vram_texture": false
-}
+valid=false
 
 [deps]
 
 source_file="res://assets/prehistoire/textures/cliff_side/cliff_side_nor_gl.jpg"
-dest_files=["res://.godot/imported/cliff_side_nor_gl.jpg-9dae3c51ee6fe13dafa88f9a9ba69a29.ctex"]
 
 [params]
 

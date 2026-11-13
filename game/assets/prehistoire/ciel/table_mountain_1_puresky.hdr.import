@@ -3,15 +3,11 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://b6gbrdqqp70pk"
-path="res://.godot/imported/table_mountain_1_puresky.hdr-4abadd4d2d098e8d05b99567f7332d31.ctex"
-metadata={
-"vram_texture": false
-}
+valid=false
 
 [deps]
 
 source_file="res://assets/prehistoire/ciel/table_mountain_1_puresky.hdr"
-dest_files=["res://.godot/imported/table_mountain_1_puresky.hdr-4abadd4d2d098e8d05b99567f7332d31.ctex"]
 
 [params]
 

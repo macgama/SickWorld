@@ -3,15 +3,11 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://d30thg4mirybd"
-path="res://.godot/imported/boulder_01_arm_1k.jpg-0b1c9873580631e04c5dce3cd802bb3a.ctex"
-metadata={
-"vram_texture": false
-}
+valid=false
 
 [deps]
 
 source_file="res://assets/prehistoire/modeles/boulder_01/textures/boulder_01_arm_1k.jpg"
-dest_files=["res://.godot/imported/boulder_01_arm_1k.jpg-0b1c9873580631e04c5dce3cd802bb3a.ctex"]
 
 [params]
 

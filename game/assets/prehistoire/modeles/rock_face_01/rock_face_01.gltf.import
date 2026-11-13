@@ -4,12 +4,11 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://ci3esyefvp1j3"
-path="res://.godot/imported/rock_face_01.gltf-101be955e121827c5e793271e75875a4.scn"
+valid=false
 
 [deps]
 
 source_file="res://assets/prehistoire/modeles/rock_face_01/rock_face_01.gltf"
-dest_files=["res://.godot/imported/rock_face_01.gltf-101be955e121827c5e793271e75875a4.scn"]
 
 [params]
 

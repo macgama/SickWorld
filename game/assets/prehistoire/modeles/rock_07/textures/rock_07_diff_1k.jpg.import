@@ -3,15 +3,11 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://40m84xwnprec"
-path="res://.godot/imported/rock_07_diff_1k.jpg-9c065e68f135658ed7377513f71e94e6.ctex"
-metadata={
-"vram_texture": false
-}
+valid=false
 
 [deps]
 
 source_file="res://assets/prehistoire/modeles/rock_07/textures/rock_07_diff_1k.jpg"
-dest_files=["res://.godot/imported/rock_07_diff_1k.jpg-9c065e68f135658ed7377513f71e94e6.ctex"]
 
 [params]
 

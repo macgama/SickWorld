@@ -3,15 +3,11 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://damgapoxxye3b"
-path="res://.godot/imported/snow_03_nor_gl.jpg-c91fd77e3cd54d1eb51fd071949f4912.ctex"
-metadata={
-"vram_texture": false
-}
+valid=false
 
 [deps]
 
 source_file="res://assets/prehistoire/textures/snow_03/snow_03_nor_gl.jpg"
-dest_files=["res://.godot/imported/snow_03_nor_gl.jpg-c91fd77e3cd54d1eb51fd071949f4912.ctex"]
 
 [params]
 

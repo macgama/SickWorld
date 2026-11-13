@@ -3,15 +3,11 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dy54g38yivlx5"
-path="res://.godot/imported/clean_pebbles_nor_gl.jpg-55754d8740ea6721d398acd609616d07.ctex"
-metadata={
-"vram_texture": false
-}
+valid=false
 
 [deps]
 
 source_file="res://assets/prehistoire/textures/clean_pebbles/clean_pebbles_nor_gl.jpg"
-dest_files=["res://.godot/imported/clean_pebbles_nor_gl.jpg-55754d8740ea6721d398acd609616d07.ctex"]
 
 [params]
 

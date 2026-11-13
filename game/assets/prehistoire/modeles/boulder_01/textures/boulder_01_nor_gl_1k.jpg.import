@@ -3,15 +3,11 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bu67kcsq5pb3n"
-path="res://.godot/imported/boulder_01_nor_gl_1k.jpg-7dde12a7f903919caed70fd522274ebb.ctex"
-metadata={
-"vram_texture": false
-}
+valid=false
 
 [deps]
 
 source_file="res://assets/prehistoire/modeles/boulder_01/textures/boulder_01_nor_gl_1k.jpg"
-dest_files=["res://.godot/imported/boulder_01_nor_gl_1k.jpg-7dde12a7f903919caed70fd522274ebb.ctex"]
 
 [params]
 

@@ -3,15 +3,11 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dcq47eltf0d21"
-path="res://.godot/imported/namaqualand_boulder_04_nor_gl_1k.jpg-fa88e16e6d1d8fe3940cb7310629fd52.ctex"
-metadata={
-"vram_texture": false
-}
+valid=false
 
 [deps]
 
 source_file="res://assets/prehistoire/modeles/namaqualand_boulder_04/textures/namaqualand_boulder_04_nor_gl_1k.jpg"
-dest_files=["res://.godot/imported/namaqualand_boulder_04_nor_gl_1k.jpg-fa88e16e6d1d8fe3940cb7310629fd52.ctex"]
 
 [params]
 

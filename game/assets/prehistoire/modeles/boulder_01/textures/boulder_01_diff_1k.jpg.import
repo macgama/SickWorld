@@ -3,15 +3,11 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://ptoffl7727do"
-path="res://.godot/imported/boulder_01_diff_1k.jpg-a6685aadb7269063c54f114e206111ab.ctex"
-metadata={
-"vram_texture": false
-}
+valid=false
 
 [deps]
 
 source_file="res://assets/prehistoire/modeles/boulder_01/textures/boulder_01_diff_1k.jpg"
-dest_files=["res://.godot/imported/boulder_01_diff_1k.jpg-a6685aadb7269063c54f114e206111ab.ctex"]
 
 [params]
 

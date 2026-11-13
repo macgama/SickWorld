@@ -4,12 +4,11 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://cxcfig2tvts5c"
-path="res://.godot/imported/namaqualand_boulder_04.gltf-82aa30cf66dbcbfdf9a12815d8fbd00a.scn"
+valid=false
 
 [deps]
 
 source_file="res://assets/prehistoire/modeles/namaqualand_boulder_04/namaqualand_boulder_04.gltf"
-dest_files=["res://.godot/imported/namaqualand_boulder_04.gltf-82aa30cf66dbcbfdf9a12815d8fbd00a.scn"]
 
 [params]
 

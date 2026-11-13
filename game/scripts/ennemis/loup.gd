@@ -212,6 +212,11 @@ func _sur_degats(_montant: float, source: Combattant) -> void:
 
 
 func _sur_mort(_tueur: Combattant) -> void:
+	if maitre == null:
+		# Butin personnel pour chaque joueur qui a participé au combat.
+		var butin := get_tree().get_first_node_in_group("butin")
+		if butin != null:
+			butin.ennemi_vaincu(combat, type_ennemi, global_position)
 	etat = Etat.MORT
 	_moment_mort = Regles.maintenant()
 	_cible = null

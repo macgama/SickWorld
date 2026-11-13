@@ -3,15 +3,11 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cdpshis06afnb"
-path="res://.godot/imported/brown_mud_rocks_01_nor_gl.jpg-d245077d0caa42e51ddab7e57ad0ce5b.ctex"
-metadata={
-"vram_texture": false
-}
+valid=false
 
 [deps]
 
 source_file="res://assets/prehistoire/textures/brown_mud_rocks_01/brown_mud_rocks_01_nor_gl.jpg"
-dest_files=["res://.godot/imported/brown_mud_rocks_01_nor_gl.jpg-d245077d0caa42e51ddab7e57ad0ce5b.ctex"]
 
 [params]
 

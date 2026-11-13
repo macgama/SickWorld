@@ -3,15 +3,11 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dxobjquf7dv80"
-path="res://.godot/imported/snow_field_2_puresky.hdr-204b55456c33ea6cc72f56b8de280219.ctex"
-metadata={
-"vram_texture": false
-}
+valid=false
 
 [deps]
 
 source_file="res://assets/prehistoire/ciel/snow_field_2_puresky.hdr"
-dest_files=["res://.godot/imported/snow_field_2_puresky.hdr-204b55456c33ea6cc72f56b8de280219.ctex"]
 
 [params]
 
