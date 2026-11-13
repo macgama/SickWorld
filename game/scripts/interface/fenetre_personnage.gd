@@ -6,9 +6,16 @@ extends PanelContainer
 ## Clic droit sur un objet des sacs : le jeter (avec confirmation).
 ## Clic sur un emplacement d'équipement : retirer l'objet.
 ## Rien n'est décidé ici : chaque clic envoie une demande au serveur (voir Inventaire).
+##
+## Les objets sont montrés par leur image (interface/icones/<id>.png, voir tests/generer_icones.gd),
+## et le personnage est affiché en 3D au centre : il change dès qu'on l'équipe.
 
-const TAILLE_CASE := 58
-const COLONNES_SAC := 8
+const APPARENCE := preload("res://scripts/joueur/apparence_agent.gd")
+const TAILLE_CASE := 56
+const TAILLE_EMPLACEMENT := 64
+const COLONNES_SAC := 6
+const GAUCHE := ["tete", "torse", "mains", "jambes", "pieds"]
+const DROITE := ["arme_principale", "arme_secondaire", "bijou_1", "bijou_2", "relique"]
 
 var inventaire: Node
 var combat_joueur: CombatJoueur
@@ -22,13 +29,20 @@ var _choix_competences := {}
 var _tenues: Array[Dictionary] = []
 var _confirmation: ConfirmationDialog
 var _a_jeter := -1
+# Aperçu 3D
+var _apercu: Node3D
+var _camera_apercu: Camera3D
+var _rotation_apercu := 0.0
+var _glisse := false
+var _fiche_appliquee := {}
+var _visuels_appliques := {}
 
 
 func _ready() -> void:
 	visible = false
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	var style := StyleBoxFlat.new()
-	style.bg_color = Color(0.05, 0.07, 0.1, 0.94)
+	style.bg_color = Color(0.05, 0.07, 0.1, 0.985)
 	style.border_color = Color(0.25, 0.85, 0.9, 0.5)
 	style.set_border_width_all(1)
 	style.set_corner_radius_all(8)
@@ -112,35 +126,143 @@ func _construire_equipement() -> Control:
 	var boite := VBoxContainer.new()
 	boite.add_theme_constant_override("separation", 6)
 	boite.add_child(_section("Équipement porté"))
-	var grille := GridContainer.new()
-	grille.columns = 2
-	grille.add_theme_constant_override("h_separation", 6)
-	grille.add_theme_constant_override("v_separation", 6)
-	boite.add_child(grille)
-	for e in Objets.EMPLACEMENTS:
-		var b := Button.new()
-		b.custom_minimum_size = Vector2(190, 46)
-		b.focus_mode = Control.FOCUS_NONE
-		b.clip_text = true
-		b.alignment = HORIZONTAL_ALIGNMENT_LEFT
-		b.add_theme_font_size_override("font_size", 12)
-		b.pressed.connect(func(): if inventaire: inventaire.retirer(e))
-		grille.add_child(b)
-		_emplacements[e] = b
+	var poupee := HBoxContainer.new()
+	poupee.add_theme_constant_override("separation", 8)
+	boite.add_child(poupee)
+	poupee.add_child(_colonne_emplacements(GAUCHE))
+	poupee.add_child(_construire_apercu())
+	poupee.add_child(_colonne_emplacements(DROITE))
 	boite.add_child(_section("Sacs portés"))
 	var ligne := HBoxContainer.new()
 	ligne.add_theme_constant_override("separation", 6)
 	boite.add_child(ligne)
 	for i in 4:
-		var b := Button.new()
-		b.custom_minimum_size = Vector2(83, 40)
-		b.focus_mode = Control.FOCUS_NONE
-		b.clip_text = true
-		b.add_theme_font_size_override("font_size", 10)
+		var b := _bouton_icone(TAILLE_CASE)
 		b.pressed.connect(func(): if inventaire: inventaire.decrocher_sac(i))
 		ligne.add_child(b)
 		_sacs_portes.append(b)
 	return boite
+
+
+func _colonne_emplacements(liste: Array) -> Control:
+	var colonne := VBoxContainer.new()
+	colonne.add_theme_constant_override("separation", 8)
+	colonne.alignment = BoxContainer.ALIGNMENT_CENTER
+	for e in liste:
+		var b := _bouton_icone(TAILLE_EMPLACEMENT)
+		b.pressed.connect(func(): if inventaire: inventaire.retirer(e))
+		colonne.add_child(b)
+		_emplacements[e] = b
+	return colonne
+
+
+## Case carrée qui affiche l'image d'un objet (et un petit texte quand elle est vide).
+func _bouton_icone(taille: int) -> Button:
+	var b := Button.new()
+	b.custom_minimum_size = Vector2(taille, taille)
+	b.focus_mode = Control.FOCUS_NONE
+	b.expand_icon = true
+	b.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	b.clip_text = true
+	b.add_theme_font_size_override("font_size", 9)
+	b.add_theme_constant_override("icon_max_width", taille - 8)
+	var quantite := Label.new()
+	quantite.name = "Quantite"
+	quantite.add_theme_font_size_override("font_size", 12)
+	quantite.add_theme_constant_override("outline_size", 4)
+	quantite.add_theme_color_override("font_outline_color", Color.BLACK)
+	quantite.set_anchors_preset(Control.PRESET_BOTTOM_RIGHT)
+	quantite.position = Vector2(taille - 24, taille - 20)
+	quantite.size = Vector2(20, 18)
+	quantite.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	quantite.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	b.add_child(quantite)
+	return b
+
+
+## Le personnage en 3D, dans son propre petit studio (on le tourne en glissant la souris).
+func _construire_apercu() -> Control:
+	var cadre := SubViewportContainer.new()
+	cadre.stretch = true
+	cadre.custom_minimum_size = Vector2(250, 5 * TAILLE_EMPLACEMENT + 4 * 8)
+	cadre.mouse_default_cursor_shape = Control.CURSOR_DRAG
+	cadre.tooltip_text = "Glisse la souris pour faire tourner ton personnage"
+	cadre.gui_input.connect(func(ev: InputEvent):
+		if ev is InputEventMouseButton and ev.button_index == MOUSE_BUTTON_LEFT:
+			_glisse = ev.pressed
+		elif ev is InputEventMouseMotion and _glisse:
+			_rotation_apercu += ev.relative.x * 0.012)
+	var vue := SubViewport.new()
+	vue.own_world_3d = true
+	vue.msaa_3d = Viewport.MSAA_4X
+	cadre.add_child(vue)
+	var monde := Node3D.new()
+	vue.add_child(monde)
+	var env := Environment.new()
+	env.background_mode = Environment.BG_COLOR
+	env.background_color = Color(0.07, 0.09, 0.13)
+	env.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
+	env.ambient_light_color = Color(0.55, 0.6, 0.7)
+	env.ambient_light_energy = 0.6
+	env.tonemap_mode = Environment.TONE_MAPPER_FILMIC
+	var we := WorldEnvironment.new()
+	we.environment = env
+	monde.add_child(we)
+	var soleil := DirectionalLight3D.new()
+	soleil.rotation_degrees = Vector3(-35, 150, 0)
+	soleil.light_energy = 1.3
+	monde.add_child(soleil)
+	var contre := OmniLight3D.new()
+	contre.position = Vector3(-1.4, 2.3, 1.6)
+	contre.light_color = Color(0.25, 0.85, 0.9)
+	contre.light_energy = 1.4
+	contre.omni_range = 6.0
+	monde.add_child(contre)
+	var sol := MeshInstance3D.new()
+	var disque := CylinderMesh.new()
+	disque.top_radius = 0.7
+	disque.bottom_radius = 0.75
+	disque.height = 0.04
+	sol.mesh = disque
+	sol.position.y = -0.02
+	var mat := StandardMaterial3D.new()
+	mat.albedo_color = Color(0.13, 0.16, 0.21)
+	sol.material_override = mat
+	monde.add_child(sol)
+	_apercu = Node3D.new()
+	_apercu.set_script(APPARENCE)
+	monde.add_child(_apercu)
+	_camera_apercu = Camera3D.new()
+	_camera_apercu.fov = 30.0
+	_camera_apercu.current = true
+	_camera_apercu.transform = Transform3D.IDENTITY.translated(Vector3(0, 1.05, -3.9)) \
+			.looking_at(Vector3(0, 0.95, 0), Vector3.UP)
+	monde.add_child(_camera_apercu)
+	return cadre
+
+
+## Met à jour le personnage de l'aperçu (apparence de la fiche + équipement porté).
+func _mettre_a_jour_apercu() -> void:
+	if _apercu == null or inventaire == null:
+		return
+	var joueur := inventaire.get_parent()
+	var fiche_noeud := joueur.get_node_or_null("Fiche")
+	var fiche: Dictionary = fiche_noeud.donnees if fiche_noeud != null else {}
+	if fiche != _fiche_appliquee and _apercu.has_method("appliquer"):
+		_fiche_appliquee = fiche.duplicate(true)
+		_apercu.appliquer(FichePersonnage.resoudre(fiche, Donnees.creation))
+		_visuels_appliques = {}
+	var visuels := Objets.visuels(Donnees.objets, inventaire.etat.get("equipement", {}))
+	if visuels != _visuels_appliques:
+		_visuels_appliques = visuels
+		_apercu.equiper(visuels)
+
+
+func _process(delta: float) -> void:
+	if not visible or _apercu == null:
+		return
+	_apercu.rotation.y = lerp_angle(_apercu.rotation.y, _rotation_apercu, clampf(10.0 * delta, 0.0, 1.0))
+	_apercu.animer(delta, Vector3.ZERO, true, -1.0, Vector3.ZERO)
 
 
 func _construire_milieu() -> Control:
@@ -220,7 +342,7 @@ func _construire_sacs() -> Control:
 	haut.add_child(ranger)
 	boite.add_child(haut)
 	var defilement := ScrollContainer.new()
-	defilement.custom_minimum_size = Vector2(COLONNES_SAC * (TAILLE_CASE + 4) + 12, 5 * (TAILLE_CASE + 4))
+	defilement.custom_minimum_size = Vector2(COLONNES_SAC * (TAILLE_CASE + 4) + 12, 7 * (TAILLE_CASE + 4))
 	defilement.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	boite.add_child(defilement)
 	_grille = GridContainer.new()
@@ -241,7 +363,7 @@ func _style_case(couleur: Color, vide: bool) -> StyleBoxFlat:
 	return s
 
 
-func _habiller_bouton(b: Button, id: String, vide_texte: String) -> void:
+func _habiller_bouton(b: Button, id: String, vide_texte: String, n := 1, nom_vide := "") -> void:
 	var cat := Donnees.objets
 	var couleur := Objets.couleur_rarete(cat, id) if id != "" else Color(1, 1, 1, 0.35)
 	b.add_theme_stylebox_override("normal", _style_case(couleur, id == ""))
@@ -252,6 +374,18 @@ func _habiller_bouton(b: Button, id: String, vide_texte: String) -> void:
 	b.add_theme_color_override("font_color", couleur)
 	b.add_theme_color_override("font_hover_color", couleur.lightened(0.2))
 	b.tooltip_text = Objets.description(cat, id) if id != "" else vide_texte
+	var image := Objets.icone(id)
+	b.icon = image
+	# Sans image (objet tout neuf), on garde le nom en petit.
+	if id == "":
+		b.text = nom_vide
+		b.modulate = Color(1, 1, 1, 0.75)
+	else:
+		b.text = "" if image != null else _abreger(String(Objets.objet(cat, id).get("nom", id)))
+		b.modulate = Color.WHITE
+	var quantite := b.get_node_or_null("Quantite") as Label
+	if quantite != null:
+		quantite.text = str(n) if n > 1 else ""
 
 
 # --- Mise à jour ----------------------------------------------------------------
@@ -265,15 +399,13 @@ func rafraichir() -> void:
 	for e in Objets.EMPLACEMENTS:
 		var id := String(etat["equipement"].get(e, ""))
 		var b := _emplacements[e] as Button
-		var nom := String(Objets.objet(cat, id).get("nom", ""))
-		b.text = "%s\n%s" % [Objets.NOMS_EMPLACEMENTS[e], nom if nom != "" else "—"]
-		_habiller_bouton(b, id, Objets.NOMS_EMPLACEMENTS[e] + " : vide")
+		var nom_emplacement := String(Objets.NOMS_EMPLACEMENTS[e])
+		_habiller_bouton(b, id, nom_emplacement + " : vide", 1,
+				nom_emplacement.replace("Arme principale", "Arme").replace("Arme secondaire", "Main\ngauche").replace("Relique d'époque", "Relique"))
 
 	for i in _sacs_portes.size():
 		var id := String(etat["sacs"][i]) if i < etat["sacs"].size() else ""
-		var o := Objets.objet(cat, id)
-		_sacs_portes[i].text = ("%s\n+%d places" % [o.get("nom", ""), int(o.get("places", 0))]) if id != "" else "Pas de sac"
-		_habiller_bouton(_sacs_portes[i], id, "Emplacement de sac libre : clique sur un sac dans tes sacs pour l'accrocher.")
+		_habiller_bouton(_sacs_portes[i], id, "Emplacement de sac libre : clique sur un sac dans tes sacs pour l'accrocher.", 1, "Sac")
 
 	var cases: Array = etat["cases"]
 	while _grille.get_child_count() < cases.size():
@@ -286,9 +418,8 @@ func rafraichir() -> void:
 		var c: Dictionary = cases[i]
 		var b := _grille.get_child(i) as Button
 		var id := String(c.get("id", ""))
-		var nom := String(Objets.objet(cat, id).get("nom", ""))
-		b.text = _abreger(nom) + (("\nx%d" % int(c["n"])) if int(c.get("n", 1)) > 1 else "")
-		_habiller_bouton(b, id, "")
+		_habiller_bouton(b, id, "", int(c.get("n", 1)))
+	_mettre_a_jour_apercu()
 	_titre_sacs.text = "Sacs  (%d / %d places)" % [cases.size() - Objets.places_libres(etat), cases.size()]
 
 	# Caractéristiques
@@ -335,12 +466,7 @@ func rafraichir() -> void:
 
 
 func _creer_case(index: int) -> Button:
-	var b := Button.new()
-	b.custom_minimum_size = Vector2(TAILLE_CASE, TAILLE_CASE)
-	b.focus_mode = Control.FOCUS_NONE
-	b.clip_text = true
-	b.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	b.add_theme_font_size_override("font_size", 9)
+	var b := _bouton_icone(TAILLE_CASE)
 	b.pressed.connect(func(): if inventaire: inventaire.utiliser(index))
 	b.gui_input.connect(func(ev: InputEvent):
 		if ev is InputEventMouseButton and ev.pressed and ev.button_index == MOUSE_BUTTON_RIGHT:
