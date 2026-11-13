@@ -33,6 +33,10 @@ La rue du nord-est de la place mène au **Quartier des Artisans** : d'anciens en
 - la **forge Hinode**, avec son four rougeoyant, Maître Tetsuo et son apprentie ;
 - l'atelier **Fil & Fibre**, moitié couture, moitié impression 3D (Léa et Kofi).
 
+## Le Musée et les Jardins suspendus
+
+La rue de l'est de la place mène à une grande **esplanade** : un bassin, des **super-arbres** lumineux reliés par une passerelle, deux **terrasses plantées** (on y monte par les marches) et la **Cascade des Souvenirs**. Au fond, le **Musée de verre** se visite : la salle Préhistoire montre trois objets en vitrine et un mur de **fresques**, effacées tant que la Préhistoire est malade. Elles reviennent quand l'époque est réparée. Les autres salles sont fermées (« époque instable »).
+
 ## Le Marché de nuit et les missions secondaires
 
 La rue du nord-ouest de la place mène au **Marché de nuit** : trois ruelles étroites avec des stands de nourriture, des lanternes rouges et des enseignes empilées. Deux bâtiments se visitent :
@@ -48,6 +52,8 @@ Des habitants proposent des **missions secondaires** : un **« ! »** doré flot
 | L'écran qui grésille | Nina, sous l'écran géant |
 | Ferraille temporelle | Maître Tetsuo, à la forge Hinode (Artisans) |
 | Une louche sur mesure | Kofi, à l'atelier Fil & Fibre (Artisans) |
+| Les fresques effacées | La Dr Diallo, à l'accueil du Musée |
+| L'eau des jardins | M. Tan Wei, sur la terrasse nord des Jardins suspendus |
 
 Tous les textes des missions sont dans `game/data/hub_quetes.json`, et ceux des habitants dans `game/data/hub_pnj.json`.
 
@@ -56,7 +62,7 @@ Tous les textes des missions sont dans `game/data/hub_quetes.json`, et ceux des 
 - Se promener sur la place, sous la pluie, au milieu des néons.
 - Descendre l'escalier de la **station Asahi** (coin sud-ouest de la place) : la porte blindée s'ouvre sur le **QG de la Vigie** (hall, coffre, entraînement, portails).
 - Descendre la rue du sud jusqu'au **front de mer** : la grande roue, et au large, la lumière de l'île de la Préhistoire.
-- Les autres rues sont fermées par des barrières de chantier (Marché de nuit, Artisans, Musée, Résidences).
+- La rue des Résidences (ouest) et le quai de l'Arène sont encore fermés par des barrières de chantier.
 
 ## Ce que tu peux régler toi-même
 
@@ -64,7 +70,7 @@ Clique sur le nœud **HikariBay** (tout en haut de la liste des nœuds) et regar
 
 | Réglage | Effet |
 |---|---|
-| **Prehistoire Reparee** | Coche-le : les éclats de fracture autour de la statue disparaissent. C'est un premier essai de « la ville qui change ». |
+| **Prehistoire Reparee** | Coche-le : les éclats de fracture autour de la statue disparaissent et les fresques du Musée reviennent. C'est un premier essai de « la ville qui change ». |
 | **Pluie** | Décoche-le si le jeu rame. |
 | **Gouttes** | Nombre de gouttes de pluie. |
 | **Reconstruire la place** | Bouton qui refait toute la maquette. |

@@ -215,5 +215,59 @@
 			"Je répare ce rideau de fer pour la troisième fois ce mois-ci.",
 			"Quelqu'un rôde la nuit dans le quartier. On retrouve de la ferraille qui brille d'une drôle de lumière violette..."
 		]
+	},
+	"conservatrice": {
+		"nom": "Dr Amara Diallo",
+		"role": "Conservatrice du Musée",
+		"modele": "femme",
+		"repliques": [
+			"Bienvenue au Musée de Hikari Bay. Ce soir, seule la salle Préhistoire est ouverte.",
+			"Les autres salles sont fermées... Leurs collections deviennent floues, comme si les objets hésitaient à exister."
+		]
+	},
+	"guide_musee": {
+		"nom": "Hiro Kato",
+		"role": "Guide du Musée",
+		"modele": "homme",
+		"repliques": [
+			"La flûte en os a trente-cinq mille ans. Imagine la première personne qui a soufflé dedans.",
+			"Et la lampe à graisse : c'est à sa lumière qu'on peignait les grottes."
+		]
+	},
+	"visiteuse_musee": {
+		"nom": "Élodie Fontaine",
+		"role": "Visiteuse",
+		"modele": "femme",
+		"repliques": [
+			"Je viens chaque semaine voir les fresques. Mais ce soir... je ne me rappelle plus ce qu'elles montraient.",
+			"C'est idiot, non ? On oublie un tableau qu'on a vu cent fois."
+		]
+	},
+	"jardinier": {
+		"nom": "M. Tan Wei",
+		"role": "Jardinier des Jardins suspendus",
+		"modele": "homme",
+		"repliques": [
+			"Les super-arbres captent l'eau de pluie et la lumière. La nuit, ils la rendent en couleurs.",
+			"Trois jours de pluie, et pourtant mes plantes ont soif. Quelque chose ne tourne pas rond."
+		]
+	},
+	"enfant_cascade": {
+		"nom": "Mei",
+		"role": "Enfant",
+		"modele": "femme",
+		"repliques": [
+			"Maman dit que si on jette une pièce dans la cascade, on retrouve un souvenir perdu.",
+			"Moi, je voudrais retrouver le chien du voisin. Il avait des taches. Je crois."
+		]
+	},
+	"promeneur": {
+		"nom": "Rajiv Menon",
+		"role": "Promeneur nocturne",
+		"modele": "homme",
+		"repliques": [
+			"L'esplanade est le plus bel endroit de la ville, la nuit. Les arbres de lumière, la cascade...",
+			"Un conseil : monte sur les terrasses. De là-haut, on voit tout le musée briller."
+		]
 	}
 }

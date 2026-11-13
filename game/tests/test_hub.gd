@@ -108,6 +108,21 @@ func _lancer() -> void:
 	_verifier(joueur.global_position.z < -92.0, "on entre dans l'atelier Fil & Fibre (z = %.1f)" % joueur.global_position.z)
 	_verifier(scene.find_child("Pnj_forgeron", true, false) != null, "Maître Tetsuo est à sa forge")
 
+	# Le Musée et les Jardins suspendus sont ouverts : la rue de l'est mène à l'esplanade.
+	await _placer(joueur, Vector3(36, 0.3, 0), -PI / 2)
+	await _avancer(joueur, 400)
+	_verifier(joueur.global_position.x > 75.0, "la rue de l'est mène à l'esplanade du Musée (x = %.1f)" % joueur.global_position.x)
+	await _placer(joueur, Vector3(100, 0.3, 0), -PI / 2)
+	await _avancer(joueur, 150)
+	_verifier(joueur.global_position.x > 107.0, "on entre dans le Musée par sa grande porte (x = %.1f)" % joueur.global_position.x)
+	await _placer(joueur, Vector3(100, 0.3, 8), -PI / 2)
+	await _avancer(joueur, 150)
+	_verifier(joueur.global_position.x < 104.0, "la paroi de verre arrête le joueur ailleurs qu'à la porte (x = %.1f)" % joueur.global_position.x)
+	await _placer(joueur, Vector3(90, 0.3, -17), 0.0)
+	await _avancer(joueur, 150)
+	_verifier(joueur.global_position.y > 1.0, "les marches mènent sur la terrasse nord (y = %.2f)" % joueur.global_position.y)
+	_verifier(scene.find_child("Pnj_conservatrice", true, false) != null, "la conservatrice accueille au Musée")
+
 	# Le Marché de nuit est ouvert : la rue du nord-ouest mène à ses ruelles.
 	await _placer(joueur, Vector3(-20, 0.3, -40), 0.0)
 	await _avancer(joueur, 600)
@@ -136,6 +151,9 @@ func _lancer() -> void:
 	_verifier(eclats != null and eclats.visible, "la statue porte des éclats de fracture au départ")
 	scene.prehistoire_reparee = true
 	_verifier(not eclats.visible, "ils disparaissent quand la Préhistoire est réparée")
+	var fresques = scene.find_child("FresquesPrehistoire", true, false)
+	var effacees = scene.find_child("FresquesEffacees", true, false)
+	_verifier(fresques != null and fresques.visible and not effacees.visible, "et les fresques du Musée réapparaissent")
 
 	print("Résultat : %s" % ("TOUT EST BON" if _echecs == 0 else "%d échec(s)" % _echecs))
 	quit(1 if _echecs > 0 else 0)
