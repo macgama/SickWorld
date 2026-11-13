@@ -34,6 +34,9 @@
   `game/assets/prehistoire/modeles/` et `game/assets/prehistoire/ciel/`
   (un dossier ou fichier par ressource, au nom de son identifiant Poly Haven).
   Script de téléchargement : `tools/prehistoire/telecharger_polyhaven.ps1`.
+- **Steppe des Mammouths** (même source, CC0) : textures `withered_grass`,
+  `brown_mud_02`, `brown_leather` ; modèles `grass_medium_02`, `grass_bermuda_01`,
+  `wild_rooibos_bush`, `searsia_lucida`.
 
 ## Moteur
 

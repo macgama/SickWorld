@@ -50,12 +50,15 @@ var _cone: MeshInstance3D
 var _faisceau: MeshInstance3D
 var _temps := 0.0
 var _en_voyage := false
+var _fin_annonces := 0.0
 # Action en cours (F maintenu quelques secondes).
 var _canalisation: Node3D = null
 var _canalisation_duree := 0.0
 var _canalisation_temps := 0.0
 var _canalisation_depart := Vector3.ZERO
 var _combat_joueur: Node = null
+## Dernière zone demandée (pour les tests, quand voyage_reel est décoché).
+var zone_demandee := ""
 
 
 func _ready() -> void:
@@ -70,6 +73,8 @@ func _ready() -> void:
 			var copie: Dictionary = e.duplicate()
 			copie["chapitre"] = c.get("numero", 0)
 			copie["titre_chapitre"] = c.get("titre", "")
+			if not copie.has("ou"):
+				copie["ou"] = c.get("ou", "")
 			etapes.append(copie)
 	_construire_ecran()
 	_construire_repere()
@@ -84,7 +89,7 @@ func _ready() -> void:
 
 func _demarrer() -> void:
 	if multiplayer.is_server():
-		for camp in donnees.get("camps", []):
+		for camp in donnees.get("camps", {}).get(_zone(), []):
 			_faire_apparaitre(camp, false)
 	var depart := 0
 	if not toujours_recommencer:
@@ -94,6 +99,20 @@ func _demarrer() -> void:
 		_appliquer_apres(etapes[i], false)
 	_arrivee()
 	_aller_a(depart)
+	# Une étape « arriver » se termine en entrant dans la zone demandée.
+	if etape_actuelle().get("arriver", "") == _zone():
+		_suivante()
+
+
+## Nom de la zone où se trouve le joueur (« cote_gelee », « steppe »…).
+func _zone() -> String:
+	var ile := get_tree().get_first_node_in_group("ile")
+	return String(ile.get("identifiant_zone")) if ile != null else ""
+
+
+## Vrai si l'étape se passe dans la zone actuelle.
+func _ici(e: Dictionary) -> bool:
+	return String(e.get("ou", "")) in ["", _zone()]
 
 
 # --- Progression ------------------------------------------------------------
@@ -136,7 +155,10 @@ func _aller_a(numero: int) -> void:
 	_sauvegarder()
 	if etape >= 0:
 		if e.get("chapitre", 0) != avant.get("chapitre", -1) and not avant.is_empty():
+			# Après « Chapitre N terminé », on laisse le temps de lire avant d'annoncer le suivant.
 			_annoncer("Chapitre %d" % e["chapitre"], e.get("titre_chapitre", ""))
+		for effet in e.get("action_pnj", []):
+			_appliquer_effet(effet, false)
 		if e.has("pnj") and e.has("repliques"):
 			var pnj := _trouver_pnj(e["pnj"])
 			if pnj != null:
@@ -145,7 +167,11 @@ func _aller_a(numero: int) -> void:
 			var objet := _trouver_objet(e["objet"])
 			if objet != null:
 				objet.actif = true
-		if e.has("apparition") and multiplayer.is_server():
+		if e.has("recolter"):
+			for objet in get_tree().get_nodes_in_group("objet_quete"):
+				if objet.get("groupe") == e["recolter"] and objet.visible and not objet.get("ramasse"):
+					objet.actif = true
+		if e.has("apparition") and multiplayer.is_server() and _ici(e):
 			_faire_apparaitre(e["apparition"], true)
 	_mettre_a_jour_objectif()
 	etape_changee.emit(e.get("id", ""))
@@ -162,7 +188,7 @@ func _mettre_a_jour_objectif() -> void:
 	_objectif.visible = true
 	_chapitre.text = "CHAPITRE %d · %s" % [e.get("chapitre", 0), String(e.get("titre_chapitre", "")).to_upper()]
 	var texte: String = e.get("objectif", "")
-	if e.has("tuer"):
+	if e.has("tuer") or e.has("recolter"):
 		texte += " (%d/%d)" % [compteur, int(e.get("nombre", 1))]
 	_texte_objectif.text = texte
 	var anim := create_tween()
@@ -183,18 +209,50 @@ func _suivante(apres_deja_fait := false) -> void:
 ## Change le monde après une étape (Lenoir se relève, la faille se ferme…).
 func _appliquer_apres(e: Dictionary, anime: bool) -> void:
 	for effet in e.get("apres", []):
-		if effet.has("pnj"):
-			var pnj := _trouver_pnj(effet["pnj"])
-			if pnj != null and effet.has("blesse"):
-				pnj.blesse = bool(effet["blesse"])
-		if effet.has("cacher"):
-			var objet := _trouver_objet(effet["cacher"])
-			if objet != null and not anime and objet.has_method("fermer"):
-				objet.fermer(false)
-			elif objet != null:
-				objet.cacher()
+		_appliquer_effet(effet, anime)
+	if anime and e.has("recompense"):
+		_donner_recompense(e["recompense"])
 	if anime and e.get("fin_chapitre", false):
 		_annoncer("Chapitre %d terminé" % e.get("chapitre", 0), e.get("titre_chapitre", ""))
+
+
+## Un changement du monde : un personnage se relève ou se déplace, un objet disparaît
+## ou apparaît (ex. {"pnj": "toran", "aller": [30, -55]}, {"montrer": "main_peinte"}).
+func _appliquer_effet(effet: Dictionary, anime: bool) -> void:
+	if effet.has("pnj"):
+		var pnj := _trouver_pnj(effet["pnj"]) as Node3D
+		if pnj != null and effet.has("blesse"):
+			pnj.blesse = bool(effet["blesse"])
+		if pnj != null and effet.has("aller"):
+			var ile := get_tree().get_first_node_in_group("ile")
+			var a: Array = effet["aller"]
+			var y: float = ile.hauteur(a[0], a[1]) if ile != null else pnj.global_position.y
+			pnj.global_position = Vector3(a[0], y, a[1])
+	if effet.has("cacher"):
+		var objet := _trouver_objet(effet["cacher"])
+		if objet != null and not anime and objet.has_method("fermer"):
+			objet.fermer(false)
+		elif objet != null:
+			objet.cacher()
+	if effet.has("montrer"):
+		for n in get_tree().get_nodes_in_group("decor_quete"):
+			if n.get_meta("identifiant", "") == effet["montrer"]:
+				n.visible = true
+
+
+## Ajoute des objets dans les sacs du joueur (ex. [{"id": "lance_silex", "n": 1}]).
+func _donner_recompense(objets: Array) -> void:
+	var joueur := get_tree().get_first_node_in_group("joueur_local")
+	var inventaire = joueur.get_node_or_null("Inventaire") if joueur != null else null
+	var noms: PackedStringArray = []
+	for o in objets:
+		noms.append(String(o.get("nom", o["id"])))
+	if inventaire != null and multiplayer.is_server():
+		var liste: Array = []
+		for o in objets:
+			liste.append({"id": o["id"], "n": int(o.get("n", 1))})
+		inventaire.recevoir(liste)
+	_annoncer("Récompense", ", ".join(noms))
 
 
 func _trouver_pnj(id: String) -> Node:
@@ -264,7 +322,7 @@ func _sur_ennemi_vaincu(n: Node) -> void:
 		# Le corps disparaît au bout de quelques secondes.
 		get_tree().create_timer(8.0).timeout.connect(n.queue_free)
 	var e := etape_actuelle()
-	if not e.has("tuer"):
+	if not e.has("tuer") or not _ici(e):
 		return
 	var type := String(n.get("type_ennemi"))
 	if not type.begins_with(String(e["tuer"])):
@@ -280,7 +338,12 @@ func _sur_ennemi_vaincu(n: Node) -> void:
 ## Appelé par un objet de quête quand le joueur appuie sur F à côté.
 func utiliser_objet(objet: Node3D) -> void:
 	var e := etape_actuelle()
-	if e.get("objet", "") != objet.get("identifiant") or _canalisation != null:
+	if _canalisation != null:
+		return
+	if e.has("recolter") and objet.get("groupe") == e["recolter"]:
+		_recolter(objet)
+		return
+	if e.get("objet", "") != objet.get("identifiant"):
 		return
 	var duree := float(e.get("duree", 0.0))
 	if duree <= 0.0:
@@ -315,6 +378,33 @@ func _objet_utilise(objet: Node3D) -> void:
 			_suivante(true)
 			return
 	_suivante()
+
+
+func _recolter(objet: Node3D) -> void:
+	var e := etape_actuelle()
+	var duree := float(e.get("duree", 0.0))
+	if duree > 0.0:
+		# Même fonctionnement qu'une action longue, puis on compte.
+		var joueur := get_tree().get_first_node_in_group("joueur_local") as Node3D
+		if joueur == null:
+			return
+		_canalisation = objet
+		_canalisation_duree = duree
+		_canalisation_temps = 0.0
+		_canalisation_depart = joueur.global_position
+		_texte_barre.text = e.get("action", "…")
+		_cadre_barre.visible = true
+		return
+	_compter_recolte(objet)
+
+
+func _compter_recolte(objet: Node3D) -> void:
+	objet.set("ramasse", true)
+	objet.cacher()
+	compteur += 1
+	_mettre_a_jour_objectif()
+	if compteur >= int(etape_actuelle().get("nombre", 1)):
+		_suivante()
 
 
 func _sur_degats_joueur(_montant: float, _source) -> void:
@@ -354,7 +444,7 @@ func _process(delta: float) -> void:
 		return
 	var ecart := joueur.global_position.distance_to(cible)
 	_distance.text = "%d m" % roundi(ecart)
-	if e.has("zone") and ecart < float(e.get("rayon", 4.0)):
+	if e.has("zone") and _ici(e) and not e.has("arriver") and ecart < float(e.get("rayon", 4.0)):
 		_suivante()
 
 
@@ -371,10 +461,30 @@ func _avancer_canalisation(delta: float) -> void:
 		var objet := _canalisation
 		_canalisation = null
 		_cadre_barre.visible = false
-		_objet_utilise(objet)
+		if etape_actuelle().has("recolter"):
+			_compter_recolte(objet)
+		else:
+			_objet_utilise(objet)
 
 
 func _position_cible(e: Dictionary):
+	var ile := get_tree().get_first_node_in_group("ile")
+	# L'étape se passe dans une autre zone (ou il faut y aller) : on montre la sortie.
+	var destination := String(e.get("arriver", "")) if e.has("arriver") else ("" if _ici(e) else String(e.get("ou", "")))
+	if destination != "" and ile != null:
+		var sortie: Vector2 = ile.sortie_vers(destination)
+		if sortie == Vector2.INF:
+			return null
+		return Vector3(sortie.x, ile.hauteur(sortie.x, sortie.y), sortie.y)
+	if e.has("recolter"):
+		var joueur := get_tree().get_first_node_in_group("joueur_local") as Node3D
+		var meilleur = null
+		for objet in get_tree().get_nodes_in_group("objet_quete"):
+			if objet.get("groupe") == e["recolter"] and objet.actif:
+				var p: Vector3 = objet.global_position
+				if meilleur == null or (joueur != null and joueur.global_position.distance_to(p) < joueur.global_position.distance_to(meilleur)):
+					meilleur = p
+		return meilleur
 	if e.has("objet"):
 		var objet := _trouver_objet(e["objet"]) as Node3D
 		return objet.global_position if objet != null else null
@@ -383,12 +493,10 @@ func _position_cible(e: Dictionary):
 		return pnj.global_position if pnj != null else null
 	if e.has("zone"):
 		var z: Array = e["zone"]
-		var ile := get_tree().get_first_node_in_group("ile")
 		var y: float = ile.hauteur(z[0], z[1]) if ile != null else 0.0
 		return Vector3(z[0], y, z[1])
 	if e.has("tuer") and e.has("lieu"):
 		var l: Array = e["lieu"]
-		var ile := get_tree().get_first_node_in_group("ile")
 		return Vector3(l[0], ile.hauteur(l[0], l[1]) if ile != null else 0.0, l[1])
 	return null
 
@@ -396,11 +504,12 @@ func _position_cible(e: Dictionary):
 # --- Arrivée, annonces et voyage --------------------------------------------------------
 
 func _arrivee() -> void:
-	var a: Dictionary = donnees.get("arrivee", {})
+	var a: Dictionary = donnees.get("zones", {}).get(_zone(), {}).get("arrivee", {})
 	_titre.text = a.get("titre", "")
 	_sous_titre.text = a.get("sous_titre", "")
 	_recit.text = a.get("texte", "")
 	_voile.color.a = 1.0
+	_fin_annonces = _temps + 11.0
 	var anim := create_tween()
 	anim.tween_property(_titre, "modulate:a", 1.0, 1.0)
 	anim.tween_property(_sous_titre, "modulate:a", 1.0, 0.8)
@@ -414,16 +523,46 @@ func _arrivee() -> void:
 
 
 ## Grand texte au milieu de l'écran pendant quelques secondes (chapitres).
+## Les annonces se suivent (récompense, fin de chapitre, chapitre suivant) sans se cacher.
 func _annoncer(titre: String, sous_titre: String) -> void:
-	_titre.text = titre
-	_sous_titre.text = sous_titre
-	_recit.text = ""
+	var attente := maxf(0.0, _fin_annonces - _temps)
+	_fin_annonces = _temps + attente + 5.0
 	var anim := create_tween()
+	if attente > 0.0:
+		anim.tween_interval(attente)
+	anim.tween_callback(func():
+		_titre.text = titre
+		_sous_titre.text = sous_titre
+		_recit.text = "")
 	anim.tween_property(_titre, "modulate:a", 1.0, 0.8)
 	anim.parallel().tween_property(_sous_titre, "modulate:a", 1.0, 0.8)
 	anim.tween_interval(3.0)
 	anim.tween_property(_titre, "modulate:a", 0.0, 1.0)
 	anim.parallel().tween_property(_sous_titre, "modulate:a", 0.0, 1.0)
+
+
+## Le joueur passe dans une autre zone de l'île (par un col, un gué…).
+func changer_de_zone(zone: String) -> void:
+	if _en_voyage:
+		return
+	var infos: Dictionary = donnees.get("zones", {}).get(zone, {})
+	var scene := String(infos.get("scene", ""))
+	if scene == "" or not ResourceLoader.exists(scene):
+		return
+	_en_voyage = true
+	_titre.text = ""
+	_sous_titre.text = ""
+	_recit.text = ""
+	var anim := create_tween()
+	anim.tween_property(_voile, "color:a", 1.0, 0.8)
+	if voyage_reel:
+		anim.tween_callback(func():
+			Reseau.set_meta("arrivee_prehistoire", _zone())
+			get_tree().change_scene_to_file(scene))
+	else:
+		anim.tween_callback(func():
+			_en_voyage = false
+			zone_demandee = zone)
 
 
 ## Le joueur repasse le portail : retour à Hikari Bay, devant le portail du QG.

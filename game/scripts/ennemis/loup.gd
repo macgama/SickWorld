@@ -168,6 +168,9 @@ func _poursuivre() -> void:
 	if plus_menacant != null and plus_menacant != _cible \
 			and combat.menace[plus_menacant] > combat.menace.get(_cible, 0.0) * 1.1:
 		_cible = plus_menacant
+	if _donnees.get("craintif", false):
+		_fuir()
+		return
 	var portee := float(_donnees.get("portee_attaque", 2.2))
 	var distance := _avancer_vers(_cible.acteur().global_position, float(_donnees.get("vitesse_course", 6.5)),
 			portee * 0.8)
@@ -175,6 +178,27 @@ func _poursuivre() -> void:
 		_prochaine_attaque = Regles.maintenant() + float(_donnees.get("intervalle_attaque", 1.8))
 		Regles.infliger(combat, _cible, Donnees.entre(_donnees.get("degats", [5, 8])))
 		_mordre.rpc()
+
+
+## Proie craintive (renne) : elle s'enfuit au lieu d'attaquer, puis se calme
+## quand le chasseur est loin (sans récupérer sa vie).
+func _fuir() -> void:
+	var danger := _cible.acteur().global_position
+	var ecart := global_position - danger
+	ecart.y = 0.0
+	if ecart.length() > float(_donnees.get("distance_fuite", 24)):
+		_cible = null
+		combat.menace.clear()
+		etat = Etat.ERRER
+		_prochaine_errance = 0.0
+		return
+	var direction := ecart.normalized() if ecart.length() > 0.1 else Vector3.FORWARD
+	# On s'écarte un peu du camp, sans jamais trop s'en éloigner.
+	var vers_camp := camp - global_position
+	vers_camp.y = 0.0
+	if vers_camp.length() > float(_donnees.get("distance_laisse", 40)) * 0.6:
+		direction = (direction + vers_camp.normalized() * 0.9).normalized()
+	_avancer_vers(global_position + direction * 5.0, float(_donnees.get("vitesse_course", 6.0)))
 
 
 func _rentrer() -> void:
