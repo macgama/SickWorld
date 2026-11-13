@@ -1,5 +1,5 @@
 {
-	"_aide": "Personnages de l'île de la Préhistoire. Pour changer ce qu'ils disent, modifie le texte entre guillemets (une ligne = une bulle de dialogue). Garde les virgules entre les lignes.",
+	"_aide": "Personnages de l'île de la Préhistoire. Pour changer ce qu'ils disent, modifie le texte entre guillemets (une ligne = une bulle de dialogue). Garde les virgules entre les lignes. « tenue » = objets de data/objets.json portés par le personnage, « peau » = couleur de peau, « habits » = couleur des vêtements de peau tannée.",
 	"lenoir": {
 		"nom": "Agent Lenoir",
 		"role": "Vigie · Côte Gelée",
@@ -11,5 +11,92 @@
 			"Le portail tient, grâce à toi. Tant que la faille restera fermée, ils ne reviendront pas par ici.",
 			"Le clan du Bison chasse dans la Steppe, au nord, derrière le col. Méfie-toi de Toran : il n'aime pas les inconnus."
 		]
+	},
+	"toran": {
+		"nom": "Toran",
+		"role": "Chef des chasseurs · clan du Bison",
+		"modele": "homme",
+		"taille_cm": 184,
+		"peau": "#b98a68",
+		"tenue": [
+			"capuche_chasseur",
+			"cape_chasseur",
+			"brassards_chasseur",
+			"jambieres_chasseur",
+			"lance_silex"
+		],
+		"repliques": [
+			"La chasse nourrit le clan. Le clan protège la chasse. C'est simple.",
+			"Si tu croises un lion des cavernes, ne cours pas. Il aime qu'on coure."
+		],
+		"habits": "#6e5640"
+	},
+	"chasseur_ulm": {
+		"nom": "Ulm",
+		"role": "Chasseur · clan du Bison",
+		"modele": "homme",
+		"taille_cm": 176,
+		"peau": "#a87a58",
+		"tenue": [
+			"cape_chasseur",
+			"brassards_chasseur",
+			"massue_os",
+			"collier_dents_loup"
+		],
+		"repliques": [
+			"Tu as vu ce mammouth, là-bas ? Un jour, j'en abattrai un. Toran dit que je parle trop.",
+			"Les rennes ont l'oreille fine. Approche-les par-dessous le vent."
+		],
+		"habits": "#7a6048"
+	},
+	"chasseuse_naya": {
+		"nom": "Naya",
+		"role": "Chasseuse · clan du Bison",
+		"modele": "femme",
+		"taille_cm": 166,
+		"peau": "#c29372",
+		"tenue": [
+			"capuche_chasseur",
+			"cape_chasseur",
+			"couteau_obsidienne",
+			"collier_coquillages"
+		],
+		"repliques": [
+			"Toran ne fait confiance à personne. Ne le prends pas mal.",
+			"Mon propulseur lance plus loin que n'importe quel bras. Même le tien, Venu-du-Brouillard."
+		],
+		"habits": "#80654a"
+	},
+	"aina": {
+		"nom": "Aïna",
+		"role": "Chamane et peintre · clan du Bison",
+		"modele": "femme",
+		"taille_cm": 162,
+		"peau": "#b48463",
+		"tenue": [
+			"manteau_gardien",
+			"collier_coquillages"
+		],
+		"repliques": [
+			"Les images sur la paroi se souviennent pour nous. Sans elles, nous oublierions jusqu'aux bisons.",
+			"Le feu, l'ocre, la main. Voilà tout ce dont un peintre a besoin."
+		],
+		"habits": "#6a4a36"
+	},
+	"vieille_mere": {
+		"nom": "La Vieille Mère",
+		"role": "Gardienne des récits · clan du Bison",
+		"modele": "femme",
+		"taille_cm": 155,
+		"peau": "#a77c5e",
+		"tenue": [
+			"manteau_gardien",
+			"collier_dents_loup"
+		],
+		"repliques": [
+			"Approche, Venu-du-Brouillard. Je connais toutes les histoires du clan. Même celles qui ne sont pas encore arrivées.",
+			"Mon collier de cérémonie s'est brisé. Un jour, peut-être, tu m'aideras à en faire un nouveau."
+		],
+		"habits": "#5e4a3a"
 	}
 }

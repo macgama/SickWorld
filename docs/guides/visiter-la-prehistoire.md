@@ -1,4 +1,4 @@
-# Visiter la Préhistoire : la Côte Gelée
+# Visiter la Préhistoire : la Côte Gelée et la Steppe des Mammouths
 
 La première zone de l'île de la Préhistoire est jouable : **la Côte Gelée** (niveaux 1 à 3), il y a environ 17 000 ans, en pleine période glaciaire. C'est là que mène le portail de la Préhistoire du QG de la Vigie.
 
@@ -31,15 +31,43 @@ Un **objectif** en haut de l'écran et une **flèche dorée** te guident :
 6. **refermer la faille** (F, rester immobile 5 secondes, sans se faire toucher) : deux loups en sortent, il faut d'abord s'en occuper ;
 7. faire son rapport à Lenoir.
 
-Le chapitre 2 commence : suivre la piste jusqu'au **col**, au nord. La Steppe des Mammouths, derrière, arrive dans une prochaine mise à jour. Des loups sauvages vivent aussi sur le plateau.
+Le chapitre 2 commence : suivre la piste jusqu'au **col**, au nord. Passer le col mène à la **Steppe des Mammouths**. Des loups sauvages vivent aussi sur le plateau.
 
 L'avancement est gardé : si tu quittes le jeu, tu reprends là où tu en étais. Pour recommencer la quête : clique sur le nœud **Quete** de la scène et coche **Toujours recommencer**.
 
+## La Steppe des Mammouths (zone 2)
+
+Derrière le col s'ouvre une grande plaine d'herbe sèche, froide et venteuse, entourée de montagnes enneigées. Une **rivière** la traverse d'ouest en est ; on la passe à pied au **gué** (l'eau n'y monte qu'aux chevilles). Un **troupeau de mammouths** broute à l'ouest, des **rennes** paissent sur la pente à l'est, et le **camp d'été du clan du Bison** (tentes en peaux, grand feu, séchoirs, arche en défenses de mammouth) est installé au nord de la rivière.
+
+Pour l'ouvrir directement : `scenes/monde/prehistoire/steppe.tscn` puis **F6**. Pour revenir à la Côte Gelée : redescends par le col, au sud.
+
+![La steppe et ses mammouths](../images/prehistoire-steppe-mammouths.jpg)
+
+![Le camp d'été du clan du Bison](../images/prehistoire-steppe-camp.jpg)
+
+### Chapitre 2 : « Le Venu-du-Brouillard »
+
+1. rejoindre la partie de chasse de **Toran**, juste après le col : il se méfie de toi ;
+2. **chasser trois rennes** avec ses chasseurs, Ulm et Naya (les rennes s'enfuient quand on approche : il faut les rattraper) ;
+3. retourner voir Toran, qui te donne **sa lance à pointe de silex** ;
+4. traverser la rivière par le gué et rejoindre le **camp d'été**.
+
+### Chapitre 3 : « Le rêve d'Aïna »
+
+1. écouter **Aïna**, la chamane, qui rêve de « lumières qui mangent les images » ;
+2. récolter **3 veines d'ocre rouge** sur la berge nord, à l'ouest du gué (F, rester immobile un instant) ;
+3. prendre du **charbon** dans le vieux foyer des chasseurs, au nord-est ;
+4. détacher **2 morceaux de pierre noire** (manganèse) dans les rochers du nord-ouest, gardés par des loups fracturés ;
+5. rapporter les pigments à Aïna : elle peint une **main** sur la paroi du camp et te donne de l'**ocre sacrée**.
+
+La suite (chapitre 4, Kéo et la louve grise dans la Forêt des Bouleaux) arrive dans une prochaine mise à jour. Au camp, tu peux aussi parler à **la Vieille Mère**.
+
 ## Ce que tu peux régler toi-même
 
-- **Les textes** (objectifs, dialogues de Lenoir, arrivée) : `game/data/prehistoire_quete.json` et `game/data/prehistoire_pnj.json`.
+- **Les textes** (objectifs, dialogues de Lenoir, Toran, Aïna…, textes d'arrivée) : `game/data/prehistoire_quete.json` et `game/data/prehistoire_pnj.json`.
 - **Les camps d'ennemis** (position, nombre, type) : section `camps` de `game/data/prehistoire_quete.json`.
-- **Les loups fracturés** (vie, dégâts, vitesse, réapparition) : `game/data/ennemis.json`, entrées `loup_fracture` et `loup_fracture_faille`.
+- **Les loups fracturés** (vie, dégâts, vitesse, réapparition) : `game/data/ennemis.json`, entrées `loup_fracture` et `loup_fracture_faille`, et les **rennes** (`renne`).
+- **Les tenues du clan** : `tenue` de chaque personnage dans `game/data/prehistoire_pnj.json` (des objets de `game/data/objets.json`).
 - Dans l'**Inspecteur**, nœud **CoteGelee** : la **graine** (autre relief), le **nombre de touffes** d'herbe (à baisser si le jeu rame), la **neige qui tombe**, et le **ciel** (essaie `table_mountain_1_puresky` pour une aube nuageuse ou `snow_field_2_puresky` pour un ciel couvert). Le bouton **Reconstruire l'île** refait tout.
 
 ## Le tester automatiquement
@@ -48,10 +76,14 @@ L'avancement est gardé : si tu quittes le jeu, tu reprends là où tu en étais
 godot --headless --path game -s res://tests/test_cote_gelee.gd
 ```
 
-Le test parcourt tout le chapitre 1 (Lenoir, trousse, soins, fracturés, faille, rapport), vérifie que l'avancement est gardé et que le portail ramène au hub.
+```
+godot --headless --path game -s res://tests/test_steppe.gd
+```
+
+Le premier test parcourt tout le chapitre 1 (Lenoir, trousse, soins, fracturés, faille, rapport), vérifie que l'avancement est gardé, que le col mène à la Steppe et que le portail ramène au hub. Le second parcourt les chapitres 2 et 3 dans la Steppe (Toran, chasse, gué, Aïna, pigments, main peinte) et le retour par le col.
 
 ## Ce qui viendra ensuite
 
-- La **Steppe des Mammouths** (zone 2) et le **clan du Bison** (chapitres 2 et 3).
-- De vrais modèles animés pour les loups (pour l'instant des silhouettes simples) et des habitants du clan.
+- La **Forêt des Bouleaux** (zone 3) et le chapitre 4 (Kéo et la louve grise).
+- De vrais modèles animés pour les loups, rennes et mammouths (pour l'instant des silhouettes simples), et de vrais vêtements de peau pour le clan.
 - Des sons : vent, vagues, craquements de la glace.

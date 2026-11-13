@@ -179,6 +179,8 @@ func _lancer() -> void:
 	lues = await _lire_dialogue()
 	_verifier(lues >= 4, "Lenoir parle du clan du Bison (%d bulles)" % lues)
 	_verifier(_id_etape() == "vers_le_col", "chapitre 2 : suivre la piste vers le col (%s)" % _id_etape())
+	var repere: Vector3 = _quete._position_cible(_quete.etape_actuelle())
+	_verifier(repere != null and repere.z < -120.0, "le repère doré montre le col (z = %.0f)" % (repere.z if repere != null else 0.0))
 
 	# --- La progression est gardée : on recharge l'île.
 	var cfg := ConfigFile.new()
@@ -199,9 +201,10 @@ func _lancer() -> void:
 	_verifier(_scene.find_child("Faille", true, false).fermee, "la faille est toujours fermée")
 
 	# Le col.
-	await _placer(Vector3(10, _scene.hauteur(10, -126) + 0.5, -126), 0.0)
-	await _attendre(5)
-	_verifier(_quete.etape == -1, "le col atteint, la suite arrive bientôt")
+	await _placer(Vector3(10, _scene.hauteur(10, -142) + 0.5, -142), 0.0)
+	await _attendre(70)
+	_verifier(_quete.zone_demandee == "steppe", "le col mène à la Steppe des Mammouths (%s)" % _quete.zone_demandee)
+	_verifier(_id_etape() == "vers_le_col", "l'étape se termine en arrivant dans la Steppe, pas avant")
 
 	# Retour au hub par le portail.
 	_verifier(_scene._portail_arme, "le portail de retour s'active quand on s'en est éloigné")
