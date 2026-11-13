@@ -113,8 +113,9 @@ func appliquer() -> void:
 	rs.environment_set_ssao_quality(q[niveau], niveau < 2, 0.5, 2, 50.0, 300.0)
 	var qi := [rs.ENV_SSIL_QUALITY_VERY_LOW, rs.ENV_SSIL_QUALITY_LOW, rs.ENV_SSIL_QUALITY_MEDIUM, rs.ENV_SSIL_QUALITY_HIGH]
 	rs.environment_set_ssil_quality(qi[niveau], niveau < 3, 0.5, 4, 50.0, 300.0)
-	var qr := [rs.ENV_SSR_ROUGHNESS_QUALITY_DISABLED, rs.ENV_SSR_ROUGHNESS_QUALITY_LOW, rs.ENV_SSR_ROUGHNESS_QUALITY_MEDIUM, rs.ENV_SSR_ROUGHNESS_QUALITY_HIGH]
-	rs.environment_set_ssr_roughness_quality(qr[niveau])
+	# Reflets d'écran : demi-résolution sauf en Ultra (le réglage de « qualité de
+	# rugosité » est obsolète depuis Godot 4.6).
+	rs.environment_set_ssr_half_size(niveau < 3)
 	var brouillard := [[64, 64], [64, 64], [96, 96], [160, 128]]
 	rs.environment_set_volumetric_fog_volume_size(brouillard[niveau][0], brouillard[niveau][1])
 	rs.environment_set_volumetric_fog_filter_active(niveau >= 2)
