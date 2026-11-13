@@ -22,7 +22,14 @@ extends Node3D
 	set(valeur):
 		neige_qui_tombe = valeur
 		_demander_reconstruction()
-## Ciel Poly Haven utilisé (nom du fichier dans assets/prehistoire/ciel/, sans .hdr).
+## Ambiance « grandiose » (soleil bas, ciel doré, brume, rayons) : voir
+## ambiance_prehistoire.gd. Décocher pour revenir au ciel photo ci-dessous.
+@export var ambiance_grandiose := true:
+	set(valeur):
+		ambiance_grandiose = valeur
+		if is_inside_tree():
+			_appliquer_ciel()
+## Ciel Poly Haven utilisé si l'ambiance grandiose est décochée (nom du fichier dans assets/prehistoire/ciel/, sans .hdr).
 @export var ciel := "kloofendal_misty_morning_puresky":
 	set(valeur):
 		ciel = valeur
@@ -37,6 +44,7 @@ const DOSSIER := "res://assets/prehistoire/"
 const SHADER_TERRAIN := preload("res://shaders/prehistoire_terrain.gdshader")
 const SHADER_HERBE := preload("res://shaders/prehistoire_herbe.gdshader")
 const SHADER_FRACTURE := preload("res://shaders/prehistoire_fracture.gdshader")
+const AmbiancePrehistoire := preload("res://scripts/monde/prehistoire/ambiance_prehistoire.gd")
 
 ## Textures Poly Haven de chaque sol (la première trouvée est utilisée).
 const TEXTURES_SOLS := {
@@ -658,6 +666,9 @@ func _construire_neige_qui_tombe() -> void:
 func _appliquer_ciel() -> void:
 	var environnement := get_node_or_null("Environnement") as WorldEnvironment
 	if environnement == null or environnement.environment == null:
+		return
+	if ambiance_grandiose:
+		AmbiancePrehistoire.appliquer(self, identifiant_zone)
 		return
 	var chemin := DOSSIER + "ciel/%s.hdr" % ciel
 	if not ResourceLoader.exists(chemin):

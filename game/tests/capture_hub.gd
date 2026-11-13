@@ -15,6 +15,7 @@ const VUES := [
 	["vitrines", Vector3(-22, 1.7, -22), Vector3(-44, 4, -34)],
 	["front_de_mer", Vector3(-30, 3, 70), Vector3(60, 18, 110)],
 	["marche", Vector3(-20, 1.8, -58), Vector3(-22, 5, -120)],
+	["esplanade", Vector3(64, 2.2, 6), Vector3(110, 5, -4)],
 ]
 
 
