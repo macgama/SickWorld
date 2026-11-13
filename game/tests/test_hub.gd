@@ -91,10 +91,28 @@ func _lancer() -> void:
 	_verifier(joueur.global_position.y > -0.5 and joueur.global_position.z < 12.0,
 			"on peut remonter sur la place (y = %.2f, z = %.1f)" % [joueur.global_position.y, joueur.global_position.z])
 
-	# Barrière de chantier de la rue du Marché de nuit (nord-ouest).
-	await _placer(joueur, Vector3(-20, 0.3, -40), 0.0)
+	# Barrière de chantier de la rue des Artisans (nord-est).
+	await _placer(joueur, Vector3(20, 0.3, -40), 0.0)
 	await _avancer(joueur, 180)
-	_verifier(joueur.global_position.z > -57.0, "la barrière de chantier bloque la rue (z = %.1f)" % joueur.global_position.z)
+	_verifier(joueur.global_position.z > -57.0, "la barrière de chantier bloque la rue des Artisans (z = %.1f)" % joueur.global_position.z)
+
+	# Le Marché de nuit est ouvert : la rue du nord-ouest mène à ses ruelles.
+	await _placer(joueur, Vector3(-20, 0.3, -40), 0.0)
+	await _avancer(joueur, 600)
+	_verifier(joueur.global_position.z < -100.0, "la rue du nord-ouest mène au Marché de nuit (z = %.1f)" % joueur.global_position.z)
+	# On entre dans le restaurant Kaminari par sa porte (face à l'ouest).
+	await _placer(joueur, Vector3(-19.5, 0.3, -109.5), PI / 2)
+	await _avancer(joueur, 150)
+	_verifier(joueur.global_position.x < -25.0, "on entre dans le restaurant de ramen (x = %.1f)" % joueur.global_position.x)
+	_verifier(scene.find_child("Pnj_chef_goro", true, false) != null, "le chef Goro est dans sa cuisine")
+	# Et dans la salle Tsukimi, par la ruelle de la fumée (face à l'est).
+	await _placer(joueur, Vector3(-50.5, 0.3, -119.5), -PI / 2)
+	await _avancer(joueur, 120)
+	_verifier(joueur.global_position.x > -46.0, "on entre dans la salle Tsukimi (x = %.1f)" % joueur.global_position.x)
+	# Les murs du restaurant arrêtent le joueur ailleurs qu'à la porte.
+	await _placer(joueur, Vector3(-19.5, 0.3, -114.0), PI / 2)
+	await _avancer(joueur, 150)
+	_verifier(joueur.global_position.x > -23.2, "le mur du restaurant arrête le joueur (x = %.1f)" % joueur.global_position.x)
 
 	# Le garde-corps du quai empêche de tomber dans la mer.
 	await _placer(joueur, Vector3(0, 0.3, 64), PI)

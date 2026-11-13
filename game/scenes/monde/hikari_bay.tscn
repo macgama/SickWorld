@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3]
+[gd_scene load_steps=11 format=3]
 
 [ext_resource type="Script" path="res://scripts/monde/hikari_bay.gd" id="1_hub"]
 [ext_resource type="Script" path="res://scripts/interface/hud.gd" id="3_hud"]
@@ -6,7 +6,10 @@
 [ext_resource type="Script" path="res://scripts/monde/partie.gd" id="6_partie"]
 [ext_resource type="Script" path="res://scripts/interface/dialogue.gd" id="7_dialogue"]
 [ext_resource type="Script" path="res://scripts/monde/intro_hub.gd" id="8_intro"]
+[ext_resource type="Script" path="res://scripts/monde/quetes_hub.gd" id="9_quetes"]
 
+[ext_resource type="Script" path="res://scripts/carte/zone_carte.gd" id="20_zone_carte"]
+[ext_resource type="Script" path="res://scripts/carte/marqueur_carte.gd" id="21_marqueur_carte"]
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_nuit"]
 sky_top_color = Color(0.01, 0.012, 0.03, 1)
 sky_horizon_color = Color(0.11, 0.06, 0.16, 1)
@@ -82,3 +85,88 @@ script = ExtResource("7_dialogue")
 
 [node name="Intro" type="Node" parent="."]
 script = ExtResource("8_intro")
+
+[node name="Quetes" type="Node3D" parent="."]
+script = ExtResource("9_quetes")
+
+[node name="ZoneCarte" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 62.5, 0)
+script = ExtResource("20_zone_carte")
+identifiant = "hikari_bay_place"
+nom_affiche = "Hikari Bay · Place Hikari"
+taille = Vector3(170, 140, 170)
+
+[node name="Statue" type="Node3D" parent="ZoneCarte"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -62.5, 0)
+script = ExtResource("21_marqueur_carte")
+type = 0
+libelle = "Statue du Gardien"
+
+[node name="StationAsahi" type="Node3D" parent="ZoneCarte"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23, -62.5, 12)
+script = ExtResource("21_marqueur_carte")
+type = 0
+libelle = "Station Asahi"
+
+[node name="TourKairo" type="Node3D" parent="ZoneCarte"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -62.5, -36)
+script = ExtResource("21_marqueur_carte")
+type = 0
+libelle = "Tour Kairo Holdings"
+
+[node name="ZoneQG" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21, -8.75, 91)
+script = ExtResource("20_zone_carte")
+identifiant = "hikari_bay_qg"
+nom_affiche = "QG de la Vigie"
+taille = Vector3(110, 8.5, 92)
+rayon_decouverte = 18.0
+
+[node name="Hall" type="Node3D" parent="ZoneQG"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, -3.25, -1)
+script = ExtResource("21_marqueur_carte")
+type = 0
+libelle = "Hall des opérations"
+
+[node name="Coffre" type="Node3D" parent="ZoneQG"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -41, -3.25, -1)
+script = ExtResource("21_marqueur_carte")
+type = 0
+libelle = "Coffre"
+
+[node name="Entrainement" type="Node3D" parent="ZoneQG"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 39, -3.25, -1)
+script = ExtResource("21_marqueur_carte")
+type = 0
+libelle = "Salle d'entraînement"
+
+[node name="Portails" type="Node3D" parent="ZoneQG"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, -3.25, 30)
+script = ExtResource("21_marqueur_carte")
+type = 0
+libelle = "Salle des portails"
+
+[node name="ZoneMarche" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -44, 62.5, -117.5)
+script = ExtResource("20_zone_carte")
+identifiant = "hikari_bay_marche"
+nom_affiche = "Hikari Bay · Marché de nuit"
+taille = Vector3(72, 140, 95)
+
+[node name="Kaminari" type="Node3D" parent="ZoneMarche"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17, -62.5, 7.5)
+script = ExtResource("21_marqueur_carte")
+type = 0
+libelle = "Ramen Kaminari"
+
+[node name="Tsukimi" type="Node3D" parent="ZoneMarche"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, -62.5, -1.5)
+script = ExtResource("21_marqueur_carte")
+type = 0
+libelle = "Salle Tsukimi (ventes)"
+
+[node name="Sanctuaire" type="Node3D" parent="ZoneMarche"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, -62.5, -14.5)
+script = ExtResource("21_marqueur_carte")
+type = 0
+libelle = "Petit sanctuaire"

@@ -1,0 +1,113 @@
+{
+	"_aide": "Missions secondaires de Hikari Bay. Chaque mission a un donneur (un personnage de data/hub_pnj.json), des répliques pour la proposer, des étapes et une récompense. Types d'étapes : « parler » (aller voir un personnage), « objets » (trouver ou utiliser des objets placés dans la ville, positions [x, y, z, angle]). Pour changer un texte, modifie ce qui est entre guillemets ; garde les virgules.",
+	"quetes": [
+		{
+			"id": "kuro",
+			"titre": "Kuro a disparu",
+			"donneur": "mme_sato",
+			"position_donneur": [-15.5, 0, -21.0, 2.4],
+			"resume": "Madame Sato cherche son chien, un shiba nommé Kuro. Étrange : elle n'arrive plus à se souvenir de lui.",
+			"proposition": [
+				"Excuse-moi, jeune agent... Tu n'aurais pas vu un petit chien ? Un shiba, roux, avec une tache blanche sur le museau.",
+				"Il s'appelle... il s'appelle... Oh, c'est terrible. Son nom m'échappe. Comme s'il s'effaçait de ma mémoire.",
+				"J'ai collé des affiches dans toute la ville, mais la pluie les arrache. Tu pourrais m'en rapporter trois ? Il y a sa photo et son nom dessus.",
+				"Une près de la place, une dans le Marché de nuit, et une dans la rue qui descend vers la mer."
+			],
+			"etapes": [
+				{
+					"objectif": "Récupère les affiches « chien perdu »",
+					"objets": {
+						"type": "affiche",
+						"verbe": "Ramasser l'affiche",
+						"positions": [[-33.9, 1.6, 4.0, 1.5708], [-17.05, 1.6, -100.0, -1.5708], [-5.95, 1.6, 47.0, 1.5708]]
+					}
+				},
+				{
+					"objectif": "Rapporte les affiches à Madame Sato",
+					"parler": "mme_sato",
+					"repliques": [
+						"Tu les as trouvées ! Fais-moi voir... Kuro. KURO ! Bien sûr, c'est Kuro !",
+						"Comment ai-je pu oublier ? Il dormait au pied de mon lit depuis dix ans...",
+						"Tout le monde dit qu'il n'y a jamais eu de chiens à Hikari Bay. Mais toi, tu me crois, n'est-ce pas ?",
+						"Garde une affiche, s'il te plaît. Et si un jour les chiens reviennent... ramène-le-moi."
+					]
+				}
+			],
+			"recompense": "Affiche de Kuro (souvenir)",
+			"apres": [
+				"Kuro reviendra. Je le sens. Merci, agent."
+			]
+		},
+		{
+			"id": "kaminari",
+			"titre": "Un bol pour la route",
+			"donneur": "chef_goro",
+			"resume": "Le chef Goro du restaurant Kaminari n'a plus de poireaux. Madame Okada, au Marché de nuit, en a gardé pour lui.",
+			"proposition": [
+				"Ah, un agent ! Tu tombes bien. Catastrophe : plus un seul poireau pour mon shōyu ramen.",
+				"Madame Okada, au stand de légumes de la ruelle des lanternes, m'en met toujours de côté.",
+				"Tu veux bien aller les chercher ? Je ne peux pas quitter mes marmites. Je te paierai en ramen, promis."
+			],
+			"etapes": [
+				{
+					"objectif": "Va chercher les poireaux chez Madame Okada (ruelle des lanternes)",
+					"parler": "mme_okada",
+					"repliques": [
+						"Ah ! Goro t'envoie ? Ce vieux têtu ne veut jamais fermer sa cuisine, même pour cinq minutes.",
+						"Tiens, voilà ses poireaux, et un peu de gingembre en plus. Dis-lui qu'il me doit un bol."
+					]
+				},
+				{
+					"objectif": "Rapporte les poireaux au chef Goro (restaurant Kaminari)",
+					"parler": "chef_goro",
+					"repliques": [
+						"Parfait ! Et elle a ajouté du gingembre, cette chère Okada.",
+						"Assieds-toi. Voilà : un shōyu ramen, le meilleur de la baie. Il te redonnera des forces avant tes missions.",
+						"Reviens quand tu veux, agent. Au Kaminari, ta place au comptoir t'attendra toujours."
+					]
+				}
+			],
+			"recompense": "Bol de ramen Kaminari (bonus de vie, bientôt utilisable)",
+			"apres": [
+				"Alors, ce ramen ? Les agents qui mangent bien reviennent toujours de mission."
+			]
+		},
+		{
+			"id": "ecran",
+			"titre": "L'écran qui grésille",
+			"donneur": "nina",
+			"position_donneur": [7.0, 0, -27.5, 0.4],
+			"resume": "Nina, une bidouilleuse, a remarqué que l'écran géant de la place affiche parfois des images étranges. Elle veut placer des capteurs pour comprendre.",
+			"proposition": [
+				"Psst ! Tu es de la Vigie, hein ? Ne nie pas, j'ai vu la grille de la station s'ouvrir pour toi.",
+				"Regarde l'écran géant. Toutes les nuits, à des moments au hasard, il grésille et affiche des images que personne n'a programmées.",
+				"Des grottes. Des feux. Des dessins sur des murs de pierre. Ça ne vient d'aucun réseau que je connais.",
+				"J'ai trois capteurs. Installe-les à trois endroits de la ville : près de la fontaine, sous le portique du Marché de nuit et sur le quai. Je ferai le reste."
+			],
+			"etapes": [
+				{
+					"objectif": "Installe les capteurs de Nina",
+					"objets": {
+						"type": "capteur",
+						"verbe": "Installer le capteur",
+						"positions": [[9.0, 0.0, 3.5, 0.0], [-20.0, 0.0, -72.0, 0.0], [12.0, 0.0, 70.5, 0.0]]
+					}
+				},
+				{
+					"objectif": "Retourne voir Nina près de l'écran géant",
+					"parler": "nina",
+					"repliques": [
+						"Les trois capteurs répondent ! Attends, je croise les signaux...",
+						"C'est bien ce que je pensais. Les images viennent de... nulle part. Ou plutôt de très loin. Dans le temps.",
+						"Il y a une date cachée dans le signal : moins dix-sept mille ans. Ça te dit quelque chose ?",
+						"Tiens, prends cette clé. Elle contient tout ce que j'ai trouvé. Montre-la à tes chefs, ils comprendront peut-être."
+					]
+				}
+			],
+			"recompense": "Clé USB de Nina (données de l'écran)",
+			"apres": [
+				"L'écran grésille encore. Moins dix-sept mille ans... Ce n'est pas un bug, c'est un message."
+			]
+		}
+	]
+}
