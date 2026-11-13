@@ -12,6 +12,7 @@ extends Node
 
 const Pnj := preload("res://scripts/monde/prehistoire/pnj_epoque.gd")
 const SCENE_LOUP := preload("res://scenes/ennemis/loup.tscn")
+const QuetesSecondaires := preload("res://scripts/monde/prehistoire/quetes_secondaires.gd")
 
 signal etape_changee(id: String)
 
@@ -69,6 +70,10 @@ var _vagues_faites: Array[int] = []
 ## l'action est interrompue).
 var _avant_choix := {}
 var _renforts_venus: Array[String] = []
+## Les quêtes secondaires de l'île (voir quetes_secondaires.gd).
+var secondaires: Node
+## Action longue lancée par une quête secondaire : appelée à la fin.
+var _rappel_canalisation: Callable
 
 
 func _ready() -> void:
@@ -89,6 +94,9 @@ func _ready() -> void:
 	_reprendre_choix()
 	_construire_ecran()
 	_construire_repere()
+	secondaires = QuetesSecondaires.new()
+	secondaires.name = "QuetesSecondaires"
+	add_child(secondaires)
 	var dialogue := get_tree().get_first_node_in_group("dialogue")
 	if dialogue != null:
 		dialogue.termine.connect(_sur_dialogue_termine)
@@ -132,7 +140,7 @@ func _ici(e: Dictionary) -> bool:
 ## suite (ex. soigner Grise ou la laisser partir). Le choix est gardé dans la sauvegarde.
 func _reprendre_choix() -> void:
 	var cfg := ConfigFile.new()
-	if cfg.load(fichier_progression) != OK:
+	if cfg.load(Profil.chemin(fichier_progression)) != OK:
 		return
 	for i in etapes.size():
 		var e: Dictionary = etapes[i]
@@ -158,9 +166,9 @@ func _choisir(option: Dictionary) -> void:
 	_avant_choix = e
 	etapes[etape] = _etape_choisie(e, option)
 	var cfg := ConfigFile.new()
-	cfg.load(fichier_progression)
+	cfg.load(Profil.chemin(fichier_progression))
 	cfg.set_value(SECTION, "choix_" + String(e.get("id", "")), option.get("objet", ""))
-	cfg.save(fichier_progression)
+	cfg.save(Profil.chemin(fichier_progression))
 	for objet in get_tree().get_nodes_in_group("objet_quete"):
 		if objet.get("identifiant") != option.get("objet", ""):
 			objet.actif = false
@@ -178,7 +186,7 @@ func _choisir(option: Dictionary) -> void:
 
 func _etape_sauvegardee() -> int:
 	var cfg := ConfigFile.new()
-	if cfg.load(fichier_progression) != OK:
+	if cfg.load(Profil.chemin(fichier_progression)) != OK:
 		return 0
 	var id := String(cfg.get_value(SECTION, "etape", ""))
 	if id == "fin":
@@ -191,9 +199,9 @@ func _etape_sauvegardee() -> int:
 
 func _sauvegarder() -> void:
 	var cfg := ConfigFile.new()
-	cfg.load(fichier_progression)
+	cfg.load(Profil.chemin(fichier_progression))
 	cfg.set_value(SECTION, "etape", etape_actuelle().get("id", "fin"))
-	cfg.save(fichier_progression)
+	cfg.save(Profil.chemin(fichier_progression))
 
 
 func etape_actuelle() -> Dictionary:
@@ -207,7 +215,8 @@ func _aller_a(numero: int) -> void:
 		if pnj != null:
 			pnj.repliques_speciales = PackedStringArray()
 	for objet in get_tree().get_nodes_in_group("objet_quete"):
-		objet.actif = false
+		if not objet.has_meta("secondaire"):
+			objet.actif = false
 	etape = numero if numero >= 0 and numero < etapes.size() else -1
 	compteur = 0
 	_avant_choix = {}
@@ -235,7 +244,8 @@ func _aller_a(numero: int) -> void:
 				objet_choix.actif = true
 		if e.has("recolter"):
 			for objet in get_tree().get_nodes_in_group("objet_quete"):
-				if objet.get("groupe") == e["recolter"] and objet.visible and not objet.get("ramasse"):
+				if objet.get("groupe") == e["recolter"] and objet.visible and not objet.get("ramasse") \
+						and not objet.has_meta("secondaire"):
 					objet.actif = true
 		if e.has("apparition") and multiplayer.is_server() and _ici(e):
 			_faire_apparaitre(e["apparition"], true)
@@ -499,6 +509,31 @@ func _compter_recolte(objet: Node3D) -> void:
 		_suivante()
 
 
+## Lance une action longue (barre de progression) pour une quête secondaire :
+## « rappel » est appelé avec l'objet quand elle est finie sans interruption.
+func canaliser(objet: Node3D, duree: float, texte: String, rappel: Callable) -> void:
+	if _canalisation != null:
+		return
+	var joueur := get_tree().get_first_node_in_group("joueur_local") as Node3D
+	if joueur == null:
+		return
+	_canalisation = objet
+	_canalisation_duree = duree
+	_canalisation_temps = 0.0
+	_canalisation_depart = joueur.global_position
+	_rappel_canalisation = rappel
+	_texte_barre.text = texte
+	_cadre_barre.visible = true
+	_combat_joueur = joueur.get_node_or_null("Combat")
+	if _combat_joueur != null and not _combat_joueur.degats_recus.is_connected(_sur_degats_joueur):
+		_combat_joueur.degats_recus.connect(_sur_degats_joueur)
+
+
+## Annonce publique (titre + sous-titre au centre de l'écran).
+func annoncer(titre: String, sous_titre: String) -> void:
+	_annoncer(titre, sous_titre)
+
+
 func _sur_degats_joueur(_montant: float, _source) -> void:
 	if _canalisation != null:
 		_interrompre("Interrompu !")
@@ -506,14 +541,15 @@ func _sur_degats_joueur(_montant: float, _source) -> void:
 
 func _interrompre(raison: String) -> void:
 	_canalisation = null
+	_rappel_canalisation = Callable()
 	if not _avant_choix.is_empty() and etape_actuelle().has("choix_fait"):
 		# Action interrompue : le choix n'est pas encore fait, on peut changer d'avis.
 		etapes[etape] = _avant_choix
 		_avant_choix = {}
 		var cfg := ConfigFile.new()
-		cfg.load(fichier_progression)
+		cfg.load(Profil.chemin(fichier_progression))
 		cfg.set_value(SECTION, "choix_" + String(etape_actuelle().get("id", "")), "")
-		cfg.save(fichier_progression)
+		cfg.save(Profil.chemin(fichier_progression))
 		for option in etape_actuelle().get("choix", []):
 			var objet := _trouver_objet(option.get("objet", ""))
 			if objet != null:
@@ -570,6 +606,11 @@ func _avancer_canalisation(delta: float) -> void:
 		var objet := _canalisation
 		_canalisation = null
 		_cadre_barre.visible = false
+		if _rappel_canalisation.is_valid():
+			var rappel := _rappel_canalisation
+			_rappel_canalisation = Callable()
+			rappel.call(objet)
+			return
 		if etape_actuelle().has("recolter"):
 			_compter_recolte(objet)
 		else:

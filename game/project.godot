@@ -18,12 +18,16 @@ config/icon="res://icon.svg"
 
 [autoload]
 
+Compte="*res://scripts/autoload/compte.gd"
 Controles="*res://scripts/autoload/controles.gd"
 Donnees="*res://scripts/autoload/donnees.gd"
 Regles="*res://scripts/autoload/regles.gd"
 Reseau="*res://scripts/autoload/reseau.gd"
 QualiteGraphique="*res://scripts/autoload/qualite_graphique.gd"
 Cartographe="*res://scripts/autoload/cartographe.gd"
+Audio="*res://scripts/autoload/audio.gd"
+Options="*res://scripts/autoload/options.gd"
+Conseils="*res://scripts/autoload/conseils.gd"
 
 [display]
 

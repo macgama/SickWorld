@@ -85,10 +85,14 @@ func _unhandled_input(event: InputEvent) -> void:
 		cibler_suivant()
 		get_viewport().set_input_as_handled()
 	elif event.is_action_pressed("annuler"):
+		# Échap annule l'incantation, sinon enlève la cible ; sans cible,
+		# il laisse passer la touche pour ouvrir le menu de jeu.
 		if _barre_nom != "":
 			Regles.au_serveur(self, "_demander_annulation")
-		else:
+			get_viewport().set_input_as_handled()
+		elif cible != null:
 			changer_cible(null)
+			get_viewport().set_input_as_handled()
 	else:
 		for i in 8:
 			if event.is_action_pressed("competence_%d" % (i + 1)):
@@ -430,6 +434,7 @@ func _recevoir_bond(chemin_cible: NodePath) -> void:
 
 @rpc("authority", "call_local", "reliable")
 func _animer_attaque() -> void:
+	Audio.effet("attaque", joueur)
 	if joueur.apparence.has_method("attaquer"):
 		joueur.apparence.attaquer()
 
@@ -460,8 +465,12 @@ func _effet_sagaie(chemin_cible: NodePath, duree: float) -> void:
 		if direction.length() > 0.001:
 			sagaie.look_at(p + direction, Vector3.UP)
 			sagaie.rotate_object_local(Vector3.RIGHT, PI / 2)
+	Audio.effet("lancer", joueur)
 	var animation := sagaie.create_tween()
 	animation.tween_method(voler, 0.0, 1.0, duree)
+	animation.tween_callback(func():
+		if is_instance_valid(victime):
+			Audio.effet("impact_sagaie", victime.centre()))
 	animation.tween_callback(sagaie.queue_free)
 
 

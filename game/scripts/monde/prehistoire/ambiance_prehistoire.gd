@@ -85,7 +85,7 @@ static func appliquer(zone: Node, climat := "cote_gelee") -> void:
 	ciel.set_shader_parameter("couleur_soleil", r["couleur_soleil"])
 	var sky := Sky.new()
 	sky.sky_material = ciel
-	sky.radiance_size = Sky.RADIANCE_SIZE_128
+	sky.radiance_size = Sky.RADIANCE_SIZE_256
 	env.background_mode = Environment.BG_SKY
 	env.sky = sky
 	env.ambient_light_source = Environment.AMBIENT_SOURCE_SKY
@@ -118,7 +118,9 @@ static func appliquer(zone: Node, climat := "cote_gelee") -> void:
 	env.fog_light_energy = 1.0
 	env.fog_sun_scatter = 0.12
 	env.fog_density = r["densite_brume"]
-	env.fog_aerial_perspective = 0.55
+	# La perspective aérienne lit la carte de reflets du ciel (basse résolution) :
+	# trop forte, elle dessinait des bandes carrées autour du soleil.
+	env.fog_aerial_perspective = 0.2
 	env.fog_sky_affect = 0.35
 	# Brouillard en volume : rayons de soleil.
 	env.volumetric_fog_enabled = true

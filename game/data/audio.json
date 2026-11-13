@@ -1,0 +1,155 @@
+{
+	"_aide": "Réglages du son (lus par l'autoload Audio, voir docs/guides/le-son.md). Les sons sont dans audio/<dossier>/<nom>.ogg ; un nom sans numéro prend toutes ses variantes (_1, _2…) au hasard. volume_db : 0 = volume du fichier, -6 = deux fois moins fort. Les curseurs de volume du joueur (Options) s'ajoutent par-dessus.",
+
+	"musiques": {
+		"_aide": "Listes de lecture : une piste au hasard, puis un silence (secondes, entre deux valeurs), puis une autre, comme dans WoW.",
+		"menu": { "pistes": ["musique/menu_1", "musique/menu_2"], "volume_db": -9, "silence": [2, 5] },
+		"hub": { "pistes": ["musique/hub_1", "musique/hub_2", "musique/hub_3", "musique/hub_4", "musique/hub_5"], "volume_db": -13, "silence": [25, 70] },
+		"prehistoire": { "pistes": ["musique/prehistoire_1", "musique/prehistoire_2", "musique/prehistoire_3", "musique/prehistoire_4"], "volume_db": -12, "silence": [30, 80] },
+		"grotte": { "pistes": ["musique/grotte_1", "musique/grotte_2", "musique/grotte_3"], "volume_db": -11, "silence": [15, 40] }
+	},
+
+	"scenes": {
+		"_aide": "Une entrée par scène (nom du fichier .tscn). ambiances : boucles jouées en continu (exterieur = étouffé quand on est sous un toit). ponctuels : sons joués au hasard autour du joueur (intervalle en secondes, distance en mètres). pas : surface des pas (beton, terre, herbe, neige, bois, metal ou auto = lu sur le terrain). reverberation : écho de grotte sur les bruitages.",
+		"menu": { "musique": "menu" },
+		"creation_personnage": { "musique": "menu" },
+		"hikari_bay": {
+			"musique": "hub",
+			"pas": "beton",
+			"pas_interieur": "bois",
+			"ambiances": [
+				{ "son": "ambiances/pluie_ville", "volume_db": -7, "exterieur": true },
+				{ "son": "ambiances/ville_nuit", "volume_db": -15, "exterieur": true },
+				{ "son": "ambiances/foule", "volume_db": -27, "exterieur": true },
+				{ "son": "ambiances/vagues", "volume_db": -25, "exterieur": true }
+			],
+			"ponctuels": [
+				{ "son": "ambiances/klaxon", "intervalle": [35, 90], "volume_db": -12, "distance": [50, 110] },
+				{ "son": "ambiances/tonnerre", "intervalle": [70, 160], "volume_db": -8, "distance": [150, 300] },
+				{ "son": "ambiances/train", "intervalle": [90, 200], "volume_db": -12, "distance": [60, 120] }
+			]
+		},
+		"colline_de_test": {
+			"musique": "prehistoire",
+			"pas": "herbe",
+			"ambiances": [ { "son": "ambiances/vent_plaine", "volume_db": -12, "exterieur": true } ],
+			"ponctuels": [ { "son": "betes/loup_hurlement", "intervalle": [60, 140], "volume_db": -10, "distance": [120, 220] } ]
+		},
+		"cote_gelee": {
+			"musique": "prehistoire",
+			"pas": "auto",
+			"ambiances": [
+				{ "son": "ambiances/vent_arctique", "volume_db": -9, "exterieur": true },
+				{ "son": "ambiances/vent_hiver", "volume_db": -18, "exterieur": true },
+				{ "son": "ambiances/vagues", "volume_db": -16, "exterieur": true }
+			],
+			"feux": { "son": "ambiances/feu_de_camp", "volume_db": -4, "portee": 14 },
+			"ponctuels": [
+				{ "son": "betes/loup_hurlement", "intervalle": [45, 120], "volume_db": -8, "distance": [120, 220] },
+				{ "son": "ambiances/corbeau", "intervalle": [40, 100], "volume_db": -16, "distance": [30, 70] }
+			]
+		},
+		"steppe": {
+			"musique": "prehistoire",
+			"pas": "auto",
+			"ambiances": [
+				{ "son": "ambiances/vent_plaine", "volume_db": -9, "exterieur": true },
+				{ "son": "ambiances/vent_arctique", "volume_db": -20, "exterieur": true }
+			],
+			"feux": { "son": "ambiances/feu_de_camp", "volume_db": -4, "portee": 14 },
+			"ponctuels": [
+				{ "son": "betes/loup_hurlement", "intervalle": [50, 130], "volume_db": -8, "distance": [130, 240] },
+				{ "son": "ambiances/oiseau", "intervalle": [25, 60], "volume_db": -20, "distance": [20, 50] }
+			]
+		},
+		"foret": {
+			"musique": "prehistoire",
+			"pas": "auto",
+			"ambiances": [
+				{ "son": "ambiances/foret", "volume_db": -9, "exterieur": true },
+				{ "son": "ambiances/vent_hiver", "volume_db": -22, "exterieur": true }
+			],
+			"feux": { "son": "ambiances/feu_de_camp", "volume_db": -4, "portee": 14 },
+			"ponctuels": [
+				{ "son": "betes/loup_hurlement", "intervalle": [40, 110], "volume_db": -8, "distance": [100, 200] },
+				{ "son": "ambiances/chouette", "intervalle": [50, 120], "volume_db": -16, "distance": [30, 60] },
+				{ "son": "ambiances/corbeau", "intervalle": [35, 90], "volume_db": -16, "distance": [25, 60] }
+			]
+		},
+		"falaises": {
+			"musique": "prehistoire",
+			"pas": "auto",
+			"ambiances": [
+				{ "son": "ambiances/vent_hiver", "volume_db": -10, "exterieur": true },
+				{ "son": "ambiances/riviere", "volume_db": -24, "exterieur": true }
+			],
+			"feux": { "son": "ambiances/feu_de_camp", "volume_db": -4, "portee": 14 },
+			"ponctuels": [
+				{ "son": "betes/loup_hurlement", "intervalle": [50, 130], "volume_db": -8, "distance": [130, 240] },
+				{ "son": "ambiances/corbeau", "intervalle": [35, 90], "volume_db": -15, "distance": [30, 80] }
+			]
+		},
+		"grotte": {
+			"musique": "grotte",
+			"pas": "terre",
+			"reverberation": true,
+			"ambiances": [ { "son": "ambiances/grotte_vent", "volume_db": -20 } ],
+			"feux": { "son": "ambiances/feu_de_camp", "volume_db": -4, "portee": 14 },
+			"ponctuels": [ { "son": "ambiances/goutte", "intervalle": [2, 7], "volume_db": -12, "distance": [4, 18] } ]
+		}
+	},
+
+	"effets": {
+		"_aide": "Bruitages : volume (dB), variation de hauteur au hasard (0.08 = ±8 %), portée (mètres où le son devient faible).",
+		"pas": { "volume_db": -12, "variation": 0.08, "portee": 9 },
+		"pas_autres_joueurs": { "volume_db": -17 },
+		"reception": { "volume_db": -8 },
+		"saut": { "son": "personnage/tissu", "volume_db": -14 },
+		"roulade": { "son": "personnage/roulade", "volume_db": -6, "en_plus": "personnage/equipement" },
+		"attaque": { "son": "combat/elan", "volume_db": -8, "variation": 0.1 },
+		"coup": { "son": "combat/coup", "volume_db": -6, "variation": 0.1 },
+		"coup_lame": { "son": "combat/lame", "volume_db": -9, "variation": 0.08 },
+		"lancer": { "son": "combat/lancer", "volume_db": -6 },
+		"impact_sagaie": { "son": "combat/impact_sagaie", "volume_db": -5 },
+		"feu": { "son": "combat/feu", "volume_db": -2, "portee": 10 },
+		"embrasement": { "son": "combat/embrasement", "volume_db": -6 },
+		"voix_douleur": { "son": "voix/{sexe}_douleur", "volume_db": -9, "chance": 0.35 },
+		"voix_mort": { "son": "voix/{sexe}_mort", "volume_db": -5 },
+		"voix_effort": { "son": "voix/{sexe}_effort", "volume_db": -12, "chance": 0.15 }
+	},
+
+	"betes": {
+		"_aide": "Sons de chaque espèce : alerte (quand elle vous repère), attaque, douleur, mort.",
+		"loup": {
+			"alerte": { "son": "betes/loup_grondement", "volume_db": -4 },
+			"attaque": { "son": "betes/loup_morsure", "volume_db": -6, "variation": 0.1 },
+			"douleur": { "son": "betes/loup_douleur", "volume_db": -7, "chance": 0.5, "variation": 0.1 },
+			"mort": { "son": "betes/loup_douleur", "volume_db": -3, "hauteur": 0.85 }
+		},
+		"ours": {
+			"alerte": { "son": "betes/ours_rugissement", "volume_db": -2 },
+			"attaque": { "son": "betes/ours_grognement", "volume_db": -3 },
+			"douleur": { "son": "betes/ours_grognement", "volume_db": -6, "chance": 0.4 },
+			"mort": { "son": "betes/ours_rugissement", "volume_db": -2, "hauteur": 0.8 }
+		},
+		"renne": {
+			"alerte": { "son": "betes/renne_grognement", "volume_db": -8 },
+			"douleur": { "son": "betes/renne_grognement", "volume_db": -8, "chance": 0.5 },
+			"mort": { "son": "betes/renne_grognement", "volume_db": -6, "hauteur": 0.85 }
+		}
+	},
+
+	"interface": {
+		"_aide": "Sons de l'interface (tous les boutons du jeu cliquent et réagissent au survol automatiquement).",
+		"clic": { "son": "interface/clic", "volume_db": -10 },
+		"survol": { "son": "interface/survol", "volume_db": -22 },
+		"quete_acceptee": { "son": "interface/quete_acceptee", "volume_db": -8 },
+		"quete_etape": { "son": "interface/quete_etape", "volume_db": -10 },
+		"quete_terminee": { "son": "interface/quete_terminee", "volume_db": -6 },
+		"butin": { "son": "interface/butin", "volume_db": -10 },
+		"sac": { "son": "interface/sac", "volume_db": -12 },
+		"erreur": { "son": "interface/erreur", "volume_db": -12 },
+		"portail": { "son": "interface/portail", "volume_db": -5 },
+		"niveau": { "son": "interface/niveau", "volume_db": -6 }
+	}
+}

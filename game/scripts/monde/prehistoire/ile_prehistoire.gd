@@ -785,7 +785,7 @@ func _appliquer_ciel() -> void:
 
 ## Les loups touchés par la faille reçoivent des veines violettes lumineuses.
 func _habiller_fracture(n: Node) -> void:
-	if not is_instance_valid(n) or not (String(n.get("type_ennemi")).contains("fracture") or String(n.get("type_ennemi")).begins_with("ours")):
+	if not is_instance_valid(n) or not (String(n.get("type_ennemi")).contains("fracture") or String(n.get("type_ennemi")).begins_with("ours_sans")):
 		return
 	var apparence := n.get_node_or_null("Apparence")
 	if apparence == null:
@@ -796,7 +796,7 @@ func _habiller_fracture(n: Node) -> void:
 		m.set_shader_parameter("bruit", _bruit())
 		_materiaux["fracture"] = m
 	var surcouche: Material = _materiaux["fracture"]
-	if String(n.get("type_ennemi")).begins_with("ours"):
+	if String(n.get("type_ennemi")).begins_with("ours_sans"):
 		# L'Ours garde son pelage brun : la faille ne fait que le veiner.
 		if not _materiaux.has("fracture_ours"):
 			var m_ours := (_materiaux["fracture"] as ShaderMaterial).duplicate() as ShaderMaterial
