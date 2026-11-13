@@ -38,6 +38,7 @@ func _construire() -> void:
 		_apparence = (load(SCENE_APPARENCE) as PackedScene).instantiate()
 		_apparence.set("modele", fiche.get("modele", "homme"))
 		add_child(_apparence)
+		_habiller.call_deferred(fiche)
 	_etiquette = Label3D.new()
 	_etiquette.text = nom + ("\n" + role if role != "" else "")
 	_etiquette.billboard = BaseMaterial3D.BILLBOARD_ENABLED
@@ -55,6 +56,53 @@ func _construire() -> void:
 	_invite.visible = false
 	add_child(_invite)
 	_appliquer_posture()
+
+
+## Tenue d'époque (objets de data/objets.json, ex. la cape de fourrure) et teinte de peau.
+func _habiller(fiche: Dictionary) -> void:
+	if _apparence == null or not is_instance_valid(_apparence):
+		return
+	if fiche.has("peau") and _apparence.has_method("appliquer"):
+		_apparence.appliquer({"sexe": fiche.get("modele", "homme"),
+				"taille_cm": fiche.get("taille_cm", 175 if fiche.get("modele", "homme") == "homme" else 165),
+				"peau": Color.from_string(String(fiche["peau"]), Color.WHITE)})
+	if fiche.has("habits"):
+		_teindre_habits(Color.from_string(String(fiche["habits"]), Color.WHITE))
+	if not fiche.has("tenue") or not _apparence.has_method("equiper"):
+		return
+	var objets: Dictionary = _catalogue().get("objets", {})
+	var visuels := {}
+	for id in fiche["tenue"]:
+		var o: Dictionary = objets.get(id, {})
+		if o.has("visuel") and o.has("emplacement"):
+			visuels[o["emplacement"]] = o["visuel"]
+	_apparence.equiper(visuels)
+
+
+## Teint les vêtements du modèle (t-shirt, pantalon, chaussures) en couleurs de peau
+## tannée, pour qu'un habitant de l'époque ne porte pas un jean bleu.
+## La peau, les yeux et les cheveux ne changent pas.
+func _teindre_habits(teinte: Color) -> void:
+	for n in _apparence.find_children("*", "MeshInstance3D", true, false):
+		var m := (n as MeshInstance3D).material_override as StandardMaterial3D
+		if m == null or m.subsurf_scatter_enabled or m.roughness < 0.2 \
+				or m.transparency != BaseMaterial3D.TRANSPARENCY_DISABLED:
+			continue
+		var gris := m.duplicate() as StandardMaterial3D
+		gris.albedo_color = teinte
+		gris.roughness = 0.9
+		(n as MeshInstance3D).material_override = gris
+
+
+static var _objets := {}
+
+
+static func _catalogue() -> Dictionary:
+	if _objets.is_empty():
+		var lu = JSON.parse_string(FileAccess.get_file_as_string("res://data/objets.json"))
+		if lu is Dictionary:
+			_objets = lu
+	return _objets
 
 
 func _appliquer_posture() -> void:
@@ -94,7 +142,7 @@ func _process(_delta: float) -> void:
 		return
 	var dialogue := get_tree().get_first_node_in_group("dialogue")
 	var occupe: bool = dialogue != null and dialogue.est_ouvert()
-	_invite.visible = _joueur_proche() and not occupe and not _action_de_quete_proche() \
+	_invite.visible = is_visible_in_tree() and _joueur_proche() and not occupe and not _action_de_quete_proche() \
 			and not repliques_du_moment().is_empty()
 
 
@@ -102,7 +150,8 @@ func _unhandled_input(event: InputEvent) -> void:
 	if Engine.is_editor_hint() or not event.is_action_pressed("interagir"):
 		return
 	var dialogue := get_tree().get_first_node_in_group("dialogue")
-	if dialogue == null or dialogue.est_ouvert() or not _joueur_proche() or _action_de_quete_proche():
+	if dialogue == null or dialogue.est_ouvert() or not is_visible_in_tree() or not _joueur_proche() \
+			or _action_de_quete_proche():
 		return
 	get_viewport().set_input_as_handled()
 	parler()

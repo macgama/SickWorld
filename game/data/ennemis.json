@@ -55,5 +55,35 @@
 		"distance_laisse": 40,
 		"entraide": 12,
 		"temps_reapparition": 0
+	},
+	"renne": {
+		"nom": "Renne",
+		"niveau": 3,
+		"points_de_vie": 120,
+		"degats": [0, 0],
+		"intervalle_attaque": 2.0,
+		"portee_attaque": 2.0,
+		"vitesse_course": 6.0,
+		"vitesse_marche": 1.4,
+		"distance_detection": 7,
+		"distance_laisse": 45,
+		"distance_fuite": 24,
+		"entraide": 14,
+		"temps_reapparition": 25,
+		"craintif": true
+	},
+	"loup_fracture_foret": {
+		"nom": "Loup fracturé de la forêt",
+		"niveau": 6,
+		"points_de_vie": 190,
+		"degats": [11, 16],
+		"intervalle_attaque": 1.7,
+		"portee_attaque": 2.2,
+		"vitesse_course": 6.8,
+		"vitesse_marche": 1.8,
+		"distance_detection": 13,
+		"distance_laisse": 45,
+		"entraide": 14,
+		"temps_reapparition": 0
 	}
 }

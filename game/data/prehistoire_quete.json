@@ -1,17 +1,201 @@
 {
-	"_aide": "Quête principale de la Préhistoire : « Ce que les murs se rappellent ». Les étapes se jouent dans l'ordre. Types d'étape : pnj (parler), zone (aller à un endroit [x, z]), objet (utiliser avec F ; duree = secondes à rester immobile), tuer (type d'ennemi + nombre). Pour changer un texte, modifie ce qui est entre guillemets. Garde les virgules.",
-	"arrivee": {
-		"titre": "La Côte Gelée",
-		"sous_titre": "Préhistoire · il y a environ 17 000 ans",
-		"texte": "Le froid te mord le visage. Derrière toi, le portail grésille. Devant toi, la neige est piétinée... et tachée de sang."
+	"_aide": "Quête principale de la Préhistoire : « Ce que les murs se rappellent ». Les étapes se jouent dans l'ordre. Types d'étape : pnj (parler), zone (aller à un endroit [x, z]), objet (utiliser avec F ; duree = secondes à rester immobile), tuer (type d'ennemi + nombre), recolter (ramasser plusieurs objets d'un même groupe), arriver (passer dans une autre zone). « ou » = zone où se passe l'étape (cote_gelee, steppe). « recompense » = objets donnés à la fin de l'étape. Pour changer un texte, modifie ce qui est entre guillemets. Garde les virgules.",
+	"zones": {
+		"cote_gelee": {
+			"scene": "res://scenes/monde/prehistoire/cote_gelee.tscn",
+			"arrivee": {
+				"titre": "La Côte Gelée",
+				"sous_titre": "Préhistoire · il y a environ 17 000 ans",
+				"texte": "Le froid te mord le visage. Derrière toi, le portail grésille. Devant toi, la neige est piétinée... et tachée de sang."
+			}
+		},
+		"steppe": {
+			"scene": "res://scenes/monde/prehistoire/steppe.tscn",
+			"arrivee": {
+				"titre": "La Steppe des Mammouths",
+				"sous_titre": "Préhistoire · il y a environ 17 000 ans",
+				"texte": "Derrière le col, la plaine s'étend à perte de vue. L'herbe sèche ondule sous le vent. Au loin, des silhouettes énormes avancent lentement : des mammouths."
+			}
+		},
+		"foret": {
+			"scene": "res://scenes/monde/prehistoire/foret.tscn",
+			"arrivee": {
+				"titre": "La Forêt des Bouleaux",
+				"sous_titre": "Préhistoire · territoire des loups",
+				"texte": "Les troncs blancs se serrent les uns contre les autres. Les feuilles dorées tombent sans bruit. Dans la neige fraîche, des traces : un enfant, et un loup."
+			}
+		}
 	},
-	"camps": [
-		{ "type": "loup_fracture", "position": [-24, 16], "nombre": 2, "rayon": 4 },
-		{ "type": "loup_fracture", "position": [27, 10], "nombre": 2, "rayon": 4 },
-		{ "type": "loup", "position": [-46, -58], "nombre": 3, "rayon": 5 },
-		{ "type": "loup", "position": [48, -72], "nombre": 3, "rayon": 5 },
-		{ "type": "loup", "position": [-10, -96], "nombre": 2, "rayon": 4 }
-	],
+	"camps": {
+		"cote_gelee": [
+			{
+				"type": "loup_fracture",
+				"position": [
+					-24,
+					16
+				],
+				"nombre": 2,
+				"rayon": 4
+			},
+			{
+				"type": "loup_fracture",
+				"position": [
+					27,
+					10
+				],
+				"nombre": 2,
+				"rayon": 4
+			},
+			{
+				"type": "loup",
+				"position": [
+					-46,
+					-58
+				],
+				"nombre": 3,
+				"rayon": 5
+			},
+			{
+				"type": "loup",
+				"position": [
+					48,
+					-72
+				],
+				"nombre": 3,
+				"rayon": 5
+			},
+			{
+				"type": "loup",
+				"position": [
+					-10,
+					-96
+				],
+				"nombre": 2,
+				"rayon": 4
+			}
+		],
+		"steppe": [
+			{
+				"type": "renne",
+				"position": [
+					48,
+					78
+				],
+				"nombre": 5,
+				"rayon": 9
+			},
+			{
+				"type": "renne",
+				"position": [
+					-40,
+					22
+				],
+				"nombre": 3,
+				"rayon": 7
+			},
+			{
+				"type": "loup",
+				"position": [
+					-112,
+					-30
+				],
+				"nombre": 3,
+				"rayon": 5
+			},
+			{
+				"type": "loup",
+				"position": [
+					112,
+					36
+				],
+				"nombre": 3,
+				"rayon": 5
+			},
+			{
+				"type": "loup",
+				"position": [
+					95,
+					-120
+				],
+				"nombre": 2,
+				"rayon": 4
+			},
+			{
+				"type": "loup_fracture",
+				"position": [
+					-92,
+					-100
+				],
+				"nombre": 3,
+				"rayon": 6
+			}
+		],
+		"foret": [
+			{
+				"type": "loup",
+				"position": [
+					-90,
+					40
+				],
+				"nombre": 3,
+				"rayon": 5
+			},
+			{
+				"type": "loup",
+				"position": [
+					60,
+					90
+				],
+				"nombre": 3,
+				"rayon": 5
+			},
+			{
+				"type": "loup",
+				"position": [
+					100,
+					-100
+				],
+				"nombre": 3,
+				"rayon": 5
+			},
+			{
+				"type": "loup_fracture",
+				"position": [
+					-66,
+					58
+				],
+				"nombre": 2,
+				"rayon": 4
+			},
+			{
+				"type": "loup_fracture",
+				"position": [
+					100,
+					36
+				],
+				"nombre": 2,
+				"rayon": 4
+			},
+			{
+				"type": "loup_fracture",
+				"position": [
+					20,
+					106
+				],
+				"nombre": 2,
+				"rayon": 4
+			},
+			{
+				"type": "loup_fracture",
+				"position": [
+					-40,
+					-104
+				],
+				"nombre": 2,
+				"rayon": 4
+			}
+		]
+	},
 	"chapitres": [
 		{
 			"numero": 1,
@@ -49,7 +233,12 @@
 						"Garde un œil sur ta vie. Si ça tourne mal, roule sur le côté pour esquiver. Et si tu tombes, la balise de la Vigie te ramènera ici.",
 						"Nettoie les abords du portail. Ensuite, on s'occupera de la faille."
 					],
-					"apres": [ { "pnj": "lenoir", "blesse": false } ]
+					"apres": [
+						{
+							"pnj": "lenoir",
+							"blesse": false
+						}
+					]
 				},
 				{
 					"id": "fractures",
@@ -74,8 +263,21 @@
 					"objet": "faille_cote",
 					"duree": 5,
 					"action": "Fermeture de la faille…",
-					"apparition": { "type": "loup_fracture_faille", "position": [3, -4], "nombre": 2, "rayon": 3, "attaque": false },
-					"apres": [ { "cacher": "faille_cote" } ]
+					"apparition": {
+						"type": "loup_fracture_faille",
+						"position": [
+							3,
+							-4
+						],
+						"nombre": 2,
+						"rayon": 3,
+						"attaque": false
+					},
+					"apres": [
+						{
+							"cacher": "faille_cote"
+						}
+					]
 				},
 				{
 					"id": "fin_chapitre_1",
@@ -90,25 +292,337 @@
 					],
 					"fin_chapitre": true
 				}
-			]
+			],
+			"ou": "cote_gelee"
 		},
 		{
 			"numero": 2,
 			"titre": "Le Venu-du-Brouillard",
+			"ou": "steppe",
 			"etapes": [
 				{
 					"id": "vers_le_col",
+					"ou": "cote_gelee",
 					"objectif": "Suis la piste du clan du Bison jusqu'au col, au nord",
-					"zone": [10, -128],
-					"rayon": 9
+					"arriver": "steppe"
+				},
+				{
+					"id": "rencontre_toran",
+					"objectif": "Rejoins la partie de chasse du clan du Bison",
+					"pnj": "toran",
+					"repliques": [
+						"Halte ! Pas un pas de plus. Tes habits sont étranges, ta peau sent la fumée froide.",
+						"Tu viens du brouillard de la côte, c'est ça ? Un Venu-du-Brouillard. Les anciens disent que ceux-là portent malheur.",
+						"Je suis Toran. Je mène les chasseurs du clan du Bison. Et le clan ne nourrit pas les bouches inutiles.",
+						"Tu veux qu'on t'écoute ? Alors chasse avec nous. Les rennes paissent à l'est, sur la grande pente. Abats trois bêtes, et on parlera."
+					]
+				},
+				{
+					"id": "chasse_renne",
+					"objectif": "Chasse les rennes avec le clan, sur la pente à l'est",
+					"tuer": "renne",
+					"nombre": 3,
+					"lieu": [
+						48,
+						78
+					],
+					"action_pnj": [
+						{
+							"pnj": "chasseur_ulm",
+							"aller": [
+								40,
+								86
+							]
+						},
+						{
+							"pnj": "chasseuse_naya",
+							"aller": [
+								56,
+								70
+							]
+						}
+					]
+				},
+				{
+					"id": "toran_confiance",
+					"objectif": "Retourne voir Toran",
+					"pnj": "toran",
+					"repliques": [
+						"Trois rennes... et proprement abattus. Tu ne chasses pas comme nous, mais tu chasses bien.",
+						"Ulm dit que tu t'es battu comme un lion des cavernes. Ulm exagère toujours. Mais pas cette fois.",
+						"Tiens. C'est ma propre lance. La pointe a été taillée par mon père. Elle te servira mieux que tes mains vides.",
+						"Viens au camp d'été, de l'autre côté de la rivière. Passe par le gué, l'eau y est basse. Aïna, notre chamane, a fait des rêves. Des rêves de lumières violettes. Elle voudra te voir."
+					],
+					"recompense": [
+						{
+							"id": "lance_silex",
+							"nom": "Lance à pointe de silex"
+						}
+					],
+					"apres": [
+						{
+							"pnj": "toran",
+							"aller": [
+								31,
+								-55
+							]
+						},
+						{
+							"pnj": "chasseur_ulm",
+							"aller": [
+								20,
+								-60
+							]
+						},
+						{
+							"pnj": "chasseuse_naya",
+							"aller": [
+								36,
+								-64
+							]
+						}
+					]
+				},
+				{
+					"id": "vers_le_camp",
+					"objectif": "Traverse la rivière par le gué et rejoins le camp d'été du clan",
+					"zone": [
+						26,
+						-50
+					],
+					"rayon": 10,
+					"fin_chapitre": true
+				}
+			]
+		},
+		{
+			"numero": 3,
+			"titre": "Le rêve d'Aïna",
+			"ou": "steppe",
+			"etapes": [
+				{
+					"id": "aina_reve",
+					"objectif": "Parle à Aïna, la chamane du clan",
+					"pnj": "aina",
+					"repliques": [
+						"Toran t'a amené. Bien. Je t'attendais, Venu-du-Brouillard. Je t'ai vu en rêve, avant même que tu passes le col.",
+						"Dans mes rêves, il y a des lumières violettes. Elles mangent les images. Les bisons peints s'effacent de la paroi, un par un, et personne ne se souvient qu'ils ont existé.",
+						"Je dois peindre le signe qui protège. Mais mes couleurs sont épuisées.",
+						"Il me faut de l'ocre rouge : tu en trouveras trois veines sur les berges de la rivière, à l'ouest du gué.",
+						"Il me faut du charbon : le vieux foyer des chasseurs, au nord-est, en est plein.",
+						"Et il me faut la pierre noire, le manganèse. Elle affleure dans les rochers du nord-ouest... mais des loups étranges y rôdent depuis quelques nuits. Sois prudent."
+					]
+				},
+				{
+					"id": "ocre",
+					"objectif": "Récolte de l'ocre rouge sur les berges de la rivière",
+					"recolter": "ocre",
+					"nombre": 3,
+					"duree": 1.5,
+					"action": "Tu grattes l'ocre…"
+				},
+				{
+					"id": "charbon",
+					"objectif": "Récupère du charbon dans le vieux foyer, au nord-est",
+					"recolter": "charbon",
+					"nombre": 1,
+					"duree": 1.5,
+					"action": "Tu fouilles les cendres…"
+				},
+				{
+					"id": "manganese",
+					"objectif": "Récolte la pierre noire (manganèse) dans les rochers du nord-ouest",
+					"recolter": "manganese",
+					"nombre": 2,
+					"duree": 2,
+					"action": "Tu détaches la pierre noire…"
+				},
+				{
+					"id": "peinture",
+					"objectif": "Rapporte les pigments à Aïna",
+					"pnj": "aina",
+					"repliques": [
+						"L'ocre, le charbon, la pierre noire... Tout y est. Regarde bien.",
+						"On broie, on mélange à la graisse, et on souffle. Le signe de la main protège : il dit « j'étais là ». Une image qui dit « j'étais là » ne peut pas être mangée.",
+						"Ces loups aux yeux violets, près des rochers... Ce sont eux, les lumières de mon rêve. Elles viennent de la Grande Grotte. Je le sens.",
+						"Prends ceci : c'est de l'ocre sacrée. Elle ne sert qu'aux grandes peintures. Garde-la, tu en auras besoin.",
+						"Mais il y a autre chose. Kéo, le fils de ma sœur, n'est pas rentré. Il est parti vers la Forêt des Bouleaux avec sa louve. Je crains pour lui."
+					],
+					"recompense": [
+						{
+							"id": "ocre_sacree",
+							"nom": "Ocre sacrée"
+						}
+					],
+					"apres": [
+						{
+							"montrer": "main_peinte"
+						}
+					],
+					"fin_chapitre": true
+				}
+			]
+		},
+		{
+			"numero": 4,
+			"titre": "La louve grise",
+			"ou": "foret",
+			"etapes": [
+				{
+					"id": "keo_disparu",
+					"ou": "steppe",
+					"objectif": "Demande à Toran où est parti Kéo",
+					"pnj": "toran",
+					"repliques": [
+						"Kéo... Ce gamin n'écoute personne. Il a trouvé une louve blessée l'hiver dernier, il l'a nourrie, il l'appelle Grise.",
+						"Hier soir, Grise a hurlé d'une drôle de façon. Ses yeux brillaient. Elle est partie vers l'est, et Kéo l'a suivie.",
+						"La passe de l'est mène à la Forêt des Bouleaux. C'est le territoire des loups, et Aïna dit que les lumières violettes y sont nombreuses.",
+						"Ramène-le. Moi, je ne peux pas laisser le camp sans chasseurs."
+					]
+				},
+				{
+					"id": "vers_la_foret",
+					"ou": "steppe",
+					"objectif": "Passe à l'est de la steppe, vers la Forêt des Bouleaux",
+					"arriver": "foret"
+				},
+				{
+					"id": "traces_1",
+					"objectif": "Suis les traces de Kéo et de Grise dans la neige",
+					"zone": [
+						-80,
+						-26
+					],
+					"rayon": 7
+				},
+				{
+					"id": "traces_2",
+					"objectif": "Les traces continuent vers la rivière",
+					"zone": [
+						0,
+						-14
+					],
+					"rayon": 7
+				},
+				{
+					"id": "traces_3",
+					"objectif": "Les traces traversent le gué et montent vers une clairière",
+					"zone": [
+						46,
+						-38
+					],
+					"rayon": 7
+				},
+				{
+					"id": "fractures_keo",
+					"objectif": "Kéo est encerclé ! Élimine les loups fracturés",
+					"tuer": "loup_fracture_foret",
+					"nombre": 4,
+					"lieu": [
+						72,
+						-62
+					],
+					"apparition": {
+						"type": "loup_fracture_foret",
+						"position": [
+							72,
+							-62
+						],
+						"nombre": 4,
+						"rayon": 7,
+						"attaque": false
+					}
+				},
+				{
+					"id": "parler_keo",
+					"objectif": "Parle à Kéo",
+					"pnj": "keo",
+					"repliques": [
+						"Tu... tu es le Venu-du-Brouillard ? Toran t'a envoyé ? Merci. Ils étaient partout.",
+						"Regarde Grise. Ce n'est pas sa faute. Elle a bu à la flaque violette, près des arbres tordus, et depuis... elle ne me reconnaît plus vraiment.",
+						"Aïna sait soigner les bêtes. Mais toi, tu as des choses étranges dans tes mains. Tu peux l'aider ?",
+						"Si tu essaies, la lumière va se défendre. D'autres loups viendront. Sinon... on la laisse partir. Elle vivra peut-être, loin de nous.",
+						"C'est toi qui décides. Je ferai ce que tu dis."
+					]
+				},
+				{
+					"id": "choix_grise",
+					"objectif": "Soigne Grise (reste immobile, des loups viendront) ou dis à Kéo de la laisser partir",
+					"pnj": "keo",
+					"choix": [
+						{
+							"objet": "soigner_grise",
+							"objectif": "Soigne Grise : reste immobile malgré les loups",
+							"duree": 8,
+							"action": "Tu apaises la lumière violette…",
+							"apparition": {
+								"type": "loup_fracture_foret",
+								"position": [
+									80,
+									-56
+								],
+								"nombre": 2,
+								"rayon": 4,
+								"attaque": true
+							},
+							"repliques": [
+								"Grise ? Grise ! Elle me regarde. Elle me reconnaît !",
+								"Ses yeux sont redevenus jaunes. Tu l'as sauvée, Venu-du-Brouillard. Je ne l'oublierai jamais.",
+								"Rentrons au camp. Aïna doit voir ça."
+							],
+							"apres": [
+								{
+									"appeler": "grise",
+									"methode": "soigner"
+								},
+								{
+									"montrer": "keo_camp"
+								},
+								{
+									"montrer": "grise_camp"
+								}
+							]
+						},
+						{
+							"objet": "liberer_grise",
+							"objectif": "Dis à Kéo de laisser partir Grise",
+							"repliques": [
+								"...D'accord. Va, Grise. Va. Sois libre.",
+								"Elle hésite... et puis elle court. Elle ne se retourne pas.",
+								"Rentrons au camp. Je ne veux pas rester ici."
+							],
+							"apres": [
+								{
+									"appeler": "grise",
+									"methode": "fuir"
+								},
+								{
+									"montrer": "keo_camp"
+								}
+							]
+						}
+					]
+				},
+				{
+					"id": "retour_keo",
+					"ou": "steppe",
+					"objectif": "Retourne au camp d'été et parle à Aïna",
+					"pnj": "aina",
+					"repliques": [
+						"Kéo est rentré. Il ne parle que de toi, et de ce que tu as fait pour Grise.",
+						"Mais ce qu'il raconte m'inquiète. Une flaque de lumière violette, des arbres tordus... Les failles se multiplient dans la forêt.",
+						"Quelqu'un les ouvre, Venu-du-Brouillard. Ce n'est pas la nature. Je le sens jusque dans mes os.",
+						"Va voir celui qui garde le portail, sur la côte. Peut-être que lui comprendra ce que nous ne comprenons pas."
+					],
+					"fin_chapitre": true
 				}
 			]
 		}
 	],
 	"fin_provisoire": {
 		"chapitre": "LA SUITE ARRIVE BIENTÔT",
-		"objectif": "La Steppe des Mammouths s'ouvrira dans une prochaine mise à jour",
-		"titre": "La Steppe des Mammouths",
-		"message": "Au-delà du col, des traces de pas humains... La suite de l'aventure arrive bientôt."
+		"objectif": "Le chapitre 5, « L'objet impossible », arrive dans une prochaine mise à jour",
+		"titre": "L'objet impossible",
+		"message": "Quelqu'un ouvre les failles exprès... La suite de l'aventure arrive bientôt."
 	}
 }

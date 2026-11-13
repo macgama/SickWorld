@@ -9,7 +9,8 @@ extends Node3D
 @export var identifiant := ""
 ## Texte affiché quand on est assez près.
 @export var invite := "[F] Utiliser"
-## Apparence : "" (rien, un simple endroit) ou "trousse".
+## Apparence : "" (rien, un simple endroit), "trousse", ou un tas de pigment
+## à récolter : "ocre", "charbon", "manganese".
 @export var forme := "":
 	set(valeur):
 		forme = valeur
@@ -17,6 +18,12 @@ extends Node3D
 			_construire()
 ## Distance (mètres) à laquelle on peut l'utiliser.
 @export var portee := 3.0
+## Pour une étape « recolter » : tous les objets du même groupe comptent
+## (ex. « ocre » : trois tas d'ocre rouge le long de la rivière).
+@export var groupe := ""
+
+## Vrai quand l'objet a déjà été récolté.
+var ramasse := false
 
 ## Vrai quand la quête attend qu'on utilise cet objet.
 var actif := false:
@@ -42,6 +49,8 @@ func _construire() -> void:
 	add_child(_visuel)
 	if forme == "trousse":
 		_construire_trousse()
+	elif COULEURS_TAS.has(forme):
+		_construire_tas(COULEURS_TAS[forme])
 	_etiquette = Label3D.new()
 	_etiquette.text = invite
 	_etiquette.position = Vector3(0, 1.0, 0)
@@ -58,6 +67,47 @@ func _construire() -> void:
 	_halo.position = Vector3(0, 0.6, 0)
 	_halo.visible = actif and forme != ""
 	add_child(_halo)
+
+
+const COULEURS_TAS := {
+	"ocre": Color(0.62, 0.2, 0.08),
+	"charbon": Color(0.05, 0.045, 0.04),
+	"manganese": Color(0.13, 0.09, 0.12),
+}
+
+
+## Un petit tas de pierres colorées (pigments de peinture des grottes).
+func _construire_tas(couleur: Color) -> void:
+	var m := StandardMaterial3D.new()
+	m.albedo_color = couleur
+	m.roughness = 0.95
+	var hasard := RandomNumberGenerator.new()
+	hasard.seed = hash(identifiant + forme + str(position))
+	for k in 9:
+		var caillou := MeshInstance3D.new()
+		var sphere := SphereMesh.new()
+		sphere.radius = hasard.randf_range(0.06, 0.14)
+		sphere.height = sphere.radius * hasard.randf_range(1.0, 1.6)
+		sphere.radial_segments = 7
+		sphere.rings = 4
+		caillou.mesh = sphere
+		caillou.material_override = m
+		var a := hasard.randf() * TAU
+		caillou.position = Vector3(cos(a), 0.0, sin(a)) * hasard.randf_range(0.0, 0.28) + Vector3(0, 0.05, 0)
+		caillou.rotation = Vector3(hasard.randf(), hasard.randf() * TAU, hasard.randf())
+		_visuel.add_child(caillou)
+	# Une trace de poudre colorée sur le sol.
+	var poudre := MeshInstance3D.new()
+	var disque := CylinderMesh.new()
+	disque.top_radius = 0.45
+	disque.bottom_radius = 0.5
+	disque.height = 0.02
+	poudre.mesh = disque
+	var mp := StandardMaterial3D.new()
+	mp.albedo_color = couleur.lightened(0.1)
+	mp.roughness = 1.0
+	poudre.material_override = mp
+	_visuel.add_child(poudre)
 
 
 ## Trousse de soin de la Vigie : une mallette blanche frappée d'une croix rouge.

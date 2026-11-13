@@ -9,3 +9,6 @@ game/assets/**/*.ogg filter=lfs diff=lfs merge=lfs -text
 game/assets/**/*.bin filter=lfs diff=lfs merge=lfs -text
 game/assets/**/*.hdr filter=lfs diff=lfs merge=lfs -text
 game/assets/**/*.exr filter=lfs diff=lfs merge=lfs -text
+
+# Godot réécrit ces fichiers avec des fins de ligne Windows : on les normalise.
+*.import text eol=lf
