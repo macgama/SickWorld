@@ -32,3 +32,7 @@ Si le jeu saccade, descends d'un niveau.
 - `scripts/monde/ambiance_hikari.gd` : pluie, éclairs, projecteurs de la place, reflets.
 - `shaders/` : `facade_nuit`, `vitrine`, `ciel_nuit`, `pluie`, `sol_mouille`, `eau`, `post_traitement`, `balise_aviation`.
 - Les réglages de lumière, brouillard et couleurs sont dans le nœud **Environnement** de `scenes/monde/hikari_bay.tscn` (Inspecteur).
+
+## L'île de la Préhistoire
+
+Chaque zone (Côte Gelée, Steppe…) reçoit une ambiance « grandiose » : soleil bas d'hiver, ciel doré et nuageux (`shaders/ciel_polaire.gdshader`), brume bleutée au loin, rayons de lumière dans la brume, contraste et couleurs. Les réglages de chaque zone (direction et hauteur du soleil, nuages, brume) sont dans `scripts/monde/prehistoire/ambiance_prehistoire.gd` (tableau `CLIMATS`). Pour revenir à l'ancien ciel photo : décocher **Ambiance grandiose** sur le nœud de la zone (Inspecteur).
