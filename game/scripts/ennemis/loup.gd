@@ -58,6 +58,7 @@ func _ready() -> void:
 	combat.pv_max = float(_donnees.get("points_de_vie", 100))
 	combat.pv = combat.pv_max
 	combat.faction = faction
+	combat.insensible_controles = bool(_donnees.get("insensible_controles", false))
 	combat.degats_recus.connect(_sur_degats)
 	combat.mort.connect(_sur_mort)
 	if camp == Vector3.ZERO:
@@ -163,11 +164,21 @@ func _poursuivre() -> void:
 	if maitre == null and global_position.distance_to(camp) > float(_donnees.get("distance_laisse", 40)):
 		_abandonner()
 		return
-	# Le plus menaçant devient la cible (utile quand plusieurs adversaires frappent).
-	var plus_menacant := combat.plus_menacant()
-	if plus_menacant != null and plus_menacant != _cible \
-			and combat.menace[plus_menacant] > combat.menace.get(_cible, 0.0) * 1.1:
-		_cible = plus_menacant
+	# Provoqué par un Rempart : il n'a d'yeux que pour lui.
+	var provocateur := _provocateur()
+	if provocateur != null:
+		_cible = provocateur
+	else:
+		# Le plus menaçant devient la cible (utile quand plusieurs adversaires frappent).
+		var plus_menacant := combat.plus_menacant()
+		if plus_menacant != null and plus_menacant != _cible \
+				and combat.menace[plus_menacant] > combat.menace.get(_cible, 0.0) * 1.1:
+			_cible = plus_menacant
+	# Étourdi : ne bouge plus et n'attaque plus.
+	if combat.est_etourdi():
+		velocity.x = 0.0
+		velocity.z = 0.0
+		return
 	if _donnees.get("craintif", false):
 		_fuir()
 		return
@@ -175,7 +186,8 @@ func _poursuivre() -> void:
 	var distance := _avancer_vers(_cible.acteur().global_position, float(_donnees.get("vitesse_course", 6.5)),
 			portee * 0.8)
 	if distance <= portee and Regles.maintenant() >= _prochaine_attaque:
-		_prochaine_attaque = Regles.maintenant() + float(_donnees.get("intervalle_attaque", 1.8))
+		_prochaine_attaque = Regles.maintenant() \
+				+ float(_donnees.get("intervalle_attaque", 1.8)) * combat.multiplicateur_cadence()
 		Regles.infliger(combat, _cible, Donnees.entre(_donnees.get("degats", [5, 8])))
 		_mordre.rpc()
 
@@ -228,6 +240,24 @@ func engager(cible: Combattant) -> void:
 		for autre in get_tree().get_nodes_in_group("loups"):
 			if autre != self and autre.faction == faction and autre.camp.distance_to(camp) < entraide:
 				autre.engager(cible)
+
+
+## Le Rempart qui nous a provoqué (si la provocation dure encore).
+func _provocateur() -> Combattant:
+	if not combat.effets.has("provocation"):
+		return null
+	var source = combat.effets["provocation"].get("source")
+	if source is Combattant and is_instance_valid(source) and source.est_vivant():
+		return source
+	return null
+
+
+## Provocation d'un Rempart : on le prend pour cible tout de suite.
+func provoquer(par: Combattant) -> void:
+	if etat == Etat.MORT or etat == Etat.RETOUR or par == null:
+		return
+	engager(par)
+	_cible = par
 
 
 func _sur_degats(_montant: float, source: Combattant) -> void:

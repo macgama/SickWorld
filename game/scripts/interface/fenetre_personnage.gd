@@ -427,7 +427,7 @@ func rafraichir() -> void:
 	var s: Dictionary = bonus.get("stats", {})
 	var lignes: Array[String] = []
 	lignes.append("[b]Points de vie[/b] : %d  (%+d grâce à l'équipement)" % [
-			float(Donnees.joueur.get("points_de_vie", 200)) + float(s.get("pv", 0)), int(s.get("pv", 0))])
+			combat_joueur.pv_de_base() + float(s.get("pv", 0)), int(s.get("pv", 0))])
 	lignes.append("[b]Dégâts[/b] : %+d %%" % int(s.get("degats_pourcent", 0)))
 	lignes.append("[b]Protection[/b] : %d %% de dégâts en moins" % int(s.get("reduction_pourcent", 0)))
 	lignes.append("[b]Coups critiques[/b] : %d %% de chances" % (10 + int(s.get("critique_pourcent", 0))))
