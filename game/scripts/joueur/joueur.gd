@@ -86,6 +86,8 @@ const DUREE_REPLI := 0.4
 @onready var apparence: Node3D = $Apparence
 @onready var combat: Combattant = $Combat
 @onready var fiche: Node = $Fiche
+## Monture (touche V) : voir scripts/joueur/monture.gd.
+@onready var monture: Node = get_node_or_null("Monture")
 
 
 func _enter_tree() -> void:
@@ -222,9 +224,9 @@ func _suivre_le_reseau(delta: float) -> void:
 	else:
 		global_position = global_position.lerp(position_reseau, clampf(15.0 * delta, 0.0, 1.0))
 	rotation.y = lerp_angle(rotation.y, lacet_reseau, clampf(15.0 * delta, 0.0, 1.0))
-	if apparence.has_method("animer"):
+	if apparence.has_method("animer") or est_monte():
 		var vitesse_locale := transform.basis.inverse() * Vector3(vitesse_reseau.x, 0.0, vitesse_reseau.z)
-		apparence.animer(delta, vitesse_locale, absf(vitesse_reseau.y) < 1.0, esquive_reseau,
+		_animer(delta, vitesse_locale, absf(vitesse_reseau.y) < 1.0, esquive_reseau,
 				direction_esquive_reseau)
 
 
@@ -284,8 +286,8 @@ func _physics_process(delta: float) -> void:
 		velocity.y -= gravite * delta
 		move_and_slide()
 		_publier()
-		if apparence.has_method("animer"):
-			apparence.animer(delta, transform.basis.inverse() * Vector3(velocity.x, 0.0, velocity.z), false, -1.0, Vector3.ZERO)
+		if apparence.has_method("animer") or est_monte():
+			_animer(delta, transform.basis.inverse() * Vector3(velocity.x, 0.0, velocity.z), false, -1.0, Vector3.ZERO)
 		return
 
 	var clic_droit := camera.clic_droit_maintenu()
@@ -316,6 +318,8 @@ func _physics_process(delta: float) -> void:
 		direction = direction.normalized()
 	var vitesse := vitesse_course if avant >= 0.0 else vitesse_recul
 	vitesse *= combat.multiplicateur_vitesse()
+	if est_monte():
+		vitesse *= monture.multiplicateur()
 
 	# 3. Endurance.
 	endurance = minf(endurance + recuperation_endurance * delta, endurance_max)
@@ -325,7 +329,8 @@ func _physics_process(delta: float) -> void:
 		_temps_esquive -= delta
 		velocity.x = _direction_esquive.x * vitesse_esquive
 		velocity.z = _direction_esquive.z * vitesse_esquive
-	elif clavier > 0.0 and Input.is_action_just_pressed("esquive") and is_on_floor() and endurance >= cout_esquive:
+	elif clavier > 0.0 and Input.is_action_just_pressed("esquive") and is_on_floor() and endurance >= cout_esquive \
+			and not est_monte():
 		endurance -= cout_esquive
 		_temps_esquive = duree_esquive
 		_direction_esquive = direction.normalized() if direction.length() > 0.1 else -transform.basis.z
@@ -354,14 +359,31 @@ func _physics_process(delta: float) -> void:
 		placer(_point_depart, rotation.y)
 
 	# 7. Animation de l'apparence.
-	if apparence.has_method("animer"):
+	if apparence.has_method("animer") or est_monte():
 		var vitesse_locale := transform.basis.inverse() * Vector3(velocity.x, 0.0, velocity.z)
 		var progression := -1.0
 		var direction_locale := Vector3.ZERO
 		if _temps_esquive > 0.0:
 			progression = 1.0 - _temps_esquive / duree_esquive
 			direction_locale = transform.basis.inverse() * _direction_esquive
-		apparence.animer(delta, vitesse_locale, is_on_floor(), progression, direction_locale)
+		_animer(delta, vitesse_locale, is_on_floor(), progression, direction_locale)
+
+
+## Vrai si le personnage est en selle sur sa monture.
+func est_monte() -> bool:
+	return monture != null and monture.est_monte()
+
+
+## Anime le personnage (et sa monture s'il est en selle : il reste assis, la bête marche).
+func _animer(delta: float, vitesse_locale: Vector3, au_sol: bool, progression_esquive: float,
+		direction_esquive: Vector3) -> void:
+	if est_monte():
+		monture.animer(delta, vitesse_locale, au_sol)
+		if apparence.has_method("animer"):
+			apparence.animer(delta, Vector3.ZERO, true, -1.0, Vector3.ZERO)
+		return
+	if apparence.has_method("animer"):
+		apparence.animer(delta, vitesse_locale, au_sol, progression_esquive, direction_esquive)
 
 
 func _bondir(delta: float) -> void:
@@ -385,5 +407,5 @@ func _bondir(delta: float) -> void:
 	velocity.y -= gravite * delta
 	move_and_slide()
 	_publier()
-	if apparence.has_method("animer"):
-		apparence.animer(delta, Vector3(0, 0, -24.0), false, -1.0, Vector3.ZERO)
+	if apparence.has_method("animer") or est_monte():
+		_animer(delta, Vector3(0, 0, -24.0), false, -1.0, Vector3.ZERO)
