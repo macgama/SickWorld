@@ -10,18 +10,19 @@ extends Node3D
 ##   immobile.fbx  personnage + squelette + animation de repos
 ##   courir, reculer, pas_gauche, pas_droite, saut, chute, roulade, attaque,
 ##   touche, mort (.fbx) : animations seules, même squelette
+##   marcher.fbx (facultatif) : marche lente, utilisée sous 2 m/s (passants)
 ##   textures/     textures MakeHuman (réappliquées ici : Mixamo ne les garde pas)
 
 ## Animations qui tournent en boucle.
-const EN_BOUCLE := ["immobile", "courir", "reculer", "pas_gauche", "pas_droite", "chute"]
-const ANIMATIONS := ["immobile", "courir", "reculer", "pas_gauche", "pas_droite", "saut", "chute",
+const EN_BOUCLE := ["immobile", "marcher", "courir", "reculer", "pas_gauche", "pas_droite", "chute"]
+const ANIMATIONS := ["immobile", "marcher", "courir", "reculer", "pas_gauche", "pas_droite", "saut", "chute",
 	"roulade", "attaque", "touche", "mort"]
 ## Vitesse (m/s) des pieds au sol dans chaque animation de déplacement, mesurée sur les
 ## animations Mixamo (pied d'appui). En jouant l'animation à vitesse × (vitesse réelle /
 ## vitesse naturelle), les pieds ne glissent pas sur le sol.
 const VITESSE_NATURELLE := {
-	"homme": {"courir": 5.96, "reculer": 0.90, "pas_gauche": 4.55, "pas_droite": 4.58},
-	"femme": {"courir": 5.32, "reculer": 0.80, "pas_gauche": 4.08, "pas_droite": 4.11},
+	"homme": {"marcher": 1.4, "courir": 5.96, "reculer": 0.90, "pas_gauche": 4.55, "pas_droite": 4.58},
+	"femme": {"marcher": 1.4, "courir": 5.32, "reculer": 0.80, "pas_gauche": 4.08, "pas_droite": 4.11},
 }
 ## Au-delà de cette vitesse en marche arrière, l'animation « reculer » (une marche lente)
 ## devrait être jouée beaucoup trop vite : on passe alors à la course jouée à l'envers.
@@ -125,6 +126,8 @@ static func _bibliotheque(nom_modele: String) -> AnimationLibrary:
 		return _bibliotheques[nom_modele]
 	var bib := AnimationLibrary.new()
 	for nom in ANIMATIONS:
+		if not ResourceLoader.exists("res://assets/personnages/%s/%s.fbx" % [nom_modele, nom]):
+			continue
 		var scene := load("res://assets/personnages/%s/%s.fbx" % [nom_modele, nom]) as PackedScene
 		if scene == null:
 			continue
@@ -397,6 +400,8 @@ func animer(delta: float, vitesse_locale: Vector3, au_sol: bool, progression_esq
 		nom = "pas_droite" if vitesse_locale.x > 0.0 else "pas_gauche"
 	elif vitesse_locale.z > 0.0:
 		nom = "reculer" if vitesse <= RECUL_MAX_EN_MARCHANT * echelle else "courir_arriere"
+	elif vitesse < 2.0 and _lecteur.has_animation("agent/marcher"):
+		nom = "marcher"
 	_jouer(nom, FONDU)
 	_lecteur.speed_scale = vitesse_animation(nom, vitesse)
 

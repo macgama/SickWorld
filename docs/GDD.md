@@ -289,7 +289,7 @@ Quatre classes au lancement, qui couvrent les trois rôles classiques. Toutes so
 
 | Classe | Rôle | Arme | Ressource | Style |
 |---|---|---|---|---|
-| **Rempart** | Tank (encaisse les coups, protège le groupe) | Bouclier + arme d'une main | **Endurance** (se remplit en recevant des coups) | Robuste, attire l'attention des ennemis, protège ses alliés. |
+| **Rempart** | Tank (encaisse les coups, protège le groupe) | Bouclier + arme d'une main | **Ténacité** (se remplit en recevant des coups ; renommée pour ne pas la confondre avec l'endurance de la roulade) | Robuste, attire l'attention des ennemis, protège ses alliés. |
 | **Lame** | Dégâts au corps à corps | Deux armes ou arme à deux mains | **Élan** (monte en enchaînant les attaques) | Rapide, mobile, gros dégâts sur une cible. |
 | **Traqueur** | Dégâts à distance | Arc, fusil léger ou armes de jet | **Concentration** (se remplit lentement, les tirs la consomment) | Garde ses distances, pose des pièges. |
 | **Tisseur** | Soigneur / soutien | Bâton ou appareil « chrono » | **Flux** (de l'énergie temporelle) | Soigne, protège, ralentit ou accélère le temps localement. |

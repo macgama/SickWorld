@@ -67,6 +67,10 @@ var _point_depart := Vector3.ZERO
 var _bond_cible: Node3D = null
 var _bond_fin := 0.0
 var _bond_arrivee := Callable()
+## Repli du Traqueur : temps restant et vitesse du saut en arrière.
+var _repli_temps := 0.0
+var _repli_vitesse := Vector3.ZERO
+const DUREE_REPLI := 0.4
 
 @onready var camera: CameraJoueur = $CameraRig
 @onready var apparence: Node3D = $Apparence
@@ -167,6 +171,16 @@ func _rendre_translucide(oui: bool) -> void:
 		(n as GeometryInstance3D).transparency = 0.65 if oui else 0.0
 
 
+## Compétence « Repli » (Traqueur) : saut en arrière de « distance » mètres.
+@rpc("any_peer", "call_remote", "reliable")
+func sauter_en_arriere(distance: float) -> void:
+	if multiplayer.get_remote_sender_id() not in [0, 1]:
+		return
+	_repli_temps = DUREE_REPLI
+	_repli_vitesse = transform.basis.z * (distance / DUREE_REPLI)
+	velocity.y = 5.0
+
+
 ## Le serveur demande de déplacer le personnage (réapparition…).
 @rpc("any_peer", "call_remote", "reliable")
 func teleporter(position_monde: Vector3, orientation: float) -> void:
@@ -218,6 +232,16 @@ func _physics_process(delta: float) -> void:
 
 	if _bond_cible != null:
 		_bondir(delta)
+		return
+	if _repli_temps > 0.0:
+		_repli_temps -= delta
+		velocity.x = _repli_vitesse.x
+		velocity.z = _repli_vitesse.z
+		velocity.y -= gravite * delta
+		move_and_slide()
+		_publier()
+		if apparence.has_method("animer"):
+			apparence.animer(delta, transform.basis.inverse() * Vector3(velocity.x, 0.0, velocity.z), false, -1.0, Vector3.ZERO)
 		return
 
 	var clic_droit := camera.clic_droit_maintenu()
