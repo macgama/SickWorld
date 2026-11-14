@@ -82,6 +82,14 @@ func _types_vivants() -> Array:
 	return t
 
 
+func _marqueurs_evenement() -> int:
+	var n := 0
+	for m in get_nodes_in_group("marqueur_carte"):
+		if String(m.libelle).begins_with("Événement") and not m.is_queued_for_deletion():
+			n += 1
+	return n
+
+
 func _charger(scene: String) -> void:
 	_scene = load(scene).instantiate()
 	_quete = _scene.get_node("Quete")
@@ -118,6 +126,7 @@ func _lancer() -> void:
 	await _attendre(5)
 	_verifier(_evt.en_cours() and _evt.phase == 0, "l'événement commence par les vagues")
 	_verifier(_evt._cadre.visible, "le cadre de l'événement est à l'écran")
+	_verifier(_marqueurs_evenement() == 1, "un repère « Événement » sur la carte")
 	var faille = _evt._objets.get("grande_faille")
 	_verifier(faille != null and not faille.actif, "la grande faille est là, on ne peut pas encore la refermer")
 	var tues := 0
@@ -143,6 +152,7 @@ func _lancer() -> void:
 	await _attendre(10)
 	_verifier(not _evt.en_cours(), "l'événement est fini")
 	_verifier(faille.fermee, "la grande faille est refermée")
+	_verifier(_marqueurs_evenement() == 0, "le repère disparaît de la carte")
 	_verifier(_evt.derniere_participation == "or", "participation or en solo (%s)" % _evt.derniere_participation)
 	_verifier(_evt.stabilite > stabilite_avant, "la stabilité de l'époque monte (%.0f → %.0f)" % [stabilite_avant, _evt.stabilite])
 	_verifier(_evt.reussis("faille_s_ouvre") == 1, "une faille réussie est comptée")

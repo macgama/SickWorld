@@ -48,6 +48,8 @@ var _prochain_froid := 0.0
 var _a_froid := false
 var _minuterie := 0.0
 var _quete: Node
+## Repère de l'événement sur la carte et la mini-carte.
+var _marqueur: Node3D
 
 var _cadre: PanelContainer
 var _titre: Label
@@ -194,6 +196,7 @@ func declencher(id: String) -> void:
 	if e.get("tempete", false) and ile != null and ile.has_method("tempete"):
 		ile.tempete(true)
 	_installer_objets(e)
+	_poser_marqueur(e)
 	if e.has("troupeau"):
 		_lancer_troupeau(e.troupeau)
 	_quete.annoncer("Événement : " + String(e.titre), String(e.get("annonce", "")))
@@ -575,6 +578,9 @@ func _finir(reussi: bool) -> void:
 		if is_instance_valid(m) and m.en_migration():
 			m.arreter_migration()
 	_troupeau.clear()
+	if _marqueur != null and is_instance_valid(_marqueur):
+		_marqueur.queue_free()
+	_marqueur = null
 	actif = {}
 	phase = -1
 	_a_froid = false
@@ -687,10 +693,22 @@ func texte_objectif() -> String:
 	return texte
 
 
+func _poser_marqueur(e: Dictionary) -> void:
+	var ile := get_tree().get_first_node_in_group("ile") as Node3D
+	if ile == null:
+		return
+	var p: Array = e.get("position", [0, 0])
+	_marqueur = MarqueurCarte.creer(ile, MarqueurCarte.Type.DANGER, "Événement : " + String(e.titre),
+			Vector3(p[0], ile.hauteur(p[0], p[1]), p[1]), true)
+
+
 func _mettre_a_jour_ecran() -> void:
 	if not en_cours():
 		_cadre.visible = false
 		return
+	var meneur := _meneur()
+	if meneur != null and _marqueur != null and is_instance_valid(_marqueur):
+		_marqueur.global_position = meneur.global_position
 	_cadre.visible = true
 	_titre.text = String(actif.titre)
 	_objectif.text = texte_objectif()
