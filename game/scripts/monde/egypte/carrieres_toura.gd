@@ -11,9 +11,7 @@ extends "res://scripts/monde/egypte/ile_egypte.gd"
 ##
 ## Repères : le nord est vers -Z, le Nil à l'ouest (-X), la falaise à l'est (+X).
 
-const Pnj := preload("res://scripts/monde/prehistoire/pnj_epoque.gd")
 const Faille := preload("res://scripts/monde/prehistoire/faille.gd")
-const ObjetEgypte := preload("res://scripts/monde/egypte/objet_egypte.gd")
 const Traineau := preload("res://scripts/monde/egypte/traineau.gd")
 const Passeur := preload("res://scripts/monde/egypte/passeur.gd")
 const MarqueurCarte := preload("res://scripts/carte/marqueur_carte.gd")
@@ -46,15 +44,12 @@ const GRADIN := 4.3
 const NB_GRADINS := 6
 
 var _rive: FastNoiseLite
-# Oubliés à terre : chaque objet « rendre son nom » et l'oublié qui va avec.
-var _a_liberer: Array = []
-var _liberes := 0
-var _dossier_quete: Node3D
-var _attente_liberes := 0.0
 
 
 func _init() -> void:
 	identifiant_zone = "carrieres_toura"
+	noms_liberes = NOMS_LIBERES
+	places_liberes = LIBERES
 	taille_terrain = 320
 	graine = 2561
 	point_apparition = DEBARCADERE
@@ -609,16 +604,6 @@ func _construire_quete() -> void:
 	repere.call(MarqueurCarte.Type.DANGER, "Babouins", Vector2(60, 0))
 
 
-func _pnj(parent: Node3D, id: String, p: Vector2, angle: float) -> Node3D:
-	var n := Pnj.new()
-	n.name = id.capitalize().replace(" ", "")
-	n.identifiant = id
-	n.position = Vector3(p.x, hauteur(p.x, p.y), p.y)
-	n.rotation.y = angle
-	parent.add_child(n)
-	return n
-
-
 ## Si la quête a déjà dépassé l'étape des oubliés, les trois carriers sont là, guéris.
 func _placer_liberes() -> void:
 	var quete := get_tree().get_first_node_in_group("quete")
@@ -627,55 +612,3 @@ func _placer_liberes() -> void:
 	for k in NOMS_LIBERES.size():
 		_pnj(_dossier_quete, NOMS_LIBERES[k], LIBERES[k], PI * 0.5 + k * 0.6)
 	_liberes = NOMS_LIBERES.size()
-
-
-# --- Les Oubliés : on les met à terre, puis on leur rend leur nom -----------------------------
-
-func _process(delta: float) -> void:
-	super._process(delta)
-	if Engine.is_editor_hint() or _dossier_quete == null:
-		return
-	_attente_liberes -= delta
-	if _attente_liberes > 0.0:
-		return
-	_attente_liberes = 0.25
-	var quete := get_tree().get_first_node_in_group("quete")
-	var etape: Dictionary = quete.etape_actuelle() if quete != null else {}
-	# Un oublié vient d'être mis à terre : on peut lui rendre son nom (F).
-	for bete in get_tree().get_nodes_in_group("loups"):
-		if not String(bete.get("type_ennemi")).begins_with("oublie") or bete.has_meta("objet_nom"):
-			continue
-		if bete.combat.est_vivant():
-			continue
-		var objet := ObjetEgypte.new()
-		objet.name = "RendreNom%d" % _a_liberer.size()
-		objet.identifiant = "nom_rendu_%d" % _a_liberer.size()
-		objet.groupe = "nom_rendu"
-		objet.invite = "[F] Rendre son nom"
-		objet.portee = 2.6
-		_dossier_quete.add_child(objet)
-		objet.global_position = bete.global_position
-		objet.actif = etape.get("recolter", "") == "nom_rendu"
-		bete.set_meta("objet_nom", objet)
-		_a_liberer.append([objet, bete])
-	# Un nom rendu : l'oublié se relève, guéri, et rejoint le campement.
-	for paire in _a_liberer.duplicate():
-		var objet = paire[0]
-		var bete = paire[1]
-		if not is_instance_valid(objet) or not objet.get("ramasse"):
-			continue
-		_a_liberer.erase(paire)
-		var ou: Vector3 = bete.global_position if is_instance_valid(bete) else objet.global_position
-		if is_instance_valid(bete):
-			bete.queue_free()
-		if _liberes < NOMS_LIBERES.size():
-			var libere := _pnj(_dossier_quete, NOMS_LIBERES[_liberes], Vector2(ou.x, ou.z), randf() * TAU)
-			libere.global_position = ou
-			# Un peu plus tard, il a rejoint ses camarades au campement.
-			var cible: Vector2 = LIBERES[_liberes]
-			var aller := create_tween()
-			aller.tween_interval(20.0)
-			aller.tween_callback(func():
-				if is_instance_valid(libere):
-					libere.global_position = Vector3(cible.x, hauteur(cible.x, cible.y), cible.y))
-			_liberes += 1

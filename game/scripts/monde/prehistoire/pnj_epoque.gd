@@ -97,7 +97,9 @@ func _teindre_habits(teinte: Color) -> void:
 				or m.transparency != BaseMaterial3D.TRANSPARENCY_DISABLED:
 			continue
 		var gris := m.duplicate() as StandardMaterial3D
-		gris.albedo_color = teinte
+		# Il ne reste que les chaussures : des sandales ou des mocassins de cuir, unis.
+		gris.albedo_texture = null
+		gris.albedo_color = teinte.lerp(Color(0.4, 0.28, 0.18), 0.7)
 		gris.roughness = 0.9
 		(n as MeshInstance3D).material_override = gris
 

@@ -214,14 +214,14 @@ func _lancer() -> void:
 	_verifier(_id_etape() == "fin_chapitre_3", "l'amulette est ramassée (%s)" % _id_etape())
 	lues = await _parler("MererToura")
 	_verifier(lues >= 4, "Merer examine l'amulette (%d bulles)" % lues)
-	_verifier(_quete.etape < 0, "chapitre 3 terminé (la suite au chapitre 4)")
+	_verifier(_id_etape() == "vers_village", "chapitre 3 terminé, le chapitre 4 commence (%s)" % _id_etape())
 	var inventaire = _joueur.get_node_or_null("Inventaire")
 	if inventaire != null and inventaire.has_method("quantite"):
 		_verifier(inventaire.quantite("ciseau_cuivre") >= 1, "le ciseau d'Iry est dans le sac")
 
 	# --- On revient plus tard : tout est resté en place.
 	await _charger(TOURA)
-	_verifier(_quete.etape < 0, "la quête reprend où on l'avait laissée")
+	_verifier(_id_etape() == "vers_village", "la quête reprend où on l'avait laissée (%s)" % _id_etape())
 	await _attendre(5)
 	_verifier(_scene.find_child("CarrierNefer", true, false) != null, "les carriers libérés sont au campement")
 	_verifier(_scene.find_child("Faille", true, false).fermee, "la faille est toujours fermée")

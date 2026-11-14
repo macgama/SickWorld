@@ -73,6 +73,10 @@ func _ready() -> void:
 		_construire_modele()
 		if type.begins_with("ours_sans"):
 			scale = Vector3.ONE * 2.4
+		elif type.begins_with("chacal"):
+			# Le chacal doré d'Égypte : un petit loup fin, au pelage fauve.
+			scale = Vector3(0.72, 0.74, 0.7)
+			_en_chacal()
 		elif type.contains("alpha"):
 			scale = Vector3.ONE * 1.5
 		return
@@ -110,6 +114,19 @@ func _construire_modele() -> void:
 		_retirer_deplacement(a)
 		_vitesses_ref[nom] = float(a.get_meta("vitesse_ref", 0.0)) * (1.2 if espece == "ours" else 1.0)
 	_jouer(_nom_repos())
+
+
+## Pelage fauve et dos plus sombre du chacal (on teinte la texture du loup).
+func _en_chacal() -> void:
+	if _pivot == null:
+		return
+	for mi in _pivot.find_children("*", "MeshInstance3D", true, false):
+		var m := (mi as MeshInstance3D).get_active_material(0) as StandardMaterial3D
+		if m == null:
+			continue
+		var fauve := m.duplicate() as StandardMaterial3D
+		fauve.albedo_color = Color(1.35, 1.02, 0.66)
+		(mi as MeshInstance3D).material_override = fauve
 
 
 ## Les animations font avancer l'os racine (« root motion ») : c'est le jeu qui

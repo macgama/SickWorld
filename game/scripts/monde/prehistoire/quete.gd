@@ -134,7 +134,8 @@ func _demarrer() -> void:
 		depart = _etape_sauvegardee()
 	# Le monde reprend l'état des étapes déjà faites (Lenoir debout, faille fermée…).
 	for i in (depart if depart >= 0 else etapes.size()):
-		_appliquer_apres(etapes[i], false)
+		if not _hors_choix(etapes[i]):
+			_appliquer_apres(etapes[i], false)
 	_arrivee()
 	_aller_a(depart)
 	# Une étape « arriver » se termine en entrant dans la zone demandée.
@@ -169,6 +170,22 @@ func _reprendre_choix() -> void:
 		for option in e["choix"]:
 			if option.get("objet", "") == pris:
 				etapes[i] = _etape_choisie(e, option)
+
+
+## Une étape avec « si_choix » ({"id_du_choix": "objet"}) n'existe que dans une des
+## branches d'un choix : on la saute si le joueur a choisi autre chose.
+func _hors_choix(e: Dictionary) -> bool:
+	if not e.has("si_choix"):
+		return false
+	var conditions: Dictionary = e["si_choix"]
+	for id in conditions:
+		var fait := ""
+		for autre in etapes:
+			if autre.get("id", "") == id:
+				fait = String(autre.get("choix_fait", ""))
+		if fait != String(conditions[id]):
+			return true
+	return false
 
 
 func _etape_choisie(e: Dictionary, option: Dictionary) -> Dictionary:
@@ -306,7 +323,10 @@ func _suivante(apres_deja_fait := false) -> void:
 	var e := etape_actuelle()
 	if not apres_deja_fait:
 		_appliquer_apres(e, true)
-	_aller_a(etape + 1 if etape + 1 < etapes.size() else -1)
+	var suivante := etape + 1
+	while suivante < etapes.size() and _hors_choix(etapes[suivante]):
+		suivante += 1
+	_aller_a(suivante if suivante < etapes.size() else -1)
 	var fin: Dictionary = donnees.get("fin_provisoire", {})
 	if etape < 0 and fin.has("message"):
 		_annoncer(fin.get("titre", ""), fin.get("message", ""))

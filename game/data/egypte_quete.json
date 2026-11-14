@@ -16,6 +16,14 @@
 				"sous_titre": "Égypte · rive est du Nil",
 				"texte": "La barque racle le sable. Devant toi, une falaise blanche si lumineuse qu'elle fait mal aux yeux, taillée en marches géantes. On entend partout le tac-tac des maillets sur le cuivre... et, par moments, plus rien du tout."
 			}
+		},
+		"village_batisseurs": {
+			"scene": "res://scenes/monde/egypte/village_batisseurs.tscn",
+			"arrivee": {
+				"titre": "Le Village des Bâtisseurs",
+				"sous_titre": "Égypte · au pied du plateau de Gizeh",
+				"texte": "Une odeur de pain chaud et de bière tiède. Des rues de briques, des enfants qui courent, des chiens maigres. Au-dessus des toits, un mur gigantesque, et derrière lui, une montagne de pierre blanche qui touche presque le ciel."
+			}
 		}
 	},
 	"camps": {
@@ -120,6 +128,26 @@
 				],
 				"nombre": 2,
 				"rayon": 4
+			}
+		],
+		"village_batisseurs": [
+			{
+				"type": "chacal_fracture",
+				"position": [
+					-128,
+					-30
+				],
+				"nombre": 3,
+				"rayon": 6
+			},
+			{
+				"type": "chacal_fracture",
+				"position": [
+					-120,
+					100
+				],
+				"nombre": 2,
+				"rayon": 5
 			}
 		]
 	},
@@ -587,12 +615,241 @@
 					"fin_chapitre": true
 				}
 			]
+		},
+		{
+			"numero": 4,
+			"titre": "Les noms oubliés",
+			"ou": "village_batisseurs",
+			"etapes": [
+				{
+					"id": "vers_village",
+					"ou": "port_des_marais",
+					"objectif": "Rentre au Port des Marais, puis monte la rampe du plateau jusqu'au Village des Bâtisseurs",
+					"arriver": "village_batisseurs"
+				},
+				{
+					"id": "parler_pesechet",
+					"objectif": "Trouve Pésèshet, la médecin, dans sa maison de soins à l'est du village",
+					"pnj": "pesechet",
+					"repliques": [
+						"C'est toi, l'Occidental de Merer ? Bien. Ne reste pas planté là : aide-moi plutôt.",
+						"Trois ouvriers depuis hier. Pas une blessure, pas de fièvre. Mais ils ne savent plus leur nom, ni leur équipe, ni le visage de leurs enfants.",
+						"Regarde-les, toi qui viens du pays des morts. Dis-moi ce que tu vois que je ne vois pas."
+					]
+				},
+				{
+					"id": "examiner",
+					"objectif": "Examine les ouvriers qui ont perdu la mémoire, chez Pésèshet",
+					"recolter": "ouvrier_examine",
+					"nombre": 3,
+					"duree": 2,
+					"action": "Tu examines l'ouvrier…",
+					"recit": {
+						"titre": "Le même scarabée",
+						"texte": "Au cou de chacun, un petit scarabée de faïence bleue. Quand tu l'approches de ton oreille, il grésille, comme la radio de la Vigie."
+					}
+				},
+				{
+					"id": "retour_pesechet",
+					"objectif": "Dis à Pésèshet ce que tu as trouvé",
+					"pnj": "pesechet",
+					"repliques": [
+						"Des amulettes ? Tout le monde en porte, ici. Contre les scorpions, contre le mauvais œil, contre les chutes...",
+						"Mais celles-ci sont toutes pareilles. Neuves. Le petit Nebi, l'apprenti scribe, note tout ce qui se passe au village. Il traîne sur la grande place. Va le voir."
+					]
+				},
+				{
+					"id": "parler_nebi",
+					"objectif": "Parle à Nebi, l'apprenti scribe, sur la grande place",
+					"pnj": "nebi",
+					"repliques": [
+						"Les scarabées bleus ? C'est la prêtresse de Memphis qui les donne. Une grande dame, très pâle, avec une voix douce. Elle est venue trois fois.",
+						"Elle dit qu'ils protègent du soleil et de la fatigue. Tout le monde en voulait. Moi, elle ne m'en a pas donné : « Les scribes n'en ont pas besoin, ils oublient déjà tout sur leur papyrus. »",
+						"J'ai noté où elle les a laissés : à la brasserie de Méret, dans les dortoirs des haleurs, et à l'enclos des bœufs. Et hier soir, deux ouvriers sont partis vers le cimetière, les yeux vides.",
+						"Si tu les ramasses avant que d'autres les mettent... Moi, je t'attends ici. J'écris tout."
+					]
+				},
+				{
+					"id": "amulettes",
+					"objectif": "Ramasse les amulettes de la prêtresse : brasserie, dortoirs et enclos des bœufs",
+					"recolter": "amulette_village",
+					"nombre": 3,
+					"duree": 1.5,
+					"action": "Tu détaches l'amulette…"
+				},
+				{
+					"id": "cimetiere",
+					"objectif": "Au cimetière des ouvriers, à l'ouest, assomme les bâtisseurs oubliés et rends-leur leur nom (F)",
+					"recolter": "nom_rendu",
+					"nombre": 2,
+					"duree": 2.5,
+					"action": "Tu cherches leur nom dans les inscriptions des tombes…",
+					"apparition": {
+						"type": "oublie_village",
+						"position": [
+							-96,
+							34
+						],
+						"nombre": 2,
+						"rayon": 5,
+						"attaque": false
+					},
+					"recompense": [
+						{
+							"id": "amulette_sablier",
+							"nom": "Amulette de la prêtresse",
+							"n": 5
+						}
+					],
+					"recit": {
+						"titre": "Kaï et Hétépi",
+						"texte": "Sur les petites tombes, les ouvriers ont gravé les noms de leurs morts. C'est en les lisant à voix haute que tu as retrouvé les leurs : Kaï, le haleur, et Hétépi, la porteuse d'eau."
+					}
+				},
+				{
+					"id": "retour_nebi",
+					"objectif": "Rapporte les amulettes à Nebi, sur la grande place",
+					"pnj": "nebi",
+					"repliques": [
+						"Cinq ! Et Kaï et Hétépi sont revenus. Je l'ai écrit, regarde : « Le jour où l'Occidental a rendu les noms. »",
+						"Mais il en reste des dizaines, au cou des gens. Tu ne peux pas assommer tout le village.",
+						"Il y a deux façons. On peut les briser sur la pierre de la place, devant tout le monde : les gens verront, ils comprendront. Mais ça va leur faire peur... et les amulettes vont se défendre, comme à Toura.",
+						"Ou alors on les échange en secret contre de vraies amulettes. Ouni l'Ancien en taille, et Méret connaît tout le monde. C'est plus long, mais personne n'aura peur.",
+						"C'est toi qui choisis. Va à la pierre de la place, ou va voir Méret à sa boulangerie."
+					]
+				},
+				{
+					"id": "choix_amulettes",
+					"objectif": "Brise les amulettes sur la pierre de la place, ou confie-les à Méret pour les échanger en secret",
+					"choix": [
+						{
+							"objet": "briser_amulettes",
+							"objectif": "Brise les amulettes sur la pierre de la place, devant tout le monde",
+							"duree": 3,
+							"action": "Tu frappes les scarabées sur la pierre…",
+							"pnj": "nebi",
+							"repliques": [
+								"Ils grésillent... Tout le monde regarde ! Attention, derrière toi !"
+							]
+						},
+						{
+							"objet": "echanger_amulettes",
+							"objectif": "Confie les amulettes à Méret, à sa boulangerie",
+							"duree": 1.5,
+							"action": "Tu poses les scarabées sur le comptoir de Méret…",
+							"pnj": "meret",
+							"repliques": [
+								"Donne. Je connais chaque cou de ce village, et chaque ventre. Personne ne refuse un pain chaud.",
+								"Mais il faut de vraies amulettes pour les remplacer, sinon les gens vont chercher la leur. Ouni l'Ancien en taille dans son atelier, au sud. Va le voir de ma part."
+							]
+						}
+					]
+				},
+				{
+					"id": "chacals",
+					"si_choix": {
+						"choix_amulettes": "briser_amulettes"
+					},
+					"objectif": "Repousse les chacals fracturés sortis des amulettes brisées",
+					"tuer": "chacal_fracture",
+					"nombre": 4,
+					"lieu": [
+						14,
+						44
+					],
+					"recit": {
+						"titre": "La pierre de la place",
+						"texte": "Le dernier chacal s'effondre en éclats violets. Sur la place, personne ne parle. Puis une femme arrache son scarabée et le jette sur la pierre. Puis un autre. Puis tout le village."
+					},
+					"apparition": {
+						"type": "chacal_fracture",
+						"position": [
+							14,
+							44
+						],
+						"nombre": 4,
+						"rayon": 9,
+						"attaque": true
+					}
+				},
+				{
+					"id": "calmer",
+					"si_choix": {
+						"choix_amulettes": "briser_amulettes"
+					},
+					"objectif": "Parle à Ouni l'Ancien, qui calme la foule sur la place",
+					"pnj": "ouni",
+					"repliques": [
+						"Tout doux, tout doux ! Ce n'étaient que des bêtes du désert. L'Occidental les a chassées. Rentrez chez vous, mangez, dormez.",
+						"Tu leur as fait peur, petit. Mais la peur passe, et ils ont vu de leurs yeux. C'est mieux qu'un mensonge, même gentil."
+					]
+				},
+				{
+					"id": "parler_ouni",
+					"si_choix": {
+						"choix_amulettes": "echanger_amulettes"
+					},
+					"objectif": "Va voir Ouni l'Ancien dans son atelier, au sud du village",
+					"pnj": "ouni",
+					"repliques": [
+						"Méret t'envoie ? Alors c'est sérieux. Des scarabées, j'en taille depuis cinquante ans, dans la stéatite, puis on les cuit pour qu'ils deviennent bleus.",
+						"Il m'en reste quatre paniers, sur les étagères de l'atelier. Prends-les. Pour le reste, Méret et moi, on s'en charge : un pain, une amulette, un pain, une amulette."
+					]
+				},
+				{
+					"id": "faience_ouni",
+					"si_choix": {
+						"choix_amulettes": "echanger_amulettes"
+					},
+					"objectif": "Prends les paniers de vraies amulettes sur les étagères d'Ouni",
+					"recolter": "panier_amulettes",
+					"nombre": 4,
+					"duree": 1
+				},
+				{
+					"id": "echange_dortoirs",
+					"si_choix": {
+						"choix_amulettes": "echanger_amulettes"
+					},
+					"objectif": "Glisse les vraies amulettes dans les dortoirs des haleurs, pendant qu'ils dorment",
+					"objet": "dortoir_echange",
+					"duree": 6,
+					"action": "Tu échanges les scarabées sans faire de bruit…",
+					"recit": {
+						"titre": "Un pain, une amulette",
+						"texte": "Au matin, personne n'a rien remarqué. Les haleurs partent au chantier en chantant, un scarabée de stéatite au cou, et le ventre plein du pain de Méret."
+					}
+				},
+				{
+					"id": "fin_chapitre_4",
+					"objectif": "Retourne voir Pésèshet, dans sa maison de soins",
+					"pnj": "pesechet",
+					"repliques": [
+						"Ils se souviennent. Pas de tout, pas encore. Mais l'un d'eux a appelé sa fille par son nom ce matin. J'ai pleuré comme une débutante.",
+						"Nebi m'a dit que la prêtresse ne vient plus au village. Des bergers l'ont vue partir vers l'ouest, vers les tombes des nobles, là où commence le désert.",
+						"L'ouest, l'Occidental. Ton pays, d'après eux. Elle va là où vont les morts. Fais attention.",
+						"Prends cet œil d'Horus. Il a été arraché, puis guéri. Ce qui est brisé peut redevenir entier. Et prends le pain de Méret, elle m'a fait promettre."
+					],
+					"recompense": [
+						{
+							"id": "oudjat_peseshet",
+							"nom": "Œil oudjat de Pésèshet"
+						},
+						{
+							"id": "pain_meret",
+							"nom": "Pain de Méret",
+							"n": 3
+						}
+					],
+					"fin_chapitre": true
+				}
+			]
 		}
 	],
 	"fin_provisoire": {
 		"chapitre": "LA SUITE ARRIVE BIENTÔT",
-		"objectif": "Chapitre 4 « Les noms oubliés » : le Village des Bâtisseurs arrive bientôt",
+		"objectif": "Chapitre 5 « La dame au sablier » : la suite arrive bientôt",
 		"titre": "Ce que le fleuve emporte",
-		"message": "Les carriers de Toura ont retrouvé leur nom. Mais qui distribue ces amulettes aux ouvriers du village ?"
+		"message": "Le village a retrouvé ses noms. Mais la prêtresse au sablier est partie vers l'ouest, vers le pays des morts."
 	}
 }
