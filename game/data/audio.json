@@ -107,6 +107,8 @@
 		"saut": { "son": "personnage/tissu", "volume_db": -14 },
 		"roulade": { "son": "personnage/roulade", "volume_db": -6, "en_plus": "personnage/equipement" },
 		"attaque": { "son": "combat/elan", "volume_db": -8, "variation": 0.1 },
+		"sortir_arme": { "son": "combat/lame", "volume_db": -14, "variation": 0.08, "hauteur": 1.25 },
+		"ranger_arme": { "son": "personnage/equipement", "volume_db": -10, "variation": 0.08 },
 		"coup": { "son": "combat/coup", "volume_db": -6, "variation": 0.1 },
 		"coup_lame": { "son": "combat/lame", "volume_db": -9, "variation": 0.08 },
 		"lancer": { "son": "combat/lancer", "volume_db": -6 },

@@ -38,6 +38,14 @@ const TAILLE_REFERENCE := 180.0
 ## Couleur de peau qui correspond à la texture MakeHuman (teinte neutre).
 const PEAU_DE_REFERENCE := Color(0.80, 0.62, 0.50)
 const VisuelEquipement := preload("res://scripts/objets/visuel_equipement.gd")
+const GesteArme := preload("res://scripts/joueur/geste_arme.gd")
+## Durée du geste pour ranger ou sortir l'arme (secondes).
+const DUREE_GESTE_ARME := 0.75
+## Moment du geste (0 à 1) où l'arme passe de la main au dos / à la ceinture.
+const MOMENT_ECHANGE := 0.45
+
+## Émis quand le personnage sort son arme tout seul pour attaquer.
+signal arme_sortie_pour_attaquer
 
 @export_enum("homme", "femme") var modele := "homme":
 	set(valeur):
@@ -73,6 +81,14 @@ var _teinte_imposee := Color.WHITE
 var _force_imposee := 0.95
 ## Équipement visible (emplacement -> visuel, voir Inventaire et data/objets.json).
 var _visuels := {}
+## Armes rangées (dans le dos / à la ceinture) : état affiché et état demandé.
+var _armes_rangees := false
+var _armes_rangees_voulu := false
+## Geste en cours pour ranger / sortir l'arme (-1 = aucun), et durée pendant laquelle on
+## refuse de ranger l'arme (juste après une attaque).
+var _geste := -1.0
+var _sans_rangement := 0.0
+var _modif_geste: SkeletonModifier3D
 
 var _corps: Node3D
 var _lecteur: AnimationPlayer
@@ -111,6 +127,16 @@ func _construire() -> void:
 	add_child(_corps)
 	_coiffure_accrochee = null
 	_coiffure_actuelle = ""
+	_geste = -1.0
+	_armes_rangees = _armes_rangees_voulu
+	_modif_geste = null
+	var squelette := _squelette()
+	if squelette:
+		_modif_geste = GesteArme.new()
+		_modif_geste.name = "GesteArme"
+		_modif_geste.influence = 0.0
+		squelette.add_child(_modif_geste)
+		_modif_geste.preparer(squelette)
 	_appliquer_materiaux()
 	_appliquer_teintes()
 	_appliquer_equipement()
@@ -220,7 +246,7 @@ func _appliquer_equipement() -> void:
 	var squelette := _squelette()
 	if squelette == null:
 		return
-	VisuelEquipement.habiller(squelette, _visuels)
+	VisuelEquipement.habiller(squelette, _visuels, _armes_rangees)
 	_teinte_equipement = Color.WHITE
 	for e in _visuels:
 		if _visuels[e].has("teinte"):
@@ -318,6 +344,15 @@ static func _texture_unie(couleur: Color) -> Texture2D:
 func attaquer(style := "", duree := 0.0) -> void:
 	if _mort or _lecteur == null:
 		return
+	# On attaque toujours arme en main : si elle était rangée, elle sort tout de suite.
+	_sans_rangement = 0.6
+	if _armes_rangees or _armes_rangees_voulu:
+		_armes_rangees_voulu = false
+		_terminer_geste()
+		if _armes_rangees:
+			_armes_rangees = false
+			_appliquer_equipement()
+		arme_sortie_pour_attaquer.emit()
 	_actuelle = ""
 	if style == "" or not _lecteur.has_animation("agent/" + style):
 		_jouer("attaque", 0.08, 1.8, 0.15)
@@ -355,9 +390,81 @@ func revivre() -> void:
 
 ## Le Joueur n'appelle plus animer() quand il est désynchronisé : on surveille donc
 ## le Combattant ici, à chaque image.
-func _physics_process(_delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	if not Engine.is_editor_hint():
 		_surveiller_combat()
+		_avancer_geste(delta)
+
+
+# ---------------------------------------------------------------------------
+# Ranger / sortir l'arme
+# ---------------------------------------------------------------------------
+## Vrai si le personnage porte au moins une arme visible.
+func a_une_arme() -> bool:
+	return _visuels.has("arme_principale") or _visuels.has("arme_secondaire")
+
+
+## Vrai si les armes sont rangées (ou en train de l'être).
+func armes_rangees() -> bool:
+	return _armes_rangees_voulu
+
+
+## Range l'arme (oui = true) ou la sort. avec_geste = false : sans le geste du bras.
+func ranger_arme(oui: bool, avec_geste := true) -> void:
+	if oui == _armes_rangees_voulu:
+		return
+	if oui and _sans_rangement > 0.0:
+		return   # on vient d'attaquer : l'arme reste en main un instant
+	_armes_rangees_voulu = oui
+	if _mort or not avec_geste or not a_une_arme() or _modif_geste == null or not is_visible_in_tree():
+		_terminer_geste()
+		if _armes_rangees != oui:
+			_armes_rangees = oui
+			_appliquer_equipement()
+		return
+	if _geste >= 0.0 and _geste < MOMENT_ECHANGE:
+		return   # le geste en cours va déjà chercher l'arme : il suffit de changer le résultat
+	_geste = 0.0 if _geste < 0.0 else 1.0 - _geste
+	_regler_bras()
+	Audio.effet("ranger_arme" if oui else "sortir_arme", get_parent())
+
+
+func _regler_bras() -> void:
+	var bras := {}
+	for emplacement in ["arme_principale", "arme_secondaire"]:
+		if not _visuels.has(emplacement):
+			continue
+		var r := VisuelEquipement.rangement(String(_visuels[emplacement].get("forme", "")), emplacement)
+		bras["droit" if emplacement == "arme_principale" else "gauche"] = r[3]
+	_modif_geste.bras = bras
+
+
+func _avancer_geste(delta: float) -> void:
+	_sans_rangement = maxf(0.0, _sans_rangement - delta)
+	if _geste < 0.0 or _modif_geste == null:
+		return
+	var avant := _geste
+	_geste += delta / DUREE_GESTE_ARME
+	if avant < MOMENT_ECHANGE and _geste >= MOMENT_ECHANGE and _armes_rangees != _armes_rangees_voulu:
+		_armes_rangees = _armes_rangees_voulu
+		_appliquer_equipement()
+	if _geste >= 1.0:
+		_terminer_geste()
+		return
+	# Le bras monte vite vers l'arme, s'y arrête un instant, puis redescend.
+	var t := _geste
+	var poids := smoothstep(0.0, 0.38, t) if t < 0.38 else (1.0 if t < 0.52 else 1.0 - smoothstep(0.52, 1.0, t))
+	_modif_geste.influence = poids
+
+
+func _terminer_geste() -> void:
+	_geste = -1.0
+	if _modif_geste:
+		_modif_geste.influence = 0.0
+		_modif_geste.bras = {}
+	if _armes_rangees != _armes_rangees_voulu:
+		_armes_rangees = _armes_rangees_voulu
+		_appliquer_equipement()
 
 
 func _surveiller_combat() -> void:

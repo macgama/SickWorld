@@ -96,6 +96,8 @@ func _lancer() -> void:
 	await _secondes(2.0)
 	_verifier(loup.etat == 1, "le loup nous poursuit (état reçu du serveur)")
 	_verifier(joueur.get_node("Combat").pv < joueur.get_node("Combat").pv_max, "le loup nous mord")
+	_verifier(joueur.get_node("Combat").en_combat_synchro, "le serveur nous dit qu'on est en combat")
+	_verifier(not joueur.arme_rangee, "en combat, notre arme est sortie")
 
 	# Triche : on demande une compétence hors de portée en contournant la vérification locale.
 	var lointain = scene.get_node("Partie/Loups/CampSud_Loup1")

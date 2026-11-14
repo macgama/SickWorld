@@ -7,12 +7,12 @@ const TEXTE_AIDE := """[b]Contrôles[/b]  (F1 pour cacher)
 [b]Z Q S D[/b] / [b]W A S D[/b] : se déplacer     [b]A / E[/b] : pas de côté
 [b]Clic droit maintenu[/b] : orienter le personnage
 [b]Clic gauche maintenu[/b] : tourner la caméra     [b]Molette[/b] : zoom
-[b]Espace[/b] : sauter     [b]Maj[/b] : roulade d'esquive
+[b]Espace[/b] : sauter     [b]Maj[/b] : roulade d'esquive     [b]R[/b] : ranger / sortir l'arme
 [b]Tab[/b] ou [b]clic[/b] sur un ennemi : le cibler     [b]Échap[/b] : enlever la cible, sinon ouvrir le menu (options, quitter)
 [b]Clic droit[/b] sur un ennemi : l'attaquer
 [b]1 à 8[/b] : compétences (survole une case pour lire sa description)
 [b]C[/b], [b]I[/b] ou [b]B[/b] : personnage, sacs et tenues     [b]F[/b] : ramasser le butin
-[b]M[/b] : carte     [b]Molette[/b] sur la mini-carte : zoom
+[b]M[/b] : carte     [b]Molette[/b] sur la mini-carte : zoom     [b]V[/b] : monture (sur les îles)
 [b]Entrée[/b] : discuter (/aide pour les commandes)     [b]K[/b] : donjons en groupe
 [b]F10[/b] : qualité des graphismes (Bas, Moyen, Haut, Ultra)"""
 

@@ -311,5 +311,33 @@
 		"distance_laisse": 30,
 		"entraide": 10,
 		"temps_reapparition": 0
+	},
+	"garde_effaceuse": {
+		"nom": "Garde de l'Effaceuse",
+		"niveau": 17,
+		"points_de_vie": 720,
+		"degats": [20, 28],
+		"intervalle_attaque": 1.8,
+		"portee_attaque": 2.3,
+		"vitesse_course": 5.0,
+		"vitesse_marche": 1.4,
+		"distance_detection": 13,
+		"distance_laisse": 35,
+		"entraide": 14,
+		"temps_reapparition": 0
+	},
+	"garde_effaceuse_camp": {
+		"nom": "Garde de l'Effaceuse",
+		"niveau": 16,
+		"points_de_vie": 650,
+		"degats": [18, 25],
+		"intervalle_attaque": 1.8,
+		"portee_attaque": 2.3,
+		"vitesse_course": 5.0,
+		"vitesse_marche": 1.4,
+		"distance_detection": 13,
+		"distance_laisse": 35,
+		"entraide": 14,
+		"temps_reapparition": 60
 	}
 }

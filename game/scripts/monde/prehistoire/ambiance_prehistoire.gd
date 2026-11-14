@@ -10,6 +10,7 @@ extends Node
 
 const SHADER_CIEL := preload("res://shaders/ciel_polaire.gdshader")
 const SHADER_POST := preload("res://shaders/post_traitement.gdshader")
+const Etalonnage := preload("res://scripts/monde/etalonnage.gd")
 
 ## Réglages par zone. soleil = (direction horizontale en degrés, hauteur en degrés).
 const CLIMATS := {
@@ -45,6 +46,7 @@ const CLIMATS := {
 	},
 	# Île d'Égypte : soleil haut et blanc du matin, ciel limpide, brume de chaleur dorée.
 	"port_des_marais": {
+		"etalonnage": "desert",
 		"soleil": Vector2(112.0, 34.0),
 		"couleur_soleil": Color(1.0, 0.93, 0.8),
 		"energie_soleil": 3.0,
@@ -62,6 +64,7 @@ const CLIMATS := {
 		"saturation": 1.02,
 	},
 	"carrieres_toura": {
+		"etalonnage": "desert",
 		# Soleil de l'après-midi à l'ouest : il éclaire de face la falaise blanche.
 		"soleil": Vector2(-118.0, 38.0),
 		"couleur_soleil": Color(1.0, 0.94, 0.84),
@@ -80,6 +83,7 @@ const CLIMATS := {
 		"saturation": 1.0,
 	},
 	"village_batisseurs": {
+		"etalonnage": "desert",
 		# Fin d'après-midi : soleil doré à l'ouest-sud-ouest, la pyramide se découpe au nord.
 		"soleil": Vector2(-150.0, 30.0),
 		"couleur_soleil": Color(1.0, 0.9, 0.74),
@@ -96,6 +100,24 @@ const CLIMATS := {
 		"nuage_ombre": Color(0.64, 0.6, 0.56),
 		"nuage_lumiere": Color(1.0, 0.95, 0.86),
 		"saturation": 1.03,
+	},
+	"desert_rouge": {
+		# Plein après-midi : soleil écrasant, brume de chaleur rousse au ras des dunes.
+		"soleil": Vector2(-140.0, 48.0),
+		"couleur_soleil": Color(1.0, 0.9, 0.76),
+		"energie_soleil": 3.2,
+		"couverture": 0.02,
+		"brume": Color(0.9, 0.74, 0.58),
+		"densite_brume": 0.0018,
+		"brume_volume": 0.004,
+		"albedo_brume": Color(1.0, 0.88, 0.74),
+		"ambiance": 0.8,
+		"zenith": Color(0.2, 0.36, 0.64),
+		"horizon": Color(0.92, 0.8, 0.66),
+		"horizon_soleil": Color(1.0, 0.84, 0.6),
+		"nuage_ombre": Color(0.66, 0.58, 0.52),
+		"nuage_lumiere": Color(1.0, 0.94, 0.84),
+		"saturation": 1.05,
 	},
 	"steppe": {
 		"soleil": Vector2(-125.0, 21.0),
@@ -192,6 +214,8 @@ static func appliquer(zone: Node, climat := "cote_gelee") -> void:
 	env.adjustment_enabled = true
 	env.adjustment_contrast = 1.1
 	env.adjustment_saturation = r.get("saturation", 1.08)
+	# Étalonnage « cinéma » : ombres teintées, hautes lumières réchauffées.
+	Etalonnage.appliquer(env, r.get("etalonnage", "hiver"))
 	# Une fois les réglages « au maximum » posés, la qualité graphique allège.
 	if env.has_meta("qualite_max"):
 		env.remove_meta("qualite_max")

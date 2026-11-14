@@ -213,14 +213,14 @@ func _lancer() -> void:
 	_verifier(_id_etape() == "fin_chapitre_4", "la branche « échanger » est sautée (%s)" % _id_etape())
 	lues = await _parler("Pesechet")
 	_verifier(lues >= 4, "Pésèshet remercie et parle de l'ouest (%d bulles)" % lues)
-	_verifier(_quete.etape < 0, "chapitre 4 terminé")
+	_verifier(_id_etape() == "vers_desert", "chapitre 4 terminé, le chapitre 5 commence (%s)" % _id_etape())
 	if inventaire != null and inventaire.has_method("quantite"):
 		_verifier(inventaire.quantite("oudjat_peseshet") >= 1, "l'œil oudjat de Pésèshet est dans le sac")
 
 	# --- On revient plus tard : les malades sont debout, les bâtisseurs sur la place.
 	await _charger(VILLAGE)
 	await _attendre(10)
-	_verifier(_quete.etape < 0, "la quête reprend où on l'avait laissée")
+	_verifier(_id_etape() == "vers_desert", "la quête reprend où on l'avait laissée (%s)" % _id_etape())
 	_verifier(_scene.find_child("BatisseurHetepi", true, false) != null, "Hétépi est sur la place")
 	allonge = _scene.find_child("OuvrierAmnesique1", true, false)
 	_verifier(allonge != null and not allonge.blesse, "les malades sont debout")
@@ -243,7 +243,7 @@ func _lancer() -> void:
 	await _utiliser("DortoirEchange", 420)
 	_verifier(_id_etape() == "fin_chapitre_4", "les amulettes sont échangées en secret (%s)" % _id_etape())
 	await _parler("Pesechet")
-	_verifier(_quete.etape < 0, "chapitre 4 terminé par l'autre chemin")
+	_verifier(_id_etape() == "vers_desert", "chapitre 4 terminé par l'autre chemin (%s)" % _id_etape())
 
 	# --- La route ramène au Port des Marais.
 	var entree: Vector2 = _scene.ENTREE + Vector2(6, 0)

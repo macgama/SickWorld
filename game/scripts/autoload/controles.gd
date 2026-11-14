@@ -22,6 +22,7 @@ const TOUCHES := {
 	"annuler": [KEY_ESCAPE],             # Échap : annuler / enlever la cible
 	"interagir": [KEY_F],                # F : parler à un personnage, ramasser le butin
 	"journal": [KEY_J],                  # J : journal des missions
+	"ranger_arme": [KEY_R],              # R : ranger / sortir son arme
 	# Barre de compétences : touches 1 à 8 de la rangée du haut
 	# (sur AZERTY, pas besoin d'appuyer sur Maj : & é " ' ( - è _ marchent).
 	"competence_1": [KEY_1], "competence_2": [KEY_2], "competence_3": [KEY_3],
@@ -34,6 +35,7 @@ const TOUCHES := {
 const TOUCHES_LETTRES := {
 	"carte": [KEY_M],                    # M : ouvrir / fermer la grande carte
 	"personnage": [KEY_C, KEY_I, KEY_B], # C, I ou B : écran Personnage (équipement, sacs, tenues)
+	"monture": [KEY_V],                  # V : appeler sa monture / descendre (sur les îles)
 }
 
 

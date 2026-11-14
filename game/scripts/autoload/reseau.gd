@@ -86,6 +86,9 @@ func _ready() -> void:
 			nom_joueur = argument.get_slice("=", 1)
 		elif argument.begins_with("--statut="):
 			fichier_statut = argument.get_slice("=", 1)
+		elif argument.begins_with("--scene="):
+			# Tests : démarrer sur une autre scène (ex. --scene=res://scenes/monde/prehistoire/steppe.tscn).
+			scene_depart = argument.get_slice("=", 1)
 		elif argument.begins_with("--rejoindre="):
 			mode = Mode.REJOINDRE
 			adresse = argument.get_slice("=", 1)

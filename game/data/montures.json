@@ -1,0 +1,34 @@
+{
+	"_aide": "Montures : appuyer sur V pour appeler sa monture (immobile, hors combat), V à nouveau pour descendre. Interdites dans le hub et les donjons. Une attaque reçue fait tomber de la monture. Chaque île a sa monture d'époque ; « epoque » = nom du dossier de l'île (prehistoire, egypte…).",
+	"reglages": {
+		"duree_invocation": 1.5,
+		"vitesse_pourcent": 70,
+		"recharge_apres_chute": 3.0
+	},
+	"montures": {
+		"renne": {
+			"nom": "Renne de la steppe",
+			"epoque": "prehistoire",
+			"description": "Un renne apprivoisé par le clan du Feu. Il connaît chaque piste de la toundra.",
+			"modele": "res://assets/animaux/elan/elan.glb",
+			"echelle": 0.82,
+			"pelage": "renne",
+			"bois": true,
+			"oreilles": 1.0,
+			"selle": 0.3,
+			"vitesse_pourcent": 70
+		},
+		"ane": {
+			"nom": "Âne de bât",
+			"epoque": "egypte",
+			"description": "L'âne des bâtisseurs de Khéops : petit, têtu, infatigable. (Pas de cheval ni de chameau en Égypte à cette époque.)",
+			"modele": "res://assets/animaux/elan/elan.glb",
+			"echelle": 0.7,
+			"pelage": "ane",
+			"bois": false,
+			"oreilles": 1.9,
+			"selle": 0.22,
+			"vitesse_pourcent": 60
+		}
+	}
+}

@@ -27,6 +27,45 @@ const MAIN := {
 	"arme_principale": ["mixamorig_RightHand", Vector3(0.0, 0.08, 0.02), Vector3(0.0, 0.8, 0.6)],
 	"arme_secondaire": ["mixamorig_LeftHand", Vector3(0.0, 0.08, 0.02), Vector3(0.0, -0.3, 1.0)],
 }
+## Armes rangées (hors combat, touche R) : où chaque forme d'arme se range.
+## [os, position dans le repère du corps (x = vers la DROITE du personnage, y = haut,
+## z = devant), direction de l'arme (de la poignée vers la pointe), « dos » ou « hanche »].
+## Pour une arme tenue en main gauche (arme secondaire), le côté est inversé (miroir).
+const RANGEMENT := {
+	# Lame et lance : dans le dos, en diagonale, poignée au-dessus de l'épaule droite.
+	"lame": ["mixamorig_Spine2", Vector3(0.13, 0.2, -0.16), Vector3(-0.5, -1.0, -0.06), "dos"],
+	"lance": ["mixamorig_Spine2", Vector3(-0.08, -0.12, -0.19), Vector3(0.72, 1.0, -0.04), "dos"],
+	"propulseur": ["mixamorig_Spine2", Vector3(0.1, 0.1, -0.15), Vector3(-0.35, -1.0, -0.05), "dos"],
+	# Massue, dague, couteau : à la ceinture, sur la hanche, pointe vers le bas.
+	"massue": ["mixamorig_Hips", Vector3(0.18, 0.04, -0.07), Vector3(0.12, -1.0, -0.5), "hanche"],
+	"dague": ["mixamorig_Hips", Vector3(0.17, 0.02, 0.02), Vector3(0.05, -1.0, 0.25), "hanche"],
+	"couteau": ["mixamorig_Hips", Vector3(0.17, 0.02, 0.02), Vector3(0.05, -1.0, 0.25), "hanche"],
+}
+## Arme d'une forme inconnue : à la ceinture.
+const RANGEMENT_PAR_DEFAUT := ["mixamorig_Hips", Vector3(0.18, 0.02, 0.0), Vector3(0.0, -1.0, 0.2), "hanche"]
+
+
+## Où se range l'arme d'un emplacement (voir RANGEMENT), côté déjà corrigé pour la main gauche.
+static func rangement(forme: String, emplacement: String) -> Array:
+	var r: Array = (RANGEMENT.get(forme, RANGEMENT_PAR_DEFAUT) as Array).duplicate()
+	if emplacement == "arme_secondaire":
+		r[1] = Vector3(-r[1].x, r[1].y, r[1].z)
+		r[2] = Vector3(-r[2].x, r[2].y, r[2].z)
+	return r
+
+
+## Repère du corps (droite, haut, devant) dans l'espace du squelette, mesuré sur la pose de repos.
+static func repere_corps(squelette: Skeleton3D) -> Basis:
+	var p := func(nom: String) -> Vector3:
+		var i := squelette.find_bone(nom)
+		return squelette.get_bone_global_rest(i).origin if i >= 0 else Vector3.ZERO
+	var droite: Vector3 = (p.call("mixamorig_RightArm") - p.call("mixamorig_LeftArm"))
+	var haut: Vector3 = (p.call("mixamorig_Head") - p.call("mixamorig_Hips"))
+	if droite.length() < 0.001 or haut.length() < 0.001:
+		return Basis(Vector3(-1, 0, 0), Vector3.UP, Vector3.BACK)
+	haut = haut.normalized()
+	droite = (droite - haut * droite.dot(haut)).normalized()
+	return Basis(droite, haut, haut.cross(droite).normalized())
 
 
 static var _bruit: NoiseTexture2D
@@ -302,7 +341,9 @@ static func construire(forme: String, couleur: Color, cote := 1.0) -> Node3D:
 
 ## Habille un squelette : retire les anciennes pièces et accroche les nouvelles.
 ## visuels : emplacement -> { forme, couleur, teinte }
-static func habiller(squelette: Skeleton3D, visuels: Dictionary) -> void:
+## armes_rangees : les armes vont dans le dos / à la ceinture au lieu des mains.
+static func habiller(squelette: Skeleton3D, visuels: Dictionary, armes_rangees := false) -> void:
+	var corps := repere_corps(squelette)
 	for ancien in squelette.get_children():
 		if ancien.has_meta("equipement"):
 			ancien.free()
@@ -327,8 +368,32 @@ static func habiller(squelette: Skeleton3D, visuels: Dictionary) -> void:
 				continue
 			var attache := BoneAttachment3D.new()
 			attache.set_meta("equipement", true)
-			attache.bone_name = String(a[0])
 			squelette.add_child(attache)
+			if arme and armes_rangees:
+				var r := rangement(forme, emplacement)
+				os = squelette.find_bone(String(r[0]))
+				if os < 0:
+					attache.free()
+					piece.free()
+					continue
+				attache.bone_name = String(r[0])
+				attache.name = "Rangement_" + emplacement
+				# Position et direction données dans le repère du corps, converties dans celui de l'os.
+				var repere_os := squelette.get_bone_global_rest(os).basis
+				var echelle_os := repere_os.get_scale()
+				var pos_corps: Vector3 = corps * (r[1] as Vector3)
+				piece.position = repere_os.orthonormalized().inverse() * pos_corps / echelle_os
+				var axe_r: Vector3 = (corps * (r[2] as Vector3)).normalized()
+				var dos := corps.z * -1.0
+				var cote_r := axe_r.cross(dos).normalized()
+				if cote_r.length() < 0.01:
+					cote_r = corps.x
+				piece.basis = repere_os.orthonormalized().inverse() * Basis(cote_r, axe_r, cote_r.cross(axe_r)).orthonormalized()
+				attache.add_child(piece)
+				continue
+			attache.bone_name = String(a[0])
+			if arme:
+				attache.name = "Main_" + emplacement
 			piece.position = a[1]
 			if arme:
 				# On oriente l'arme dans le repère de la main au repos, pour qu'elle pointe vers a[2].

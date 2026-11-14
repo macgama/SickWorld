@@ -27,7 +27,7 @@ Les crocodiles et les hippopotames sont fabriqués par le code, comme les palmie
 1. Dans GitHub Desktop, sur la branche **main** : **Fetch origin** puis **Pull origin** (Claude le fait pour toi quand il le peut).
 2. **Ferme Godot et rouvre-le** s'il était ouvert pendant la mise à jour.
 3. **Par le jeu** : F5, **Jouer seul**, puis au QG de la Vigie, traverse le portail **Égypte antique** (le deuxième en partant de la gauche).
-4. **Directement** : double-clique sur `scenes/monde/egypte/port_des_marais.tscn` (ou `carrieres_toura.tscn`, `village_batisseurs.tscn`) puis **F6**.
+4. **Directement** : double-clique sur `scenes/monde/egypte/port_des_marais.tscn` (ou `carrieres_toura.tscn`, `village_batisseurs.tscn`, `desert_rouge.tscn`) puis **F6**.
 
 Pour revenir à Hikari Bay : éloigne-toi un peu du portail, puis retraverse-le.
 
@@ -71,7 +71,21 @@ Pour revenir à Hikari Bay : éloigne-toi un peu du portail, puis retraverse-le.
    - **Les échanger en secret** : les confier à **Méret** à sa boulangerie, prendre les **4 paniers d'amulettes** d'Ouni dans son atelier (au sud), puis les échanger dans les **dortoirs** pendant que les haleurs dorment (rester immobile 6 secondes).
 8. Retourner voir **Pésèshet**. Récompense : l'**œil oudjat de Pésèshet** (un bijou) et du **pain de Méret**.
 
-Les deux choix mènent à la suite. Le chapitre 5 (« La dame au sablier ») arrive bientôt.
+Les deux choix mènent à la suite.
+
+## Le chapitre 5 : « La dame au sablier »
+
+1. Prendre la **passe des tombes**, tout à l'ouest du village, vers le **Désert Rouge**.
+2. **Suivre 3 empreintes** de chaussures modernes (des semelles crantées !) entre les tombes du cimetière des nobles.
+3. Elles mènent à la **grande tombe sur le rocher**, au nord-ouest : éliminer les **4 gardes** de l'Effaceuse au pied de la rampe.
+4. Monter dans la cour et parler à la « prêtresse de Memphis » : c'est **Vera Lind**, une Effaceuse que la Vigie surnomme **« Sablier »**.
+5. **Lui répondre** (deux réponses possibles : « On les nourrit, on les soigne » ou « Tu leur as volé leur nom »). Ce qu'elle dit en partant change selon ta réponse, et le jeu s'en souvient pour plus tard.
+6. Elle recule vers une faille et lâche **3 gardes** : quand le dernier tombe, elle s'enfuit et la faille se referme.
+7. Ramasser son **carnet codé** : une page porte la gravure « E. », comme la montre de la Préhistoire.
+8. Parler à l'**agent Lenoir**, qui arrive en courant, puis **rentrer au QG** par le portail du marais (au Port des Marais).
+9. Au QG, une mission se lance toute seule : **« Le carnet de Sablier »** (la commandante Morel, puis Yuki à la salle des portails, puis Morel). Le code du carnet cache... les anciens codes d'accès de la Vigie.
+
+Le chapitre 6 (« La mémoire d'Hémiounou ») arrive bientôt.
 
 ## Les Carrières de Toura (zone 2)
 
@@ -111,6 +125,24 @@ Au pied du plateau de Gizeh (niveaux 14 à 17), inspiré de la vraie ville des o
 
 Pour revenir au port, suivre la route vers l'est jusqu'au bout.
 
+## Le Désert Rouge (zone 4)
+
+![Les mastabas du cimetière des nobles](../images/egypte-desert-mastabas.jpg)
+
+![La cour du repaire de l'Effaceuse](../images/egypte-desert-cour.jpg)
+
+![Vera Lind, la « prêtresse de Memphis »](../images/egypte-desert-vera.jpg)
+
+![Un garde de l'Effaceuse](../images/egypte-desert-garde.jpg)
+
+![L'ouadi, un lit de rivière à sec](../images/egypte-desert-ouadi.jpg)
+
+![Le campement des nomades](../images/egypte-desert-nomades.jpg)
+
+À l'ouest du plateau (niveaux 16 à 19). Pour les Égyptiens, c'est **Deshret**, « la Terre Rouge », le pays des morts. On arrive à l'est par la passe des tombes, dans le **cimetière des nobles** : des rangées de **mastabas** (des tombes en forme de banc géant, avec une « fausse porte » à l'est). Au sud serpente un **ouadi** (un lit de rivière à sec) où campent des **nomades**. À l'ouest, des **dunes** de sable rouge. Au nord-ouest, sur un éperon rocheux, la **grande tombe** où se cachait Vera Lind, avec du matériel qui n'a rien à faire en -2560 (une caisse avec un écran, une antenne à diode rouge).
+
+Pour revenir au village, suivre la rue principale vers l'est jusqu'à la passe.
+
 ## Les ennemis
 
 | Ennemi | Niveau | Où |
@@ -123,6 +155,7 @@ Pour revenir au port, suivre la route vers l'est jusqu'au bout.
 | Babouin fracturé | 13 | dans la carrière, et au fond de la galerie |
 | Bâtisseur oublié | 15 | au cimetière du village, au chapitre 4 |
 | Chacal fracturé | 15 | dans le désert, à l'ouest du village, et sur la place si on brise les amulettes |
+| Garde de l'Effaceuse | 16-17 | dans le Désert Rouge, autour de la grande tombe (ils cachent une radio moderne) |
 
 Ils laissent du limon du Nil, des écailles de crocodile, des défenses d'hippopotame, des canines de babouin et du calcaire fin.
 

@@ -812,10 +812,15 @@ func rentrer_au_hub() -> void:
 	if _en_voyage:
 		return
 	if etape_actuelle().get("portail", false) and _ici(etape_actuelle()):
-		# Le chapitre se termine au QG : le hub peut lancer la visite guidée.
+		# Le chapitre se termine au QG : le hub lance la mission qui suit (par défaut,
+		# la visite guidée ; sinon celle de « mission_hub », ex. l'analyse d'un carnet).
+		var mission := String(etape_actuelle().get("mission_hub", ""))
 		_suivante()
 		visite_qg_demandee = true
-		Reseau.set_meta("visite_guidee_qg", true)
+		if mission == "":
+			Reseau.set_meta("visite_guidee_qg", true)
+		else:
+			Reseau.set_meta("mission_hub_auto", mission)
 	_en_voyage = true
 	_titre.text = "Hikari Bay"
 	_sous_titre.text = "Retour au QG de la Vigie"
