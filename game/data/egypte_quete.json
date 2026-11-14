@@ -24,6 +24,14 @@
 				"sous_titre": "Égypte · au pied du plateau de Gizeh",
 				"texte": "Une odeur de pain chaud et de bière tiède. Des rues de briques, des enfants qui courent, des chiens maigres. Au-dessus des toits, un mur gigantesque, et derrière lui, une montagne de pierre blanche qui touche presque le ciel."
 			}
+		},
+		"desert_rouge": {
+			"scene": "res://scenes/monde/egypte/desert_rouge.tscn",
+			"arrivee": {
+				"titre": "Le Désert Rouge",
+				"sous_titre": "Égypte · à l'ouest du plateau, le pays des morts",
+				"texte": "Après la passe des tombes, plus un arbre, plus un bruit. Le sable est rouge comme de la brique pilée. Partout, les tombes des nobles alignées comme des maisons sans portes. Ici, disent les Égyptiens, commence le royaume des morts."
+			}
 		}
 	},
 	"camps": {
@@ -134,8 +142,8 @@
 			{
 				"type": "chacal_fracture",
 				"position": [
-					-128,
-					-30
+					-110,
+					-75
 				],
 				"nombre": 3,
 				"rayon": 6
@@ -145,6 +153,44 @@
 				"position": [
 					-120,
 					100
+				],
+				"nombre": 2,
+				"rayon": 5
+			}
+		],
+		"desert_rouge": [
+			{
+				"type": "chacal_fracture",
+				"position": [
+					-110,
+					40
+				],
+				"nombre": 3,
+				"rayon": 6
+			},
+			{
+				"type": "chacal_fracture",
+				"position": [
+					20,
+					110
+				],
+				"nombre": 3,
+				"rayon": 6
+			},
+			{
+				"type": "garde_effaceuse_camp",
+				"position": [
+					-20,
+					-20
+				],
+				"nombre": 2,
+				"rayon": 4
+			},
+			{
+				"type": "chacal_fracture",
+				"position": [
+					-60,
+					120
 				],
 				"nombre": 2,
 				"rayon": 5
@@ -844,12 +890,175 @@
 					"fin_chapitre": true
 				}
 			]
+		},
+		{
+			"numero": 5,
+			"titre": "La dame au sablier",
+			"ou": "desert_rouge",
+			"etapes": [
+				{
+					"id": "vers_desert",
+					"ou": "village_batisseurs",
+					"objectif": "Prends la passe des tombes, à l'ouest du village, vers le Désert Rouge",
+					"arriver": "desert_rouge"
+				},
+				{
+					"id": "traces",
+					"objectif": "Suis les traces de la prêtresse entre les tombes des nobles",
+					"recolter": "traces_sablier",
+					"nombre": 3,
+					"duree": 1.5,
+					"action": "Tu examines les empreintes…",
+					"recit": {
+						"titre": "Des semelles crantées",
+						"texte": "Dans le sable, des empreintes de chaussures à semelles crantées. Personne ne marche avec ça en -2560. Elles filent vers l'ouest, vers la grande tombe sur le rocher."
+					}
+				},
+				{
+					"id": "gardes",
+					"objectif": "Approche de la grande tombe sur le rocher et élimine les gardes qui la protègent",
+					"tuer": "garde_effaceuse",
+					"nombre": 4,
+					"lieu": [
+						-64,
+						-64
+					],
+					"apparition": {
+						"type": "garde_effaceuse",
+						"position": [
+							-64,
+							-64
+						],
+						"nombre": 4,
+						"rayon": 6,
+						"attaque": false
+					}
+				},
+				{
+					"id": "vera",
+					"objectif": "Entre dans la cour de la tombe et parle à la « prêtresse »",
+					"pnj": "vera_lind",
+					"repliques": [
+						"Tiens. Un agent de la Vigie. Ils envoient des enfants, maintenant ?",
+						"Je m'appelle Vera Lind. Tes chefs m'appellent sûrement « Sablier ». Ça me plaît assez.",
+						"Regarde cette montagne de pierre, là-bas. Un tombeau pour un seul homme. Combien de dos brisés, combien de vies, pour l'orgueil d'un roi ?",
+						"Mes amulettes ne tuent personne. Elles font oublier. Un ouvrier qui oublie pourquoi il tire la corde finit par la lâcher. Et la pyramide ne se termine jamais.",
+						"Je libère ces gens, agent. Toi, tu les remets au travail. Alors dis-moi : lequel de nous deux est le méchant ?"
+					]
+				},
+				{
+					"id": "reponse_vera",
+					"objectif": "Réponds à Vera Lind",
+					"choix": [
+						{
+							"objet": "repondre_pain",
+							"objectif": "Réponds à Vera Lind",
+							"pnj": "vera_lind",
+							"repliques": [
+								"« Je les ai vus. On les nourrit, on les soigne, on les enterre près du roi. Ils ne sont pas esclaves. »",
+								"Du pain, de la bière et un médecin. Tu crois que ça suffit à rendre un travail juste ?",
+								"... Non. Ne réponds pas. Tu y crois vraiment. C'est presque touchant.",
+								"Gardes ! Occupez-le."
+							]
+						},
+						{
+							"objet": "repondre_noms",
+							"objectif": "Réponds à Vera Lind",
+							"pnj": "vera_lind",
+							"repliques": [
+								"« Tu leur as volé leur nom. Ils signent leurs blocs avec fierté : les Amis de Khéops, les Ivrognes. C'est leur œuvre, pas seulement celle du roi. »",
+								"Leur œuvre...",
+								"J'ai vu ces marques à l'ocre, oui. Je les ai prises pour des numéros d'inventaire. Peut-être que je me suis trompée de colère.",
+								"Ça ne change rien. Gardes ! Occupez-le."
+							]
+						}
+					]
+				},
+				{
+					"id": "fuite",
+					"objectif": "Vera Lind recule vers une faille : repousse ses gardes",
+					"tuer": "garde_effaceuse",
+					"nombre": 3,
+					"lieu": [
+						-78,
+						-70
+					],
+					"apparition": {
+						"type": "garde_effaceuse",
+						"position": [
+							-74,
+							-67
+						],
+						"nombre": 3,
+						"rayon": 4,
+						"attaque": true
+					},
+					"apres": [
+						{
+							"masquer": "vera_lind"
+						},
+						{
+							"cacher": "faille_vera"
+						},
+						{
+							"montrer": "carnet_vera"
+						}
+					],
+					"recit": {
+						"titre": "Sablier s'échappe",
+						"texte": "Quand le dernier garde tombe, Vera Lind est déjà dans la faille. « On se reverra, agent. Ailleurs. Plus tard. » La lumière violette se referme sur elle. Dans le sable, un carnet de cuir."
+					}
+				},
+				{
+					"id": "carnet",
+					"objectif": "Ramasse le carnet tombé de la poche de Vera Lind",
+					"objet": "carnet_vera",
+					"consomme": true,
+					"recompense": [
+						{
+							"id": "carnet_e",
+							"nom": "Carnet codé de Sablier"
+						}
+					],
+					"apres": [
+						{
+							"masquer": "carnet_vera"
+						},
+						{
+							"montrer": "lenoir_desert"
+						}
+					],
+					"recit": {
+						"titre": "« E. »",
+						"texte": "Des colonnes de chiffres, des dates... et sur une page, gravée au fer, une lettre que tu connais : « E. ». La même que sur la montre à gousset de la Préhistoire."
+					}
+				},
+				{
+					"id": "lenoir",
+					"objectif": "Quelqu'un arrive derrière toi : parle à l'agent Lenoir",
+					"pnj": "lenoir_desert",
+					"repliques": [
+						"Ne tire pas, c'est moi ! Farouk a capté un signal de portail non autorisé dans le désert. J'ai couru depuis le marais.",
+						"Sablier. Une vraie Effaceuse... et elle t'a parlé. Tu as de la chance, d'habitude ils ne parlent pas.",
+						"Fais voir ce carnet. « E. »... Comme la montre. Ce n'est pas une coïncidence, agent.",
+						"Il faut montrer ça à la commandante, tout de suite. Le portail est au Port des Marais, dans les roseaux. Rentre au QG, je préviens Merer."
+					]
+				},
+				{
+					"id": "qg_carnet",
+					"ou": "port_des_marais",
+					"objectif": "Rentre au QG par le portail du marais et montre le carnet à la commandante Morel",
+					"portail": true,
+					"mission_hub": "carnet",
+					"fin_chapitre": true
+				}
+			]
 		}
 	],
 	"fin_provisoire": {
 		"chapitre": "LA SUITE ARRIVE BIENTÔT",
-		"objectif": "Chapitre 5 « La dame au sablier » : la suite arrive bientôt",
+		"objectif": "Chapitre 6 « La mémoire d'Hémiounou » : la suite arrive bientôt",
 		"titre": "Ce que le fleuve emporte",
-		"message": "Le village a retrouvé ses noms. Mais la prêtresse au sablier est partie vers l'ouest, vers le pays des morts."
+		"message": "Le carnet de Sablier est entre les mains de la Vigie. Mais au chantier, l'architecte Hémiounou a tout oublié de ses plans."
 	}
 }

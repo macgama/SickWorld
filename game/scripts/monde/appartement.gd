@@ -40,6 +40,7 @@ const SOUVENIRS := {
 	"hanafuda": ["carte", Color(0.75, 0.12, 0.1)],
 	"grande_roue": ["boulon", Color(0.7, 0.72, 0.75)],
 	"colis": ["badge", Color(0.25, 0.55, 0.95)],
+	"carnet": ["carnet", Color(0.32, 0.2, 0.12)],
 }
 
 var _bouton_hall: Node3D
@@ -329,6 +330,14 @@ func _creer_objet(parent: Node3D, forme: String, couleur: Color) -> void:
 			var image := BoxMesh.new()
 			image.size = Vector3(0.01, 0.36, 0.24)
 			_forme(parent, image, Vector3(-0.06, 0.21, 0), _materiau(couleur, forme == "affiche"), Vector3(0, 0, -0.15))
+		"carnet":
+			# Le carnet de cuir de Sablier, posé à plat, avec sa page marquée « E. ».
+			var b := BoxMesh.new()
+			b.size = Vector3(0.22, 0.04, 0.16)
+			_forme(parent, b, Vector3(0, 0.02, 0), m, Vector3(0, 0.3, 0))
+			var page := BoxMesh.new()
+			page.size = Vector3(0.2, 0.01, 0.14)
+			_forme(parent, page, Vector3(0, 0.045, 0), _materiau(Color(0.93, 0.9, 0.82)), Vector3(0, 0.3, 0))
 		"bol":
 			var c := CylinderMesh.new()
 			c.top_radius = 0.12

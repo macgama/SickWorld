@@ -48,12 +48,13 @@ func _ready() -> void:
 	var parent := get_parent()
 	var type := str(parent.get("type_ennemi")) if parent != null else ""
 	# Les bêtes du Nil (île d'Égypte) ont leur propre apparence, sculptée en code.
-	if type.begins_with("oublie"):
+	if type.begins_with("oublie") or type.begins_with("garde"):
 		# Pas « "" » : ce serait un agent de la Vigie pour le bruiteur (pas, esquives…).
 		espece = "oublie"
 		_delegue = ApparenceOublie.new()
 		_delegue.name = "Oublie"
 		_delegue.graine = parent.get_instance_id() % 997
+		_delegue.variante = "garde" if type.begins_with("garde") else "oublie"
 		add_child(_delegue)
 		return
 	if type.begins_with("crocodile") or type.begins_with("hippopotame") or type.begins_with("babouin"):

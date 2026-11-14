@@ -102,6 +102,11 @@ func _ready() -> void:
 	if not Engine.is_editor_hint() and reseau != null and reseau.get_meta("visite_guidee_qg", false):
 		reseau.remove_meta("visite_guidee_qg")
 		_lancer_visite_guidee.call_deferred()
+	# Retour d'une autre île avec une mission automatique à lancer (ex. le carnet de l'Égypte).
+	if not Engine.is_editor_hint() and reseau != null and reseau.get_meta("mission_hub_auto", "") != "":
+		var mission := String(reseau.get_meta("mission_hub_auto"))
+		reseau.remove_meta("mission_hub_auto")
+		_lancer_mission_auto.call_deferred(mission)
 	reconstruire()
 
 
@@ -695,6 +700,12 @@ func _construire_eclats() -> void:
 	lueur.omni_range = 10.0
 	lueur.position = Vector3(0, 5, 0)
 	_fracture.add_child(lueur)
+
+
+func _lancer_mission_auto(id: String) -> void:
+	var quetes := get_tree().get_first_node_in_group("quetes")
+	if quetes != null:
+		quetes.accepter(id)
 
 
 func _lancer_visite_guidee() -> void:

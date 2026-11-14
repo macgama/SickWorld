@@ -18,6 +18,8 @@ const MarqueurCarte := preload("res://scripts/carte/marqueur_carte.gd")
 
 ## La route qui descend vers le Port des Marais (à l'est).
 const ENTREE := Vector2(146, 60)
+## La passe des tombes, à l'ouest : vers le Désert Rouge (ouverte au chapitre 5).
+const PASSE_TOMBES := Vector2(-150, -24)
 ## La grande place, la pierre où l'on peut briser les amulettes, et Nebi.
 const PLACE := Vector2(14, 44)
 const NEBI := Vector2(10, 40)
@@ -96,6 +98,8 @@ func _ready() -> void:
 
 
 func sortie_vers(zone: String) -> Vector2:
+	if zone == "desert_rouge":
+		return PASSE_TOMBES
 	return ENTREE if zone != "village_batisseurs" else Vector2.INF
 
 
@@ -662,7 +666,8 @@ func _construire_quete() -> void:
 	repere.call(MarqueurCarte.Type.LIEU, "Cimetière des ouvriers", CIMETIERE)
 	repere.call(MarqueurCarte.Type.LIEU, "Porte du Mur du Corbeau", Vector2(0, MUR_Z))
 	repere.call(MarqueurCarte.Type.LIEU, "Chantier de la pyramide", CHANTIER)
-	repere.call(MarqueurCarte.Type.DANGER, "Chacals", Vector2(-128, -30))
+	repere.call(MarqueurCarte.Type.LIEU, "Passe des tombes (Désert Rouge)", PASSE_TOMBES)
+	repere.call(MarqueurCarte.Type.DANGER, "Chacals", Vector2(-110, -75))
 
 
 func _objet(parent: Node3D, nom_noeud: String, id: String, groupe_o: String, forme_o: String, texte: String, p: Vector2) -> Node3D:
@@ -686,7 +691,7 @@ func _reprendre_etat() -> void:
 		for k in NOMS_LIBERES.size():
 			_pnj(_dossier_quete, NOMS_LIBERES[k], LIBERES[k], PI * 0.5 + k * 0.8)
 		_liberes = NOMS_LIBERES.size()
-	if quete.etape < 0:
+	if quete.etape_atteinte("vers_desert"):
 		for n in _blesses:
 			if is_instance_valid(n):
 				n.set("blesse", false)
@@ -701,7 +706,11 @@ func _process(delta: float) -> void:
 	var joueur := get_tree().get_first_node_in_group("joueur_local") as Node3D
 	if joueur == null:
 		return
+	var quete := get_tree().get_first_node_in_group("quete")
+	if quete == null or not quete.has_method("changer_de_zone"):
+		return
 	if joueur.global_position.x > ENTREE.x + 4.0 and absf(joueur.global_position.z - ENTREE.y) < 16.0:
-		var quete := get_tree().get_first_node_in_group("quete")
-		if quete != null and quete.has_method("changer_de_zone"):
-			quete.changer_de_zone("port_des_marais")
+		quete.changer_de_zone("port_des_marais")
+	elif joueur.global_position.x < PASSE_TOMBES.x + 1.0 and absf(joueur.global_position.z - PASSE_TOMBES.y) < 16.0 \
+			and quete.etape_atteinte("vers_desert"):
+		quete.changer_de_zone("desert_rouge")

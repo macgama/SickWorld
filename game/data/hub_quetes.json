@@ -854,6 +854,46 @@
 			"apres": [
 				"Mon pneu est réparé. La prochaine fois, je te prends sur le porte-bagages !"
 			]
+		},
+		{
+			"id": "carnet",
+			"titre": "Le carnet de Sablier",
+			"donneur": "commandante",
+			"automatique": true,
+			"resume": "Tu as rapporté d'Égypte le carnet codé de Vera Lind, l'Effaceuse surnommée « Sablier ». Une page porte la même gravure que la montre à gousset : « E. ». La commandante Morel veut savoir qui se cache derrière cette lettre.",
+			"recompense": "Accès aux analyses de la Vigie sur les Effaceurs",
+			"etapes": [
+				{
+					"objectif": "Montre le carnet de Vera Lind à la commandante Morel (Hall des opérations)",
+					"parler": "commandante",
+					"repliques": [
+						"Lenoir m'a prévenue. Une Effaceuse, en chair et en os, sous Khéops. Fais voir ce carnet.",
+						"Du papier moderne, une reliure de cuir, et un code que je ne connais pas. Sauf ici, sur cette page : « E. ». Comme sur la montre.",
+						"Ils ont donc un chef. Et ce chef signe. Yuki doit casser ce code, vite."
+					]
+				},
+				{
+					"objectif": "Fais analyser le carnet par Yuki Tanabe (salle des portails)",
+					"parler": "technicienne",
+					"repliques": [
+						"Un code par substitution, mais avec des dates à la place des lettres. Astucieux. Donne-moi une minute.",
+						"Ce sont des coordonnées temporelles. Celles de nos propres portails, agent. Avec nos codes d'accès d'il y a dix ans.",
+						"Quelqu'un qui connaît la Vigie de l'intérieur a écrit ça. Ou l'a dicté. Va le dire à la commandante. Moi, je change tous les codes."
+					]
+				},
+				{
+					"objectif": "Retourne voir la commandante Morel (Hall des opérations)",
+					"parler": "commandante",
+					"repliques": [
+						"Nos codes. Dans le carnet d'une Effaceuse. Ce n'est pas une fuite, agent : c'est quelqu'un de chez nous.",
+						"Je ne veux pas de panique. Pas un mot aux autres agents pour l'instant. Seuls Lenoir, Yuki, toi et moi.",
+						"Retourne en Égypte. Hémiounou, l'architecte, a perdu la mémoire, et sans lui la pyramide ne sera jamais finie. Merer t'attend au port."
+					]
+				}
+			],
+			"apres": [
+				"« E. » connaît nos codes. Je regarde chaque visage du QG différemment, maintenant. Même le mien, dans le miroir."
+			]
 		}
 	]
 }
