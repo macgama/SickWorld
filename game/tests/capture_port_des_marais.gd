@@ -8,7 +8,7 @@ const VUES := [
 	["marais", Vector3(-20, 3.0, 112), Vector3(-50, 1.0, 80)],
 	["levee", Vector3(-24, 2.5, 40), Vector3(-15, 2.0, -10)],
 	["port", Vector3(-30, 6.0, -4), Vector3(20, 0.0, -42)],
-	["quai", Vector3(-4, 2.0, -16), Vector3(-24, 1.6, -32)],
+	["quai", Vector3(-20, 2.0, -12), Vector3(-14, 1.4, -30)],
 	["traineau", Vector3(-4, 2.4, -48), Vector3(-12, 1.0, -53)],
 	["rampe", Vector3(-44, 5.0, -62), Vector3(-80, 6.0, -100)],
 	["pyramide", Vector3(-60, 4.0, -40), Vector3(-560, 60.0, -250)],

@@ -12,7 +12,15 @@ On y trouve, du sud au nord :
 
 Au loin, à l'ouest, **la Grande Pyramide** presque terminée (le haut est encore en gradins, sans son revêtement blanc). À l'est, de l'autre côté du Nil, les falaises de **Toura**, où l'on ira au chapitre 3.
 
-Les crocodiles et les hippopotames sont fabriqués par le code, comme les palmiers, les papyrus, les bâtiments et la pyramide. En attendant les textures de Poly Haven (sable, briques crues, calcaire, roseaux), l'île réutilise celles de la Préhistoire.
+Les crocodiles et les hippopotames sont fabriqués par le code, comme les palmiers, les papyrus, les bâtiments et la pyramide. Les textures (sable, limon, terre craquelée, briques crues, calcaire, bois), les poteries, les paniers et les rochers viennent de **Poly Haven** (gratuits, licence CC0).
+
+![Arrivée par le portail, dans le marais](../images/egypte-arrivee.jpg)
+
+![Le port de Gizeh et ses quais](../images/egypte-port.jpg)
+
+![Un crocodile fracturé dans les papyrus](../images/egypte-marais.jpg)
+
+![L'hippopotame du chenal](../images/egypte-hippopotame.jpg)
 
 ## L'ouvrir
 

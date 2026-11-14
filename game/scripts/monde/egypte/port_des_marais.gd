@@ -71,7 +71,15 @@ func _init() -> void:
 	}
 	reglages_terrain = {"sol_saturation": 0.95, "sol_motif": 4.0, "galets_motif": 3.0, "neige_motif": 5.0,
 			"sol_teinte": Color(1.0, 0.95, 0.86), "roche_teinte": Color(1.0, 0.94, 0.82), "roche_saturation": 0.8,
-			"neige_eclat": 1.0, "neige_paillettes": 0.0, "roche_motif": 14.0}
+			"neige_eclat": 1.0, "neige_paillettes": 0.0, "roche_motif": 14.0,
+			# La « neige » est ici du sable : chaud, mat, sans givre.
+			"neige_teinte": Color(1.3, 1.02, 0.68), "neige_max": Vector3(0.82, 0.68, 0.48), "neige_simple": Color(0.78, 0.64, 0.44),
+			"givre": 0.0, "neige_translucide": 0.0}
+	if ResourceLoader.exists("res://assets/egypte/textures/sand_01/sand_01_Diffuse.jpg"):
+		# Les vraies textures d'Égypte sont là : couleurs naturelles, juste un peu réchauffées.
+		reglages_terrain.merge({"neige_teinte": Color(1.04, 1.0, 0.94), "neige_max": Vector3(0.86, 0.76, 0.62),
+				"sol_teinte": Color(1.0, 0.97, 0.92), "roche_teinte": Color(1.02, 0.98, 0.9), "roche_saturation": 0.95,
+				"neige_motif": 6.0, "sol_motif": 5.0}, true)
 	reglages_herbe = {"couleur_base": Color(0.17, 0.2, 0.07), "couleur_pointe": Color(0.55, 0.56, 0.24),
 			"couleur_givre": Color(0.6, 0.58, 0.3), "force_vent": 0.15}
 	# La levée de terre : du portail aux quais, à travers les champs inondés.
@@ -143,6 +151,8 @@ func hauteur(x: float, z: float) -> float:
 	h = lerpf(h, -2.3, _dans_rect(BASSIN, x, z, 1.2))
 	h = lerpf(h, -2.0, _dans_rect(Rect2(CHENAL.position.x, CHENAL.position.y, rive_nil(z) - CHENAL.position.x + 6.0,
 			CHENAL.size.y), x, z, 2.0))
+	# Un banc de sable au milieu du chenal : l'hippopotame y a pied (et le joueur aussi).
+	h = lerpf(h, maxf(h, -0.75), 1.0 - smoothstep(6.0, 10.0, Vector2(x, z).distance_to(HIPPOPOTAME)))
 	# Le Nil : la berge plonge vite sous l'eau trouble.
 	var berge := x - rive_nil(z)
 	h = lerpf(h, minf(h, -0.4 - berge * 0.2), smoothstep(-6.0, 4.0, berge))
@@ -206,11 +216,11 @@ func _construire_quais() -> void:
 	for m in murs:
 		_boite(m[0], m[1], briques, port)
 	# Un parement de grosses pierres au pied du quai principal (là où accostent les cargos).
-	for k in 14:
+	for k in 11:
 		var z := r.position.y + 2.0 + k * 3.2
 		_bloc_calcaire(port, Vector3(r.position.x + 0.55, -0.3, z), Vector3(0.9, 1.6, 3.0), 0.0, false)
-	# Les escaliers qui descendent à l'eau.
-	for k in 6:
+	# Les escaliers qui descendent jusqu'au fond (on peut toujours ressortir du bassin en sautant).
+	for k in 12:
 		_boite(Vector3(2.4, 0.3, 0.55), Vector3(r.position.x + 1.2, QUAI - 0.3 - k * 0.3, -18.0 + k * 0.0 - k * 0.55),
 				briques, port)
 	# Les pieux d'amarrage en bois.

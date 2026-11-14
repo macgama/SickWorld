@@ -25,6 +25,13 @@ uniform vec3 neige_simple : source_color = vec3(0.86, 0.89, 0.93);
 uniform float neige_eclat = 1.4;
 // Paillettes de la neige au soleil (0 = aucune).
 uniform float neige_paillettes = 1.0;
+// Teinte et éclat maximal de la « neige » (une autre île peut s'en servir pour du sable).
+uniform vec3 neige_teinte : source_color = vec3(0.97, 0.99, 1.0);
+uniform vec3 neige_max = vec3(0.9);
+// Givre léger sur la terre (0 = aucun).
+uniform float givre = 0.35;
+// Lumière qui traverse un peu la neige.
+uniform float neige_translucide = 0.25;
 
 uniform sampler2D sol_couleur : source_color, filter_linear_mipmap_anisotropic, repeat_enable;
 uniform sampler2D sol_relief : hint_normal, filter_linear_mipmap_anisotropic, repeat_enable;
@@ -123,7 +130,7 @@ void fragment() {
 	}
 	c_sol = desature(c_sol, sol_saturation) * sol_teinte;
 	// Givre léger sur la terre.
-	c_sol = mix(c_sol, vec3(0.78, 0.82, 0.86), smoothstep(0.55, 0.8, moyen) * 0.35);
+	c_sol = mix(c_sol, vec3(0.78, 0.82, 0.86), smoothstep(0.55, 0.8, moyen) * givre);
 
 	// --- Neige ---
 	vec2 uv_n = xz / neige_motif;
@@ -133,7 +140,7 @@ void fragment() {
 	if (neige_texture) {
 		c_neige = deux_echelles(neige_couleur, uv_n, melange).rgb;
 		// Neige blanche, légèrement bleutée (et jamais au-dessus de 0,9 : reste réaliste).
-		c_neige = min(c_neige * neige_eclat * vec3(0.97, 0.99, 1.03), vec3(0.9));
+		c_neige = min(c_neige * neige_eclat * neige_teinte * vec3(1.0, 1.0, 1.03), neige_max);
 		a_neige = deux_echelles(neige_arm, uv_n, melange).rgb;
 		n_neige = deux_echelles(neige_relief, uv_n, melange).rgb;
 	}
@@ -181,5 +188,5 @@ void fragment() {
 	float cristal = fract((c3.x + c3.y) * c3.z);
 	EMISSION = vec3(0.9, 0.95, 1.0) * step(0.9992, cristal) * w_neige * neige_paillettes * 0.9;
 	// La neige laisse un peu passer la lumière (aspect moins « plâtre »).
-	SSS_STRENGTH = w_neige * 0.25;
+	SSS_STRENGTH = w_neige * neige_translucide;
 }
