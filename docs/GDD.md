@@ -100,7 +100,7 @@ Les îles suivent l'ordre chronologique. Liste prévue (elle pourra encore être
 | N° | Époque | Idée de moment clé à protéger |
 |---|---|---|
 | 1 | **Préhistoire** (environ -17 000 ans) | La naissance de l'art et l'amitié entre l'homme et le loup |
-| 2 | **Égypte antique** (vers -2560, règne de Khéops) | La fin du chantier de la Grande Pyramide et le journal de Merer *(conception détaillée : [ILE-2-EGYPTE.md](ILE-2-EGYPTE.md), à valider)* |
+| 2 | **Égypte antique** (vers -2560, règne de Khéops) | La fin du chantier de la Grande Pyramide et le journal de Merer *(conception détaillée validée le 14/11/2026 : [ILE-2-EGYPTE.md](ILE-2-EGYPTE.md))* |
 | 3 | Grèce / Rome antique | Les premiers Jeux, une bibliothèque, un sénat |
 | 4 | Asie ancienne (Chine / Japon) | La route de la soie, un empire naissant |
 | 5 | Moyen Âge européen | Les cathédrales, les croisades, la peste |
@@ -110,7 +110,7 @@ Les îles suivent l'ordre chronologique. Liste prévue (elle pourra encore être
 
 On commence par la Préhistoire, et **une seule île sera construite pour la première version**.
 
-La conception de la deuxième île (l'Égypte des bâtisseurs) est proposée dans un document à part : [ILE-2-EGYPTE.md](ILE-2-EGYPTE.md).
+La conception de la deuxième île (l'Égypte des bâtisseurs), validée par Gaël le 14 novembre 2026, est dans un document à part : [ILE-2-EGYPTE.md](ILE-2-EGYPTE.md).
 
 ---
 
