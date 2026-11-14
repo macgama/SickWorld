@@ -1,7 +1,8 @@
 extends SceneTree
 ## Capture face au soleil d'une zone de la Préhistoire (pour vérifier le ciel).
 ## godot --path game -s res://tests/capture_soleil_prehistoire.gd -- <dossier> <zone> [qualite]
-## zone : cote_gelee, steppe, falaises, foret.
+## zone : cote_gelee, steppe, falaises, foret, ou egypte/village_batisseurs...
+## Option dos_au_soleil : la caméra tourne le dos au soleil (paysage éclairé de face).
 ## Options (4e argument, séparées par des virgules) pour chercher l'origine d'un défaut :
 ## sans_volume (pas de brume volumétrique), sans_soleil_brume (le soleil n'éclaire
 ## pas la brume), sans_aerien (pas de perspective aérienne), sans_ombres.
@@ -26,7 +27,9 @@ func _lancer() -> void:
 	if args.size() > 2 and args[2] != "-" and qualite != null:
 		qualite.choisir(args[2], false)
 	root.size = Vector2i(1280, 720)
-	var scene: Node = load("res://scenes/monde/prehistoire/%s.tscn" % zone_id).instantiate()
+	var chemin := "res://scenes/monde/%s.tscn" % zone_id if "/" in zone_id else "res://scenes/monde/prehistoire/%s.tscn" % zone_id
+	zone_id = zone_id.get_file()
+	var scene: Node = load(chemin).instantiate()
 	var quete := scene.get_node_or_null("Quete")
 	if quete != null:
 		quete.voyage_reel = false
@@ -56,13 +59,21 @@ func _lancer() -> void:
 	camera.fov = 70.0
 	camera.far = 3000.0
 	scene.add_child(camera)
+	# Option pos=X_Z : où poser la caméra (sinon au centre de la zone).
 	var pos := Vector3(0, 0, 0)
+	for o in options:
+		if o.begins_with("pos="):
+			var xz := o.substr(4).split("_")
+			pos = Vector3(float(xz[0]), 0, float(xz[1]))
 	if scene.has_method("hauteur"):
-		pos.y = scene.hauteur(0, 0)
+		pos.y = maxf(scene.hauteur(pos.x, pos.z), scene.get("NIVEAU_MER") if scene.get("NIVEAU_MER") != null else -100.0)
 	pos.y += 4.0
 	camera.global_position = pos
 	# Soleil un peu au-dessus du centre de l'image.
-	camera.look_at(pos + vers_soleil - Vector3(0, 0.15, 0))
+	if options.has("dos_au_soleil"):
+		camera.look_at(pos + Vector3(-vers_soleil.x, -0.12, -vers_soleil.z))
+	else:
+		camera.look_at(pos + vers_soleil - Vector3(0, 0.15, 0))
 	camera.make_current()
 	await _attendre(40)
 	var suffixe := ("_" + "_".join(options)) if not options.is_empty() else ""
