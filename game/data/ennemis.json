@@ -227,5 +227,61 @@
 		"distance_laisse": 45,
 		"entraide": 0,
 		"temps_reapparition": 0
+	},
+	"oublie": {
+		"nom": "Carrier oublié",
+		"niveau": 12,
+		"points_de_vie": 520,
+		"degats": [14, 20],
+		"intervalle_attaque": 1.9,
+		"portee_attaque": 2.2,
+		"vitesse_course": 4.6,
+		"vitesse_marche": 1.1,
+		"distance_detection": 10,
+		"distance_laisse": 30,
+		"entraide": 10,
+		"temps_reapparition": 0
+	},
+	"babouin": {
+		"nom": "Babouin hamadryas",
+		"niveau": 12,
+		"points_de_vie": 380,
+		"degats": [12, 18],
+		"intervalle_attaque": 1.5,
+		"portee_attaque": 2.0,
+		"vitesse_course": 6.5,
+		"vitesse_marche": 1.4,
+		"distance_detection": 9,
+		"distance_laisse": 35,
+		"entraide": 10,
+		"temps_reapparition": 45
+	},
+	"babouin_fracture": {
+		"nom": "Babouin fracturé",
+		"niveau": 13,
+		"points_de_vie": 460,
+		"degats": [15, 22],
+		"intervalle_attaque": 1.5,
+		"portee_attaque": 2.0,
+		"vitesse_course": 7.0,
+		"vitesse_marche": 1.6,
+		"distance_detection": 13,
+		"distance_laisse": 40,
+		"entraide": 12,
+		"temps_reapparition": 60
+	},
+	"babouin_fracture_faille": {
+		"nom": "Babouin fracturé",
+		"niveau": 13,
+		"points_de_vie": 420,
+		"degats": [15, 22],
+		"intervalle_attaque": 1.5,
+		"portee_attaque": 2.0,
+		"vitesse_course": 7.0,
+		"vitesse_marche": 1.6,
+		"distance_detection": 18,
+		"distance_laisse": 40,
+		"entraide": 12,
+		"temps_reapparition": 0
 	}
 }

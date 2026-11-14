@@ -88,7 +88,10 @@ func _habiller(fiche: Dictionary) -> void:
 ## tannée, pour qu'un habitant de l'époque ne porte pas un jean bleu.
 ## La peau, les yeux et les cheveux ne changent pas.
 func _teindre_habits(teinte: Color) -> void:
-	for n in _apparence.find_children("*", "MeshInstance3D", true, false):
+	var cible = _apparence
+	if cible.has_method("teindre_tenue"):
+		cible.teindre_tenue(teinte)
+	for n in cible.find_children("*", "MeshInstance3D", true, false):
 		var m := (n as MeshInstance3D).material_override as StandardMaterial3D
 		if m == null or m.subsurf_scatter_enabled or m.roughness < 0.2 \
 				or m.transparency != BaseMaterial3D.TRANSPARENCY_DISABLED:

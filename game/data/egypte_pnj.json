@@ -95,5 +95,86 @@
 			"Ce soir, bière et pain chaud au village. Merer a promis.",
 			"Fais attention à l'hippopotame du chenal. Il a déjà coulé deux barques."
 		]
+	},
+	"merer_toura": {
+		"nom": "Merer",
+		"role": "Inspecteur · Compagnons de Khéops",
+		"modele": "homme",
+		"taille_cm": 170,
+		"peau": "#9a6a48",
+		"habits": "#e8e0cc",
+		"tenue": [
+			"bandeau_lin"
+		],
+		"repliques": [
+			"Quarante blocs par voyage. Trois jours aller-retour. Je compte, je compte... et mon journal oublie à mesure.",
+			"Le calcaire de Toura, c'est le plus blanc d'Égypte. Quand la pyramide en sera couverte, on la verra briller depuis Memphis."
+		]
+	},
+	"iry": {
+		"nom": "Iry",
+		"role": "Maître carrier · Toura",
+		"modele": "homme",
+		"taille_cm": 172,
+		"peau": "#8a5a3a",
+		"habits": "#d6c9ab",
+		"tenue": [
+			"bandeau_lin"
+		],
+		"repliques": [
+			"On ne taille pas la pierre : on la décolle. Une saignée tout autour, des coins de bois mouillés, et la montagne te donne son bloc.",
+			"Mes hommes sont fatigués, mais fiers. Chaque bloc porte la marque de son équipe. Personne n'oublie ça. Enfin... personne n'oubliait."
+		]
+	},
+	"carrier_senedjem": {
+		"nom": "Senedjem",
+		"role": "Carrier · Toura",
+		"modele": "homme",
+		"taille_cm": 170,
+		"peau": "#8f5f3e",
+		"habits": "#ddd2b8",
+		"repliques": [
+			"Senedjem. Je m'appelle Senedjem. Je ne l'oublierai plus.",
+			"Il y avait une femme, une prêtresse... Elle m'a donné l'amulette en disant qu'elle me protégerait de la pierre qui tombe."
+		]
+	},
+	"carrier_khoufouankh": {
+		"nom": "Khoufou-ânkh",
+		"role": "Carrier · Toura",
+		"modele": "homme",
+		"taille_cm": 173,
+		"peau": "#9a6a48",
+		"habits": "#d8cdb2",
+		"repliques": [
+			"« Khéops est vivant » : c'est ça, mon nom. Mon père l'a choisi le jour où le chantier a commencé.",
+			"Ma tête bourdonne encore. Comme si quelqu'un avait gratté l'intérieur avec un ciseau."
+		]
+	},
+	"carrier_nefer": {
+		"nom": "Néfer",
+		"role": "Carrier · Toura",
+		"modele": "homme",
+		"taille_cm": 176,
+		"peau": "#87583a",
+		"habits": "#e2d8c0",
+		"repliques": [
+			"Néfer, de l'équipe des « Amis de Khéops ». On a gagné la course aux blocs le mois dernier !",
+			"Je me souviens de la galerie. Une lumière violette au fond. Et puis plus rien."
+		]
+	},
+	"passeur": {
+		"nom": "Hapi",
+		"role": "Passeur du Nil",
+		"modele": "homme",
+		"taille_cm": 168,
+		"peau": "#7f5236",
+		"habits": "#d8cdb2",
+		"tenue": [
+			"bandeau_lin"
+		],
+		"repliques": [
+			"Une traversée ? Le fleuve est large en crue, mais ma barque connaît le chemin.",
+			"Quand on rame, on ne regarde pas l'eau. On regarde l'autre rive."
+		]
 	}
 }

@@ -19,6 +19,8 @@ const Faille := preload("res://scripts/monde/prehistoire/faille.gd")
 const ObjetEgypte := preload("res://scripts/monde/egypte/objet_egypte.gd")
 const Traineau := preload("res://scripts/monde/egypte/traineau.gd")
 const MarqueurCarte := preload("res://scripts/carte/marqueur_carte.gd")
+const BarqueTraversee := preload("res://scripts/monde/egypte/barque_traversee.gd")
+const Passeur := preload("res://scripts/monde/egypte/passeur.gd")
 
 ## Le portail de la Vigie, caché dans les papyrus.
 const PORTAIL := Vector2(-34, 92)
@@ -49,6 +51,12 @@ const HALAGE := [Vector2(-11, -52), Vector2(-24, -58), Vector2(-40, -64), Vector
 const RAMPE := Vector2(-74, -98)
 ## Là où l'hippopotame fracturé bloque le chenal.
 const HIPPOPOTAME := Vector2(62, -38)
+## La barque de Merer, amarrée au bout du quai ouest, et son chemin vers Toura.
+const BARQUE_MERER := Vector2(1.5, -16.6)
+const TRAVERSEE := [Vector2(1.5, -16.6), Vector2(16, -24), Vector2(34, -36), Vector2(56, -38), Vector2(84, -37),
+		Vector2(110, -33), Vector2(150, -24)]
+## Le passeur (pour retourner à Toura une fois le chemin connu).
+const PASSEUR := Vector2(-9, -14.6)
 
 var _rive: FastNoiseLite
 
@@ -88,12 +96,16 @@ func _init() -> void:
 
 func _ready() -> void:
 	if not Engine.is_editor_hint() and Reseau.get_meta("arrivee_egypte", "") != "":
+		var venu_de := String(Reseau.get_meta("arrivee_egypte"))
 		Reseau.remove_meta("arrivee_egypte")
-		point_apparition = RAMPE + Vector2(6, 10)
+		# Retour de Toura : on débarque sur le quai, à côté du passeur.
+		point_apparition = PASSEUR + Vector2(-3, -2) if venu_de == "carrieres_toura" else RAMPE + Vector2(6, 10)
 	super._ready()
 
 
 func sortie_vers(zone: String) -> Vector2:
+	if zone == "carrieres_toura":
+		return PASSEUR
 	return RAMPE + Vector2(4, 6) if zone != "port_des_marais" else Vector2.INF
 
 
@@ -113,12 +125,6 @@ func rive_nil(z: float) -> float:
 	if _rive == null:
 		_preparer_bruits()
 	return 74.0 + _rive.get_noise_1d(z) * 8.0 + sin(z * 0.012) * 6.0
-
-
-func _dans_rect(r: Rect2, x: float, z: float, fondu: float) -> float:
-	var dx := maxf(r.position.x - x, x - r.end.x)
-	var dz := maxf(r.position.y - z, z - r.end.y)
-	return 1.0 - smoothstep(0.0, fondu, maxf(dx, dz))
 
 
 func hauteur(x: float, z: float) -> float:
@@ -160,11 +166,6 @@ func hauteur(x: float, z: float) -> float:
 	# Au nord et au sud, la terre s'enfonce sous la crue (au-delà, l'eau à perte de vue).
 	h = lerpf(h, minf(h, -0.8), smoothstep(128.0, 150.0, absf(z)) * (1.0 - plateau))
 	return h
-
-
-func _distance_segment(p: Vector2, a: Vector2, b: Vector2) -> float:
-	var t := clampf((p - a).dot(b - a) / (b - a).length_squared(), 0.0, 1.0)
-	return p.distance_to(a + (b - a) * t)
 
 
 ## Rouge : limon mouillé ; vert : sable ; bleu : terre sèche craquelée.
@@ -385,25 +386,6 @@ func _construire_rochers_desert() -> void:
 
 # --- Paysage lointain ----------------------------------------------------------------------
 
-## Un grand plan de terrain coloré (pour prolonger le plateau au-delà de la zone).
-func _plan_lointain(centre: Vector3, taille: Vector2, couleur: Color) -> MeshInstance3D:
-	var outil := SurfaceTool.new()
-	outil.begin(Mesh.PRIMITIVE_TRIANGLES)
-	outil.set_color(couleur)
-	outil.set_normal(Vector3.UP)
-	var d := taille * 0.5
-	var coins := [Vector3(-d.x, 0, -d.y), Vector3(d.x, 0, -d.y), Vector3(d.x, 0, d.y), Vector3(-d.x, 0, d.y)]
-	for i in [0, 1, 2, 0, 2, 3]:
-		outil.add_vertex(coins[i])
-	var mi := MeshInstance3D.new()
-	mi.mesh = outil.commit()
-	mi.material_override = _mat_lointain()
-	mi.position = centre
-	mi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-	_contenu.add_child(mi)
-	return mi
-
-
 func _construire_lointain() -> void:
 	# Le plateau du désert continue vers l'ouest, et la Grande Pyramide s'y dresse.
 	var haut_plateau := hauteur(-159.0, -100.0)
@@ -472,7 +454,7 @@ func _construire_limites() -> void:
 		var x2 := rive_nil(z + pas) + 7.0
 		# On laisse passer le chenal (fermé plus loin, au bord du fleuve).
 		var centre := Vector3((x1 + x2) * 0.5, 0.0, z + pas * 0.5)
-		_mur_invisible(limites, Vector3(1.0, 12.0, pas + 1.0), centre, atan2(x2 - x1, pas))
+		_mur_invisible(limites, Vector3(1.0, 12.0, pas + 1.0), centre, atan2(x2 - x1, pas)).add_to_group("limites_nil")
 		z += pas
 	# Le bassin et le chenal sont profonds : un muret invisible au bord des quais
 	# empêche d'y tomber, sauf par l'escalier.
@@ -580,6 +562,38 @@ func _construire_quete() -> void:
 	traineau.materiau_bloc = _mat_calcaire()
 	traineau.materiau_bois = _mat_bois()
 	dossier.add_child(traineau)
+	# La barque de Merer : elle emmène le joueur à Toura (chapitre 3).
+	var barque := BarqueTraversee.new()
+	barque.name = "BarqueMerer"
+	barque.chemin = TRAVERSEE
+	barque.destination = "carrieres_toura"
+	barque.longueur = 11.0
+	barque.paroles = [
+		[0.15, "Merer", "« Rame, Ouni ! Le courant est fort en crue. »"],
+		[0.45, "Le Nil en crue", "Le fleuve est si large qu'on ne voit plus la rive d'en face. Des ibis passent au ras de l'eau."],
+		[0.8, "Merer", "« Là-bas, la falaise blanche. Toura. »"],
+	]
+	barque.position = Vector3(BARQUE_MERER.x, -0.1, BARQUE_MERER.y)
+	barque.rotation.y = -PI / 2
+	dossier.add_child(barque)
+	_barque(barque, Vector3.ZERO, 0.0, 11.0, false, false)
+	var monter := ObjetEgypte.new()
+	monter.name = "MonterBarque"
+	monter.identifiant = "barque_merer"
+	monter.invite = "[F] Monter dans la barque de Merer"
+	monter.portee = 4.5
+	monter.position = Vector3(0, 0.5, 4.0)
+	barque.add_child(monter)
+	# Le passeur Hapi et sa petite barque, au pied de l'escalier du quai.
+	var hapi := pnj.call("passeur", PASSEUR + Vector2(-1.6, 0.2), PI / 2) as Node3D
+	hapi.name = "Hapi"
+	var passeur := Passeur.new()
+	passeur.name = "Passeur"
+	passeur.destination = "carrieres_toura"
+	passeur.nom_destination = "les carrières de Toura"
+	passeur.condition = "traversee"
+	passeur.position = Vector3(PASSEUR.x, hauteur(PASSEUR.x, PASSEUR.y), PASSEUR.y)
+	dossier.add_child(passeur)
 	# Repères de la carte.
 	var repere := func(type: int, texte: String, p: Vector2) -> void:
 		MarqueurCarte.creer(dossier, type, texte, Vector3(p.x, hauteur(p.x, p.y), p.y))
@@ -587,6 +601,7 @@ func _construire_quete() -> void:
 	repere.call(MarqueurCarte.Type.DANGER, "Faille", FAILLE)
 	repere.call(MarqueurCarte.Type.LIEU, "Port de Gizeh", Vector2(BASSIN.get_center().x, BASSIN.get_center().y))
 	repere.call(MarqueurCarte.Type.LIEU, "Rampe du plateau", RAMPE)
+	repere.call(MarqueurCarte.Type.LIEU, "Passeur vers Toura", PASSEUR)
 	repere.call(MarqueurCarte.Type.LIEU, "Levée de terre", Vector2(-25, 32))
 	repere.call(MarqueurCarte.Type.DANGER, "Crocodiles", Vector2(-12, 70))
 	repere.call(MarqueurCarte.Type.DANGER, "Crocodiles", Vector2(rive_nil(30.0) - 6.0, 30))
