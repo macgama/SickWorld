@@ -48,6 +48,8 @@ godot --headless --path game -s res://tests/test_foret.gd
 godot --headless --path game -s res://tests/test_chapitre5.gd
 godot --headless --path game -s res://tests/test_falaises.gd
 godot --headless --path game -s res://tests/test_quetes.gd
+godot --headless --path game -s res://tests/test_secondaires.gd
+godot --headless --path game -s res://tests/test_evenements.gd
 
 # Multijoueur : un serveur dédié puis un ou plusieurs clients de test
 godot --headless --path game -- --serveur --colline --port=7790

@@ -102,10 +102,35 @@ Au nord de la steppe, une **passe** mène à une vallée enneigée fermée par u
 3. Escorte les familles (Aïna, la Vieille Mère, Naya, Kéo) jusqu'à la passe du nord. Elles n'avancent que si tu restes près d'elles, et des fracturés attaquent deux fois en route.
 4. Aux Falaises Peintes, défends l'abri sous roche contre cinq fracturés, puis parle à Aïna : la tempête se calme… mais une peinture semble pâlir.
 
-La suite (chapitre 7, « Les murs vides ») arrive dans une prochaine mise à jour.
+Les chapitres 7 (« Les murs vides ») et 8 (la Grande Grotte) suivent.
+
+## Les quêtes secondaires
+
+Un **« ! » doré** au-dessus d'un personnage veut dire qu'il a une petite quête pour toi ; un **« ? »**, qu'il attend ton retour. Les quêtes en cours sont listées à droite de l'écran, avec la distance ou la zone où aller. Elles ne bloquent jamais l'histoire.
+
+| Quête | Qui la donne | Quand | Récompense |
+|---|---|---|---|
+| **Le premier collier** | La Vieille Mère (camp) | après l'arrivée au camp | Collier du clan |
+| **Les traces du grand ours** | Toran | après avoir gagné sa confiance | Cape du grand ours |
+| **L'intrus moderne** | L'agent Lenoir | après le chapitre 1 | Éclats d'Effaceur |
+| **Le feu qui ne prend pas** | Saé, la gardienne du feu (camp) | après l'arrivée au camp | Pierre à feu de Saé |
+| **La main sur la paroi** | Aïna | après la fin de l'île | Titre « Celui qui a laissé sa trace » |
+
+## Les événements publics
+
+De temps en temps, un **événement** commence tout seul dans une zone (annonce au milieu de l'écran, cadre orange à gauche avec l'objectif et le chrono). Tout le monde peut aider, sans groupe. À la fin, tu reçois une récompense selon ta **participation** (or, argent ou bronze) et la **stabilité de l'époque** monte (elle redescend doucement avec le temps).
+
+| Événement | Zone | Ce qu'il faut faire | Fréquence |
+|---|---|---|---|
+| **La Faille s'ouvre** | Forêt (clairière) | Trois vagues de fracturés, un chef de meute, puis refermer la grande faille (F) avant la fin du chrono. | toutes les 45 min, à partir du chapitre 5 |
+| **La Tempête blanche** | Steppe (camp) | Loin d'un feu, le froid te fait perdre de la vie. Allume les trois feux de veille, puis défends le camp. | toutes les 1 h 30, après le chapitre 6 |
+| **La Grande Migration** | Steppe (plaine du sud) | Le troupeau de mammouths traverse vers l'est. Abats les fracturés qui s'en approchent, sinon le troupeau panique. | toutes les 2 h, après l'arrivée au camp |
+
+Le premier événement arrive environ **3 minutes** après ton arrivée dans la zone. Les textes, les durées, les vagues et les récompenses se règlent dans `game/data/prehistoire_evenements.json`.
 
 ## Ce que tu peux régler toi-même
 
+- **Les quêtes secondaires** : `game/data/prehistoire_secondaires.json` ; **les événements** : `game/data/prehistoire_evenements.json`.
 - **Les textes** (objectifs, dialogues de Lenoir, Toran, Aïna…, textes d'arrivée) : `game/data/prehistoire_quete.json` et `game/data/prehistoire_pnj.json`.
 - **Les camps d'ennemis** (position, nombre, type) : section `camps` de `game/data/prehistoire_quete.json`.
 - **Les loups fracturés** (vie, dégâts, vitesse, réapparition) : `game/data/ennemis.json`, entrées `loup_fracture` et `loup_fracture_faille`, et les **rennes** (`renne`).
@@ -123,12 +148,14 @@ godot --headless --path game -s res://tests/test_steppe.gd
 godot --headless --path game -s res://tests/test_foret.gd
 godot --headless --path game -s res://tests/test_chapitre5.gd
 godot --headless --path game -s res://tests/test_falaises.gd
+godot --headless --path game -s res://tests/test_secondaires.gd
+godot --headless --path game -s res://tests/test_evenements.gd
 ```
 
-Le premier test parcourt tout le chapitre 1 (Lenoir, trousse, soins, fracturés, faille, rapport), vérifie que l'avancement est gardé, que le col mène à la Steppe et que le portail ramène au hub. Le second parcourt les chapitres 2 et 3 dans la Steppe (Toran, chasse, gué, Aïna, pigments, main peinte) et le retour par le col. Le troisième joue le chapitre 4 deux fois (Grise soignée, puis Grise libérée). Le quatrième joue le chapitre 5 (faille de la forêt, montre, retour au portail). Le cinquième joue le chapitre 6 (tempête, escorte, défense de l'abri) et vérifie les Falaises Peintes.
+Le premier test parcourt tout le chapitre 1 (Lenoir, trousse, soins, fracturés, faille, rapport), vérifie que l'avancement est gardé, que le col mène à la Steppe et que le portail ramène au hub. Le second parcourt les chapitres 2 et 3 dans la Steppe (Toran, chasse, gué, Aïna, pigments, main peinte) et le retour par le col. Le troisième joue le chapitre 4 deux fois (Grise soignée, puis Grise libérée). Le quatrième joue le chapitre 5 (faille de la forêt, montre, retour au portail). Le cinquième joue le chapitre 6 (tempête, escorte, défense de l'abri) et vérifie les Falaises Peintes. `test_secondaires` joue les quêtes de Saé, de la Vieille Mère et de Toran ; `test_evenements` joue les trois événements publics (réussis et ratés).
 
 ## Ce qui viendra ensuite
 
-- Le chapitre 7 (« Les murs vides ») et le donjon de la **Grande Grotte** (chapitre 8).
-- De vrais modèles animés pour les loups, rennes et mammouths (pour l'instant des silhouettes simples), et de vrais vêtements de peau pour le clan.
+- La Chasse au rhinocéros et la Nuit des loups (les deux derniers événements prévus au GDD).
+- De vrais vêtements de peau pour le clan.
 - Des sons : vent, vagues, craquements de la glace.

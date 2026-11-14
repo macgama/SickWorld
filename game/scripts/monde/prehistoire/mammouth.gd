@@ -33,6 +33,11 @@ var _temps := 0.0
 var _vitesse := 0.0
 var _squelette: Skeleton3D
 var _os: Array = []
+## Grande Migration : points (x, z) à suivre l'un après l'autre, puis il broute au bout.
+var _chemin: Array[Vector2] = []
+var _vitesse_migration := 0.0
+## Vrai pendant la panique (il court, puis s'arrête où il est).
+var panique := 0.0
 static var _materiaux_modele: Array = []
 
 
@@ -42,6 +47,34 @@ func _ready() -> void:
 	_construire()
 	_attente = _hasard.randf_range(0.0, 2.0)
 	_nouveau_but()
+
+
+## Le mammouth suit « chemin » (points x, z) à « vitesse » m/s, puis broute au bout.
+func migrer(chemin: Array[Vector2], vitesse: float) -> void:
+	_chemin = chemin.duplicate()
+	_vitesse_migration = vitesse
+	_attente = 0.0
+	_but = Vector3(_chemin[0].x, 0, _chemin[0].y)
+
+
+func en_migration() -> bool:
+	return not _chemin.is_empty()
+
+
+## Arrête la migration : il broute autour de l'endroit où il se trouve.
+func arreter_migration() -> void:
+	_chemin.clear()
+	centre = Vector2(global_position.x, global_position.z)
+	rayon = minf(rayon, 20.0)
+	_nouveau_but()
+
+
+## Le troupeau s'affole : il court droit devant quelques secondes.
+func paniquer(duree: float) -> void:
+	panique = duree
+	var a := _hasard.randf() * TAU
+	_but = global_position + Vector3(cos(a), 0, sin(a)) * 30.0
+	_attente = 0.0
 
 
 func _nouveau_but() -> void:
@@ -296,8 +329,25 @@ func _process(delta: float) -> void:
 	if Engine.is_editor_hint() or (_corps == null and _squelette == null):
 		return
 	_temps += delta
+	if panique > 0.0:
+		panique -= delta
+		_vitesse = move_toward(_vitesse, 4.0 * taille, delta * 2.0)
+		if panique <= 0.0:
+			arreter_migration()
+	elif not _chemin.is_empty():
+		# Grande Migration : il marche d'un point au suivant sans s'arrêter.
+		if Vector2(_but.x - global_position.x, _but.z - global_position.z).length() < 3.0:
+			_chemin.remove_at(0)
+			if _chemin.is_empty():
+				centre = Vector2(global_position.x, global_position.z)
+				rayon = 18.0
+				_nouveau_but()
+				_attente = _hasard.randf_range(2.0, 6.0)
+			else:
+				_but = Vector3(_chemin[0].x, 0, _chemin[0].y)
+		_vitesse = move_toward(_vitesse, _vitesse_migration, delta * 0.6)
 	# Choisir un nouveau coin d'herbe de temps en temps.
-	if _attente > 0.0:
+	elif _attente > 0.0:
 		_attente -= delta
 		_vitesse = move_toward(_vitesse, 0.0, delta)
 	else:
@@ -308,7 +358,7 @@ func _process(delta: float) -> void:
 	if _vitesse > 0.01 and _but != Vector3.ZERO:
 		var ecart := Vector3(_but.x - global_position.x, 0, _but.z - global_position.z)
 		var voulu := atan2(-ecart.x, -ecart.z)
-		rotation.y = lerp_angle(rotation.y, voulu, delta * 0.6)
+		rotation.y = lerp_angle(rotation.y, voulu, delta * (1.4 if panique > 0.0 or not _chemin.is_empty() else 0.6))
 		var avant := -global_transform.basis.z
 		global_position += Vector3(avant.x, 0, avant.z).normalized() * _vitesse * delta
 	global_position.y = lerpf(global_position.y, _hauteur_sol(global_position.x, global_position.z) - 0.1, 0.2)

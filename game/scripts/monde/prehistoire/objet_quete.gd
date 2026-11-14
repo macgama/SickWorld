@@ -230,6 +230,8 @@ func _unhandled_input(event: InputEvent) -> void:
 	var quete := get_tree().get_first_node_in_group("quete")
 	if has_meta("secondaire"):
 		quete = get_tree().get_first_node_in_group("quetes_secondaires")
+	elif has_meta("evenement"):
+		quete = get_tree().get_first_node_in_group("evenements_publics")
 	if quete == null:
 		return
 	get_viewport().set_input_as_handled()
