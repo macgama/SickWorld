@@ -437,6 +437,54 @@
 				"couleur": "#8a4ad8"
 			}
 		},
+		"sceau_de_faille": {
+			"nom": "Sceau de faille",
+			"type": "equipement",
+			"rarete": "rare",
+			"description": "Un éclat de temps refroidi, pris sur les lèvres d'une grande faille refermée. Il bourdonne quand une fracture est proche.",
+			"emplacement": "relique",
+			"epoque": "Préhistoire",
+			"stats": {
+				"pv": 25,
+				"reduction_pourcent": 2
+			},
+			"icone": {
+				"forme": "eclat",
+				"couleur": "#b48cff"
+			}
+		},
+		"amulette_de_braise": {
+			"nom": "Amulette de braise",
+			"type": "equipement",
+			"rarete": "rare",
+			"description": "Une braise de feu de veille enfermée dans un nœud de tendon. Elle reste tiède même au cœur de la Tempête blanche.",
+			"emplacement": "bijou",
+			"epoque": "Préhistoire",
+			"stats": {
+				"pv": 35,
+				"reduction_pourcent": 1
+			},
+			"visuel": {
+				"forme": "collier",
+				"couleur": "#e0703a"
+			}
+		},
+		"corne_du_troupeau": {
+			"nom": "Corne du troupeau",
+			"type": "equipement",
+			"rarete": "rare",
+			"description": "Un bout de défense de mammouth, offert par le clan à ceux qui ont mené la Grande Migration jusqu'au bout.",
+			"emplacement": "relique",
+			"epoque": "Préhistoire",
+			"stats": {
+				"pv": 40,
+				"degats_pourcent": 2
+			},
+			"icone": {
+				"forme": "silex",
+				"couleur": "#efe3c8"
+			}
+		},
 		"griffe_sans_memoire": {
 			"nom": "Griffe de l'Ours Sans Mémoire",
 			"type": "equipement",

@@ -13,6 +13,7 @@ extends Node
 const Pnj := preload("res://scripts/monde/prehistoire/pnj_epoque.gd")
 const SCENE_LOUP := preload("res://scenes/ennemis/loup.tscn")
 const QuetesSecondaires := preload("res://scripts/monde/prehistoire/quetes_secondaires.gd")
+const EvenementsPublics := preload("res://scripts/monde/prehistoire/evenements_publics.gd")
 
 signal etape_changee(id: String)
 
@@ -72,6 +73,8 @@ var _avant_choix := {}
 var _renforts_venus: Array[String] = []
 ## Les quêtes secondaires de l'île (voir quetes_secondaires.gd).
 var secondaires: Node
+## Les événements publics de l'île (voir evenements_publics.gd).
+var evenements: Node
 ## Action longue lancée par une quête secondaire : appelée à la fin.
 var _rappel_canalisation: Callable
 
@@ -97,6 +100,9 @@ func _ready() -> void:
 	secondaires = QuetesSecondaires.new()
 	secondaires.name = "QuetesSecondaires"
 	add_child(secondaires)
+	evenements = EvenementsPublics.new()
+	evenements.name = "EvenementsPublics"
+	add_child(evenements)
 	var dialogue := get_tree().get_first_node_in_group("dialogue")
 	if dialogue != null:
 		dialogue.termine.connect(_sur_dialogue_termine)
@@ -527,6 +533,11 @@ func canaliser(objet: Node3D, duree: float, texte: String, rappel: Callable) -> 
 	_combat_joueur = joueur.get_node_or_null("Combat")
 	if _combat_joueur != null and not _combat_joueur.degats_recus.is_connected(_sur_degats_joueur):
 		_combat_joueur.degats_recus.connect(_sur_degats_joueur)
+
+
+## Vrai pendant une action longue (barre de progression).
+func canalise() -> bool:
+	return _canalisation != null
 
 
 ## Annonce publique (titre + sous-titre au centre de l'écran).
