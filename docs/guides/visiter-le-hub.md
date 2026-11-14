@@ -48,6 +48,10 @@ La rue du sud de la place descend jusqu'à la **promenade** au bord de la baie :
 
 Des habitants marchent dans les rues, souvent sous un parapluie, et deux joggeurs font des allers-retours sur la promenade. On ne leur parle pas. Ils sont décrits dans `game/data/hub_passants.json` : tu peux en ajouter, changer leur chemin (des points [x, z]), leur vitesse ou la couleur de leur parapluie, sans toucher au code. Pour l'instant, ils trottinent comme des gens pressés sous la pluie. Pour qu'ils marchent tranquillement, il suffit d'ajouter une animation Mixamo « Walking » nommée `marcher.fbx` dans `game/assets/personnages/homme/` et `femme/`.
 
+## Les petits détails de vie
+
+Des **pigeons** picorent sur la place et sur la promenade. Approche-toi : ils s'envolent tous ensemble et vont se poser sur le socle de la statue, le rebord de la fontaine ou le garde-corps du quai, puis redescendent quand tu t'éloignes. Des **bouches d'égout** fument dans les rues. Tout est décrit dans `game/data/hub_vie.json` : tu peux déplacer les pigeons (coin où ils picorent, perchoir, nombre) et les bouches d'égout sans toucher au code.
+
 ## Les Résidences
 
 La rue de l'ouest de la place mène au quartier d'habitation. Autour d'une petite place, on trouve un parc avec un **cerisier en fleurs** (hors saison...), des balançoires et des distributeurs de boissons. Trois lieux se visitent :
@@ -60,7 +64,7 @@ La rue de l'ouest de la place mène au quartier d'habitation. Autour d'une petit
 
 L'ascenseur de gauche, au fond du hall de la Résidence Sakura, monte à ton appartement du 12e étage (**F** devant la porte). Il faut d'abord la clé : fais la mission **Courrier égaré** de Madame Fujimoto, la concierge. Sinon, l'ascenseur refuse de bouger.
 
-En haut : un salon avec une grande baie vitrée sur la place, une cuisine, un lit, un bureau et une **étagère des souvenirs**. Chaque mission accomplie y pose un objet (l'affiche de Kuro, le bol de ramen, la montre à gousset...), avec son nom. Le compteur indique combien tu en as rapporté. Pour redescendre : **F** devant l'ascenseur de l'appartement.
+En haut : un salon avec une grande baie vitrée sur la place, une cuisine, un lit, un bureau et une **étagère des souvenirs**. Chaque mission accomplie y pose un objet (l'affiche de Kuro, le bol de ramen, la montre à gousset...), avec son nom. Le compteur indique combien tu en as rapporté. Approche-toi de l'étagère et vise un souvenir avec la caméra : **F** raconte son histoire. Ton nom est écrit sur la porte de l'appartement et sur ta boîte aux lettres, dans le hall. Pour redescendre : **F** devant l'ascenseur de l'appartement.
 
 ### Fonder ta guilde
 
