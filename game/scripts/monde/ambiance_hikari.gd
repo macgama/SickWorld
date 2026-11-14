@@ -114,7 +114,9 @@ func _construire_eclairage() -> void:
 		var l := SpotLight3D.new()
 		add_child(l)
 		l.position = p[0]
-		l.look_at_from_position(p[0], p[1], Vector3.UP)
+		# Projecteur vertical (droit vers le bas) : l'axe « haut » ne peut pas être UP.
+		var haut := Vector3.UP if absf((p[1] - p[0]).normalized().y) < 0.99 else Vector3.FORWARD
+		l.look_at_from_position(p[0], p[1], haut)
 		l.light_color = p[2]
 		l.light_energy = p[3]
 		l.spot_range = p[4] if p.size() > 4 else 26.0

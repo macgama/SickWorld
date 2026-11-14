@@ -267,6 +267,14 @@ func _mettre_a_jour_pnj() -> void:
 				pnj.repliques_speciales = PackedStringArray()
 
 
+## Vrai si ce personnage a une mission à proposer (« ! ») ou une étape en cours
+## (« ? ») : ses répliques sont alors celles de la mission. Les simples
+## remerciements d'après mission ne comptent pas (l'artisan ouvre son établi).
+func pnj_occupe_par_mission(pnj_id: String) -> bool:
+	var marque: Label3D = _marques.get(pnj_id)
+	return marque != null and marque.visible and marque.text != ""
+
+
 func _creer_marque() -> Label3D:
 	var l := Label3D.new()
 	l.billboard = BaseMaterial3D.BILLBOARD_ENABLED

@@ -164,9 +164,14 @@ func _sur_dialogue_termine(id_pnj: String) -> void:
 	var a := Artisanat.artisan_du_pnj(Donnees.artisanat, id_pnj)
 	if a == "":
 		return
-	for n in get_tree().get_nodes_in_group("pnj"):
-		if String(n.get("identifiant")) == id_pnj and not (n.get("repliques_speciales") as PackedStringArray).is_empty():
+	var quetes := get_tree().get_first_node_in_group("quetes")
+	if quetes != null and quetes.has_method("pnj_occupe_par_mission"):
+		if quetes.pnj_occupe_par_mission(id_pnj):
 			return
+	else:
+		for n in get_tree().get_nodes_in_group("pnj"):
+			if String(n.get("identifiant")) == id_pnj and not (n.get("repliques_speciales") as PackedStringArray).is_empty():
+				return
 	ouvrir(a)
 
 

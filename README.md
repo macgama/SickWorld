@@ -35,7 +35,13 @@ game/      Le projet Godot (ouvrir game/project.godot)
 
 ## Tests automatiques
 
+Le test « partie complète » joue toute la boucle (menu, création, intro en ville,
+les 8 chapitres de la Préhistoire avec la Grande Grotte, retour au hub, relance)
+avec les vrais changements de scène, dans un profil de test : environ 6 minutes.
+
 ```
+godot --headless --path game -s res://tests/test_partie_complete.gd
+godot --headless --path game -s res://tests/test_partie_complete.gd -- --classe=tisseur
 godot --headless --path game -s res://tests/test_deplacement.gd
 godot --headless --path game -s res://tests/test_combat.gd
 godot --headless --path game -s res://tests/test_creation_personnage.gd
@@ -50,6 +56,8 @@ godot --headless --path game -s res://tests/test_falaises.gd
 godot --headless --path game -s res://tests/test_quetes.gd
 godot --headless --path game -s res://tests/test_secondaires.gd
 godot --headless --path game -s res://tests/test_evenements.gd
+godot --headless --path game -s res://tests/test_artisanat.gd
+godot --headless --path game -s res://tests/test_grotte.gd
 
 # Multijoueur : un serveur dédié puis un ou plusieurs clients de test
 godot --headless --path game -- --serveur --colline --port=7790
