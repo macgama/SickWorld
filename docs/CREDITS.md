@@ -68,10 +68,16 @@ fichiers d'origine est dans ce script).
   impact de flèche (205938). Pages : https://freesound.org/s/<numéro>/
 - **Kenney** (https://kenney.nl), licence **CC0** : UI Audio (clics, survols ;
   dépôt https://github.com/Calinou/kenney-ui-audio), Impact Sounds et RPG Audio (coup de lame, taille).
-- **Cris de bêtes provisoires** : sons « creature » CC0 d'OpenGameArt (bibliothèque alvana-audio),
-  plus aboiements Oculus ralentis pour les loups.
-- **Hurlements de loups lointains et gouttes d'eau de la grotte** : fabriqués par synthèse
-  dans `tools/audio/preparer_sons.py` (aucune licence à respecter).
+- **Loups** (`game/audio/betes/loup_*`) : vrais enregistrements Freesound en **CC0**,
+  aperçus HQ découpés par `tools/audio/preparer_sons.py` :
+  hurlements de loups : betchkal (n° 500646, loup sauvage en Alaska), Paresh (158780, meute de Wolf Haven),
+  ondrosik (143568), Borgory (651193, meute du Harz) ;
+  grondement : JoseAgudelo (472401) ; faute de loups libres, gros chiens pour les autres cris :
+  coldvet (404920), Mystikuum (401820), 15GPanskaBokstefflova_Nicola (461519) pour les grondements,
+  abhisheky948 (625501), mrrap4food (619045), Daphne_in_Wonderland (383483) pour les morsures,
+  jocelynlopez (635114) et unfa (160478) pour la douleur et la mort. Pages : https://freesound.org/s/<numéro>/
+- **Ours et rennes (provisoires)** : sons « creature » CC0 d'OpenGameArt (bibliothèque alvana-audio).
+- **Gouttes d'eau de la grotte** : fabriquées par synthèse dans `tools/audio/preparer_sons.py`.
 
 ## Moteur
 

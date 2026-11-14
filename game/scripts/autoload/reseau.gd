@@ -6,7 +6,9 @@ extends Node
 ## - « héberger » : ton PC est le serveur ET tu joues dessus, tes amis te rejoignent ;
 ## - « rejoindre » : tu te connectes au serveur d'un autre joueur (son adresse IP).
 ## Un serveur « dédié » (sans fenêtre, sans joueur) se lance avec :
-##   godot --headless --path game -- --serveur [--port=7777]
+##   godot --headless --path game -- --serveur [--port=7777] [--statut=fichier.json]
+## (« --statut » : le serveur y écrit le nombre de joueurs connectés, lu par les
+## scripts du serveur Oracle Cloud pour ne pas redémarrer pendant une partie.)
 ##
 ## Règle d'or : le SERVEUR décide de tout ce qui compte (vie, dégâts, loups).
 ## Chaque joueur envoie seulement ses déplacements et ses demandes (« je lance
@@ -22,6 +24,8 @@ const SCENE_MONDE := "res://scenes/monde/colline_de_test.tscn"
 const SCENE_MENU := "res://scenes/interface/menu.tscn"
 ## On commence en ville (Hikari Bay) : intro, QG de la Vigie, puis portail vers l'île.
 const SCENE_HUB := "res://scenes/monde/hikari_bay.tscn"
+## Adresses du serveur officiel (Oracle Cloud), remplies une fois le serveur allumé.
+const FICHIER_OFFICIEL := "res://data/serveur_officiel.json"
 
 var mode := Mode.SEUL
 var adresse := "127.0.0.1"
@@ -36,6 +40,8 @@ var fiche := {}
 var noms := {}
 ## Sur le serveur : identifiant réseau -> fiche du personnage (déjà vérifiée).
 var fiches := {}
+## Serveur dédié : fichier où écrire l'état (nombre de joueurs), vide = aucun.
+var fichier_statut := ""
 
 
 func _ready() -> void:
@@ -48,6 +54,8 @@ func _ready() -> void:
 			port = int(argument.get_slice("=", 1))
 		elif argument.begins_with("--nom="):
 			nom_joueur = argument.get_slice("=", 1)
+		elif argument.begins_with("--statut="):
+			fichier_statut = argument.get_slice("=", 1)
 		elif argument.begins_with("--rejoindre="):
 			mode = Mode.REJOINDRE
 			adresse = argument.get_slice("=", 1)
@@ -60,6 +68,19 @@ func _ready() -> void:
 	multiplayer.connected_to_server.connect(func(): statut_change.emit("Connecté"))
 	multiplayer.connection_failed.connect(_sur_echec)
 	multiplayer.server_disconnected.connect(_sur_serveur_perdu)
+
+
+## Le serveur officiel : {"nom", "jeu" (adresse IP), "port", "comptes" (adresse
+## du serveur de comptes)}. « jeu » vide = pas encore de serveur officiel.
+func serveur_officiel() -> Dictionary:
+	if not FileAccess.file_exists(FICHIER_OFFICIEL):
+		return {}
+	var lu = JSON.parse_string(FileAccess.get_file_as_string(FICHIER_OFFICIEL))
+	return lu if lu is Dictionary else {}
+
+
+func a_un_serveur_officiel() -> bool:
+	return String(serveur_officiel().get("jeu", "")) != ""
 
 
 func est_serveur() -> bool:
@@ -84,6 +105,7 @@ func demarrer() -> Error:
 				return erreur
 			multiplayer.multiplayer_peer = pair
 			print("Serveur SickWorld ouvert sur le port %d" % port)
+			_ecrire_statut()
 		Mode.REJOINDRE:
 			var pair := ENetMultiplayerPeer.new()
 			var erreur := pair.create_client(adresse, port)
@@ -129,6 +151,7 @@ func _se_presenter(nom: String, fiche_recue: Dictionary) -> void:
 	# Le serveur ne fait pas confiance à la fiche reçue : il la vérifie.
 	fiches[id] = FichePersonnage.valider(fiche_recue, Donnees.creation)
 	print("%s a rejoint la partie (%d joueurs)" % [noms[id], noms.size()])
+	_ecrire_statut()
 	var monde := get_tree().get_first_node_in_group("partie")
 	if monde != null and monde.has_method("ajouter_joueur"):
 		monde.ajouter_joueur(id, noms[id])
@@ -141,9 +164,21 @@ func _sur_pair_deconnecte(id: int) -> void:
 		print("%s a quitté la partie" % noms[id])
 	noms.erase(id)
 	fiches.erase(id)
+	_ecrire_statut()
 	var monde := get_tree().get_first_node_in_group("partie")
 	if monde != null and monde.has_method("retirer_joueur"):
 		monde.retirer_joueur(id)
+
+
+## Serveur dédié : écrit le nombre de joueurs connectés (voir « --statut »).
+func _ecrire_statut() -> void:
+	if fichier_statut == "" or mode != Mode.SERVEUR_DEDIE:
+		return
+	var f := FileAccess.open(fichier_statut, FileAccess.WRITE)
+	if f == null:
+		return
+	f.store_string(JSON.stringify({"joueurs": noms.size(),
+			"noms": noms.values(), "heure": Time.get_datetime_string_from_system(true)}))
 
 
 func _sur_echec() -> void:

@@ -121,10 +121,10 @@
 	"betes": {
 		"_aide": "Sons de chaque espèce : alerte (quand elle vous repère), attaque, douleur, mort.",
 		"loup": {
-			"alerte": { "son": "betes/loup_grondement", "volume_db": -4 },
-			"attaque": { "son": "betes/loup_morsure", "volume_db": -6, "variation": 0.1 },
+			"alerte": { "son": "betes/loup_grondement", "volume_db": -5, "variation": 0.06 },
+			"attaque": { "son": "betes/loup_morsure", "volume_db": -7, "variation": 0.08, "chance": 0.7 },
 			"douleur": { "son": "betes/loup_douleur", "volume_db": -7, "chance": 0.5, "variation": 0.1 },
-			"mort": { "son": "betes/loup_douleur", "volume_db": -3, "hauteur": 0.85 }
+			"mort": { "son": "betes/loup_mort", "volume_db": -4 }
 		},
 		"ours": {
 			"alerte": { "son": "betes/ours_rugissement", "volume_db": -2 },

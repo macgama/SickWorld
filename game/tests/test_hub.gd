@@ -50,6 +50,9 @@ func _placer(joueur, position: Vector3, angle: float) -> void:
 
 
 func _lancer() -> void:
+	# Les autoloads (Compte) remettent le profil hors ligne après _initialize :
+	# on réactive ici le profil de test, sinon on écrirait dans les vraies sauvegardes.
+	Profil.activer(_profil_test)
 	var scene: Node = load("res://scenes/monde/hikari_bay.tscn").instantiate()
 	var intro := scene.find_child("Intro", true, false)
 	if intro != null:

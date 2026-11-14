@@ -9,6 +9,7 @@ const NOM := "Testeur Artisanat"
 const FICHIER := "user://sauvegardes/inventaires/testeur_artisanat.json"
 
 var _echecs := 0
+var _profil_test := "_test_artisanat_%d" % OS.get_process_id()
 
 
 func _verifier(condition: bool, message: String) -> void:
@@ -23,14 +24,27 @@ func _attendre(images: int) -> void:
 
 
 func _initialize() -> void:
+	# Profil de test vide : le test ne touche pas aux vraies sauvegardes (missions du hub).
+	Profil.activer(_profil_test)
 	_lancer.call_deferred()
 
 
+func _effacer_profil_test() -> void:
+	for relatif in Profil.lister(_profil_test):
+		DirAccess.remove_absolute(Profil.dossier(_profil_test) + relatif)
+	for d in ["sauvegardes/inventaires", "sauvegardes", "cartes", ""]:
+		DirAccess.remove_absolute(Profil.dossier(_profil_test) + d)
+
+
 func _lancer() -> void:
+	# Les autoloads (Compte) remettent le profil hors ligne après _initialize :
+	# on réactive ici le profil de test, sinon on écrirait dans les vraies sauvegardes.
+	Profil.activer(_profil_test)
 	var donnees = root.get_node("Donnees")
 	_donnees(donnees.objets, donnees.artisanat)
 	_regles(donnees.objets, donnees.artisanat, donnees.joueur["barre"])
 	await _en_jeu(donnees.objets, donnees.artisanat)
+	_effacer_profil_test()
 	print("\n%s" % ("TOUT EST BON" if _echecs == 0 else "%d ÉCHEC(S)" % _echecs))
 	quit(1 if _echecs > 0 else 0)
 
@@ -151,9 +165,19 @@ func _en_jeu(cat: Dictionary, art: Dictionary) -> void:
 	await _attendre(15)
 	var fenetre = get_first_node_in_group("fenetre_artisanat")
 	_verifier(fenetre != null, "la fenêtre d'artisanat existe")
+	# Nouveau joueur : Tetsuo propose d'abord sa mission « ferraille » (« ! ») :
+	# la discussion sert à la mission, l'établi reste fermé.
+	var quetes = get_first_node_in_group("quetes")
 	get_first_node_in_group("dialogue").termine.emit("forgeron")
 	await _attendre(3)
-	_verifier(fenetre.visible and fenetre.id_artisan == "forge", "après avoir parlé à Tetsuo, l'établi de la forge s'ouvre")
+	_verifier(not fenetre.visible and quetes.etat("ferraille") == "active", "mission proposée par Tetsuo : la discussion lance la mission, pas l'établi (%s, %s)" % [fenetre.visible, quetes.etat("ferraille")])
+	# Mission terminée : ses remerciements ne doivent plus bloquer l'établi.
+	quetes.etats["ferraille"] = {"etat": "terminee", "etape": 2, "faits": []}
+	quetes._apres_changement()
+	await _attendre(3)
+	get_first_node_in_group("dialogue").termine.emit("forgeron")
+	await _attendre(3)
+	_verifier(fenetre.visible and fenetre.id_artisan == "forge", "mission finie : après avoir parlé à Tetsuo, l'établi de la forge s'ouvre")
 	_verifier(fenetre.recette_choisie == "couteau_obsidienne", "première recette choisie : %s" % fenetre.recette_choisie)
 	_verifier(not fenetre._bouton.disabled, "le bouton « Fabriquer » est actif")
 	fenetre.fabriquer()

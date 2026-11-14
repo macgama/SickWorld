@@ -111,6 +111,11 @@ func _construire_formulaire() -> void:
 	adresse.tooltip_text = "Laisse 127.0.0.1:7350 si le serveur tourne sur ce PC."
 	adresse.text_changed.connect(Compte.changer_adresse)
 	serveur.add_child(adresse)
+	if Compte.adresse_officielle() != "":
+		adresse.tooltip_text = "Serveur officiel SickWorld (en ligne) ou 127.0.0.1:7350 pour celui de ce PC."
+		serveur.add_child(_bouton("Officiel", func():
+			adresse.text = Compte.adresse_officielle()
+			Compte.changer_adresse(adresse.text)))
 	add_child(serveur)
 
 
