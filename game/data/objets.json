@@ -1100,6 +1100,30 @@
 				"couleur": "#2f6fb0"
 			}
 		},
+		"carnet_e": {
+			"nom": "Carnet codé de Sablier",
+			"type": "materiau",
+			"rarete": "historique",
+			"description": "Un carnet de cuir moderne, tombé de la poche de Vera Lind. Des colonnes de chiffres, des dates, et sur une page, gravée au fer : « E. ».",
+			"pile": 1,
+			"epoque": "Inconnue",
+			"icone": {
+				"forme": "eclat",
+				"couleur": "#5a3e2b"
+			}
+		},
+		"radio_effaceur": {
+			"nom": "Radio d'Effaceur",
+			"type": "materiau",
+			"rarete": "raffine",
+			"description": "Un petit boîtier noir à diode rouge, caché sous une ceinture de lin. Il crachote des chiffres dans une langue qui n'existe pas encore.",
+			"pile": 10,
+			"epoque": "Inconnue",
+			"icone": {
+				"forme": "eclat",
+				"couleur": "#c0302a"
+			}
+		},
 		"pain_meret": {
 			"nom": "Pain de Méret",
 			"type": "materiau",
@@ -1176,6 +1200,8 @@
 		"babouin_fracture": [{"objet": "canine_babouin", "chance": 0.6, "quantite": [1, 2]}, {"objet": "eclat_de_fracture", "chance": 0.35}, {"objet": "calcaire_fin", "chance": 0.4}],
 		"babouin_fracture_faille": [{"objet": "eclat_de_fracture", "chance": 0.6}],
 		"chacal_fracture": [{"objet": "eclat_de_fracture", "chance": 0.5}],
+		"garde_effaceuse": [{"objet": "radio_effaceur", "chance": 0.5}],
+		"garde_effaceuse_camp": [{"objet": "radio_effaceur", "chance": 0.3}],
 		"loup": [
 			{
 				"objet": "croc_loup",

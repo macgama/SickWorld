@@ -26,6 +26,8 @@ var effets := {}
 ## Combattant -> quantité de menace
 var menace := {}
 var dernier_moment_de_combat := -1000.0
+## Copie de en_combat() envoyée par le serveur aux joueurs (le joueur range / sort son arme).
+var en_combat_synchro := false
 ## Bonus permanents donnés par l'équipement (en %, voir Inventaire).
 var bonus_degats := 0.0
 var bonus_reduction := 0.0

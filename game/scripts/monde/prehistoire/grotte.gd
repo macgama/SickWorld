@@ -38,6 +38,8 @@ var _torche_joueur: OmniLight3D
 
 func _init() -> void:
 	identifiant_zone = "grotte"
+	# Donjon : pas de monture (voir scripts/joueur/monture.gd).
+	add_to_group("donjon")
 	taille_terrain = 240
 	point_apparition = ENTREE + Vector2(0, -8)
 	nombre_touffes = 0
