@@ -43,6 +43,24 @@ const CLIMATS := {
 		"brume_volume": 0.004,
 		"ambiance": 0.6,
 	},
+	# Île d'Égypte : soleil haut et blanc du matin, ciel limpide, brume de chaleur dorée.
+	"port_des_marais": {
+		"soleil": Vector2(112.0, 34.0),
+		"couleur_soleil": Color(1.0, 0.93, 0.8),
+		"energie_soleil": 3.0,
+		"couverture": 0.08,
+		"brume": Color(0.86, 0.8, 0.68),
+		"densite_brume": 0.0016,
+		"brume_volume": 0.0025,
+		"albedo_brume": Color(1.0, 0.95, 0.85),
+		"ambiance": 0.75,
+		"zenith": Color(0.16, 0.34, 0.66),
+		"horizon": Color(0.86, 0.84, 0.76),
+		"horizon_soleil": Color(1.0, 0.9, 0.7),
+		"nuage_ombre": Color(0.62, 0.6, 0.58),
+		"nuage_lumiere": Color(1.0, 0.97, 0.9),
+		"saturation": 1.02,
+	},
 	"steppe": {
 		"soleil": Vector2(-125.0, 21.0),
 		"couleur_soleil": Color(1.0, 0.84, 0.62),
@@ -83,6 +101,11 @@ static func appliquer(zone: Node, climat := "cote_gelee") -> void:
 	ciel.shader = SHADER_CIEL
 	ciel.set_shader_parameter("couverture", r["couverture"])
 	ciel.set_shader_parameter("couleur_soleil", r["couleur_soleil"])
+	# Couleurs du ciel propres à la zone (sinon, celles du ciel polaire).
+	for cle in [["zenith", "couleur_zenith"], ["horizon", "horizon_froid"], ["horizon_soleil", "horizon_soleil"],
+			["nuage_ombre", "nuage_ombre"], ["nuage_lumiere", "nuage_lumiere"]]:
+		if r.has(cle[0]):
+			ciel.set_shader_parameter(cle[1], r[cle[0]])
 	var sky := Sky.new()
 	sky.sky_material = ciel
 	sky.radiance_size = Sky.RADIANCE_SIZE_256
@@ -125,14 +148,14 @@ static func appliquer(zone: Node, climat := "cote_gelee") -> void:
 	# Brouillard en volume : rayons de soleil.
 	env.volumetric_fog_enabled = true
 	env.volumetric_fog_density = r["brume_volume"]
-	env.volumetric_fog_albedo = Color(0.92, 0.95, 1.0)
+	env.volumetric_fog_albedo = r.get("albedo_brume", Color(0.92, 0.95, 1.0))
 	env.volumetric_fog_anisotropy = 0.6
 	env.volumetric_fog_length = 140.0
 	env.volumetric_fog_ambient_inject = 0.1
 	env.volumetric_fog_sky_affect = 0.0
 	env.adjustment_enabled = true
 	env.adjustment_contrast = 1.1
-	env.adjustment_saturation = 1.08
+	env.adjustment_saturation = r.get("saturation", 1.08)
 	# Une fois les réglages « au maximum » posés, la qualité graphique allège.
 	if env.has_meta("qualite_max"):
 		env.remove_meta("qualite_max")
