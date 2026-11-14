@@ -61,7 +61,7 @@ Préviens-moi si ça bloque après plusieurs essais : on trouvera une autre solu
 
 ## C. Ouvrir les portes du réseau Oracle (5 min)
 
-Par sécurité, Oracle bloque tout ce qui arrive de l'extérieur. Il faut autoriser le jeu (port **7777**) et les comptes (ports **80** et **443**). La machine, elle, ouvre ses propres portes toute seule.
+Par sécurité, Oracle bloque tout ce qui arrive de l'extérieur. Il faut autoriser le jeu (port **7777**, plus les ports **7778 à 7797** pour les donjons en groupe) et les comptes (ports **80** et **443**). La machine, elle, ouvre ses propres portes toute seule.
 
 1. Sur la page de ta machine (**Compute > Instances > sickworld-serveur**), cherche **Primary VNIC** (*Carte d'interface réseau principale*) et clique sur le lien du **Subnet** (*Sous-réseau*), qui commence par `subnet-`.
 2. Ouvre l'onglet **Security** (*Sécurité*) ou la liste **Security Lists**, puis clique sur **Default Security List for vcn-…**.
@@ -69,7 +69,7 @@ Par sécurité, Oracle bloque tout ce qui arrive de l'extérieur. Il faut autori
 4. Première règle (le jeu) :
    - **Source CIDR** : `0.0.0.0/0`
    - **IP Protocol** : **UDP**
-   - **Destination Port Range** : `7777`
+   - **Destination Port Range** : `7777-7797` (7777 pour la ville, les suivants pour les donjons des groupes)
    - **Description** : `SickWorld jeu`
 5. Clique sur **+ Another Ingress Rule** (*Autre règle entrante*) pour la deuxième (les comptes) :
    - **Source CIDR** : `0.0.0.0/0`

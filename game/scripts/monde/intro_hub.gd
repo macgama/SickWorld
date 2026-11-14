@@ -186,7 +186,7 @@ func demander_voyage(epoque: String) -> PackedStringArray:
 		return PackedStringArray(["Le portail bourdonne, mais l'île de cette époque n'est pas encore prête."])
 	if Reseau.mode != Reseau.Mode.SEUL:
 		return PackedStringArray(["Le portail bourdonne, mais refuse de s'ouvrir.",
-				"(Le voyage en groupe vers les îles arrive bientôt. Pour l'instant, il se fait en solo.)"])
+				"(En multijoueur, on part en donjon avec son groupe : touche K. Les îles entières se visitent en solo pour l'instant.)"])
 	if etape >= 0:
 		_marquer_intro_terminee()
 		_aller_a(-1)

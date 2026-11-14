@@ -782,6 +782,11 @@ func _annoncer(titre: String, sous_titre: String) -> void:
 func changer_de_zone(zone: String) -> void:
 	if _en_voyage:
 		return
+	if Reseau.en_instance():
+		# Donjon en groupe : sortir du donjon ramène au QG de la Vigie, en ville.
+		_en_voyage = true
+		Reseau.quitter_instance()
+		return
 	var infos: Dictionary = donnees.get("zones", {}).get(zone, {})
 	var scene := String(infos.get("scene", ""))
 	if scene == "" or not ResourceLoader.exists(scene):

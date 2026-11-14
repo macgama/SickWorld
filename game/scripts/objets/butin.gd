@@ -2,7 +2,8 @@ extends Node
 ## Le butin des ennemis vaincus.
 ##
 ## Butin PERSONNEL : quand un ennemi meurt, le serveur tire un butin séparé pour
-## chaque joueur qui a participé au combat. Chacun voit apparaître son propre petit
+## chaque joueur qui a participé au combat, et pour les membres de son groupe
+## qui sont tout proches (60 m, voir Social). Chacun voit apparaître son propre petit
 ## sac lumineux (les autres ne le voient pas) et le ramasse avec F.
 ## Les tables de butin sont dans data/objets.json (partie « butin »).
 
@@ -39,6 +40,11 @@ func ennemi_vaincu(ennemi: Combattant, type_ennemi: String, position_monde: Vect
 			acteur = acteur.maitre
 		if acteur is Joueur and is_instance_valid(acteur):
 			gagnants[acteur.id_reseau()] = acteur
+	# Butin partagé : les membres du groupe tout proches ont aussi leur propre butin.
+	for id_gagnant in gagnants.keys():
+		for id_membre in Social.membres_proches(id_gagnant, position_monde):
+			if not gagnants.has(id_membre):
+				gagnants[id_membre] = null
 	var n := 0
 	for id_joueur in gagnants:
 		var objets := Objets.tirer_butin(_cat(), type_ennemi, _hasard)

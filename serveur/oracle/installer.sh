@@ -224,7 +224,7 @@ HOTE=$HOTE
 BRANCHE=$BRANCHE
 EOA
 
-etape "9/9 Pare-feu de la machine (7777 UDP pour le jeu, 80/443 TCP pour les comptes)"
+etape "9/9 Pare-feu de la machine (7777-7797 UDP pour le jeu et les donjons, 80/443 TCP pour les comptes)"
 ouvrir() {
 	local proto=$1 port=$2
 	if ! iptables -C INPUT -p "$proto" --dport "$port" -j ACCEPT 2>/dev/null; then
@@ -242,6 +242,8 @@ ouvrir() {
 # Le serveur se parle à lui-même (Nakama <-> PostgreSQL, Caddy -> Nakama).
 iptables -C INPUT -i lo -j ACCEPT 2>/dev/null || iptables -I INPUT 1 -i lo -j ACCEPT
 ouvrir udp 7777
+# Donjons en groupe : chaque groupe a son serveur de donjon sur le port suivant.
+ouvrir udp 7778:7797
 ouvrir tcp 80
 ouvrir tcp 443
 netfilter-persistent save >/dev/null 2>&1 || true
