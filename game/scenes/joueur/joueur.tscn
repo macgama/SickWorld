@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3]
+[gd_scene load_steps=18 format=3]
 
 [ext_resource type="Script" path="res://scripts/joueur/joueur.gd" id="1_joueur"]
 [ext_resource type="Script" path="res://scripts/joueur/camera_joueur.gd" id="2_camera"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" path="res://scripts/combat/combat_joueur.gd" id="5_combat_joueur"]
 [ext_resource type="Script" path="res://scripts/personnage/fiche_joueur.gd" id="6_fiche"]
 [ext_resource type="Script" path="res://scripts/objets/inventaire.gd" id="7_inventaire"]
+[ext_resource type="Script" path="res://scripts/joueur/monture.gd" id="8_monture"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_corps"]
 radius = 0.35
@@ -80,6 +81,11 @@ properties/0/path = NodePath(".:porte")
 properties/0/spawn = true
 properties/0/replication_mode = 2
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_monture"]
+properties/0/path = NodePath(".:monture")
+properties/0/spawn = true
+properties/0/replication_mode = 2
+
 [node name="Joueur" type="CharacterBody3D"]
 collision_layer = 2
 collision_mask = 3
@@ -138,3 +144,10 @@ script = ExtResource("7_inventaire")
 [node name="Synchro" type="MultiplayerSynchronizer" parent="Inventaire"]
 replication_interval = 0.5
 replication_config = SubResource("SceneReplicationConfig_porte")
+
+[node name="Monture" type="Node3D" parent="."]
+script = ExtResource("8_monture")
+
+[node name="Synchro" type="MultiplayerSynchronizer" parent="Monture"]
+replication_interval = 0.1
+replication_config = SubResource("SceneReplicationConfig_monture")
