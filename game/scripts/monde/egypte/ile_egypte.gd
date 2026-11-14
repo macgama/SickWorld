@@ -15,6 +15,8 @@ extends "res://scripts/monde/prehistoire/ile_prehistoire.gd"
 const DOSSIER_EGYPTE := "res://assets/egypte/"
 const SHADER_EAU := preload("res://shaders/prehistoire_mer.gdshader")
 const SHADER_PORTAIL := preload("res://shaders/prehistoire_portail.gdshader")
+const Pnj := preload("res://scripts/monde/prehistoire/pnj_epoque.gd")
+const ObjetEgypte := preload("res://scripts/monde/egypte/objet_egypte.gd")
 
 ## Le portail de la Vigie de la zone (Vector2.INF si aucun).
 var portail := Vector2.INF
@@ -24,6 +26,14 @@ var _portail_arme := false
 ## Barques qui se balancent sur l'eau.
 var _flotteurs: Array[Node3D] = []
 static var _textures_palme: Texture2D
+## Les Oubliés libérés de la zone : leurs identifiants de PNJ, et où ils vont ensuite.
+var noms_liberes: Array = []
+var places_liberes: Array = []
+var _dossier_quete: Node3D
+# Oubliés à terre : chaque objet « rendre son nom » et l'oublié qui va avec.
+var _a_liberer: Array = []
+var _liberes := 0
+var _attente_liberes := 0.0
 
 
 func _ready() -> void:
@@ -43,6 +53,7 @@ func _process(delta: float) -> void:
 		b.rotation.z = sin(_temps * 0.7 + k) * 0.015
 	if not Engine.is_editor_hint():
 		_surveiller_portail()
+		_surveiller_oublies(delta)
 
 
 # --- Ressources : d'abord l'Égypte, puis la Préhistoire ----------------------------------
@@ -843,3 +854,66 @@ func _mur_invisible(parent: Node3D, taille: Vector3, centre: Vector3, angle := 0
 	corps.add_child(forme)
 	parent.add_child(corps)
 	return corps
+
+
+# --- Personnages -------------------------------------------------------------------------------
+
+func _pnj(parent: Node3D, id: String, p: Vector2, angle: float) -> Node3D:
+	var n := Pnj.new()
+	n.name = id.capitalize().replace(" ", "")
+	n.identifiant = id
+	n.position = Vector3(p.x, hauteur(p.x, p.y), p.y)
+	n.rotation.y = angle
+	parent.add_child(n)
+	return n
+
+
+# --- Les Oubliés : on les met à terre, puis on leur rend leur nom -----------------------------
+
+func _surveiller_oublies(delta: float) -> void:
+	if _dossier_quete == null or not is_instance_valid(_dossier_quete):
+		return
+	_attente_liberes -= delta
+	if _attente_liberes > 0.0:
+		return
+	_attente_liberes = 0.25
+	var quete := get_tree().get_first_node_in_group("quete")
+	var etape: Dictionary = quete.etape_actuelle() if quete != null else {}
+	# Un oublié vient d'être mis à terre : on peut lui rendre son nom (F).
+	for bete in get_tree().get_nodes_in_group("loups"):
+		if not String(bete.get("type_ennemi")).begins_with("oublie") or bete.has_meta("objet_nom"):
+			continue
+		if bete.combat.est_vivant():
+			continue
+		var objet := ObjetEgypte.new()
+		objet.name = "RendreNom%d" % _a_liberer.size()
+		objet.identifiant = "nom_rendu_%d" % _a_liberer.size()
+		objet.groupe = "nom_rendu"
+		objet.invite = "[F] Rendre son nom"
+		objet.portee = 2.6
+		_dossier_quete.add_child(objet)
+		objet.global_position = bete.global_position
+		objet.actif = etape.get("recolter", "") == "nom_rendu"
+		bete.set_meta("objet_nom", objet)
+		_a_liberer.append([objet, bete])
+	# Un nom rendu : l'oublié se relève, guéri, et rejoint ses camarades.
+	for paire in _a_liberer.duplicate():
+		var objet = paire[0]
+		var bete = paire[1]
+		if not is_instance_valid(objet) or not objet.get("ramasse"):
+			continue
+		_a_liberer.erase(paire)
+		var ou: Vector3 = bete.global_position if is_instance_valid(bete) else objet.global_position
+		if is_instance_valid(bete):
+			bete.queue_free()
+		if _liberes < noms_liberes.size():
+			var libere := _pnj(_dossier_quete, noms_liberes[_liberes], Vector2(ou.x, ou.z), randf() * TAU)
+			libere.global_position = ou
+			# Un peu plus tard, il a rejoint ses camarades.
+			var cible: Vector2 = places_liberes[_liberes]
+			var aller := create_tween()
+			aller.tween_interval(20.0)
+			aller.tween_callback(func():
+				if is_instance_valid(libere):
+					libere.global_position = Vector3(cible.x, hauteur(cible.x, cible.y), cible.y))
+			_liberes += 1

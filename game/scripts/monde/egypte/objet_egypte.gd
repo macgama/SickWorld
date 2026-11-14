@@ -109,3 +109,71 @@ func _construire_encre() -> void:
 		eclat.position = Vector3(hasard.randf_range(-0.3, 0.3), 0.05, hasard.randf_range(-0.3, 0.3))
 		eclat.rotation = Vector3(hasard.randf_range(-0.5, 0.5), hasard.randf() * TAU, hasard.randf_range(-0.5, 0.5))
 		_visuel.add_child(eclat)
+
+
+## Un scarabée de faïence bleue posé sur un cordon, qui grésille d'une lueur violette
+## (les amulettes de la « prêtresse »).
+func _construire_amulette() -> void:
+	var faience := StandardMaterial3D.new()
+	faience.albedo_color = Color(0.18, 0.5, 0.72)
+	faience.roughness = 0.2
+	faience.emission_enabled = true
+	faience.emission = Color(0.55, 0.3, 1.0)
+	faience.emission_energy_multiplier = 0.9
+	var scarabee := MeshInstance3D.new()
+	var s := SphereMesh.new()
+	s.radius = 0.07
+	s.height = 0.08
+	scarabee.mesh = s
+	scarabee.scale = Vector3(1.0, 0.7, 1.4)
+	scarabee.material_override = faience
+	scarabee.position.y = 0.05
+	_visuel.add_child(scarabee)
+	var cordon := MeshInstance3D.new()
+	var t := TorusMesh.new()
+	t.inner_radius = 0.17
+	t.outer_radius = 0.185
+	cordon.mesh = t
+	var lin := StandardMaterial3D.new()
+	lin.albedo_color = Color(0.75, 0.68, 0.52)
+	cordon.material_override = lin
+	cordon.position.y = 0.012
+	_visuel.add_child(cordon)
+	var lumiere := OmniLight3D.new()
+	lumiere.light_color = Color(0.6, 0.4, 1.0)
+	lumiere.light_energy = 0.6
+	lumiere.omni_range = 2.0
+	lumiere.position.y = 0.3
+	_visuel.add_child(lumiere)
+
+
+## Un panier de roseau rempli de petits scarabées de stéatite (les vraies amulettes d'Ouni).
+func _construire_panier() -> void:
+	var roseau := StandardMaterial3D.new()
+	roseau.albedo_color = Color(0.62, 0.5, 0.3)
+	roseau.roughness = 1.0
+	var panier := MeshInstance3D.new()
+	var c := CylinderMesh.new()
+	c.top_radius = 0.22
+	c.bottom_radius = 0.17
+	c.height = 0.18
+	panier.mesh = c
+	panier.material_override = roseau
+	panier.position.y = 0.09
+	_visuel.add_child(panier)
+	var bleu := StandardMaterial3D.new()
+	bleu.albedo_color = Color(0.2, 0.45, 0.62)
+	bleu.roughness = 0.35
+	var hasard := RandomNumberGenerator.new()
+	hasard.seed = hash(identifiant)
+	for k in 9:
+		var s := MeshInstance3D.new()
+		var b := SphereMesh.new()
+		b.radius = 0.035
+		b.height = 0.04
+		s.mesh = b
+		s.scale = Vector3(1.0, 0.7, 1.4)
+		s.material_override = bleu
+		s.position = Vector3(hasard.randf_range(-0.12, 0.12), 0.19, hasard.randf_range(-0.12, 0.12))
+		s.rotation.y = hasard.randf() * TAU
+		_visuel.add_child(s)

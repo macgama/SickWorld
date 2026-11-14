@@ -1071,6 +1071,46 @@
 				"forme": "croc",
 				"couleur": "#e9e2cf"
 			}
+		},
+		"amulette_sablier": {
+			"nom": "Amulette de la prêtresse",
+			"type": "materiau",
+			"rarete": "historique",
+			"description": "Un scarabée de faïence bleue, offert aux ouvriers par une « prêtresse de Memphis ». Au dos, gravé minuscule : un sablier. Le sablier n'existera pas avant 3 500 ans.",
+			"pile": 10,
+			"epoque": "Inconnue",
+			"icone": {
+				"forme": "eclat",
+				"couleur": "#4f8fd8"
+			}
+		},
+		"oudjat_peseshet": {
+			"nom": "Œil oudjat de Pésèshet",
+			"type": "equipement",
+			"rarete": "rare",
+			"description": "L'œil d'Horus, qui fut arraché puis guéri. Pésèshet l'offre à ceux qui soignent : « Ce qui est brisé peut redevenir entier. »",
+			"emplacement": "bijou",
+			"epoque": "Égypte antique",
+			"stats": {
+				"pv": 60,
+				"reduction_pourcent": 2
+			},
+			"visuel": {
+				"forme": "collier",
+				"couleur": "#2f6fb0"
+			}
+		},
+		"pain_meret": {
+			"nom": "Pain de Méret",
+			"type": "materiau",
+			"rarete": "commun",
+			"description": "Un pain conique cuit dans un moule de terre, encore tiède. Avec la bière, c'est le salaire des bâtisseurs.",
+			"pile": 20,
+			"epoque": "Égypte antique",
+			"icone": {
+				"forme": "pierre",
+				"couleur": "#c79a5a"
+			}
 		}
 	},
 	"ensembles": {
@@ -1135,6 +1175,7 @@
 		"babouin": [{"objet": "canine_babouin", "chance": 0.6, "quantite": [1, 2]}, {"objet": "calcaire_fin", "chance": 0.3}],
 		"babouin_fracture": [{"objet": "canine_babouin", "chance": 0.6, "quantite": [1, 2]}, {"objet": "eclat_de_fracture", "chance": 0.35}, {"objet": "calcaire_fin", "chance": 0.4}],
 		"babouin_fracture_faille": [{"objet": "eclat_de_fracture", "chance": 0.6}],
+		"chacal_fracture": [{"objet": "eclat_de_fracture", "chance": 0.5}],
 		"loup": [
 			{
 				"objet": "croc_loup",

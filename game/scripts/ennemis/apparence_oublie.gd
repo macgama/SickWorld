@@ -64,7 +64,9 @@ func _habiller() -> void:
 				or m.transparency != BaseMaterial3D.TRANSPARENCY_DISABLED:
 			continue
 		var lin := m.duplicate() as StandardMaterial3D
-		lin.albedo_color = teinte * Color(0.92, 0.9, 0.88)
+		# Il ne reste que les chaussures : des sandales ou des mocassins de cuir, unis.
+		lin.albedo_texture = null
+		lin.albedo_color = teinte.lerp(Color(0.4, 0.28, 0.18), 0.7)
 		lin.roughness = 0.9
 		(n as MeshInstance3D).material_override = lin
 	if _corps.has_method("equiper"):

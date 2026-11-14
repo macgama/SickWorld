@@ -14,9 +14,7 @@ extends "res://scripts/monde/egypte/ile_egypte.gd"
 ##
 ## Repères : le nord est vers -Z, le Nil à l'est (+X).
 
-const Pnj := preload("res://scripts/monde/prehistoire/pnj_epoque.gd")
 const Faille := preload("res://scripts/monde/prehistoire/faille.gd")
-const ObjetEgypte := preload("res://scripts/monde/egypte/objet_egypte.gd")
 const Traineau := preload("res://scripts/monde/egypte/traineau.gd")
 const MarqueurCarte := preload("res://scripts/carte/marqueur_carte.gd")
 const BarqueTraversee := preload("res://scripts/monde/egypte/barque_traversee.gd")
@@ -47,7 +45,7 @@ const ANKHKHAF := Vector2(-28, -30)
 ## Le bloc à haler, sur son traîneau, et le chemin jusqu'au pied de la rampe.
 const TRAINEAU := Vector2(-11, -52)
 const HALAGE := [Vector2(-11, -52), Vector2(-24, -58), Vector2(-40, -64), Vector2(-54, -73), Vector2(-66, -86)]
-## La rampe du plateau, vers le Village des Bâtisseurs (zone 3, à venir).
+## La rampe du plateau, vers le Village des Bâtisseurs (zone 3, ouverte au chapitre 4).
 const RAMPE := Vector2(-74, -98)
 ## Là où l'hippopotame fracturé bloque le chenal.
 const HIPPOPOTAME := Vector2(62, -38)
@@ -59,6 +57,9 @@ const TRAVERSEE := [Vector2(1.5, -16.6), Vector2(16, -24), Vector2(34, -36), Vec
 const PASSEUR := Vector2(-9, -14.6)
 
 var _rive: FastNoiseLite
+var _mur_rampe: StaticBody3D
+var _rampe_ouverte := false
+var _attente_rampe := 0.0
 
 
 func _init() -> void:
@@ -465,8 +466,8 @@ func _construire_limites() -> void:
 	_mur_invisible(limites, Vector3(2, 120, taille_terrain), Vector3(-demi, 40, 0))
 	_mur_invisible(limites, Vector3(taille_terrain, 120, 2), Vector3(0, 40, -demi))
 	_mur_invisible(limites, Vector3(taille_terrain, 120, 2), Vector3(0, 40, demi))
-	# Le haut de la rampe : le Village des Bâtisseurs n'est pas encore ouvert.
-	_mur_invisible(limites, Vector3(16, 12, 1.5), Vector3(RAMPE.x - 6.0, hauteur(RAMPE.x, RAMPE.y) + 4.0, RAMPE.y - 6.0), deg_to_rad(-45.0))
+	# Le haut de la rampe : le Village des Bâtisseurs s'ouvre au chapitre 4.
+	_mur_rampe = _mur_invisible(limites, Vector3(16, 12, 1.5), Vector3(RAMPE.x - 6.0, hauteur(RAMPE.x, RAMPE.y) + 4.0, RAMPE.y - 6.0), deg_to_rad(-45.0))
 
 
 # --- Personnages et objets de la quête ----------------------------------------------------------
@@ -600,8 +601,35 @@ func _construire_quete() -> void:
 	repere.call(MarqueurCarte.Type.PORTAIL, "Portail de la Vigie", PORTAIL)
 	repere.call(MarqueurCarte.Type.DANGER, "Faille", FAILLE)
 	repere.call(MarqueurCarte.Type.LIEU, "Port de Gizeh", Vector2(BASSIN.get_center().x, BASSIN.get_center().y))
-	repere.call(MarqueurCarte.Type.LIEU, "Rampe du plateau", RAMPE)
+	repere.call(MarqueurCarte.Type.LIEU, "Rampe vers le Village des Bâtisseurs", RAMPE)
 	repere.call(MarqueurCarte.Type.LIEU, "Passeur vers Toura", PASSEUR)
 	repere.call(MarqueurCarte.Type.LIEU, "Levée de terre", Vector2(-25, 32))
 	repere.call(MarqueurCarte.Type.DANGER, "Crocodiles", Vector2(-12, 70))
 	repere.call(MarqueurCarte.Type.DANGER, "Crocodiles", Vector2(rive_nil(30.0) - 6.0, 30))
+
+
+# --- La rampe du plateau, vers le Village des Bâtisseurs -------------------------------------
+
+func _process(delta: float) -> void:
+	super._process(delta)
+	if Engine.is_editor_hint():
+		return
+	_attente_rampe -= delta
+	if _attente_rampe > 0.0:
+		return
+	_attente_rampe = 0.3
+	var quete := get_tree().get_first_node_in_group("quete")
+	if quete == null or not quete.has_method("etape_atteinte"):
+		return
+	if not _rampe_ouverte:
+		if not quete.etape_atteinte("vers_village"):
+			return
+		_rampe_ouverte = true
+		if _mur_rampe != null and is_instance_valid(_mur_rampe):
+			_mur_rampe.queue_free()
+	var joueur := get_tree().get_first_node_in_group("joueur_local") as Node3D
+	if joueur == null:
+		return
+	var p := Vector2(joueur.global_position.x, joueur.global_position.z)
+	if p.distance_to(RAMPE + Vector2(-9, -9)) < 5.0:
+		quete.changer_de_zone("village_batisseurs")
