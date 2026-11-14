@@ -41,6 +41,7 @@ const ACTIONS_MODIFIABLES := [
 	["interagir", "Parler / ramasser"],
 	["cible_suivante", "Cibler l'ennemi suivant"],
 	["journal", "Journal des missions"],
+	["ranger_arme", "Ranger / sortir l'arme"],
 	["carte", "Carte"],
 	["personnage", "Personnage et sacs"],
 	["aide", "Aide des contrôles"],
