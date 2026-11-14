@@ -16,7 +16,10 @@ extends Node3D
 ## Animations qui tournent en boucle.
 const EN_BOUCLE := ["immobile", "marcher", "courir", "reculer", "pas_gauche", "pas_droite", "chute"]
 const ANIMATIONS := ["immobile", "marcher", "courir", "reculer", "pas_gauche", "pas_droite", "saut", "chute",
-	"roulade", "attaque", "touche", "mort"]
+	"roulade", "attaque", "touche", "mort",
+	# Gestes de combat propres aux classes (Mixamo, facultatifs : sinon « attaque »).
+	"attaque_lame", "attaque_bouclier", "bouclier_leve", "provocation", "tir_arc", "lancer",
+	"incantation", "sort", "esquive_arriere"]
 ## Vitesse (m/s) des pieds au sol dans chaque animation de déplacement, mesurée sur les
 ## animations Mixamo (pied d'appui). En jouant l'animation à vitesse × (vitesse réelle /
 ## vitesse naturelle), les pieds ne glissent pas sur le sol.
@@ -295,12 +298,20 @@ static func _texture_unie(couleur: Color) -> Texture2D:
 
 
 ## Coup (attaque de base ou compétence).
-func attaquer() -> void:
+## style : nom d'un geste de combat (« tir_arc », « incantation »…) ; s'il manque, coup de poing.
+## duree : si plus grand que 0, le geste est étiré sur cette durée (préparation d'une compétence).
+func attaquer(style := "", duree := 0.0) -> void:
 	if _mort or _lecteur == null:
 		return
 	_actuelle = ""
-	_jouer("attaque", 0.08, 1.8, 0.15)
-	_verrou = 0.55
+	if style == "" or not _lecteur.has_animation("agent/" + style):
+		_jouer("attaque", 0.08, 1.8, 0.15)
+		_verrou = maxf(0.55, duree)
+		return
+	var longueur := maxf(0.1, _duree(style))
+	var vitesse := clampf(longueur / duree, 0.5, 3.0) if duree > 0.0 else clampf(longueur / 0.8, 1.0, 2.5)
+	_jouer(style, 0.1, vitesse)
+	_verrou = duree if duree > 0.0 else longueur / vitesse * 0.9
 
 
 ## Réaction quand le personnage reçoit des dégâts.

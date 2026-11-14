@@ -334,7 +334,7 @@ func _construire_arme(arme: String, sombre: Material, insigne: Material, tissu: 
 
 
 ## Joue un coup d'épée.
-func attaquer() -> void:
+func attaquer(_style := "", _duree := 0.0) -> void:
 	_attaque = 0.35
 
 

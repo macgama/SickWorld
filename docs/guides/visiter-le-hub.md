@@ -44,6 +44,10 @@ La rue du sud de la place descend jusqu'à la **promenade** au bord de la baie :
 - la jetée du **Terminal des ferries** (compagnie « Vigie Lines », en réalité une façade de la Vigie). On entre dans le terminal : guichets, tableau des départs (les « destinations » sont les époques) et baie vitrée sur la mer. Le ferry *Hikari Maru* est à quai, mais il ne part plus ;
 - la jetée de la **grande roue**, fermée pour maintenance.
 
+## Les passants
+
+Des habitants marchent dans les rues, souvent sous un parapluie, et deux joggeurs font des allers-retours sur la promenade. On ne leur parle pas. Ils sont décrits dans `game/data/hub_passants.json` : tu peux en ajouter, changer leur chemin (des points [x, z]), leur vitesse ou la couleur de leur parapluie, sans toucher au code. Pour l'instant, ils trottinent comme des gens pressés sous la pluie. Pour qu'ils marchent tranquillement, il suffit d'ajouter une animation Mixamo « Walking » nommée `marcher.fbx` dans `game/assets/personnages/homme/` et `femme/`.
+
 ## Les Résidences
 
 La rue de l'ouest de la place mène au quartier d'habitation. Autour d'une petite place, on trouve un parc avec un **cerisier en fleurs** (hors saison...), des balançoires et des distributeurs de boissons. Trois lieux se visitent :
@@ -89,6 +93,9 @@ Des habitants proposent des **missions secondaires** : un **« ! »** doré flot
 | Trois signatures | Aleksander, à la Maison des guildes |
 | Lumière sur l'Arène | Kenta, l'électricien, sur le terrain de l'Arène |
 | Tête d'affiche | DJ Volt, sur le quai de l'Arène |
+| La carte du chien | Le vieux Sabu, joueur de hanafuda au Marché de nuit |
+| La roue s'est arrêtée | Tomás, gardien de la grande roue (Front de mer) |
+| Colis pour la station Asahi | Sho, le livreur à vélo (quartier des Artisans) |
 | L'objet impossible | Commence tout seul quand tu reviens de la Côte Gelée avec la montre à gousset : visite guidée du QG |
 
 Tous les textes des missions sont dans `game/data/hub_quetes.json`, et ceux des habitants dans `game/data/hub_pnj.json`.

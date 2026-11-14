@@ -37,6 +37,9 @@ const SOUVENIRS := {
 	"montre": ["montre", Color(0.9, 0.75, 0.35)],
 	"projecteurs": ["casque", Color(1.0, 0.8, 0.1)],
 	"affiche": ["billet", Color(1.0, 0.8, 0.3)],
+	"hanafuda": ["carte", Color(0.75, 0.12, 0.1)],
+	"grande_roue": ["boulon", Color(0.7, 0.72, 0.75)],
+	"colis": ["badge", Color(0.25, 0.55, 0.95)],
 }
 
 var _bouton_hall: Node3D
@@ -161,7 +164,7 @@ func ranger_souvenirs() -> void:
 		etiquette.rotation.y = PI / 2
 		etiquette.font_size = 20
 		etiquette.pixel_size = 0.0028
-		etiquette.width = 480
+		etiquette.width = 400
 		etiquette.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		etiquette.outline_size = 6
 		etiquette.modulate = Color(1.0, 0.95, 0.85)
@@ -285,6 +288,24 @@ func _creer_objet(parent: Node3D, forme: String, couleur: Color) -> void:
 			anneau.inner_radius = 0.035
 			anneau.outer_radius = 0.06
 			_forme(parent, anneau, Vector3(0, 0.015, -0.14), _materiau(couleur, true))
+		"carte":
+			var b := BoxMesh.new()
+			b.size = Vector3(0.015, 0.2, 0.13)
+			_forme(parent, b, Vector3(-0.08, 0.1, 0), _materiau(couleur), Vector3(0, 0, -0.2))
+		"boulon":
+			var tete := CylinderMesh.new()
+			tete.top_radius = 0.06
+			tete.bottom_radius = 0.06
+			tete.height = 0.05
+			tete.radial_segments = 6
+			var acier := _materiau(couleur)
+			acier.metallic = 0.5
+			_forme(parent, tete, Vector3(0, 0.025, 0), acier)
+			var tige := CylinderMesh.new()
+			tige.top_radius = 0.025
+			tige.bottom_radius = 0.025
+			tige.height = 0.2
+			_forme(parent, tige, Vector3(0, 0.05, 0.12), acier, Vector3(PI / 2, 0, 0))
 		"billet", "badge":
 			var b := BoxMesh.new()
 			b.size = Vector3(0.02, 0.1, 0.2) if forme == "billet" else Vector3(0.02, 0.14, 0.1)

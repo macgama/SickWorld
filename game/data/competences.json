@@ -1,5 +1,5 @@
 {
-	"_aide": "Compétences du jeu. Tu peux changer les valeurs librement (dégâts, recharge en secondes, portée en mètres…), puis relancer le jeu. Couleur = couleur de la case dans la barre. « cout » et « gain » parlent de la ressource de la classe (Élan, Ténacité, Concentration ou Flux). Les compétences de chaque classe sont listées dans classes.json.",
+	"_aide": "Compétences du jeu. Tu peux changer les valeurs librement (dégâts, recharge en secondes, portée en mètres…), puis relancer le jeu. Couleur = couleur de la case dans la barre. « cout » et « gain » parlent de la ressource de la classe (Élan, Ténacité, Concentration ou Flux). Les compétences de chaque classe sont listées dans classes.json. « animation » : le geste du personnage (attaque_lame, attaque_bouclier, bouclier_leve, provocation, tir_arc, lancer, incantation, sort, esquive_arriere ; sinon un simple coup).",
 
 	"taille_rapide": {
 		"nom": "Taille rapide",
@@ -10,6 +10,7 @@
 		"degats": [14, 18],
 		"recharge": 0,
 		"gain": 20,
+		"animation": "attaque_lame",
 		"couleur": "#c0392b"
 	},
 
@@ -23,6 +24,7 @@
 		"recharge": 0,
 		"cout": 15,
 		"saignement": { "degats_par_seconde": 5, "duree": 12 },
+		"animation": "attaque_lame",
 		"couleur": "#8e1b1b"
 	},
 
@@ -35,6 +37,7 @@
 		"degats": [12, 16],
 		"recharge": 8,
 		"cout": 30,
+		"animation": "attaque_lame",
 		"couleur": "#d35400"
 	},
 
@@ -49,6 +52,7 @@
 		"recharge": 15,
 		"gain": 15,
 		"ralenti": { "facteur": 0.5, "duree": 4 },
+		"animation": "attaque_lame",
 		"couleur": "#2980b9"
 	},
 
@@ -62,6 +66,7 @@
 		"recharge": 6,
 		"cout": 40,
 		"pv_cible_max_pourcent": 20,
+		"animation": "attaque_lame",
 		"couleur": "#6c3483"
 	},
 
@@ -75,6 +80,7 @@
 		"recharge": 0,
 		"gain": 12,
 		"menace": 3,
+		"animation": "attaque_bouclier",
 		"couleur": "#b7950b"
 	},
 
@@ -86,6 +92,7 @@
 		"portee": 25,
 		"duree": 4,
 		"recharge": 8,
+		"animation": "provocation",
 		"couleur": "#e74c3c"
 	},
 
@@ -100,6 +107,7 @@
 		"reduction_degats_subis": 0.6,
 		"recharge": 30,
 		"cout": 20,
+		"animation": "bouclier_leve",
 		"couleur": "#7f8c8d"
 	},
 
@@ -112,6 +120,7 @@
 		"duree": 8,
 		"recharge": 20,
 		"cout": 10,
+		"animation": "attaque_bouclier",
 		"couleur": "#2e86c1"
 	},
 
@@ -126,6 +135,7 @@
 		"menace": 4,
 		"recharge": 12,
 		"cout": 30,
+		"animation": "attaque_bouclier",
 		"couleur": "#d68910"
 	},
 
@@ -139,6 +149,7 @@
 		"recharge": 0,
 		"cout": 12,
 		"projectile": "fleche",
+		"animation": "tir_arc",
 		"couleur": "#27ae60"
 	},
 
@@ -153,6 +164,7 @@
 		"cout": 15,
 		"poison": { "degats_par_seconde": 5, "duree": 12 },
 		"projectile": "poison",
+		"animation": "tir_arc",
 		"couleur": "#7dcea0"
 	},
 
@@ -167,6 +179,7 @@
 		"recharge": 8,
 		"cout": 25,
 		"projectile": "fleche",
+		"animation": "tir_arc",
 		"couleur": "#1e8449"
 	},
 
@@ -181,6 +194,7 @@
 		"immobilise": 5,
 		"recharge": 20,
 		"cout": 15,
+		"animation": "lancer",
 		"couleur": "#a04000"
 	},
 
@@ -193,6 +207,7 @@
 		"distance": 10,
 		"ralenti": { "facteur": 0.5, "duree": 4 },
 		"recharge": 16,
+		"animation": "esquive_arriere",
 		"couleur": "#5d6d7e"
 	},
 
@@ -206,6 +221,7 @@
 		"soin": [38, 46],
 		"recharge": 0,
 		"cout": 18,
+		"animation": "incantation",
 		"couleur": "#58d68d"
 	},
 
@@ -219,6 +235,7 @@
 		"recharge": 0,
 		"cout": 14,
 		"projectile": "eclat",
+		"animation": "sort",
 		"couleur": "#5dade2"
 	},
 
@@ -232,6 +249,7 @@
 		"soin_minimum_pourcent": 15,
 		"recharge": 25,
 		"cout": 20,
+		"animation": "incantation",
 		"couleur": "#af7ac5"
 	},
 
@@ -247,6 +265,7 @@
 		"cadence": 1.6,
 		"recharge": 20,
 		"cout": 25,
+		"animation": "sort",
 		"couleur": "#85c1e9"
 	},
 
@@ -262,6 +281,7 @@
 		"soin_par_seconde": 6,
 		"recharge": 15,
 		"cout": 15,
+		"animation": "sort",
 		"couleur": "#f7dc6f"
 	},
 
@@ -275,6 +295,7 @@
 		"degats_par_seconde": 6,
 		"soin_par_seconde": 8,
 		"recharge": 25,
+		"animation": "incantation",
 		"couleur": "#e67e22"
 	},
 
@@ -288,6 +309,7 @@
 		"degats": [20, 26],
 		"recharge": 10,
 		"ralenti": { "facteur": 0.5, "duree": 6 },
+		"animation": "lancer",
 		"couleur": "#a0522d"
 	},
 
@@ -299,6 +321,7 @@
 		"nombre": 2,
 		"duree": 20,
 		"recharge": 90,
+		"animation": "provocation",
 		"couleur": "#f1c40f"
 	},
 
@@ -312,6 +335,7 @@
 		"duree": 10,
 		"degats_infliges": 1.15,
 		"recharge": 30,
+		"animation": "provocation",
 		"couleur": "#c0392b"
 	},
 
@@ -325,6 +349,7 @@
 		"duree": 8,
 		"reduction_degats_subis": 0.3,
 		"recharge": 25,
+		"animation": "bouclier_leve",
 		"couleur": "#b03a2e"
 	}
 }
