@@ -1,4 +1,9 @@
-[gd_resource type="AudioBusLayout" load_steps=4 format=3]
+[gd_resource type="AudioBusLayout" format=3 uid="uid://brhtessq6t4lv"]
+
+[sub_resource type="AudioEffectLimiter" id="AudioEffectLimiter_master"]
+resource_name = "Limiter"
+ceiling_db = -0.5
+threshold_db = -2.0
 
 [sub_resource type="AudioEffectLowPassFilter" id="AudioEffectLowPassFilter_exterieur"]
 resource_name = "LowPassFilter"
@@ -14,13 +19,7 @@ hipass = 0.1
 dry = 0.85
 wet = 0.35
 
-[sub_resource type="AudioEffectLimiter" id="AudioEffectLimiter_master"]
-resource_name = "Limiter"
-ceiling_db = -0.5
-threshold_db = -2.0
-
 [resource]
-bus/0/volume_db = 0.0
 bus/0/effect/0/effect = SubResource("AudioEffectLimiter_master")
 bus/0/effect/0/enabled = true
 bus/1/name = &"Musique"
