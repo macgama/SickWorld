@@ -234,6 +234,19 @@ func _lancer() -> void:
 	_verifier(souvenirs == 10, "10 souvenirs de mission sur l'étagère (%d)" % souvenirs)
 	await _attendre(60)
 	_verifier(absf(_joueur.global_position.y - Residences.SOL_APPART) < 1.0, "on tient debout dans l'appartement (y = %.1f)" % _joueur.global_position.y)
+	# Les plaques portent le nom du personnage ; on regarde un souvenir avec F.
+	var nom: String = _appart.nom_joueur()
+	_verifier(_appart._plaque_porte.text == nom and _appart._plaque_boite.text.ends_with(nom),
+			"la porte et la boîte aux lettres portent le nom « %s »" % nom)
+	_verifier(_appart.souvenir_vise() == null, "loin de l'étagère, aucun souvenir à regarder")
+	var premier: Node3D = _appart.get_node("Souvenirs").get_child(0)
+	await _placer(Vector3(premier.global_position.x + 1.3, Residences.SOL_APPART + 0.3, premier.global_position.z), PI / 2)
+	_verifier(_appart.souvenir_vise() != null, "devant l'étagère, on peut regarder un souvenir")
+	await _appuyer_f()
+	var histoire: bool = _dialogue.est_ouvert() and _dialogue._nom.text != ""
+	_verifier(histoire, "F raconte l'histoire du souvenir (%s)" % (_dialogue._nom.text if _dialogue.est_ouvert() else "fermé"))
+	while _dialogue.est_ouvert():
+		await _appuyer_f()
 	await _prendre_ascenseur(Residences.ASCENSEUR_APPART)
 	_verifier(_joueur.global_position.y < 1.0, "l'ascenseur redescend au hall")
 

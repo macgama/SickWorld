@@ -54,6 +54,9 @@ var _apercu: Label
 var _erreur: Label
 var _couleur_choisie := 0
 var _boutons_couleur: Array[Button] = []
+var _invite_souvenir: Label3D
+var _plaque_boite: Label3D
+var _plaque_porte: Label3D
 
 
 func _ready() -> void:
@@ -71,6 +74,15 @@ func _ready() -> void:
 	_compteur.modulate = Color(0.9, 0.85, 0.75)
 	add_child(_compteur)
 	_construire_interface()
+	_construire_plaques()
+	_invite_souvenir = Label3D.new()
+	_invite_souvenir.billboard = BaseMaterial3D.BILLBOARD_ENABLED
+	_invite_souvenir.font_size = 32
+	_invite_souvenir.pixel_size = 0.004
+	_invite_souvenir.outline_size = 10
+	_invite_souvenir.no_depth_test = true
+	_invite_souvenir.visible = false
+	add_child(_invite_souvenir)
 	var quetes := _quetes()
 	if quetes != null:
 		quetes.quete_terminee.connect(func(_id: String): ranger_souvenirs())
@@ -158,6 +170,7 @@ func ranger_souvenirs() -> void:
 		_etagere.add_child(place)
 		var apparence: Array = SOUVENIRS.get(q["id"], ["boite", OR])
 		_creer_objet(place, apparence[0], apparence[1])
+		place.set_meta("quete", String(q["id"]))
 		var etiquette := Label3D.new()
 		etiquette.text = _nom_souvenir(q.get("recompense", q.get("titre", "")))
 		etiquette.position = Vector3(0.23, -0.1, 0)
@@ -171,6 +184,112 @@ func ranger_souvenirs() -> void:
 		place.add_child(etiquette)
 		i += 1
 	_compteur.text = "%d / %d" % [i, total]
+
+
+## Le souvenir que le joueur regarde (devant l'étagère) : celui que vise la
+## caméra, sinon le plus proche du joueur. null si le joueur est loin de l'étagère.
+func souvenir_vise() -> Node3D:
+	var joueur := get_tree().get_first_node_in_group("joueur_local") as Node3D
+	if joueur == null or _etagere.get_child_count() == 0:
+		return null
+	var pj := joueur.global_position
+	var r := Residences.APPART
+	if pj.x > r.position.x + 2.4 or absf(pj.y - Residences.SOL_APPART) > 1.5 \
+			or pj.z < r.position.y + 0.8 or pj.z > r.position.y + 7.2:
+		return null
+	var camera := get_viewport().get_camera_3d()
+	var meilleur: Node3D = null
+	if camera != null:
+		var avant := -camera.global_transform.basis.z
+		var angle_min := 0.22
+		for place: Node3D in _etagere.get_children():
+			var a := avant.angle_to(place.global_position + Vector3(0, 0.1, 0) - camera.global_position)
+			if a < angle_min:
+				angle_min = a
+				meilleur = place
+	if meilleur == null:
+		var tete := pj + Vector3(0, 1.5, 0)
+		var d_min := 1.6
+		for place: Node3D in _etagere.get_children():
+			var d := place.global_position.distance_to(tete)
+			if d < d_min:
+				d_min = d
+				meilleur = place
+	return meilleur
+
+
+## Ouvre le souvenir d'une mission : son histoire, racontée dans la fenêtre de dialogue.
+func regarder_souvenir(id_quete: String) -> void:
+	var quetes := _quetes()
+	var dialogue := get_tree().get_first_node_in_group("dialogue")
+	if quetes == null or dialogue == null:
+		return
+	for q in quetes.quetes:
+		if q["id"] == id_quete:
+			var lignes := PackedStringArray()
+			if q.has("resume"):
+				lignes.append(String(q["resume"]))
+			lignes.append("Souvenir de la mission « %s »." % q.get("titre", id_quete))
+			dialogue.ouvrir("souvenir", _nom_souvenir(q.get("recompense", q.get("titre", ""))), lignes)
+			return
+
+
+func _dialogue_ouvert() -> bool:
+	var dialogue := get_tree().get_first_node_in_group("dialogue")
+	return dialogue != null and dialogue.est_ouvert()
+
+
+func _process(_delta: float) -> void:
+	var vise := souvenir_vise() if not _dialogue_ouvert() and not _fenetre.visible else null
+	_invite_souvenir.visible = vise != null
+	if vise != null:
+		_invite_souvenir.text = "[F] Regarder"
+		_invite_souvenir.global_position = vise.global_position + Vector3(0.15, 0.32, 0)
+
+
+# --- Plaques au nom du joueur ------------------------------------------------------
+
+func _construire_plaques() -> void:
+	# Sa boîte aux lettres (2e rangée, 3e colonne) et la porte de l'appartement.
+	_plaque_boite = _plaque(Vector3(Residences.HALL.position.x + 0.145, 1.25, 20.1), PI / 2, 0.0016)
+	_plaque_porte = _plaque(Vector3(-85.3, Residences.SOL_APPART + 1.62, Residences.APPART.end.y - 0.05), PI, 0.0022)
+	_brancher_fiche.call_deferred()
+
+
+func _brancher_fiche() -> void:
+	var joueur := get_tree().get_first_node_in_group("joueur_local")
+	if joueur != null and joueur.get("fiche") != null and joueur.fiche.has_signal("changee") \
+			and not joueur.fiche.changee.is_connected(_afficher_nom):
+		joueur.fiche.changee.connect(_afficher_nom)
+	_afficher_nom()
+
+
+func _plaque(p: Vector3, angle: float, taille: float) -> Label3D:
+	var l := Label3D.new()
+	l.position = p
+	l.rotation.y = angle
+	l.font_size = 28
+	l.pixel_size = taille
+	l.outline_size = 4
+	l.modulate = Color(0.12, 0.1, 0.08)
+	l.outline_modulate = Color(0.95, 0.9, 0.8, 0.6)
+	add_child(l)
+	return l
+
+
+## Le nom du personnage (fiche du joueur), « Agent » s'il n'en a pas.
+func nom_joueur() -> String:
+	var joueur := get_tree().get_first_node_in_group("joueur_local")
+	if joueur != null and joueur.get("fiche") != null:
+		var donnees = joueur.fiche.get("donnees")
+		if donnees is Dictionary and String(donnees.get("nom", "")) != "":
+			return String(donnees["nom"])
+	return "Agent"
+
+
+func _afficher_nom(_x = null) -> void:
+	_plaque_boite.text = "1204\n" + nom_joueur()
+	_plaque_porte.text = nom_joueur()
 
 
 ## « Bol de ramen Kaminari (bonus de vie, bientôt) » -> « Bol de ramen Kaminari ».
@@ -562,3 +681,8 @@ func _unhandled_input(event: InputEvent) -> void:
 	if _fenetre.visible and event.is_action_pressed("ui_cancel"):
 		fermer_fondation()
 		get_viewport().set_input_as_handled()
+	elif event.is_action_pressed("interagir") and not _dialogue_ouvert() and not _fenetre.visible:
+		var vise := souvenir_vise()
+		if vise != null:
+			get_viewport().set_input_as_handled()
+			regarder_souvenir(String(vise.get_meta("quete")))

@@ -223,10 +223,31 @@ static func _construire_ramen(hub: HikariBay) -> void:
 	_pnj(hub, "client_ramen", Vector3(x_comptoir + 1.1, 0, r.position.y + 7.2), PI / 2)
 
 
+## Texture d'une bouffée de vapeur : un disque flou, opaque au centre et
+## transparent sur les bords (sinon les particules ressemblent à des carrés).
+static var _texture_bouffee: GradientTexture2D
+
+
+static func _bouffee() -> GradientTexture2D:
+	if _texture_bouffee == null:
+		var g := Gradient.new()
+		g.set_color(0, Color(1, 1, 1, 1))
+		g.set_color(1, Color(1, 1, 1, 0))
+		g.add_point(0.45, Color(1, 1, 1, 0.45))
+		_texture_bouffee = GradientTexture2D.new()
+		_texture_bouffee.gradient = g
+		_texture_bouffee.fill = GradientTexture2D.FILL_RADIAL
+		_texture_bouffee.fill_from = Vector2(0.5, 0.5)
+		_texture_bouffee.fill_to = Vector2(1.0, 0.5)
+		_texture_bouffee.width = 64
+		_texture_bouffee.height = 64
+	return _texture_bouffee
+
+
 static func _vapeur(hub: HikariBay, p: Vector3) -> void:
 	var gp := GPUParticles3D.new()
-	gp.amount = 10
-	gp.lifetime = 2.2
+	gp.amount = 16
+	gp.lifetime = 2.6
 	gp.position = p
 	var pm := ParticleProcessMaterial.new()
 	pm.direction = Vector3.UP
@@ -243,20 +264,21 @@ static func _vapeur(hub: HikariBay, p: Vector3) -> void:
 	ct.curve = courbe
 	pm.scale_curve = ct
 	var degrade := Gradient.new()
-	degrade.set_color(0, Color(1, 1, 1, 0.18))
+	degrade.set_color(0, Color(1, 1, 1, 0.22))
 	degrade.set_color(1, Color(1, 1, 1, 0.0))
 	var gt := GradientTexture1D.new()
 	gt.gradient = degrade
 	pm.color_ramp = gt
 	gp.process_material = pm
 	var q := QuadMesh.new()
-	q.size = Vector2(0.4, 0.4)
+	q.size = Vector2(0.55, 0.55)
 	var m := StandardMaterial3D.new()
 	m.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	m.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 	m.billboard_mode = BaseMaterial3D.BILLBOARD_PARTICLES
 	m.vertex_color_use_as_albedo = true
 	m.albedo_color = Color(0.9, 0.9, 0.9)
+	m.albedo_texture = _bouffee()
 	q.material = m
 	gp.draw_pass_1 = q
 	gp.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
