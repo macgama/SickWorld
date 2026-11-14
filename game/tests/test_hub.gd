@@ -5,6 +5,7 @@ extends SceneTree
 ## Lancement : godot --headless --path game -s res://tests/test_hub.gd
 
 var _echecs := 0
+var _profil_test := "_test_hub_%d" % OS.get_process_id()
 
 
 func _verifier(condition: bool, message: String) -> void:
@@ -21,7 +22,18 @@ func _attendre(images: int) -> void:
 
 
 func _initialize() -> void:
+	# Profil de test vide, propre à ce lancement : le test ne lit ni ne modifie
+	# les vraies sauvegardes du joueur (avec l'intro terminée, un portail du QG
+	# ferait vraiment partir le personnage vers une île au milieu du test).
+	Profil.activer(_profil_test)
 	_lancer.call_deferred()
+
+
+func _effacer_profil_test() -> void:
+	for relatif in Profil.lister(_profil_test):
+		DirAccess.remove_absolute(Profil.dossier(_profil_test) + relatif)
+	for d in ["sauvegardes/inventaires", "sauvegardes", "cartes", ""]:
+		DirAccess.remove_absolute(Profil.dossier(_profil_test) + d)
 
 
 func _avancer(joueur, images: int) -> void:
@@ -39,6 +51,9 @@ func _placer(joueur, position: Vector3, angle: float) -> void:
 
 func _lancer() -> void:
 	var scene: Node = load("res://scenes/monde/hikari_bay.tscn").instantiate()
+	var intro := scene.find_child("Intro", true, false)
+	if intro != null:
+		intro.voyage_reel = false
 	root.add_child(scene)
 	await _attendre(30)
 	var joueur = get_first_node_in_group("joueur_local")
@@ -200,4 +215,5 @@ func _lancer() -> void:
 	_verifier(fresques != null and fresques.visible and not effacees.visible, "et les fresques du Musée réapparaissent")
 
 	print("Résultat : %s" % ("TOUT EST BON" if _echecs == 0 else "%d échec(s)" % _echecs))
+	_effacer_profil_test()
 	quit(1 if _echecs > 0 else 0)

@@ -690,6 +690,170 @@
 			"apres": [
 				"Le jour J, je dirai ton nom au micro. Promis."
 			]
+		},
+		{
+			"id": "hanafuda",
+			"titre": "La carte du chien",
+			"donneur": "joueur_cartes",
+			"resume": "Le vieux Sabu a perdu trois cartes de son jeu de hanafuda dans les ruelles du Marché de nuit. L'une d'elles montre un animal que personne ne reconnaît.",
+			"proposition": [
+				"Hé, toi. Oui, toi, avec ton manteau d'agent. Tu as de bons yeux ?",
+				"Le vent m'a volé trois cartes de mon hanafuda. Une dans la ruelle principale, une dans la ruelle des lanternes, une vers la ruelle de la fumée.",
+				"Sans elles, je ne peux plus jouer. Et un vieux qui ne joue plus, il s'endort pour de bon."
+			],
+			"etapes": [
+				{
+					"objectif": "Retrouve les trois cartes de hanafuda dans le Marché de nuit",
+					"objets": {
+						"type": "carte_jeu",
+						"verbe": "Ramasser la carte",
+						"positions": [
+							[
+								-20.0,
+								0.0,
+								-78.0,
+								0.0
+							],
+							[
+								-36.0,
+								0.0,
+								-99.5,
+								0.0
+							],
+							[
+								-50.0,
+								0.0,
+								-121.0,
+								0.0
+							]
+						]
+					}
+				},
+				{
+					"objectif": "Rapporte les cartes au vieux Sabu (Marché de nuit)",
+					"parler": "joueur_cartes",
+					"repliques": [
+						"Toutes les trois ! La pivoine, la lune... et celle-là.",
+						"Regarde ce dessin : un animal à quatre pattes, la langue pendante, assis près d'un homme. Je joue avec ce jeu depuis soixante ans.",
+						"Et je ne sais pas ce que c'est. Personne au marché ne le sait. Comme si le mot avait été effacé.",
+						"Garde-la, toi. Elle te parlera peut-être mieux qu'à moi."
+					]
+				}
+			],
+			"recompense": "Carte de hanafuda au chien inconnu",
+			"apres": [
+				"Tu as trouvé ce que c'est, cet animal ? Moi, j'en rêve la nuit."
+			]
+		},
+		{
+			"id": "grande_roue",
+			"titre": "La roue s'est arrêtée",
+			"donneur": "gardien_roue",
+			"resume": "La grande roue de la baie est bloquée. Tomás, son gardien, a besoin d'une pièce de la soudeuse Inès et de trois engrenages tombés sur la jetée.",
+			"proposition": [
+				"Tu entends ce silence ? Normalement, la roue grince doucement toute la nuit. Là, plus rien.",
+				"Le moyeu a cassé. Inès, la soudeuse du quartier des Artisans, peut m'en refaire un. Va la voir de ma part.",
+				"Et pendant que tu y es : trois engrenages ont roulé sur la jetée quand c'est arrivé. Je n'ai plus les genoux pour me baisser."
+			],
+			"etapes": [
+				{
+					"objectif": "Demande un moyeu à Inès, la soudeuse (quartier des Artisans)",
+					"parler": "soudeuse",
+					"repliques": [
+						"Un moyeu pour la grande roue ? Tomás aurait pu venir lui-même, ce vieux têtu.",
+						"Tiens, j'en ai un qui attendait. Je l'ai soudé la semaine dernière sans savoir pour qui. Bizarre, non ?"
+					]
+				},
+				{
+					"objectif": "Ramasse les trois engrenages sur la jetée de la grande roue",
+					"objets": {
+						"type": "engrenage",
+						"verbe": "Ramasser l'engrenage",
+						"positions": [
+							[
+								50.0,
+								0.0,
+								92.0,
+								0.0
+							],
+							[
+								62.0,
+								0.0,
+								104.0,
+								0.0
+							],
+							[
+								52.0,
+								0.0,
+								116.0,
+								0.0
+							]
+						]
+					}
+				},
+				{
+					"objectif": "Rapporte le moyeu et les engrenages à Tomás (grande roue)",
+					"parler": "gardien_roue",
+					"repliques": [
+						"Le moyeu d'Inès, les trois engrenages... Parfait, il ne manque rien.",
+						"Écoute... Voilà, elle grince de nouveau. C'est le plus beau bruit de la baie.",
+						"Prends ce vieux boulon, il tenait la cabine numéro 7. Pour le jour où la roue rouvrira."
+					]
+				}
+			],
+			"recompense": "Boulon de la cabine n° 7",
+			"apres": [
+				"Elle tourne ! Bientôt, je pourrai de nouveau faire monter les gens."
+			]
+		},
+		{
+			"id": "colis",
+			"titre": "Colis pour la station Asahi",
+			"donneur": "livreur",
+			"resume": "Sho, le livreur à vélo, a trois colis urgents mais son vélo a crevé. Il faut les livrer à pied à travers la ville.",
+			"proposition": [
+				"Galère totale : pneu crevé, et trois colis à livrer avant le dernier métro.",
+				"Le premier pour Kenji, l'agent qui attend toujours près de l'entrée de la station Asahi. Le deuxième pour Madame Kurosawa, à la salle Tsukimi. Le dernier pour Monsieur Hayashi, sur son banc aux Résidences.",
+				"Tu ferais ça ? Je te revaudrai ça, promis."
+			],
+			"etapes": [
+				{
+					"objectif": "Livre le premier colis à Kenji Duval (place Hikari, près de la station Asahi)",
+					"parler": "recruteur",
+					"repliques": [
+						"Un colis pour moi ? Ah, mes piles pour la lampe de la station. Le métro s'arrête si souvent ces temps-ci...",
+						"Merci, agent. Dis à Sho qu'il pédale moins vite sous la pluie."
+					]
+				},
+				{
+					"objectif": "Livre le deuxième colis à Madame Kurosawa (salle Tsukimi, Marché de nuit)",
+					"parler": "courtiere",
+					"repliques": [
+						"Enfin. Ce paquet vient d'un collectionneur de Kyoto. Ne me demande pas ce qu'il contient.",
+						"...Bon, d'accord. Une boussole qui indique toujours la même direction : la statue du Gardien."
+					]
+				},
+				{
+					"objectif": "Livre le dernier colis à Monsieur Hayashi (banc des Résidences)",
+					"parler": "retraite_banc",
+					"repliques": [
+						"Pour moi ? Personne ne m'envoie jamais rien...",
+						"Des graines de fleurs. Et un mot : « Pour le banc d'à côté ». Il n'y a pas de banc à côté du mien. Il y en avait un, il y a longtemps, je crois."
+					]
+				},
+				{
+					"objectif": "Retourne voir Sho (quartier des Artisans)",
+					"parler": "livreur",
+					"repliques": [
+						"Les trois ? Tu es plus rapide que moi, et sans vélo !",
+						"Tiens, prends mon ancienne carte de métro. Elle a encore deux voyages dessus, je crois."
+					]
+				}
+			],
+			"recompense": "Carte de métro de Sho",
+			"apres": [
+				"Mon pneu est réparé. La prochaine fois, je te prends sur le porte-bagages !"
+			]
 		}
 	]
 }
