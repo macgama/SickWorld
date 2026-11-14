@@ -1,6 +1,6 @@
 # SickWorld — Île n°2 : l'Égypte des bâtisseurs
 
-*Version 0.1 — proposition du 14 novembre 2026, à valider par Gaël (voir la dernière section). L'île n'est pas encore construite : ce document sert de plan.*
+*Version 1.0 — **validée par Gaël le 14 novembre 2026** (toutes les recommandations de la dernière section sont retenues). L'île n'est pas encore construite : ce document sert de plan.*
 
 Ce document suit le même modèle que l'île de la Préhistoire (section 5 du [GDD](GDD.md)) : cadre historique, moment clé, peuple, zones, quête principale, quêtes secondaires, events, ennemis, compétences, équipement, ambiance. Il y ajoute ce dont on aura besoin pour la construire : les références visuelles, les pièges historiques à éviter et le travail technique nouveau.
 
@@ -23,7 +23,7 @@ Ce document suit le même modèle que l'île de la Préhistoire (section 5 du [G
 15. [Ce qu'on évite : les anachronismes](#15-ce-quon-évite--les-anachronismes)
 16. [Ce qu'il faudra construire (technique)](#16-ce-quil-faudra-construire-technique)
 17. [Références](#17-références)
-18. [Choix à faire valider par Gaël](#18-choix-à-faire-valider-par-gaël)
+18. [Décisions validées](#18-décisions-validées-14-novembre-2026)
 
 ---
 
@@ -350,18 +350,18 @@ Une bonne partie du travail fait pour la Préhistoire se réutilise : le systèm
 
 ---
 
-## 18. Choix à faire valider par Gaël
+## 18. Décisions validées (14 novembre 2026)
 
-Rien n'est construit tant que ces points ne sont pas validés. Ma recommandation est indiquée à chaque fois.
+Gaël a validé les 11 points en suivant toutes les recommandations :
 
-1. **L'époque et le moment :** l'Égypte de **Khéops** (vers -2560) et la fin du chantier de la Grande Pyramide ? *Je recommande oui : c'est ce que prévoit le GDD, et le journal de Merer donne une histoire vraie et originale. L'autre option serait l'Égypte de Ramsès II ou de Toutânkhamon (vers -1300), plus « classique » avec chars et grands temples, mais 1 200 ans plus tard.*
-2. **Le thème du « nom effacé »** (les ouvriers oublient leur nom, on les libère au lieu de les tuer) ?
-3. **Le mélange de personnages réels** (Merer, Ânkhkhaf, Hémiounou, Pésèshet) **et inventés** (Nebi, Méret, Ouni, l'agent Farouk) ? *La Préhistoire n'avait que des personnages inventés.*
-4. **La première Effaceuse, Vera Lind « Sablier »**, qui défend le mythe des esclaves : son nom, son apparence de prêtresse, et l'idée qu'elle s'échappe pour revenir plus tard ?
-5. **Le boss final Isfet, le Serpent du Désordre**, dans la chambre du roi ? *Alternative : un colosse de granit animé par la fracture.*
-6. **Le compagnon chaton** et les montures **âne** + **barque de papyrus** (pas de cheval ni de chameau, pour rester fidèle à l'histoire) ?
-7. **Les signes dans le hub :** la verrière en pyramide du Musée qui disparaît et les dates qui bégaient sur les écrans ?
-8. **Les 6 compétences d'époque** (Bâton de jet, Corde de halage, Onguent de miel, Œil d'Horus, Scarabée de cœur, Souffle du khamsin en ultime) ?
-9. **Les nouveautés de jeu** : barque sur le Nil, halage à plusieurs, mini-jeu de senet ? *Ce sont les plus gros morceaux de travail technique.*
-10. **Le titre de la quête principale** : « Ce que le fleuve emporte » ? (Il fait écho à « Ce que les murs se rappellent » de la Préhistoire.)
-11. **Le cycle jour-nuit sur cette île** (aube et coucher de soleil très importants dans l'ambiance) ?
+1. **L'époque :** l'Égypte de Khéops (vers -2560), fin du chantier de la Grande Pyramide et journal de Merer (pas l'Égypte de Ramsès II).
+2. **Le thème du « nom effacé » :** les ouvriers oublient leur nom ; on assomme les Oubliés puis on leur rend leur nom au lieu de les tuer.
+3. **Le mélange de personnages réels** (Merer, Ânkhkhaf, Hémiounou, Pésèshet) **et inventés** (Nebi, Méret, Ouni, agent Farouk).
+4. **La première Effaceuse, Vera Lind « Sablier »**, déguisée en prêtresse-scribe, qui défend le mythe des esclaves et s'échappe pour revenir sur une autre île.
+5. **Le boss final : Isfet, le Serpent du Désordre**, dans la chambre du roi.
+6. **Le compagnon chaton** et les montures **âne de bât** + **barque de papyrus** (ni cheval ni chameau).
+7. **Les signes dans le hub :** la verrière en pyramide du Musée disparaît et les dates bégaient sur les écrans jusqu'au sauvetage de l'île.
+8. **Les 6 compétences d'époque :** Bâton de jet, Corde de halage, Onguent de miel, Œil d'Horus, Scarabée de cœur, Souffle du khamsin (ultime).
+9. **Les nouveautés de jeu :** barque sur le Nil, halage à plusieurs, mini-jeu de senet.
+10. **Le titre de la quête principale :** « Ce que le fleuve emporte ».
+11. **Un cycle jour-nuit** sur cette île (aube et coucher de soleil au cœur de l'ambiance).
