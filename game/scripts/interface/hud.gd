@@ -19,6 +19,9 @@ const TAILLE_CASE := 70
 const NOMS_EFFETS := {
 	"saignement": "Saignement", "ralenti": "Ralenti", "desynchronisation": "Désynchronisé (-10 %)",
 	"cri_du_clan": "Cri du clan (+15 % dégâts)", "peinture_de_guerre": "Peinture de guerre (-30 % dégâts subis)",
+	"mur_de_bouclier": "Mur de bouclier (-60 % dégâts subis)", "provocation": "Provoqué",
+	"protection": "Protégé par un Rempart", "etourdi": "Étourdi", "immobilise": "Immobilisé",
+	"poison": "Empoisonné", "bulle_lente": "Temps ralenti", "acceleration": "Accéléré",
 }
 
 var _joueur: Joueur
@@ -32,6 +35,7 @@ var _endurance: ProgressBar
 var _pv_joueur: ProgressBar
 var _texte_pv_joueur: Label
 var _elan: ProgressBar
+var _texte_elan: Label
 var _effets_joueur: Label
 var _nom_joueur: Label
 var _statut: Label
@@ -147,8 +151,9 @@ func _details(c: Dictionary) -> String:
 		lignes.append("Préparation : %s s" % c["incantation"])
 	if float(c.get("recharge", 0)) > 0.0:
 		lignes.append("Recharge : %s s" % c["recharge"])
-	if c.has("cout_elan"):
-		lignes.append("Coût : %s Élan" % c["cout_elan"])
+	var cout := CombatJoueur.cout(c)
+	if cout > 0.0 and _combat_joueur != null:
+		lignes.append("Coût : %d %s" % [cout, _combat_joueur.nom_ressource()])
 	if lignes.is_empty():
 		return ""
 	return "\n\n" + "\n".join(lignes)
@@ -214,7 +219,9 @@ func _construire_cadre_joueur() -> void:
 	_pv_joueur = _jauge(Color(0.2, 0.75, 0.25), 20)
 	_texte_pv_joueur = _texte_sur(_pv_joueur)
 	colonne.add_child(_pv_joueur)
-	_elan = _jauge(Color(0.95, 0.55, 0.1), 10)
+	_elan = _jauge(Color(0.95, 0.55, 0.1), 14)
+	_texte_elan = _texte_sur(_elan)
+	_texte_elan.add_theme_font_size_override("font_size", 10)
 	colonne.add_child(_elan)
 	_effets_joueur = _petit_texte(12)
 	_effets_joueur.modulate = Color(1, 0.85, 0.6)
@@ -402,13 +409,13 @@ func _sur_incantation(nom: String, progression: float) -> void:
 	_texte_incantation.text = nom
 
 
+## Effets en cours (le serveur envoie leur liste à tous les joueurs).
 func _noms_effets(c: Combattant) -> String:
 	var noms: Array[String] = []
-	var t := Regles.maintenant()
-	for id in c.effets:
-		if id == "evite":
+	for id in c.effets_affiches:
+		if id == "evite" or String(id).begins_with("resistance_"):
 			continue
-		noms.append("%s %ds" % [NOMS_EFFETS.get(id, String(id).capitalize()), int(ceil(float(c.effets[id]["fin"]) - t))])
+		noms.append("%s %ds" % [NOMS_EFFETS.get(id, String(id).capitalize()), int(c.effets_affiches[id])])
 	return "  ".join(noms)
 
 
@@ -431,6 +438,11 @@ func _process(_delta: float) -> void:
 	_texte_pv_joueur.text = "%d / %d" % [_combat.pv, _combat.pv_max]
 	_elan.max_value = _combat_joueur.elan_max
 	_elan.value = _combat_joueur.elan
+	var couleur_ressource := Color.html(String(_combat_joueur.ressource().get("couleur", "#f28c1a")))
+	var remplissage := _elan.get_theme_stylebox("fill") as StyleBoxFlat
+	if remplissage != null and remplissage.bg_color != couleur_ressource:
+		remplissage.bg_color = couleur_ressource
+	_texte_elan.text = "%s %d" % [_combat_joueur.nom_ressource(), _combat_joueur.elan]
 	_effets_joueur.text = _noms_effets(_combat)
 
 	var cible := _combat_joueur.cible
@@ -455,7 +467,7 @@ func _process(_delta: float) -> void:
 		var bouton := case["bouton"] as Button
 		if raison == "Hors de portée" or raison == "Trop près" or raison == "Cible non visible":
 			bouton.modulate = Color(1, 0.45, 0.45)
-		elif raison == "Pas assez d'Élan" or raison == "La cible a encore trop de vie":
+		elif raison.begins_with("Pas assez") or raison == "La cible a encore trop de vie":
 			bouton.modulate = Color(0.5, 0.5, 0.7)
 		else:
 			bouton.modulate = Color.WHITE

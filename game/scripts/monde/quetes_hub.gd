@@ -537,6 +537,57 @@ func _creer_objet(type: String, p: Array) -> Node3D:
 			lumiere.omni_range = 2.5
 			lumiere.position = Vector3(0, 1.1, 0.4)
 			racine.add_child(lumiere)
+		"carte_jeu":
+			# Petite carte de hanafuda rouge et noire, collée au pavé mouillé.
+			var carte := MeshInstance3D.new()
+			var b := BoxMesh.new()
+			b.size = Vector3(0.12, 0.01, 0.19)
+			carte.mesh = b
+			var m := StandardMaterial3D.new()
+			m.albedo_color = Color(0.75, 0.12, 0.1)
+			m.emission_enabled = true
+			m.emission = Color(1.0, 0.4, 0.3)
+			m.emission_energy_multiplier = 0.4
+			carte.material_override = m
+			carte.position.y = 0.03
+			carte.rotation.y = -0.7
+			racine.add_child(carte)
+			var lumiere := OmniLight3D.new()
+			lumiere.light_color = Color(1.0, 0.6, 0.5)
+			lumiere.light_energy = 0.6
+			lumiere.omni_range = 2.0
+			lumiere.position.y = 0.6
+			racine.add_child(lumiere)
+		"engrenage":
+			# Engrenage en laiton tombé sur les planches de la jetée.
+			var roue := MeshInstance3D.new()
+			var t := TorusMesh.new()
+			t.inner_radius = 0.12
+			t.outer_radius = 0.25
+			roue.mesh = t
+			var m := StandardMaterial3D.new()
+			m.albedo_color = Color(0.8, 0.62, 0.3)
+			m.metallic = 0.8
+			m.roughness = 0.35
+			roue.material_override = m
+			roue.position.y = 0.07
+			racine.add_child(roue)
+			for k in 8:
+				var dent := MeshInstance3D.new()
+				var d := BoxMesh.new()
+				d.size = Vector3(0.08, 0.1, 0.08)
+				dent.mesh = d
+				dent.material_override = m
+				var a := k * TAU / 8.0
+				dent.position = Vector3(cos(a) * 0.27, 0.07, sin(a) * 0.27)
+				dent.rotation.y = -a
+				racine.add_child(dent)
+			var lumiere := OmniLight3D.new()
+			lumiere.light_color = Color(1.0, 0.85, 0.55)
+			lumiere.light_energy = 0.6
+			lumiere.omni_range = 2.0
+			lumiere.position.y = 0.6
+			racine.add_child(lumiere)
 		_:
 			# Type inconnu : une petite sphère lumineuse, pour qu'on le voie quand même.
 			var boule := MeshInstance3D.new()

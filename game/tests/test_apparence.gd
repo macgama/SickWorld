@@ -74,6 +74,7 @@ func _lancer() -> void:
 	await _attendre(2)
 	_verifier(apparence._actuelle == "attaque", "frappe")
 	await _attendre(60)
+	await _gestes_de_combat(joueur, apparence)
 
 	joueur.get_node("Combat").subir(5000.0, null)
 	await _attendre(10)
@@ -88,6 +89,7 @@ func _lancer() -> void:
 	apparence.appliquer({"sexe": "femme", "taille_cm": 160.0, "peau": Color(0.45, 0.30, 0.22)})
 	await _attendre(5)
 	_verifier(apparence.modele == "femme", "la fiche choisit le modèle femme")
+	await _gestes_de_combat(joueur, apparence)
 	_verifier(absf(apparence.echelle - 160.0 / 168.0) < 0.01, "la taille règle l'échelle (%.2f)" % apparence.echelle)
 	var visage: Vector3 = apparence.position_visage()
 	var hauteur_visage: float = visage.y - joueur.global_position.y
@@ -97,6 +99,25 @@ func _lancer() -> void:
 	apparence.appliquer({"sexe": "homme", "taille_cm": 190.0})
 	await _attendre(5)
 	_verifier(apparence.modele == "homme" and apparence.echelle > 1.05, "retour au modèle homme, plus grand")
+	await _attendre(5)
+	await _gestes_de_combat(joueur, apparence)
 
 	print("Résultat : ", "TOUT EST BON" if _echecs == 0 else "%d ÉCHEC(S)" % _echecs)
 	quit(0 if _echecs == 0 else 1)
+
+
+## Les gestes de combat des classes (animations Mixamo) se jouent, sans enfoncer
+## le personnage dans le sol ni l'envoyer en l'air.
+func _gestes_de_combat(joueur, apparence) -> void:
+	for style in ["attaque_lame", "attaque_bouclier", "bouclier_leve", "provocation", "tir_arc", "lancer",
+			"incantation", "sort", "esquive_arriere"]:
+		apparence.attaquer(style)
+		await _attendre(12)
+		var squelette: Skeleton3D = apparence.find_children("*", "Skeleton3D", true, false)[0]
+		var hanches := squelette.global_transform * squelette.get_bone_global_pose(squelette.find_bone("mixamorig_Hips"))
+		var hauteur: float = hanches.origin.y - joueur.global_position.y
+		var horizontal: float = Vector2(hanches.origin.x - joueur.global_position.x, hanches.origin.z - joueur.global_position.z).length()
+		_verifier(apparence._actuelle == style and hauteur > 0.5 and hauteur < 1.4 and horizontal < 0.6,
+				"%s (%s) : geste « %s » (hanches à %.2f m de haut, %.2f m du centre)" % [apparence.modele,
+				apparence._actuelle, style, hauteur, horizontal])
+		await _attendre(40)

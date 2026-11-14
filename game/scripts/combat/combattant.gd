@@ -30,6 +30,17 @@ var dernier_moment_de_combat := -1000.0
 var bonus_degats := 0.0
 var bonus_reduction := 0.0
 var bonus_critique := 0.0
+## Multiplie la menace que ce combattant génère (le Rempart en produit plus, voir classes.json).
+var facteur_menace := 1.0
+## Vrai pour les gros ennemis (boss) : ni étourdis, ni immobilisés.
+var insensible_controles := false
+## Combien de secondes une même cible résiste à un nouveau contrôle (étourdir, immobiliser) :
+## pendant ce temps, le contrôle suivant ne dure que moitié moins.
+const RESISTANCE_CONTROLES := 10.0
+
+## Vie des dernières secondes (pour « Retour en arrière ») : une valeur toutes les 0,5 s.
+var _historique_pv: Array[float] = []
+var _prochain_historique := 0.0
 
 ## Copie simplifiée des effets, envoyée par le serveur aux joueurs pour l'affichage :
 ## id de l'effet -> secondes restantes.
@@ -76,6 +87,14 @@ func pourcentage_pv() -> float:
 func subir(montant: float, source: Combattant) -> float:
 	if not est_vivant() or a_effet("evite"):
 		return 0.0
+	# Charge protectrice : un Rempart encaisse le coup à notre place.
+	if effets.has("protection") and source != null:
+		var protecteur = effets["protection"].get("source")
+		effets.erase("protection")
+		if protecteur is Combattant and is_instance_valid(protecteur) and protecteur != self \
+				and protecteur.est_vivant() and protecteur.acteur().global_position.distance_to(acteur().global_position) < 20.0:
+			Regles.afficher_nombre(self, "Intercepté", Color(0.6, 0.8, 1.0), false)
+			return protecteur.subir(montant, source)
 	for effet in effets.values():
 		montant *= 1.0 - float(effet.get("reduction_degats_subis", 0.0))
 	montant *= 1.0 - clampf(bonus_reduction, 0.0, 75.0) / 100.0
@@ -84,7 +103,7 @@ func subir(montant: float, source: Combattant) -> float:
 	noter_combat()
 	if source != null and is_instance_valid(source):
 		source.noter_combat()
-		menace[source] = menace.get(source, 0.0) + montant
+		menace[source] = menace.get(source, 0.0) + montant * source.facteur_menace
 	pv_changes.emit(pv, pv_max)
 	degats_recus.emit(montant, source)
 	if pv <= 0.0:
@@ -106,6 +125,7 @@ func reanimer(pourcentage := 100.0) -> void:
 	pv = roundf(pv_max * pourcentage / 100.0)
 	effets.clear()
 	menace.clear()
+	_historique_pv.clear()
 	pv_changes.emit(pv, pv_max)
 	reanime.emit()
 
@@ -130,14 +150,52 @@ func a_effet(id: String) -> bool:
 	return effets.has(id)
 
 
-## Ralentissements : on garde le plus fort.
+## Ralentissements : on garde le plus fort ; accélérations : la plus forte.
+## Étourdi ou immobilisé : on ne bouge plus du tout.
 func multiplicateur_vitesse() -> float:
 	if not multiplayer.is_server():
 		return vitesse_synchro
+	var lent := 1.0
+	var rapide := 1.0
+	for id in effets:
+		if id == "etourdi" or id == "immobilise":
+			return 0.0
+		var v := float(effets[id].get("vitesse", 1.0))
+		lent = minf(lent, v)
+		rapide = maxf(rapide, v)
+	return lent * rapide
+
+
+## Plus grand que 1 : on attaque plus lentement (Bulle lente du Tisseur).
+func multiplicateur_cadence() -> float:
 	var m := 1.0
 	for effet in effets.values():
-		m = minf(m, float(effet.get("vitesse", 1.0)))
+		m = maxf(m, float(effet.get("cadence", 1.0)))
 	return m
+
+
+func est_etourdi() -> bool:
+	return a_effet("etourdi")
+
+
+## Étourdir ou immobiliser, avec un temps de résistance pour ne pas bloquer
+## un ennemi indéfiniment. Renvoie la durée réellement appliquée (0 si sans effet).
+func ajouter_controle(id: String, duree: float, source: Combattant = null) -> float:
+	if not est_vivant() or insensible_controles:
+		return 0.0
+	if effets.has("resistance_" + id):
+		duree *= 0.5
+	ajouter_effet(id, duree, {}, source)
+	ajouter_effet("resistance_" + id, duree + RESISTANCE_CONTROLES)
+	return duree
+
+
+## Vie qu'on avait il y a « secondes » secondes (serveur).
+func pv_il_y_a(secondes: float) -> float:
+	var n := int(round(secondes / 0.5))
+	if _historique_pv.is_empty():
+		return pv
+	return _historique_pv[maxi(0, _historique_pv.size() - n)]
 
 
 func multiplicateur_degats() -> float:
@@ -164,6 +222,12 @@ func _process(_delta: float) -> void:
 	if not multiplayer.is_server():
 		return
 	_publier_effets()
+	var maintenant := Regles.maintenant()
+	if maintenant >= _prochain_historique:
+		_prochain_historique = maintenant + 0.5
+		_historique_pv.append(pv)
+		if _historique_pv.size() > 24:
+			_historique_pv.remove_at(0)
 	if effets.is_empty():
 		return
 	var t := Regles.maintenant()
@@ -189,6 +253,8 @@ func _publier_effets() -> void:
 	var t := Regles.maintenant()
 	var resume := {}
 	for id in effets:
+		if String(id).begins_with("resistance_"):
+			continue
 		resume[id] = int(ceil(float(effets[id]["fin"]) - t))
 	if resume != effets_affiches:
 		effets_affiches = resume

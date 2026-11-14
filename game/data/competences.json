@@ -1,5 +1,5 @@
 {
-	"_aide": "Compétences du prototype. Tu peux changer les valeurs librement (dégâts, recharge en secondes, portée en mètres…), puis relancer le jeu. Couleur = couleur de la case dans la barre.",
+	"_aide": "Compétences du jeu. Tu peux changer les valeurs librement (dégâts, recharge en secondes, portée en mètres…), puis relancer le jeu. Couleur = couleur de la case dans la barre. « cout » et « gain » parlent de la ressource de la classe (Élan, Ténacité, Concentration ou Flux). Les compétences de chaque classe sont listées dans classes.json. « animation » : le geste du personnage (attaque_lame, attaque_bouclier, bouclier_leve, provocation, tir_arc, lancer, incantation, sort, esquive_arriere ; sinon un simple coup).",
 
 	"taille_rapide": {
 		"nom": "Taille rapide",
@@ -9,9 +9,11 @@
 		"portee": 3.5,
 		"degats": [14, 18],
 		"recharge": 0,
-		"gain_elan": 20,
+		"gain": 20,
+		"animation": "attaque_lame",
 		"couleur": "#c0392b"
 	},
+
 	"entaille": {
 		"nom": "Entaille",
 		"origine": "Lame",
@@ -20,10 +22,12 @@
 		"portee": 3.5,
 		"degats": [6, 8],
 		"recharge": 0,
-		"cout_elan": 15,
+		"cout": 15,
 		"saignement": { "degats_par_seconde": 5, "duree": 12 },
+		"animation": "attaque_lame",
 		"couleur": "#8e1b1b"
 	},
+
 	"frappe_tournoyante": {
 		"nom": "Frappe tournoyante",
 		"origine": "Lame",
@@ -32,9 +36,11 @@
 		"rayon": 5,
 		"degats": [12, 16],
 		"recharge": 8,
-		"cout_elan": 30,
+		"cout": 30,
+		"animation": "attaque_lame",
 		"couleur": "#d35400"
 	},
+
 	"bond": {
 		"nom": "Bond",
 		"origine": "Lame",
@@ -44,10 +50,12 @@
 		"portee_min": 6,
 		"degats": [8, 10],
 		"recharge": 15,
-		"gain_elan": 15,
+		"gain": 15,
 		"ralenti": { "facteur": 0.5, "duree": 4 },
+		"animation": "attaque_lame",
 		"couleur": "#2980b9"
 	},
+
 	"execution": {
 		"nom": "Exécution",
 		"origine": "Lame",
@@ -56,10 +64,227 @@
 		"portee": 3.5,
 		"degats": [45, 55],
 		"recharge": 6,
-		"cout_elan": 40,
+		"cout": 40,
 		"pv_cible_max_pourcent": 20,
+		"animation": "attaque_lame",
 		"couleur": "#6c3483"
 	},
+
+	"coup_de_bouclier": {
+		"nom": "Coup de bouclier",
+		"origine": "Rempart",
+		"description": "Frappe la cible avec ton bouclier. Génère 12 points de Ténacité et beaucoup de menace : l'ennemi a très envie de s'en prendre à toi.",
+		"type": "melee",
+		"portee": 3.5,
+		"degats": [10, 13],
+		"recharge": 0,
+		"gain": 12,
+		"menace": 3,
+		"animation": "attaque_bouclier",
+		"couleur": "#b7950b"
+	},
+
+	"provocation": {
+		"nom": "Provocation",
+		"origine": "Rempart",
+		"description": "Défie l'ennemi ciblé (jusqu'à 25 mètres) : il est forcé de t'attaquer pendant 4 secondes, et tu deviens sa priorité.",
+		"type": "provocation",
+		"portee": 25,
+		"duree": 4,
+		"recharge": 8,
+		"animation": "provocation",
+		"couleur": "#e74c3c"
+	},
+
+	"mur_de_bouclier": {
+		"nom": "Mur de bouclier",
+		"origine": "Rempart",
+		"description": "Tu lèves ton bouclier : tu subis 60 % de dégâts en moins pendant 6 secondes.",
+		"type": "renfort",
+		"rayon": 0,
+		"effet": "mur_de_bouclier",
+		"duree": 6,
+		"reduction_degats_subis": 0.6,
+		"recharge": 30,
+		"cout": 20,
+		"animation": "bouclier_leve",
+		"couleur": "#7f8c8d"
+	},
+
+	"charge_protectrice": {
+		"nom": "Charge protectrice",
+		"origine": "Rempart",
+		"description": "Bondis vers un allié ciblé (jusqu'à 25 mètres) : pendant 8 secondes, tu encaisses à sa place le prochain coup qu'il devrait recevoir.",
+		"type": "interception",
+		"portee": 25,
+		"duree": 8,
+		"recharge": 20,
+		"cout": 10,
+		"animation": "attaque_bouclier",
+		"couleur": "#2e86c1"
+	},
+
+	"onde_de_choc": {
+		"nom": "Onde de choc",
+		"origine": "Rempart",
+		"description": "Frappe le sol avec ton bouclier : les ennemis à moins de 6 mètres subissent des dégâts, sont étourdis 2 secondes et se tournent vers toi.",
+		"type": "zone_autour",
+		"rayon": 6,
+		"degats": [8, 12],
+		"etourdit": 2,
+		"menace": 4,
+		"recharge": 12,
+		"cout": 30,
+		"animation": "attaque_bouclier",
+		"couleur": "#d68910"
+	},
+
+	"tir_rapide": {
+		"nom": "Tir rapide",
+		"origine": "Traqueur",
+		"description": "Tire une flèche rapide sur la cible.",
+		"type": "distance",
+		"portee": 35,
+		"degats": [15, 19],
+		"recharge": 0,
+		"cout": 12,
+		"projectile": "fleche",
+		"animation": "tir_arc",
+		"couleur": "#27ae60"
+	},
+
+	"fleche_empoisonnee": {
+		"nom": "Flèche empoisonnée",
+		"origine": "Traqueur",
+		"description": "Une flèche enduite de poison : la cible perd 5 points de vie par seconde pendant 12 secondes.",
+		"type": "distance",
+		"portee": 35,
+		"degats": [6, 8],
+		"recharge": 0,
+		"cout": 15,
+		"poison": { "degats_par_seconde": 5, "duree": 12 },
+		"projectile": "poison",
+		"animation": "tir_arc",
+		"couleur": "#7dcea0"
+	},
+
+	"tir_vise": {
+		"nom": "Tir visé",
+		"origine": "Traqueur",
+		"description": "Après 1,5 seconde de préparation (sans bouger), un tir puissant qui vise le point faible de la cible.",
+		"type": "distance",
+		"portee": 40,
+		"incantation": 1.5,
+		"degats": [34, 42],
+		"recharge": 8,
+		"cout": 25,
+		"projectile": "fleche",
+		"animation": "tir_arc",
+		"couleur": "#1e8449"
+	},
+
+	"piege_a_collet": {
+		"nom": "Piège à collet",
+		"origine": "Traqueur",
+		"description": "Pose un piège à tes pieds (il reste 30 secondes). Le premier ennemi qui marche dessus est blessé et immobilisé 5 secondes.",
+		"type": "piege",
+		"rayon": 1.8,
+		"duree": 30,
+		"degats": [10, 14],
+		"immobilise": 5,
+		"recharge": 20,
+		"cout": 15,
+		"animation": "lancer",
+		"couleur": "#a04000"
+	},
+
+	"repli": {
+		"nom": "Repli",
+		"origine": "Traqueur",
+		"description": "Saute 10 mètres en arrière et ralentit de 50 % les ennemis à moins de 8 mètres pendant 4 secondes.",
+		"type": "repli",
+		"rayon": 8,
+		"distance": 10,
+		"ralenti": { "facteur": 0.5, "duree": 4 },
+		"recharge": 16,
+		"animation": "esquive_arriere",
+		"couleur": "#5d6d7e"
+	},
+
+	"fil_de_vie": {
+		"nom": "Fil de vie",
+		"origine": "Tisseur",
+		"description": "Après 1,5 seconde de préparation, soigne l'allié ciblé (ou toi-même si tu n'as pas d'allié en cible).",
+		"type": "soin",
+		"portee": 35,
+		"incantation": 1.5,
+		"soin": [38, 46],
+		"recharge": 0,
+		"cout": 18,
+		"animation": "incantation",
+		"couleur": "#58d68d"
+	},
+
+	"eclat_temporel": {
+		"nom": "Éclat temporel",
+		"origine": "Tisseur",
+		"description": "Projette un éclat de temps figé sur l'ennemi ciblé.",
+		"type": "distance",
+		"portee": 30,
+		"degats": [12, 15],
+		"recharge": 0,
+		"cout": 14,
+		"projectile": "eclat",
+		"animation": "sort",
+		"couleur": "#5dade2"
+	},
+
+	"retour_en_arriere": {
+		"nom": "Retour en arrière",
+		"origine": "Tisseur",
+		"description": "Remet la vie de l'allié ciblé (ou la tienne) au niveau d'il y a 5 secondes, et le soigne au moins de 15 %.",
+		"type": "retour",
+		"portee": 35,
+		"secondes": 5,
+		"soin_minimum_pourcent": 15,
+		"recharge": 25,
+		"cout": 20,
+		"animation": "incantation",
+		"couleur": "#af7ac5"
+	},
+
+	"bulle_lente": {
+		"nom": "Bulle lente",
+		"origine": "Tisseur",
+		"description": "Crée pendant 6 secondes une bulle de temps lent (6 mètres de rayon) autour de l'ennemi ciblé, ou autour de toi : les ennemis dedans bougent 60 % moins vite et attaquent plus lentement.",
+		"type": "bulle",
+		"portee": 30,
+		"rayon": 6,
+		"duree": 6,
+		"vitesse": 0.4,
+		"cadence": 1.6,
+		"recharge": 20,
+		"cout": 25,
+		"animation": "sort",
+		"couleur": "#85c1e9"
+	},
+
+	"acceleration": {
+		"nom": "Accélération",
+		"origine": "Tisseur",
+		"description": "Accélère le temps autour de l'allié ciblé (ou de toi) : il court 30 % plus vite et regagne 6 points de vie par seconde pendant 10 secondes.",
+		"type": "renfort_allie",
+		"portee": 35,
+		"effet": "acceleration",
+		"duree": 10,
+		"vitesse": 1.3,
+		"soin_par_seconde": 6,
+		"recharge": 15,
+		"cout": 15,
+		"animation": "sort",
+		"couleur": "#f7dc6f"
+	},
+
 	"feu_des_ancetres": {
 		"nom": "Feu des ancêtres",
 		"origine": "Préhistoire",
@@ -70,8 +295,10 @@
 		"degats_par_seconde": 6,
 		"soin_par_seconde": 8,
 		"recharge": 25,
+		"animation": "incantation",
 		"couleur": "#e67e22"
 	},
+
 	"lancer_au_propulseur": {
 		"nom": "Lancer au propulseur",
 		"origine": "Préhistoire",
@@ -82,8 +309,10 @@
 		"degats": [20, 26],
 		"recharge": 10,
 		"ralenti": { "facteur": 0.5, "duree": 6 },
+		"animation": "lancer",
 		"couleur": "#a0522d"
 	},
+
 	"appel_de_la_meute": {
 		"nom": "Appel de la meute",
 		"origine": "Préhistoire (ultime)",
@@ -92,8 +321,10 @@
 		"nombre": 2,
 		"duree": 20,
 		"recharge": 90,
+		"animation": "provocation",
 		"couleur": "#f1c40f"
 	},
+
 	"cri_du_clan": {
 		"nom": "Cri du clan",
 		"origine": "Préhistoire",
@@ -104,8 +335,10 @@
 		"duree": 10,
 		"degats_infliges": 1.15,
 		"recharge": 30,
+		"animation": "provocation",
 		"couleur": "#c0392b"
 	},
+
 	"peinture_de_guerre": {
 		"nom": "Peinture de guerre",
 		"origine": "Préhistoire",
@@ -116,6 +349,7 @@
 		"duree": 8,
 		"reduction_degats_subis": 0.3,
 		"recharge": 25,
+		"animation": "bouclier_leve",
 		"couleur": "#b03a2e"
 	}
 }

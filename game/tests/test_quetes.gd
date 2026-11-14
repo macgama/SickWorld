@@ -129,7 +129,7 @@ func _lancer() -> void:
 	_dialogue = get_first_node_in_group("dialogue")
 	print("Test des missions secondaires")
 	_verifier(_quetes.quetes.size() >= 3, "%d missions chargées" % _quetes.quetes.size())
-	for id in ["kuro", "kaminari", "ecran", "ferraille", "louche", "fresques", "jardins", "lanternes", "billet", "courrier", "guilde", "projecteurs", "affiche"]:
+	for id in ["kuro", "kaminari", "ecran", "ferraille", "louche", "fresques", "jardins", "lanternes", "billet", "courrier", "guilde", "projecteurs", "affiche", "hanafuda", "grande_roue", "colis"]:
 		var donneur: String = _quetes.quete(id)["donneur"]
 		_verifier(_trouver_pnj(donneur) != null, "le donneur de « %s » est en ville (%s)" % [id, donneur])
 		var marque = _quetes._marques.get(donneur)
@@ -275,6 +275,33 @@ func _lancer() -> void:
 	await _parler_a("championne")
 	await _parler_a("commentateur")
 	_verifier(_quetes.etat("affiche") == "terminee", "mission « Tête d'affiche » accomplie")
+
+	# 15. La carte du chien : Sabu -> 3 cartes -> Sabu.
+	await _parler_a("joueur_cartes")
+	_verifier(_quetes.etat("hanafuda") == "active", "le vieux Sabu confie sa mission")
+	faits = await _utiliser_objets("hanafuda")
+	_verifier(faits == 3 and _quetes.etats["hanafuda"]["etape"] == 1, "on retrouve les trois cartes (%s)" % _quetes.etats["hanafuda"])
+	await _parler_a("joueur_cartes")
+	_verifier(_quetes.etat("hanafuda") == "terminee", "mission « La carte du chien » accomplie")
+
+	# 16. La roue s'est arrêtée : Tomás -> Inès -> 3 engrenages -> Tomás.
+	await _parler_a("gardien_roue")
+	_verifier(_quetes.etat("grande_roue") == "active", "Tomás confie sa mission")
+	await _parler_a("soudeuse")
+	_verifier(_quetes.etats["grande_roue"]["etape"] == 1, "Inès donne le moyeu")
+	faits = await _utiliser_objets("grande_roue")
+	_verifier(faits == 3 and _quetes.etats["grande_roue"]["etape"] == 2, "on ramasse les trois engrenages (%s)" % _quetes.etats["grande_roue"])
+	await _parler_a("gardien_roue")
+	_verifier(_quetes.etat("grande_roue") == "terminee", "mission « La roue s'est arrêtée » accomplie")
+
+	# 17. Colis pour la station Asahi : Sho -> Kenji -> Mme Kurosawa -> M. Hayashi -> Sho.
+	await _parler_a("livreur")
+	_verifier(_quetes.etat("colis") == "active", "Sho confie sa mission")
+	for pnj in ["recruteur", "courtiere", "retraite_banc"]:
+		await _parler_a(pnj)
+	_verifier(_quetes.etats["colis"]["etape"] == 3, "les trois colis sont livrés (%s)" % _quetes.etats["colis"])
+	await _parler_a("livreur")
+	_verifier(_quetes.etat("colis") == "terminee", "mission « Colis pour la station Asahi » accomplie")
 
 	# 12. L'objet impossible (visite guidée du QG) : Morel -> Yuki -> Théo -> Ishida -> Morel.
 	_verifier(_quetes.etat("montre") == "active", "au retour de la Côte Gelée, la visite guidée du QG commence")

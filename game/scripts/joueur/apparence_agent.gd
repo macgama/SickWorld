@@ -10,14 +10,18 @@ extends Node3D
 ##   immobile.fbx  personnage + squelette + animation de repos
 ##   courir, reculer, pas_gauche, pas_droite, saut, chute, roulade, attaque,
 ##   touche, mort (.fbx) : animations seules, même squelette
+##   marcher.fbx (facultatif) : marche lente, utilisée sous 2 m/s (passants)
 ##   textures/     textures MakeHuman (réappliquées ici : Mixamo ne les garde pas)
 
 ## Animations qui tournent en boucle.
-const EN_BOUCLE := ["immobile", "courir", "reculer", "pas_gauche", "pas_droite", "chute"]
-const ANIMATIONS := ["immobile", "courir", "reculer", "pas_gauche", "pas_droite", "saut", "chute",
-	"roulade", "attaque", "touche", "mort"]
+const EN_BOUCLE := ["immobile", "marcher", "courir", "reculer", "pas_gauche", "pas_droite", "chute"]
+const ANIMATIONS := ["immobile", "marcher", "courir", "reculer", "pas_gauche", "pas_droite", "saut", "chute",
+	"roulade", "attaque", "touche", "mort",
+	# Gestes de combat propres aux classes (Mixamo, facultatifs : sinon « attaque »).
+	"attaque_lame", "attaque_bouclier", "bouclier_leve", "provocation", "tir_arc", "lancer",
+	"incantation", "sort", "esquive_arriere"]
 ## Vitesse (m/s) à laquelle chaque animation de déplacement est jouée à vitesse normale.
-const VITESSE_NATURELLE := {"courir": 5.0, "reculer": 2.0, "pas_gauche": 4.5, "pas_droite": 4.5}
+const VITESSE_NATURELLE := {"marcher": 1.4, "courir": 5.0, "reculer": 2.0, "pas_gauche": 4.5, "pas_droite": 4.5}
 const FONDU := 0.18
 ## Taille réelle des modèles MakeHuman (cm), pieds au sol, sans les cheveux.
 const TAILLE_MODELE := {"homme": 178.0, "femme": 168.0}
@@ -104,6 +108,8 @@ static func _bibliotheque(nom_modele: String) -> AnimationLibrary:
 		return _bibliotheques[nom_modele]
 	var bib := AnimationLibrary.new()
 	for nom in ANIMATIONS:
+		if not ResourceLoader.exists("res://assets/personnages/%s/%s.fbx" % [nom_modele, nom]):
+			continue
 		var scene := load("res://assets/personnages/%s/%s.fbx" % [nom_modele, nom]) as PackedScene
 		if scene == null:
 			continue
@@ -227,12 +233,20 @@ func _appliquer_teintes() -> void:
 
 
 ## Coup (attaque de base ou compétence).
-func attaquer() -> void:
+## style : nom d'un geste de combat (« tir_arc », « incantation »…) ; s'il manque, coup de poing.
+## duree : si plus grand que 0, le geste est étiré sur cette durée (préparation d'une compétence).
+func attaquer(style := "", duree := 0.0) -> void:
 	if _mort or _lecteur == null:
 		return
 	_actuelle = ""
-	_jouer("attaque", 0.08, 1.8, 0.15)
-	_verrou = 0.55
+	if style == "" or not _lecteur.has_animation("agent/" + style):
+		_jouer("attaque", 0.08, 1.8, 0.15)
+		_verrou = maxf(0.55, duree)
+		return
+	var longueur := maxf(0.1, _duree(style))
+	var vitesse := clampf(longueur / duree, 0.5, 3.0) if duree > 0.0 else clampf(longueur / 0.8, 1.0, 2.5)
+	_jouer(style, 0.1, vitesse)
+	_verrou = duree if duree > 0.0 else longueur / vitesse * 0.9
 
 
 ## Réaction quand le personnage reçoit des dégâts.
@@ -332,6 +346,8 @@ func animer(delta: float, vitesse_locale: Vector3, au_sol: bool, progression_esq
 		nom = "pas_droite" if vitesse_locale.x > 0.0 else "pas_gauche"
 	elif vitesse_locale.z > 0.0:
 		nom = "reculer"
+	elif vitesse < 2.0 and _lecteur.has_animation("agent/marcher"):
+		nom = "marcher"
 	var allure := clampf(vitesse / float(VITESSE_NATURELLE[nom]), 0.6, 2.2)
 	_jouer(nom, FONDU)
 	_lecteur.speed_scale = allure

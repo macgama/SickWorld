@@ -112,8 +112,8 @@
 	"_aide_classes": "« jouable » = la classe a déjà ses propres compétences dans le prototype. Les autres jouent provisoirement avec les compétences de la Lame.",
 	"classes": [
 		{
-			"id": "rempart", "nom": "Rempart", "role": "Tank", "jouable": false,
-			"arme": "epee_bouclier", "arme_texte": "Bouclier et arme d'une main", "ressource": "Endurance",
+			"id": "rempart", "nom": "Rempart", "role": "Tank", "jouable": true,
+			"arme": "epee_bouclier", "arme_texte": "Bouclier et arme d'une main", "ressource": "Ténacité",
 			"description": "Le Rempart se place entre le danger et ses alliés. Il attire l'attention des ennemis, encaisse les coups et tient la ligne quand tout le reste vacille.",
 			"difficulte": 2,
 			"competences": [
@@ -134,7 +134,7 @@
 			]
 		},
 		{
-			"id": "traqueur", "nom": "Traqueur", "role": "Dégâts à distance", "jouable": false,
+			"id": "traqueur", "nom": "Traqueur", "role": "Dégâts à distance", "jouable": true,
 			"arme": "arc", "arme_texte": "Arc, fusil léger ou armes de jet", "ressource": "Concentration",
 			"description": "Le Traqueur garde ses distances. Il choisit son moment, pose des pièges et vise les points faibles. Patient et précis, il frappe avant d'être vu.",
 			"difficulte": 2,
@@ -145,7 +145,7 @@
 			]
 		},
 		{
-			"id": "tisseur", "nom": "Tisseur", "role": "Soins et soutien", "jouable": false,
+			"id": "tisseur", "nom": "Tisseur", "role": "Soins et soutien", "jouable": true,
 			"arme": "baton", "arme_texte": "Bâton ou appareil « chrono »", "ressource": "Flux",
 			"description": "Le Tisseur manipule le fil du temps autour de lui : il soigne ses alliés, les protège et ralentit ou accélère le temps localement. Le groupe compte sur lui pour rester debout.",
 			"difficulte": 3,

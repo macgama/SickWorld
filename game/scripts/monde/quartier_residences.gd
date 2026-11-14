@@ -31,8 +31,8 @@ const ASCENSEUR_HALL := Vector3(-92.0, 0.0, 28.4)
 const ARRIVEE_HALL := Vector3(-92.0, 0.1, 26.4)
 const ASCENSEUR_APPART := Vector3(-87.0, SOL_APPART, 27.6)
 const ARRIVEE_APPART := Vector3(-87.0, SOL_APPART + 0.1, 25.6)
-## Étagère des souvenirs (mur ouest de l'appartement) : 4 rangées de 4.
-const SOUVENIRS_COLONNES := 4
+## Étagère des souvenirs (mur ouest de l'appartement) : 4 rangées de 5.
+const SOUVENIRS_COLONNES := 5
 const SOUVENIRS_RANGEES := 4
 ## Bannière de la guilde du joueur : dans la Maison des guildes et chez lui.
 const BANNIERE_MAISON := Vector3(-111.6, 5.5, -13.88)
@@ -66,7 +66,7 @@ static func construire(hub: HikariBay) -> void:
 static func emplacement_souvenir(i: int) -> Vector3:
 	var colonne := i % SOUVENIRS_COLONNES
 	var rangee := int(i / SOUVENIRS_COLONNES)
-	return Vector3(APPART.position.x + 0.22, SOL_APPART + 2.32 - rangee * 0.6, APPART.position.y + 1.8 + colonne * 1.6)
+	return Vector3(APPART.position.x + 0.22, SOL_APPART + 2.32 - rangee * 0.6, APPART.position.y + 1.55 + colonne * 1.3)
 
 
 # --- Entrée du quartier --------------------------------------------------------------
