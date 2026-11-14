@@ -66,6 +66,9 @@ func _lancer() -> void:
 	# Les bulles durent quelques secondes : on parle juste avant la photo.
 	social._recevoir("dire", "Gaël", "On y va, appuie sur K !", 1)
 	social._recevoir("dire", "Kenji", "C'est parti, je te suis !", 2)
+	# (le rendu logiciel est très lent : on prolonge les bulles pour la photo)
+	for id in interface._bulles:
+		interface._bulles[id]["fin"] += 600.0
 	await _attendre(3)
 	var chemin: String = dossier.path_join("discussion-et-groupe.jpg")
 	root.get_texture().get_image().save_jpg(chemin, 0.9)
