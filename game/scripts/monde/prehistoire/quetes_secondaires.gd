@@ -205,6 +205,8 @@ func _process(delta: float) -> void:
 ## Met à jour les personnages (répliques, « ! » et « ? »), les objets utilisables
 ## et la liste à l'écran.
 func _rafraichir() -> void:
+	if _cadre != null and _cadre.visible:
+		_placer_sous_l_aide()
 	if not is_inside_tree():
 		return
 	var principal := String(_quete.etape_actuelle().get("pnj", "")) if _quete.has_method("etape_actuelle") else ""
@@ -472,6 +474,17 @@ func _mettre_a_jour_liste() -> void:
 		ligne.custom_minimum_size.x = 300
 		_liste.add_child(ligne)
 	_cadre.visible = nombre > 0
+	_placer_sous_l_aide()
+
+
+## L'aide des touches (F1) occupe le même coin : la liste se range juste en dessous.
+func _placer_sous_l_aide() -> void:
+	var hud := _quete.get_parent().get_node_or_null("Interface") if _quete.get_parent() != null else null
+	var aide = hud.get("_aide") if hud != null else null
+	var haut := 268.0
+	if aide is Control and aide.is_visible_in_tree():
+		haut = maxf(haut, aide.get_global_rect().end.y + 10.0)
+	_cadre.offset_top = haut
 
 
 func _distance(q: Dictionary) -> float:
