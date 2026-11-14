@@ -3,7 +3,7 @@
 Depuis l'étape 3, le jeu s'ouvre sur un **menu** :
 
 - **Jouer seul** : comme avant, tout se passe sur ton PC.
-- **Héberger une partie** : ton PC devient le serveur ET tu joues dessus. Tes amis te rejoignent.
+- **Héberger une partie** : ton PC lance un petit serveur en arrière-plan (sans fenêtre) et tu le rejoins aussitôt. Tes amis te rejoignent. Le serveur s'arrête tout seul une minute après le départ du dernier joueur.
 - **Rejoindre** : tu te connectes à la partie de quelqu'un d'autre en tapant son adresse.
 
 Il faut d'abord avoir créé son personnage (voir [Créer son personnage](creer-son-personnage.md)). Son nom s'affiche au-dessus de lui chez les autres joueurs, qui voient aussi son apparence et son arme.

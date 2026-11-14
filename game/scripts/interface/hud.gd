@@ -13,6 +13,7 @@ const TEXTE_AIDE := """[b]Contrôles[/b]  (F1 pour cacher)
 [b]1 à 8[/b] : compétences (survole une case pour lire sa description)
 [b]C[/b], [b]I[/b] ou [b]B[/b] : personnage, sacs et tenues     [b]F[/b] : ramasser le butin
 [b]M[/b] : carte     [b]Molette[/b] sur la mini-carte : zoom     [b]V[/b] : monture (sur les îles)
+[b]Entrée[/b] : discuter (/aide pour les commandes)     [b]K[/b] : donjons en groupe
 [b]F10[/b] : qualité des graphismes (Bas, Moyen, Haut, Ultra)"""
 
 const TAILLE_CASE := 70

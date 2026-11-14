@@ -1,0 +1,17 @@
+{
+	"_aide": "Donjons où l'on peut entrer avec son groupe (fenêtre « Donjons », touche K). Chaque groupe a sa propre copie du donjon (une « instance »), lancée par le serveur de la ville. Le donjon suit l'avancée du chef de groupe dans l'histoire. joueurs_max : taille du groupe (5 comme dans WoW).",
+	"reglages": {
+		"joueurs_max": 5,
+		"ports_instances": 20
+	},
+	"donjons": [
+		{
+			"id": "grande_grotte",
+			"nom": "La Grande Grotte",
+			"epoque": "Préhistoire · -15 000",
+			"niveau": 10,
+			"scene": "res://scenes/monde/prehistoire/grotte.tscn",
+			"description": "Sous les Falaises Peintes, les galeries descendent jusqu'à l'antre de l'Ours Sans Mémoire, fusionné avec la fracture. Les peintures s'effacent : il faut agir vite."
+		}
+	]
+}
