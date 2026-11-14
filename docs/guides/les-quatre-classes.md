@@ -55,3 +55,21 @@ Inchangée : Taille rapide, Entaille, Frappe tournoyante, Bond, Exécution.
 - `game/data/competences.json` : dégâts, soins, recharges, coûts (`cout`) et gains (`gain`) de ressource.
 
 Test automatique : `godot --headless --path game -s res://tests/test_classes.gd` (il affiche aussi un petit bilan d'équilibrage : chaque classe seule contre 2 loups).
+
+## Les gestes (animations)
+
+Chaque compétence a un geste (clé `animation` dans `competences.json`, et dans `attaque_automatique` de `classes.json`). Les fichiers sont des animations Mixamo « Without Skin », pour l'homme et pour la femme, dans `game/assets/personnages/<modele>/` :
+
+| Fichier | Animation Mixamo | Utilisée par |
+|---|---|---|
+| attaque_lame.fbx | Great Sword Slash | Lame |
+| attaque_bouclier.fbx | Sword And Shield Slash | Coup de bouclier, Charge, Onde de choc, attaque du Rempart |
+| bouclier_leve.fbx | Sword And Shield Block | Mur de bouclier, Peinture de guerre |
+| provocation.fbx | Standing Taunt Battlecry | Provocation, Cri du clan, Appel de la meute |
+| tir_arc.fbx | Standing Aim Recoil | Tirs du Traqueur |
+| lancer.fbx | Throw | Piège à collet, Lancer au propulseur |
+| incantation.fbx | Standing 2H Cast Spell 01 | Fil de vie, Retour en arrière, Feu des ancêtres |
+| sort.fbx | Standing 1H Magic Attack 01 | Éclat temporel, Bulle lente, Accélération, attaque du Tisseur |
+| esquive_arriere.fbx | Standing Dodge Backward | Repli |
+
+Si un fichier manque, le personnage fait le coup de poing de base. Pendant une préparation (Tir visé, Fil de vie…), le geste est ralenti pour durer exactement la préparation.
