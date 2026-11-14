@@ -177,3 +177,37 @@ func _construire_panier() -> void:
 		s.position = Vector3(hasard.randf_range(-0.12, 0.12), 0.19, hasard.randf_range(-0.12, 0.12))
 		s.rotation.y = hasard.randf() * TAU
 		_visuel.add_child(s)
+
+
+## Une empreinte de chaussure moderne dans le sable : semelle crantée, talon marqué.
+func _construire_empreinte_semelle() -> void:
+	var creux := StandardMaterial3D.new()
+	creux.albedo_color = Color(0.42, 0.25, 0.16)
+	creux.roughness = 1.0
+	for pas in 3:
+		var pied := Node3D.new()
+		pied.position = Vector3((pas % 2) * 0.22 - 0.11, 0.005, -pas * 0.75)
+		_visuel.add_child(pied)
+		var semelle := MeshInstance3D.new()
+		var b := BoxMesh.new()
+		b.size = Vector3(0.11, 0.012, 0.2)
+		semelle.mesh = b
+		semelle.material_override = creux
+		semelle.position.z = -0.04
+		pied.add_child(semelle)
+		var talon := MeshInstance3D.new()
+		var bt := BoxMesh.new()
+		bt.size = Vector3(0.09, 0.012, 0.08)
+		talon.mesh = bt
+		talon.material_override = creux
+		talon.position.z = 0.12
+		pied.add_child(talon)
+		# Les crans de la semelle : de petites barres en relief, impossibles en -2560.
+		for k in 5:
+			var cran := MeshInstance3D.new()
+			var bc := BoxMesh.new()
+			bc.size = Vector3(0.1, 0.02, 0.012)
+			cran.mesh = bc
+			cran.material_override = creux
+			cran.position = Vector3(0, 0.004, -0.12 + k * 0.035)
+			pied.add_child(cran)

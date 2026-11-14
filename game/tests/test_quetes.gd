@@ -326,6 +326,13 @@ func _lancer() -> void:
 	_verifier(_quetes.etats["montre"]["etape"] == 4, "la visite passe par les portails, le Coffre et l'entraînement (%s)" % _quetes.etats["montre"])
 	await _parler_a("commandante")
 	_verifier(_quetes.etat("montre") == "terminee", "mission « L'objet impossible » accomplie")
+
+	# 18. Le carnet de Sablier (au retour d'Égypte) : Morel -> Yuki -> Morel.
+	_quetes.accepter("carnet")
+	_verifier(_quetes.etat("carnet") == "active", "au retour d'Égypte, l'analyse du carnet commence")
+	for pnj in ["commandante", "technicienne", "commandante"]:
+		await _parler_a(pnj)
+	_verifier(_quetes.etat("carnet") == "terminee", "mission « Le carnet de Sablier » accomplie")
 	souvenirs = _appart.get_node("Souvenirs").get_child_count()
 	_verifier(souvenirs == _quetes.quetes.size(), "toutes les missions ont leur souvenir (%d)" % souvenirs)
 
