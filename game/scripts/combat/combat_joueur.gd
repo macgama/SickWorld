@@ -807,6 +807,7 @@ func _process(delta: float) -> void:
 
 
 func _logique_serveur(delta: float, t: float) -> void:
+	combat.en_combat_synchro = combat.en_combat()
 	if cible != null and (not is_instance_valid(cible) or not cible.est_vivant()):
 		cible = null
 		attaque_auto = false

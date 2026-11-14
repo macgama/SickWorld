@@ -10,6 +10,7 @@ extends CharacterBody3D
 ## - Clic gauche maintenu : la souris tourne seulement la caméra
 ## - Les deux clics : avancer
 ## - Espace : sauter ; Maj : roulade d'esquive
+## - R : ranger / sortir son arme (elle sort toute seule en combat et se range après)
 ##
 ## Toutes les valeurs ci-dessous se règlent dans l'Inspecteur de Godot
 ## (sélectionner le nœud « Joueur » dans la scène).
@@ -40,6 +41,10 @@ extends CharacterBody3D
 ## Endurance récupérée par seconde.
 @export var recuperation_endurance := 20.0
 
+@export_group("Arme")
+## Secondes après la fin d'un combat avant que l'arme se range toute seule (0 = jamais).
+@export var delai_rangement_auto := 4.0
+
 @export_group("Apparence")
 ## Altitude sous laquelle le personnage est ramené à son point de départ.
 @export var altitude_minimum := -30.0
@@ -60,6 +65,11 @@ var vitesse_reseau := Vector3.ZERO
 var esquive_reseau := -1.0
 var direction_esquive_reseau := Vector3.ZERO
 var _place := false
+## Arme rangée dans le dos / à la ceinture (choisi par le joueur qui contrôle ce personnage).
+var arme_rangee := true
+var _etait_en_combat := false
+## Moment où l'arme se rangera toute seule (-1 = pas prévu).
+var _rangement_auto := -1.0
 
 var _temps_esquive := 0.0
 var _direction_esquive := Vector3.ZERO
@@ -108,6 +118,10 @@ func _ready() -> void:
 	_recuperation_endurance_base = recuperation_endurance
 	fiche.changee.connect(_appliquer_fiche)
 	_appliquer_fiche()
+	if apparence.has_signal("arme_sortie_pour_attaquer"):
+		apparence.arme_sortie_pour_attaquer.connect(_sur_arme_sortie)
+	if apparence.has_method("ranger_arme"):
+		apparence.ranger_arme(arme_rangee, false)
 	_point_depart = global_position
 	floor_snap_length = 0.5
 	floor_max_angle = deg_to_rad(50.0)
@@ -214,8 +228,38 @@ func _suivre_le_reseau(delta: float) -> void:
 				direction_esquive_reseau)
 
 
+## Ranger / sortir l'arme : touche, sortie en entrant en combat, rangement après le combat.
+func _gerer_arme() -> void:
+	if est_local():
+		var en_combat := combat.en_combat_synchro
+		var maintenant := Regles.maintenant()
+		if en_combat and not _etait_en_combat:
+			arme_rangee = false
+			_rangement_auto = -1.0
+		elif not en_combat and _etait_en_combat and delai_rangement_auto > 0.0:
+			_rangement_auto = maintenant + delai_rangement_auto
+		_etait_en_combat = en_combat
+		if _rangement_auto >= 0.0 and maintenant >= _rangement_auto:
+			_rangement_auto = -1.0
+			arme_rangee = true
+		var ecrit := get_viewport().gui_get_focus_owner() is LineEdit
+		if not ecrit and Input.is_action_just_pressed("ranger_arme") and combat.est_vivant():
+			arme_rangee = not arme_rangee
+			_rangement_auto = -1.0
+	if apparence.has_method("ranger_arme"):
+		apparence.ranger_arme(arme_rangee)
+
+
+## L'apparence a sorti l'arme pour attaquer : elle reste sortie.
+func _sur_arme_sortie() -> void:
+	if est_local():
+		arme_rangee = false
+		_rangement_auto = -1.0
+
+
 func _physics_process(delta: float) -> void:
 	_rendre_translucide(not combat.est_vivant())
+	_gerer_arme()
 	if not est_local():
 		_suivre_le_reseau(delta)
 		return

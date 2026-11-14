@@ -35,6 +35,9 @@ properties/4/replication_mode = 1
 properties/5/path = NodePath(".:nom")
 properties/5/spawn = true
 properties/5/replication_mode = 2
+properties/6/path = NodePath(".:arme_rangee")
+properties/6/spawn = true
+properties/6/replication_mode = 2
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_combat"]
 properties/0/path = NodePath(".:pv")
@@ -58,6 +61,9 @@ properties/5/replication_mode = 2
 properties/6/path = NodePath(".:vitesse_synchro")
 properties/6/spawn = true
 properties/6/replication_mode = 2
+properties/7/path = NodePath(".:en_combat_synchro")
+properties/7/spawn = true
+properties/7/replication_mode = 2
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_elan"]
 properties/0/path = NodePath(".:elan")
