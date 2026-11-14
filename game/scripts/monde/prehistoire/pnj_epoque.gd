@@ -6,6 +6,8 @@ extends "res://scripts/monde/pnj.gd"
 ## Un personnage « blessé » est allongé au sol jusqu'à ce qu'on le soigne.
 
 const DONNEES_EPOQUE := "res://data/prehistoire_pnj.json"
+## Les personnages des autres îles (lus en plus de ceux de la Préhistoire).
+const AUTRES_EPOQUES := ["res://data/egypte_pnj.json"]
 
 ## Allongé au sol (blessé) ou debout.
 @export var blesse := false:
@@ -19,11 +21,14 @@ var _etiquette: Label3D
 
 static func donnees_epoque() -> Dictionary:
 	if _donnees_epoque.is_empty():
-		var lu = JSON.parse_string(FileAccess.get_file_as_string(DONNEES_EPOQUE))
-		if lu is Dictionary:
-			_donnees_epoque = lu
-		else:
-			push_error("Impossible de lire %s : vérifie les virgules et les guillemets." % DONNEES_EPOQUE)
+		for fichier in [DONNEES_EPOQUE] + AUTRES_EPOQUES:
+			if not FileAccess.file_exists(fichier):
+				continue
+			var lu = JSON.parse_string(FileAccess.get_file_as_string(fichier))
+			if lu is Dictionary:
+				_donnees_epoque.merge(lu)
+			else:
+				push_error("Impossible de lire %s : vérifie les virgules et les guillemets." % fichier)
 	return _donnees_epoque
 
 

@@ -38,6 +38,15 @@
   `brown_mud_02`, `brown_leather` ; modèles `grass_medium_02`, `grass_bermuda_01`,
   `wild_rooibos_bush`, `searsia_lucida`.
 
+## Île d'Égypte
+
+- **Textures, modèles 3D et ciels (HDRI) : Poly Haven** (https://polyhaven.com),
+  licence **CC0** (domaine public). Fichiers : `game/assets/egypte/textures/`,
+  `game/assets/egypte/modeles/` et `game/assets/egypte/ciel/`
+  (un dossier ou fichier par ressource, au nom de son identifiant Poly Haven).
+  Script de téléchargement : `tools/egypte/telecharger_polyhaven.ps1`.
+- Crocodiles, hippopotames, palmiers, papyrus, bâtiments et pyramide : fabriqués par le code du jeu.
+
 ## Son et musique
 
 Tous les sons sont dans `game/audio/`. Ils ont été convertis en Ogg Vorbis,

@@ -36,6 +36,9 @@ var _vitesses_ref := {}
 static var _maillage_loup: ArrayMesh
 static var _os_loup: Array = []
 static var _textures_renne := {}
+const ApparenceNil := preload("res://scripts/ennemis/apparence_nil.gd")
+## Apparence d'une autre famille d'animaux à qui tout est confié (bêtes du Nil).
+var _delegue: Node3D
 
 
 func _ready() -> void:
@@ -43,6 +46,16 @@ func _ready() -> void:
 		enfant.queue_free()
 	var parent := get_parent()
 	var type := str(parent.get("type_ennemi")) if parent != null else ""
+	# Les bêtes du Nil (île d'Égypte) ont leur propre apparence, sculptée en code.
+	if type.begins_with("crocodile") or type.begins_with("hippopotame"):
+		espece = "hippopotame" if type.begins_with("hippopotame") else "crocodile"
+		_delegue = ApparenceNil.new()
+		_delegue.name = "Nil"
+		_delegue.espece = espece
+		add_child(_delegue)
+		if type.contains("geant") or type.contains("enrage"):
+			scale = Vector3.ONE * 1.35
+		return
 	if type.begins_with("renne"):
 		espece = "renne"
 	elif type.begins_with("ours"):
@@ -452,6 +465,9 @@ func _construire_renne() -> void:
 
 ## Loups invoqués : pelage plus clair et lueur bleue de la Vigie.
 func colorer(allie: bool) -> void:
+	if _delegue != null:
+		_delegue.colorer(allie)
+		return
 	if not allie:
 		return
 	if _pivot != null:
@@ -471,6 +487,9 @@ func colorer(allie: bool) -> void:
 
 
 func mordre() -> void:
+	if _delegue != null:
+		_delegue.mordre()
+		return
 	_morsure = 0.3
 	_attaque = 0.9
 	if _anim != null and espece == "ours":
@@ -481,6 +500,9 @@ func mordre() -> void:
 
 
 func animer(delta: float, vitesse: float, mort: bool) -> void:
+	if _delegue != null:
+		_delegue.animer(delta, vitesse, mort)
+		return
 	if _pivot != null:
 		_animer_modele(delta, vitesse, mort)
 		return

@@ -924,6 +924,101 @@
 				"couleur": "#6b4a2b"
 			},
 			"ameliore_de": "lance_silex"
+		},
+		"masse_ankhkhaf": {
+			"nom": "Masse d'Ânkhkhaf",
+			"type": "equipement",
+			"rarete": "rare",
+			"description": "Une tête de pierre polie, emmanchée sur du bois d'acacia. Ânkhkhaf l'a reçue de son père, le roi Snéfrou. La Vigie y a glissé un éclat de technologie.",
+			"emplacement": "arme_principale",
+			"epoque": "Égypte antique",
+			"stats": {
+				"degats_pourcent": 12,
+				"pv": 25
+			},
+			"visuel": {
+				"forme": "massue",
+				"couleur": "#c8bfae"
+			}
+		},
+		"collier_ousekh": {
+			"nom": "Collier ousekh",
+			"type": "equipement",
+			"rarete": "raffine",
+			"description": "Un large collier de perles de faïence bleue et de cornaline, porté sur les épaules.",
+			"emplacement": "bijou",
+			"epoque": "Égypte antique",
+			"stats": {
+				"pv": 25,
+				"critique_pourcent": 1
+			},
+			"visuel": {
+				"forme": "collier",
+				"couleur": "#3d8fb0"
+			}
+		},
+		"bandeau_lin": {
+			"nom": "Bandeau de lin",
+			"type": "equipement",
+			"rarete": "commun",
+			"description": "Une bande de lin blanc nouée autour du front, contre la sueur et le soleil.",
+			"emplacement": "tete",
+			"epoque": "Égypte antique",
+			"stats": {
+				"pv": 10
+			},
+			"visuel": {
+				"forme": "bandeau",
+				"couleur": "#e9e2d0"
+			}
+		},
+		"balise_farouk": {
+			"nom": "Balise de la Vigie",
+			"type": "materiau",
+			"rarete": "raffine",
+			"description": "La balise de l'agent Farouk, repêchée dans les roseaux. Encore un peu humide.",
+			"pile": 1,
+			"epoque": "Inconnue",
+			"icone": {
+				"forme": "eclat",
+				"couleur": "#4fd7ff"
+			}
+		},
+		"limon_du_nil": {
+			"nom": "Limon du Nil",
+			"type": "materiau",
+			"rarete": "commun",
+			"description": "La terre noire que la crue dépose chaque année. Les Égyptiens appelaient leur pays Kemet, « la Terre Noire ».",
+			"pile": 20,
+			"epoque": "Égypte antique",
+			"icone": {
+				"forme": "ocre",
+				"couleur": "#3a2e22"
+			}
+		},
+		"ecaille_crocodile": {
+			"nom": "Écaille de crocodile",
+			"type": "materiau",
+			"rarete": "commun",
+			"description": "Une plaque osseuse, dure comme du bois.",
+			"pile": 20,
+			"epoque": "Égypte antique",
+			"icone": {
+				"forme": "eclat",
+				"couleur": "#4a4a30"
+			}
+		},
+		"defense_hippopotame": {
+			"nom": "Défense d'hippopotame",
+			"type": "materiau",
+			"rarete": "rare",
+			"description": "Un ivoire plus dur que celui de l'éléphant. Les Égyptiens en faisaient des amulettes.",
+			"pile": 5,
+			"epoque": "Égypte antique",
+			"icone": {
+				"forme": "dent",
+				"couleur": "#e8dcc0"
+			}
 		}
 	},
 	"ensembles": {
@@ -980,6 +1075,11 @@
 		"appel_de_la_meute"
 	],
 	"butin": {
+		"crocodile_fracture": [{"objet": "eclat_de_fracture", "chance": 0.45}, {"objet": "ecaille_crocodile", "chance": 0.6, "quantite": [1, 2]}],
+		"crocodile_fracture_faille": [{"objet": "eclat_de_fracture", "chance": 0.6}],
+		"crocodile": [{"objet": "ecaille_crocodile", "chance": 0.7, "quantite": [1, 3]}],
+		"hippopotame_fracture": [{"objet": "eclat_de_fracture", "chance": 1.0, "quantite": [2, 3]}, {"objet": "defense_hippopotame", "chance": 1.0}],
+		"hippopotame": [{"objet": "defense_hippopotame", "chance": 0.5}],
 		"loup": [
 			{
 				"objet": "croc_loup",

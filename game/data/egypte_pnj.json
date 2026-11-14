@@ -1,0 +1,99 @@
+{
+	"_aide": "Personnages de l'île d'Égypte (règne de Khéops). Pour changer ce qu'ils disent, modifie le texte entre guillemets (une ligne = une bulle de dialogue). Garde les virgules entre les lignes. « tenue » = objets de data/objets.json portés par le personnage, « peau » = couleur de peau, « habits » = couleur du pagne ou de la robe de lin.",
+	"farouk": {
+		"nom": "Agent Nadia Farouk",
+		"role": "Vigie · Port des Marais",
+		"modele": "femme",
+		"taille_cm": 168,
+		"peau": "#a8774f",
+		"repliques": [
+			"La balise tient. Le portail est stable. Bien joué, agent.",
+			"Merer est sur les quais, au nord. C'est un vrai personnage historique, tu sais ? On a retrouvé son journal en 2013. Ne lui dis surtout pas."
+		]
+	},
+	"merer": {
+		"nom": "Merer",
+		"role": "Inspecteur · Compagnons de Khéops",
+		"modele": "homme",
+		"taille_cm": 170,
+		"peau": "#9a6a48",
+		"habits": "#e8e0cc",
+		"tenue": [
+			"bandeau_lin"
+		],
+		"repliques": [
+			"Jour 25. Chargement de quarante blocs à Toura. Arrivée au port de Gizeh au soir. Rien à signaler... sauf toi.",
+			"Un bloc, c'est une journée. Une journée perdue, c'est un bloc qui manque. Je compte tout."
+		]
+	},
+	"ankhkhaf": {
+		"nom": "Ânkhkhaf",
+		"role": "Demi-frère du roi · Chef du port",
+		"modele": "homme",
+		"taille_cm": 182,
+		"peau": "#94643f",
+		"habits": "#f0e8d4",
+		"tenue": [
+			"collier_ousekh",
+			"masse_ankhkhaf"
+		],
+		"repliques": [
+			"Les esprits de l'Ouest ne tirent pas les cordes. Toi, si. C'est déjà ça.",
+			"Le canal doit rester ouvert jusqu'au pied du plateau. Le roi n'attend pas."
+		]
+	},
+	"batelier_1": {
+		"nom": "Ouni",
+		"role": "Batelier · équipe de Merer",
+		"modele": "homme",
+		"taille_cm": 172,
+		"peau": "#8f5f3e",
+		"habits": "#ddd2b8",
+		"tenue": [
+			"bandeau_lin"
+		],
+		"repliques": [
+			"Tire quand on chante, souffle quand on se tait. C'est tout le secret.",
+			"Tu viens vraiment de l'Ouest ? Il y fait aussi chaud qu'ici ?"
+		]
+	},
+	"batelier_2": {
+		"nom": "Hori",
+		"role": "Batelier · équipe de Merer",
+		"modele": "homme",
+		"taille_cm": 176,
+		"peau": "#9c6b46",
+		"habits": "#e2d8c0",
+		"repliques": [
+			"On verse de l'eau sous les patins, sinon le traîneau ne glisse pas. Le sable mouillé, c'est notre meilleur ami.",
+			"Mes bras se souviennent de chaque bloc. Ma tête, de moins en moins..."
+		]
+	},
+	"batelier_3": {
+		"nom": "Sobekhotep",
+		"role": "Batelier · équipe de Merer",
+		"modele": "homme",
+		"taille_cm": 169,
+		"peau": "#87583a",
+		"habits": "#d8cdb2",
+		"repliques": [
+			"Les crocodiles d'ici ne nous embêtaient jamais. Depuis quelques jours, ils ont les yeux qui brillent.",
+			"Mon nom ? C'est... Sobekhotep. Oui. Je crois."
+		]
+	},
+	"batelier_4": {
+		"nom": "Ipi",
+		"role": "Batelier · équipe de Merer",
+		"modele": "homme",
+		"taille_cm": 174,
+		"peau": "#a07048",
+		"habits": "#e6dcc4",
+		"tenue": [
+			"bandeau_lin"
+		],
+		"repliques": [
+			"Ce soir, bière et pain chaud au village. Merer a promis.",
+			"Fais attention à l'hippopotame du chenal. Il a déjà coulé deux barques."
+		]
+	}
+}
