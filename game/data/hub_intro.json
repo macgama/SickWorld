@@ -65,6 +65,11 @@
 			"scene": "res://scenes/monde/prehistoire/cote_gelee.tscn",
 			"titre": "Préhistoire",
 			"sous_titre": "Il y a environ 17 000 ans"
+		},
+		"Égypte antique": {
+			"scene": "res://scenes/monde/egypte/port_des_marais.tscn",
+			"titre": "Égypte antique",
+			"sous_titre": "Règne de Khéops, vers 2560 av. J.-C."
 		}
 	}
 }

@@ -924,6 +924,193 @@
 				"couleur": "#6b4a2b"
 			},
 			"ameliore_de": "lance_silex"
+		},
+		"masse_ankhkhaf": {
+			"nom": "Masse d'Ânkhkhaf",
+			"type": "equipement",
+			"rarete": "rare",
+			"description": "Une tête de pierre polie, emmanchée sur du bois d'acacia. Ânkhkhaf l'a reçue de son père, le roi Snéfrou. La Vigie y a glissé un éclat de technologie.",
+			"emplacement": "arme_principale",
+			"epoque": "Égypte antique",
+			"stats": {
+				"degats_pourcent": 12,
+				"pv": 25
+			},
+			"visuel": {
+				"forme": "massue",
+				"couleur": "#c8bfae"
+			}
+		},
+		"collier_ousekh": {
+			"nom": "Collier ousekh",
+			"type": "equipement",
+			"rarete": "raffine",
+			"description": "Un large collier de perles de faïence bleue et de cornaline, porté sur les épaules.",
+			"emplacement": "bijou",
+			"epoque": "Égypte antique",
+			"stats": {
+				"pv": 25,
+				"critique_pourcent": 1
+			},
+			"visuel": {
+				"forme": "collier",
+				"couleur": "#3d8fb0"
+			}
+		},
+		"bandeau_lin": {
+			"nom": "Bandeau de lin",
+			"type": "equipement",
+			"rarete": "commun",
+			"description": "Une bande de lin blanc nouée autour du front, contre la sueur et le soleil.",
+			"emplacement": "tete",
+			"epoque": "Égypte antique",
+			"stats": {
+				"pv": 10
+			},
+			"visuel": {
+				"forme": "bandeau",
+				"couleur": "#e9e2d0"
+			}
+		},
+		"balise_farouk": {
+			"nom": "Balise de la Vigie",
+			"type": "materiau",
+			"rarete": "raffine",
+			"description": "La balise de l'agent Farouk, repêchée dans les roseaux. Encore un peu humide.",
+			"pile": 1,
+			"epoque": "Inconnue",
+			"icone": {
+				"forme": "eclat",
+				"couleur": "#4fd7ff"
+			}
+		},
+		"limon_du_nil": {
+			"nom": "Limon du Nil",
+			"type": "materiau",
+			"rarete": "commun",
+			"description": "La terre noire que la crue dépose chaque année. Les Égyptiens appelaient leur pays Kemet, « la Terre Noire ».",
+			"pile": 20,
+			"epoque": "Égypte antique",
+			"icone": {
+				"forme": "ocre",
+				"couleur": "#3a2e22"
+			}
+		},
+		"ecaille_crocodile": {
+			"nom": "Écaille de crocodile",
+			"type": "materiau",
+			"rarete": "commun",
+			"description": "Une plaque osseuse, dure comme du bois.",
+			"pile": 20,
+			"epoque": "Égypte antique",
+			"icone": {
+				"forme": "eclat",
+				"couleur": "#4a4a30"
+			}
+		},
+		"defense_hippopotame": {
+			"nom": "Défense d'hippopotame",
+			"type": "materiau",
+			"rarete": "rare",
+			"description": "Un ivoire plus dur que celui de l'éléphant. Les Égyptiens en faisaient des amulettes.",
+			"pile": 5,
+			"epoque": "Égypte antique",
+			"icone": {
+				"forme": "dent",
+				"couleur": "#e8dcc0"
+			}
+		},
+		"ciseau_cuivre": {
+			"nom": "Ciseau de cuivre d'Iry",
+			"type": "equipement",
+			"rarete": "rare",
+			"description": "Le ciseau du maître carrier de Toura. Le cuivre s'émousse vite sur le calcaire : Iry l'aiguise chaque soir. Il tranche aussi bien la chair que la pierre.",
+			"emplacement": "arme_secondaire",
+			"epoque": "Égypte antique",
+			"stats": {
+				"critique_pourcent": 3,
+				"degats_pourcent": 4
+			},
+			"visuel": {
+				"forme": "couteau",
+				"couleur": "#b87333"
+			}
+		},
+		"amulette_felee": {
+			"nom": "Amulette fêlée",
+			"type": "materiau",
+			"rarete": "historique",
+			"description": "Trouvée au fond d'une galerie de Toura, près de la faille. Un petit scarabée de faïence... avec, à l'intérieur, un circuit qui grésille. Quelqu'un l'a apportée ici.",
+			"pile": 1,
+			"epoque": "Inconnue",
+			"icone": {
+				"forme": "eclat",
+				"couleur": "#9b6bff"
+			}
+		},
+		"calcaire_fin": {
+			"nom": "Calcaire fin de Toura",
+			"type": "materiau",
+			"rarete": "raffine",
+			"description": "Le beau calcaire blanc de Toura, si fin qu'on le polit comme du marbre. C'est lui qui habille la Grande Pyramide.",
+			"pile": 20,
+			"epoque": "Égypte antique",
+			"icone": {
+				"forme": "silex",
+				"couleur": "#efe9dc"
+			}
+		},
+		"canine_babouin": {
+			"nom": "Canine de babouin",
+			"type": "materiau",
+			"rarete": "commun",
+			"description": "Plus longue que celle d'un lion. Le babouin est l'animal de Thot, le dieu de l'écriture.",
+			"pile": 20,
+			"epoque": "Égypte antique",
+			"icone": {
+				"forme": "croc",
+				"couleur": "#e9e2cf"
+			}
+		},
+		"amulette_sablier": {
+			"nom": "Amulette de la prêtresse",
+			"type": "materiau",
+			"rarete": "historique",
+			"description": "Un scarabée de faïence bleue, offert aux ouvriers par une « prêtresse de Memphis ». Au dos, gravé minuscule : un sablier. Le sablier n'existera pas avant 3 500 ans.",
+			"pile": 10,
+			"epoque": "Inconnue",
+			"icone": {
+				"forme": "eclat",
+				"couleur": "#4f8fd8"
+			}
+		},
+		"oudjat_peseshet": {
+			"nom": "Œil oudjat de Pésèshet",
+			"type": "equipement",
+			"rarete": "rare",
+			"description": "L'œil d'Horus, qui fut arraché puis guéri. Pésèshet l'offre à ceux qui soignent : « Ce qui est brisé peut redevenir entier. »",
+			"emplacement": "bijou",
+			"epoque": "Égypte antique",
+			"stats": {
+				"pv": 60,
+				"reduction_pourcent": 2
+			},
+			"visuel": {
+				"forme": "collier",
+				"couleur": "#2f6fb0"
+			}
+		},
+		"pain_meret": {
+			"nom": "Pain de Méret",
+			"type": "materiau",
+			"rarete": "commun",
+			"description": "Un pain conique cuit dans un moule de terre, encore tiède. Avec la bière, c'est le salaire des bâtisseurs.",
+			"pile": 20,
+			"epoque": "Égypte antique",
+			"icone": {
+				"forme": "pierre",
+				"couleur": "#c79a5a"
+			}
 		}
 	},
 	"ensembles": {
@@ -980,6 +1167,15 @@
 		"appel_de_la_meute"
 	],
 	"butin": {
+		"crocodile_fracture": [{"objet": "eclat_de_fracture", "chance": 0.45}, {"objet": "ecaille_crocodile", "chance": 0.6, "quantite": [1, 2]}],
+		"crocodile_fracture_faille": [{"objet": "eclat_de_fracture", "chance": 0.6}],
+		"crocodile": [{"objet": "ecaille_crocodile", "chance": 0.7, "quantite": [1, 3]}],
+		"hippopotame_fracture": [{"objet": "eclat_de_fracture", "chance": 1.0, "quantite": [2, 3]}, {"objet": "defense_hippopotame", "chance": 1.0}],
+		"hippopotame": [{"objet": "defense_hippopotame", "chance": 0.5}],
+		"babouin": [{"objet": "canine_babouin", "chance": 0.6, "quantite": [1, 2]}, {"objet": "calcaire_fin", "chance": 0.3}],
+		"babouin_fracture": [{"objet": "canine_babouin", "chance": 0.6, "quantite": [1, 2]}, {"objet": "eclat_de_fracture", "chance": 0.35}, {"objet": "calcaire_fin", "chance": 0.4}],
+		"babouin_fracture_faille": [{"objet": "eclat_de_fracture", "chance": 0.6}],
+		"chacal_fracture": [{"objet": "eclat_de_fracture", "chance": 0.5}],
 		"loup": [
 			{
 				"objet": "croc_loup",

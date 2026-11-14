@@ -17,10 +17,11 @@ const EvenementsPublics := preload("res://scripts/monde/prehistoire/evenements_p
 
 signal etape_changee(id: String)
 
-const DONNEES := "res://data/prehistoire_quete.json"
 const OR := Color(1.0, 0.82, 0.35)
-const SECTION := "prehistoire"
 
+## L'île de cette quête : ses données sont dans data/<ile>_quete.json et son
+## avancement dans la section <ile> de user://progression.cfg.
+@export var ile := "prehistoire"
 ## Coche pour recommencer la quête depuis le début à chaque lancement.
 @export var toujours_recommencer := false
 ## Décoche pour rester sur l'île au lieu de charger le hub (utilisé par les tests).
@@ -79,6 +80,16 @@ var evenements: Node
 var _rappel_canalisation: Callable
 
 
+## Fichier des données de la quête de l'île.
+var DONNEES: String:
+	get:
+		return "res://data/%s_quete.json" % ile
+## Section de user://progression.cfg où l'avancement est gardé.
+var SECTION: String:
+	get:
+		return ile
+
+
 func _ready() -> void:
 	add_to_group("quete")
 	var lu = JSON.parse_string(FileAccess.get_file_as_string(DONNEES))
@@ -97,12 +108,14 @@ func _ready() -> void:
 	_reprendre_choix()
 	_construire_ecran()
 	_construire_repere()
-	secondaires = QuetesSecondaires.new()
-	secondaires.name = "QuetesSecondaires"
-	add_child(secondaires)
-	evenements = EvenementsPublics.new()
-	evenements.name = "EvenementsPublics"
-	add_child(evenements)
+	# Quêtes secondaires et événements publics (seulement la Préhistoire pour l'instant).
+	if ile == "prehistoire":
+		secondaires = QuetesSecondaires.new()
+		secondaires.name = "QuetesSecondaires"
+		add_child(secondaires)
+		evenements = EvenementsPublics.new()
+		evenements.name = "EvenementsPublics"
+		add_child(evenements)
 	var dialogue := get_tree().get_first_node_in_group("dialogue")
 	if dialogue != null:
 		dialogue.termine.connect(_sur_dialogue_termine)
@@ -121,7 +134,8 @@ func _demarrer() -> void:
 		depart = _etape_sauvegardee()
 	# Le monde reprend l'état des étapes déjà faites (Lenoir debout, faille fermée…).
 	for i in (depart if depart >= 0 else etapes.size()):
-		_appliquer_apres(etapes[i], false)
+		if not _hors_choix(etapes[i]):
+			_appliquer_apres(etapes[i], false)
 	_arrivee()
 	_aller_a(depart)
 	# Une étape « arriver » se termine en entrant dans la zone demandée.
@@ -156,6 +170,22 @@ func _reprendre_choix() -> void:
 		for option in e["choix"]:
 			if option.get("objet", "") == pris:
 				etapes[i] = _etape_choisie(e, option)
+
+
+## Une étape avec « si_choix » ({"id_du_choix": "objet"}) n'existe que dans une des
+## branches d'un choix : on la saute si le joueur a choisi autre chose.
+func _hors_choix(e: Dictionary) -> bool:
+	if not e.has("si_choix"):
+		return false
+	var conditions: Dictionary = e["si_choix"]
+	for id in conditions:
+		var fait := ""
+		for autre in etapes:
+			if autre.get("id", "") == id:
+				fait = String(autre.get("choix_fait", ""))
+		if fait != String(conditions[id]):
+			return true
+	return false
 
 
 func _etape_choisie(e: Dictionary, option: Dictionary) -> Dictionary:
@@ -212,6 +242,17 @@ func _sauvegarder() -> void:
 
 func etape_actuelle() -> Dictionary:
 	return etapes[etape] if etape >= 0 and etape < etapes.size() else {}
+
+
+## Vrai si la quête a atteint (ou dépassé) l'étape « id » : sert aux passages qui
+## s'ouvrent en cours d'histoire (le passeur du Nil, les carriers libérés…).
+func etape_atteinte(id: String) -> bool:
+	if etape < 0:
+		return true
+	for i in etapes.size():
+		if etapes[i].get("id", "") == id:
+			return etape >= i
+	return false
 
 
 func _aller_a(numero: int) -> void:
@@ -282,7 +323,10 @@ func _suivante(apres_deja_fait := false) -> void:
 	var e := etape_actuelle()
 	if not apres_deja_fait:
 		_appliquer_apres(e, true)
-	_aller_a(etape + 1 if etape + 1 < etapes.size() else -1)
+	var suivante := etape + 1
+	while suivante < etapes.size() and _hors_choix(etapes[suivante]):
+		suivante += 1
+	_aller_a(suivante if suivante < etapes.size() else -1)
 	var fin: Dictionary = donnees.get("fin_provisoire", {})
 	if etape < 0 and fin.has("message"):
 		_annoncer(fin.get("titre", ""), fin.get("message", ""))
@@ -312,6 +356,15 @@ func _appliquer_effet(effet: Dictionary, anime: bool) -> void:
 			var a: Array = effet["aller"]
 			var y: float = ile.hauteur(a[0], a[1]) if ile != null else pnj.global_position.y
 			pnj.global_position = Vector3(a[0], y, a[1])
+	if effet.has("decor") and effet.has("aller"):
+		# Un décor change de place (ex. le bloc halé reste au bout de la rampe).
+		var decor := _trouver_decor(String(effet["decor"])) as Node3D
+		var ile_d := get_tree().get_first_node_in_group("ile")
+		if decor != null and ile_d != null:
+			var a: Array = effet["aller"]
+			decor.global_position = Vector3(a[0], ile_d.hauteur(a[0], a[1]), a[1])
+			if effet.has("angle"):
+				decor.rotation.y = float(effet["angle"])
 	if effet.has("cacher"):
 		var objet := _trouver_objet(effet["cacher"])
 		if objet != null and not anime and objet.has_method("fermer"):
@@ -362,6 +415,16 @@ func _trouver_pnj(id: String) -> Node:
 	for pnj in get_tree().get_nodes_in_group("pnj"):
 		if pnj.get("identifiant") == id:
 			return pnj
+	return null
+
+
+## Un décor de quête (groupe « decor_quete ») par son identifiant.
+func _trouver_decor(id: String) -> Node:
+	if id == "":
+		return null
+	for n in get_tree().get_nodes_in_group("decor_quete"):
+		if n.get_meta("identifiant", "") == id:
+			return n
 	return null
 
 
@@ -638,6 +701,9 @@ func _position_cible(e: Dictionary):
 			return null
 		return Vector3(sortie.x, ile.hauteur(sortie.x, sortie.y), sortie.y)
 	if e.has("escorte"):
+		var charge := _trouver_decor(String(e.get("charge", ""))) as Node3D
+		if charge != null:
+			return charge.global_position
 		var tete := _trouver_pnj(e["escorte"][0]) as Node3D
 		if tete != null:
 			return tete.global_position
@@ -728,7 +794,7 @@ func changer_de_zone(zone: String) -> void:
 	anim.tween_property(_voile, "color:a", 1.0, 0.8)
 	if voyage_reel:
 		anim.tween_callback(func():
-			Reseau.set_meta("arrivee_prehistoire", _zone())
+			Reseau.set_meta("arrivee_" + ile, _zone())
 			get_tree().change_scene_to_file(scene))
 	else:
 		anim.tween_callback(func():
@@ -923,7 +989,11 @@ func _avancer_escorte(e: Dictionary, delta: float) -> void:
 		longueur += points[i].distance_to(points[i + 1])
 	var ids: Array = e["escorte"]
 	var tete := _trouver_pnj(ids[0]) as Node3D
-	var proche := tete != null and joueur.global_position.distance_to(tete.global_position) < float(e.get("distance_joueur", 18.0))
+	# Halage : une « charge » (un bloc sur son traîneau) est tirée par les personnages,
+	# qui marchent devant elle. Il faut rester tout près de la charge pour tirer avec eux.
+	var charge := _trouver_decor(String(e.get("charge", ""))) as Node3D
+	var reference: Node3D = charge if charge != null else tete
+	var proche := reference != null and joueur.global_position.distance_to(reference.global_position) < float(e.get("distance_joueur", 18.0))
 	var menace := false
 	for bete in get_tree().get_nodes_in_group("loups"):
 		if bete.has_meta("unique") and bete.combat.est_vivant() and tete != null \
@@ -934,14 +1004,24 @@ func _avancer_escorte(e: Dictionary, delta: float) -> void:
 		vitesse = float(e.get("vitesse", 2.0))
 	escorte_distance = minf(escorte_distance + vitesse * delta, longueur)
 	# Chaque personnage suit, quelques mètres derrière le précédent.
+	var cordes: Array[Vector3] = []
+	if charge != null:
+		var pc := _point_sur_chemin(points, escorte_distance)
+		var dc := _point_sur_chemin(points, escorte_distance + 0.5) - pc
+		charge.global_position = Vector3(pc.x, ile.hauteur(pc.x, pc.y), pc.y)
+		if dc.length() > 0.001:
+			charge.rotation.y = atan2(-dc.x, -dc.y)
 	for k in ids.size():
 		var pnj := _trouver_pnj(ids[k]) as Node3D
 		if pnj == null:
 			continue
 		var d := maxf(escorte_distance - k * 2.6, 0.0)
+		if charge != null:
+			# Les haleurs marchent devant la charge, deux par deux.
+			d = escorte_distance + 4.0 + (k / 2) * 1.6
 		var p := _point_sur_chemin(points, d)
 		var devant := _point_sur_chemin(points, d + 0.5)
-		var cote := (devant - p).normalized().orthogonal() * (0.9 if k % 2 == 0 else -0.9) * (1.0 if k > 0 else 0.0)
+		var cote := (devant - p).normalized().orthogonal() * (0.9 if k % 2 == 0 else -0.9) * (1.0 if k > 0 or charge != null else 0.0)
 		p += cote
 		var avant := pnj.global_position
 		pnj.global_position = Vector3(p.x, ile.hauteur(p.x, p.y), p.y)
@@ -952,6 +1032,9 @@ func _avancer_escorte(e: Dictionary, delta: float) -> void:
 		if apparence != null and apparence.has_method("animer"):
 			var v := pas.length() / maxf(delta, 0.001)
 			apparence.animer(delta, Vector3(0, 0, -v), true, -1.0, Vector3.ZERO)
+		cordes.append(pnj.global_position + Vector3(0, 1.0, 0))
+	if charge != null and charge.has_method("tirer"):
+		charge.tirer(cordes, vitesse > 0.0)
 	# Les vagues d'ennemis.
 	var vagues: Array = e.get("vagues", [])
 	for i in vagues.size():

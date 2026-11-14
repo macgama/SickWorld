@@ -36,6 +36,10 @@ var _vitesses_ref := {}
 static var _maillage_loup: ArrayMesh
 static var _os_loup: Array = []
 static var _textures_renne := {}
+const ApparenceNil := preload("res://scripts/ennemis/apparence_nil.gd")
+const ApparenceOublie := preload("res://scripts/ennemis/apparence_oublie.gd")
+## Apparence d'une autre famille d'animaux à qui tout est confié (bêtes du Nil).
+var _delegue: Node3D
 
 
 func _ready() -> void:
@@ -43,6 +47,24 @@ func _ready() -> void:
 		enfant.queue_free()
 	var parent := get_parent()
 	var type := str(parent.get("type_ennemi")) if parent != null else ""
+	# Les bêtes du Nil (île d'Égypte) ont leur propre apparence, sculptée en code.
+	if type.begins_with("oublie"):
+		# Pas « "" » : ce serait un agent de la Vigie pour le bruiteur (pas, esquives…).
+		espece = "oublie"
+		_delegue = ApparenceOublie.new()
+		_delegue.name = "Oublie"
+		_delegue.graine = parent.get_instance_id() % 997
+		add_child(_delegue)
+		return
+	if type.begins_with("crocodile") or type.begins_with("hippopotame") or type.begins_with("babouin"):
+		espece = "hippopotame" if type.begins_with("hippopotame") else ("babouin" if type.begins_with("babouin") else "crocodile")
+		_delegue = ApparenceNil.new()
+		_delegue.name = "Nil"
+		_delegue.espece = espece
+		add_child(_delegue)
+		if type.contains("geant") or type.contains("enrage"):
+			scale = Vector3.ONE * 1.35
+		return
 	if type.begins_with("renne"):
 		espece = "renne"
 	elif type.begins_with("ours"):
@@ -51,6 +73,10 @@ func _ready() -> void:
 		_construire_modele()
 		if type.begins_with("ours_sans"):
 			scale = Vector3.ONE * 2.4
+		elif type.begins_with("chacal"):
+			# Le chacal doré d'Égypte : un petit loup fin, au pelage fauve.
+			scale = Vector3(0.72, 0.74, 0.7)
+			_en_chacal()
 		elif type.contains("alpha"):
 			scale = Vector3.ONE * 1.5
 		return
@@ -88,6 +114,19 @@ func _construire_modele() -> void:
 		_retirer_deplacement(a)
 		_vitesses_ref[nom] = float(a.get_meta("vitesse_ref", 0.0)) * (1.2 if espece == "ours" else 1.0)
 	_jouer(_nom_repos())
+
+
+## Pelage fauve et dos plus sombre du chacal (on teinte la texture du loup).
+func _en_chacal() -> void:
+	if _pivot == null:
+		return
+	for mi in _pivot.find_children("*", "MeshInstance3D", true, false):
+		var m := (mi as MeshInstance3D).get_active_material(0) as StandardMaterial3D
+		if m == null:
+			continue
+		var fauve := m.duplicate() as StandardMaterial3D
+		fauve.albedo_color = Color(1.35, 1.02, 0.66)
+		(mi as MeshInstance3D).material_override = fauve
 
 
 ## Les animations font avancer l'os racine (« root motion ») : c'est le jeu qui
@@ -452,6 +491,9 @@ func _construire_renne() -> void:
 
 ## Loups invoqués : pelage plus clair et lueur bleue de la Vigie.
 func colorer(allie: bool) -> void:
+	if _delegue != null:
+		_delegue.colorer(allie)
+		return
 	if not allie:
 		return
 	if _pivot != null:
@@ -471,6 +513,9 @@ func colorer(allie: bool) -> void:
 
 
 func mordre() -> void:
+	if _delegue != null:
+		_delegue.mordre()
+		return
 	_morsure = 0.3
 	_attaque = 0.9
 	if _anim != null and espece == "ours":
@@ -481,6 +526,9 @@ func mordre() -> void:
 
 
 func animer(delta: float, vitesse: float, mort: bool) -> void:
+	if _delegue != null:
+		_delegue.animer(delta, vitesse, mort)
+		return
 	if _pivot != null:
 		_animer_modele(delta, vitesse, mort)
 		return

@@ -1,0 +1,855 @@
+{
+	"_aide": "Quête principale de l'Égypte : « Ce que le fleuve emporte ». Mêmes règles que data/prehistoire_quete.json (voir son « _aide »). En plus : une « escorte » peut avoir une « charge » (un décor, ici le bloc sur son traîneau) que les personnages tirent ; il faut alors rester tout près de la charge (« distance_joueur »). Effet {\"decor\": \"traineau_quai\", \"aller\": [x, z]} : pose un décor à un endroit. Pour changer un texte, modifie ce qui est entre guillemets. Garde les virgules.",
+	"zones": {
+		"port_des_marais": {
+			"scene": "res://scenes/monde/egypte/port_des_marais.tscn",
+			"arrivee": {
+				"titre": "Le Port des Marais",
+				"sous_titre": "Égypte · règne de Khéops, vers -2560",
+				"texte": "La chaleur te tombe dessus comme une couverture. L'eau t'arrive aux genoux, tiède et brune. Autour de toi, des papyrus plus hauts qu'un homme. Quelqu'un tousse, tout près : « Par ici ! Vite ! »"
+			}
+		},
+		"carrieres_toura": {
+			"scene": "res://scenes/monde/egypte/carrieres_toura.tscn",
+			"arrivee": {
+				"titre": "Les Carrières de Toura",
+				"sous_titre": "Égypte · rive est du Nil",
+				"texte": "La barque racle le sable. Devant toi, une falaise blanche si lumineuse qu'elle fait mal aux yeux, taillée en marches géantes. On entend partout le tac-tac des maillets sur le cuivre... et, par moments, plus rien du tout."
+			}
+		},
+		"village_batisseurs": {
+			"scene": "res://scenes/monde/egypte/village_batisseurs.tscn",
+			"arrivee": {
+				"titre": "Le Village des Bâtisseurs",
+				"sous_titre": "Égypte · au pied du plateau de Gizeh",
+				"texte": "Une odeur de pain chaud et de bière tiède. Des rues de briques, des enfants qui courent, des chiens maigres. Au-dessus des toits, un mur gigantesque, et derrière lui, une montagne de pierre blanche qui touche presque le ciel."
+			}
+		}
+	},
+	"camps": {
+		"port_des_marais": [
+			{
+				"type": "crocodile_fracture",
+				"position": [
+					-10,
+					72
+				],
+				"nombre": 2,
+				"rayon": 5
+			},
+			{
+				"type": "crocodile_fracture",
+				"position": [
+					-52,
+					100
+				],
+				"nombre": 2,
+				"rayon": 5
+			},
+			{
+				"type": "crocodile",
+				"position": [
+					66,
+					30
+				],
+				"nombre": 2,
+				"rayon": 6
+			},
+			{
+				"type": "crocodile",
+				"position": [
+					62,
+					90
+				],
+				"nombre": 2,
+				"rayon": 6
+			},
+			{
+				"type": "crocodile",
+				"position": [
+					40,
+					128
+				],
+				"nombre": 1,
+				"rayon": 4
+			},
+			{
+				"type": "crocodile_fracture",
+				"position": [
+					-90,
+					120
+				],
+				"nombre": 2,
+				"rayon": 5
+			}
+		],
+		"carrieres_toura": [
+			{
+				"type": "babouin",
+				"position": [
+					-20,
+					-70
+				],
+				"nombre": 3,
+				"rayon": 6
+			},
+			{
+				"type": "babouin",
+				"position": [
+					30,
+					60
+				],
+				"nombre": 3,
+				"rayon": 6
+			},
+			{
+				"type": "babouin_fracture",
+				"position": [
+					58,
+					-20
+				],
+				"nombre": 2,
+				"rayon": 5
+			},
+			{
+				"type": "babouin_fracture",
+				"position": [
+					64,
+					20
+				],
+				"nombre": 2,
+				"rayon": 5
+			},
+			{
+				"type": "babouin_fracture",
+				"position": [
+					24,
+					-58
+				],
+				"nombre": 2,
+				"rayon": 4
+			}
+		],
+		"village_batisseurs": [
+			{
+				"type": "chacal_fracture",
+				"position": [
+					-128,
+					-30
+				],
+				"nombre": 3,
+				"rayon": 6
+			},
+			{
+				"type": "chacal_fracture",
+				"position": [
+					-120,
+					100
+				],
+				"nombre": 2,
+				"rayon": 5
+			}
+		]
+	},
+	"chapitres": [
+		{
+			"numero": 1,
+			"titre": "La crue",
+			"ou": "port_des_marais",
+			"etapes": [
+				{
+					"id": "retrouver_farouk",
+					"objectif": "Rejoins l'agent Farouk, au bord du portail",
+					"pnj": "farouk",
+					"repliques": [
+						"Te voilà ! Agent Farouk, Nadia Farouk. Égyptologue de la Vigie, et accessoirement trempée jusqu'aux os.",
+						"Bienvenue en Égypte. On est vers -2560, la vingt-septième année du roi Khéops. Là-bas, à l'ouest, cette montagne blanche qui brille ? C'est sa pyramide. Presque finie.",
+						"Ce matin, un hippopotame m'a renversée dans les roseaux. Un hippopotame fracturé : des veines violettes, des yeux comme des braises. Les bêtes du fleuve deviennent folles depuis trois jours.",
+						"Tout mon matériel flotte quelque part dans le marais. Dont la balise de la Vigie : sans elle, le portail ne tiendra pas longtemps.",
+						"Repêche ce que tu trouves. Et garde les yeux ouverts : là où il y a de l'eau, ici, il y a des crocodiles."
+					]
+				},
+				{
+					"id": "materiel",
+					"objectif": "Repêche le matériel de la Vigie qui flotte dans les roseaux",
+					"recolter": "materiel_farouk",
+					"nombre": 3,
+					"duree": 1.5,
+					"action": "Tu repêches la caisse…",
+					"recompense": [
+						{
+							"id": "balise_farouk",
+							"nom": "Balise de la Vigie"
+						}
+					]
+				},
+				{
+					"id": "crocodiles",
+					"objectif": "Élimine les crocodiles fracturés qui rôdent près du portail",
+					"tuer": "crocodile_fracture",
+					"nombre": 4,
+					"lieu": [
+						-30,
+						86
+					],
+					"recit": {
+						"titre": "Les bêtes du fleuve",
+						"texte": "Le dernier crocodile se fige, puis ses éclats violets s'éteignent un à un. Dans le silence revenu, une grenouille recommence à chanter."
+					}
+				},
+				{
+					"id": "balise",
+					"objectif": "Installe la balise de la Vigie sur le monticule, près du portail (reste immobile)",
+					"objet": "installer_balise",
+					"duree": 4,
+					"action": "Installation de la balise…",
+					"apres": [
+						{
+							"montrer": "balise_installee"
+						}
+					]
+				},
+				{
+					"id": "rapport_farouk",
+					"objectif": "Retourne voir l'agent Farouk",
+					"pnj": "farouk",
+					"repliques": [
+						"Le portail est stable. Bien joué. Lenoir disait que tu étais doué, il n'exagérait pas.",
+						"Maintenant, regarde vers l'ouest, dans le marais. Tu vois cette lueur violette entre les papyrus ? Une faille. C'est elle qui rend les bêtes folles.",
+						"Ton gant peut la refermer, comme sur la Côte Gelée. Mais méfie-toi : ici, ce qui sort des failles a des dents."
+					]
+				},
+				{
+					"id": "faille",
+					"objectif": "Referme la faille du marais (reste immobile)",
+					"objet": "faille_marais",
+					"duree": 5,
+					"action": "Fermeture de la faille…",
+					"apparition": {
+						"type": "crocodile_fracture_faille",
+						"position": [
+							-60,
+							52
+						],
+						"nombre": 2,
+						"rayon": 3,
+						"attaque": false
+					},
+					"apres": [
+						{
+							"cacher": "faille_marais"
+						}
+					]
+				},
+				{
+					"id": "fin_chapitre_1",
+					"objectif": "Fais ton rapport à l'agent Farouk",
+					"pnj": "farouk",
+					"repliques": [
+						"Refermée. Le marais respire mieux, on dirait.",
+						"Mais ce n'était qu'une petite faille. La vraie est plus loin, et je n'aime pas ce que j'ai vu : les fractures visent le chantier. La pyramide, et les gens qui la bâtissent.",
+						"Suis la levée de terre vers le nord : elle traverse les champs inondés jusqu'au port de Gizeh. C'est là qu'accostent les bateaux de pierre.",
+						"Cherche un certain Merer. Un inspecteur, qui commande une équipe de bateliers. Il tient un journal de tout ce qu'il fait. Un vrai journal, sur papyrus. Les historiens le retrouveront dans quatre mille cinq cents ans.",
+						"Ah, et un conseil : ici, tu sors d'un portail à l'ouest, dans les roseaux. Pour eux, l'ouest, c'est le pays des morts. Ils vont te prendre pour un revenant. Souris beaucoup."
+					],
+					"fin_chapitre": true
+				}
+			]
+		},
+		{
+			"numero": 2,
+			"titre": "L'Occidental",
+			"ou": "port_des_marais",
+			"etapes": [
+				{
+					"id": "vers_le_port",
+					"objectif": "Suis la levée de terre jusqu'au port de Gizeh, au nord",
+					"zone": [
+						-14,
+						-12
+					],
+					"rayon": 9
+				},
+				{
+					"id": "rencontre_merer",
+					"objectif": "Parle à Merer, l'inspecteur des bateliers, sur le quai",
+					"pnj": "merer",
+					"repliques": [
+						"Hé ! Toi, là-bas ! N'approche pas des cordes avec tes... Par Hathor. Tu viens de l'ouest. Des roseaux de l'ouest.",
+						"Les gars ! Il y a un Occidental sur le quai ! Un esprit revenu du pays des morts ! Ne le regardez pas dans les yeux !",
+						"...Bon. Tu n'as pas l'air très mort, à vrai dire. Tu transpires. Les morts ne transpirent pas.",
+						"Je suis Merer, inspecteur. Je commande quarante bateliers de l'équipe des Compagnons de Khéops. Nous amenons la belle pierre blanche de Toura jusqu'ici, pour habiller la pyramide du roi.",
+						"Si tu es un esprit bienveillant, va voir Ânkhkhaf, sous l'auvent. C'est le directeur du port, le frère du roi. Rien ne se fait ici sans lui."
+					]
+				},
+				{
+					"id": "rencontre_ankhkhaf",
+					"objectif": "Présente-toi à Ânkhkhaf, le directeur du port, sous son auvent",
+					"pnj": "ankhkhaf",
+					"repliques": [
+						"Un Occidental. Merer m'a prévenu en criant assez fort pour que tout Memphis l'entende.",
+						"Esprit ou étranger, peu m'importe. Ce port a une seule règle : ici, tout le monde travaille. Même les morts.",
+						"Ce bloc, sur le traîneau, doit monter au pied de la rampe avant midi. Mes haleurs sont fatigués et les cordes ont glissé deux fois ce matin.",
+						"Prends une corde avec eux. Si la pierre arrive en haut, je t'écouterai. Si elle retombe dans le bassin... tu iras la chercher."
+					]
+				},
+				{
+					"id": "halage",
+					"objectif": "Aide les haleurs à tirer le bloc jusqu'au pied de la rampe (reste tout près du traîneau)",
+					"escorte": [
+						"batelier_1",
+						"batelier_2",
+						"batelier_3",
+						"batelier_4"
+					],
+					"charge": "traineau_quai",
+					"distance_joueur": 6,
+					"chemin": [
+						[
+							-11,
+							-52
+						],
+						[
+							-24,
+							-58
+						],
+						[
+							-40,
+							-64
+						],
+						[
+							-54,
+							-73
+						],
+						[
+							-66,
+							-86
+						]
+					],
+					"vitesse": 1.3,
+					"vagues": [
+						{
+							"a": 0.55,
+							"annonce": "Des crocodiles sortent du bassin !",
+							"apparition": {
+								"type": "crocodile_fracture",
+								"position": [
+									-8,
+									-60
+								],
+								"nombre": 2,
+								"rayon": 3,
+								"attaque": true
+							}
+						}
+					],
+					"apres": [
+						{
+							"decor": "traineau_quai",
+							"aller": [
+								-66,
+								-86
+							],
+							"angle": 0.7
+						},
+						{
+							"pnj": "batelier_1",
+							"aller": [
+								-62,
+								-88
+							]
+						},
+						{
+							"pnj": "batelier_2",
+							"aller": [
+								-64,
+								-82
+							]
+						},
+						{
+							"pnj": "batelier_3",
+							"aller": [
+								-70,
+								-84
+							]
+						},
+						{
+							"pnj": "batelier_4",
+							"aller": [
+								-68,
+								-90
+							]
+						}
+					],
+					"recit": {
+						"titre": "Le bloc est au pied de la rampe",
+						"texte": "Les haleurs lâchent les cordes en riant. L'un d'eux te tape sur l'épaule : « Tu tires comme un vivant, Occidental ! »"
+					}
+				},
+				{
+					"id": "retour_ankhkhaf",
+					"objectif": "Retourne voir Ânkhkhaf",
+					"pnj": "ankhkhaf",
+					"repliques": [
+						"La pierre est en haut. Bien. Mais un autre problème ne s'est pas réglé tout seul pendant que tu tirais.",
+						"Un hippopotame s'est installé à l'entrée du chenal, là où le bassin rejoint le fleuve. Plus aucune barque ne passe. Les cargos de Toura attendent au large.",
+						"Il a des yeux violets. Comme les crocodiles dont tout le monde parle. Mes gardes refusent d'y aller.",
+						"Toi, tu reviens du pays des morts. Tu n'as plus grand-chose à craindre, n'est-ce pas ? Va le chasser du chenal."
+					]
+				},
+				{
+					"id": "hippopotame",
+					"objectif": "Chasse l'hippopotame fracturé qui bloque le chenal du port, à l'est",
+					"tuer": "hippopotame_fracture",
+					"nombre": 1,
+					"lieu": [
+						62,
+						-38
+					],
+					"apparition": {
+						"type": "hippopotame_fracture",
+						"position": [
+							62,
+							-38
+						],
+						"nombre": 1,
+						"rayon": 1,
+						"attaque": false
+					},
+					"recit": {
+						"titre": "Le chenal est libre",
+						"texte": "La bête s'effondre dans une gerbe d'eau brune. Sur le quai, les bateliers poussent un grand cri. Un premier cargo de Toura s'engage déjà dans le chenal."
+					}
+				},
+				{
+					"id": "recompense_ankhkhaf",
+					"objectif": "Retourne voir Ânkhkhaf, sous son auvent",
+					"pnj": "ankhkhaf",
+					"repliques": [
+						"Les cargos entrent dans le bassin. Merer va pouvoir remplir son journal : il adore ça.",
+						"Je me suis trompé sur toi, Occidental. Ou plutôt : je n'ai pas eu tort de te faire travailler.",
+						"Prends cette masse. Elle était à mon père, le roi Snéfrou, qui a bâti deux pyramides avant celle de mon frère. Elle frappe mieux que tes mains vides.",
+						"Merer veut te parler. Il a l'air soucieux, et Merer n'est jamais soucieux. Il est toujours occupé à compter quelque chose."
+					],
+					"recompense": [
+						{
+							"id": "masse_ankhkhaf",
+							"nom": "Masse d'Ânkhkhaf"
+						}
+					]
+				},
+				{
+					"id": "fin_chapitre_2",
+					"objectif": "Parle à Merer, sur le quai",
+					"pnj": "merer",
+					"repliques": [
+						"Occidental. Tu as vu les bêtes. Tu as vu les lumières violettes. Alors tu peux peut-être comprendre ça.",
+						"Regarde mon journal. Ici, j'écris chaque jour : « Jour 25. Passé la nuit à Toura. Chargé les pierres. Navigué vers le port de Khéops. » Chaque jour, depuis des mois.",
+						"Et là... Là, les pages sont vides. L'encre est partie. Comme si quelqu'un l'avait bue pendant la nuit. Ce que j'avais écrit n'existe plus.",
+						"Et ce n'est pas tout. Deux de mes bateliers ne se souviennent plus de leur nom. Ils me regardent comme des enfants perdus.",
+						"Demain, nous partons pour Toura, de l'autre côté du fleuve, chercher le prochain chargement. Viens avec nous. Si quelque chose mange les noms et l'encre, je veux savoir quoi."
+					],
+					"fin_chapitre": true,
+					"apres": [
+						{
+							"pnj": "merer",
+							"aller": [
+								-8,
+								-18
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"numero": 3,
+			"titre": "L'encre qui s'efface",
+			"ou": "carrieres_toura",
+			"etapes": [
+				{
+					"id": "embarquer",
+					"ou": "port_des_marais",
+					"objectif": "Monte dans la barque de Merer, amarrée au bout du quai",
+					"objet": "barque_merer",
+					"apres": [
+						{
+							"masquer": "merer"
+						},
+						{
+							"appeler": "barque_merer",
+							"methode": "partir"
+						}
+					]
+				},
+				{
+					"id": "traversee",
+					"ou": "port_des_marais",
+					"objectif": "Traverse le Nil avec Merer jusqu'aux carrières de Toura",
+					"arriver": "carrieres_toura"
+				},
+				{
+					"id": "rencontre_iry",
+					"objectif": "Parle à Iry, le maître carrier, près du campement",
+					"pnj": "iry",
+					"repliques": [
+						"Merer ! Enfin. Et tu amènes... un Occidental ? Par Ptah. Il ne manquait plus que ça.",
+						"Écoute-moi, l'esprit. Depuis cinq jours, mes hommes perdent leur nom. Le matin, ils ne savent plus qui ils sont. Le soir, ils ne reconnaissent plus personne.",
+						"Ce matin, trois d'entre eux ont jeté leurs outils et frappé tous ceux qui les appelaient. Ils errent autour du campement, les yeux vides, une amulette qui brille au cou.",
+						"Ne les tue pas, je t'en supplie. Ce sont mes carriers. Mets-les à terre, sans plus. Après... Merer dit que tu sais rendre ce qui a été effacé."
+					]
+				},
+				{
+					"id": "oublies",
+					"objectif": "Assomme les carriers oubliés, puis rends-leur leur nom (F)",
+					"recolter": "nom_rendu",
+					"nombre": 3,
+					"duree": 2.5,
+					"action": "Tu murmures des noms jusqu'à ce que l'un d'eux fasse briller ses yeux…",
+					"apparition": {
+						"type": "oublie",
+						"position": [
+							-36,
+							-6
+						],
+						"nombre": 3,
+						"rayon": 6,
+						"attaque": false
+					},
+					"recit": {
+						"titre": "Des noms retrouvés",
+						"texte": "Le dernier carrier se redresse en se tenant la tête. « Senedjem... Je m'appelle Senedjem. » Autour de lui, ses camarades rient et pleurent en même temps."
+					}
+				},
+				{
+					"id": "rapport_iry",
+					"objectif": "Retourne voir Iry",
+					"pnj": "iry",
+					"repliques": [
+						"Tu l'as fait. Ils se souviennent. Senedjem a même retrouvé le nom de sa mère.",
+						"Ils disent tous la même chose : ils ont travaillé au fond de la galerie neuve, à l'est. Là où la pierre est la plus belle. Il y a une poussière noire, là-bas, qui brille comme de l'encre mouillée.",
+						"Merer dit que c'est l'encre de son journal. Celle qui s'efface. Va voir. Rapporte-moi ces fragments."
+					]
+				},
+				{
+					"id": "encre",
+					"objectif": "Ramasse les fragments d'encre noire près de l'entrée de la galerie",
+					"recolter": "fragments_encre",
+					"nombre": 4,
+					"duree": 1.2,
+					"action": "Tu ramasses la poussière d'encre…"
+				},
+				{
+					"id": "galerie",
+					"objectif": "Entre dans la galerie neuve, au pied de la falaise",
+					"zone": [
+						78,
+						-70
+					],
+					"rayon": 6
+				},
+				{
+					"id": "faille",
+					"objectif": "Referme la faille au fond de la galerie (reste immobile)",
+					"objet": "faille_toura",
+					"duree": 5,
+					"action": "Fermeture de la faille…",
+					"apparition": {
+						"type": "babouin_fracture_faille",
+						"position": [
+							92,
+							-70
+						],
+						"nombre": 3,
+						"rayon": 3,
+						"attaque": false
+					},
+					"apres": [
+						{
+							"cacher": "faille_toura"
+						},
+						{
+							"montrer": "amulette_galerie"
+						}
+					]
+				},
+				{
+					"id": "amulette",
+					"objectif": "Ramasse l'objet qui brille là où était la faille",
+					"objet": "amulette_galerie",
+					"recompense": [
+						{
+							"id": "amulette_felee",
+							"nom": "Amulette fêlée"
+						}
+					],
+					"consomme": true,
+					"apres": [
+						{
+							"masquer": "amulette_galerie"
+						}
+					]
+				},
+				{
+					"id": "fin_chapitre_3",
+					"objectif": "Montre l'amulette à Merer, au campement",
+					"pnj": "merer_toura",
+					"repliques": [
+						"Un scarabée de faïence. Joli. Mais regarde : il est creux, et dedans... ces fils de cuivre plus fins qu'un cheveu. Aucun artisan d'Égypte ne sait faire ça.",
+						"Mes bateliers ne portent pas d'amulettes. Mais les ouvriers du village, si. Beaucoup. Ils disent qu'une prêtresse de Memphis les leur donne, pour les protéger.",
+						"Regarde mon journal. La page de ce matin est encore là. L'encre tient, depuis que la faille est fermée.",
+						"Rentre au port avec le passeur. Puis monte au village des bâtisseurs, par la rampe du plateau. Pésèshet, la médecin, soigne là-haut ceux qui ont perdu leur nom. Elle en saura plus.",
+						"Et prends ceci, de la part d'Iry. Il dit que c'est le meilleur ciseau de Toura. Il ment : c'est le deuxième. Le meilleur, il le garde."
+					],
+					"recompense": [
+						{
+							"id": "ciseau_cuivre",
+							"nom": "Ciseau de cuivre d'Iry"
+						},
+						{
+							"id": "calcaire_fin",
+							"nom": "Calcaire fin de Toura",
+							"n": 3
+						}
+					],
+					"fin_chapitre": true
+				}
+			]
+		},
+		{
+			"numero": 4,
+			"titre": "Les noms oubliés",
+			"ou": "village_batisseurs",
+			"etapes": [
+				{
+					"id": "vers_village",
+					"ou": "port_des_marais",
+					"objectif": "Rentre au Port des Marais, puis monte la rampe du plateau jusqu'au Village des Bâtisseurs",
+					"arriver": "village_batisseurs"
+				},
+				{
+					"id": "parler_pesechet",
+					"objectif": "Trouve Pésèshet, la médecin, dans sa maison de soins à l'est du village",
+					"pnj": "pesechet",
+					"repliques": [
+						"C'est toi, l'Occidental de Merer ? Bien. Ne reste pas planté là : aide-moi plutôt.",
+						"Trois ouvriers depuis hier. Pas une blessure, pas de fièvre. Mais ils ne savent plus leur nom, ni leur équipe, ni le visage de leurs enfants.",
+						"Regarde-les, toi qui viens du pays des morts. Dis-moi ce que tu vois que je ne vois pas."
+					]
+				},
+				{
+					"id": "examiner",
+					"objectif": "Examine les ouvriers qui ont perdu la mémoire, chez Pésèshet",
+					"recolter": "ouvrier_examine",
+					"nombre": 3,
+					"duree": 2,
+					"action": "Tu examines l'ouvrier…",
+					"recit": {
+						"titre": "Le même scarabée",
+						"texte": "Au cou de chacun, un petit scarabée de faïence bleue. Quand tu l'approches de ton oreille, il grésille, comme la radio de la Vigie."
+					}
+				},
+				{
+					"id": "retour_pesechet",
+					"objectif": "Dis à Pésèshet ce que tu as trouvé",
+					"pnj": "pesechet",
+					"repliques": [
+						"Des amulettes ? Tout le monde en porte, ici. Contre les scorpions, contre le mauvais œil, contre les chutes...",
+						"Mais celles-ci sont toutes pareilles. Neuves. Le petit Nebi, l'apprenti scribe, note tout ce qui se passe au village. Il traîne sur la grande place. Va le voir."
+					]
+				},
+				{
+					"id": "parler_nebi",
+					"objectif": "Parle à Nebi, l'apprenti scribe, sur la grande place",
+					"pnj": "nebi",
+					"repliques": [
+						"Les scarabées bleus ? C'est la prêtresse de Memphis qui les donne. Une grande dame, très pâle, avec une voix douce. Elle est venue trois fois.",
+						"Elle dit qu'ils protègent du soleil et de la fatigue. Tout le monde en voulait. Moi, elle ne m'en a pas donné : « Les scribes n'en ont pas besoin, ils oublient déjà tout sur leur papyrus. »",
+						"J'ai noté où elle les a laissés : à la brasserie de Méret, dans les dortoirs des haleurs, et à l'enclos des bœufs. Et hier soir, deux ouvriers sont partis vers le cimetière, les yeux vides.",
+						"Si tu les ramasses avant que d'autres les mettent... Moi, je t'attends ici. J'écris tout."
+					]
+				},
+				{
+					"id": "amulettes",
+					"objectif": "Ramasse les amulettes de la prêtresse : brasserie, dortoirs et enclos des bœufs",
+					"recolter": "amulette_village",
+					"nombre": 3,
+					"duree": 1.5,
+					"action": "Tu détaches l'amulette…"
+				},
+				{
+					"id": "cimetiere",
+					"objectif": "Au cimetière des ouvriers, à l'ouest, assomme les bâtisseurs oubliés et rends-leur leur nom (F)",
+					"recolter": "nom_rendu",
+					"nombre": 2,
+					"duree": 2.5,
+					"action": "Tu cherches leur nom dans les inscriptions des tombes…",
+					"apparition": {
+						"type": "oublie_village",
+						"position": [
+							-96,
+							34
+						],
+						"nombre": 2,
+						"rayon": 5,
+						"attaque": false
+					},
+					"recompense": [
+						{
+							"id": "amulette_sablier",
+							"nom": "Amulette de la prêtresse",
+							"n": 5
+						}
+					],
+					"recit": {
+						"titre": "Kaï et Hétépi",
+						"texte": "Sur les petites tombes, les ouvriers ont gravé les noms de leurs morts. C'est en les lisant à voix haute que tu as retrouvé les leurs : Kaï, le haleur, et Hétépi, la porteuse d'eau."
+					}
+				},
+				{
+					"id": "retour_nebi",
+					"objectif": "Rapporte les amulettes à Nebi, sur la grande place",
+					"pnj": "nebi",
+					"repliques": [
+						"Cinq ! Et Kaï et Hétépi sont revenus. Je l'ai écrit, regarde : « Le jour où l'Occidental a rendu les noms. »",
+						"Mais il en reste des dizaines, au cou des gens. Tu ne peux pas assommer tout le village.",
+						"Il y a deux façons. On peut les briser sur la pierre de la place, devant tout le monde : les gens verront, ils comprendront. Mais ça va leur faire peur... et les amulettes vont se défendre, comme à Toura.",
+						"Ou alors on les échange en secret contre de vraies amulettes. Ouni l'Ancien en taille, et Méret connaît tout le monde. C'est plus long, mais personne n'aura peur.",
+						"C'est toi qui choisis. Va à la pierre de la place, ou va voir Méret à sa boulangerie."
+					]
+				},
+				{
+					"id": "choix_amulettes",
+					"objectif": "Brise les amulettes sur la pierre de la place, ou confie-les à Méret pour les échanger en secret",
+					"choix": [
+						{
+							"objet": "briser_amulettes",
+							"objectif": "Brise les amulettes sur la pierre de la place, devant tout le monde",
+							"duree": 3,
+							"action": "Tu frappes les scarabées sur la pierre…",
+							"pnj": "nebi",
+							"repliques": [
+								"Ils grésillent... Tout le monde regarde ! Attention, derrière toi !"
+							]
+						},
+						{
+							"objet": "echanger_amulettes",
+							"objectif": "Confie les amulettes à Méret, à sa boulangerie",
+							"duree": 1.5,
+							"action": "Tu poses les scarabées sur le comptoir de Méret…",
+							"pnj": "meret",
+							"repliques": [
+								"Donne. Je connais chaque cou de ce village, et chaque ventre. Personne ne refuse un pain chaud.",
+								"Mais il faut de vraies amulettes pour les remplacer, sinon les gens vont chercher la leur. Ouni l'Ancien en taille dans son atelier, au sud. Va le voir de ma part."
+							]
+						}
+					]
+				},
+				{
+					"id": "chacals",
+					"si_choix": {
+						"choix_amulettes": "briser_amulettes"
+					},
+					"objectif": "Repousse les chacals fracturés sortis des amulettes brisées",
+					"tuer": "chacal_fracture",
+					"nombre": 4,
+					"lieu": [
+						14,
+						44
+					],
+					"recit": {
+						"titre": "La pierre de la place",
+						"texte": "Le dernier chacal s'effondre en éclats violets. Sur la place, personne ne parle. Puis une femme arrache son scarabée et le jette sur la pierre. Puis un autre. Puis tout le village."
+					},
+					"apparition": {
+						"type": "chacal_fracture",
+						"position": [
+							14,
+							44
+						],
+						"nombre": 4,
+						"rayon": 9,
+						"attaque": true
+					}
+				},
+				{
+					"id": "calmer",
+					"si_choix": {
+						"choix_amulettes": "briser_amulettes"
+					},
+					"objectif": "Parle à Ouni l'Ancien, qui calme la foule sur la place",
+					"pnj": "ouni",
+					"repliques": [
+						"Tout doux, tout doux ! Ce n'étaient que des bêtes du désert. L'Occidental les a chassées. Rentrez chez vous, mangez, dormez.",
+						"Tu leur as fait peur, petit. Mais la peur passe, et ils ont vu de leurs yeux. C'est mieux qu'un mensonge, même gentil."
+					]
+				},
+				{
+					"id": "parler_ouni",
+					"si_choix": {
+						"choix_amulettes": "echanger_amulettes"
+					},
+					"objectif": "Va voir Ouni l'Ancien dans son atelier, au sud du village",
+					"pnj": "ouni",
+					"repliques": [
+						"Méret t'envoie ? Alors c'est sérieux. Des scarabées, j'en taille depuis cinquante ans, dans la stéatite, puis on les cuit pour qu'ils deviennent bleus.",
+						"Il m'en reste quatre paniers, sur les étagères de l'atelier. Prends-les. Pour le reste, Méret et moi, on s'en charge : un pain, une amulette, un pain, une amulette."
+					]
+				},
+				{
+					"id": "faience_ouni",
+					"si_choix": {
+						"choix_amulettes": "echanger_amulettes"
+					},
+					"objectif": "Prends les paniers de vraies amulettes sur les étagères d'Ouni",
+					"recolter": "panier_amulettes",
+					"nombre": 4,
+					"duree": 1
+				},
+				{
+					"id": "echange_dortoirs",
+					"si_choix": {
+						"choix_amulettes": "echanger_amulettes"
+					},
+					"objectif": "Glisse les vraies amulettes dans les dortoirs des haleurs, pendant qu'ils dorment",
+					"objet": "dortoir_echange",
+					"duree": 6,
+					"action": "Tu échanges les scarabées sans faire de bruit…",
+					"recit": {
+						"titre": "Un pain, une amulette",
+						"texte": "Au matin, personne n'a rien remarqué. Les haleurs partent au chantier en chantant, un scarabée de stéatite au cou, et le ventre plein du pain de Méret."
+					}
+				},
+				{
+					"id": "fin_chapitre_4",
+					"objectif": "Retourne voir Pésèshet, dans sa maison de soins",
+					"pnj": "pesechet",
+					"repliques": [
+						"Ils se souviennent. Pas de tout, pas encore. Mais l'un d'eux a appelé sa fille par son nom ce matin. J'ai pleuré comme une débutante.",
+						"Nebi m'a dit que la prêtresse ne vient plus au village. Des bergers l'ont vue partir vers l'ouest, vers les tombes des nobles, là où commence le désert.",
+						"L'ouest, l'Occidental. Ton pays, d'après eux. Elle va là où vont les morts. Fais attention.",
+						"Prends cet œil d'Horus. Il a été arraché, puis guéri. Ce qui est brisé peut redevenir entier. Et prends le pain de Méret, elle m'a fait promettre."
+					],
+					"recompense": [
+						{
+							"id": "oudjat_peseshet",
+							"nom": "Œil oudjat de Pésèshet"
+						},
+						{
+							"id": "pain_meret",
+							"nom": "Pain de Méret",
+							"n": 3
+						}
+					],
+					"fin_chapitre": true
+				}
+			]
+		}
+	],
+	"fin_provisoire": {
+		"chapitre": "LA SUITE ARRIVE BIENTÔT",
+		"objectif": "Chapitre 5 « La dame au sablier » : la suite arrive bientôt",
+		"titre": "Ce que le fleuve emporte",
+		"message": "Le village a retrouvé ses noms. Mais la prêtresse au sablier est partie vers l'ouest, vers le pays des morts."
+	}
+}
