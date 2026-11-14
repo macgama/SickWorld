@@ -169,6 +169,8 @@ func _tester_visage(apparence) -> void:
 ## Les gestes de combat des classes (animations Mixamo) se jouent, sans enfoncer
 ## le personnage dans le sol ni l'envoyer en l'air.
 func _gestes_de_combat(joueur, apparence) -> void:
+	_verifier(apparence.get("_lecteur").has_animation("agent/marcher"),
+			"%s : l'animation de marche (passants) est chargée" % apparence.modele)
 	for style in ["attaque_lame", "attaque_bouclier", "bouclier_leve", "provocation", "tir_arc", "lancer",
 			"incantation", "sort", "esquive_arriere"]:
 		apparence.attaquer(style)
