@@ -251,7 +251,7 @@ func _construire_visage(tete: Node3D, peau: StandardMaterial3D) -> void:
 
 func _construire_cheveux(tete: Node3D, poils: StandardMaterial3D, largeur: float, longueur: float) -> void:
 	var coiffure := String(_apparence["coiffure"])
-	var volume: float = {"rase": 1.006, "tres_courte": 1.035, "queue": 1.035, "chignon": 1.035}.get(coiffure, 1.08)
+	var volume: float = {"rase": 1.006, "tres_courte": 1.035, "queue": 1.035, "tresse": 1.035, "courte_2": 1.11, "afro": 1.3}.get(coiffure, 1.08)
 	var calotte_mat := poils
 	if coiffure == "rase":
 		# Crâne rasé : juste une ombre de cheveux sur la peau.
@@ -272,8 +272,10 @@ func _construire_cheveux(tete: Node3D, poils: StandardMaterial3D, largeur: float
 		"queue":
 			_forme(tete, _sphere(0.022), poils, Vector3(0, 0.03, 0.098))
 			_forme(tete, _capsule(0.026, 0.26), poils, Vector3(0, -0.085, 0.125), Vector3.ONE, Vector3(-0.2, 0, 0))
-		"chignon":
-			_forme(tete, _sphere(0.045), poils, Vector3(0, 0.07, 0.09))
+		"tresse":
+			_forme(tete, _capsule(0.022, 0.4), poils, Vector3(0, -0.15, 0.11), Vector3.ONE, Vector3(-0.15, 0, 0))
+		"carre":
+			_forme(tete, _capsule(0.075, 0.16), poils, Vector3(0, -0.03, 0.02), Vector3(1.25 * largeur, 1.0, 0.95))
 
 
 func _construire_barbe(tete: Node3D, poils: StandardMaterial3D, y_bouche: float) -> void:

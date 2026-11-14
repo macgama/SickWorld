@@ -327,7 +327,7 @@ Validé par Gaël le 13 novembre 2026. L'écran de création se fait en **3 éta
 **1. Apparence**
 - **Corps :** femme ou homme (les deux bases MakeHuman), taille (150 à 200 cm), corpulence, musculature, couleur de peau (8 teintes), couleur des yeux.
 - **Visage : personnalisation détaillée par curseurs**, avec des visages de départ en un clic (Équilibré, Anguleux, Doux, Robuste, Fin, Rieur) qu'on affine ensuite. 17 curseurs : largeur et longueur du visage, mâchoire, menton, pommettes ; écart, taille, hauteur et inclinaison des yeux ; hauteur et épaisseur des sourcils ; longueur, largeur et profil du nez ; largeur de la bouche et épaisseur des lèvres ; taille des oreilles.
-- **Cheveux :** 7 coiffures, 10 couleurs, barbe et moustache (6 choix, ouverts à tous).
+- **Cheveux :** 10 coiffures (rasé, très courte, courte, courte en bataille, mi-longue, carré, longue, queue de cheval, tresse, afro), 10 couleurs, barbe et moustache (6 choix, ouverts à tous).
 - **Tenue de départ de la Vigie :** terrain, urbaine ou expédition. D'autres tenues se gagnent en jouant.
 - Un bouton « Au hasard » tire un personnage complet, et l'aperçu 3D se tourne à la souris et zoome sur le visage.
 
@@ -357,7 +357,7 @@ Les bonus restent volontairement **petits** (et souvent hors combat) pour que l'
 - Tous les choix tiennent dans une petite « fiche » (un texte JSON de quelques centaines d'octets) : nom, sexe, curseurs du corps et du visage, peau, yeux, coiffure, barbe, tenue, classe, origine, et un numéro de version du format.
 - Dans le prototype, elle est enregistrée sur le PC du joueur. À l'étape 4 (comptes Nakama), elle sera rangée sur le serveur, dans le compte du joueur.
 - **Le serveur ne fait jamais confiance à la fiche reçue** : il remplace tout ce qui est inconnu ou hors limites (classe inventée, curseur exagéré, nom interdit).
-- Côté 3D, chaque curseur du visage correspondra à deux « formes » (shape keys) du modèle MakeHuman, nommées dans le fichier de données. En attendant, la silhouette provisoire du prototype suit déjà tous les curseurs.
+- Côté 3D, chaque curseur du visage est une « forme » (blend shape) calculée par le jeu sur le modèle MakeHuman, au chargement (`formes_visage.gd`). Les coiffures sont des modèles MakeHuman exportés par `tools/personnages/exporter_coiffures.py` et accrochés à l'os de la tête ; la barbe est peinte sur la peau.
 
 ---
 
