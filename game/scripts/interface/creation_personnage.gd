@@ -523,7 +523,8 @@ func _process(delta: float) -> void:
 	_prochaine_attaque -= delta
 	if etape == 1 and _prochaine_attaque <= 0.0:
 		_prochaine_attaque = 2.5
-		_apparence.attaquer()
+		var auto: Dictionary = Donnees.classe(String(fiche.get("classe", "lame"))).get("attaque_automatique", {})
+		_apparence.attaquer(String(auto.get("animation", "")))
 
 	var reglage: Array = CADRAGES[_cadrage]
 	var echelle := float(FichePersonnage.resoudre(fiche, _catalogue)["taille_cm"]) / APPARENCE.TAILLE_REFERENCE \

@@ -1,0 +1,126 @@
+{
+	"_aide": "Événements publics de la Préhistoire (voir scripts/monde/prehistoire/evenements_publics.gd). Ils arrivent tout seuls dans leur zone : le premier « premier_delai » secondes après l'arrivée, puis toutes les « intervalle » secondes. « apres » : étape de la quête principale à atteindre avant qu'ils commencent. « duree » : le chrono (secondes). Chaque phase est faite l'une après l'autre : « vagues » (ennemis qui sortent l'un après l'autre), « objet »/« recolter » (appuyer sur F), « escorte » (le troupeau de mammouths doit arriver au bout de son chemin). Récompenses selon la participation : or (25 % ou plus de l'effort total), argent (10 %), bronze (un peu).",
+	"premier_delai": 150,
+	"evenements": [
+		{
+			"id": "faille_s_ouvre",
+			"titre": "La Faille s'ouvre",
+			"zone": "foret",
+			"apres": "fermer_faille_foret",
+			"intervalle": 2700,
+			"duree": 300,
+			"position": [72, -62],
+			"annonce": "Une grande faille se déchire dans la clairière !",
+			"objets": [
+				{"id": "grande_faille", "forme": "faille", "position": [72, -66], "invite": "[F] Refermer la grande faille", "taille": 1.8}
+			],
+			"phases": [
+				{
+					"objectif": "Repousse les fracturés qui sortent de la faille",
+					"vagues": [
+						{"type": "loup_fracture", "nombre": 3, "position": [72, -66], "rayon": 5},
+						{"type": "loup_fracture", "nombre": 4, "position": [72, -66], "rayon": 6},
+						{"type": "loup_fracture", "nombre": 5, "position": [72, -66], "rayon": 7}
+					]
+				},
+				{
+					"objectif": "Abats le chef de meute fracturé",
+					"annonce": "Un chef de meute sort de la faille !",
+					"vagues": [
+						{"type": "loup_alpha_fracture", "nombre": 1, "position": [72, -66], "rayon": 2, "chef": true},
+						{"type": "loup_fracture", "nombre": 2, "position": [72, -66], "rayon": 5, "avec_le_chef": true}
+					]
+				},
+				{
+					"objectif": "Referme la grande faille avant qu'elle ne s'agrandisse",
+					"objet": "grande_faille",
+					"duree": 5.0,
+					"action": "Tu refermes la grande faille…",
+					"effet": "fermer"
+				}
+			],
+			"echec": "La faille s'est refermée toute seule… mais elle a eu le temps d'abîmer la forêt.",
+			"reussite": "La grande faille est refermée. La forêt respire de nouveau.",
+			"recompenses": {
+				"or": [{"id": "sceau_de_faille", "nom": "Sceau de faille", "chance": 0.35}, {"id": "eclat_de_fracture", "nom": "Éclats de fracture ×4", "n": 4}],
+				"argent": [{"id": "eclat_de_fracture", "nom": "Éclats de fracture ×2", "n": 2}],
+				"bronze": [{"id": "eclat_de_fracture", "nom": "Éclat de fracture", "n": 1}]
+			},
+			"stabilite": 6
+		},
+		{
+			"id": "tempete_blanche",
+			"titre": "La Tempête blanche",
+			"zone": "steppe",
+			"apres": "aina_abri",
+			"intervalle": 5400,
+			"duree": 360,
+			"position": [28, -58],
+			"annonce": "Une tempête de neige s'abat sur la steppe ! Allume les feux de veille.",
+			"tempete": true,
+			"froid": {"degats_pourcent": 3, "toutes": 3.0, "rayon": 9.0, "chaleur": [[28, -58]]},
+			"objets": [
+				{"id": "feu_veille_0", "groupe": "feu_veille", "forme": "foyer", "position": [8, -44], "invite": "[F] Allumer le feu de veille"},
+				{"id": "feu_veille_1", "groupe": "feu_veille", "forme": "foyer", "position": [50, -44], "invite": "[F] Allumer le feu de veille"},
+				{"id": "feu_veille_2", "groupe": "feu_veille", "forme": "foyer", "position": [48, -78], "invite": "[F] Allumer le feu de veille"}
+			],
+			"phases": [
+				{
+					"objectif": "Allume les trois feux de veille autour du camp",
+					"recolter": "feu_veille",
+					"nombre": 3,
+					"duree": 3.0,
+					"action": "Tu protèges la flamme du vent…",
+					"effet": "allumer"
+				},
+				{
+					"objectif": "Protège le camp : des fracturés profitent de la tempête",
+					"annonce": "Des fracturés sortent de la neige !",
+					"vagues": [
+						{"type": "loup_fracture", "nombre": 3, "position": [62, -96], "rayon": 5, "attaque": true},
+						{"type": "loup_fracture", "nombre": 4, "position": [-8, -84], "rayon": 6, "attaque": true}
+					]
+				}
+			],
+			"echec": "La tempête est passée, mais les feux se sont éteints. Le clan a eu très froid.",
+			"reussite": "La tempête s'éloigne. Grâce aux feux de veille, personne n'a gelé.",
+			"recompenses": {
+				"or": [{"id": "amulette_de_braise", "nom": "Amulette de braise", "chance": 0.35}, {"id": "torche_resine", "nom": "Torches de résine ×3", "n": 3}, {"id": "peau_loup", "nom": "Peaux de loup ×2", "n": 2}],
+				"argent": [{"id": "torche_resine", "nom": "Torches de résine ×2", "n": 2}, {"id": "peau_loup", "nom": "Peau de loup", "n": 1}],
+				"bronze": [{"id": "torche_resine", "nom": "Torche de résine", "n": 1}]
+			},
+			"stabilite": 8
+		},
+		{
+			"id": "grande_migration",
+			"titre": "La Grande Migration",
+			"zone": "steppe",
+			"apres": "vers_le_camp",
+			"intervalle": 7200,
+			"duree": 420,
+			"position": [-70, 78],
+			"annonce": "Le troupeau de mammouths se met en marche vers l'est ! Protège-le des fracturés.",
+			"troupeau": {
+				"chemin": [[-70, 78], [-40, 96], [-6, 104], [30, 100], [62, 86], [92, 66], [118, 46]],
+				"vitesse": 1.7,
+				"frayeur_par_seconde": 4.0,
+				"rayon_frayeur": 14.0
+			},
+			"phases": [
+				{
+					"objectif": "Escorte le troupeau jusqu'aux pâturages de l'est",
+					"escorte": true,
+					"embuscades": {"toutes": 24.0, "type": "loup_fracture", "nombre": 3, "devant": 22.0, "rayon": 5}
+				}
+			],
+			"echec": "Les fracturés ont fait paniquer le troupeau. Les mammouths se sont dispersés.",
+			"reussite": "Le troupeau est arrivé sain et sauf. Le clan pourra le suivre cet hiver.",
+			"recompenses": {
+				"or": [{"id": "corne_du_troupeau", "nom": "Corne du troupeau", "chance": 0.35}, {"id": "eclat_de_fracture", "nom": "Éclats de fracture ×3", "n": 3}, {"id": "tendon_seche", "nom": "Tendons séchés ×2", "n": 2}],
+				"argent": [{"id": "eclat_de_fracture", "nom": "Éclats de fracture ×2", "n": 2}],
+				"bronze": [{"id": "tendon_seche", "nom": "Tendon séché", "n": 1}]
+			},
+			"stabilite": 7
+		}
+	]
+}

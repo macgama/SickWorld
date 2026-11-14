@@ -405,6 +405,7 @@ func _demander_competence(index: int) -> void:
 		_incantation_cible = _cible_pour(c)
 		_incantation_fin = Regles.maintenant() + incantation
 		Regles.chez(joueur.id_reseau(), self, "_recevoir_incantation", [String(c.get("nom", "")), incantation])
+		_animer_attaque.rpc(animation_de(c), incantation)
 		return
 	_executer(barre[index])
 
@@ -452,7 +453,8 @@ func _executer(id: String, cible_choisie: Combattant = null) -> void:
 	Regles.chez(joueur.id_reseau(), self, "_recevoir_recharge", [id, recharge, 0.0])
 	elan = clampf(elan - cout(c) + gain(c), 0.0, elan_max)
 	combat.noter_combat()
-	_animer_attaque.rpc()
+	if float(c.get("incantation", 0.0)) <= 0.0:
+		_animer_attaque.rpc(animation_de(c))
 	var couleur := Color.html(String(c.get("couleur", "#ffffff")))
 
 	match String(c.get("type", "")):
@@ -691,11 +693,18 @@ func _recevoir_bond(chemin_cible: NodePath, frapper: bool) -> void:
 
 # --- Effets visibles par tous ------------------------------------------------
 
+## Geste du personnage : style = animation (voir « animation » dans competences.json
+## et classes.json), duree > 0 pour une préparation.
 @rpc("authority", "call_local", "reliable")
-func _animer_attaque() -> void:
+func _animer_attaque(style := "", duree := 0.0) -> void:
 	Audio.effet("attaque", joueur)
 	if joueur.apparence.has_method("attaquer"):
-		joueur.apparence.attaquer()
+		joueur.apparence.attaquer(style, duree)
+
+
+## L'animation d'une compétence (celle de l'attaque automatique de la classe par défaut).
+func animation_de(c: Dictionary) -> String:
+	return String(c.get("animation", _attaque_auto().get("animation", "")))
 
 
 @rpc("authority", "call_local", "reliable")
@@ -835,7 +844,7 @@ func _logique_serveur(delta: float, t: float) -> void:
 		else:
 			Regles.infliger(combat, cible, Donnees.entre(auto.get("degats", [5, 8])))
 		elan = minf(elan_max, elan + gain(auto))
-		_animer_attaque.rpc()
+		_animer_attaque.rpc(String(auto.get("animation", "")))
 
 	# Ressource qui se remplit toute seule (Concentration, Flux).
 	if combat.est_vivant():

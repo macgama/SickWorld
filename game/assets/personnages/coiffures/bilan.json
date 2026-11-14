@@ -1,0 +1,87 @@
+{
+  "coiffures": {
+    "tres_courte": "short04",
+    "courte": "short02",
+    "courte_2": "short01",
+    "mi_longue": "bob02",
+    "carre": "bob01",
+    "longue": "long01",
+    "queue": "ponytail01",
+    "tresse": "braid01",
+    "afro": "afro01"
+  },
+  "personnages": {
+    "agent_vigie_homme__tres_courte": {
+      "zmin": -0.025363735854625702,
+      "zmax": 1.7838308811187744
+    },
+    "agent_vigie_homme__courte": {
+      "zmin": -0.025363735854625702,
+      "zmax": 1.7956669330596924
+    },
+    "agent_vigie_homme__courte_2": {
+      "zmin": -0.025363735854625702,
+      "zmax": 1.7969980239868164
+    },
+    "agent_vigie_homme__mi_longue": {
+      "zmin": -0.025363735854625702,
+      "zmax": 1.789641261100769
+    },
+    "agent_vigie_homme__carre": {
+      "zmin": -0.025363735854625702,
+      "zmax": 1.8035268783569336
+    },
+    "agent_vigie_homme__longue": {
+      "zmin": -0.025363735854625702,
+      "zmax": 1.7909408807754517
+    },
+    "agent_vigie_homme__queue": {
+      "zmin": -0.025363735854625702,
+      "zmax": 1.788299560546875
+    },
+    "agent_vigie_homme__tresse": {
+      "zmin": -0.025363735854625702,
+      "zmax": 1.7922300100326538
+    },
+    "agent_vigie_homme__afro": {
+      "zmin": -0.025363735854625702,
+      "zmax": 1.8094772100448608
+    },
+    "agent_vigie_femme__tres_courte": {
+      "zmin": -0.012356474995613098,
+      "zmax": 1.682477593421936
+    },
+    "agent_vigie_femme__courte": {
+      "zmin": -0.012356474995613098,
+      "zmax": 1.6948007345199585
+    },
+    "agent_vigie_femme__courte_2": {
+      "zmin": -0.012356474995613098,
+      "zmax": 1.6950286626815796
+    },
+    "agent_vigie_femme__mi_longue": {
+      "zmin": -0.012356474995613098,
+      "zmax": 1.687466025352478
+    },
+    "agent_vigie_femme__carre": {
+      "zmin": -0.012356474995613098,
+      "zmax": 1.6991442441940308
+    },
+    "agent_vigie_femme__longue": {
+      "zmin": -0.012356474995613098,
+      "zmax": 1.6881020069122314
+    },
+    "agent_vigie_femme__queue": {
+      "zmin": -0.012356474995613098,
+      "zmax": 1.6868733167648315
+    },
+    "agent_vigie_femme__tresse": {
+      "zmin": -0.012356474995613098,
+      "zmax": 1.6899133920669556
+    },
+    "agent_vigie_femme__afro": {
+      "zmin": -0.012356474995613098,
+      "zmax": 1.7066020965576172
+    }
+  }
+}

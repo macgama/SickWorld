@@ -99,6 +99,9 @@ func _utiliser_objets(id: String) -> int:
 		# Un passant (PNJ qui se promène) peut se trouver tout près : F ouvre alors
 		# son dialogue. On le ferme et on réessaie.
 		for essai in 3:
+			# L'objet disparaît une fois utilisé (l'effet peut arriver quelques images plus tard).
+			if not is_instance_valid(objet):
+				break
 			await _placer(Vector3(p.x, y, p.z) + objet.global_transform.basis.z * 1.0, 0.0)
 			await _appuyer_f()
 			while _dialogue.est_ouvert():

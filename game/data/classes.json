@@ -4,28 +4,28 @@
 	"lame": {
 		"points_de_vie": 220,
 		"competences": ["taille_rapide", "entaille", "frappe_tournoyante", "bond", "execution"],
-		"attaque_automatique": { "degats": [7, 10], "intervalle": 2.0, "portee": 3.5, "gain": 8 },
+		"attaque_automatique": { "degats": [7, 10], "intervalle": 2.0, "portee": 3.5, "gain": 8, "animation": "attaque_lame" },
 		"ressource": { "nom": "Élan", "couleur": "#f28c1a", "max": 100, "depart": 0, "regeneration": 0, "perte_hors_combat": 5, "gain_par_degat_subi": 0 },
 		"facteur_menace": 1.0
 	},
 	"rempart": {
 		"points_de_vie": 300,
 		"competences": ["coup_de_bouclier", "provocation", "mur_de_bouclier", "charge_protectrice", "onde_de_choc"],
-		"attaque_automatique": { "degats": [6, 9], "intervalle": 2.0, "portee": 3.5, "gain": 6 },
+		"attaque_automatique": { "degats": [6, 9], "intervalle": 2.0, "portee": 3.5, "gain": 6, "animation": "attaque_bouclier" },
 		"ressource": { "nom": "Ténacité", "couleur": "#c9a227", "max": 100, "depart": 0, "regeneration": 0, "perte_hors_combat": 5, "gain_par_degat_subi": 1.0 },
 		"facteur_menace": 2.0
 	},
 	"traqueur": {
 		"points_de_vie": 190,
 		"competences": ["tir_rapide", "fleche_empoisonnee", "tir_vise", "piege_a_collet", "repli"],
-		"attaque_automatique": { "degats": [6, 9], "intervalle": 2.2, "portee": 30, "gain": 0, "projectile": "fleche" },
+		"attaque_automatique": { "degats": [6, 9], "intervalle": 2.2, "portee": 30, "gain": 0, "projectile": "fleche", "animation": "tir_arc" },
 		"ressource": { "nom": "Concentration", "couleur": "#3fb37f", "max": 100, "depart": 100, "regeneration": 8, "perte_hors_combat": 0, "gain_par_degat_subi": 0 },
 		"facteur_menace": 1.0
 	},
 	"tisseur": {
 		"points_de_vie": 190,
 		"competences": ["fil_de_vie", "eclat_temporel", "retour_en_arriere", "bulle_lente", "acceleration"],
-		"attaque_automatique": { "degats": [5, 7], "intervalle": 2.0, "portee": 25, "gain": 0, "projectile": "eclat" },
+		"attaque_automatique": { "degats": [5, 7], "intervalle": 2.0, "portee": 25, "gain": 0, "projectile": "eclat", "animation": "sort" },
 		"ressource": { "nom": "Flux", "couleur": "#4aa8ff", "max": 100, "depart": 100, "regeneration": 5, "perte_hors_combat": 0, "gain_par_degat_subi": 0 },
 		"facteur_menace": 0.8
 	}

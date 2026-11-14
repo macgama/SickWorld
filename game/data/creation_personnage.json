@@ -13,7 +13,7 @@
 		{ "id": "musculature", "nom": "Musculature", "min": -1, "max": 1, "pas": 0.05, "gauche": "Fin", "droite": "Athlétique" }
 	],
 
-	"_aide_visage": "Curseurs du visage, de -1 à 1 (0 = moyen). « forme_3d » est le nom des deux formes (shape keys) que le vrai modèle MakeHuman portera : <forme_3d>_moins et <forme_3d>_plus.",
+	"_aide_visage": "Curseurs du visage, de -1 à 1 (0 = moyen). Sur le vrai personnage, chaque curseur est une forme (blend shape) du même « id », calculée par scripts/personnage/formes_visage.gd.",
 	"visage": [
 		{ "id": "largeur_visage", "groupe": "Forme du visage", "nom": "Largeur du visage", "gauche": "Étroit", "droite": "Large", "forme_3d": "visage_largeur" },
 		{ "id": "longueur_visage", "groupe": "Forme du visage", "nom": "Longueur du visage", "gauche": "Court", "droite": "Long", "forme_3d": "visage_longueur" },
@@ -70,14 +70,18 @@
 		{ "id": "gris", "nom": "Gris", "couleur": "#7d8a93" }
 	],
 
+	"_aide_coiffures": "Coiffures MakeHuman (fichiers game/assets/personnages/coiffures/<sexe>/<id>.glb, fabriqués par tools/personnages/exporter_coiffures.py). Tant qu'un fichier manque, le personnage garde la coiffure livrée avec son modèle.",
 	"coiffures": [
 		{ "id": "rase", "nom": "Crâne rasé" },
 		{ "id": "tres_courte", "nom": "Très courte" },
 		{ "id": "courte", "nom": "Courte" },
+		{ "id": "courte_2", "nom": "Courte en bataille" },
 		{ "id": "mi_longue", "nom": "Mi-longue" },
+		{ "id": "carre", "nom": "Carré" },
 		{ "id": "longue", "nom": "Longue" },
 		{ "id": "queue", "nom": "Queue-de-cheval" },
-		{ "id": "chignon", "nom": "Chignon" }
+		{ "id": "tresse", "nom": "Tresse" },
+		{ "id": "afro", "nom": "Afro" }
 	],
 
 	"couleurs_cheveux": [

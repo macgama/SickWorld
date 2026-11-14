@@ -31,7 +31,7 @@ func _lancer() -> void:
 	_verifier(apparence.get("_lecteur") != null, "le personnage MakeHuman est chargé")
 	var maillages: Array = apparence.find_children("*", "MeshInstance3D", true, false)
 	_verifier(maillages.size() >= 5, "corps, vêtements, cheveux trouvés (%d maillages)" % maillages.size())
-	var sans_texture := maillages.filter(func(m): return m.material_override == null or m.material_override.albedo_texture == null)
+	var sans_texture := maillages.filter(func(m): return _texture_de(m.material_override) == null)
 	_verifier(sans_texture.is_empty(), "toutes les textures sont réappliquées")
 	_verifier(apparence._actuelle == "immobile", "immobile au départ")
 
@@ -54,7 +54,13 @@ func _lancer() -> void:
 
 	Input.action_press("reculer")
 	await _attendre(20)
-	_verifier(apparence._actuelle == "reculer", "recule en marche arrière")
+	# À 4,5 m/s, la marche arrière Mixamo (0,9 m/s) devrait tourner 5 fois trop vite :
+	# on joue la course à l'envers, au rythme des pas.
+	_verifier(apparence._actuelle == "courir_arriere", "recule en marche arrière (%s)" % apparence._actuelle)
+	var lecteur: AnimationPlayer = apparence.get("_lecteur")
+	var vitesse_pieds: float = 5.96 * apparence.echelle * absf(lecteur.get_playing_speed())
+	_verifier(absf(vitesse_pieds - joueur.vitesse_recul) < 0.6,
+			"les pieds suivent le sol en reculant (%.1f m/s pour %.1f m/s)" % [vitesse_pieds, joueur.vitesse_recul])
 	Input.action_release("reculer")
 	await _attendre(20)
 
@@ -74,6 +80,7 @@ func _lancer() -> void:
 	await _attendre(2)
 	_verifier(apparence._actuelle == "attaque", "frappe")
 	await _attendre(60)
+	await _gestes_de_combat(joueur, apparence)
 
 	joueur.get_node("Combat").subir(5000.0, null)
 	await _attendre(10)
@@ -88,6 +95,7 @@ func _lancer() -> void:
 	apparence.appliquer({"sexe": "femme", "taille_cm": 160.0, "peau": Color(0.45, 0.30, 0.22)})
 	await _attendre(5)
 	_verifier(apparence.modele == "femme", "la fiche choisit le modèle femme")
+	await _gestes_de_combat(joueur, apparence)
 	_verifier(absf(apparence.echelle - 160.0 / 168.0) < 0.01, "la taille règle l'échelle (%.2f)" % apparence.echelle)
 	var visage: Vector3 = apparence.position_visage()
 	var hauteur_visage: float = visage.y - joueur.global_position.y
@@ -97,6 +105,79 @@ func _lancer() -> void:
 	apparence.appliquer({"sexe": "homme", "taille_cm": 190.0})
 	await _attendre(5)
 	_verifier(apparence.modele == "homme" and apparence.echelle > 1.05, "retour au modèle homme, plus grand")
+	await _attendre(5)
+	await _gestes_de_combat(joueur, apparence)
 
+	await _tester_visage(apparence)
 	print("Résultat : ", "TOUT EST BON" if _echecs == 0 else "%d ÉCHEC(S)" % _echecs)
 	quit(0 if _echecs == 0 else 1)
+
+
+func _texture_de(m: Material) -> Texture2D:
+	if m is BaseMaterial3D:
+		return (m as BaseMaterial3D).albedo_texture
+	if m is ShaderMaterial:
+		return (m as ShaderMaterial).get_shader_parameter("texture_albedo")
+	return null
+
+
+## Les réglages de l'écran de création sur le vrai personnage.
+func _tester_visage(apparence) -> void:
+	var catalogue: Dictionary = root.get_node("Donnees").creation
+	for sexe in ["homme", "femme"]:
+		var f := FichePersonnage.par_defaut(catalogue, sexe)
+		f["visage"]["menton"] = 0.7
+		f["couleur_yeux"] = "bleu"
+		f["couleur_cheveux"] = "roux"
+		f["pilosite"] = "barbe_courte"
+		apparence.appliquer(FichePersonnage.resoudre(f, catalogue))
+		await _attendre(3)
+		var peau: MeshInstance3D = apparence.get("_peau")
+		_verifier(peau != null and peau.mesh.get_blend_shape_count() == FormesVisage.CURSEURS.size(),
+				"%s : %d formes du visage sur la peau" % [sexe, peau.mesh.get_blend_shape_count() if peau else 0])
+		# Chaque curseur déplace réellement des points d'au moins un maillage de la tête.
+		var muets := []
+		for k in FormesVisage.CURSEURS.size():
+			var max_depl := 0.0
+			for mi in apparence.get("_tete"):
+				var formes: Array = (mi as MeshInstance3D).mesh.surface_get_blend_shape_arrays(0)
+				for d in formes[k][Mesh.ARRAY_VERTEX]:
+					max_depl = maxf(max_depl, (d as Vector3).length())
+			if max_depl <= 0.0:
+				muets.append(FormesVisage.CURSEURS[k])
+		_verifier(muets.is_empty(), "%s : chaque curseur déforme le visage %s" % [sexe, muets if not muets.is_empty() else ""])
+		var i_menton: int = peau.mesh.get_blend_shape_count() - 1
+		for k in peau.mesh.get_blend_shape_count():
+			if peau.mesh.get_blend_shape_name(k) == "menton":
+				i_menton = k
+		_verifier(is_equal_approx(peau.get_blend_shape_value(i_menton), 0.7), "%s : le curseur Menton est appliqué" % sexe)
+		var yeux: ShaderMaterial = apparence.get("_materiau_yeux")
+		_verifier(yeux != null and (yeux.get_shader_parameter("iris") as Color).b > 0.5, "%s : yeux bleus" % sexe)
+		var poils: Array = apparence.get("_materiaux_poils")
+		_verifier(not poils.is_empty() and (poils[0].get_shader_parameter("couleur") as Color).r > 0.5, "%s : cheveux roux" % sexe)
+		var mat_peau: StandardMaterial3D = apparence.get("_materiau_peau")
+		_verifier(mat_peau.detail_enabled and mat_peau.detail_mask != null, "%s : barbe dessinée" % sexe)
+		f["pilosite"] = "aucune"
+		f["coiffure"] = "rase"
+		apparence.appliquer(FichePersonnage.resoudre(f, catalogue))
+		await _attendre(2)
+		_verifier(not mat_peau.detail_enabled, "%s : sans barbe" % sexe)
+		var visibles: Array = apparence.get("_cheveux_integres").filter(func(m): return m.visible)
+		_verifier(visibles.is_empty(), "%s : crâne rasé" % sexe)
+
+
+## Les gestes de combat des classes (animations Mixamo) se jouent, sans enfoncer
+## le personnage dans le sol ni l'envoyer en l'air.
+func _gestes_de_combat(joueur, apparence) -> void:
+	for style in ["attaque_lame", "attaque_bouclier", "bouclier_leve", "provocation", "tir_arc", "lancer",
+			"incantation", "sort", "esquive_arriere"]:
+		apparence.attaquer(style)
+		await _attendre(12)
+		var squelette: Skeleton3D = apparence.find_children("*", "Skeleton3D", true, false)[0]
+		var hanches := squelette.global_transform * squelette.get_bone_global_pose(squelette.find_bone("mixamorig_Hips"))
+		var hauteur: float = hanches.origin.y - joueur.global_position.y
+		var horizontal: float = Vector2(hanches.origin.x - joueur.global_position.x, hanches.origin.z - joueur.global_position.z).length()
+		_verifier(apparence._actuelle == style and hauteur > 0.5 and hauteur < 1.4 and horizontal < 0.6,
+				"%s (%s) : geste « %s » (hanches à %.2f m de haut, %.2f m du centre)" % [apparence.modele,
+				apparence._actuelle, style, hauteur, horizontal])
+		await _attendre(40)

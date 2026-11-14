@@ -19,7 +19,7 @@ Quatre onglets :
 
 ![Étape 1 : le visage](../images/creation-2-visage.jpg)
 
-> **Pourquoi il a l'air d'un mannequin en bois ?** C'est la silhouette provisoire du prototype. Elle suit déjà tous tes réglages pour vérifier que tout marche. Quand le personnage MakeHuman sera branché, les mêmes curseurs modifieront le vrai visage réaliste.
+> **Le vrai personnage.** L'écran montre maintenant le personnage réaliste MakeHuman (homme ou femme). Les 17 curseurs du visage déforment vraiment son visage, et la peau, les yeux, les cheveux, la barbe et la couleur de la tenue suivent tes choix. Les 10 coiffures (rasé, très courte, courte, courte en bataille, mi-longue, carré, longue, queue de cheval, tresse, afro) sont de vrais modèles MakeHuman, ajustés à chaque tête.
 
 ## 2. Classe
 
