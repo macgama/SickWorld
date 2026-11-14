@@ -104,19 +104,24 @@ func appliquer() -> void:
 			vp.scaling_3d_scale = 1.0
 			vp.mesh_lod_threshold = 0.5
 	# Ombres.
-	var ombres := [rs.SHADOW_QUALITY_HARD, rs.SHADOW_QUALITY_SOFT_LOW, rs.SHADOW_QUALITY_SOFT_MEDIUM, rs.SHADOW_QUALITY_SOFT_HIGH]
+	var ombres := [rs.SHADOW_QUALITY_HARD, rs.SHADOW_QUALITY_SOFT_LOW, rs.SHADOW_QUALITY_SOFT_MEDIUM, rs.SHADOW_QUALITY_SOFT_ULTRA]
 	rs.directional_soft_shadow_filter_set_quality(ombres[niveau])
 	rs.positional_soft_shadow_filter_set_quality(ombres[niveau])
-	rs.directional_shadow_atlas_set_size([2048, 2048, 4096, 4096][niveau], true)
+	rs.directional_shadow_atlas_set_size([2048, 2048, 4096, 8192][niveau], true)
+	vp.positional_shadow_atlas_size = [2048, 2048, 4096, 8192][niveau]
+	# Éclairage global (SDFGI, Ultra) : plus de rayons, convergence plus douce.
+	rs.environment_set_sdfgi_ray_count(rs.ENV_SDFGI_RAY_COUNT_96 if niveau == Niveau.ULTRA else rs.ENV_SDFGI_RAY_COUNT_32)
+	rs.environment_set_sdfgi_frames_to_converge(rs.ENV_SDFGI_CONVERGE_IN_30_FRAMES if niveau == Niveau.ULTRA else rs.ENV_SDFGI_CONVERGE_IN_15_FRAMES)
+	rs.sub_surface_scattering_set_quality(rs.SUB_SURFACE_SCATTERING_QUALITY_HIGH if niveau >= Niveau.HAUT else rs.SUB_SURFACE_SCATTERING_QUALITY_LOW)
 	# Effets d'écran.
-	var q := [rs.ENV_SSAO_QUALITY_VERY_LOW, rs.ENV_SSAO_QUALITY_LOW, rs.ENV_SSAO_QUALITY_MEDIUM, rs.ENV_SSAO_QUALITY_HIGH]
+	var q := [rs.ENV_SSAO_QUALITY_VERY_LOW, rs.ENV_SSAO_QUALITY_LOW, rs.ENV_SSAO_QUALITY_HIGH, rs.ENV_SSAO_QUALITY_ULTRA]
 	rs.environment_set_ssao_quality(q[niveau], niveau < 2, 0.5, 2, 50.0, 300.0)
-	var qi := [rs.ENV_SSIL_QUALITY_VERY_LOW, rs.ENV_SSIL_QUALITY_LOW, rs.ENV_SSIL_QUALITY_MEDIUM, rs.ENV_SSIL_QUALITY_HIGH]
+	var qi := [rs.ENV_SSIL_QUALITY_VERY_LOW, rs.ENV_SSIL_QUALITY_LOW, rs.ENV_SSIL_QUALITY_MEDIUM, rs.ENV_SSIL_QUALITY_ULTRA]
 	rs.environment_set_ssil_quality(qi[niveau], niveau < 3, 0.5, 4, 50.0, 300.0)
 	# Reflets d'écran : demi-résolution sauf en Ultra (le réglage de « qualité de
 	# rugosité » est obsolète depuis Godot 4.6).
 	rs.environment_set_ssr_half_size(niveau < 3)
-	var brouillard := [[64, 64], [64, 64], [96, 96], [160, 128]]
+	var brouillard := [[64, 64], [64, 64], [96, 96], [192, 160]]
 	rs.environment_set_volumetric_fog_volume_size(brouillard[niveau][0], brouillard[niveau][1])
 	rs.environment_set_volumetric_fog_filter_active(niveau >= 2)
 	rs.environment_glow_set_use_bicubic_upscale(niveau >= 2)

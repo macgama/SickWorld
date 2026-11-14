@@ -6,6 +6,7 @@ extends Node3D
 
 const SHADER_PLUIE := preload("res://shaders/pluie.gdshader")
 const SHADER_POST := preload("res://shaders/post_traitement.gdshader")
+const Etalonnage := preload("res://scripts/monde/etalonnage.gd")
 
 ## Gouttes en même temps (au niveau de qualité le plus haut ; réduit en dessous).
 @export var gouttes := 14000
@@ -99,6 +100,8 @@ func _ready() -> void:
 	_hasard.randomize()
 	if lune != null:
 		_energie_lune = lune.light_energy
+	if environnement != null and not Engine.is_editor_hint():
+		Etalonnage.appliquer(environnement.environment, "nuit_neon")
 	_construire_pluie()
 	_construire_eclairage()
 	if not Engine.is_editor_hint():
