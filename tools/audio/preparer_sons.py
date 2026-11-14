@@ -2,7 +2,7 @@
 """Prépare les sons du jeu (game/audio/) à partir des banques libres.
 
 Usage :
-    python3 tools/audio/preparer_sons.py <dossier_sources> [game/audio]
+    python3 tools/audio/preparer_sons.py <dossier_sources> [game/audio] [filtre, ex. betes/loup]
 
 <dossier_sources> contient les banques téléchargées (voir docs/CREDITS.md) :
     oculus/       Oculus Audio Pack 01 (CC BY 4.0), dépôt facebookincubator/Meta-open-sound,
@@ -12,6 +12,7 @@ Usage :
     holizna/      musiques HoliznaCC0 (CC0) prises dans github.com/seyedpouramir/alvana-audio (music/)
     alvana/       quelques bruitages CC0 du même dépôt (sfx/)
     kenney_ui/    Kenney UI Audio (CC0), dépôt Calinou/kenney-ui-audio
+    loups/        vrais loups et gros chiens en CC0 de Freesound (aperçus HQ, liste dans docs/CREDITS.md)
 
 Ce que fait le script (avec ffmpeg et numpy) :
 - tout est converti en Ogg Vorbis 44,1 kHz ;
@@ -19,7 +20,7 @@ Ce que fait le script (avec ffmpeg et numpy) :
 - les boucles d'ambiance gardent leur stéréo, sont normalisées en volume moyen et
   rendues « sans couture » (la fin est fondue dans le début) ;
 - les musiques sont seulement converties ;
-- le hurlement de loup lointain et les gouttes de la grotte sont fabriqués ici
+- les gouttes de la grotte sont fabriquées ici
   (synthèse), faute d'enregistrement libre accessible.
 """
 import math
@@ -90,10 +91,26 @@ ajouter("voix", "homme_effort", f"{OC}VOXEfrt_Male01Effort_OS_01.ogg", type="pon
 ajouter("voix", "femme_effort", f"{OC}VOXEfrt_Female01Effort_OS_01.ogg", type="ponctuel")
 
 # Bêtes
-ajouter("betes", "loup_aboiement", serie("ANMLDog_DogBark_OS", 2), type="ponctuel", hauteur=0.78)
-ajouter("betes", "loup_grondement", f"{OC}ANMLDog_DogAttention_OS_01.ogg", type="ponctuel", hauteur=0.72)
-ajouter("betes", "loup_morsure", ["alvana/creature_grunt-02.wav", "alvana/creature_roar-01.wav"], type="ponctuel", hauteur=1.1)
-ajouter("betes", "loup_douleur", "alvana/creature_hurt-03.wav", type="ponctuel", hauteur=1.15)
+# Loups : vrais enregistrements Freesound en CC0 (dossier loups/, voir docs/CREDITS.md).
+# Aucun aboiement ni cri de douleur de loup n'existe en CC0 : on prend de gros chiens, un peu ralentis.
+LOUPS = {
+    "loup_hurlement": [("hurlement_500646", 1.8, 9.2), ("hurlement_500646", 11.4, 8.3), ("hurlement_500646", 29.2, 8.8),
+                       ("hurlement_500646", 40.5, 8.1), ("hurlement_158780", 1.5, 4.8), ("hurlement_158780", 10.4, 6.4),
+                       ("hurlement_143568", 0.0, 10.9), ("hurlement_651193", 43.2, 15.0)],
+    "loup_grondement": [("grondement_472401", 0.0, 4.9), ("grondement_404920", 5.0, 3.3), ("grondement_404920", 10.0, 2.3),
+                        ("grondement_404920", 19.8, 3.0), ("grondement_461519", 7.8, 2.0), ("grondement_401820", 8.7, 1.9)],
+    "loup_morsure": [("aboiement_625501", 0.55, 0.65), ("aboiement_619045", 3.55, 0.85), ("aboiement_619045", 5.0, 0.55),
+                     ("aboiement_619045", 10.78, 0.3), ("aboiement_619045", 13.78, 0.3), ("aboiement_383483", 1.88, 0.32),
+                     ("aboiement_383483", 2.82, 0.3)],
+    "loup_douleur": [("douleur_635114", 0.0, 1.15), ("douleur_635114", 2.68, 0.8), ("douleur_635114", 4.42, 0.8),
+                     ("douleur_160478", 2.38, 1.3), ("douleur_160478", 3.7, 0.7)],
+    "loup_mort": [("douleur_160478", 6.64, 2.5), ("douleur_635114", 0.0, 1.15)],
+}
+HAUTEUR_LOUPS = {"loup_hurlement": 1.0, "loup_grondement": 0.95, "loup_morsure": 0.88, "loup_douleur": 0.92, "loup_mort": 0.85}
+for nom, extraits in LOUPS.items():
+    for i, (src, debut, duree) in enumerate(extraits, 1):
+        SONS[f"betes/{nom}_{i}.ogg"] = (f"loups/{src}.mp3", {"type": "ponctuel", "debut": debut, "duree": duree,
+                                                           "hauteur": HAUTEUR_LOUPS[nom], "garder_silences": True})
 ajouter("betes", "ours_rugissement", "alvana/creature_roar-02.wav", type="ponctuel", hauteur=0.7)
 ajouter("betes", "ours_grognement", ["alvana/creature_grunt-01.wav", "alvana/creature_grunt-03.wav"], type="ponctuel", hauteur=0.7)
 ajouter("betes", "renne_grognement", "alvana/creature_grunt-03.wav", type="ponctuel", hauteur=1.3)
@@ -186,6 +203,16 @@ def couper_silences(x, seuil_db=-50.0):
     return x[debut:fin]
 
 
+def fondus(x, entree=0.01, sortie=0.12):
+    a, b = min(int(entree * TAUX), len(x) // 4), min(int(sortie * TAUX), len(x) // 3)
+    x = x.copy()
+    if a:
+        x[:a] *= np.linspace(0, 1, a, dtype=np.float32)[:, None]
+    if b:
+        x[-b:] *= np.linspace(1, 0, b, dtype=np.float32)[:, None]
+    return x
+
+
 def boucler(x, fondu_s=2.5):
     f = min(int(fondu_s * TAUX), len(x) // 4)
     t = np.linspace(0, 1, f, dtype=np.float32)[:, None]
@@ -234,26 +261,6 @@ def passe_bas(x, coupure):
     return np.fft.irfft(spectre, len(x), axis=0).astype(np.float32)
 
 
-def hurlement(graine):
-    """Hurlement de loup lointain : note qui monte, tient en vibrant, puis retombe."""
-    rng = np.random.default_rng(graine)
-    duree = rng.uniform(3.0, 4.5)
-    t = np.linspace(0, duree, int(duree * TAUX), endpoint=False)
-    bas, haut = rng.uniform(330, 420), rng.uniform(560, 700)
-    montee, descente = 0.18 * duree, 0.75 * duree
-    f = np.where(t < montee, bas + (haut - bas) * np.sin(np.clip(t / montee, 0, 1) * math.pi / 2), haut)
-    f = np.where(t > descente, haut - (haut - bas * 0.8) * np.clip((t - descente) / (duree - descente), 0, 1) ** 1.5, f)
-    f = f * (1 + 0.012 * np.sin(2 * math.pi * 5.2 * t) * np.clip((t - montee) / 0.5, 0, 1))
-    phase = 2 * math.pi * np.cumsum(f) / TAUX
-    son = np.sin(phase) + 0.35 * np.sin(2 * phase) + 0.12 * np.sin(3 * phase) + 0.05 * np.sin(4 * phase)
-    souffle = rng.standard_normal(len(t)) * 0.06
-    env = np.clip(t / 0.25, 0, 1) * np.clip((duree - t) / 0.6, 0, 1)
-    x = ((son + souffle) * env).astype(np.float32)[:, None]
-    x = passe_bas(x, 1800)
-    x = np.repeat(x, 2, axis=1)
-    return normaliser_crete(reverberation(x, 3.5, 0.6, graine), -3)
-
-
 def goutte(graine):
     """Goutte d'eau qui tombe dans une flaque de grotte."""
     rng = np.random.default_rng(graine)
@@ -274,7 +281,10 @@ def principal():
     sources = sys.argv[1]
     sortie = sys.argv[2] if len(sys.argv) > 2 else os.path.join(os.path.dirname(__file__), "../../game/audio")
     manquants = []
+    filtre = sys.argv[3] if len(sys.argv) > 3 else ""  # ex. « betes/loup » : ne refait que ces sons
     for dest, (src, r) in sorted(SONS.items()):
+        if filtre and not dest.startswith(filtre):
+            continue
         chemin = os.path.join(sources, src)
         if not os.path.exists(chemin):
             manquants.append(src)
@@ -289,13 +299,12 @@ def principal():
             x = lire(chemin, 2, r.get("hauteur", 1.0), r.get("debut", 0.0), r.get("duree", 0.0))
             ecrire(cible, normaliser_moyenne(boucler(x)), 3)
         else:
-            x = lire(chemin, 2 if r.get("stereo") else 1, r.get("hauteur", 1.0))
-            ecrire(cible, normaliser_crete(couper_silences(x)), 4)
+            x = lire(chemin, 2 if r.get("stereo") else 1, r.get("hauteur", 1.0), r.get("debut", 0.0), r.get("duree", 0.0))
+            if not r.get("garder_silences"):
+                x = couper_silences(x)
+            ecrire(cible, normaliser_crete(fondus(x)), 4)
         print("ok", dest)
-    for i in range(1, 4):
-        ecrire(os.path.join(sortie, f"betes/loup_hurlement_{i}.ogg"), hurlement(100 + i), 4)
-        print("ok", f"betes/loup_hurlement_{i}.ogg (synthèse)")
-    for i in range(1, 5):
+    for i in range(1, 5 if not filtre else 1):
         ecrire(os.path.join(sortie, f"ambiances/goutte_{i}.ogg"), goutte(200 + i), 4)
         print("ok", f"ambiances/goutte_{i}.ogg (synthèse)")
     if manquants:
