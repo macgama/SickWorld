@@ -227,6 +227,17 @@ func etape_actuelle() -> Dictionary:
 	return etapes[etape] if etape >= 0 and etape < etapes.size() else {}
 
 
+## Vrai si la quête a atteint (ou dépassé) l'étape « id » : sert aux passages qui
+## s'ouvrent en cours d'histoire (le passeur du Nil, les carriers libérés…).
+func etape_atteinte(id: String) -> bool:
+	if etape < 0:
+		return true
+	for i in etapes.size():
+		if etapes[i].get("id", "") == id:
+			return etape >= i
+	return false
+
+
 func _aller_a(numero: int) -> void:
 	var avant := etape_actuelle()
 	if avant.has("pnj"):

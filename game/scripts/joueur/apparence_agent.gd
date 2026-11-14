@@ -68,6 +68,9 @@ var _coiffure_accrochee: Node3D
 var _coiffure_actuelle := ""
 ## Teinte de la veste donnée par l'équipement (blanc = aucune).
 var _teinte_equipement := Color.WHITE
+## Teinte imposée à la tenue (habitants d'une époque : lin, laine…), prioritaire.
+var _teinte_imposee := Color.WHITE
+var _force_imposee := 0.95
 ## Équipement visible (emplacement -> visuel, voir Inventaire et data/objets.json).
 var _visuels := {}
 
@@ -274,12 +277,24 @@ func _appliquer_teintes() -> void:
 		_materiau_yeux.set_shader_parameter("iris", _apparence["yeux"])
 		_materiau_yeux.set_shader_parameter("force", 1.0)
 	if _materiau_tenue != null:
+		if _teinte_imposee != Color.WHITE:
+			_materiau_tenue.set_shader_parameter("couleur", _teinte_imposee)
+			_materiau_tenue.set_shader_parameter("force", _force_imposee)
+			return
 		var couleur := _teinte_equipement
 		if couleur == Color.WHITE and _apparence.has("veste"):
 			couleur = _apparence["veste"]
 		var teinte := couleur != Color.WHITE
 		_materiau_tenue.set_shader_parameter("couleur", couleur.lightened(0.15) if teinte else Color.WHITE)
 		_materiau_tenue.set_shader_parameter("force", 0.85 if teinte else 0.0)
+
+
+## Teint toute la tenue d'une couleur unie (les vêtements modernes deviennent du lin
+## pour un habitant de l'Égypte, par exemple). Color.WHITE rend la tenue d'origine.
+func teindre_tenue(couleur: Color, force := 0.95) -> void:
+	_teinte_imposee = couleur
+	_force_imposee = force
+	_appliquer_teintes()
 
 
 func _couleur_poils(intensite: float) -> Color:

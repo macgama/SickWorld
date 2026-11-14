@@ -76,3 +76,36 @@ func _process(delta: float) -> void:
 	super._process(delta)
 	if _flotte and _visuel != null and not Engine.is_editor_hint():
 		_visuel.position.y = sin(_temps * 1.4 + position.x) * 0.04
+
+
+func _construire_encre() -> void:
+	# De la poussière d'encre noire et luisante, avec des reflets violets (l'effacement).
+	var noir := StandardMaterial3D.new()
+	noir.albedo_color = Color(0.03, 0.025, 0.04)
+	noir.roughness = 0.08
+	noir.metallic_specular = 0.9
+	var reflet := StandardMaterial3D.new()
+	reflet.albedo_color = Color(0.35, 0.15, 0.6)
+	reflet.emission_enabled = true
+	reflet.emission = Color(0.55, 0.25, 1.0)
+	reflet.emission_energy_multiplier = 1.6
+	var hasard := RandomNumberGenerator.new()
+	hasard.seed = hash(identifiant)
+	var flaque := MeshInstance3D.new()
+	var c := CylinderMesh.new()
+	c.top_radius = 0.45
+	c.bottom_radius = 0.5
+	c.height = 0.02
+	flaque.mesh = c
+	flaque.material_override = noir
+	flaque.position.y = 0.01
+	_visuel.add_child(flaque)
+	for k in 7:
+		var eclat := MeshInstance3D.new()
+		var p := PrismMesh.new()
+		p.size = Vector3(0.06, hasard.randf_range(0.08, 0.2), 0.05)
+		eclat.mesh = p
+		eclat.material_override = reflet if k % 3 == 0 else noir
+		eclat.position = Vector3(hasard.randf_range(-0.3, 0.3), 0.05, hasard.randf_range(-0.3, 0.3))
+		eclat.rotation = Vector3(hasard.randf_range(-0.5, 0.5), hasard.randf() * TAU, hasard.randf_range(-0.5, 0.5))
+		_visuel.add_child(eclat)

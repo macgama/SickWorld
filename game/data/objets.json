@@ -1019,6 +1019,58 @@
 				"forme": "dent",
 				"couleur": "#e8dcc0"
 			}
+		},
+		"ciseau_cuivre": {
+			"nom": "Ciseau de cuivre d'Iry",
+			"type": "equipement",
+			"rarete": "rare",
+			"description": "Le ciseau du maître carrier de Toura. Le cuivre s'émousse vite sur le calcaire : Iry l'aiguise chaque soir. Il tranche aussi bien la chair que la pierre.",
+			"emplacement": "arme_secondaire",
+			"epoque": "Égypte antique",
+			"stats": {
+				"critique_pourcent": 3,
+				"degats_pourcent": 4
+			},
+			"visuel": {
+				"forme": "couteau",
+				"couleur": "#b87333"
+			}
+		},
+		"amulette_felee": {
+			"nom": "Amulette fêlée",
+			"type": "materiau",
+			"rarete": "historique",
+			"description": "Trouvée au fond d'une galerie de Toura, près de la faille. Un petit scarabée de faïence... avec, à l'intérieur, un circuit qui grésille. Quelqu'un l'a apportée ici.",
+			"pile": 1,
+			"epoque": "Inconnue",
+			"icone": {
+				"forme": "eclat",
+				"couleur": "#9b6bff"
+			}
+		},
+		"calcaire_fin": {
+			"nom": "Calcaire fin de Toura",
+			"type": "materiau",
+			"rarete": "raffine",
+			"description": "Le beau calcaire blanc de Toura, si fin qu'on le polit comme du marbre. C'est lui qui habille la Grande Pyramide.",
+			"pile": 20,
+			"epoque": "Égypte antique",
+			"icone": {
+				"forme": "silex",
+				"couleur": "#efe9dc"
+			}
+		},
+		"canine_babouin": {
+			"nom": "Canine de babouin",
+			"type": "materiau",
+			"rarete": "commun",
+			"description": "Plus longue que celle d'un lion. Le babouin est l'animal de Thot, le dieu de l'écriture.",
+			"pile": 20,
+			"epoque": "Égypte antique",
+			"icone": {
+				"forme": "croc",
+				"couleur": "#e9e2cf"
+			}
 		}
 	},
 	"ensembles": {
@@ -1080,6 +1132,9 @@
 		"crocodile": [{"objet": "ecaille_crocodile", "chance": 0.7, "quantite": [1, 3]}],
 		"hippopotame_fracture": [{"objet": "eclat_de_fracture", "chance": 1.0, "quantite": [2, 3]}, {"objet": "defense_hippopotame", "chance": 1.0}],
 		"hippopotame": [{"objet": "defense_hippopotame", "chance": 0.5}],
+		"babouin": [{"objet": "canine_babouin", "chance": 0.6, "quantite": [1, 2]}, {"objet": "calcaire_fin", "chance": 0.3}],
+		"babouin_fracture": [{"objet": "canine_babouin", "chance": 0.6, "quantite": [1, 2]}, {"objet": "eclat_de_fracture", "chance": 0.35}, {"objet": "calcaire_fin", "chance": 0.4}],
+		"babouin_fracture_faille": [{"objet": "eclat_de_fracture", "chance": 0.6}],
 		"loup": [
 			{
 				"objet": "croc_loup",

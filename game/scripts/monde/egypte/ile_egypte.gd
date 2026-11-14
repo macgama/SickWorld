@@ -798,9 +798,41 @@ func _sur_portail(corps: Node3D) -> void:
 		quete.rentrer_au_hub()
 
 
+# --- Outils de géométrie --------------------------------------------------------------------
+
+func _dans_rect(r: Rect2, x: float, z: float, fondu: float) -> float:
+	var dx := maxf(r.position.x - x, x - r.end.x)
+	var dz := maxf(r.position.y - z, z - r.end.y)
+	return 1.0 - smoothstep(0.0, fondu, maxf(dx, dz))
+
+
+func _distance_segment(p: Vector2, a: Vector2, b: Vector2) -> float:
+	var t := clampf((p - a).dot(b - a) / (b - a).length_squared(), 0.0, 1.0)
+	return p.distance_to(a + (b - a) * t)
+
+
+## Un grand plan de terrain coloré (pour prolonger le plateau au-delà de la zone).
+func _plan_lointain(centre: Vector3, taille: Vector2, couleur: Color) -> MeshInstance3D:
+	var outil := SurfaceTool.new()
+	outil.begin(Mesh.PRIMITIVE_TRIANGLES)
+	outil.set_color(couleur)
+	outil.set_normal(Vector3.UP)
+	var d := taille * 0.5
+	var coins := [Vector3(-d.x, 0, -d.y), Vector3(d.x, 0, -d.y), Vector3(d.x, 0, d.y), Vector3(-d.x, 0, d.y)]
+	for i in [0, 1, 2, 0, 2, 3]:
+		outil.add_vertex(coins[i])
+	var mi := MeshInstance3D.new()
+	mi.mesh = outil.commit()
+	mi.material_override = _mat_lointain()
+	mi.position = centre
+	mi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	_contenu.add_child(mi)
+	return mi
+
+
 # --- Limites ------------------------------------------------------------------------------------
 
-func _mur_invisible(parent: Node3D, taille: Vector3, centre: Vector3, angle := 0.0) -> void:
+func _mur_invisible(parent: Node3D, taille: Vector3, centre: Vector3, angle := 0.0) -> StaticBody3D:
 	var corps := StaticBody3D.new()
 	corps.position = centre
 	corps.rotation.y = angle
@@ -810,3 +842,4 @@ func _mur_invisible(parent: Node3D, taille: Vector3, centre: Vector3, angle := 0
 	forme.shape = boite
 	corps.add_child(forme)
 	parent.add_child(corps)
+	return corps

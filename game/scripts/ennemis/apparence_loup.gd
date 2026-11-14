@@ -37,6 +37,7 @@ static var _maillage_loup: ArrayMesh
 static var _os_loup: Array = []
 static var _textures_renne := {}
 const ApparenceNil := preload("res://scripts/ennemis/apparence_nil.gd")
+const ApparenceOublie := preload("res://scripts/ennemis/apparence_oublie.gd")
 ## Apparence d'une autre famille d'animaux à qui tout est confié (bêtes du Nil).
 var _delegue: Node3D
 
@@ -47,8 +48,16 @@ func _ready() -> void:
 	var parent := get_parent()
 	var type := str(parent.get("type_ennemi")) if parent != null else ""
 	# Les bêtes du Nil (île d'Égypte) ont leur propre apparence, sculptée en code.
-	if type.begins_with("crocodile") or type.begins_with("hippopotame"):
-		espece = "hippopotame" if type.begins_with("hippopotame") else "crocodile"
+	if type.begins_with("oublie"):
+		# Pas « "" » : ce serait un agent de la Vigie pour le bruiteur (pas, esquives…).
+		espece = "oublie"
+		_delegue = ApparenceOublie.new()
+		_delegue.name = "Oublie"
+		_delegue.graine = parent.get_instance_id() % 997
+		add_child(_delegue)
+		return
+	if type.begins_with("crocodile") or type.begins_with("hippopotame") or type.begins_with("babouin"):
+		espece = "hippopotame" if type.begins_with("hippopotame") else ("babouin" if type.begins_with("babouin") else "crocodile")
 		_delegue = ApparenceNil.new()
 		_delegue.name = "Nil"
 		_delegue.espece = espece

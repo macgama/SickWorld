@@ -220,17 +220,17 @@ func _lancer() -> void:
 		_verifier(inventaire.quantite("masse_ankhkhaf") >= 1, "la masse d'Ânkhkhaf est dans le sac")
 	_verifier(_id_etape() == "fin_chapitre_2", "Merer veut parler (%s)" % _id_etape())
 	await _parler("Merer")
-	_verifier(_quete.etape < 0, "chapitres 1 et 2 terminés (suite au chapitre 3)")
+	_verifier(_id_etape() == "embarquer", "chapitres 1 et 2 terminés : Merer attend près de sa barque (%s)" % _id_etape())
 
 	# --- La progression est gardée.
 	var cfg := ConfigFile.new()
 	cfg.load(FICHIER)
-	_verifier(cfg.get_value("egypte", "etape", "") == "fin", "l'avancement est enregistré dans la section « egypte »")
+	_verifier(cfg.get_value("egypte", "etape", "") == "embarquer", "l'avancement est enregistré dans la section « egypte »")
 	_verifier(cfg.get_value("prehistoire", "etape", "") == "", "la Préhistoire n'est pas touchée")
 	_scene.queue_free()
 	await _attendre(5)
 	await _charger()
-	_verifier(_quete.etape < 0, "au retour, la quête reprend où on l'avait laissée")
+	_verifier(_id_etape() == "embarquer", "au retour, la quête reprend où on l'avait laissée")
 	_verifier(_scene.find_child("Faille", true, false).fermee, "la faille est toujours fermée")
 	_verifier(_scene.find_child("BaliseInstallee", true, false).visible, "la balise est toujours en place")
 	var t2: Vector3 = _scene.find_child("Traineau", true, false).global_position

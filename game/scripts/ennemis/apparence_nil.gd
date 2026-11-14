@@ -1,6 +1,6 @@
 @tool
 extends Node3D
-## Apparence des bêtes du Nil (île d'Égypte) : crocodile et hippopotame.
+## Apparence des bêtes d'Égypte : crocodile et hippopotame (le Nil), babouin (Toura).
 ##
 ## Aucun modèle gratuit et réaliste n'étant encore choisi pour ces animaux, ils
 ## sont sculptés ici dans le code : le corps est une suite de sections ovales
@@ -10,7 +10,7 @@ extends Node3D
 ##
 ## Appelé par apparence_loup.gd (même interface : animer, mordre, colorer).
 
-## « crocodile » ou « hippopotame ».
+## « crocodile », « hippopotame » ou « babouin ».
 @export var espece := "crocodile":
 	set(valeur):
 		espece = valeur
@@ -44,6 +44,8 @@ func _construire() -> void:
 	add_child(_corps)
 	if espece == "hippopotame":
 		_construire_hippopotame()
+	elif espece == "babouin":
+		_construire_babouin()
 	else:
 		_construire_crocodile()
 
@@ -124,6 +126,27 @@ static func _materiau(cle: String) -> StandardMaterial3D:
 		"oeil":
 			m.albedo_color = Color(0.06, 0.05, 0.04)
 			m.roughness = 0.08
+		"babouin":
+			# Pelage gris-brun, fin et serré.
+			m.albedo_texture = _bruit_cellules(21, 0.14, false, [Color(0.6, 0.56, 0.47), Color(0.4, 0.37, 0.31)])
+			m.normal_enabled = true
+			m.normal_texture = _bruit_cellules(21, 0.14, true, [])
+			m.normal_scale = 0.8
+			m.roughness = 0.95
+			m.uv1_triplanar = true
+			m.uv1_scale = Vector3.ONE * 3.0
+		"babouin_criniere":
+			# La grande cape argentée du mâle hamadryas.
+			m.albedo_texture = _bruit_cellules(23, 0.09, false, [Color(0.78, 0.76, 0.7), Color(0.55, 0.53, 0.48)])
+			m.normal_enabled = true
+			m.normal_texture = _bruit_cellules(23, 0.09, true, [])
+			m.normal_scale = 1.2
+			m.roughness = 1.0
+			m.uv1_triplanar = true
+			m.uv1_scale = Vector3.ONE * 2.0
+		"babouin_visage":
+			m.albedo_color = Color(0.78, 0.45, 0.42)
+			m.roughness = 0.5
 	_materiaux[cle] = m
 	return m
 
@@ -341,6 +364,64 @@ func _construire_hippopotame() -> void:
 		_pattes.append(patte)
 
 
+# --- Babouin hamadryas (environ 0,8 m au garrot) ----------------------------------------
+
+func _construire_babouin() -> void:
+	_hauteur = 0.0
+	var poil := _materiau("babouin")
+	var criniere := _materiau("babouin_criniere")
+	var visage := _materiau("babouin_visage")
+	# Le tronc : haut aux épaules, plus bas et plus mince vers l'arrière.
+	_piece(_corps, _loft([
+		[-0.44, 0.17, 0.18, 0.68, 0.1], [-0.26, 0.24, 0.26, 0.66, 0.2], [0.0, 0.22, 0.23, 0.61, 0.2],
+		[0.24, 0.19, 0.2, 0.57, 0.2], [0.42, 0.13, 0.14, 0.56, 0.1],
+	], 16), poil)
+	# La cape de poils longs sur les épaules et la nuque.
+	_piece(_corps, _loft([
+		[-0.52, 0.2, 0.22, 0.75, 0.0], [-0.32, 0.31, 0.33, 0.73, 0.1], [-0.08, 0.29, 0.3, 0.69, 0.2],
+		[0.14, 0.2, 0.21, 0.65, 0.3],
+	], 16), criniere)
+	# Les fesses rouges (callosités), typiques du babouin.
+	_piece(_corps, _sphere(0.08), visage, Vector3(0, 0.5, 0.45), Vector3.ZERO, Vector3(1.6, 1.1, 0.5))
+	# La tête : crâne rond, long museau de chien, rose et nu.
+	_tete = _pivot(_corps, Vector3(0, 0.78, -0.5), "Tete")
+	_piece(_tete, _sphere(0.14), poil, Vector3(0, 0.02, 0.02), Vector3.ZERO, Vector3(1.05, 0.95, 1.05))
+	_piece(_tete, _loft([
+		[-0.04, 0.085, 0.08, 0.0, 0.2], [-0.14, 0.07, 0.065, -0.02, 0.3], [-0.24, 0.055, 0.05, -0.035, 0.3],
+		[-0.27, 0.045, 0.04, -0.04, 0.2],
+	], 14), visage)
+	# Les arcades sourcilières et les petits yeux enfoncés.
+	_piece(_tete, _sphere(0.05), visage, Vector3(0, 0.07, -0.08), Vector3.ZERO, Vector3(2.0, 0.5, 0.8))
+	for cote in [-1.0, 1.0]:
+		_piece(_tete, _sphere(0.018), _materiau("oeil_croco"), Vector3(cote * 0.045, 0.045, -0.105))
+		_piece(_tete, _sphere(0.03), poil, Vector3(cote * 0.1, 0.06, 0.04), Vector3.ZERO, Vector3(0.5, 1.0, 0.7))
+	# La mâchoire du bas et ses longues canines.
+	_machoire = _pivot(_tete, Vector3(0, -0.05, -0.06), "Machoire")
+	_piece(_machoire, _loft([[0.0, 0.065, 0.035, -0.01, 0.4], [-0.18, 0.045, 0.03, -0.01, 0.4]], 12), visage)
+	for cote in [-1.0, 1.0]:
+		_piece(_tete, _cone(0.012, 0.07), _materiau("dent"), Vector3(cote * 0.03, -0.06, -0.2), Vector3(PI, 0, 0))
+		_piece(_machoire, _cone(0.01, 0.05), _materiau("dent"), Vector3(cote * 0.028, 0.03, -0.16))
+	# Quatre longues pattes (les bras un peu plus longs que les jambes).
+	var attaches := [Vector3(-0.16, 0.62, -0.36), Vector3(0.16, 0.62, -0.36), Vector3(-0.14, 0.56, 0.32), Vector3(0.14, 0.56, 0.32)]
+	for k in 4:
+		var patte := _pivot(_corps, attaches[k], "Patte%d" % k)
+		var long_ := 0.6 if k < 2 else 0.54
+		# Épaule ou cuisse musclée, coude, avant-bras, puis main ou pied.
+		_piece(patte, _sphere(0.1 if k < 2 else 0.11), criniere if k < 2 else poil, Vector3(0, -0.04, 0), Vector3.ZERO, Vector3(1.0, 1.3, 1.1))
+		_piece(patte, _cylindre(0.06, 0.085, long_ * 0.55), criniere if k < 2 else poil, Vector3(0, -long_ * 0.27, 0))
+		_piece(patte, _sphere(0.06), poil, Vector3(0, -long_ * 0.52, 0))
+		_piece(patte, _cylindre(0.045, 0.06, long_ * 0.5), poil, Vector3(0, -long_ * 0.74, 0))
+		_piece(patte, _sphere(0.055), _materiau("oeil"), Vector3(0, -long_ + 0.02, -0.04), Vector3.ZERO, Vector3(1.1, 0.5, 1.7))
+		_pattes.append(patte)
+	# La queue : elle monte d'abord, puis retombe en arc.
+	var base := _pivot(_corps, Vector3(0, 0.6, 0.42), "Queue0")
+	_piece(base, _cylindre(0.025, 0.035, 0.3), poil, Vector3(0, 0.1, 0.1), Vector3(-0.8, 0, 0))
+	_queue.append(base)
+	var bout := _pivot(base, Vector3(0, 0.2, 0.22), "Queue1")
+	_piece(bout, _cylindre(0.015, 0.025, 0.36), poil, Vector3(0, -0.12, 0.08), Vector3(0.6, 0, 0))
+	_queue.append(bout)
+
+
 # --- Animation -------------------------------------------------------------------------
 
 func colorer(allie: bool) -> void:
@@ -355,7 +436,7 @@ func colorer(allie: bool) -> void:
 
 
 func mordre() -> void:
-	_morsure = 0.45 if espece == "hippopotame" else 0.3
+	_morsure = 0.45 if espece == "hippopotame" else (0.4 if espece == "babouin" else 0.3)
 
 
 func animer(delta: float, vitesse: float, mort: bool) -> void:
@@ -364,8 +445,9 @@ func animer(delta: float, vitesse: float, mort: bool) -> void:
 	if mort:
 		# Sur le dos (crocodile) ou couché sur le flanc (hippopotame).
 		var angle := PI * 0.95 if espece == "crocodile" else PI / 2
+		var sol := 0.35 if espece == "crocodile" else (0.12 if espece == "babouin" else 0.5)
 		_corps.rotation.z = lerpf(_corps.rotation.z, angle, 0.12)
-		_corps.position.y = lerpf(_corps.position.y, 0.35 if espece == "crocodile" else 0.5, 0.12)
+		_corps.position.y = lerpf(_corps.position.y, sol, 0.12)
 		if _machoire != null:
 			_machoire.rotation.x = lerpf(_machoire.rotation.x, 0.25, 0.1)
 		return
@@ -374,6 +456,8 @@ func animer(delta: float, vitesse: float, mort: bool) -> void:
 	_morsure = maxf(0.0, _morsure - delta)
 	if espece == "hippopotame":
 		_animer_hippopotame(delta, vitesse)
+	elif espece == "babouin":
+		_animer_babouin(delta, vitesse)
 	else:
 		_animer_crocodile(delta, vitesse)
 
@@ -418,3 +502,28 @@ func _animer_hippopotame(delta: float, vitesse: float) -> void:
 	var ouverture := sin(clampf(_morsure / 0.45, 0.0, 1.0) * PI)
 	_tete.rotation.x = -ouverture * 0.55 + sin(t * 0.6) * 0.03
 	_machoire.rotation.x = ouverture * 0.9
+
+
+func _animer_babouin(delta: float, vitesse: float) -> void:
+	var allure := clampf(vitesse / 6.5, 0.0, 1.0)
+	_phase += delta * (2.0 + vitesse * 2.2)
+	var t := Time.get_ticks_msec() * 0.001
+	# Au pas, les pattes se suivent ; au galop, les avant puis les arrière ensemble.
+	var galop := smoothstep(0.4, 0.7, allure)
+	var pas := [0.0, PI, PI * 0.5, PI * 1.5]
+	var bond := [0.0, 0.3, PI, PI + 0.3]
+	for k in _pattes.size():
+		var ph := lerpf(pas[k], bond[k], galop)
+		_pattes[k].rotation.x = sin(_phase + ph) * (0.25 + 0.45 * allure) * minf(1.0, allure * 3.0)
+	_corps.position.y = absf(sin(_phase)) * 0.05 * allure + galop * sin(_phase * 2.0) * 0.03
+	_corps.rotation.x = galop * sin(_phase) * 0.08
+	# La queue se balance ; la tête guette de gauche à droite à l'arrêt.
+	_queue[0].rotation.x = sin(t * 1.4) * 0.08 - allure * 0.3
+	_queue[1].rotation.z = sin(t * 1.9) * 0.15
+	var guet := sin(t * 0.7) * 0.5 * (1.0 - allure) * float(fmod(t, 6.0) < 3.0)
+	# La menace : il se dresse un peu, ouvre grand la gueule et montre ses canines.
+	var menace := sin(clampf(_morsure / 0.4, 0.0, 1.0) * PI)
+	_corps.rotation.x -= menace * 0.25
+	_tete.rotation.y = guet
+	_tete.rotation.x = -menace * 0.4
+	_machoire.rotation.x = menace * 0.8
