@@ -338,6 +338,15 @@ func _construire_multi(reglages: ConfigFile) -> void:
 	t.text = "Multijoueur"
 	t.add_theme_font_size_override("font_size", 22)
 	c.add_child(t)
+	if Reseau.a_un_serveur_officiel():
+		c.add_child(Style.titre_section("Serveur officiel"))
+		var o := Label.new()
+		o.text = "Le serveur SickWorld en ligne, allumé en permanence : tout le monde s'y retrouve."
+		o.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		o.add_theme_font_size_override("font_size", 14)
+		o.add_theme_color_override("font_color", Style.TEXTE_DOUX)
+		c.add_child(o)
+		c.add_child(_bouton("Rejoindre le serveur officiel", _rejoindre_officiel, true))
 	c.add_child(Style.titre_section("Héberger"))
 	var h := Label.new()
 	h.text = "Ta partie s'ouvre et tes amis peuvent te rejoindre avec ton adresse."
@@ -399,6 +408,14 @@ func _unhandled_input(evenement: InputEvent) -> void:
 		elif _panneau_multi != null and _panneau_multi.visible:
 			_panneau_multi.visible = false
 			get_viewport().set_input_as_handled()
+
+
+func _rejoindre_officiel() -> void:
+	var officiel := Reseau.serveur_officiel()
+	Reseau.mode = Reseau.Mode.REJOINDRE
+	Reseau.adresse = String(officiel.get("jeu", ""))
+	Reseau.port = int(officiel.get("port", Reseau.PORT_PAR_DEFAUT))
+	get_tree().change_scene_to_file(Reseau.scene_depart)
 
 
 func _lancer(mode: Reseau.Mode) -> void:
