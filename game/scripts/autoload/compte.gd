@@ -56,7 +56,7 @@ func _ready() -> void:
 	_actif = DisplayServer.get_name() != "headless" and not "--serveur" in OS.get_cmdline_user_args()
 	var cfg := ConfigFile.new()
 	cfg.load(FICHIER)
-	adresse = String(cfg.get_value("serveur", "adresse", ADRESSE_PAR_DEFAUT))
+	adresse = String(cfg.get_value("serveur", "adresse", adresse_par_defaut()))
 	if _actif and cfg.has_section_key("session", "renouvellement"):
 		a_un_compte = true
 		_jeton_renouvellement = String(cfg.get_value("session", "renouvellement"))
@@ -138,9 +138,21 @@ func se_deconnecter() -> void:
 	profil_change.emit()
 
 
+## Le serveur de comptes officiel (Oracle Cloud, voir data/serveur_officiel.json)
+## s'il existe, sinon celui de ce PC.
+static func adresse_officielle() -> String:
+	var lu = JSON.parse_string(FileAccess.get_file_as_string("res://data/serveur_officiel.json"))
+	return String(lu.get("comptes", "")) if lu is Dictionary else ""
+
+
+static func adresse_par_defaut() -> String:
+	var officielle := adresse_officielle()
+	return officielle if officielle != "" else ADRESSE_PAR_DEFAUT
+
+
 func changer_adresse(nouvelle: String) -> void:
 	nouvelle = nouvelle.strip_edges()
-	adresse = nouvelle if nouvelle != "" else ADRESSE_PAR_DEFAUT
+	adresse = nouvelle if nouvelle != "" else adresse_par_defaut()
 	var cfg := ConfigFile.new()
 	cfg.load(FICHIER)
 	cfg.set_value("serveur", "adresse", adresse)

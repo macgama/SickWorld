@@ -25,12 +25,15 @@ Pour revenir à une seule fenêtre, remets **1** dans le même menu.
 2. Sur ton PC : **Héberger une partie**.
 3. Sur l'autre PC (qui doit avoir Godot et le projet, en attendant qu'on fabrique un vrai fichier d'installation) : tape ton adresse et clique sur **Rejoindre**.
 
-## 3. Jouer avec des amis par Internet
+## 3. Jouer avec des amis par Internet (serveur officiel)
 
-C'est prévu à l'**étape 7** : un serveur gratuit chez Oracle Cloud, allumé en permanence, que tout le monde rejoint. D'ici là, il faudrait ouvrir le port **7777 (UDP)** dans la configuration de ta box : possible, mais pas nécessaire pour l'instant.
+Le serveur officiel tourne chez Oracle Cloud (gratuit), allumé en permanence : voir [Mettre le serveur en ligne](serveur-en-ligne.md). Une fois installé, chacun clique simplement sur **Multijoueur > Rejoindre le serveur officiel**.
+
+Pour vérifier qu'il répond sans ouvrir le jeu (dans le dossier du projet) :
+`godot --headless --path game -s res://tests/test_en_ligne.gd -- --officiel --nom=Testeur`
 
 ## Ce qui se passe « sous le capot »
 
 - Le **serveur** décide de tout ce qui compte : la vie, les dégâts, les loups, les temps de recharge. Quand tu appuies sur une touche de compétence, ton jeu envoie une **demande** au serveur, qui vérifie la portée, l'Élan, la recharge… avant d'appliquer l'effet. Un tricheur ne peut donc pas frapper un loup à 50 mètres.
-- Chaque joueur envoie sa **position** 20 fois par seconde. Pour l'instant le serveur la croit sur parole ; on ajoutera une vérification de la vitesse avant les tests publics de l'étape 7.
+- Chaque joueur envoie sa **position** 20 fois par seconde. Pour l'instant le serveur la croit sur parole ; on ajoutera une vérification de la vitesse avant les tests publics.
 - Un **serveur dédié** (sans fenêtre, sans joueur) peut aussi tourner en arrière-plan : c'est ce qu'on installera sur Oracle Cloud. Commande : `godot --headless --path game -- --serveur --port=7777`.
