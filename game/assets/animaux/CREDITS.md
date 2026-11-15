@@ -57,3 +57,14 @@ Modèles 3D téléchargés sur Sketchfab, sous licence **Creative Commons Attrib
 - **Taille :** ~27 300 triangles, 1 squelette, 1 texture intégrée (fichier d'origine `wolf_anim.glb`).
 - **Animations (1) :** une animation sans nom de 4,3 s qui n'anime qu'un seul canal (pose debout quasi
   fixe). Marche, course, attaque et mort sont à créer (Blender ou outil d'auto-rig).
+
+## Âne (monture de l'Égypte) — `ane/ane.glb`
+
+- **Modèle :** Realistic Animated Donkey 3D Model
+- **Auteur :** WildMesh 3D (@WildMesh_3D)
+- **URL :** https://sketchfab.com/3d-models/realistic-animated-donkey-3d-model-2b4086035df94d9e88fd0f18d34b3872
+- **Licence :** CC-BY 4.0 (voir `ane/license.txt`)
+- **Remarques :** converti du glTF en GLB avec Blender, sans autre changement. Selle et rênes
+  comprises. L'os `CG_01` porte le déplacement (« root motion ») : le jeu ne garde que sa hauteur.
+- **Animations (117) :** entre autres H_Idle_01, H_Walk, H_Trot, H_Canter, H_Gallop, H_Sprint,
+  H_Jump_*, H_Eat, H_Drink, H_Swim_*, H_Sleep_*, H_Death01.

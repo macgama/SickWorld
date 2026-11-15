@@ -22,12 +22,17 @@
 			"nom": "Âne de bât",
 			"epoque": "egypte",
 			"description": "L'âne des bâtisseurs de Khéops : petit, têtu, infatigable. (Pas de cheval ni de chameau en Égypte à cette époque.)",
-			"modele": "res://assets/animaux/elan/elan.glb",
-			"echelle": 0.7,
-			"pelage": "ane",
-			"bois": false,
-			"oreilles": 1.9,
-			"selle": 0.22,
+			"modele": "res://assets/animaux/ane/ane.glb",
+			"echelle": 0.92,
+			"tourner": -90,
+			"pelage": "",
+			"selle": 0.14,
+			"os_selle": "Spine1_014",
+			"os_racine": "CG_01",
+			"garder_hauteur_racine": true,
+			"allures": ["H_Walk", "H_Trot", "H_Canter", "H_Gallop", "H_Sprint"],
+			"repos": "H_Idle_01",
+			"saut": "H_Jump_Forward",
 			"vitesse_pourcent": 60
 		}
 	}

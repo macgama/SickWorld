@@ -18,12 +18,20 @@ var _os_selle := -1
 var _temps_en_l_air := 0.0
 static var _textures := {}
 
-## Animations du modèle, de la plus lente à la plus rapide.
+## Noms par défaut (modèles « élan / ours » de WildMesh 3D). Chaque monture peut
+## donner les siens dans data/montures.json : « allures », « repos », « saut »,
+## « os_racine », « os_selle », « os_oreilles ».
 const ALLURES := ["Walk", "Trot", "Run", "Sprint"]
 const REPOS := "Stand_Breathing_01"
+const SAUT := "JumpStand"
+const OS_RACINE := "RigRoot_01"
 ## Os où l'on pose la selle (le milieu du dos).
 const OS_SELLE := ["RigSpine2_012", "RigSpine2"]
 const OS_OREILLES := ["RigLEar1_026", "RigREar1_028"]
+
+var _allures: Array = ALLURES
+var _repos := REPOS
+var _saut := SAUT
 ## Teintes du pelage : [luminosité, contraste, saturation] puis couleur multipliée.
 const PELAGES := {
 	"renne": [1.12, 0.95, 0.38, Color(1, 1, 1)],
@@ -36,15 +44,19 @@ func _ready() -> void:
 	if not ResourceLoader.exists(chemin):
 		_construire_silhouette()
 		return
+	_allures = reglages.get("allures", ALLURES)
+	_repos = String(reglages.get("repos", REPOS))
+	_saut = String(reglages.get("saut", SAUT))
 	_modele = (load(chemin) as PackedScene).instantiate()
 	# Les modèles de Sketchfab regardent vers +Z ; dans le jeu, -Z est devant.
-	_modele.rotation.y = PI
+	# « tourner » (degrés) corrige un modèle exporté de travers.
+	_modele.rotation.y = PI + deg_to_rad(float(reglages.get("tourner", 0.0)))
 	_modele.scale = Vector3.ONE * float(reglages.get("echelle", 0.8))
 	add_child(_modele)
 	var squelettes := _modele.find_children("*", "Skeleton3D", true, false)
 	if not squelettes.is_empty():
 		_squelette = squelettes[0]
-		for nom in OS_SELLE:
+		for nom in ([reglages["os_selle"]] if reglages.has("os_selle") else OS_SELLE):
 			_os_selle = _squelette.find_bone(nom)
 			if _os_selle >= 0:
 				break
@@ -55,11 +67,11 @@ func _ready() -> void:
 	_anim = lecteurs[0]
 	for nom in _anim.get_animation_list():
 		var a := _anim.get_animation(nom)
-		if nom in ALLURES or nom == REPOS:
+		if nom in _allures or nom == _repos:
 			a.loop_mode = Animation.LOOP_LINEAR
 		_retirer_deplacement(a)
 		_vitesses_ref[nom] = float(a.get_meta("vitesse_ref", 0.0)) * float(reglages.get("echelle", 0.8))
-	_jouer(REPOS, 0.0)
+	_jouer(_repos, 0.0)
 
 
 ## Pelage, bois et oreilles.
@@ -95,19 +107,20 @@ func _habiller() -> void:
 	if _squelette != null and absf(oreilles - 1.0) > 0.01:
 		var grandes := GrandesOreilles.new()
 		grandes.facteur = oreilles
+		grandes.os = reglages.get("os_oreilles", OS_OREILLES)
 		_squelette.add_child(grandes)
 
 
 ## Agrandit les oreilles (l'âne a de grandes oreilles, l'élan non).
 class GrandesOreilles extends SkeletonModifier3D:
 	var facteur := 1.0
+	var os: Array = []
 
 	func _process_modification() -> void:
 		var s := get_skeleton()
-		for nom in OS_OREILLES:
-			var os := s.find_bone(nom)
-			if os >= 0:
-				s.set_bone_pose_scale(os, Vector3.ONE * facteur)
+		for nom in os:
+			if s.find_bone(nom) >= 0:
+				s.set_bone_pose_scale(s.find_bone(nom), Vector3.ONE * facteur)
 
 
 ## Les animations font avancer l'os racine : c'est le jeu qui déplace la bête,
@@ -117,14 +130,21 @@ func _retirer_deplacement(a: Animation) -> void:
 		return
 	var vitesse := 0.0
 	for t in range(a.get_track_count() - 1, -1, -1):
-		if a.track_get_type(t) != Animation.TYPE_POSITION_3D or not str(a.track_get_path(t)).ends_with(":RigRoot_01"):
+		if a.track_get_type(t) != Animation.TYPE_POSITION_3D or not str(a.track_get_path(t)).ends_with(":" + String(reglages.get("os_racine", OS_RACINE))):
 			continue
 		var n := a.track_get_key_count(t)
 		if n > 1:
 			var debut: Vector3 = a.track_get_key_value(t, 0)
 			var fin: Vector3 = a.track_get_key_value(t, n - 1)
 			vitesse = Vector2(fin.x - debut.x, fin.z - debut.z).length() * 0.01 / maxf(a.length, 0.01)
-		a.remove_track(t)
+		if bool(reglages.get("garder_hauteur_racine", false)):
+			# La racine porte aussi la hauteur du corps : on ne garde que son mouvement vertical.
+			var depart: Vector3 = a.track_get_key_value(t, 0) if n > 0 else Vector3.ZERO
+			for k in n:
+				var p: Vector3 = a.track_get_key_value(t, k)
+				a.track_set_key_value(t, k, Vector3(depart.x, p.y, depart.z))
+		else:
+			a.remove_track(t)
 	a.set_meta("vitesse_ref", vitesse)
 
 
@@ -144,18 +164,18 @@ func animer(delta: float, vitesse_locale: Vector3, au_sol: bool) -> void:
 		return
 	if not au_sol:
 		_temps_en_l_air += delta
-		if _temps_en_l_air > 0.08 and _anim.has_animation("JumpStand"):
-			_jouer("JumpStand", 0.15)
+		if _temps_en_l_air > 0.08 and _anim.has_animation(_saut):
+			_jouer(_saut, 0.15)
 		return
 	_temps_en_l_air = 0.0
 	var v := Vector2(vitesse_locale.x, vitesse_locale.z).length()
 	if v < 0.4:
-		_jouer(REPOS, 0.3)
+		_jouer(_repos, 0.3)
 		return
 	# L'allure dont la vitesse naturelle est la plus proche de la vitesse réelle.
-	var choix := "Walk"
+	var choix: String = _allures[0]
 	var ecart := INF
-	for nom in ALLURES:
+	for nom in _allures:
 		var ref := float(_vitesses_ref.get(nom, 0.0))
 		if ref <= 0.0:
 			continue
@@ -167,8 +187,8 @@ func animer(delta: float, vitesse_locale: Vector3, au_sol: bool) -> void:
 	var lecture := clampf(v / ref_choix, 0.5, 2.0) if ref_choix > 0.0 else 1.0
 	# En marche arrière, on joue la marche à l'envers.
 	if vitesse_locale.z > 0.3 and absf(vitesse_locale.z) > absf(vitesse_locale.x):
-		choix = "Walk"
-		ref_choix = float(_vitesses_ref.get("Walk", 1.5))
+		choix = _allures[0]
+		ref_choix = float(_vitesses_ref.get(choix, 1.5))
 		lecture = -clampf(v / maxf(ref_choix, 0.1), 0.5, 2.0)
 	_jouer(choix, 0.25, lecture)
 
