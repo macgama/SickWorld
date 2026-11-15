@@ -14,6 +14,7 @@ const Pnj := preload("res://scripts/monde/prehistoire/pnj_epoque.gd")
 const SCENE_LOUP := preload("res://scenes/ennemis/loup.tscn")
 const QuetesSecondaires := preload("res://scripts/monde/prehistoire/quetes_secondaires.gd")
 const EvenementsPublics := preload("res://scripts/monde/prehistoire/evenements_publics.gd")
+const Cinematiques := preload("res://scripts/monde/cinematiques.gd")
 
 signal etape_changee(id: String)
 
@@ -76,6 +77,8 @@ var _renforts_venus: Array[String] = []
 var secondaires: Node
 ## Les événements publics de l'île (voir evenements_publics.gd).
 var evenements: Node
+## Les cinématiques de l'île (voir cinematiques.gd et data/cinematiques.json).
+var cinematiques: Node
 ## Action longue lancée par une quête secondaire : appelée à la fin.
 var _rappel_canalisation: Callable
 
@@ -117,6 +120,9 @@ func _ready() -> void:
 		evenements = EvenementsPublics.new()
 		evenements.name = "EvenementsPublics"
 		add_child(evenements)
+	cinematiques = Cinematiques.new()
+	cinematiques.name = "Cinematiques"
+	add_child(cinematiques)
 	var dialogue := get_tree().get_first_node_in_group("dialogue")
 	if dialogue != null:
 		dialogue.termine.connect(_sur_dialogue_termine)
@@ -742,6 +748,14 @@ func _position_cible(e: Dictionary):
 # --- Arrivée, annonces et voyage --------------------------------------------------------
 
 func _arrivee() -> void:
+	# La première fois, une cinématique peut présenter la zone avant son titre.
+	if cinematiques != null and cinematiques.lancer_arrivee(_zone(), _montrer_arrivee):
+		return
+	_montrer_arrivee()
+
+
+## Titre de la zone sur un écran noir qui s'éclaircit.
+func _montrer_arrivee() -> void:
 	var a: Dictionary = donnees.get("zones", {}).get(_zone(), {}).get("arrivee", {})
 	_titre.text = a.get("titre", "")
 	_sous_titre.text = a.get("sous_titre", "")
