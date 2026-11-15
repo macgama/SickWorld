@@ -268,6 +268,11 @@ func _appliquer() -> void:
 	combat.bonus_degats = float(bonus["stats"]["degats_pourcent"])
 	combat.bonus_reduction = float(bonus["stats"]["reduction_pourcent"])
 	combat.bonus_critique = float(bonus["stats"]["critique_pourcent"])
+	var st: Dictionary = bonus["stats"]
+	combat.bonus_resistance_controles = float(st.get("resistance_controles_pourcent", 0.0))
+	combat.bonus_soins = float(st.get("soins_pourcent", 0.0))
+	combat.bonus_vol_de_vie = float(st.get("vol_de_vie_pourcent", 0.0))
+	combat.bonus_blessure = float(st.get("blessure_pourcent", 0.0))
 	porte = (etat["equipement"] as Dictionary).duplicate()
 	_sauvegarder()
 	Regles.chez(joueur.id_reseau(), self, "_recevoir_etat", [etat])
@@ -289,6 +294,10 @@ func _calculer_bonus() -> void:
 		var eq: Dictionary = JcJ.reglages.get("equilibrage", {})
 		if bool(eq.get("actif", true)):
 			bonus = Progression.bonus_equilibre(Progression.donnees(), eq, combat_joueur.pv_de_base())
+			# Seuls les talents d'Arène choisis s'ajoutent (les mêmes règles pour tous).
+			var prog := joueur.get_node_or_null("Progression")
+			if prog != null and prog.is_node_ready():
+				Progression.fusionner(bonus, prog.bonus_arene())
 			combat_joueur.modifs_competences = bonus["competences"]
 			combat_joueur.definir_barre(etat.get("barre", []))
 			return

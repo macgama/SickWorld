@@ -75,12 +75,18 @@ func bonus() -> Dictionary:
 	return Progression.bonus(donnees(), classe(), etat, combat_joueur.pv_de_base())
 
 
+## Bonus des talents d'Arène choisis (seulement pendant un combat d'Arène, voir Inventaire).
+func bonus_arene() -> Dictionary:
+	return Progression.bonus_arene(donnees(), classe(), etat)
+
+
 func _sur_fiche_changee() -> void:
 	# Changer de classe remet les talents à zéro (ils ne vont pas avec l'autre classe).
 	if not multiplayer.is_server() or _classe_appliquee == classe():
 		return
 	_classe_appliquee = classe()
 	Progression.oublier_talents(etat)
+	etat["talents_arene"] = []
 	_appliquer()
 
 
@@ -88,6 +94,11 @@ func _sur_fiche_changee() -> void:
 
 func prendre_talent(id: String) -> void:
 	Regles.au_serveur(self, "_demander", ["talent", [id]])
+
+
+## Choisit un talent d'Arène, ou le retire s'il était déjà choisi.
+func choisir_talent_arene(id: String) -> void:
+	Regles.au_serveur(self, "_demander", ["talent_arene", [id]])
 
 
 func oublier_talents() -> void:
@@ -337,6 +348,12 @@ func _demander(action: String, arguments: Array) -> void:
 			else:
 				Progression.oublier_talents(etat)
 				_dire("Talents oubliés : tes %d points sont libres" % Progression.points_libres(donnees(), etat))
+		"talent_arene":
+			var inventaire := joueur.get_node_or_null("Inventaire")
+			if combat.en_combat() or (inventaire != null and inventaire.mode_arene):
+				raison = "Impossible en combat"
+			else:
+				raison = Progression.choisir_talent_arene(donnees(), classe(), etat, String(arguments[0]))
 		"titre":
 			raison = Progression.choisir_titre(donnees(), etat, String(arguments[0]))
 		"etape", "secondaire", "evenement", "mission_hub", "mission_jour":

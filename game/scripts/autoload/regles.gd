@@ -36,6 +36,8 @@ func infliger(source: Combattant, cible: Combattant, montant: float, type := "no
 	if critique:
 		montant *= 1.5
 	var subi := cible.subir(montant, source)
+	if subi > 0.0 and source != null and is_instance_valid(source) and source != cible:
+		_effets_jcj(source, cible, subi, type)
 	if subi > 0.0:
 		var couleur := Color(1, 0.95, 0.6)
 		if cible.faction == "joueur" or cible.faction.begins_with("arene_"):
@@ -48,7 +50,26 @@ func infliger(source: Combattant, cible: Combattant, montant: float, type := "no
 	return subi
 
 
+## Talents d'Arène : vol de vie (coups directs) et blessure (soins reçus réduits).
+func _effets_jcj(source: Combattant, cible: Combattant, subi: float, type: String) -> void:
+	if source.bonus_vol_de_vie > 0.0 and type == "normal" and source.est_vivant():
+		source.soigner(subi * source.bonus_vol_de_vie / 100.0)
+	if source.bonus_blessure > 0.0 and cible.est_vivant():
+		var reduction := clampf(source.bonus_blessure, 0.0, 75.0) / 100.0
+		var actuelle: Dictionary = cible.effets.get("blessure", {})
+		if actuelle.is_empty() or float(actuelle.get("soins_recus", 1.0)) >= 1.0 - reduction:
+			cible.ajouter_effet("blessure", duree_blessure(), {"soins_recus": 1.0 - reduction}, source)
+
+
+## Durée de la « blessure » des talents d'Arène (data/progression.json, talents_arene).
+func duree_blessure() -> float:
+	return float((Progression.donnees().get("talents_arene", {}) as Dictionary).get("duree_blessure", 6))
+
+
 func soigner(source: Combattant, cible: Combattant, montant: float) -> float:
+	if source != null and is_instance_valid(source):
+		montant *= 1.0 + source.bonus_soins / 100.0
+	montant *= cible.facteur_soins_recus()
 	var soin := cible.soigner(montant)
 	if soin > 0.0:
 		afficher_nombre(cible, "+" + str(int(soin)), Color(0.4, 1.0, 0.45), false)

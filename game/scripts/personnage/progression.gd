@@ -11,14 +11,16 @@ extends RefCounted
 ##     "tues": {"loup_fracture": 12, …},        # ennemis vaincus par type
 ##     "decouvertes": ["steppe", …],            # zones déjà découvertes
 ##     "faits": ["etape:prehistoire:vers_le_camp", "secondaire:miou", "evenement:prehistoire", …],
-##     "arene": {"victoires": 12, "meilleure_cote": 1642, "meilleur_rang": 3}  # Arène JcJ (rang 0 = jamais classé)
+##     "arene": {"victoires": 12, "meilleure_cote": 1642, "meilleur_rang": 3},  # Arène JcJ (rang 0 = jamais classé)
+##     "talents_arene": ["arene_gladiateur", …]  # talents d'Arène choisis (3 au plus)
 ##   }
 ## Les réglages (« d ») sont le contenu de data/progression.json (ProgressionJoueur les lit).
 ##
 ## Ces fonctions n'ont aucun effet sur la scène : le serveur les appelle pour décider,
 ## le joueur pour afficher, et les tests pour vérifier.
 
-const STATS := ["pv", "degats_pourcent", "reduction_pourcent", "critique_pourcent"]
+const STATS := ["pv", "degats_pourcent", "reduction_pourcent", "critique_pourcent",
+		"resistance_controles_pourcent", "soins_pourcent", "vol_de_vie_pourcent", "blessure_pourcent"]
 const FICHIER_DONNEES := "res://data/progression.json"
 ## Les îles dont on lit les quêtes (rattrapage, titre « toutes les secondaires »).
 const ILES := ["prehistoire", "egypte", "grece"]
@@ -116,7 +118,7 @@ static func xp_evenement(d: Dictionary, niveau: int, palier: String) -> int:
 
 static func etat_de_depart() -> Dictionary:
 	return {"xp": 0, "talents": {}, "titres": [], "titre": "", "tues": {}, "decouvertes": [], "faits": [],
-			"arene": {"victoires": 0, "meilleure_cote": 0, "meilleur_rang": 0}}
+			"arene": {"victoires": 0, "meilleure_cote": 0, "meilleur_rang": 0}, "talents_arene": []}
 
 
 ## Remet d'aplomb un état lu dans une sauvegarde (talents inconnus ou trop chers retirés…).
@@ -141,6 +143,10 @@ static func valider(d: Dictionary, classe: String, lu) -> Dictionary:
 		for t in lu["titres"]:
 			if not titre(d, String(t)).is_empty() and not String(t) in e["titres"]:
 				e["titres"].append(String(t))
+	if lu.get("talents_arene") is Array:
+		for id in lu["talents_arene"]:
+			if not String(id) in e["talents_arene"]:
+				choisir_talent_arene(d, classe, e, String(id))
 	var porte := String(lu.get("titre", ""))
 	e["titre"] = porte if porte in e["titres"] else ""
 	# Les talents sont repris un par un, dans l'ordre des paliers, tant qu'ils restent permis.
@@ -277,6 +283,67 @@ static func bonus_equilibre(d: Dictionary, eq: Dictionary, pv_de_base: float) ->
 		if stats.has(s):
 			stats[s] = float(stats[s]) + float(standard[s])
 	return {"stats": stats, "competences": {}, "ensembles": {}, "paliers": []}
+
+
+# --- Talents d'Arène ------------------------------------------------------------
+#
+# Un jeu de talents à part, qui ne sert QUE pendant un combat d'Arène (les talents
+# normaux y sont ignorés, voir bonus_equilibre). Chaque classe en a 6, on en choisit 3.
+
+## Les talents d'Arène d'une classe.
+static func talents_arene(d: Dictionary, classe: String) -> Array:
+	var t = (d.get("talents_arene", {}) as Dictionary).get(classe, [])
+	return t if t is Array else []
+
+
+static func emplacements_arene(d: Dictionary) -> int:
+	return int((d.get("talents_arene", {}) as Dictionary).get("emplacements", 3))
+
+
+static func talent_arene(d: Dictionary, classe: String, id: String) -> Dictionary:
+	for t in talents_arene(d, classe):
+		if String(t.get("id", "")) == id:
+			return t
+	return {}
+
+
+## Choisit un talent d'Arène (ou le retire s'il était déjà choisi). "" si c'est fait, sinon la raison.
+static func choisir_talent_arene(d: Dictionary, classe: String, e: Dictionary, id: String) -> String:
+	if talent_arene(d, classe, id).is_empty():
+		return "Ce talent d'Arène n'est pas de ta classe"
+	if not e.get("talents_arene") is Array:
+		e["talents_arene"] = []
+	var choisis: Array = e["talents_arene"]
+	if id in choisis:
+		choisis.erase(id)
+		return ""
+	if choisis.size() >= emplacements_arene(d):
+		return "Déjà %d talents d'Arène : retires-en un d'abord" % emplacements_arene(d)
+	choisis.append(id)
+	return ""
+
+
+## Bonus des talents d'Arène choisis (même format que bonus), ajoutés au combat équilibré.
+static func bonus_arene(d: Dictionary, classe: String, e: Dictionary) -> Dictionary:
+	var stats := {}
+	for s in STATS:
+		stats[s] = 0.0
+	var competences := {}
+	for id in e.get("talents_arene", []):
+		var t := talent_arene(d, classe, String(id))
+		var st = t.get("stats", {})
+		if st is Dictionary:
+			for cle in st:
+				if stats.has(cle):
+					stats[cle] = float(stats[cle]) + float(st[cle])
+		var c = t.get("competences", {})
+		if c is Dictionary:
+			for comp in c:
+				if not competences.has(comp):
+					competences[comp] = {}
+				for cle in c[comp]:
+					competences[comp][cle] = float(competences[comp].get(cle, 0.0)) + float(c[comp][cle])
+	return {"stats": stats, "competences": competences}
 
 
 ## Ajoute les bonus « ajout » (même format) dans « total » (le bonus de l'équipement).
