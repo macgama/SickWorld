@@ -69,7 +69,7 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	if not _colore and apparence.has_method("colorer"):
 		_colore = true
-		apparence.colorer(faction == "joueur")
+		apparence.colorer(faction == "joueur" or faction.begins_with("arene_"))
 	if not multiplayer.is_server():
 		_suivre_le_reseau(delta)
 		return

@@ -13,7 +13,7 @@ const TEXTE_AIDE := """[b]Contrôles[/b]  (F1 pour cacher)
 [b]1 à 8[/b] : compétences (survole une case pour lire sa description)
 [b]C[/b], [b]I[/b] ou [b]B[/b] : personnage, sacs et tenues     [b]F[/b] : ramasser le butin
 [b]M[/b] : carte     [b]Molette[/b] sur la mini-carte : zoom     [b]V[/b] : monture (sur les îles)
-[b]Entrée[/b] : discuter (/aide pour les commandes)     [b]K[/b] : donjons en groupe
+[b]Entrée[/b] : discuter (/aide pour les commandes)     [b]K[/b] : donjons en groupe     [b]H[/b] : Arène (duels, 2 contre 2)
 [b]F10[/b] : qualité des graphismes (Bas, Moyen, Haut, Ultra)"""
 
 const TAILLE_CASE := 70
@@ -429,7 +429,8 @@ func _process(_delta: float) -> void:
 		return
 	_statut.visible = false
 	_nom_joueur.text = "%s — %s niv. %d" % [_combat.nom_affiche, _joueur.nom_classe(), _combat.niveau]
-	_ecran_mort.visible = not _combat.est_vivant()
+	# Désynchronisé dans l'Arène : pas de retour à la balise, on attend la fin du combat.
+	_ecran_mort.visible = not _combat.est_vivant() and not JcJ.je_me_bats()
 
 	_endurance.max_value = _joueur.endurance_max
 	_endurance.value = _joueur.endurance

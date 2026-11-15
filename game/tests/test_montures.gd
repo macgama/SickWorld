@@ -127,6 +127,13 @@ func _lancer() -> void:
 		for mi in bete.find_children("Chifre*", "MeshInstance3D", true, false):
 			bois_caches = bois_caches and not mi.visible
 	_verifier(bete != null and bois_caches, "l'âne n'a pas de bois")
+	_verifier(bete != null and bete._anim != null and bete._anim.has_animation("H_Walk"), "c'est le vrai modèle d'âne (WildMesh 3D)")
+	Input.action_press("avancer")
+	await _attendre(60)
+	_verifier(bete != null and bete._courante in ["H_Canter", "H_Gallop", "H_Sprint"], "l'âne galope (%s, %.1f m/s naturels)" % [bete._courante, bete._vitesses_ref.get(bete._courante, 0.0)])
+	Input.action_release("avancer")
+	await _attendre(20)
+	_verifier(bete._courante == "H_Idle_01", "l'âne s'arrête (%s)" % bete._courante)
 	await _vider(scene)
 
 	# --- Donjon et ville : refusé ---
