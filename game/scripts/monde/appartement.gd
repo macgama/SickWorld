@@ -5,22 +5,18 @@ extends Node3D
 ##   redescend. Il faut d'abord la clé, donnée par la mission « courrier ».
 ## - Souvenirs : chaque mission accomplie pose un objet sur l'étagère.
 ## - Guilde : quand la mission « guilde » est finie, le registraire propose de
-##   fonder sa guilde (nom + couleur). Elle est gardée dans la sauvegarde locale
-##   (section [guilde]) en attendant que le serveur s'en occupe.
+##   fonder sa guilde (nom + couleur). C'est le serveur qui l'enregistre (autoload
+##   Guildes) ; la bannière est accrochée ici et dans la Maison des guildes.
 ## La géométrie est construite par quartier_residences.gd.
 
 const Residences := preload("res://scripts/monde/quartier_residences.gd")
 const PointInteraction := preload("res://scripts/monde/point_interaction.gd")
 
+const ReglesGuildes := preload("res://scripts/guildes/regles_guildes.gd")
+
 const OR := Color(1.0, 0.82, 0.35)
-## Couleurs proposées pour la bannière : [nom, couleur].
-const COULEURS := [
-	["Pourpre", Color(0.5, 0.12, 0.35)],
-	["Azur", Color(0.15, 0.4, 0.8)],
-	["Jade", Color(0.12, 0.5, 0.35)],
-	["Ambre", Color(0.85, 0.5, 0.1)],
-	["Nuit", Color(0.12, 0.12, 0.2)],
-]
+## Couleurs proposées pour la bannière (data/guildes.json) : [nom, couleur].
+var COULEURS: Array = []
 ## Apparence des souvenirs : id de mission -> [forme, couleur].
 const SOUVENIRS := {
 	"kuro": ["affiche", Color(0.9, 0.2, 0.2)],
@@ -58,10 +54,13 @@ var _boutons_couleur: Array[Button] = []
 var _invite_souvenir: Label3D
 var _plaque_boite: Label3D
 var _plaque_porte: Label3D
+var _nom_demande := ""
 
 
 func _ready() -> void:
 	add_to_group("appartement")
+	for c in Guildes.d.get("couleurs", [["Pourpre", "#801f59"]]):
+		COULEURS.append([String(c[0]), Color.html(String(c[1]))])
 	_bouton_hall = _creer_bouton(Residences.ASCENSEUR_HALL, "Monter à l'appartement 1204", _monter)
 	_bouton_appart = _creer_bouton(Residences.ASCENSEUR_APPART, "Redescendre au hall", _descendre)
 	_etagere = Node3D.new()
@@ -446,15 +445,15 @@ func _creer_objet(parent: Node3D, forme: String, couleur: Color) -> void:
 
 # --- Guilde -------------------------------------------------------------------------
 
-## La guilde du joueur : {} s'il n'en a pas encore, sinon {nom, couleur}.
+## La guilde du joueur : {} s'il n'en a pas encore, sinon {nom, couleur}
+## (telle que le serveur l'a donnée la dernière fois, gardée sur ce PC).
 func guilde() -> Dictionary:
-	var quetes := _quetes()
-	if quetes == null:
+	if Guildes.a_une_guilde():
+		return {"nom": String(Guildes.guilde["nom"]), "couleur": int(Guildes.guilde["couleur"])}
+	var nom := Guildes.nom_local()
+	if nom == "":
 		return {}
-	var cfg := ConfigFile.new()
-	if cfg.load(Profil.chemin(quetes.fichier_progression)) != OK or not cfg.has_section_key("guilde", "nom"):
-		return {}
-	return {"nom": String(cfg.get_value("guilde", "nom")), "couleur": int(cfg.get_value("guilde", "couleur", 0))}
+	return {"nom": nom, "couleur": Guildes.couleur_locale()}
 
 
 func peut_fonder() -> bool:
@@ -487,28 +486,31 @@ func fermer_fondation() -> void:
 	_champ_nom.release_focus()
 
 
-## Vérifie le nom et enregistre la guilde. Rend "" si tout va bien, sinon l'erreur.
+## Vérifie le nom puis demande au serveur d'enregistrer la guilde. Rend "" si la demande
+## est partie, sinon l'erreur. La réponse du serveur arrive par Guildes.fondation_repondue.
 func fonder_guilde(nom: String, couleur: int) -> String:
 	nom = nom.strip_edges()
-	if nom.length() < 3:
-		return "Le nom doit faire au moins 3 lettres."
-	if nom.length() > 24:
-		return "Le nom doit faire 24 lettres au plus."
-	for prise in ["Les Veilleurs", "Ordre du Loup", "Les Cartographes", "Le Brasier"]:
-		if nom.to_lower() == String(prise).to_lower():
-			return "Ce nom est déjà pris par une guilde de la ville."
-	var quetes := _quetes()
-	if quetes == null:
+	var raison := ReglesGuildes.raison_nom(Guildes.d, nom, [])
+	if raison != "":
+		return raison
+	if _quetes() == null:
 		return "Le registre est fermé."
-	var cfg := ConfigFile.new()
-	cfg.load(Profil.chemin(quetes.fichier_progression))
-	cfg.set_value("guilde", "nom", nom)
-	cfg.set_value("guilde", "couleur", clampi(couleur, 0, COULEURS.size() - 1))
-	cfg.save(Profil.chemin(quetes.fichier_progression))
-	_afficher_bannieres()
-	if quetes.has_method("_annoncer"):
-		quetes._annoncer("Guilde fondée : %s\nTa bannière flotte dans la Maison des guildes." % nom)
+	if not Guildes.fondation_repondue.is_connected(_sur_fondation):
+		Guildes.fondation_repondue.connect(_sur_fondation)
+	_nom_demande = nom
+	Guildes.fonder(nom, clampi(couleur, 0, COULEURS.size() - 1))
 	return ""
+
+
+func _sur_fondation(erreur: String) -> void:
+	if erreur != "":
+		_erreur.text = erreur
+		return
+	fermer_fondation()
+	_afficher_bannieres()
+	var quetes := _quetes()
+	if quetes != null and quetes.has_method("_annoncer"):
+		quetes._annoncer("Guilde fondée : %s\nTa bannière flotte dans la Maison des guildes. Touche G : ta guilde." % _nom_demande)
 
 
 func _valider() -> void:
@@ -516,7 +518,7 @@ func _valider() -> void:
 	if erreur != "":
 		_erreur.text = erreur
 		return
-	fermer_fondation()
+	_erreur.text = "Le registraire enregistre ta guilde…"
 
 
 func _choisir_couleur(n: int) -> void:

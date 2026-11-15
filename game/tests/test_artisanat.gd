@@ -81,6 +81,8 @@ func _donnees(cat: Dictionary, art: Dictionary) -> void:
 	# Les médailles de l'arène se gagnent en combattant à l'Arène (data/arene.json).
 	var arene = JSON.parse_string(FileAccess.get_file_as_string("res://data/arene.json"))
 	obtenables[String(arene.get("recompenses", {}).get("objet_medaille", "medaille_arene"))] = true
+	# Les sceaux de guilde récompensent les contrats de guilde de la semaine (voir Guildes).
+	obtenables["sceau_guilde"] = true
 	var introuvables: Array[String] = []
 	for id in cat["objets"]:
 		if String(cat["objets"][id].get("type", "")) == "materiau" and not obtenables.has(id) \

@@ -1,0 +1,83 @@
+{
+	"_aide": "Réglages des GUILDES (fenêtre Guilde, touche G). Le serveur garde les guildes dans user://sauvegardes/guildes.json (dans son profil). Tu peux changer les nombres et les textes entre guillemets. rangs : du plus haut au plus bas ; retraits_par_jour = nombre d'objets qu'on peut sortir de la banque par jour (-1 = sans limite). niveaux : XP de guilde totale pour atteindre chaque niveau (le 1er = niveau 1). contrats : la liste où le serveur tire les contrats de la semaine ; nombre = base + par_membre × (membres - 1).",
+	"reglages": {
+		"nom_min": 3,
+		"nom_max": 24,
+		"membres_max_base": 30,
+		"membres_max_par_niveau": 10,
+		"banque_places_base": 24,
+		"banque_places_par_niveau": 8,
+		"banque_distance": 6.0,
+		"invitation_duree": 90,
+		"journal_max": 80,
+		"message_max": 160,
+		"contrats_par_semaine": 3,
+		"membres_comptes_max": 25,
+		"sceaux_par_contrat": 12,
+		"sceaux_par_niveau": 1,
+		"sceaux_semaine_complete": 20,
+		"xp_contrat": 400,
+		"attente_max_par_type": 400
+	},
+	"noms_reserves": ["Les Veilleurs", "Ordre du Loup", "Les Cartographes", "Le Brasier", "La Vigie", "Vigie", "Effaceurs", "Les Effaceurs"],
+	"couleurs": [
+		["Pourpre", "#801f59"],
+		["Azur", "#2666cc"],
+		["Jade", "#1f8059"],
+		["Ambre", "#d9801a"],
+		["Nuit", "#1f1f33"]
+	],
+	"rangs": [
+		{"id": "maitre", "nom": "Maître de guilde", "inviter": true, "exclure": true, "promouvoir": true, "message": true, "retraits_par_jour": -1},
+		{"id": "officier", "nom": "Officier", "inviter": true, "exclure": true, "promouvoir": true, "message": true, "retraits_par_jour": 20},
+		{"id": "membre", "nom": "Membre", "inviter": false, "exclure": false, "promouvoir": false, "message": false, "retraits_par_jour": 5},
+		{"id": "recrue", "nom": "Recrue", "inviter": false, "exclure": false, "promouvoir": false, "message": false, "retraits_par_jour": 0}
+	],
+	"rang_nouveau_membre": "recrue",
+	"niveaux": [0, 300, 800, 1600, 2800, 4500, 7000, 10000, 14000, 19000],
+	"xp_par_action": {
+		"ennemi": 1,
+		"fracture": 2,
+		"chef": 25,
+		"donjon": 60,
+		"recolte": 1,
+		"quete": 10,
+		"evenement": 15,
+		"mission": 12,
+		"arene": 6,
+		"artisanat": 3
+	},
+	"actions": {
+		"ennemi": "ennemis vaincus",
+		"fracture": "créatures de fracture vaincues",
+		"chef": "grands adversaires vaincus",
+		"donjon": "donjons terminés",
+		"recolte": "récoltes",
+		"quete": "étapes de quête",
+		"evenement": "événements publics",
+		"mission": "missions du jour rendues",
+		"arene": "combats d'arène",
+		"artisanat": "objets fabriqués ou cuisinés"
+	},
+	"fractures": ["fracture", "oublie", "effaceuse", "isfet"],
+	"chefs": ["ours_sans_memoire", "loup_alpha_fracture", "garde_chef_djedi", "isfet", "molosse_fracture"],
+	"contrats": [
+		{"id": "chasse_fractures", "titre": "Chasse aux fractures", "texte": "Vaincre des créatures de fracture, sur n'importe quelle île.", "type": "fracture", "base": 40, "par_membre": 25},
+		{"id": "nettoyer_epoques", "titre": "Nettoyer les époques", "texte": "Vaincre des ennemis, où que ce soit.", "type": "ennemi", "base": 80, "par_membre": 50},
+		{"id": "recoltes_communes", "titre": "Récoltes communes", "texte": "Cueillir, miner ou pêcher pour remplir les réserves.", "type": "recolte", "base": 40, "par_membre": 25},
+		{"id": "service_vigie", "titre": "Au service de la Vigie", "texte": "Rendre des missions du jour ou de la semaine à Ayaka Mori.", "type": "mission", "base": 6, "par_membre": 4},
+		{"id": "heros_epoques", "titre": "Héros des époques", "texte": "Participer à des événements publics sur les îles.", "type": "evenement", "base": 4, "par_membre": 2},
+		{"id": "grands_adversaires", "titre": "Les grands adversaires", "texte": "Abattre des chefs : l'Ours Sans Mémoire, le loup alpha, Djedi, Isfet…", "type": "chef", "base": 2, "par_membre": 1},
+		{"id": "histoire_en_marche", "titre": "L'histoire en marche", "texte": "Faire avancer les quêtes des îles (principales ou secondaires).", "type": "quete", "base": 10, "par_membre": 6},
+		{"id": "gloire_arene", "titre": "Gloire de l'arène", "texte": "Disputer des combats classés à l'Arène de la baie.", "type": "arene", "base": 5, "par_membre": 3, "membres_min": 2},
+		{"id": "ateliers_tournants", "titre": "Ateliers tournants", "texte": "Fabriquer, améliorer ou cuisiner chez les artisans du hub.", "type": "artisanat", "base": 8, "par_membre": 5}
+	],
+	"avantages": [
+		{"niveau": 1, "texte": "Banque de guilde et contrats de la semaine"},
+		{"niveau": 2, "texte": "Intendante : Banquet de guilde et pantalon de voyage"},
+		{"niveau": 3, "texte": "Intendante : Sacoche de guilde (12 places)"},
+		{"niveau": 4, "texte": "Intendante : Bottes de marche de guilde"},
+		{"niveau": 5, "texte": "Intendante : Lame d'apparat de la guilde"},
+		{"niveau": 7, "texte": "Intendante : Étendard de guilde (relique)"}
+	]
+}

@@ -198,8 +198,15 @@ func _fabriquer(id_recette: String) -> String:
 	var id_artisan := String(r.get("artisan", ""))
 	if not Artisanat.artisan_proche(get_tree(), art, id_artisan, joueur.global_position):
 		return "Approche-toi de l'artisan (%s)" % Artisanat.artisan(art, id_artisan).get("nom", id_artisan)
+	# Certaines pièces de l'intendante des guildes demandent une guilde de haut niveau.
+	var niveau_guilde := int(r.get("niveau_guilde", 0))
+	if niveau_guilde > 0 and Guildes.niveau_du_joueur(joueur.nom) < niveau_guilde:
+		return "Il faut une guilde de niveau %d" % niveau_guilde
 	var raison := Artisanat.fabriquer(cat(), art, etat, id_recette)
 	if raison == "":
+		# Fabriquer ou cuisiner compte pour les contrats de guilde (pas les simples échanges).
+		if not Artisanat.artisan(art, id_artisan).has("verbe") or id_artisan == "cuisine":
+			Guildes.contribuer(joueur, "artisanat")
 		var donne := String(r["donne"])
 		var n := maxi(1, int(r.get("quantite", 1)))
 		var fait := String(Artisanat.artisan(art, id_artisan).get("fait", "Fabriqué"))

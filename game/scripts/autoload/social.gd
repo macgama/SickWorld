@@ -176,6 +176,8 @@ func saisir(texte: String) -> void:
 	var reste := texte.substr(commande.length() + 2).strip_edges() if texte.length() > commande.length() + 1 else ""
 	var premier := reste.get_slice(" ", 0)
 	var apres_premier := reste.substr(premier.length()).strip_edges()
+	if commande in ["guilde", "guild"] and reste == "":
+		Guildes.ouvrir_fenetre()
 	if COMMANDES_CANAUX.has(commande):
 		canal_actif = COMMANDES_CANAUX[commande]
 		if reste != "":
@@ -207,6 +209,18 @@ func saisir(texte: String) -> void:
 		"donjon", "donjons":
 			if _interface != null and _interface.has_method("basculer_donjons"):
 				_interface.basculer_donjons()
+		"ginviter", "ginvite", "ginv", "guildinvite":
+			Guildes.inviter(premier)
+		"gquitter", "gquit", "guildquit":
+			Guildes.quitter()
+		"gpromouvoir", "gpromote":
+			Guildes.promouvoir(premier)
+		"gretrograder", "grétrograder", "gdemote":
+			Guildes.retrograder(premier)
+		"gexclure", "gkick", "gremove":
+			Guildes.exclure(premier)
+		"gmessage", "gmotd":
+			Guildes.ecrire_message(reste)
 		"aide", "help", "?":
 			_systeme(_texte_aide())
 		_:
@@ -216,7 +230,8 @@ func saisir(texte: String) -> void:
 func _texte_aide() -> String:
 	return ("Canaux : /d Dire (40 m) · /z Zone · /1 Général · /gr Groupe · /gu Guilde · /w Nom message (chuchoter) · /r répondre\n"
 			+ "Groupe : /inviter Nom · /quitter · /chef Nom · /exclure Nom · K : donjons\n"
-			+ "Arène : /duel Nom (défier) · /arene ou H : files d'attente 1c1 / 2c2 et classement")
+			+ "Arène : /duel Nom (défier) · /arene ou H : files d'attente 1c1 / 2c2 et classement\n"
+			+ "Guilde : G ou /guilde (fenêtre) · /gu message · /ginviter Nom · /gpromouvoir Nom · /gretrograder Nom · /gexclure Nom · /gmessage texte · /gquitter")
 
 
 func envoyer(canal: String, texte: String, destinataire := "") -> void:
@@ -282,12 +297,9 @@ func _ma_progression() -> Dictionary:
 	return sortie
 
 
-## Nom de notre guilde (fondée dans l'appartement, section [guilde] de la sauvegarde).
+## Nom de notre guilde (voir Guildes : gardé sur ce PC, donné par le serveur).
 func ma_guilde() -> String:
-	var cfg := ConfigFile.new()
-	if cfg.load(Profil.chemin("user://progression.cfg")) != OK:
-		return ""
-	return String(cfg.get_value("guilde", "nom", ""))
+	return Guildes.nom_local()
 
 
 func _systeme(texte: String) -> void:
@@ -466,6 +478,15 @@ func _demander_envoi(canal: String, texte: String, destinataire: String) -> void
 				if autre != 0:
 					destinataires.append(autre)
 		"guilde":
+			# La ville connaît les vraies guildes (Guildes) ; un donjon se fie à ce que disent les joueurs.
+			if Guildes.actif_ici():
+				destinataires = Guildes.ids_en_ligne_de_la_guilde_de(auteur)
+				if destinataires.is_empty():
+					_au_joueur_systeme(id, "Tu n'as pas de guilde. Fonde-la au registraire de la Maison des guildes, ou fais-toi inviter.")
+					return
+				for autre in destinataires:
+					_au_joueur(int(autre), canal, auteur, texte, id)
+				return
 			var ma_guilde: String = _guildes.get(id, "")
 			if ma_guilde == "":
 				_au_joueur_systeme(id, "Tu n'as pas de guilde. Fonde-la au registraire de la Maison des guildes.")
