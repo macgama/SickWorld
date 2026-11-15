@@ -142,7 +142,11 @@ func repliques_du_moment() -> PackedStringArray:
 ## ce personnage), F sert à cette action et non à parler.
 func _action_de_quete_proche() -> bool:
 	for objet in get_tree().get_nodes_in_group("objet_quete"):
-		if objet.get("actif") and (objet as Node3D).global_position.distance_to(global_position) < PORTEE:
+		if not objet.get("actif") or not (objet as Node3D).is_visible_in_tree():
+			continue
+		# Un objet de quête à portée du joueur passe avant la conversation (F).
+		if (objet as Node3D).global_position.distance_to(global_position) < PORTEE \
+				or (objet.has_method("joueur_proche") and objet.joueur_proche()):
 			return true
 	return false
 
