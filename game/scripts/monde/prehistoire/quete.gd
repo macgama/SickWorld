@@ -108,11 +108,12 @@ func _ready() -> void:
 	_reprendre_choix()
 	_construire_ecran()
 	_construire_repere()
-	# Quêtes secondaires et événements publics (seulement la Préhistoire pour l'instant).
-	if ile == "prehistoire":
+	# Quêtes secondaires et événements publics : chaque île qui a ses fichiers de données.
+	if FileAccess.file_exists(QuetesSecondaires.fichier_donnees(ile)):
 		secondaires = QuetesSecondaires.new()
 		secondaires.name = "QuetesSecondaires"
 		add_child(secondaires)
+	if FileAccess.file_exists(EvenementsPublics.fichier_donnees(ile)):
 		evenements = EvenementsPublics.new()
 		evenements.name = "EvenementsPublics"
 		add_child(evenements)

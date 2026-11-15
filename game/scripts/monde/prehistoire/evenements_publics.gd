@@ -1,5 +1,5 @@
 extends Node
-## Événements publics de la Préhistoire (données : data/prehistoire_evenements.json).
+## Événements publics d'une île (données : data/<île>_evenements.json : Préhistoire, Égypte…).
 ##
 ## Ils arrivent tout seuls dans une zone, à intervalles réguliers, avec une annonce à
 ## l'écran : une grande faille qui crache des fracturés, une tempête de neige où il faut
@@ -10,10 +10,8 @@ extends Node
 ## Pour l'instant (jeu en solo ou en hôte), l'horloge des événements tourne sur la
 ## machine du joueur ; avec le serveur dédié, elle tournera sur le serveur.
 
-const DONNEES := "res://data/prehistoire_evenements.json"
 const ObjetQuete := preload("res://scripts/monde/prehistoire/objet_quete.gd")
 const Faille := preload("res://scripts/monde/prehistoire/faille.gd")
-const SECTION := "prehistoire_evenements"
 const ORANGE := Color(1.0, 0.6, 0.25)
 ## Points de participation pour une action (allumer un feu, refermer la faille…).
 const POINTS_ACTION := 150.0
@@ -58,19 +56,32 @@ var _chrono: ProgressBar
 var _texte_chrono: Label
 var _jauge: Label
 var _participation: Label
+## L'île (« prehistoire », « egypte »…), lue sur la quête principale.
+var ile := "prehistoire"
 
 
 func _ready() -> void:
 	add_to_group("evenements_publics")
 	_quete = get_parent()
-	var lu = JSON.parse_string(FileAccess.get_file_as_string(DONNEES))
+	ile = String(_quete.get("ile")) if _quete.get("ile") != null else "prehistoire"
+	var lu = JSON.parse_string(FileAccess.get_file_as_string(fichier_donnees(ile)))
 	if lu is Dictionary:
 		evenements = lu.get("evenements", [])
 		premier_delai = float(lu.get("premier_delai", premier_delai))
 	else:
-		push_error("Impossible de lire %s : vérifie les virgules et les guillemets." % DONNEES)
+		push_error("Impossible de lire %s : vérifie les virgules et les guillemets." % fichier_donnees(ile))
 	_charger()
 	_construire_ecran()
+
+
+static func fichier_donnees(nom_ile: String) -> String:
+	return "res://data/%s_evenements.json" % nom_ile
+
+
+## La section du fichier de sauvegarde (« prehistoire_evenements », « egypte_evenements »…).
+var _section: String:
+	get:
+		return ile + "_evenements"
 
 
 func _zone() -> String:
@@ -103,13 +114,13 @@ func _charger() -> void:
 	var cfg := ConfigFile.new()
 	var maintenant := _maintenant()
 	if cfg.load(_fichier()) == OK and not bool(_quete.get("toujours_recommencer")):
-		stabilite = float(cfg.get_value(SECTION, "stabilite", stabilite))
+		stabilite = float(cfg.get_value(_section, "stabilite", stabilite))
 		# La stabilité baisse doucement avec le temps (1 point par heure).
-		var depuis := maintenant - float(cfg.get_value(SECTION, "stabilite_heure", maintenant))
+		var depuis := maintenant - float(cfg.get_value(_section, "stabilite_heure", maintenant))
 		stabilite = clampf(stabilite - maxf(0.0, depuis) / 3600.0, 0.0, 100.0)
 		for e in evenements:
-			if cfg.has_section_key(SECTION, "prochain_" + e.id):
-				prochain[e.id] = float(cfg.get_value(SECTION, "prochain_" + e.id))
+			if cfg.has_section_key(_section, "prochain_" + e.id):
+				prochain[e.id] = float(cfg.get_value(_section, "prochain_" + e.id))
 	for e in evenements:
 		if not prochain.has(e.id):
 			prochain[e.id] = maintenant + premier_delai + randf_range(0.0, 60.0)
@@ -120,10 +131,10 @@ func _charger() -> void:
 func _sauvegarder() -> void:
 	var cfg := ConfigFile.new()
 	cfg.load(_fichier())
-	cfg.set_value(SECTION, "stabilite", stabilite)
-	cfg.set_value(SECTION, "stabilite_heure", _maintenant())
+	cfg.set_value(_section, "stabilite", stabilite)
+	cfg.set_value(_section, "stabilite_heure", _maintenant())
 	for id in prochain:
-		cfg.set_value(SECTION, "prochain_" + id, prochain[id])
+		cfg.set_value(_section, "prochain_" + id, prochain[id])
 	cfg.save(_fichier())
 
 
@@ -131,7 +142,7 @@ func reussis(id: String) -> int:
 	var cfg := ConfigFile.new()
 	if cfg.load(_fichier()) != OK:
 		return 0
-	return int(cfg.get_value(SECTION, "reussis_" + id, 0))
+	return int(cfg.get_value(_section, "reussis_" + id, 0))
 
 
 # --- Horloge --------------------------------------------------------------------------
@@ -338,7 +349,8 @@ func _installer_objets(e: Dictionary) -> void:
 			objet = Faille.new()
 			objet.portee = 6.0
 		else:
-			objet = ObjetQuete.new()
+			var chemin := "res://scripts/monde/%s/objet_%s.gd" % [ile, ile]
+			objet = (load(chemin) if ResourceLoader.exists(chemin) else ObjetQuete).new()
 			objet.forme = o.get("forme", "")
 		objet.name = "Evenement_" + String(o.id)
 		objet.identifiant = o.id
@@ -589,7 +601,7 @@ func _finir(reussi: bool) -> void:
 		stabilite = clampf(stabilite + float(e.get("stabilite", 5)), 0.0, 100.0)
 		var cfg := ConfigFile.new()
 		cfg.load(_fichier())
-		cfg.set_value(SECTION, "reussis_" + String(e.id), int(cfg.get_value(SECTION, "reussis_" + String(e.id), 0)) + 1)
+		cfg.set_value(_section, "reussis_" + String(e.id), int(cfg.get_value(_section, "reussis_" + String(e.id), 0)) + 1)
 		cfg.save(_fichier())
 		_quete.annoncer("%s : réussi !" % e.titre, String(e.get("reussite", "")))
 	else:
@@ -719,7 +731,9 @@ func _mettre_a_jour_ecran() -> void:
 		_jauge.text = "Frayeur du troupeau : %d %%" % roundi(frayeur)
 		_jauge.visible = true
 	elif actif.has("froid"):
-		_jauge.text = "Tu as froid ! Approche-toi d'un feu." if _a_froid else "Tu es au chaud près du feu."
+		var froid: Dictionary = actif.froid
+		_jauge.text = String(froid.get("texte_expose", "Tu as froid ! Approche-toi d'un feu.")) if _a_froid \
+				else String(froid.get("texte_abrite", "Tu es au chaud près du feu."))
 		_jauge.add_theme_color_override("font_color", Color(0.6, 0.8, 1.0) if _a_froid else Color(1.0, 0.75, 0.45))
 		_jauge.visible = true
 	else:

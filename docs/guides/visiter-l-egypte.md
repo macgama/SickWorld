@@ -167,6 +167,42 @@ Pour revenir au port, suivre la route vers l'est jusqu'au bout.
 
 Pour revenir au village, suivre la rue principale vers l'est jusqu'à la passe.
 
+## Les quêtes secondaires
+
+Comme dans la Préhistoire, un **« ! » doré** au-dessus d'un personnage veut dire qu'il a une petite quête pour toi, et un **« ? »** qu'il attend ton retour. Les quêtes en cours sont listées à droite de l'écran, avec la distance ou la zone où aller. Elles ne bloquent jamais l'histoire.
+
+| Quête | Qui la donne | Quand | Ce qu'il faut faire | Récompense |
+|---|---|---|---|---|
+| **Le pain et la bière** | Méret (brasserie du village) | après le chapitre 4 | Couper 4 gerbes d'orge dans les champs au sud, puis porter la bière à un haleur du chantier | Pagne shendyt, 5 pains |
+| **Miou** | Nebi (grande place) | après le chapitre 4 | Chasser 3 cobras derrière la brasserie, puis ramener sa chatte | Amulette de Bastet |
+| **Le senet d'Ouni** | Ouni l'Ancien (son atelier) | après le chapitre 4 | Retrouver 3 pions perdus dans le village, puis jouer une partie | Pion de senet |
+| **La marque de l'équipe** | Un haleur du chantier (plateau) | après le chapitre 4 | Ramasser 3 tas d'ocre, puis repeindre « Compagnons de Khéops » sur un bloc | Tunique des Compagnons, titre « Compagnon de Khéops » |
+| **Le remède de Pésèshet** | Pésèshet (maison de soins) | après le chapitre 5 | Natron au bord de l'oued du Désert Rouge, miel de 2 ruches près des champs, puis soigner 3 haleurs entre les dortoirs | Sandales de papyrus |
+| **La crue qui monte trop** | Hori, batelier (Port des Marais) | après le chapitre 2 | Lire 3 bornes de crue autour du bassin, puis abattre 3 crocodiles fracturés | Harpon de Hori |
+| **Les intrus modernes** | L'agent Farouk (Port des Marais) | après le chapitre 4 | Retrouver des lunettes de soleil (port), un gobelet en carton (Toura) et un drone (chantier) | Gants de terrain de la Vigie |
+
+![La marque des Compagnons de Khéops, repeinte sur un bloc du chantier](../images/egypte-secondaire-marque.jpg)
+
+![Le senet d'Ouni](../images/egypte-secondaire-senet.jpg)
+
+Tout est vrai, ou presque : les équipes de haleurs peignaient vraiment leur nom sur les blocs (on a retrouvé « les Compagnons de Khéops » au-dessus de la chambre du Roi), les médecins soignaient les plaies avec du miel et du natron, et le senet est un des plus vieux jeux de plateau du monde. Les textes se changent dans `game/data/egypte_secondaires.json`.
+
+## Les événements publics
+
+De temps en temps, un **événement** commence tout seul dans une zone (annonce au milieu de l'écran, cadre orange à gauche avec l'objectif et le chrono). Tout le monde peut aider, sans groupe. À la fin, tu reçois une récompense selon ta **participation** (or, argent ou bronze) et la **stabilité de l'époque** monte.
+
+| Événement | Zone | Ce qu'il faut faire | Fréquence |
+|---|---|---|---|
+| **Le Convoi de Toura** | Carrières de Toura (quai) | Repousser deux vagues de babouins fracturés, puis arrimer 3 blocs sur les traîneaux. | toutes les 45 min, après le chapitre 3 |
+| **L'Hippopotame enragé** | Port des Marais (chenal) | Abattre les crocodiles, puis l'hippopotame fracturé (élite) et son escorte. | toutes les heures, après le chapitre 2 |
+| **La Nuit des chacals** | Village (à l'ouest des dortoirs) | Rallumer 3 feux de garde, puis repousser trois vagues de chacals qui montent du cimetière. | toutes les heures, après le chapitre 4 |
+| **Le Khamsin** | Désert Rouge (camp des nomades) | Un vent de sable brûlant : hors des tentes, tu perds de la vie. Rapporter 3 outres d'eau, puis défendre le camp. | toutes les 1 h 30, à partir du chapitre 5 |
+| **La Faille du chantier** | Village (plateau du chantier) | Deux vagues d'ouvriers oubliés, une garde des Effaceurs, puis refermer la grande faille. | toutes les 45 min, après le chapitre 5 |
+
+![Le khamsin sur le camp des nomades du Désert Rouge](../images/egypte-evenement-khamsin.jpg)
+
+Chaque événement réussi peut aussi donner (en or) un objet rare : ciseau de cuivre, dague d'ivoire, coiffe du chacal, manteau de nomade ou scarabée de cœur. Les textes, les durées, les vagues et les récompenses se règlent dans `game/data/egypte_evenements.json`.
+
 ## Les ennemis
 
 | Ennemi | Niveau | Où |
@@ -178,6 +214,7 @@ Pour revenir au village, suivre la rue principale vers l'est jusqu'à la passe.
 | Babouin | 12 | sur la pente et les gradins de Toura |
 | Babouin fracturé | 13 | dans la carrière, et au fond de la galerie |
 | Bâtisseur oublié | 15 | au cimetière du village, au chapitre 4 |
+| Cobra fracturé | 15 | derrière la brasserie du village (quête « Miou ») |
 | Chacal fracturé | 15 | dans le désert, à l'ouest du village, et sur la place si on brise les amulettes |
 | Garde de l'Effaceuse | 16-17 | dans le Désert Rouge, autour de la grande tombe (ils cachent une radio moderne) |
 | Cobra fracturé | 19 | dans la chambre souterraine de la pyramide, et pendant le combat contre Isfet |

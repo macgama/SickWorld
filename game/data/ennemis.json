@@ -354,6 +354,20 @@
 		"entraide": 12,
 		"temps_reapparition": 0
 	},
+	"cobra_grenier": {
+		"nom": "Cobra fracturé",
+		"niveau": 15,
+		"points_de_vie": 420,
+		"degats": [12, 18],
+		"intervalle_attaque": 1.6,
+		"portee_attaque": 2.2,
+		"vitesse_course": 4.4,
+		"vitesse_marche": 0.9,
+		"distance_detection": 10,
+		"distance_laisse": 30,
+		"entraide": 10,
+		"temps_reapparition": 0
+	},
 	"oublie_pyramide": {
 		"nom": "Bâtisseur emmuré",
 		"niveau": 19,
