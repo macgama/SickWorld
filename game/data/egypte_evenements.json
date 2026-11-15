@@ -1,0 +1,617 @@
+{
+	"_aide": "Événements publics de l'île d'Égypte (même format que data/prehistoire_evenements.json, voir scripts/monde/prehistoire/evenements_publics.gd). Ils arrivent tout seuls dans leur zone : le premier « premier_delai » secondes après l'arrivée, puis toutes les « intervalle » secondes. « apres » : étape de la quête principale à atteindre. Phases : « vagues », « objet »/« recolter » (F). « froid » sert aussi pour le khamsin : hors des abris (« chaleur »), le sable brûle ; « texte_expose »/« texte_abrite » changent le message. Récompenses selon la participation : or (25 % ou plus de l'effort total), argent (10 %), bronze (un peu).",
+	"premier_delai": 150,
+	"evenements": [
+		{
+			"id": "convoi_toura",
+			"titre": "Le Convoi de Toura",
+			"zone": "carrieres_toura",
+			"apres": "rapport_iry",
+			"intervalle": 2700,
+			"duree": 300,
+			"position": [
+				-62,
+				6
+			],
+			"annonce": "Des babouins fracturés descendent des gradins sur les blocs prêts à partir !",
+			"objets": [
+				{
+					"id": "corde_0",
+					"groupe": "corde",
+					"forme": "corde",
+					"position": [
+						-76,
+						4
+					],
+					"invite": "[F] Arrimer le bloc"
+				},
+				{
+					"id": "corde_1",
+					"groupe": "corde",
+					"forme": "corde",
+					"position": [
+						-70,
+						12
+					],
+					"invite": "[F] Arrimer le bloc"
+				},
+				{
+					"id": "corde_2",
+					"groupe": "corde",
+					"forme": "corde",
+					"position": [
+						-66,
+						0
+					],
+					"invite": "[F] Arrimer le bloc"
+				}
+			],
+			"phases": [
+				{
+					"objectif": "Repousse les babouins fracturés avant qu'ils ne fassent tomber les blocs",
+					"vagues": [
+						{
+							"type": "babouin_fracture",
+							"nombre": 3,
+							"position": [
+								-54,
+								-6
+							],
+							"rayon": 5,
+							"attaque": true
+						},
+						{
+							"type": "babouin_fracture",
+							"nombre": 4,
+							"position": [
+								-52,
+								-12
+							],
+							"rayon": 6,
+							"attaque": true
+						}
+					]
+				},
+				{
+					"objectif": "Arrime les trois blocs sur les traîneaux du quai",
+					"annonce": "Vite, arrime les blocs avant que la barge ne parte !",
+					"recolter": "corde",
+					"nombre": 3,
+					"duree": 3.0,
+					"action": "Tu serres la corde de papyrus autour du bloc…"
+				}
+			],
+			"echec": "La barge est partie à moitié vide. Il faudra des jours pour retailler les blocs tombés.",
+			"reussite": "Les blocs sont arrimés. La barge glisse vers Gizeh, chargée de calcaire blanc.",
+			"recompenses": {
+				"or": [
+					{
+						"id": "ciseau_cuivre",
+						"nom": "Ciseau de cuivre",
+						"chance": 0.3
+					},
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclats de fracture ×3",
+						"n": 3
+					},
+					{
+						"id": "calcaire_fin",
+						"nom": "Calcaire fin ×2",
+						"n": 2
+					}
+				],
+				"argent": [
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclats de fracture ×2",
+						"n": 2
+					},
+					{
+						"id": "canine_babouin",
+						"nom": "Canine de babouin",
+						"n": 1
+					}
+				],
+				"bronze": [
+					{
+						"id": "canine_babouin",
+						"nom": "Canine de babouin",
+						"n": 1
+					}
+				]
+			},
+			"stabilite": 5
+		},
+		{
+			"id": "hippopotame_enrage",
+			"titre": "L'Hippopotame enragé",
+			"zone": "port_des_marais",
+			"apres": "recompense_ankhkhaf",
+			"intervalle": 3600,
+			"duree": 300,
+			"position": [
+				62,
+				-38
+			],
+			"annonce": "Un hippopotame fracturé charge les barques dans le chenal !",
+			"phases": [
+				{
+					"objectif": "Abats les crocodiles fracturés qui l'accompagnent",
+					"vagues": [
+						{
+							"type": "crocodile_fracture",
+							"nombre": 3,
+							"position": [
+								58,
+								-34
+							],
+							"rayon": 5,
+							"attaque": true
+						}
+					]
+				},
+				{
+					"objectif": "Abats l'hippopotame enragé avant qu'il ne coule une barque",
+					"annonce": "L'hippopotame enragé sort de l'eau !",
+					"vagues": [
+						{
+							"type": "hippopotame_fracture",
+							"nombre": 1,
+							"position": [
+								62,
+								-38
+							],
+							"rayon": 2,
+							"chef": true,
+							"attaque": true
+						},
+						{
+							"type": "crocodile_fracture",
+							"nombre": 2,
+							"position": [
+								62,
+								-38
+							],
+							"rayon": 5,
+							"avec_le_chef": true
+						}
+					]
+				}
+			],
+			"echec": "L'hippopotame a renversé deux barques avant de replonger. Les bateliers repêchent leur cargaison.",
+			"reussite": "Le chenal est calme. Les bateliers reprennent le halage en chantant.",
+			"recompenses": {
+				"or": [
+					{
+						"id": "dague_ivoire",
+						"nom": "Dague d'ivoire",
+						"chance": 0.3
+					},
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclats de fracture ×3",
+						"n": 3
+					},
+					{
+						"id": "defense_hippopotame",
+						"nom": "Défense d'hippopotame",
+						"n": 1
+					}
+				],
+				"argent": [
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclats de fracture ×2",
+						"n": 2
+					},
+					{
+						"id": "ecaille_crocodile",
+						"nom": "Écailles de crocodile ×2",
+						"n": 2
+					}
+				],
+				"bronze": [
+					{
+						"id": "ecaille_crocodile",
+						"nom": "Écaille de crocodile",
+						"n": 1
+					}
+				]
+			},
+			"stabilite": 5
+		},
+		{
+			"id": "nuit_des_chacals",
+			"titre": "La Nuit des chacals",
+			"zone": "village_batisseurs",
+			"apres": "echange_dortoirs",
+			"intervalle": 3600,
+			"duree": 330,
+			"position": [
+				-84,
+				30
+			],
+			"annonce": "Des chacals fracturés remontent du cimetière des ouvriers ! Rallume les feux de garde.",
+			"objets": [
+				{
+					"id": "feu_garde_0",
+					"groupe": "feu_garde",
+					"forme": "foyer",
+					"position": [
+						-74,
+						22
+					],
+					"invite": "[F] Rallumer le feu de garde"
+				},
+				{
+					"id": "feu_garde_1",
+					"groupe": "feu_garde",
+					"forme": "foyer",
+					"position": [
+						-74,
+						40
+					],
+					"invite": "[F] Rallumer le feu de garde"
+				},
+				{
+					"id": "feu_garde_2",
+					"groupe": "feu_garde",
+					"forme": "foyer",
+					"position": [
+						-88,
+						30
+					],
+					"invite": "[F] Rallumer le feu de garde"
+				}
+			],
+			"phases": [
+				{
+					"objectif": "Rallume les trois feux de garde, à l'ouest des dortoirs",
+					"recolter": "feu_garde",
+					"nombre": 3,
+					"duree": 3.0,
+					"action": "Tu souffles sur les braises…",
+					"effet": "allumer"
+				},
+				{
+					"objectif": "Repousse les chacals fracturés",
+					"annonce": "Les chacals arrivent du cimetière !",
+					"vagues": [
+						{
+							"type": "chacal_fracture",
+							"nombre": 3,
+							"position": [
+								-102,
+								30
+							],
+							"rayon": 5,
+							"attaque": true
+						},
+						{
+							"type": "chacal_fracture",
+							"nombre": 4,
+							"position": [
+								-100,
+								26
+							],
+							"rayon": 6,
+							"attaque": true
+						},
+						{
+							"type": "chacal_fracture",
+							"nombre": 5,
+							"position": [
+								-100,
+								40
+							],
+							"rayon": 7,
+							"attaque": true
+						}
+					]
+				}
+			],
+			"echec": "Les chacals ont fouillé les tombes avant de s'enfuir. Au matin, les familles pleurent leurs morts une deuxième fois.",
+			"reussite": "Les feux brûlent jusqu'à l'aube. Les tombes des ouvriers sont intactes.",
+			"recompenses": {
+				"or": [
+					{
+						"id": "coiffe_chacal",
+						"nom": "Coiffe du chacal",
+						"chance": 0.3
+					},
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclats de fracture ×4",
+						"n": 4
+					},
+					{
+						"id": "pain_meret",
+						"nom": "Pains de Méret ×3",
+						"n": 3
+					}
+				],
+				"argent": [
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclats de fracture ×2",
+						"n": 2
+					},
+					{
+						"id": "pain_meret",
+						"nom": "Pains de Méret ×2",
+						"n": 2
+					}
+				],
+				"bronze": [
+					{
+						"id": "pain_meret",
+						"nom": "Pain de Méret",
+						"n": 1
+					}
+				]
+			},
+			"stabilite": 6
+		},
+		{
+			"id": "khamsin",
+			"titre": "Le Khamsin",
+			"zone": "desert_rouge",
+			"apres": "traces",
+			"intervalle": 5400,
+			"duree": 360,
+			"position": [
+				-34,
+				88
+			],
+			"annonce": "Le khamsin se lève : un vent de sable brûlant ! Les nomades ont perdu leurs outres d'eau.",
+			"tempete": true,
+			"froid": {
+				"degats_pourcent": 3,
+				"toutes": 3.0,
+				"rayon": 10.0,
+				"chaleur": [
+					[
+						-34,
+						88
+					]
+				],
+				"texte_expose": "Le sable te brûle ! Abrite-toi sous les tentes des nomades.",
+				"texte_abrite": "Tu es à l'abri du vent, sous les tentes."
+			},
+			"objets": [
+				{
+					"id": "outre_0",
+					"groupe": "outre",
+					"forme": "outre",
+					"position": [
+						-58,
+						72
+					],
+					"invite": "[F] Ramasser l'outre"
+				},
+				{
+					"id": "outre_1",
+					"groupe": "outre",
+					"forme": "outre",
+					"position": [
+						-12,
+						74
+					],
+					"invite": "[F] Ramasser l'outre"
+				},
+				{
+					"id": "outre_2",
+					"groupe": "outre",
+					"forme": "outre",
+					"position": [
+						-30,
+						112
+					],
+					"invite": "[F] Ramasser l'outre"
+				}
+			],
+			"phases": [
+				{
+					"objectif": "Rapporte les trois outres d'eau tombées dans le sable",
+					"recolter": "outre",
+					"nombre": 3,
+					"duree": 1.5,
+					"action": "Tu dégages l'outre du sable…"
+				},
+				{
+					"objectif": "Protège le camp des nomades : des chacals profitent de la tempête",
+					"annonce": "Des chacals fracturés sortent du sable !",
+					"vagues": [
+						{
+							"type": "chacal_fracture",
+							"nombre": 3,
+							"position": [
+								-12,
+								96
+							],
+							"rayon": 5,
+							"attaque": true
+						},
+						{
+							"type": "chacal_fracture",
+							"nombre": 4,
+							"position": [
+								-56,
+								96
+							],
+							"rayon": 6,
+							"attaque": true
+						}
+					]
+				}
+			],
+			"echec": "Le vent est tombé. Les nomades ont perdu des bêtes, et presque toute leur eau.",
+			"reussite": "Le khamsin s'éloigne. Les nomades partagent leur eau avec toi.",
+			"recompenses": {
+				"or": [
+					{
+						"id": "manteau_nomade",
+						"nom": "Manteau de nomade",
+						"chance": 0.3
+					},
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclats de fracture ×3",
+						"n": 3
+					},
+					{
+						"id": "limon_du_nil",
+						"nom": "Limon du Nil ×2",
+						"n": 2
+					}
+				],
+				"argent": [
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclats de fracture ×2",
+						"n": 2
+					},
+					{
+						"id": "limon_du_nil",
+						"nom": "Limon du Nil",
+						"n": 1
+					}
+				],
+				"bronze": [
+					{
+						"id": "limon_du_nil",
+						"nom": "Limon du Nil",
+						"n": 1
+					}
+				]
+			},
+			"stabilite": 7
+		},
+		{
+			"id": "faille_chantier",
+			"titre": "La Faille du chantier",
+			"zone": "village_batisseurs",
+			"apres": "qg_carnet",
+			"intervalle": 2700,
+			"duree": 300,
+			"position": [
+				-44,
+				-114
+			],
+			"annonce": "Une grande faille s'ouvre sur le chantier, au pied de la pyramide !",
+			"objets": [
+				{
+					"id": "faille_chantier",
+					"forme": "faille",
+					"position": [
+						-46,
+						-118
+					],
+					"invite": "[F] Refermer la grande faille",
+					"taille": 1.8
+				}
+			],
+			"phases": [
+				{
+					"objectif": "Repousse les ouvriers oubliés qui sortent de la faille",
+					"vagues": [
+						{
+							"type": "oublie_village",
+							"nombre": 3,
+							"position": [
+								-46,
+								-118
+							],
+							"rayon": 5
+						},
+						{
+							"type": "oublie_village",
+							"nombre": 4,
+							"position": [
+								-46,
+								-118
+							],
+							"rayon": 6
+						}
+					]
+				},
+				{
+					"objectif": "Abats la garde des Effaceurs qui protège la faille",
+					"annonce": "Une garde des Effaceurs franchit la faille !",
+					"vagues": [
+						{
+							"type": "garde_effaceuse",
+							"nombre": 1,
+							"position": [
+								-46,
+								-118
+							],
+							"rayon": 2,
+							"chef": true
+						},
+						{
+							"type": "oublie_village",
+							"nombre": 2,
+							"position": [
+								-46,
+								-118
+							],
+							"rayon": 5,
+							"avec_le_chef": true
+						}
+					]
+				},
+				{
+					"objectif": "Referme la grande faille",
+					"objet": "faille_chantier",
+					"duree": 5.0,
+					"action": "Tu refermes la grande faille…",
+					"effet": "fermer"
+				}
+			],
+			"echec": "La faille s'est refermée seule, mais trois blocs ont été effacés : personne ne se souvient de les avoir taillés.",
+			"reussite": "La faille est refermée. Sur le chantier, les haleurs reprennent la corde.",
+			"recompenses": {
+				"or": [
+					{
+						"id": "scarabee_coeur",
+						"nom": "Scarabée de cœur",
+						"chance": 0.3
+					},
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclats de fracture ×4",
+						"n": 4
+					},
+					{
+						"id": "radio_effaceur",
+						"nom": "Radio d'Effaceur",
+						"n": 1,
+						"chance": 0.5
+					}
+				],
+				"argent": [
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclats de fracture ×2",
+						"n": 2
+					},
+					{
+						"id": "calcaire_fin",
+						"nom": "Calcaire fin",
+						"n": 1
+					}
+				],
+				"bronze": [
+					{
+						"id": "calcaire_fin",
+						"nom": "Calcaire fin",
+						"n": 1
+					}
+				]
+			},
+			"stabilite": 6
+		}
+	]
+}
