@@ -411,7 +411,13 @@ static func competence_modifiee(base: Dictionary, modifs) -> Dictionary:
 				break
 			conteneur = conteneur[parties[i]]
 		var nom := parties[parties.size() - 1]
-		if conteneur.has(nom):
+		if conteneur.has(nom) and conteneur[nom] is Array:
+			# Une fourchette [min, max] (dégâts, soin) : on décale les deux bornes.
+			var bornes: Array = []
+			for v in conteneur[nom]:
+				bornes.append(maxf(0.0, float(v) + float(modifs[cle])))
+			conteneur[nom] = bornes
+		elif conteneur.has(nom):
 			conteneur[nom] = maxf(0.0, float(conteneur[nom]) + float(modifs[cle]))
 	return c
 

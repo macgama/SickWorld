@@ -408,6 +408,18 @@ Le joueur progresse sur plusieurs axes en parallèle, pour toujours avoir un obj
 - Chaque île couvre environ 10 niveaux : Préhistoire 1-10, deuxième île 10-20, etc.
 - L'expérience vient des quêtes (surtout), des events, des ennemis et des découvertes de lieux.
 - Monter de niveau augmente les statistiques et débloque de nouvelles compétences de classe.
+- *En jeu depuis le 15 novembre 2026* : niveau maximum 20 ; chaque niveau donne +6 % de vie de base, +2,5 % de dégâts et un point de talent (à partir du niveau 2). L'XP vient des étapes de quête (bonus en fin de chapitre), quêtes secondaires, événements publics (selon le palier), ennemis (selon l'écart de niveau), premières visites de zone et missions du hub. Réglages : `data/progression.json`, guide : `docs/guides/la-progression.md`.
+- Pour l'instant, les 5 compétences de classe restent disponibles dès le niveau 1 (le tutoriel de la Préhistoire les utilise) ; ce sont les **talents** qui les font évoluer. Débloquer de nouvelles compétences par niveau reste prévu.
+
+### 1 bis. Les talents
+
+- Chaque classe a **3 voies de 4 talents** (Lame : Fureur, Saignée, Mouvement ; Rempart : Bastion, Défi, Gardien ; Traqueur : Précision, Venins, Survie ; Tisseur : Renouveau, Paradoxe, Chronomancie).
+- Paliers ouverts par les points placés dans la même voie : 0, 3, 6, puis 8 pour le talent final. Une voie complète coûte 9 points : au niveau 20, on finit deux voies et on entame la troisième.
+- Les talents donnent des statistiques (vie, dégâts, protection, critiques) ou modifient les 5 compétences de la classe (dégâts, recharge, durée, coût…). On les oublie gratuitement hors combat (touche N).
+
+### 1 ter. Les titres
+
+- Chaque époque a ses titres (quête principale finie, boss vaincu, toutes les quêtes secondaires, événements publics, chasse), plus des titres de la Vigie par niveau. Un titre porté s'affiche sous le nom du personnage, pour tous les joueurs. 15 titres pour l'instant (voir le guide).
 
 ### 2. Les compétences
 

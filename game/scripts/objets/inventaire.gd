@@ -220,7 +220,7 @@ func recevoir(objets: Array) -> Array:
 	return restants
 
 
-## Serveur : recalcule les bonus, met à jour le combat, la barre et l'apparence,
+## Serveur : recalcule les bonus (équipement, niveau, talents), met à jour le combat, la barre et l'apparence,
 ## enregistre et envoie le nouvel état au joueur.
 func _appliquer() -> void:
 	_calculer_bonus()
@@ -240,6 +240,10 @@ func _appliquer() -> void:
 
 func _calculer_bonus() -> void:
 	bonus = Objets.bonus(cat(), etat.get("equipement", {}))
+	# Le niveau et les talents s'ajoutent à l'équipement (voir ProgressionJoueur).
+	var progression := joueur.get_node_or_null("Progression")
+	if progression != null and progression.is_node_ready():
+		Progression.fusionner(bonus, progression.bonus())
 	combat_joueur.modifs_competences = bonus["competences"]
 	combat_joueur.definir_barre(etat.get("barre", []))
 
