@@ -72,7 +72,7 @@ Une fois la mission **Trois signatures** terminée, Aleksander, le registraire, 
 
 ## L'Arène de la baie
 
-Au bout est de la promenade, un quai en bois mène à une plateforme posée sur l'eau : l'**Arène**, un stade circulaire en pleine rénovation (échafaudages, projecteurs, grand écran). On entre sur le terrain par l'ouest. Les combats entre joueurs (JcJ) y auront lieu plus tard.
+Au bout est de la promenade, un quai en bois mène à une plateforme posée sur l'eau : l'**Arène**, un stade circulaire tout juste rénové (quelques échafaudages, projecteurs, grand écran). On entre sur le terrain par l'ouest. On y livre les combats entre joueurs : duels et 2 contre 2, voir [l'Arène JcJ](l-arene-jcj.md).
 
 ## Le Marché de nuit et les missions secondaires
 

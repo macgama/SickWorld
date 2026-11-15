@@ -1,9 +1,10 @@
 extends RefCounted
 ## L'Arène (sud-est de Hikari Bay, au bord de l'eau), voir docs/HUB.md, section 3.
 ##
-## Un stade circulaire posé sur une plateforme dans la baie, en pleine
-## rénovation : il accueillera plus tard les combats entre joueurs (JcJ).
-## On peut déjà entrer sur le terrain, au milieu des échafaudages.
+## Un stade circulaire posé sur une plateforme dans la baie, tout juste rénové
+## (il reste quelques échafaudages) : on y livre les combats entre joueurs (JcJ),
+## duels 1 contre 1 et escarmouches 2 contre 2. Les règles sont dans l'autoload JcJ
+## (scripts/autoload/jcj.gd) ; la borne d'inscription est juste à l'entrée.
 ##
 ## Plan (le nord est vers -Z, la mer est au sud) :
 ##   - Quai de l'Arène : x de 70 à 100, z de 74 à 82 (depuis le bout de la promenade) ;
@@ -22,6 +23,7 @@ const RAYON_MUR := 22.0
 const HAUTEUR_MUR := 11.0
 ## Demi-ouverture de l'entrée (radians), côté ouest.
 const ENTREE := 0.2
+const PointInteraction := preload("res://scripts/monde/point_interaction.gd")
 
 const ROUGE := Color(1.0, 0.25, 0.2)
 const ORANGE := Color(1.0, 0.6, 0.15)
@@ -114,6 +116,9 @@ static func _construire_stade(hub: HikariBay) -> void:
 	var sable := _materiau_terre(hub)
 	var terrain := hub._cylindre(RAYON_TERRAIN, RAYON_TERRAIN, 0.05, CENTRE + Vector3(0, 0.025, 0), sable, false)
 	terrain.name = "TerrainArene"
+	# L'autoload JcJ trouve le terrain (centre, rayon) grâce à ce groupe.
+	terrain.add_to_group("arene_jcj")
+	terrain.set_meta("rayon", RAYON_TERRAIN)
 	var anneau := MeshInstance3D.new()
 	var tore := TorusMesh.new()
 	tore.inner_radius = 4.0
@@ -126,8 +131,35 @@ static func _construire_stade(hub: HikariBay) -> void:
 	# Grand écran au-dessus des tribunes est.
 	var ecran := hub._boite(Vector3(0.3, 6.0, 12.0), CENTRE + Vector3(RAYON_MUR + 0.8, HAUTEUR_MUR + 4.0, 0), hub._neon(Color(0.05, 0.05, 0.1), 0.0), false)
 	ecran.name = "EcranArene"
-	hub._texte("ARÈNE · アリーナ\nCombats JcJ · ouverture prochaine\n— en rénovation —",
+	# Le texte de l'écran suit le combat en cours (mis à jour par l'autoload JcJ).
+	var texte_ecran := hub._texte("ARÈNE · アリーナ\nDuels 1c1 · Escarmouches 2c2\nInscription à l'entrée (touche H)",
 			CENTRE + Vector3(RAYON_MUR + 0.6, HAUTEUR_MUR + 4.0, 0), ROUGE, 70, -PI / 2, 3.5)
+	texte_ecran.name = "TexteEcranArene"
+	texte_ecran.add_to_group("ecran_arene")
+	_construire_borne(hub, entree)
+
+
+## Borne d'inscription, juste à l'intérieur de l'entrée : [F] ouvre la fenêtre de l'Arène.
+static func _construire_borne(hub: HikariBay, entree: Vector3) -> void:
+	var p := entree + Vector3(3.5, 0, -3.2)
+	hub._boite(Vector3(0.6, 1.3, 0.5), p + Vector3(0, 0.65, 0), hub._mat("metal"))
+	var ecran := hub._boite(Vector3(0.05, 0.55, 0.42), p + Vector3(0.31, 1.05, 0), hub._neon(CYAN, 2.0), false)
+	ecran.rotation.z = -0.35
+	hub._texte("受付 · INSCRIPTION\nDuels · 2 contre 2", p + Vector3(0, 1.75, 0), CYAN, 26, -PI / 2, 2.0)
+	hub._lumiere(p + Vector3(0.8, 2.0, 0), CYAN, 0.8, 5.0)
+	if Engine.is_editor_hint():
+		return
+	var borne := Node3D.new()
+	borne.set_script(PointInteraction)
+	borne.name = "BorneArene"
+	borne.texte = "Inscription à l'Arène"
+	borne.portee = 2.2
+	borne.position = p
+	hub._contenu.add_child(borne)
+	borne.utilise.connect(func():
+		var jcj := hub.get_tree().root.get_node_or_null("JcJ")
+		if jcj != null:
+			jcj.basculer_fenetre())
 
 
 # --- Tribunes (gradins circulaires) -----------------------------------------------------------
@@ -194,7 +226,7 @@ static func _construire_chantier(hub: HikariBay) -> void:
 	bache.roughness = 0.8
 	hub._boite(Vector3(3.0, 1.2, 2.0), CENTRE + Vector3(8.0, 0.6, 11.0), bache)
 	# Panneau du chantier près de l'entrée.
-	hub._texte("工事中 · CHANTIER · Rénovation de l'Arène\nOuverture : bientôt", CENTRE + Vector3(-RAYON_MUR - 0.8, 3.0, 6.5),
+	hub._texte("祝 · RÉOUVERTURE · L'Arène est ouverte !\nDuels 1c1 · Escarmouches 2c2", CENTRE + Vector3(-RAYON_MUR - 0.8, 3.0, 6.5),
 			ORANGE, 30, -PI / 2, 2.5)
 	hub._lumiere(CENTRE + Vector3(0, 6.0, 0), BLANC, 2.0, 26.0)
 
@@ -204,5 +236,6 @@ static func _construire_chantier(hub: HikariBay) -> void:
 static func _construire_habitants(hub: HikariBay) -> void:
 	Marche._pnj(hub, "chef_chantier", Vector3(104.0, 0, 80.0), PI / 2)
 	Marche._pnj(hub, "ouvrier_arene", CENTRE + Vector3(9.0, 0, -6.0), PI / 2)
-	Marche._pnj(hub, "championne", CENTRE + Vector3(0.0, 0, 3.0), PI)
+	# La championne arbitre depuis le bord du terrain (le centre est pour les combats).
+	Marche._pnj(hub, "championne", CENTRE + Vector3(-13.5, 0, -7.0), -2.05)
 	Marche._pnj(hub, "commentateur", Vector3(88.0, 0, 78.0), -PI / 2)
