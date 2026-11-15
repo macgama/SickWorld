@@ -54,7 +54,7 @@ func _lancer() -> void:
 		await _secondes(0.5)
 		_verifier(not m.est_monte(), "le serveur fait durer l'appel")
 		await _secondes(1.6)
-		_verifier(m.monture == "renne", "le serveur nous met en selle sur le renne")
+		_verifier(m.monture == "cheval", "le serveur nous met en selle sur le renne")
 		_verifier(m.get_node_or_null("Bete") != null, "on voit notre renne")
 		await _secondes(8.0)
 		m.basculer()
@@ -69,7 +69,7 @@ func _lancer() -> void:
 				if j == joueur:
 					continue
 				var autre = j.get_node("Monture")
-				if autre.monture == "renne" and autre.get_node_or_null("Bete") != null:
+				if autre.monture == "cheval" and autre.get_node_or_null("Bete") != null:
 					vu = true
 			if vu:
 				break

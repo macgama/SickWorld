@@ -24,15 +24,15 @@ beaucoup plus vite.
 
 | Île | Monture | Remarque |
 |---|---|---|
-| Préhistoire | **Renne de la steppe** | Le renne des chasseurs de la toundra. |
+| Préhistoire | **Cheval de Przewalski** | Le cheval sauvage de l'âge glaciaire : robe isabelle, crinière noire, pattes sombres (+80 %). Le renne reste disponible : mettre `"actif": true` au renne et `false` au cheval. |
 | Égypte de Khéops | **Âne de bât** | La vraie monture de l'époque : ni cheval ni chameau en Égypte vers -2560. |
 
 Pour l'instant, la monture de l'île est donnée à tout le monde pour que tu puisses
 essayer. Plus tard (comme prévu dans le GDD), elles se gagneront avec la réputation :
-cheval de Przewalski en Préhistoire, barque de papyrus en Égypte (monture aquatique).
+barque de papyrus en Égypte (monture aquatique).
 
 **Modèles 3D** (Sketchfab, CC-BY, voir `game/assets/animaux/CREDITS.md`) : le renne est l'élan
-animé de WildMesh 3D, recoloré ; l'âne est le « Realistic Animated Donkey » de WildMesh 3D,
+animé de WildMesh 3D, recoloré ; le cheval est le « Horse » de henry_7, repeint en Przewalski ; l'âne est le « Realistic Animated Donkey » de WildMesh 3D,
 avec sa selle et ses rênes (marche, trot, petit galop, galop, sprint).
 
 ## Régler les montures (sans coder)
@@ -52,7 +52,9 @@ Tout est dans **`game/data/montures.json`** (s'ouvre avec le Bloc-notes) :
   - `tourner` : tourne le modèle (degrés) s'il ne regarde pas devant ;
   - pour un autre modèle que l'élan : `allures` (animations de la plus lente à la plus rapide),
     `repos`, `saut`, `os_selle`, `os_racine` (os qui porte le déplacement),
-    `garder_hauteur_racine`.
+    `garder_hauteur_racine`, `vitesses` (vitesse naturelle de chaque allure jouée sur place),
+    `cacher` (matériaux à cacher : selle, fers), `robe` (couleur, pattes, crins) ;
+  - `actif` : `false` pour mettre une monture de côté.
 
 ## Pour les développeurs
 

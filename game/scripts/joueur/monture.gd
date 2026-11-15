@@ -98,7 +98,8 @@ static func lieu(arbre: SceneTree) -> String:
 static func monture_du_lieu(arbre: SceneTree) -> String:
 	var ici := lieu(arbre)
 	for id in donnees().get("montures", {}):
-		if String(fiche(id).get("epoque", "")) == ici:
+		# « actif » : false = monture mise de côté (le renne, remplacé par le cheval).
+		if String(fiche(id).get("epoque", "")) == ici and bool(fiche(id).get("actif", true)):
 			return id
 	return ""
 
