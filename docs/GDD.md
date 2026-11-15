@@ -112,6 +112,8 @@ On commence par la Préhistoire, et **une seule île sera construite pour la pre
 
 La conception de la deuxième île (l'Égypte des bâtisseurs), validée par Gaël le 14 novembre 2026, est dans un document à part : [ILE-2-EGYPTE.md](ILE-2-EGYPTE.md).
 
+La proposition pour la troisième île (l'Athènes de Périclès, version 0.1 du 15 novembre 2026, à valider par Gaël) est dans [ILE-3-GRECE.md](ILE-3-GRECE.md).
+
 ---
 
 ## 3. Le hub : la ville moderne

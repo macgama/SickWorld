@@ -12,7 +12,16 @@ extends Node
 ## figés pendant un compte à rebours (3… 2… 1…), puis « COMBAT ! ». Une équipe gagne
 ## quand tous ses adversaires sont désynchronisés (ou ont quitté le terrain). Au bout
 ## de 3 minutes, l'équipe qui a gardé le plus de vie gagne. À la fin, tout le monde
-## est soigné SANS pénalité et ramené là où il était. Le classement compte les victoires.
+## est soigné SANS pénalité et ramené là où il était.
+##
+## COMBATS ÉQUILIBRÉS : pendant un combat, tout le monde se bat au même niveau (20) avec le
+## même équipement standard (voir Inventaire.mode_arene) : seuls la classe et le jeu comptent.
+##
+## RÉCOMPENSES : chaque combat rapporte des Médailles de l'arène (à échanger auprès d'Akane)
+## et fait monter ou descendre la COTE (1 500 au départ, calcul Elo : battre plus fort que
+## soi rapporte plus). Le classement est trié par cote. Atteindre une cote donne un objet
+## (une seule fois) et un titre ; la 1re place et le top 10 aussi. Pour éviter les combats
+## arrangés, au-delà de 3 combats par jour contre le même adversaire, plus rien ne compte.
 ##
 ## Les spectateurs (tous les autres joueurs) ne peuvent ni frapper ni soigner les
 ## combattants, et les combattants ne peuvent pas les toucher : pendant le combat,
@@ -29,6 +38,8 @@ signal defi_change(de: String, format: String)
 signal file_change(format: String)
 ## Chez le joueur : le classement demandé est arrivé.
 signal classement_recu(liste: Array)
+## Chez le joueur : les récompenses d'un combat qui vient de finir (voir _recompenser).
+signal recompense_recue(infos: Dictionary)
 
 const FICHIER_REGLAGES := "res://data/arene.json"
 const SCRIPT_INTERFACE := "res://scripts/interface/interface_arene.gd"
@@ -50,6 +61,9 @@ var defi_de := ""
 var defi_format := ""
 var ma_file := ""
 var classement: Array = []
+## Notre propre bilan, envoyé avec le classement : {cote, combats, victoires, defaites,
+## rang (0 = pas encore classé), medailles_jour, prochain: {cote, objet, titre}}.
+var mon_bilan := {}
 var _interface: Node
 
 # --- Sur le serveur ---
@@ -256,11 +270,19 @@ func _recevoir_file(format: String) -> void:
 
 
 @rpc("authority", "call_remote", "reliable")
-func _recevoir_classement(liste: Array) -> void:
+func _recevoir_classement(liste: Array, moi: Dictionary) -> void:
 	if not _vient_du_serveur():
 		return
 	classement = liste
+	mon_bilan = moi
 	classement_recu.emit(liste)
+
+
+@rpc("authority", "call_remote", "reliable")
+func _recevoir_recompense(infos: Dictionary) -> void:
+	if not _vient_du_serveur():
+		return
+	recompense_recue.emit(infos)
 
 
 # =============================================================================
@@ -483,7 +505,8 @@ func _retirer_de_la_file(nom: String, texte: String) -> bool:
 func _demander_classement() -> void:
 	if not multiplayer.is_server():
 		return
-	Regles.chez(_expediteur(), self, "_recevoir_classement", [meilleurs(10)])
+	var id := _expediteur()
+	Regles.chez(id, self, "_recevoir_classement", [meilleurs(10), bilan_affiche(Social._nom_de(id))])
 
 
 ## Un joueur se déconnecte : il quitte les files ; en combat, il est éliminé (voir _avancer).
@@ -588,6 +611,7 @@ func _commencer(format: String, equipes: Array) -> void:
 			var position := centre + Vector3(cote * ecart, 0.0, (j - (e.size() - 1) * 0.5) * 3.0)
 			# Face à l'adversaire : l'équipe 0 (ouest) regarde vers l'est, l'équipe 1 vers l'ouest.
 			_placer(p, position, -PI / 2.0 if i == 0 else PI / 2.0)
+			_equilibrer(p, true)
 			_remettre_en_forme(p)
 			var c := p.get_node("Combat") as Combattant
 			c.ajouter_effet("immobilise", compte)
@@ -620,6 +644,13 @@ func _renvoyer_invocations(p: Node3D) -> void:
 	for loup in dossier.get_children():
 		if loup.get("maitre") == p:
 			loup.queue_free()
+
+
+## Combat équilibré : même niveau et même équipement standard pour tous (voir Inventaire).
+func _equilibrer(p: Node3D, actif: bool) -> void:
+	var inventaire := p.get_node_or_null("Inventaire")
+	if inventaire != null and inventaire.has_method("definir_mode_arene"):
+		inventaire.definir_mode_arene(actif)
 
 
 func _placer(p: Node3D, position: Vector3, orientation: float) -> void:
@@ -695,9 +726,9 @@ func _conclure(vainqueur: int) -> void:
 			var p := _personnage_de(String(nom))
 			if p != null:
 				(p.get_node("Combat") as Combattant).faction = "joueur"
+				_equilibrer(p, false)
 				_remettre_en_forme(p)
-			if vainqueur != 2:
-				_noter_resultat(String(nom), format, i == vainqueur)
+	_recompenser(format, equipes, vainqueur)
 	_diffuser()
 	var texte := "Égalité entre %s !" % titre_combat(equipes)
 	if vainqueur != 2:
@@ -740,45 +771,259 @@ func _diffuser() -> void:
 		Regles.chez(int(id), self, "_recevoir_etat", [e])
 
 
-# --- Classement (serveur) -------------------------------------------------------------
+# --- Classement et récompenses (serveur) ------------------------------------------------
 
 func _cle_joueur(nom: String) -> String:
 	return nom.to_lower().md5_text()
 
 
-func _noter_resultat(nom: String, format: String, victoire: bool) -> void:
+func _recompenses() -> Dictionary:
+	return reglages.get("recompenses", {})
+
+
+func _cote_depart() -> int:
+	return int(_recompenses().get("cote_depart", 1500))
+
+
+static func _aujourdhui() -> String:
+	return Time.get_date_string_from_system()
+
+
+## Chances de gagner (formule Elo) d'une équipe de cote « a » contre une équipe de cote « b ».
+static func chances_elo(a: float, b: float) -> float:
+	return 1.0 / (1.0 + pow(10.0, (b - a) / 400.0))
+
+
+## Variation de cote après un combat (Elo). score : 1 victoire, 0 défaite, 0,5 égalité.
+## k : l'importance d'un combat (plus forte pendant les premiers combats).
+static func variation_cote(ma_cote: float, cote_adverse: float, score: float, k: float) -> int:
+	return int(round(k * (score - chances_elo(ma_cote, cote_adverse))))
+
+
+## Fin d'un combat : cote, victoires, médailles, objets et titres de chaque combattant.
+func _recompenser(format: String, equipes: Array, vainqueur: int) -> void:
+	var r := _recompenses()
 	var cfg := ConfigFile.new()
 	cfg.load(Profil.chemin(fichier_classement))
-	var fiche: Dictionary = cfg.get_value("joueurs", _cle_joueur(nom), {})
-	fiche["nom"] = nom
-	var cle := ("victoires_" if victoire else "defaites_") + format
-	fiche[cle] = int(fiche.get(cle, 0)) + 1
-	cfg.set_value("joueurs", _cle_joueur(nom), fiche)
+	var jour := _aujourdhui()
+	var fiches: Array = [[], []]
+	var moyennes := [0.0, 0.0]
+	for i in equipes.size():
+		for nom in equipes[i]:
+			var f: Dictionary = cfg.get_value("joueurs", _cle_joueur(String(nom)), {})
+			f["nom"] = String(nom)
+			fiches[i].append(f)
+			moyennes[i] += float(f.get("cote", _cote_depart()))
+		moyennes[i] /= maxf(1.0, float(equipes[i].size()))
+	var limite := int(r.get("combats_par_jour_meme_adversaire", 3))
+	var infos_par_nom := {}
+	for i in equipes.size():
+		var adverses: Array = equipes[1 - i].duplicate()
+		adverses.sort()
+		var cle_adv := ",".join(PackedStringArray(adverses.map(func(n): return String(n).to_lower())))
+		for f in fiches[i]:
+			var nom := String(f["nom"])
+			var infos := {"format": format, "resultat": "egalite" if vainqueur == 2 else ("victoire" if i == vainqueur else "defaite"),
+					"compte": true, "variation": 0, "medailles": 0, "objets": []}
+			# Combats contre le même adversaire aujourd'hui.
+			var rencontres: Dictionary = f.get("rencontres", {})
+			if String(rencontres.get("jour", "")) != jour:
+				rencontres = {"jour": jour}
+			var deja := int(rencontres.get(cle_adv, 0))
+			rencontres[cle_adv] = deja + 1
+			f["rencontres"] = rencontres
+			if deja >= limite:
+				infos["compte"] = false
+				infos_par_nom[nom] = infos
+				continue
+			# Victoires, défaites, combats.
+			f["combats"] = int(f.get("combats", 0)) + 1
+			if vainqueur != 2:
+				var cle := ("victoires_" if i == vainqueur else "defaites_") + format
+				f[cle] = int(f.get(cle, 0)) + 1
+			# Cote (Elo).
+			var score := 0.5 if vainqueur == 2 else (1.0 if i == vainqueur else 0.0)
+			var k := float(r.get("k_debutant", 48)) if int(f["combats"]) <= int(r.get("combats_debutant", 10)) \
+					else float(r.get("k", 32))
+			var cote := int(f.get("cote", _cote_depart()))
+			var delta := variation_cote(moyennes[i], moyennes[1 - i], score, k)
+			cote = maxi(int(r.get("cote_minimum", 0)), cote + delta)
+			f["cote"] = cote
+			f["meilleure_cote"] = maxi(int(f.get("meilleure_cote", 0)), cote)
+			infos["variation"] = delta
+			infos["cote"] = cote
+			# Médailles (plafonnées chaque jour).
+			var medailles: Dictionary = r.get("medailles", {})
+			var gain := int(medailles.get(String(infos["resultat"]), 0))
+			var du_jour: Dictionary = f.get("medailles_jour", {})
+			if String(du_jour.get("jour", "")) != jour:
+				du_jour = {"jour": jour, "n": 0}
+			gain = clampi(gain, 0, maxi(0, int(medailles.get("max_par_jour", 30)) - int(du_jour["n"])))
+			du_jour["n"] = int(du_jour["n"]) + gain
+			f["medailles_jour"] = du_jour
+			infos["medailles"] = gain
+			infos_par_nom[nom] = infos
+	for i in equipes.size():
+		for f in fiches[i]:
+			cfg.set_value("joueurs", _cle_joueur(String(f["nom"])), f)
+	cfg.save(Profil.chemin(fichier_classement))
+	# Rangs après ce combat, puis objets, médailles et titres.
+	var rangs := _rangs()
+	for i in equipes.size():
+		for f in fiches[i]:
+			var nom := String(f["nom"])
+			var infos: Dictionary = infos_par_nom[nom]
+			infos["rang"] = int(rangs.get(nom.to_lower(), 0))
+			var p := _personnage_de(nom)
+			if p == null:
+				continue
+			if infos["compte"]:
+				infos["objets"] = _donner_objets(p, f, int(infos["rang"]), int(infos["medailles"]))
+				cfg.set_value("joueurs", _cle_joueur(nom), f)
+				var progression := p.get_node_or_null("Progression")
+				if progression != null and progression.has_method("resultat_arene"):
+					progression.resultat_arene(_victoires(f), int(f.get("meilleure_cote", 0)), int(infos["rang"]))
+			_message(nom, _texte_recompense(infos))
+			Regles.chez(Social._id_de(nom), self, "_recevoir_recompense", [infos])
 	cfg.save(Profil.chemin(fichier_classement))
 
 
-## Les meilleurs joueurs : [{nom, victoires, defaites, victoires_1c1, …}], triés par victoires.
-func meilleurs(nombre: int) -> Array:
+## Donne les médailles et les objets des paliers atteints (une seule fois chacun).
+## Renvoie les noms des objets donnés. Un objet qui ne rentre pas dans les sacs est
+## gardé pour la fin du combat suivant.
+func _donner_objets(p: Node3D, f: Dictionary, rang: int, medailles: int) -> Array:
+	var inventaire := p.get_node_or_null("Inventaire")
+	if inventaire == null or not inventaire.has_method("recevoir"):
+		return []
+	var r := _recompenses()
+	var donnes: Array = []
+	if medailles > 0:
+		var reste: Array = inventaire.recevoir([{"id": String(r.get("objet_medaille", "medaille_arene")), "n": medailles}])
+		if not reste.is_empty():
+			_message(String(f["nom"]), "Tes sacs sont pleins : %d médaille(s) perdue(s)." % int(reste[0]["n"]))
+	var recus: Array = f.get("objets_recus", [])
+	for palier in paliers_gagnes(f, rang):
+		var id := String(palier.get("objet", ""))
+		if id == "" or id in recus:
+			continue
+		if inventaire.recevoir([{"id": id, "n": 1}]).is_empty():
+			recus.append(id)
+			donnes.append(Objets.objet(Donnees.objets, id).get("nom", id))
+		else:
+			_message(String(f["nom"]), "Tes sacs sont pleins : ta récompense t'attend à la fin de ton prochain combat.")
+	f["objets_recus"] = recus
+	return donnes
+
+
+## Les paliers de récompense (data/arene.json) qu'un joueur a atteints.
+func paliers_gagnes(f: Dictionary, rang: int) -> Array:
+	var liste: Array = []
+	for palier in _recompenses().get("paliers", []):
+		if palier.has("cote") and int(f.get("meilleure_cote", 0)) >= int(palier["cote"]):
+			liste.append(palier)
+		elif palier.has("rang") and rang > 0 and rang <= int(palier["rang"]):
+			liste.append(palier)
+	return liste
+
+
+func _texte_recompense(infos: Dictionary) -> String:
+	if not infos["compte"]:
+		return "Combat amical : vous vous êtes déjà affrontés %d fois aujourd'hui, celui-ci ne compte pas pour le classement." \
+				% int(_recompenses().get("combats_par_jour_meme_adversaire", 3))
+	var parts: Array[String] = []
+	var v := int(infos["variation"])
+	parts.append("Cote %d (%s%d)" % [int(infos["cote"]), "+" if v >= 0 else "", v])
+	if int(infos["medailles"]) > 0:
+		parts.append("+%d médaille%s de l'arène" % [int(infos["medailles"]), "s" if int(infos["medailles"]) > 1 else ""])
+	else:
+		parts.append("plus de médailles aujourd'hui (plafond atteint)")
+	if int(infos["rang"]) > 0:
+		parts.append("%de du classement" % int(infos["rang"]) if int(infos["rang"]) > 1 else "1er du classement !")
+	var texte := " · ".join(PackedStringArray(parts))
+	if not (infos["objets"] as Array).is_empty():
+		texte += "\nRécompense : " + ", ".join(PackedStringArray(infos["objets"])) + " (dans tes sacs)."
+	return texte
+
+
+static func _victoires(f: Dictionary) -> int:
+	var n := 0
+	for format in FORMATS:
+		n += int(f.get("victoires_" + format, 0))
+	return n
+
+
+static func _defaites(f: Dictionary) -> int:
+	var n := 0
+	for format in FORMATS:
+		n += int(f.get("defaites_" + format, 0))
+	return n
+
+
+## Tous les joueurs qui ont combattu, triés par cote : [{nom, cote, combats, victoires, defaites, …}].
+func _tous() -> Array:
 	var cfg := ConfigFile.new()
 	if cfg.load(Profil.chemin(fichier_classement)) != OK or not cfg.has_section("joueurs"):
 		return []
 	var liste: Array = []
 	for cle in cfg.get_section_keys("joueurs"):
 		var f: Dictionary = cfg.get_value("joueurs", cle, {})
-		var ligne := {"nom": String(f.get("nom", "?")), "victoires": 0, "defaites": 0}
+		var ligne := {"nom": String(f.get("nom", "?")), "cote": int(f.get("cote", _cote_depart())),
+				"victoires": _victoires(f), "defaites": _defaites(f)}
+		ligne["combats"] = int(f.get("combats", ligne["victoires"] + ligne["defaites"]))
 		for format in FORMATS:
 			ligne["victoires_" + format] = int(f.get("victoires_" + format, 0))
 			ligne["defaites_" + format] = int(f.get("defaites_" + format, 0))
-			ligne["victoires"] += ligne["victoires_" + format]
-			ligne["defaites"] += ligne["defaites_" + format]
-		liste.append(ligne)
-	liste.sort_custom(func(a, b): return a["victoires"] > b["victoires"] \
-			or (a["victoires"] == b["victoires"] and a["defaites"] < b["defaites"]))
-	return liste.slice(0, nombre)
+		if int(ligne["combats"]) > 0:
+			liste.append(ligne)
+	liste.sort_custom(func(a, b): return a["cote"] > b["cote"] \
+			or (a["cote"] == b["cote"] and a["victoires"] > b["victoires"]))
+	return liste
 
 
-## Bilan d'un joueur (serveur) : {victoires_1c1, defaites_1c1, …}.
+## Rang de chaque joueur (nom en minuscules -> place). Il faut assez de combats pour être classé.
+func _rangs() -> Dictionary:
+	var minimum := int(_recompenses().get("combats_pour_etre_classe", 10))
+	var rangs := {}
+	var place := 0
+	for l in _tous():
+		if int(l["combats"]) >= minimum:
+			place += 1
+			rangs[String(l["nom"]).to_lower()] = place
+	return rangs
+
+
+## Les meilleurs joueurs, triés par cote (ceux qui n'ont pas assez de combats viennent après).
+func meilleurs(nombre: int) -> Array:
+	var minimum := int(_recompenses().get("combats_pour_etre_classe", 10))
+	var classes := _tous().filter(func(l): return int(l["combats"]) >= minimum)
+	var autres := _tous().filter(func(l): return int(l["combats"]) < minimum)
+	for l in classes:
+		l["classe"] = true
+	return (classes + autres).slice(0, nombre)
+
+
+## Bilan d'un joueur (serveur) : la fiche brute {cote, victoires_1c1, defaites_1c1, …}.
 func bilan(nom: String) -> Dictionary:
 	var cfg := ConfigFile.new()
 	cfg.load(Profil.chemin(fichier_classement))
 	return cfg.get_value("joueurs", _cle_joueur(nom), {})
+
+
+## Ce que la fenêtre de l'Arène montre de nous : cote, rang, prochain palier…
+func bilan_affiche(nom: String) -> Dictionary:
+	var f := bilan(nom)
+	var cote := int(f.get("cote", _cote_depart()))
+	var r := _recompenses()
+	var du_jour: Dictionary = f.get("medailles_jour", {})
+	var b := {"cote": cote, "meilleure_cote": int(f.get("meilleure_cote", cote)),
+			"combats": int(f.get("combats", 0)), "victoires": _victoires(f), "defaites": _defaites(f),
+			"rang": int(_rangs().get(nom.to_lower(), 0)),
+			"combats_pour_etre_classe": int(r.get("combats_pour_etre_classe", 10)),
+			"medailles_jour": int(du_jour.get("n", 0)) if String(du_jour.get("jour", "")) == _aujourdhui() else 0,
+			"medailles_max": int((r.get("medailles", {}) as Dictionary).get("max_par_jour", 30)), "prochain": {}}
+	for palier in r.get("paliers", []):
+		if palier.has("cote") and int(b["meilleure_cote"]) < int(palier["cote"]):
+			b["prochain"] = {"cote": int(palier["cote"]), "titre": Progression.nom_titre(Progression.donnees(), String(palier.get("titre", ""))),
+					"objet": String(Objets.objet(Donnees.objets, String(palier.get("objet", ""))).get("nom", ""))}
+			break
+	return b

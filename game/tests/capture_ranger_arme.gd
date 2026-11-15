@@ -1,11 +1,12 @@
 extends SceneTree
 ## Capture du personnage arme rangée, pendant le geste, ou arme en main (fenêtre visible).
-## Lancement : godot --path game -s res://tests/capture_ranger_arme.gd -- [vigie|chasseur|gardien] [range|geste|sorti] [chemin.jpg] [angle]
+## Lancement : godot --path game -s res://tests/capture_ranger_arme.gd -- [vigie|chasseur|gardien|homme] [range|geste|rangement|sorti] [chemin.jpg] [angle] [moment du geste 0-1]
 
 const ENSEMBLES := {
 	"vigie": {"arme_principale": "lame_courte_vigie", "arme_secondaire": "dague_vigie"},
 	"chasseur": {"tete": "capuche_chasseur", "torse": "cape_chasseur", "arme_principale": "lance_silex",
 		"arme_secondaire": "couteau_obsidienne"},
+	"homme": {"arme_principale": "lame_courte_vigie"},
 	"gardien": {"tete": "bandeau_gardien", "torse": "manteau_gardien", "arme_principale": "massue_os"},
 }
 
@@ -25,6 +26,7 @@ func _lancer() -> void:
 	var mode := args[1] if args.size() > 1 else "range"
 	var sortie := args[2] if args.size() > 2 else "/tmp/ranger_arme.jpg"
 	var angle := float(args[3]) if args.size() > 3 else 150.0
+	var moment := float(args[4]) if args.size() > 4 else 0.42
 	root.size = Vector2i(1000, 1000)
 	root.get_node("Reseau").nom_joueur = "Capture"
 	DirAccess.remove_absolute(Profil.chemin("user://sauvegardes/inventaires/capture.json"))
@@ -33,6 +35,12 @@ func _lancer() -> void:
 	current_scene = scene
 	await _attendre(20)
 	var joueur = get_first_node_in_group("joueur_local")
+	if ensemble == "homme":
+		var donnees: Dictionary = joueur.get_node("Fiche").donnees.duplicate()
+		donnees["sexe"] = "homme"
+		joueur.get_node("Fiche").donnees = donnees
+		joueur._appliquer_fiche()
+		await _attendre(10)
 	var inv = joueur.get_node("Inventaire")
 	var cat: Dictionary = root.get_node("Donnees").objets
 	for e in ENSEMBLES[ensemble]:
@@ -56,12 +64,17 @@ func _lancer() -> void:
 	if mode == "sorti":
 		joueur.arme_rangee = false
 		await _attendre(90)
-	elif mode == "geste":
-		joueur.arme_rangee = false
+	elif mode == "geste" or mode == "rangement":
+		if mode == "rangement":
+			joueur.arme_rangee = false
+			await _attendre(120)
+			joueur.arme_rangee = true
+		else:
+			joueur.arme_rangee = false
 		# On fige l'image au moment où la main attrape l'arme.
 		for i in 200:
 			await process_frame
-			if apparence._geste >= 0.42:
+			if apparence._geste >= moment:
 				break
 		Engine.time_scale = 0.0
 		await _attendre(3)

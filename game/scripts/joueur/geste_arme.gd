@@ -2,23 +2,58 @@ extends SkeletonModifier3D
 ## Geste pour ranger ou sortir son arme : le bras va chercher l'arme dans le dos
 ## (par-dessus l'épaule) ou à la ceinture, puis revient.
 ##
-## Le geste est calculé (pas d'animation Mixamo) et ne touche que les bras : on peut
-## donc ranger son arme en courant. L'ampleur du geste suit « influence » (0 à 1),
-## réglée à chaque image par apparence_agent.gd.
+## Deux façons de faire le geste, qui ne touchent que le haut du corps (on peut donc
+## ranger son arme en courant, les jambes gardent leur animation) :
+## - une vraie animation Mixamo (« animation » + « temps ») : seuls le haut du dos, les
+##   épaules, les bras, les mains, le cou et la tête la suivent ;
+## - sinon, un geste calculé (bras tendu vers le dos ou la hanche).
+## L'ampleur du geste suit « influence » (0 à 1), réglée à chaque image par apparence_agent.gd.
 ##
 ## Les directions sont données dans le repère du corps : x = vers la droite du
 ## personnage, y = vers le haut, z = vers l'avant.
 
 ## Direction du bras puis de l'avant-bras pour attraper une arme dans le dos (bras droit).
 const DOS := [Vector3(0.35, 0.8, 0.3), Vector3(-0.3, 0.45, -0.85)]
-## Même chose pour une arme à la ceinture (bras droit).
-const HANCHE := [Vector3(0.35, -0.85, -0.25), Vector3(0.05, -0.75, -0.65)]
+## Même chose pour une arme à la ceinture (bras droit) : elle est portée sur la hanche
+## opposée, la main va la chercher en croisant devant le ventre.
+const HANCHE := [Vector3(-0.1, -0.85, 0.45), Vector3(-0.9, -0.15, 0.3)]
 
 ## Bras qui bougent : « droit » et/ou « gauche » -> « dos » ou « hanche ».
 var bras := {}
 
+## Animation Mixamo jouée sur le haut du corps (null = geste calculé), et où on en est (secondes).
+var animation: Animation:
+	set(valeur):
+		animation = valeur
+		_pistes.clear()
+var temps := 0.0
+
 var _repere := Basis.IDENTITY
 var _pret := false
+## [piste de l'animation, os] pour chaque os du haut du corps.
+var _pistes: Array = []
+
+
+## Os du haut du corps suivis par l'animation (le bas du dos et les jambes ne bougent pas).
+static func os_du_haut(nom: String) -> bool:
+	for morceau in ["Spine1", "Spine2", "Neck", "Head", "Shoulder", "Arm", "Hand"]:
+		if nom.contains(morceau):
+			return true
+	return false
+
+
+func _preparer_pistes(squelette: Skeleton3D) -> void:
+	_pistes.clear()
+	for i in animation.get_track_count():
+		if animation.track_get_type(i) != Animation.TYPE_ROTATION_3D:
+			continue
+		var chemin := String(animation.track_get_path(i))
+		var nom := chemin.get_slice(":", chemin.get_slice_count(":") - 1)
+		if not os_du_haut(nom):
+			continue
+		var os := squelette.find_bone(nom)
+		if os >= 0:
+			_pistes.append([i, os])
 
 
 func preparer(squelette: Skeleton3D) -> void:
@@ -28,8 +63,15 @@ func preparer(squelette: Skeleton3D) -> void:
 
 func _process_modification() -> void:
 	var squelette := get_skeleton()
-	if squelette == null or not _pret or bras.is_empty():
+	if squelette == null or not _pret:
 		return
+	if animation != null:
+		if _pistes.is_empty():
+			_preparer_pistes(squelette)
+		for p in _pistes:
+			squelette.set_bone_pose_rotation(p[1], animation.rotation_track_interpolate(p[0], temps))
+	if animation != null:
+		return   # les deux bras suivent l'animation (l'arme de la main gauche change de place sans geste)
 	for cote: String in bras:
 		var cible: Array = DOS if bras[cote] == "dos" else HANCHE
 		var nom := "Right" if cote == "droit" else "Left"

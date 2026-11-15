@@ -62,8 +62,8 @@ func _lancer() -> void:
 		_verifier(pointe.y < poignee.y - 0.4 and pointe.dot(droite) < poignee.dot(droite),
 				"la lame descend en diagonale vers la hanche gauche")
 		var dague: Vector3 = (ceinture.get_child(0) as Node3D).global_position - joueur.global_position
-		_verifier(dague.y > 0.75 and dague.y < 1.15 and dague.dot(droite) < -0.08,
-				"la dague est à la ceinture, hanche gauche (hauteur %.2f m)" % dague.y)
+		_verifier(dague.y > 0.75 and dague.y < 1.15 and dague.dot(droite) > 0.08,
+				"la dague (main gauche) est à la ceinture, hanche droite (hauteur %.2f m)" % dague.y)
 
 	# Touche R : le bras va chercher l'arme dans le dos, puis la tient en main.
 	# Une attache sur la main suit la pose finale (après le geste).
@@ -77,12 +77,13 @@ func _lancer() -> void:
 	await _attendre(18)
 	var geste: SkeletonModifier3D = squelette.get_node("GesteArme")
 	_verifier(geste.influence > 0.5, "le geste du bras est en cours (%.2f)" % geste.influence)
+	_verifier(geste.animation != null, "c'est la vraie animation Mixamo qui est jouée")
 	var monte := suivi.global_position.y - main_repos.y
 	var recule: float = -(suivi.global_position - joueur.global_position).dot(devant)
 	print("       main pendant le geste : hauteur %.2f m, %.2f m derrière le corps" %
 			[suivi.global_position.y - joueur.global_position.y, recule])
 	_verifier(monte > 0.35, "la main monte chercher l'arme par-dessus l'épaule (+%.2f m)" % monte)
-	await _attendre(40)
+	await _attendre(60)
 	_verifier(geste.influence == 0.0, "le geste est fini")
 	_verifier(_attache(squelette, "Main_arme_principale") != null and _attache(squelette, "Rangement_arme_principale") == null,
 			"la lame est maintenant dans la main")
@@ -126,6 +127,20 @@ func _lancer() -> void:
 		_verifier(_attache(squelette, "Rangement_arme_principale") != null, "%s : se range" % forme)
 		joueur.arme_rangee = false
 		await _attendre(60)
+
+	# En courant : les jambes continuent de courir pendant qu'on sort l'arme.
+	apparence.equiper({"arme_principale": {"forme": "massue", "couleur": "#806040"}})
+	joueur.arme_rangee = true
+	await _attendre(90)
+	Input.action_press("avancer")
+	await _attendre(20)
+	joueur.arme_rangee = false
+	await _attendre(25)
+	_verifier(squelette.get_node("GesteArme").animation != null and apparence._actuelle == "courir",
+			"on sort la massue (animation de la ceinture) sans arrêter de courir")
+	await _attendre(70)
+	Input.action_release("avancer")
+	_verifier(_attache(squelette, "Main_arme_principale") != null, "la massue est en main")
 
 	print("Résultat : %s" % ("tout est bon" if _echecs == 0 else "%d échec(s)" % _echecs))
 	quit(1 if _echecs > 0 else 0)

@@ -1,5 +1,5 @@
 {
-	"_aide": "Réglages de l'Arène JcJ de Hikari Bay (duels 1 contre 1 et combats 2 contre 2). Les durées sont en secondes.",
+	"_aide": "Réglages de l'Arène JcJ de Hikari Bay (duels 1 contre 1 et combats 2 contre 2) : déroulement, combats équilibrés et récompenses. Les durées sont en secondes.",
 	"compte_a_rebours": 5,
 	"duree_max_combat": 180,
 	"duree_resultat": 4,
@@ -12,5 +12,38 @@
 	"formats": {
 		"1c1": {"nom": "Duel", "detail": "1 contre 1", "joueurs_par_equipe": 1},
 		"2c2": {"nom": "Escarmouche", "detail": "2 contre 2", "joueurs_par_equipe": 2}
+	},
+	"equilibrage": {
+		"_aide": "Combats équilibrés : pendant un combat d'Arène, tout le monde se bat comme s'il était au niveau « niveau_reference », avec le même « equipement_standard » (en plus de la vie de base de sa classe). L'équipement porté, les talents et le repas du Chef Goro ne comptent pas. actif : false pour revenir aux vraies statistiques de chacun.",
+		"actif": true,
+		"niveau_reference": 20,
+		"equipement_standard": {"pv": 150, "degats_pourcent": 25, "reduction_pourcent": 3, "critique_pourcent": 5}
+	},
+	"recompenses": {
+		"_aide": "Cote : calcul Elo. Tout le monde commence à cote_depart ; une victoire contre plus fort que soi rapporte plus de points (k = points en jeu par combat, k_debutant pendant les combats_debutant premiers combats). En 2 contre 2, on compare la cote moyenne des deux équipes. Il faut combats_pour_etre_classe combats pour avoir un rang. Au-delà de combats_par_jour_meme_adversaire combats par jour contre le même adversaire, plus rien ne compte (contre les combats arrangés).",
+		"cote_depart": 1500,
+		"cote_minimum": 1000,
+		"k": 32,
+		"k_debutant": 48,
+		"combats_debutant": 10,
+		"combats_pour_etre_classe": 10,
+		"combats_par_jour_meme_adversaire": 3,
+		"objet_medaille": "medaille_arene",
+		"medailles": {
+			"_aide": "Médailles de l'arène gagnées à chaque combat (à échanger auprès de la championne Akane), avec un plafond par jour.",
+			"victoire": 3,
+			"defaite": 1,
+			"egalite": 2,
+			"max_par_jour": 30
+		},
+		"_aide_paliers": "Chaque palier donne une fois son objet (dans les sacs) quand on l'atteint : « cote » = meilleure cote atteinte, « rang » = place au classement. « titre » : le titre qui va avec (voir data/progression.json), pour l'affichage.",
+		"paliers": [
+			{"cote": 1600, "objet": "bandeau_espoir", "titre": "espoir_de_la_baie"},
+			{"cote": 1750, "objet": "veste_arene", "titre": "combattant_de_la_baie"},
+			{"cote": 1900, "objet": "gants_etoile", "titre": "etoile_de_l_arene"},
+			{"cote": 2100, "objet": "lame_legende", "titre": "legende_de_la_baie"},
+			{"rang": 10, "objet": "insigne_grand_nom", "titre": "grand_nom_de_l_arene"},
+			{"rang": 1, "objet": "trophee_baie", "titre": "champion_de_la_baie"}
+		]
 	}
 }
