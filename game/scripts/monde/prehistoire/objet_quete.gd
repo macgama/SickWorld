@@ -232,6 +232,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		quete = get_tree().get_first_node_in_group("quetes_secondaires")
 	elif has_meta("evenement"):
 		quete = get_tree().get_first_node_in_group("evenements_publics")
+	elif has_meta("du_jour"):
+		# Un éclat de temps d'une mission du jour (voir scripts/monde/quetes_du_jour.gd).
+		quete = get_tree().get_first_node_in_group("quetes_du_jour")
 	elif has_meta("donjon"):
 		# Un mécanisme de boss (ex. les cartouches de la chambre du Roi) : la zone s'en occupe.
 		quete = get_tree().get_first_node_in_group("ile")

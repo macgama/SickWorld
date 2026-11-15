@@ -311,7 +311,7 @@ func rafraichir() -> void:
 
 	var raison := Artisanat.raison_impossible(cat, art, etat, recette_choisie)
 	_bouton.disabled = raison != ""
-	_bouton.text = "Améliorer" if base != "" else "Fabriquer"
+	_bouton.text = "Améliorer" if base != "" else String(Artisanat.artisan(Donnees.artisanat, id_artisan).get("verbe", "Fabriquer"))
 	_raison.text = raison
 	_raison.modulate = ROUGE if raison != "" else VERT
 
