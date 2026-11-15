@@ -1,0 +1,16 @@
+{
+	"_aide": "Réglages de l'Arène JcJ de Hikari Bay (duels 1 contre 1 et combats 2 contre 2). Les durées sont en secondes.",
+	"compte_a_rebours": 5,
+	"duree_max_combat": 180,
+	"duree_resultat": 4,
+	"duree_defi": 30,
+	"_aide_duree_max_combat": "Au bout de ce temps, l'équipe qui a gardé le plus de vie (en %) gagne.",
+	"ecart_depart": 9,
+	"_aide_ecart_depart": "Distance (mètres) entre le centre du terrain et chaque équipe au départ.",
+	"marge_sortie": 1.5,
+	"_aide_marge_sortie": "Un combattant qui s'éloigne du centre de plus que le rayon du terrain + cette marge abandonne.",
+	"formats": {
+		"1c1": {"nom": "Duel", "detail": "1 contre 1", "joueurs_par_equipe": 1},
+		"2c2": {"nom": "Escarmouche", "detail": "2 contre 2", "joueurs_par_equipe": 2}
+	}
+}

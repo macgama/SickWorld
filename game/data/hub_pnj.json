@@ -65,6 +65,24 @@
 			"Les Tisseurs rejoindront bientôt la Vigie. Mes recherches avancent."
 		]
 	},
+	"maitre_missions": {
+		"nom": "Ayaka Mori",
+		"role": "Maîtresse des missions",
+		"modele": "femme",
+		"repliques": [
+			"Agent ! Les grandes missions, c'est la commandante. Les petites, celles qui tiennent les époques debout jour après jour, c'est moi.",
+			"Chaque matin à 6 h, je reçois de nouvelles missions du jour. Le lundi, celles de la semaine. Choisis celles que tu veux, puis reviens me voir quand c'est fait."
+		]
+	},
+	"intendant": {
+		"nom": "Sven Halvorsen",
+		"role": "Intendant de la Vigie",
+		"modele": "homme",
+		"repliques": [
+			"Les insignes qu'Ayaka te donne, c'est ici qu'ils se dépensent. Sacs, bijoux, matériaux d'époque : j'ai de quoi équiper un agent sérieux.",
+			"Pas de crédit, pas de ristourne. Un insigne, c'est une mission bien faite."
+		]
+	},
 	"technicienne": {
 		"nom": "Yuki Tanabe",
 		"role": "Technicienne des portails",
@@ -428,8 +446,8 @@
 		"role": "Championne de l'Arène",
 		"modele": "femme",
 		"repliques": [
-			"Je m'entraîne ici même pendant les travaux. Le sable ne se plaint jamais.",
-			"Quand l'Arène rouvrira, je t'attendrai au centre. Ne me déçois pas, agent."
+			"L'Arène est rouverte ! Défie un autre agent (cible-le, puis « Défier »), ou inscris-toi à la borne de l'entrée.",
+			"En 2 contre 2, forme un groupe de deux avant de t'inscrire. Et protège ton coéquipier : un duo qui se sépare perd toujours."
 		]
 	},
 	"commentateur": {
@@ -437,8 +455,8 @@
 		"role": "Commentateur des combats",
 		"modele": "homme",
 		"repliques": [
-			"Mesdames et messieurs, bienvenue à l'Arène de la baie ! Bon, d'accord, je répète. On n'ouvre pas encore.",
-			"Ma voix porte jusqu'à la grande roue. Les jours de match, tu m'entendras de partout."
+			"Mesdames et messieurs, bienvenue à l'Arène de la baie ! Cette fois, c'est pour de vrai : les combats ont repris !",
+			"Ma voix porte jusqu'à la grande roue. Chaque combat, je l'annonce à toute la ville. Le classement est à la borne de l'entrée."
 		]
 	}
 }

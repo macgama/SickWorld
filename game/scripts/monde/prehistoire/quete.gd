@@ -269,7 +269,7 @@ func _aller_a(numero: int) -> void:
 		if pnj != null:
 			pnj.repliques_speciales = PackedStringArray()
 	for objet in get_tree().get_nodes_in_group("objet_quete"):
-		if not objet.has_meta("secondaire") and not objet.has_meta("donjon"):
+		if not objet.has_meta("secondaire") and not objet.has_meta("donjon") and not objet.has_meta("du_jour"):
 			objet.actif = false
 	etape = numero if numero >= 0 and numero < etapes.size() else -1
 	compteur = 0
@@ -345,6 +345,10 @@ func _appliquer_apres(e: Dictionary, anime: bool) -> void:
 		_appliquer_effet(effet, anime)
 	if anime and e.has("recompense"):
 		_donner_recompense(e["recompense"])
+	if anime:
+		var progression := ProgressionJoueur.du_joueur_local(get_tree())
+		if progression != null:
+			progression.etape_faite(ile, e)
 	if anime and e.has("recit"):
 		_annoncer(e["recit"].get("titre", ""), e["recit"].get("texte", ""))
 	if anime and e.get("fin_chapitre", false):

@@ -8,6 +8,7 @@ extends Node3D
 
 const SCENE_JOUEUR := preload("res://scenes/joueur/joueur.tscn")
 const SCRIPT_BUTIN := preload("res://scripts/objets/butin.gd")
+const SCRIPT_QUETES_DU_JOUR := preload("res://scripts/monde/quetes_du_jour.gd")
 
 @onready var joueurs: Node3D = $Joueurs
 @onready var loups: Node3D = $Loups
@@ -25,6 +26,12 @@ func _ready() -> void:
 	if Reseau.demarrer() != OK:
 		Reseau.quitter.call_deferred()
 		return
+	# Missions du jour et de la semaine (maîtresse des missions du QG) : suivies sur
+	# toutes les îles, pour le joueur de ce PC.
+	if Reseau.a_un_joueur_local():
+		var du_jour: Node = SCRIPT_QUETES_DU_JOUR.new()
+		du_jour.name = "QuetesDuJour"
+		add_child(du_jour)
 	if multiplayer.is_server() and Reseau.a_un_joueur_local():
 		# On attend que le terrain soit construit pour connaître la hauteur du sol.
 		ajouter_joueur.call_deferred(1, Reseau.nom_joueur)

@@ -1,5 +1,5 @@
 {
-	"_aide": "Recettes d'artisanat. « artisan » : forge (Forge Hinode) ou atelier (Fil & Fibre). « donne » : l'objet fabriqué (voir data/objets.json), « quantite » : combien. « ingredients » : objet -> nombre à apporter (ils doivent être dans les sacs, pas portés). Une amélioration est une recette dont un ingrédient est l'objet à améliorer : l'objet renforcé le remplace aussi dans les tenues de mission. « distance » : à combien de mètres de l'artisan il faut être.",
+	"_aide": "Recettes d'artisanat. « artisan » : forge (Forge Hinode), atelier (Fil & Fibre) ou intendance (échange des insignes de la Vigie, au QG). « verbe » / « fait » : le texte du bouton et du message (par défaut Fabriquer / Fabriqué). « donne » : l'objet fabriqué (voir data/objets.json), « quantite » : combien. « ingredients » : objet -> nombre à apporter (ils doivent être dans les sacs, pas portés). Une amélioration est une recette dont un ingrédient est l'objet à améliorer : l'objet renforcé le remplace aussi dans les tenues de mission. « distance » : à combien de mètres de l'artisan il faut être.",
 	"distance": 4.5,
 	"artisans": {
 		"forge": {
@@ -33,6 +33,22 @@
 				"reliques",
 				"ameliorations"
 			]
+		},
+		"intendance": {
+			"nom": "Intendance de la Vigie",
+			"titre": "Intendance de la Vigie · échange d'insignes",
+			"pnj": [
+				"intendant"
+			],
+			"couleur": "#3fc8ff",
+			"accueil": "Les insignes qu'Ayaka Mori donne pour les missions du jour s'échangent ici.",
+			"verbe": "Échanger",
+			"fait": "Échangé",
+			"categories": [
+				"equipement",
+				"sacs",
+				"materiaux"
+			]
 		}
 	},
 	"categories": {
@@ -41,7 +57,9 @@
 		"bijoux": "Bijoux",
 		"sacs": "Sacs",
 		"reliques": "Reliques",
-		"ameliorations": "Améliorations"
+		"ameliorations": "Améliorations",
+		"equipement": "Équipement",
+		"materiaux": "Matériaux"
 	},
 	"recettes": {
 		"couteau_obsidienne": {
@@ -383,6 +401,105 @@
 				"bottes_gardien": 1,
 				"eclat_de_fracture": 2,
 				"ocre_rouge": 2
+			}
+		},
+		"echange_broche_argent": {
+			"artisan": "intendance",
+			"categorie": "equipement",
+			"donne": "insigne_argent_vigie",
+			"quantite": 1,
+			"ingredients": {
+				"insigne_vigie": 15
+			}
+		},
+		"echange_gants_vigie": {
+			"artisan": "intendance",
+			"categorie": "equipement",
+			"donne": "gants_vigie",
+			"quantite": 1,
+			"ingredients": {
+				"insigne_vigie": 20
+			}
+		},
+		"echange_sac_expedition": {
+			"artisan": "intendance",
+			"categorie": "sacs",
+			"donne": "sac_expedition_vigie",
+			"quantite": 1,
+			"ingredients": {
+				"insigne_vigie": 25
+			}
+		},
+		"echange_eclat_fracture": {
+			"artisan": "intendance",
+			"categorie": "materiaux",
+			"donne": "eclat_de_fracture",
+			"quantite": 1,
+			"ingredients": {
+				"insigne_vigie": 3
+			}
+		},
+		"echange_peau_loup": {
+			"artisan": "intendance",
+			"categorie": "materiaux",
+			"donne": "peau_loup",
+			"quantite": 3,
+			"ingredients": {
+				"insigne_vigie": 2
+			}
+		},
+		"echange_tendon": {
+			"artisan": "intendance",
+			"categorie": "materiaux",
+			"donne": "tendon_seche",
+			"quantite": 3,
+			"ingredients": {
+				"insigne_vigie": 2
+			}
+		},
+		"echange_bois_renne": {
+			"artisan": "intendance",
+			"categorie": "materiaux",
+			"donne": "bois_de_renne",
+			"quantite": 2,
+			"ingredients": {
+				"insigne_vigie": 2
+			}
+		},
+		"echange_ocre": {
+			"artisan": "intendance",
+			"categorie": "materiaux",
+			"donne": "ocre_rouge",
+			"quantite": 3,
+			"ingredients": {
+				"insigne_vigie": 2
+			}
+		},
+		"echange_calcaire": {
+			"artisan": "intendance",
+			"categorie": "materiaux",
+			"donne": "calcaire_fin",
+			"quantite": 2,
+			"ingredients": {
+				"insigne_vigie": 3
+			}
+		},
+		"echange_ecaille": {
+			"artisan": "intendance",
+			"categorie": "materiaux",
+			"donne": "ecaille_crocodile",
+			"quantite": 3,
+			"ingredients": {
+				"insigne_vigie": 3
+			}
+		},
+		"echange_defense": {
+			"artisan": "intendance",
+			"categorie": "materiaux",
+			"donne": "defense_hippopotame",
+			"quantite": 1,
+			"ingredients": {
+				"insigne_vigie": 5
 			}
 		}
 	}

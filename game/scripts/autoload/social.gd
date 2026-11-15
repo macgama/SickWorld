@@ -200,6 +200,10 @@ func saisir(texte: String) -> void:
 			nommer_chef(premier)
 		"exclure", "kick":
 			exclure(premier)
+		"duel", "defier", "défier", "defi", "défi":
+			JcJ.defier(premier)
+		"arene", "arène", "jcj", "pvp":
+			JcJ.basculer_fenetre()
 		"donjon", "donjons":
 			if _interface != null and _interface.has_method("basculer_donjons"):
 				_interface.basculer_donjons()
@@ -211,7 +215,8 @@ func saisir(texte: String) -> void:
 
 func _texte_aide() -> String:
 	return ("Canaux : /d Dire (40 m) · /z Zone · /1 Général · /gr Groupe · /gu Guilde · /w Nom message (chuchoter) · /r répondre\n"
-			+ "Groupe : /inviter Nom · /quitter · /chef Nom · /exclure Nom · K : donjons")
+			+ "Groupe : /inviter Nom · /quitter · /chef Nom · /exclure Nom · K : donjons\n"
+			+ "Arène : /duel Nom (défier) · /arene ou H : files d'attente 1c1 / 2c2 et classement")
 
 
 func envoyer(canal: String, texte: String, destinataire := "") -> void:

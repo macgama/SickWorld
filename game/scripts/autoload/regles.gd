@@ -38,7 +38,7 @@ func infliger(source: Combattant, cible: Combattant, montant: float, type := "no
 	var subi := cible.subir(montant, source)
 	if subi > 0.0:
 		var couleur := Color(1, 0.95, 0.6)
-		if cible.faction == "joueur":
+		if cible.faction == "joueur" or cible.faction.begins_with("arene_"):
 			couleur = Color(1, 0.3, 0.25)
 		elif type == "periodique":
 			couleur = Color(0.95, 0.75, 0.4)
@@ -87,7 +87,7 @@ func allies_autour(pour: Combattant, centre: Vector3, rayon: float) -> Array[Com
 	var liste: Array[Combattant] = []
 	for acteur in get_tree().get_nodes_in_group("combattants"):
 		var c := acteur.get_node_or_null("Combat") as Combattant
-		if c == null or not c.est_vivant() or pour.est_hostile(c):
+		if c == null or not c.est_vivant() or not pour.est_allie(c):
 			continue
 		var p: Vector3 = acteur.global_position
 		if Vector2(p.x - centre.x, p.z - centre.z).length() <= rayon:

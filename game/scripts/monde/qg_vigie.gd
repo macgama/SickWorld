@@ -207,6 +207,27 @@ static func _amenager_hall(hub: HikariBay, metal: Material) -> void:
 	hub._texte("Salle des portails", Vector3(-23.0, SOL + 4.6, HALL.end.y - 0.6), CYAN, 70, PI, 2.5)
 	# La commandante, près de la table, face à l'escalier.
 	_pnj(hub, "commandante", c + Vector3(-1.5, 0, -5.5), 0.0)
+	_amenager_missions(hub, metal)
+
+
+## Bureau des missions, contre le mur nord à droite de l'escalier : Ayaka Mori
+## (missions du jour et de la semaine, voir quetes_du_jour.gd) et Sven Halvorsen,
+## l'intendant qui échange les insignes de la Vigie (artisan « intendance »).
+static func _amenager_missions(hub: HikariBay, metal: Material) -> void:
+	var z := HALL.position.y
+	# Comptoir devant les deux agents.
+	hub._bloc(-11.0, z + 6.6, -0.8, z + 7.4, SOL, SOL + 1.05, metal)
+	hub._boite(Vector3(10.2, 0.05, 0.9), Vector3(-5.9, SOL + 1.08, z + 7.0), hub._neon(CYAN, 0.5), false)
+	# Enseignes sur la face avant du comptoir (côté joueurs).
+	hub._texte("MISSIONS · 任務", Vector3(-8.2, SOL + 0.62, z + 7.43), Color(0.7, 0.92, 1.0), 44, 0.0, 2.0)
+	hub._texte("ÉCHANGE · 交換", Vector3(-3.0, SOL + 0.62, z + 7.43), Color(1.0, 0.85, 0.5), 44, 0.0, 2.0)
+	# Petits écrans posés sur le comptoir, tournés vers les agents.
+	for x in [-9.6, -4.4]:
+		var ecran := hub._boite(Vector3(0.9, 0.55, 0.05), Vector3(x, SOL + 1.38, z + 6.85), hub._neon(CYAN.lerp(VIOLET, 0.2), 1.0), false)
+		ecran.rotation.x = -0.35
+	hub._lumiere(Vector3(-5.9, SOL + 3.2, z + 5.0), Color(0.75, 0.9, 1.0), 2.2, 10.0)
+	_pnj(hub, "maitre_missions", Vector3(-8.2, SOL, z + 5.2), PI)
+	_pnj(hub, "intendant", Vector3(-3.0, SOL, z + 5.2), PI)
 
 
 # --- Coffre (banque) -------------------------------------------------------

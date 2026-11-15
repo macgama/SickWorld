@@ -99,6 +99,7 @@ func _enter_tree() -> void:
 	$CombatJoueur.set_multiplayer_authority(1, true)
 	$Fiche.set_multiplayer_authority(1, true)
 	$Inventaire.set_multiplayer_authority(1, true)
+	$Progression.set_multiplayer_authority(1, true)
 
 
 ## Numéro réseau du joueur qui contrôle ce personnage.

@@ -1,0 +1,316 @@
+{
+	"_aide": "Progression du personnage : niveaux, expérience (XP), arbres de talents et titres. Tout se règle ici sans toucher au code (voir docs/guides/la-progression.md). Les montants d'XP dépendent du niveau de la zone (partie « zones ») ou de l'ennemi.",
+
+	"niveaux": {
+		"_aide": "XP pour passer du niveau N au niveau N+1 = base + par_niveau × N + carre × N × N. niveau_max monte à chaque nouvelle île (Préhistoire 1-10, Égypte 10-20). Chaque niveau donne pv_pourcent de vie de base en plus et degats_pourcent de dégâts en plus. Un point de talent par niveau à partir du niveau 2.",
+		"niveau_max": 20,
+		"base": 0,
+		"par_niveau": 120,
+		"carre": 10,
+		"par_niveau_gagne": { "pv_pourcent": 6, "degats_pourcent": 2.5 },
+		"premier_niveau_talents": 2
+	},
+
+	"xp": {
+		"_aide": "Montant = base + par_niveau × niveau (de la zone ou de l'ennemi). ecart_ennemi : un ennemi plus faible que soi rapporte moins (moins 15 % par niveau d'écart, 10 % minimum), un plus fort rapporte plus (plus 10 % par niveau, plafonné à +50 %). evenement : multiplié selon le palier obtenu.",
+		"etape_quete": { "base": 20, "par_niveau": 8 },
+		"fin_chapitre": { "base": 100, "par_niveau": 25 },
+		"quete_secondaire": { "base": 150, "par_niveau": 30 },
+		"etape_secondaire": { "base": 10, "par_niveau": 4 },
+		"mission_hub": { "base": 120, "par_niveau": 0 },
+		"evenement": { "base": 120, "par_niveau": 30, "or": 1.0, "argent": 0.75, "bronze": 0.5 },
+		"ennemi": { "base": 8, "par_niveau": 3 },
+		"decouverte": { "base": 30, "par_niveau": 6 },
+		"ecart_ennemi": { "moins_par_niveau": 0.15, "minimum": 0.1, "plus_par_niveau": 0.1, "maximum": 1.5 }
+	},
+
+	"zones": {
+		"_aide": "Niveau de référence de chaque zone (pour l'XP des quêtes et des découvertes).",
+		"hub": 1,
+		"cote_gelee": 2,
+		"steppe": 4,
+		"foret": 6,
+		"falaises": 8,
+		"grotte": 10,
+		"port_des_marais": 11,
+		"carrieres_toura": 13,
+		"village_batisseurs": 15,
+		"desert_rouge": 17,
+		"coeur_pyramide": 20
+	},
+
+	"talents": {
+		"_aide": "Chaque classe a 3 voies de 4 talents. Un talent a un palier (1 à 4) : pour prendre un talent du palier 2, il faut déjà avoir mis 3 points dans la même voie ; palier 3 : 6 points ; palier 4 : 8 points (voir points_par_palier). Chaque rang ajoute « stats » (pv, degats_pourcent, reduction_pourcent, critique_pourcent) et « competences » (id de compétence -> { clé: valeur ajoutée par rang }, comme les bonus d'équipement). On peut tout oublier gratuitement hors combat.",
+		"points_par_palier": [0, 3, 6, 8],
+
+		"lame": [
+			{
+				"id": "fureur", "nom": "Fureur", "couleur": "#e0573c",
+				"description": "Des coups directs, rapides et lourds.",
+				"talents": [
+					{ "id": "lame_affutee", "nom": "Lame affûtée", "palier": 1, "rangs": 3,
+						"texte": "+2 % de dégâts par rang.",
+						"stats": { "degats_pourcent": 2 } },
+					{ "id": "taille_eclair", "nom": "Taille éclair", "palier": 2, "rangs": 3,
+						"texte": "Taille rapide : +2 dégâts et +3 d'Élan par rang.",
+						"competences": { "taille_rapide": { "degats": 2, "gain": 3 } } },
+					{ "id": "tourbillon_acier", "nom": "Tourbillon d'acier", "palier": 3, "rangs": 2,
+						"texte": "Frappe tournoyante : +1 m de rayon et 1,5 s de recharge en moins par rang.",
+						"competences": { "frappe_tournoyante": { "rayon": 1, "recharge": -1.5 } } },
+					{ "id": "coup_de_grace", "nom": "Coup de grâce", "palier": 4, "rangs": 1,
+						"texte": "Exécution : utilisable dès 30 % de vie de la cible et +10 dégâts.",
+						"competences": { "execution": { "pv_cible_max_pourcent": 10, "degats": 10 } } }
+				]
+			},
+			{
+				"id": "saignee", "nom": "Saignée", "couleur": "#a32035",
+				"description": "Des plaies qui saignent et des coups critiques.",
+				"talents": [
+					{ "id": "oeil_du_bretteur", "nom": "Œil du bretteur", "palier": 1, "rangs": 3,
+						"texte": "+2 % de coups critiques par rang.",
+						"stats": { "critique_pourcent": 2 } },
+					{ "id": "plaie_profonde", "nom": "Plaie profonde", "palier": 2, "rangs": 3,
+						"texte": "Entaille : le saignement fait +2 dégâts par seconde par rang.",
+						"competences": { "entaille": { "saignement.degats_par_seconde": 2 } } },
+					{ "id": "plaie_tenace", "nom": "Plaie tenace", "palier": 3, "rangs": 2,
+						"texte": "Entaille : le saignement dure 3 s de plus et coûte 3 d'Élan de moins par rang.",
+						"competences": { "entaille": { "saignement.duree": 3, "cout": -3 } } },
+					{ "id": "lames_jumelles", "nom": "Lames jumelles", "palier": 4, "rangs": 1,
+						"texte": "+6 % de coups critiques et Exécution coûte 10 d'Élan de moins.",
+						"stats": { "critique_pourcent": 6 },
+						"competences": { "execution": { "cout": -10 } } }
+				]
+			},
+			{
+				"id": "mouvement", "nom": "Mouvement", "couleur": "#3b8fd1",
+				"description": "Bondir, ralentir, encaisser.",
+				"talents": [
+					{ "id": "peau_tannee", "nom": "Peau tannée", "palier": 1, "rangs": 3,
+						"texte": "+2 % de protection par rang.",
+						"stats": { "reduction_pourcent": 2 } },
+					{ "id": "bond_du_loup", "nom": "Bond du loup", "palier": 2, "rangs": 3,
+						"texte": "Bond : 1,5 s de recharge en moins par rang.",
+						"competences": { "bond": { "recharge": -1.5 } } },
+					{ "id": "jarret_tranche", "nom": "Jarret tranché", "palier": 3, "rangs": 2,
+						"texte": "Bond : la cible est ralentie 1,5 s de plus par rang.",
+						"competences": { "bond": { "ralenti.duree": 1.5 } } },
+					{ "id": "second_souffle", "nom": "Second souffle", "palier": 4, "rangs": 1,
+						"texte": "+60 points de vie et +5 % de protection.",
+						"stats": { "pv": 60, "reduction_pourcent": 5 } }
+				]
+			}
+		],
+
+		"rempart": [
+			{
+				"id": "bastion", "nom": "Bastion", "couleur": "#8a9aa8",
+				"description": "Encaisser plus, et plus longtemps.",
+				"talents": [
+					{ "id": "cuir_epais", "nom": "Cuir épais", "palier": 1, "rangs": 3,
+						"texte": "+2 % de protection par rang.",
+						"stats": { "reduction_pourcent": 2 } },
+					{ "id": "mur_inebranlable", "nom": "Mur inébranlable", "palier": 2, "rangs": 3,
+						"texte": "Mur de bouclier : dure 1 s de plus par rang.",
+						"competences": { "mur_de_bouclier": { "duree": 1 } } },
+					{ "id": "bouclier_leste", "nom": "Bouclier leste", "palier": 3, "rangs": 2,
+						"texte": "Mur de bouclier : 5 s de recharge en moins par rang.",
+						"competences": { "mur_de_bouclier": { "recharge": -5 } } },
+					{ "id": "forteresse", "nom": "Forteresse", "palier": 4, "rangs": 1,
+						"texte": "+100 points de vie, et le Mur de bouclier arrête 70 % des dégâts au lieu de 60 %.",
+						"stats": { "pv": 100 },
+						"competences": { "mur_de_bouclier": { "reduction_degats_subis": 0.1 } } }
+				]
+			},
+			{
+				"id": "defi", "nom": "Défi", "couleur": "#d9543f",
+				"description": "Attirer les ennemis et les garder sur soi.",
+				"talents": [
+					{ "id": "voix_forte", "nom": "Voix forte", "palier": 1, "rangs": 3,
+						"texte": "Coup de bouclier : la menace augmente de 1 par rang.",
+						"competences": { "coup_de_bouclier": { "menace": 1 } } },
+					{ "id": "regard_de_defi", "nom": "Regard de défi", "palier": 2, "rangs": 3,
+						"texte": "Provocation : 1,5 s de recharge en moins par rang.",
+						"competences": { "provocation": { "recharge": -1.5 } } },
+					{ "id": "onde_sismique", "nom": "Onde sismique", "palier": 3, "rangs": 2,
+						"texte": "Onde de choc : +1 m de rayon et étourdit 0,5 s de plus par rang.",
+						"competences": { "onde_de_choc": { "rayon": 1, "etourdit": 0.5 } } },
+					{ "id": "point_de_ralliement", "nom": "Point de ralliement", "palier": 4, "rangs": 1,
+						"texte": "Provocation : dure 2 s de plus et porte 5 m plus loin.",
+						"competences": { "provocation": { "duree": 2, "portee": 5 } } }
+				]
+			},
+			{
+				"id": "gardien", "nom": "Gardien", "couleur": "#e0b13c",
+				"description": "Protéger les autres et rendre les coups.",
+				"talents": [
+					{ "id": "vigueur", "nom": "Vigueur", "palier": 1, "rangs": 3,
+						"texte": "+20 points de vie par rang.",
+						"stats": { "pv": 20 } },
+					{ "id": "elan_protecteur", "nom": "Élan protecteur", "palier": 2, "rangs": 3,
+						"texte": "Charge protectrice : 3 s de recharge en moins par rang.",
+						"competences": { "charge_protectrice": { "recharge": -3 } } },
+					{ "id": "garde_prolongee", "nom": "Garde prolongée", "palier": 3, "rangs": 2,
+						"texte": "Charge protectrice : l'allié est protégé 2 s de plus par rang.",
+						"competences": { "charge_protectrice": { "duree": 2 } } },
+					{ "id": "riposte", "nom": "Riposte", "palier": 4, "rangs": 1,
+						"texte": "+6 % de dégâts et Coup de bouclier fait +6 dégâts.",
+						"stats": { "degats_pourcent": 6 },
+						"competences": { "coup_de_bouclier": { "degats": 6 } } }
+				]
+			}
+		],
+
+		"traqueur": [
+			{
+				"id": "precision", "nom": "Précision", "couleur": "#2fa36b",
+				"description": "Le tir parfait, de très loin.",
+				"talents": [
+					{ "id": "oeil_de_faucon", "nom": "Œil de faucon", "palier": 1, "rangs": 3,
+						"texte": "+2 % de coups critiques par rang.",
+						"stats": { "critique_pourcent": 2 } },
+					{ "id": "souffle_retenu", "nom": "Souffle retenu", "palier": 2, "rangs": 3,
+						"texte": "Tir visé : se prépare 0,2 s plus vite par rang.",
+						"competences": { "tir_vise": { "incantation": -0.2 } } },
+					{ "id": "fleche_percante", "nom": "Flèche perçante", "palier": 3, "rangs": 2,
+						"texte": "Tir visé : +6 dégâts par rang.",
+						"competences": { "tir_vise": { "degats": 6 } } },
+					{ "id": "tir_mortel", "nom": "Tir mortel", "palier": 4, "rangs": 1,
+						"texte": "Tir visé : 3 s de recharge en moins et 5 m de portée en plus.",
+						"competences": { "tir_vise": { "recharge": -3, "portee": 5 } } }
+				]
+			},
+			{
+				"id": "venins", "nom": "Venins", "couleur": "#7dbb4a",
+				"description": "Empoisonner et laisser le temps agir.",
+				"talents": [
+					{ "id": "pointes_trempees", "nom": "Pointes trempées", "palier": 1, "rangs": 3,
+						"texte": "Flèche empoisonnée : le poison fait +1 dégât par seconde par rang.",
+						"competences": { "fleche_empoisonnee": { "poison.degats_par_seconde": 1 } } },
+					{ "id": "venin_lent", "nom": "Venin lent", "palier": 2, "rangs": 3,
+						"texte": "Flèche empoisonnée : le poison dure 2 s de plus par rang.",
+						"competences": { "fleche_empoisonnee": { "poison.duree": 2 } } },
+					{ "id": "carquois_econome", "nom": "Carquois économe", "palier": 3, "rangs": 2,
+						"texte": "Flèche empoisonnée coûte 3 et Tir rapide 2 de Concentration de moins par rang.",
+						"competences": { "fleche_empoisonnee": { "cout": -3 }, "tir_rapide": { "cout": -2 } } },
+					{ "id": "toxines_du_marais", "nom": "Toxines du marais", "palier": 4, "rangs": 1,
+						"texte": "+6 % de dégâts et le poison fait +3 dégâts par seconde.",
+						"stats": { "degats_pourcent": 6 },
+						"competences": { "fleche_empoisonnee": { "poison.degats_par_seconde": 3 } } }
+				]
+			},
+			{
+				"id": "survie", "nom": "Survie", "couleur": "#b0703a",
+				"description": "Pièges, distance et sang-froid.",
+				"talents": [
+					{ "id": "pas_leger", "nom": "Pas léger", "palier": 1, "rangs": 3,
+						"texte": "+2 % de protection par rang.",
+						"stats": { "reduction_pourcent": 2 } },
+					{ "id": "collet_renforce", "nom": "Collet renforcé", "palier": 2, "rangs": 3,
+						"texte": "Piège à collet : immobilise 1 s de plus par rang.",
+						"competences": { "piege_a_collet": { "immobilise": 1 } } },
+					{ "id": "repli_rapide", "nom": "Repli rapide", "palier": 3, "rangs": 2,
+						"texte": "Repli : 3 s de recharge en moins par rang.",
+						"competences": { "repli": { "recharge": -3 } } },
+					{ "id": "maitre_des_pieges", "nom": "Maître des pièges", "palier": 4, "rangs": 1,
+						"texte": "Piège à collet : +10 dégâts, rayon plus large et 5 s de recharge en moins.",
+						"competences": { "piege_a_collet": { "degats": 10, "rayon": 0.6, "recharge": -5 } } }
+				]
+			}
+		],
+
+		"tisseur": [
+			{
+				"id": "renouveau", "nom": "Renouveau", "couleur": "#4fcf86",
+				"description": "Soigner plus fort et plus vite.",
+				"talents": [
+					{ "id": "mains_apaisantes", "nom": "Mains apaisantes", "palier": 1, "rangs": 3,
+						"texte": "Fil de vie : soigne 4 points de plus par rang.",
+						"competences": { "fil_de_vie": { "soin": 4 } } },
+					{ "id": "tissage_rapide", "nom": "Tissage rapide", "palier": 2, "rangs": 3,
+						"texte": "Fil de vie : se tisse 0,15 s plus vite par rang.",
+						"competences": { "fil_de_vie": { "incantation": -0.15 } } },
+					{ "id": "flux_econome", "nom": "Flux économe", "palier": 3, "rangs": 2,
+						"texte": "Fil de vie coûte 3 de Flux de moins par rang.",
+						"competences": { "fil_de_vie": { "cout": -3 } } },
+					{ "id": "second_fil", "nom": "Second fil", "palier": 4, "rangs": 1,
+						"texte": "Accélération : soigne 6 points de plus par seconde et dure 4 s de plus.",
+						"competences": { "acceleration": { "soin_par_seconde": 6, "duree": 4 } } }
+				]
+			},
+			{
+				"id": "paradoxe", "nom": "Paradoxe", "couleur": "#5aa8e6",
+				"description": "Blesser avec le temps lui-même.",
+				"talents": [
+					{ "id": "esprit_vif", "nom": "Esprit vif", "palier": 1, "rangs": 3,
+						"texte": "+2 % de dégâts par rang.",
+						"stats": { "degats_pourcent": 2 } },
+					{ "id": "eclat_aiguise", "nom": "Éclat aiguisé", "palier": 2, "rangs": 3,
+						"texte": "Éclat temporel : +3 dégâts par rang.",
+						"competences": { "eclat_temporel": { "degats": 3 } } },
+					{ "id": "echo", "nom": "Écho", "palier": 3, "rangs": 2,
+						"texte": "Éclat temporel coûte 3 de Flux de moins par rang.",
+						"competences": { "eclat_temporel": { "cout": -3 } } },
+					{ "id": "distorsion", "nom": "Distorsion", "palier": 4, "rangs": 1,
+						"texte": "Bulle lente : ralentit davantage, 2 m plus large et dure 2 s de plus.",
+						"competences": { "bulle_lente": { "vitesse": -0.1, "rayon": 2, "duree": 2 } } }
+				]
+			},
+			{
+				"id": "chronomancie", "nom": "Chronomancie", "couleur": "#b27fd6",
+				"description": "Revenir en arrière, encore et encore.",
+				"talents": [
+					{ "id": "constance", "nom": "Constance", "palier": 1, "rangs": 3,
+						"texte": "+15 points de vie par rang.",
+						"stats": { "pv": 15 } },
+					{ "id": "retour_precis", "nom": "Retour précis", "palier": 2, "rangs": 3,
+						"texte": "Retour en arrière : 3 s de recharge en moins par rang.",
+						"competences": { "retour_en_arriere": { "recharge": -3 } } },
+					{ "id": "memoire_longue", "nom": "Mémoire longue", "palier": 3, "rangs": 2,
+						"texte": "Retour en arrière : rend toujours au moins 5 % de vie de plus par rang.",
+						"competences": { "retour_en_arriere": { "soin_minimum_pourcent": 5 } } },
+					{ "id": "maitre_du_temps", "nom": "Maître du temps", "palier": 4, "rangs": 1,
+						"texte": "Retour en arrière remonte 2 s plus loin, et Accélération se recharge 5 s plus vite.",
+						"competences": { "retour_en_arriere": { "secondes": 2 }, "acceleration": { "recharge": -5 } } }
+				]
+			}
+		]
+	},
+
+	"titres": {
+		"_aide": "Titres affichés sous le nom du personnage. condition : niveau (atteindre un niveau), etape (« ile:id d'étape » de la quête principale), secondaire (id d'une quête secondaire), secondaires (toutes celles d'une île), evenements (nombre d'événements publics réussis sur une île), tuer (type d'ennemi, ou début du nom du type) avec nombre.",
+		"liste": [
+			{ "id": "recrue", "nom": "Recrue de la Vigie", "epoque": "La Vigie",
+				"comment": "Le premier titre de tout agent.", "condition": { "niveau": 1 } },
+			{ "id": "agent_de_terrain", "nom": "Agent de terrain", "epoque": "La Vigie",
+				"comment": "Atteindre le niveau 10.", "condition": { "niveau": 10 } },
+			{ "id": "agent_confirme", "nom": "Agent confirmé", "epoque": "La Vigie",
+				"comment": "Atteindre le niveau 20.", "condition": { "niveau": 20 } },
+
+			{ "id": "ami_du_clan", "nom": "Ami du clan", "epoque": "Préhistoire",
+				"comment": "Être accueilli au camp du clan (chapitre 2).", "condition": { "etape": "prehistoire:vers_le_camp" } },
+			{ "id": "celui_qui_a_laisse_sa_trace", "nom": "Celui qui a laissé sa trace", "epoque": "Préhistoire",
+				"comment": "Laisser l'empreinte de sa main sur la paroi (quête « La main sur la paroi »).", "condition": { "secondaire": "main_sur_la_paroi" } },
+			{ "id": "chasseur_de_la_steppe", "nom": "Chasseur de la steppe", "epoque": "Préhistoire",
+				"comment": "Vaincre 40 loups.", "condition": { "tuer": "loup", "nombre": 40 } },
+			{ "id": "gardien_du_feu", "nom": "Gardien du feu", "epoque": "Préhistoire",
+				"comment": "Réussir 3 événements publics de la Préhistoire.", "condition": { "evenements": "prehistoire", "nombre": 3 } },
+			{ "id": "tombeur_d_ours", "nom": "Tombeur d'ours", "epoque": "Préhistoire",
+				"comment": "Vaincre l'Ours sans mémoire au fond de la Grande Grotte.", "condition": { "tuer": "ours_sans_memoire", "nombre": 1 } },
+			{ "id": "gardien_des_murs", "nom": "Gardien des murs", "epoque": "Préhistoire",
+				"comment": "Terminer « Ce que les murs se rappellent ».", "condition": { "etape": "prehistoire:fresque_finale" } },
+
+			{ "id": "rescape_de_la_crue", "nom": "Rescapé de la crue", "epoque": "Égypte",
+				"comment": "Terminer le chapitre 1 en Égypte.", "condition": { "etape": "egypte:fin_chapitre_1" } },
+			{ "id": "compagnon_de_kheops", "nom": "Compagnon de Khéops", "epoque": "Égypte",
+				"comment": "Graver la marque de l'équipe (quête « La marque de l'équipe »).", "condition": { "secondaire": "marque_equipe" } },
+			{ "id": "fleau_des_crocodiles", "nom": "Fléau des crocodiles", "epoque": "Égypte",
+				"comment": "Vaincre 25 crocodiles.", "condition": { "tuer": "crocodile", "nombre": 25 } },
+			{ "id": "ami_des_batisseurs", "nom": "Ami des bâtisseurs", "epoque": "Égypte",
+				"comment": "Terminer toutes les quêtes secondaires d'Égypte.", "condition": { "secondaires": "egypte" } },
+			{ "id": "pourfendeur_d_isfet", "nom": "Pourfendeur d'Isfet", "epoque": "Égypte",
+				"comment": "Vaincre Isfet au cœur de la pyramide.", "condition": { "tuer": "isfet", "nombre": 1 } },
+			{ "id": "batisseur_de_gizeh", "nom": "Bâtisseur de Gizeh", "epoque": "Égypte",
+				"comment": "Terminer la quête principale d'Égypte.", "condition": { "etape": "egypte:journal_merer" } }
+		]
+	}
+}

@@ -622,6 +622,9 @@ func _finir(reussi: bool) -> void:
 		if not objets.is_empty():
 			_quete._donner_recompense(objets)
 		_quete.annoncer("Participation : " + String(NOMS_PALIERS[rang]), "Stabilité de l'époque : %d %%" % roundi(stabilite))
+	var progression := ProgressionJoueur.du_joueur_local(get_tree())
+	if progression != null:
+		progression.evenement_fait(String(self.ile), String(e.id), String(e.get("zone", "")), rang, reussi)
 	derniere_participation = rang
 	evenement_fini.emit(String(e.id), reussi)
 
