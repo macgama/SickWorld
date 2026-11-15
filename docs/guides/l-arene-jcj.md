@@ -26,9 +26,70 @@ Les **spectateurs** ne peuvent ni frapper ni soigner les combattants, et les com
 
 ## Des combats équilibrés, quel que soit le niveau
 
-Pendant un combat d'Arène, **tout le monde se bat comme s'il était niveau 20**, avec le **même équipement standard**. L'équipement porté, les talents et le repas du Chef Goro ne comptent pas : un agent niveau 1 qui vient d'arriver a exactement la même vie et les mêmes dégâts qu'un agent niveau 20 couvert d'objets historiques. Seuls comptent **la classe** et **la façon de jouer**.
+Pendant un combat d'Arène, **tout le monde se bat comme s'il était niveau 20**, avec le **même équipement standard**. L'équipement porté, les talents normaux et le repas du Chef Goro ne comptent pas : un agent niveau 1 qui vient d'arriver a exactement la même vie et les mêmes dégâts qu'un agent niveau 20 couvert d'objets historiques. Seuls comptent **la classe**, **les 3 talents d'Arène choisis** (voir plus bas) et **la façon de jouer**.
 
 À la fin du combat, chacun retrouve ses vraies statistiques. Le bandeau du compte à rebours le rappelle : *« Combat équilibré : niveau 20 et même équipement pour tous »*.
+
+## Les talents d'Arène
+
+Dans l'Arène, tes talents normaux sont mis de côté (comme l'équipement et le repas), mais tu as **un jeu de talents rien que pour l'Arène** : chaque classe en a **6**, et tu en choisis **3**. Ils ne servent **que pendant un combat d'Arène**, ils sont gratuits et se changent à volonté hors combat.
+
+- **Touche N**, onglet **Arène** : un clic pour choisir un talent, un autre pour le retirer. Pas pendant un combat.
+- Chaque talent vaut à peu près autant que les autres (environ 6 à 8 % de puissance) : il n'y a pas de « bon » choix obligatoire, seulement des styles (attaquer plus fort, résister aux contrôles, gêner les soins de l'adversaire, renforcer une compétence…).
+- Changer de classe vide tes choix (ce ne sont pas les mêmes talents).
+
+Quatre effets n'existent qu'en Arène :
+
+- **Résistance aux contrôles** : étourdissements, immobilisations et ralentissements durent moins longtemps sur toi.
+- **Blessure** : tes coups réduisent les soins que reçoit ta cible pendant 6 s (la plus forte blessure l'emporte). C'est la parade contre un Tisseur.
+- **Vol de vie** : une part des dégâts de tes coups directs te soigne.
+- **Soins en plus** : tes soins rendent plus de vie.
+
+### Lame
+
+| Talent | Effet |
+|---|---|
+| Gladiateur | +6 % de dégâts. |
+| Plaie mortelle | Tes coups réduisent de 30 % les soins reçus par ta cible pendant 6 s. Idéal contre un Tisseur. |
+| Soif de sang | 6 % des dégâts que tu infliges te soignent. |
+| Volonté de fer | Étourdissements, immobilisations et ralentissements durent 30 % de moins sur toi. |
+| Poursuite | Bond : 4 s de recharge en moins, et la cible reste ralentie 1,5 s de plus. |
+| Bourreau | Exécution : utilisable dès 30 % de vie de la cible (au lieu de 20 %). |
+
+### Rempart
+
+| Talent | Effet |
+|---|---|
+| Garde du corps | Charge protectrice : 6 s de recharge en moins et dure 4 s de plus. Pour le 2 contre 2. |
+| Onde paralysante | Onde de choc : étourdit 0,5 s de plus et 3 s de recharge en moins. |
+| Bastion vivant | +6 % de protection. |
+| Contre-attaque | +7 % de dégâts et +3 % de coups critiques. |
+| Inflexible | Étourdissements, immobilisations et ralentissements durent 35 % de moins sur toi. |
+| Coup écrasant | Tes coups réduisent de 25 % les soins reçus par ta cible pendant 6 s. |
+
+### Traqueur
+
+| Talent | Effet |
+|---|---|
+| Flèches barbelées | Tes coups réduisent de 30 % les soins reçus par ta cible pendant 6 s. Idéal contre un Tisseur. |
+| Œil de faucon | +8 % de coups critiques. |
+| Tir de précision | Tir visé : 0,4 s d'incantation en moins et +5 dégâts. |
+| Pièges rapides | Piège à collet : 7 s de recharge en moins. |
+| Désengagement | Repli : 5 s de recharge en moins, et les ennemis restent ralentis 1,5 s de plus. |
+| Insaisissable | Étourdissements, immobilisations et ralentissements durent 30 % de moins sur toi. |
+
+### Tisseur
+
+| Talent | Effet |
+|---|---|
+| Fils renforcés | +12 % de soins donnés. |
+| Incantation vive | Fil de vie : 0,4 s d'incantation en moins. |
+| Stase | Retour en arrière : 7 s de recharge en moins. |
+| Bulle étouffante | Bulle lente : dure 2 s de plus et ralentit davantage (60 % → 70 %). |
+| Temps suspendu | Étourdissements, immobilisations et ralentissements durent 35 % de moins sur toi. |
+| Éclats tranchants | Tes coups réduisent de 25 % les soins reçus par ta cible pendant 6 s. Contre un autre Tisseur. |
+
+Tout se règle dans `game/data/progression.json`, partie `talents_arene` (nombre de talents à choisir, durée de la blessure, effet de chaque talent).
 
 ## Les récompenses
 
@@ -91,6 +152,7 @@ Les titres sont dans `game/data/progression.json` (conditions `arene_victoires`,
 
 - Sans réseau (rapide) : `godot --headless --path game -s res://tests/test_arene.gd`
 - Récompenses et équilibrage : `godot --headless --path game -s res://tests/test_arene_recompenses.gd`
+- Talents d'Arène : `godot --headless --path game -s res://tests/test_talents_arene.gd`
 - Un vrai duel entre deux programmes (deux terminaux) :
   - `godot --headless --path game -s res://tests/test_arene_reseau.gd -- --role=chef --nom=Alice --port=7810`
   - `godot --headless --path game -s res://tests/test_arene_reseau.gd -- --role=membre --nom=Bob --port=7810`
@@ -98,6 +160,5 @@ Les titres sont dans `game/data/progression.json` (conditions `arene_victoires`,
 ## Pas encore fait
 
 - Des saisons (remise à zéro de la cote tous les 3 mois, avec des récompenses de fin de saison).
-- Des talents choisis spécialement pour l'Arène (pour l'instant, les talents sont ignorés pendant un combat).
 - Classement commun à plusieurs serveurs (via Nakama).
 - Plusieurs arènes en même temps (instances, comme les donjons).
