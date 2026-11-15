@@ -55,6 +55,31 @@ func _premiere_texture(ids: Array) -> String:
 
 # --- Matériaux ---------------------------------------------------------------------------------
 
+## Couleur moyenne (sRGB) des textures : la couleur demandée devient la couleur
+## réellement vue (sinon la chaux blanche sortait beige foncé).
+const MOYENNES_TEXTURES := {
+	"white_plaster_rough_01": Color(0.49, 0.44, 0.34),
+	"clay_plaster": Color(0.45, 0.35, 0.23),
+	"large_sandstone_blocks": Color(0.34, 0.33, 0.29),
+	"sandstone_blocks_08": Color(0.65, 0.57, 0.46),
+	"rock_wall_10": Color(0.31, 0.23, 0.15),
+	"white_sandstone_blocks_02": Color(0.7, 0.64, 0.56),
+	"white_sandstone_bricks": Color(0.54, 0.5, 0.43),
+	"weathered_planks": Color(0.31, 0.26, 0.23),
+	"rough_wood": Color(0.42, 0.38, 0.34),
+	"brown_mud_02": Color(0.3, 0.27, 0.22),
+}
+
+
+func _mat_choix(ids: Array, couleur: Color, rugosite := 0.9, taille_motif := 2.0) -> StandardMaterial3D:
+	var id := _premiere_texture(ids)
+	if MOYENNES_TEXTURES.has(id):
+		var moyenne: Color = MOYENNES_TEXTURES[id]
+		# 0.8 : on garde un peu de marge pour les taches et les joints plus clairs.
+		couleur = Color(minf(couleur.r / moyenne.r * 0.8, 2.5), minf(couleur.g / moyenne.g * 0.8, 2.5),
+				minf(couleur.b / moyenne.b * 0.8, 2.5))
+	return _mat_pbr(id, couleur, rugosite, taille_motif)
+
 ## Le marbre du Pentélique : blanc chaud, légèrement doré (il prend une patine au soleil).
 func _mat_marbre() -> StandardMaterial3D:
 	return _mat_choix(["marble_01", "white_sandstone_blocks_02", "white_sandstone_bricks"], Color(0.95, 0.93, 0.88), 0.55, 2.0)
@@ -62,14 +87,14 @@ func _mat_marbre() -> StandardMaterial3D:
 
 ## Les murs des maisons : de la brique crue sur un socle de pierre, enduite à la chaux.
 func _mat_chaux() -> StandardMaterial3D:
-	return _mat_choix(["white_plaster_rough_01", "clay_plaster"], Color(0.94, 0.92, 0.86), 0.95, 3.0)
+	return _mat_choix(["white_plaster_02", "plastered_stone_wall", "white_plaster_rough_01", "clay_plaster"], Color(0.94, 0.92, 0.86), 0.95, 3.0)
 
 
 ## Le calcaire gris de l'Akté (murs du port, socles, quais).
 func _mat_pierre() -> StandardMaterial3D:
 	var cle := "pierre_grece"
 	if not _materiaux.has(cle):
-		var m := _mat_choix(["large_sandstone_blocks", "sandstone_blocks_08", "rock_wall_10"], Color(0.8, 0.78, 0.72), 0.9, 2.5).duplicate()
+		var m := _mat_choix(["stacked_stone_wall", "old_stone_wall", "large_sandstone_blocks", "sandstone_blocks_08", "rock_wall_10"], Color(0.8, 0.78, 0.72), 0.9, 2.5).duplicate()
 		# Le calcaire du Pirée est plus gris que le grès égyptien.
 		m.albedo_color = m.albedo_color * Color(0.86, 0.86, 0.88)
 		_materiaux[cle] = m
@@ -79,6 +104,9 @@ func _mat_pierre() -> StandardMaterial3D:
 ## Les toits de tuiles de terre cuite : des rangées ondulées, rouge-orangé, un peu passées.
 func _mat_tuiles() -> StandardMaterial3D:
 	var cle := "tuiles_grece"
+	if not _materiaux.has(cle) and _texture("clay_roof_tiles_02", "Diffuse") != null:
+		# Les vraies tuiles de terre cuite (Poly Haven), avec leur relief.
+		_materiaux[cle] = _mat_pbr("clay_roof_tiles_02", Color(1.0, 0.92, 0.85), 0.85, 1.6)
 	if not _materiaux.has(cle):
 		var m := StandardMaterial3D.new()
 		m.albedo_texture = _tuiles()
@@ -109,6 +137,11 @@ static func _tuiles() -> Texture2D:
 
 
 ## Une peinture vive et mate (frises, triglyphes, coques, boucliers).
+## Le bois des quais, des loges et des trières : planches brutes, grisées par le sel.
+func _mat_bois() -> StandardMaterial3D:
+	return _mat_choix(["wooden_rough_planks", "weathered_planks", "rough_wood"], Color(0.5, 0.42, 0.34), 0.85, 1.5)
+
+
 func _mat_peint(couleur: Color, rugosite := 0.8) -> StandardMaterial3D:
 	var cle := "peint_%s" % couleur.to_html()
 	if not _materiaux.has(cle):
@@ -133,7 +166,7 @@ func _mat_bronze() -> StandardMaterial3D:
 func _mat_terre_cuite() -> StandardMaterial3D:
 	var cle := "terre_cuite"
 	if not _materiaux.has(cle):
-		var m := _mat_choix(["clay_plaster", "brown_mud_02"], Color(0.95, 0.62, 0.42), 0.85, 0.6).duplicate()
+		var m := _mat_choix(["terracotta_floor_tiles", "clay_plaster", "brown_mud_02"], Color(0.95, 0.62, 0.42), 0.85, 0.6).duplicate()
 		m.albedo_color = Color(0.86, 0.5, 0.32)
 		_materiaux[cle] = m
 	return _materiaux[cle]

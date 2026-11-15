@@ -5,7 +5,7 @@ extends RefCounted
 ## courbe en S donne du contraste sans boucher les noirs.
 ##
 ## Utilisation : Etalonnage.appliquer(environment, "nuit_neon")
-## Styles : nuit_neon (Hikari Bay), hiver (Préhistoire), desert (Égypte).
+## Styles : nuit_neon (Hikari Bay), hiver (Préhistoire), desert (Égypte), mediterranee (Grèce).
 
 ## Pour chaque style : [luminance d'entrée, couleur de sortie] (5 points).
 const STYLES := {
@@ -32,6 +32,15 @@ const STYLES := {
 		[0.5, Color(0.52, 0.5, 0.465)],
 		[0.78, Color(0.82, 0.79, 0.735)],
 		[1.0, Color(1.0, 0.975, 0.93)],
+	],
+	# Été méditerranéen : ombres bleu-sarcelle (reflet de la mer), mi-tons neutres,
+	# lumière dorée sur le marbre et la chaux, contraste franc du plein soleil.
+	"mediterranee": [
+		[0.0, Color(0.0, 0.012, 0.03)],
+		[0.2, Color(0.16, 0.19, 0.22)],
+		[0.5, Color(0.52, 0.51, 0.49)],
+		[0.78, Color(0.84, 0.8, 0.74)],
+		[1.0, Color(1.0, 0.98, 0.93)],
 	],
 }
 

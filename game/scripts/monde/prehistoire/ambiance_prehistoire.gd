@@ -65,18 +65,20 @@ const CLIMATS := {
 	},
 	# Île de Grèce : grand soleil d'été méditerranéen, ciel bleu profond, air limpide et salé.
 	"le_piree": {
-		"etalonnage": "desert",
+		"etalonnage": "mediterranee",
 		"soleil": Vector2(140.0, 52.0),
 		"couleur_soleil": Color(1.0, 0.95, 0.86),
 		"energie_soleil": 3.0,
 		"couverture": 0.12,
-		"brume": Color(0.74, 0.82, 0.9),
-		"densite_brume": 0.0011,
+		"brume": Color(0.68, 0.79, 0.92),
+		"densite_brume": 0.0009,
 		"brume_volume": 0.002,
 		"albedo_brume": Color(0.95, 0.97, 1.0),
 		"ambiance": 0.75,
-		"zenith": Color(0.1, 0.28, 0.62),
-		"horizon": Color(0.78, 0.85, 0.9),
+		"zenith": Color(0.05, 0.2, 0.56),
+		"horizon": Color(0.6, 0.74, 0.88),
+		# Air limpide : la brume ne voile presque pas le ciel.
+		"brume_ciel": 0.12,
 		"horizon_soleil": Color(1.0, 0.93, 0.78),
 		"nuage_ombre": Color(0.66, 0.68, 0.72),
 		"nuage_lumiere": Color(1.0, 0.98, 0.94),
@@ -221,7 +223,7 @@ static func appliquer(zone: Node, climat := "cote_gelee") -> void:
 	# La perspective aérienne lit la carte de reflets du ciel (basse résolution) :
 	# trop forte, elle dessinait des bandes carrées autour du soleil.
 	env.fog_aerial_perspective = 0.2
-	env.fog_sky_affect = 0.35
+	env.fog_sky_affect = r.get("brume_ciel", 0.35)
 	# Brouillard en volume : rayons de soleil.
 	env.volumetric_fog_enabled = true
 	env.volumetric_fog_density = r["brume_volume"]

@@ -80,7 +80,7 @@ func _init() -> void:
 	neige_qui_tombe = false
 	sols = {
 		# Rouge : les galets et le sable des criques.
-		"galets": ["clean_pebbles", "dry_river_pebbles", "damp_sand"],
+		"galets": ["damp_beach_sand", "clean_pebbles", "dry_river_pebbles", "damp_sand"],
 		# Vert : la terre sèche et rouge de l'Attique, avec ses cailloux.
 		"neige": ["dry_ground_rocks", "dry_ground_01", "red_sand"],
 		# Bleu : la terre tassée des rues et des quais.
