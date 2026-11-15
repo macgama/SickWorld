@@ -664,7 +664,8 @@ func _auvent(parent: Node3D, centre: Vector2, taille: Vector2, haut := 2.6, coul
 
 ## La pyramide de Khéops en fin de chantier : 230 m de côté, 146 m de haut. Le bas est
 ## déjà revêtu de calcaire blanc poli ; le haut montre encore ses gradins et la rampe.
-func _construire_pyramide(centre: Vector3, angle := 0.0) -> void:
+## « revetu » : part de la hauteur déjà habillée de calcaire blanc (1 = finie, avec son pyramidion doré).
+func _construire_pyramide(centre: Vector3, angle := 0.0, revetu := 0.72) -> Node3D:
 	var p := Node3D.new()
 	p.name = "GrandePyramide"
 	p.position = centre
@@ -672,7 +673,9 @@ func _construire_pyramide(centre: Vector3, angle := 0.0) -> void:
 	_contenu.add_child(p)
 	var cote := 230.0
 	var haut := 146.0
-	var revetu := 0.72 # part de la hauteur déjà revêtue
+	var finie := revetu >= 0.99
+	if finie:
+		revetu = 1.0 - 6.0 / haut
 	# Partie revêtue : une pyramide tronquée lisse.
 	var outil := SurfaceTool.new()
 	outil.begin(Mesh.PRIMITIVE_TRIANGLES)
@@ -699,6 +702,25 @@ func _construire_pyramide(centre: Vector3, angle := 0.0) -> void:
 	# Le sommet en gradins (pierre plus jaune, pas encore habillée).
 	var jaune := _mat_choix(["sandstone_blocks_08", "large_sandstone_blocks", "cliff_side"], Color(0.82, 0.72, 0.55), 0.95, 4.0)
 	var marche := 5.0
+	if finie:
+		# Le pyramidion : la pierre de faîte, couverte d'or, qui attrape le soleil.
+		var or_fin := StandardMaterial3D.new()
+		or_fin.albedo_color = Color(1.0, 0.8, 0.38)
+		or_fin.metallic = 1.0
+		or_fin.roughness = 0.25
+		var sommet := MeshInstance3D.new()
+		var cm := CylinderMesh.new()
+		cm.top_radius = 0.0
+		cm.bottom_radius = demi1 * sqrt(2.0)
+		cm.height = haut - h1
+		cm.radial_segments = 4
+		cm.rings = 1
+		sommet.mesh = cm
+		sommet.material_override = or_fin
+		sommet.position.y = h1 + (haut - h1) * 0.5
+		sommet.rotation.y = PI / 4
+		p.add_child(sommet)
+		return p
 	var y := h1
 	while y < haut - 8.0:
 		var demi := demi0 * (1.0 - y / haut)
@@ -727,6 +749,7 @@ func _construire_pyramide(centre: Vector3, angle := 0.0) -> void:
 		bande.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 		bande.rotate_y(k * PI / 2)
 		p.add_child(bande)
+	return p
 
 
 # --- Portail de la Vigie -----------------------------------------------------------------------

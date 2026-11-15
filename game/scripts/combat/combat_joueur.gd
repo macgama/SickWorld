@@ -326,6 +326,10 @@ func raison_impossible(index: int) -> String:
 		return "Pas encore prêt"
 	if elan < cout(c):
 		return texte_pas_assez()
+	# Isfet a effacé notre nom : plus de compétences d'époque (touches 6 et 7) tant
+	# qu'on ne l'a pas regravé sur un cartouche.
+	if index in [5, 6] and combat.a_effet("nom_efface"):
+		return "Ton nom est effacé : grave-le sur un cartouche"
 	var type := String(c.get("type", ""))
 	if type in TYPES_OFFENSIFS:
 		if cible == null or not is_instance_valid(cible) or not cible.est_vivant():

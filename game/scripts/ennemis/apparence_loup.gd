@@ -38,6 +38,7 @@ static var _os_loup: Array = []
 static var _textures_renne := {}
 const ApparenceNil := preload("res://scripts/ennemis/apparence_nil.gd")
 const ApparenceOublie := preload("res://scripts/ennemis/apparence_oublie.gd")
+const ApparenceSerpent := preload("res://scripts/ennemis/apparence_serpent.gd")
 ## Apparence d'une autre famille d'animaux à qui tout est confié (bêtes du Nil).
 var _delegue: Node3D
 
@@ -55,6 +56,13 @@ func _ready() -> void:
 		_delegue.name = "Oublie"
 		_delegue.graine = parent.get_instance_id() % 997
 		_delegue.variante = "garde" if type.begins_with("garde") else "oublie"
+		add_child(_delegue)
+		return
+	if type.begins_with("cobra") or type.begins_with("isfet"):
+		espece = "serpent"
+		_delegue = ApparenceSerpent.new()
+		_delegue.name = "Serpent"
+		_delegue.espece = "isfet" if type.begins_with("isfet") else "cobra"
 		add_child(_delegue)
 		return
 	if type.begins_with("crocodile") or type.begins_with("hippopotame") or type.begins_with("babouin"):

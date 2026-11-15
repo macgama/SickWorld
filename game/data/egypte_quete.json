@@ -32,6 +32,14 @@
 				"sous_titre": "Égypte · à l'ouest du plateau, le pays des morts",
 				"texte": "Après la passe des tombes, plus un arbre, plus un bruit. Le sable est rouge comme de la brique pilée. Partout, les tombes des nobles alignées comme des maisons sans portes. Ici, disent les Égyptiens, commence le royaume des morts."
 			}
+		},
+		"coeur_pyramide": {
+			"scene": "res://scenes/monde/egypte/coeur_pyramide.tscn",
+			"arrivee": {
+				"titre": "Le Cœur de la Pyramide",
+				"sous_titre": "Égypte · à l'intérieur de la Grande Pyramide",
+				"texte": "Le bruit du chantier s'éteint d'un coup derrière toi. L'air est chaud, immobile, et sent la pierre fraîchement taillée. Devant, un couloir plonge dans le noir. Quelque part, très loin au-dessus, quelque chose siffle."
+			}
 		}
 	},
 	"camps": {
@@ -1053,12 +1061,268 @@
 					"fin_chapitre": true
 				}
 			]
+		},
+		{
+			"numero": 8,
+			"titre": "Ce que le fleuve emporte",
+			"ou": "coeur_pyramide",
+			"etapes": [
+				{
+					"id": "ankhkhaf_rampe",
+					"ou": "village_batisseurs",
+					"objectif": "Au chantier, Ânkhkhaf t'attend devant le passage des ouvriers",
+					"pnj": "ankhkhaf_chantier",
+					"repliques": [
+						"L'Occidental ! Enfin. Depuis que tu es revenu du désert, le plateau tremble. Les haleurs ont lâché deux blocs ce matin.",
+						"Le bruit vient de dedans. De la pyramide. Hémiounou, l'architecte, dit que la chambre du roi « chante comme un serpent ».",
+						"J'ai fait ouvrir le passage des ouvriers, celui qu'on bouchera à la fin. Il mène au couloir qui descend.",
+						"Ne descends pas seul. Prends des compagnons, de bons bras. Ce qui vit là-dedans a mangé le nom de sept de mes hommes."
+					],
+					"apres": [
+						{
+							"masquer": "barriere_passage"
+						}
+					]
+				},
+				{
+					"id": "entrer_pyramide",
+					"ou": "village_batisseurs",
+					"objectif": "Entre dans la pyramide par le passage des ouvriers (donjon : venez à plusieurs)",
+					"arriver": "coeur_pyramide"
+				},
+				{
+					"id": "souterraine",
+					"objectif": "Descends le couloir jusqu'à la chambre souterraine : des cobras fracturés y grouillent",
+					"tuer": "cobra_fracture",
+					"nombre": 5,
+					"lieu": [
+						0,
+						-47
+					],
+					"apparition": {
+						"type": "cobra_fracture",
+						"position": [
+							0,
+							-47
+						],
+						"nombre": 5,
+						"rayon": 8,
+						"attaque": false
+					},
+					"recit": {
+						"titre": "La chambre jamais finie",
+						"texte": "Les tailleurs ont abandonné cette salle à moitié creusée. Sur la paroi, quelqu'un a peint en rouge : « Les Amis de Khéops ». En dessous, la peinture s'efface sous tes yeux."
+					}
+				},
+				{
+					"id": "emmures",
+					"objectif": "Remonte le couloir et va dans la chambre de la Reine : des bâtisseurs emmurés ont perdu leur nom, mets-les à terre",
+					"tuer": "oublie_pyramide",
+					"nombre": 3,
+					"lieu": [
+						34,
+						-2
+					],
+					"apparition": {
+						"type": "oublie_pyramide",
+						"position": [
+							34,
+							-2
+						],
+						"nombre": 3,
+						"rayon": 4,
+						"attaque": false
+					}
+				},
+				{
+					"id": "noms_emmures",
+					"objectif": "Rends leur nom aux trois bâtisseurs (F)",
+					"recolter": "nom_rendu",
+					"nombre": 3,
+					"recit": {
+						"titre": "Sekhem, Tjeti et Henout",
+						"texte": "Trois noms reviennent dans la pierre. Les bâtisseurs se relèvent en se tenant la tête, comme au sortir d'un long sommeil."
+					}
+				},
+				{
+					"id": "parler_sekhem",
+					"objectif": "Écoute Sekhem, le tailleur de pierre",
+					"pnj": "emmure_sekhem",
+					"repliques": [
+						"Sekhem. Je m'appelle Sekhem ! Merci, merci, l'Occidental...",
+						"On était descendus pour caler le bouchon de granit, au pied de la Grande Galerie. Une femme est arrivée avec ses gardes. Elle a ri, et puis...",
+						"Plus rien. Plus de nom, plus de jour. Seulement le noir et ce sifflement.",
+						"Le bouchon tient sur deux coins de bois. Retire-les et il glissera dans sa rainure : c'est nous qui l'avons posé. La galerie monte jusqu'au roi."
+					]
+				},
+				{
+					"id": "coins",
+					"objectif": "Au carrefour, retire les coins de bois du bouchon de granit",
+					"objet": "coins_bouchon",
+					"duree": 5,
+					"action": "Tu fais sauter les coins de bois… le bouchon glisse !",
+					"apres": [
+						{
+							"masquer": "bouchon_galerie"
+						}
+					]
+				},
+				{
+					"id": "galerie",
+					"objectif": "Monte la Grande Galerie : les gardes de l'Effaceuse la tiennent",
+					"tuer": "garde_pyramide",
+					"nombre": 4,
+					"lieu": [
+						0,
+						30
+					],
+					"apparition": {
+						"type": "garde_pyramide",
+						"position": [
+							0,
+							30
+						],
+						"nombre": 4,
+						"rayon": 2.5,
+						"attaque": false
+					}
+				},
+				{
+					"id": "djedi",
+					"objectif": "Djedi, le chef des gardes, barre le haut de la galerie",
+					"tuer": "garde_chef_djedi",
+					"nombre": 1,
+					"lieu": [
+						0,
+						56
+					],
+					"apparition": {
+						"type": "garde_chef_djedi",
+						"position": [
+							0,
+							56
+						],
+						"nombre": 1,
+						"rayon": 0.3,
+						"attaque": false
+					},
+					"phases": [
+						{
+							"seuil": 0.5,
+							"annonce": "Djedi appelle ses hommes",
+							"texte": "« À moi ! Elle paie double ce soir ! »",
+							"apparition": {
+								"type": "garde_pyramide",
+								"position": [
+									0,
+									48
+								],
+								"nombre": 2,
+								"rayon": 2,
+								"attaque": true
+							}
+						}
+					],
+					"recit": {
+						"titre": "Djedi est tombé",
+						"texte": "À sa ceinture, une radio grésille : « ...Djedi ? Réponds. Le sablier est prêt. » Une voix de femme. Calme."
+					}
+				},
+				{
+					"id": "herses",
+					"objectif": "Lève les trois herses de granit de l'antichambre",
+					"recolter": "herses",
+					"nombre": 3,
+					"duree": 4,
+					"action": "Tu fais glisser la herse dans sa rainure…"
+				},
+				{
+					"id": "isfet",
+					"objectif": "Affronte Isfet, le Serpent du Désordre, dans la chambre du Roi",
+					"tuer": "isfet",
+					"nombre": 1,
+					"lieu": [
+						0,
+						76
+					],
+					"apparition": {
+						"type": "isfet",
+						"position": [
+							-14.5,
+							68
+						],
+						"nombre": 1,
+						"rayon": 0.01,
+						"attaque": false
+					},
+					"phases": [
+						{
+							"seuil": 0.66,
+							"annonce": "Les noms s'effacent",
+							"texte": "Isfet siffle des mots oubliés : vos noms s'effacent ! Gravez-les sur les cartouches des murs (F).",
+							"apparition": {
+								"type": "cobra_fracture",
+								"position": [
+									0,
+									76
+								],
+								"nombre": 3,
+								"rayon": 6,
+								"attaque": true
+							}
+						}
+					],
+					"recit": {
+						"titre": "Isfet se défait",
+						"texte": "Le serpent se tord, se fend, et retombe en une pluie de sable et d'éclats violets. Dans la chambre du Roi, le silence revient. Il est presque doux."
+					}
+				},
+				{
+					"id": "fermer_isfet",
+					"objectif": "Referme la fracture majeure, derrière le sarcophage (reste immobile)",
+					"objet": "fracture_isfet",
+					"duree": 6,
+					"action": "La fracture majeure se referme…",
+					"apres": [
+						{
+							"cacher": "fracture_isfet"
+						},
+						{
+							"montrer": "merer_gizeh"
+						}
+					],
+					"recompense": [
+						{
+							"id": "plume_maat",
+							"nom": "Plume de Maât"
+						}
+					]
+				},
+				{
+					"id": "journal_merer",
+					"ou": "village_batisseurs",
+					"objectif": "Ressors de la pyramide : Merer t'attend au chantier",
+					"pnj": "merer_gizeh",
+					"repliques": [
+						"Tu es vivant ! Les haleurs disaient que tu étais retourné chez les morts, cette fois pour de bon.",
+						"Regarde là-haut. Ce matin, on a posé les derniers blocs de revêtement. Elle brille. On la voit depuis Memphis, à ce qu'on dit.",
+						"Et regarde mon journal : l'encre ne s'efface plus. Toutes les pages sont revenues. Les noms aussi.",
+						"J'ai écrit une dernière ligne, ce soir. Tu veux l'entendre ? « Jour 25. L'Occidental a aidé l'équipe. Il est reparti par le fleuve. »",
+						"Un jour, quelqu'un lira ça, peut-être. Dans mille ans. Il ne saura pas qui tu es. Mais il saura que tu étais là."
+					],
+					"fin_chapitre": true,
+					"recit": {
+						"titre": "Ce que le fleuve emporte",
+						"texte": "Le fleuve emporte tout : les blocs, les barques, les années. Mais pas ce qui est écrit. Le journal de Merer dormira 4 500 ans dans le sable d'un port de la mer Rouge... avant qu'on le retrouve."
+					}
+				}
+			]
 		}
 	],
 	"fin_provisoire": {
-		"chapitre": "LA SUITE ARRIVE BIENTÔT",
-		"objectif": "Chapitre 6 « La mémoire d'Hémiounou » : la suite arrive bientôt",
+		"chapitre": "L'ÉGYPTE EST SAUVÉE",
+		"objectif": "L'histoire de l'Égypte est réparée. La suite du voyage arrive bientôt.",
 		"titre": "Ce que le fleuve emporte",
-		"message": "Le carnet de Sablier est entre les mains de la Vigie. Mais au chantier, l'architecte Hémiounou a tout oublié de ses plans."
+		"message": "La Grande Pyramide brille au soleil, et le journal de Merer garde ton passage. Les chapitres 6 et 7 arrivent bientôt."
 	}
 }

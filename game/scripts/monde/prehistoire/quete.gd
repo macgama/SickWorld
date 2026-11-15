@@ -262,7 +262,7 @@ func _aller_a(numero: int) -> void:
 		if pnj != null:
 			pnj.repliques_speciales = PackedStringArray()
 	for objet in get_tree().get_nodes_in_group("objet_quete"):
-		if not objet.has_meta("secondaire"):
+		if not objet.has_meta("secondaire") and not objet.has_meta("donjon"):
 			objet.actif = false
 	etape = numero if numero >= 0 and numero < etapes.size() else -1
 	compteur = 0

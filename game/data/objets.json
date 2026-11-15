@@ -1124,6 +1124,10 @@
 				"couleur": "#c0302a"
 			}
 		},
+		"venin_cobra": {"nom": "Poche de venin de cobra", "type": "materiau", "rarete": "raffine", "description": "Les médecins de Gizeh s'en servent, très dilué, contre les morsures. Pésèshet en voudra sûrement.", "pile": 10, "epoque": "Égypte antique", "icone": {"forme": "dent", "couleur": "#c9b26a"}},
+		"ecaille_isfet": {"nom": "Écaille d'Isfet", "type": "materiau", "rarete": "historique", "description": "Du sable durci, veiné de cristal violet. Elle grince quand on la serre, comme si elle voulait encore se défaire.", "pile": 5, "epoque": "Inconnue", "icone": {"forme": "eclat", "couleur": "#8a5ad6"}},
+		"masse_djedi": {"nom": "Masse de cuivre de Djedi", "type": "equipement", "rarete": "rare", "description": "Le chef des gardes de Vera Lind la portait. Tête de cuivre martelé, manche gainé de cuir moderne : un mélange qui n'aurait jamais dû exister.", "emplacement": "arme_principale", "epoque": "Égypte antique", "stats": {"degats_pourcent": 14, "pv": 30}, "visuel": {"forme": "massue", "couleur": "#b87333"}},
+		"plume_maat": {"nom": "Plume de Maât", "type": "equipement", "rarete": "historique", "description": "Une plume d'autruche blanche, légère comme l'air, qui ne se salit jamais. Sur la balance des morts, Maât pèse les cœurs contre elle. Elle a remis le monde en ordre.", "emplacement": "relique", "epoque": "Égypte antique", "stats": {"pv": 90, "degats_pourcent": 10}, "icone": {"forme": "griffe", "couleur": "#f4f1e6"}},
 		"pain_meret": {
 			"nom": "Pain de Méret",
 			"type": "materiau",
@@ -1202,6 +1206,10 @@
 		"chacal_fracture": [{"objet": "eclat_de_fracture", "chance": 0.5}],
 		"garde_effaceuse": [{"objet": "radio_effaceur", "chance": 0.5}],
 		"garde_effaceuse_camp": [{"objet": "radio_effaceur", "chance": 0.3}],
+		"cobra_fracture": [{"objet": "eclat_de_fracture", "chance": 0.5}, {"objet": "venin_cobra", "chance": 0.4}],
+		"garde_pyramide": [{"objet": "radio_effaceur", "chance": 0.4}],
+		"garde_chef_djedi": [{"objet": "radio_effaceur", "chance": 1.0}, {"objet": "masse_djedi", "chance": 1.0}],
+		"isfet": [{"objet": "ecaille_isfet", "chance": 1.0}, {"objet": "eclat_de_fracture", "chance": 1.0, "quantite": [6, 9]}],
 		"loup": [
 			{
 				"objet": "croc_loup",
