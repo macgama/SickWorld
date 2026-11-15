@@ -386,13 +386,14 @@ func _objet_fini(q: Dictionary, objet: Node3D) -> void:
 
 func _terminer_etape(q: Dictionary) -> void:
 	var e := etape_de(q)
+	var numero := etat_quete(q.id)
 	_appliquer_effet(e, true)
 	etat[q.id] = etat_quete(q.id) + 1
 	compteurs[q.id] = 0
 	if etat_quete(q.id) >= (q.etapes as Array).size():
 		etat[q.id] = FINIE
 		if q.has("recompense"):
-			_quete._donner_recompense(q.recompense)
+			_quete._annoncer_recompense(q.recompense)
 		# Le titre lui-même est donné par la progression (data/progression.json).
 		if q.has("titre_obtenu") and not titres.has(q.titre_obtenu):
 			titres.append(q.titre_obtenu)
@@ -401,7 +402,7 @@ func _terminer_etape(q: Dictionary) -> void:
 		_commencer_etape(q, true)
 	var progression := ProgressionJoueur.du_joueur_local(get_tree())
 	if progression != null:
-		progression.secondaire_faite(ile, String(q.id), String(e.get("ou", "")), etat_quete(q.id) == FINIE)
+		progression.secondaire_faite(ile, String(q.id), numero, etat_quete(q.id) == FINIE)
 	_sauvegarder()
 	quete_changee.emit(q.id)
 	_rafraichir()

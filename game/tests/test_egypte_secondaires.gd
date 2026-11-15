@@ -18,6 +18,7 @@ var _sec
 var _dialogue
 ## Les sacs du profil avant le test (vidés pendant le test, rendus à la fin).
 var _sacs_avant := {}
+var _progression_avant := {}
 
 
 func _verifier(condition: bool, message: String) -> void:
@@ -185,6 +186,11 @@ func _lancer() -> void:
 	for i in (inventaire.etat["cases"] as Array).size():
 		inventaire.etat["cases"][i] = {}
 	inventaire._sauvegarder()
+	# Une progression sans quête notée, pour que le serveur redonne les récompenses
+	# (il ne les donne qu'une fois par personnage) ; elle est rendue à la fin.
+	var progression = _joueur.get_node("Progression")
+	_progression_avant = progression.etat.duplicate(true)
+	progression.etat["faits"] = []
 	_verifier(_sec != null, "les quêtes secondaires de l'Égypte sont chargées")
 	if _sec == null:
 		quit(1)
@@ -329,6 +335,9 @@ func _lancer() -> void:
 	var inv = _joueur.get_node("Inventaire")
 	inv.etat = _sacs_avant
 	inv._sauvegarder()
+	var prog = _joueur.get_node("Progression")
+	prog.etat = _progression_avant
+	prog._sauvegarder()
 	_scene.queue_free()
 	await _attendre(5)
 	DirAccess.remove_absolute(ProjectSettings.globalize_path(FICHIER))

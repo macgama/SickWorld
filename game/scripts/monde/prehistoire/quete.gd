@@ -344,7 +344,7 @@ func _appliquer_apres(e: Dictionary, anime: bool) -> void:
 	for effet in e.get("apres", []):
 		_appliquer_effet(effet, anime)
 	if anime and e.has("recompense"):
-		_donner_recompense(e["recompense"])
+		_annoncer_recompense(e["recompense"])
 	if anime:
 		var progression := ProgressionJoueur.du_joueur_local(get_tree())
 		if progression != null:
@@ -407,18 +407,13 @@ func _appliquer_effet(effet: Dictionary, anime: bool) -> void:
 			ile.tempete(bool(effet["tempete"]))
 
 
-## Ajoute des objets dans les sacs du joueur (ex. [{"id": "lance_silex", "n": 1}]).
-func _donner_recompense(objets: Array) -> void:
-	var joueur := get_tree().get_first_node_in_group("joueur_local")
-	var inventaire = joueur.get_node_or_null("Inventaire") if joueur != null else null
+## Annonce une récompense (ex. [{"id": "lance_silex", "nom": "Lance de silex"}]).
+## Les objets eux-mêmes sont donnés par le SERVEUR, à chaque joueur qui fait la quête :
+## voir ProgressionJoueur.etape_faite / secondaire_faite (et Recompenses).
+func _annoncer_recompense(objets: Array) -> void:
 	var noms: PackedStringArray = []
 	for o in objets:
 		noms.append(String(o.get("nom", o["id"])))
-	if inventaire != null and multiplayer.is_server():
-		var liste: Array = []
-		for o in objets:
-			liste.append({"id": o["id"], "n": int(o.get("n", 1))})
-		inventaire.recevoir(liste)
 	_annoncer("Récompense", ", ".join(noms))
 
 

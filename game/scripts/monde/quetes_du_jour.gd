@@ -358,7 +358,7 @@ func rendre(c: String) -> void:
 	if int(s["periode"]) == periode(String(s["genre"])):
 		rendues[c] = true
 	_sauvegarder()
-	_donner_recompense(m.get("recompense", []))
+	_donner_recompense(String(s["id"]), int(s["periode"]))
 	annoncer("Mission accomplie", String(m.get("titre", "")))
 	if String(s["genre"]) == "quotidienne":
 		_avancer_partout("rendre", {})
@@ -435,17 +435,12 @@ func texte_recompense(m: Dictionary) -> String:
 	return ", ".join(morceaux)
 
 
-func _donner_recompense(objets: Array) -> void:
-	var joueur := get_tree().get_first_node_in_group("joueur_local")
-	var inventaire = joueur.get_node_or_null("Inventaire") if joueur != null else null
-	if inventaire == null or not multiplayer.is_server():
-		return
-	var a_donner: Array = []
-	for o in objets:
-		a_donner.append({"id": String(o["id"]), "n": int(o.get("n", 1))})
-	var restants: Array = inventaire.recevoir(a_donner)
-	if not restants.is_empty():
-		annoncer("Sacs pleins", "Une partie de la récompense n'a pas trouvé de place.")
+## La récompense est donnée par le SERVEUR à ce joueur (hôte ou non), d'après les données
+## de la mission : voir ProgressionJoueur.mission_du_jour_rendue (et Recompenses).
+func _donner_recompense(id: String, periode_mission: int) -> void:
+	var progression := ProgressionJoueur.du_joueur_local(get_tree())
+	if progression != null:
+		progression.mission_du_jour_rendue(id, periode_mission)
 
 
 func _apres_changement() -> void:

@@ -47,6 +47,20 @@ func _scene() -> String:
 	return current_scene.scene_file_path if current_scene != null else ""
 
 
+func _progression() -> Node:
+	var j := get_first_node_in_group("joueur_local")
+	return j.get_node_or_null("Progression") if j != null else null
+
+
+## Nombre d'éclats de fracture dans les sacs du personnage local (-1 = sacs pas encore reçus).
+func _eclats() -> int:
+	var j := get_first_node_in_group("joueur_local")
+	var inv = j.get_node_or_null("Inventaire") if j != null else null
+	if inv == null or inv.etat.is_empty():
+		return -1
+	return preload("res://scripts/objets/artisanat.gd").compter(inv.etat, "eclat_de_fracture")
+
+
 func _connecte() -> bool:
 	var pair := root.multiplayer.multiplayer_peer
 	return pair is ENetMultiplayerPeer and pair.get_connection_status() == MultiplayerPeer.CONNECTION_CONNECTED \
@@ -148,15 +162,29 @@ func _membre(reseau, social, port_ville: int) -> void:
 	_verifier(await _attendre(func(): return _a_recu(social, "groupe", "grotte"), 10.0), "canal Groupe : message d'Alice reçu")
 	social.saisir("/gr Salut chef")
 	social.saisir("/w alice un secret")
+	# Ce qu'on a dans les sacs en ville (pour vérifier qu'on le garde en donjon).
+	var xp_ville := int(get_first_node_in_group("joueur_local").get_node("Progression").etat.get("xp", -1))
+	var eclats_ville := _eclats()
 	# On attend le départ en donjon décidé par Alice.
 	_verifier(await _attendre(func(): return _scene().ends_with("grotte.tscn"), 120.0), "emmené dans la Grande Grotte avec le groupe")
 	_verifier(await _attendre(_connecte, 60.0), "connecté au serveur du donjon")
 	_verifier(reseau.en_instance(), "on est bien en donjon")
 	_verifier(await _attendre(func(): return _a_recu(social, "groupe", "Dans la grotte"), 30.0), "canal Groupe dans le donjon")
+	# Récompenses en donjon : on a NOS sacs de la ville, et ce qu'on gagne ici nous reste.
+	await _attendre(func(): return _progression() != null and _progression().etat.has("xp") and _eclats() >= 0, 20.0)
+	var prog := _progression()
+	_verifier(prog != null and int(prog.etat.get("xp", -2)) == xp_ville and _eclats() == eclats_ville,
+			"donjon : on a gardé notre XP et nos sacs de la ville (%d XP, %d éclats)" % [xp_ville, eclats_ville])
+	if prog != null:
+		prog.evenement_fait("prehistoire", "faille_s_ouvre", "or", true)
+	_verifier(await _attendre(func(): return _eclats() == eclats_ville + 4, 10.0),
+			"donjon : un membre (pas le chef) reçoit sa propre récompense")
 	# Alice repart : on la suit peu après.
 	await _attendre(func(): return get_nodes_in_group("joueur").size() == 1, 30.0)
 	social.quitter_le_donjon()
 	_verifier(await _attendre(func(): return _scene().ends_with("hikari_bay.tscn"), 60.0), "retour à Hikari Bay")
 	_verifier(await _attendre(_connecte, 60.0), "reconnecté à la ville")
+	_verifier(await _attendre(func(): return _eclats() == eclats_ville + 4, 20.0),
+			"de retour en ville, on garde ce qu'on a gagné dans le donjon")
 	_verifier(await _attendre(func(): return _a_recu(social, "systeme", "dissous"), 30.0), "Alice quitte : le groupe est dissous")
 	await _secondes(2.0)

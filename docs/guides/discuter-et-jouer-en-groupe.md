@@ -34,6 +34,8 @@ Le serveur vérifie tout : 200 lettres au plus par message, et pas plus de 6 mes
 
 **Butin partagé** : quand un ennemi meurt, chaque membre du groupe à moins de 60 m reçoit **son propre** sac de butin, même s'il n'a pas frappé. Personne ne vole le butin des autres.
 
+**Récompenses de quêtes pour chacun** : en multijoueur, chaque joueur reçoit **ses propres** récompenses, qu'il soit l'hôte ou non : objets et XP des étapes de la quête principale, des quêtes secondaires, des événements publics, des missions des habitants du hub et des missions du jour (insignes de la Vigie compris). C'est le serveur qui donne la récompense, d'après les données du jeu, et une seule fois par quête (une fois par jour pour une mission du jour). Ce que tu gagnes dans un donjon reste dans tes sacs quand tu en ressors.
+
 ## Entrer en donjon avec son groupe
 
 1. Formez votre groupe en ville (Hikari Bay).
@@ -64,3 +66,4 @@ Les deux fenêtres utilisent le même personnage enregistré : le serveur ne lai
 - Les donjons proposés et la taille des groupes se règlent dans `game/data/donjons.json`.
 - Limites actuelles : dans un donjon, le canal Général et les chuchotements ne touchent que les joueurs du donjon (pas ceux restés en ville). Les guildes restent enregistrées sur ton PC (inviter des membres dans une guilde viendra plus tard, avec Nakama).
 - Tests : `game/tests/test_groupe_local.gd` (sans réseau) et `game/tests/test_social.gd` (deux joueurs, voir l'en-tête du fichier).
+- Récompenses : chaque quête faite chez un joueur envoie une demande au serveur (`scripts/personnage/progression_joueur.gd`, fonctions `etape_faite`, `secondaire_faite`, `evenement_fait`, `mission_faite`, `mission_du_jour_rendue`). Le serveur retrouve la récompense dans `game/data/` (`scripts/personnage/recompenses.gd`), jamais dans ce que le joueur envoie. Test à plusieurs joueurs : `game/tests/test_recompenses_groupe.gd` (voir l'en-tête du fichier).
