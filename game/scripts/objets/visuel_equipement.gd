@@ -331,6 +331,79 @@ static func construire(forme: String, couleur: Color, cote := 1.0) -> Node3D:
 			anneau.inner_radius = 0.015
 			anneau.outer_radius = 0.025
 			_piece(n, anneau, or_, Vector3(0, 0.11, 0), Vector3.ONE, Vector3(90, 0, 0))
+		# --- Récolte (data/recolte.json) et plats du Chef Goro ---
+		"plante":
+			# Une botte de tiges liées (lichen, papyrus, lin).
+			var tige := _materiau(couleur, 0.85)
+			for i in 7:
+				var a := (i - 3) * 6.0
+				_piece(n, _cylindre(0.008, 0.012, 0.34), tige, Vector3((i - 3) * 0.012, 0, 0), Vector3.ONE, Vector3(0, 0, a))
+			_piece(n, _cylindre(0.035, 0.035, 0.03), _materiau(Color(0.45, 0.32, 0.18)), Vector3(0, -0.04, 0))
+			_piece(n, _sphere(0.06), _materiau(couleur.lightened(0.2), 0.9), Vector3(0, 0.17, 0), Vector3(1.6, 0.6, 0.8))
+		"ecorce":
+			# Un rouleau d'écorce de bouleau, blanc strié de noir.
+			var blanc := _materiau(couleur, 0.7)
+			blanc.cull_mode = BaseMaterial3D.CULL_DISABLED
+			_piece(n, _cylindre(0.07, 0.07, 0.26), blanc, Vector3.ZERO, Vector3.ONE, Vector3(0, 0, 70))
+			for i in 4:
+				_piece(n, _boite(Vector3(0.012, 0.03, 0.005)), _materiau(Color(0.12, 0.1, 0.08)), Vector3(-0.08 + i * 0.05, 0.03 + i * 0.017, 0.07))
+		"fleur":
+			var vert := _materiau(Color(0.3, 0.45, 0.22), 0.9)
+			_piece(n, _cylindre(0.008, 0.01, 0.3), vert, Vector3(0, -0.05, 0))
+			for i in 6:
+				var a := deg_to_rad(i * 60.0)
+				_piece(n, _sphere(0.045), _materiau(couleur, 0.6), Vector3(cos(a) * 0.05, 0.11, sin(a) * 0.05), Vector3(1.3, 0.35, 0.8))
+			_piece(n, _sphere(0.03), _materiau(Color(0.95, 0.8, 0.3), 0.6), Vector3(0, 0.12, 0))
+		"champignon":
+			_piece(n, _sphere(0.14, true), _materiau(couleur, 0.95), Vector3(0, 0, 0), Vector3(1.2, 0.7, 0.9))
+			_piece(n, _cylindre(0.15, 0.16, 0.025), _materiau(couleur.lightened(0.35), 0.95), Vector3(0, -0.005, 0), Vector3(1.2, 1, 0.9))
+		"minerai":
+			var roche := _materiau(Color(0.38, 0.36, 0.33), 0.9)
+			var caillou := SphereMesh.new()
+			caillou.radius = 0.11
+			caillou.height = 0.18
+			caillou.radial_segments = 7
+			caillou.rings = 4
+			_piece(n, caillou, roche, Vector3.ZERO, Vector3(1.3, 1, 1), Vector3(10, 30, 20))
+			for i in 5:
+				_piece(n, _sphere(0.04), _materiau(couleur, 0.35, 0.4), Vector3(-0.07 + i * 0.035, 0.02 + (i % 2) * 0.04, 0.08), Vector3(1, 0.7, 0.5))
+		"cristal":
+			var pierre := _materiau(couleur, 0.1, 0.3)
+			pierre.emission_enabled = true
+			pierre.emission = couleur * 0.35
+			for i in 3:
+				var pointe := CylinderMesh.new()
+				pointe.top_radius = 0.0
+				pointe.bottom_radius = 0.045
+				pointe.height = 0.24 - i * 0.05
+				pointe.radial_segments = 6
+				_piece(n, pointe, pierre, Vector3((i - 1) * 0.055, -i * 0.02, 0), Vector3.ONE, Vector3(0, 0, (1 - i) * 22))
+		"poisson":
+			var ecailles := _materiau(couleur, 0.35, 0.25)
+			_piece(n, _sphere(0.1), ecailles, Vector3.ZERO, Vector3(2.0, 0.85, 0.5))
+			var queue := CylinderMesh.new()
+			queue.top_radius = 0.0
+			queue.bottom_radius = 0.08
+			queue.height = 0.1
+			queue.radial_segments = 4
+			_piece(n, queue, _materiau(couleur.darkened(0.25), 0.5), Vector3(-0.23, 0, 0), Vector3(1, 1, 0.25), Vector3(0, 0, 90))
+			_piece(n, _sphere(0.015), _materiau(Color(0.05, 0.05, 0.05), 0.2), Vector3(0.15, 0.02, 0.045))
+			_piece(n, _boite(Vector3(0.1, 0.04, 0.01)), _materiau(couleur.darkened(0.3), 0.5), Vector3(0, 0.09, 0), Vector3.ONE, Vector3(0, 0, -10))
+		"ambre":
+			var gomme := _materiau(couleur, 0.15)
+			gomme.emission_enabled = true
+			gomme.emission = couleur * 0.3
+			_piece(n, _sphere(0.08), gomme, Vector3.ZERO, Vector3(1.2, 1, 0.9))
+			_piece(n, _sphere(0.05), gomme, Vector3(0.1, -0.03, 0.02))
+			_piece(n, _sphere(0.04), gomme, Vector3(-0.08, -0.05, 0.03))
+		"pierre":
+			_piece(n, _sphere(0.12), _materiau(couleur, 0.8), Vector3.ZERO, Vector3(1.3, 0.75, 1.0), Vector3(10, 20, 0))
+		"bol":
+			# Un bol fumant du Ramen Kaminari.
+			_piece(n, _sphere(0.15, true), _materiau(Color(0.12, 0.1, 0.1), 0.4), Vector3(0, 0, 0), Vector3(1, 0.7, 1), Vector3(180, 0, 0))
+			_piece(n, _cylindre(0.14, 0.14, 0.01), _materiau(couleur, 0.5), Vector3(0, -0.01, 0))
+			_piece(n, _boite(Vector3(0.1, 0.015, 0.05)), _materiau(couleur.lightened(0.3), 0.6), Vector3(0.03, 0.0, 0.02), Vector3.ONE, Vector3(0, 25, 0))
+			_piece(n, _cylindre(0.004, 0.004, 0.3), _materiau(Color(0.75, 0.6, 0.4), 0.6), Vector3(-0.02, 0.06, 0), Vector3.ONE, Vector3(0, 0, 75))
 		_:
 			n.free()
 			return null

@@ -1197,6 +1197,562 @@
 				"forme": "collier",
 				"couleur": "#c8d0d8"
 			}
+		},
+		"lichen_renne": {
+			"nom": "Lichen des rennes",
+			"type": "materiau",
+			"rarete": "commun",
+			"description": "Le lichen que broutent les rennes tout l'hiver. Séché, il prend feu à la première étincelle ; bouilli, il nourrit aussi les humains.",
+			"pile": 20,
+			"epoque": "Préhistoire",
+			"recolte": "cueillette",
+			"icone": {
+				"forme": "plante",
+				"couleur": "#c9cfb0"
+			}
+		},
+		"ecorce_bouleau": {
+			"nom": "Écorce de bouleau",
+			"type": "materiau",
+			"rarete": "commun",
+			"description": "Chauffée à l'abri de l'air, elle donne le brai : la première colle de l'humanité. Les Néandertaliens s'en servaient déjà, il y a plus de 200 000 ans, pour fixer leurs pointes de pierre.",
+			"pile": 20,
+			"epoque": "Préhistoire",
+			"recolte": "cueillette",
+			"icone": {
+				"forme": "ecorce",
+				"couleur": "#ece8dc"
+			}
+		},
+		"achillee": {
+			"nom": "Achillée millefeuille",
+			"type": "materiau",
+			"rarete": "raffine",
+			"description": "Une petite fleur blanche qui arrête les saignements. On en a retrouvé des traces dans la plaque dentaire de Néandertaliens, à El Sidrón en Espagne.",
+			"pile": 20,
+			"epoque": "Préhistoire",
+			"recolte": "cueillette",
+			"icone": {
+				"forme": "fleur",
+				"couleur": "#f3f0e4"
+			}
+		},
+		"amadouvier": {
+			"nom": "Amadouvier",
+			"type": "materiau",
+			"rarete": "raffine",
+			"description": "Un champignon dur qui pousse sur les bouleaux. Ötzi, l'homme des glaces, en portait dans sa ceinture : avec un silex et de la pyrite, il donne du feu.",
+			"pile": 20,
+			"epoque": "Préhistoire",
+			"recolte": "cueillette",
+			"icone": {
+				"forme": "champignon",
+				"couleur": "#8a6a48"
+			}
+		},
+		"pyrite": {
+			"nom": "Pyrite",
+			"type": "materiau",
+			"rarete": "raffine",
+			"description": "« La pierre de feu ». Frappée contre un silex, elle crache des étincelles. Son éclat doré a trompé bien des chercheurs d'or : on l'appelle aussi « l'or des fous ».",
+			"pile": 20,
+			"epoque": "Préhistoire",
+			"recolte": "minage",
+			"icone": {
+				"forme": "minerai",
+				"couleur": "#c9a24a"
+			}
+		},
+		"cristal_de_roche": {
+			"nom": "Cristal de roche",
+			"type": "materiau",
+			"rarete": "rare",
+			"description": "Du quartz pur et transparent. Les chasseurs l'emportaient à des centaines de kilomètres de leurs montagnes, comme un trésor.",
+			"pile": 20,
+			"epoque": "Préhistoire",
+			"recolte": "minage",
+			"icone": {
+				"forme": "cristal",
+				"couleur": "#e8f4ff"
+			}
+		},
+		"omble_arctique": {
+			"nom": "Omble arctique",
+			"type": "materiau",
+			"rarete": "commun",
+			"description": "Le poisson des eaux glacées, au ventre rouge vif. Il vit plus au nord que n'importe quel autre poisson d'eau douce.",
+			"pile": 20,
+			"epoque": "Préhistoire",
+			"recolte": "peche",
+			"icone": {
+				"forme": "poisson",
+				"couleur": "#c86a4a"
+			}
+		},
+		"saumon": {
+			"nom": "Saumon",
+			"type": "materiau",
+			"rarete": "commun",
+			"description": "Il remonte les rivières chaque automne pour pondre. Il y a 25 000 ans, quelqu'un en a sculpté un grandeur nature au plafond de l'abri du Poisson, en Dordogne. Sa peau tannée fait un cuir souple et imperméable.",
+			"pile": 20,
+			"epoque": "Préhistoire",
+			"recolte": "peche",
+			"icone": {
+				"forme": "poisson",
+				"couleur": "#a0a8ac"
+			}
+		},
+		"brochet": {
+			"nom": "Brochet",
+			"type": "materiau",
+			"rarete": "raffine",
+			"description": "Le loup des rivières : il attend, immobile dans les herbes, puis jaillit. Sa gueule compte plus de 700 dents.",
+			"pile": 20,
+			"epoque": "Préhistoire",
+			"recolte": "peche",
+			"icone": {
+				"forme": "poisson",
+				"couleur": "#6a7a4a"
+			}
+		},
+		"tige_papyrus": {
+			"nom": "Tige de papyrus",
+			"type": "materiau",
+			"rarete": "commun",
+			"description": "On en fait des barques, des sandales, des paniers, des cordes… et bien sûr des feuilles pour écrire. Le journal de Merer, le plus vieux papyrus écrit connu, parle justement des pierres de la Grande Pyramide.",
+			"pile": 20,
+			"epoque": "Égypte antique",
+			"recolte": "cueillette",
+			"icone": {
+				"forme": "plante",
+				"couleur": "#6f9a3a"
+			}
+		},
+		"lin": {
+			"nom": "Lin",
+			"type": "materiau",
+			"rarete": "commun",
+			"description": "Arraché, roui, peigné, filé : la fibre du lin habille toute l'Égypte, des paysans au pharaon. Les momies sont enveloppées de centaines de mètres de lin.",
+			"pile": 20,
+			"epoque": "Égypte antique",
+			"recolte": "cueillette",
+			"icone": {
+				"forme": "plante",
+				"couleur": "#c9b87a"
+			}
+		},
+		"lotus_bleu": {
+			"nom": "Lotus bleu",
+			"type": "materiau",
+			"rarete": "raffine",
+			"description": "Il s'ouvre au lever du soleil et se referme le soir. Pour les Égyptiens, le soleil lui-même est né d'un lotus, au premier matin du monde.",
+			"pile": 20,
+			"epoque": "Égypte antique",
+			"recolte": "cueillette",
+			"icone": {
+				"forme": "fleur",
+				"couleur": "#6a86e8"
+			}
+		},
+		"gomme_acacia": {
+			"nom": "Gomme d'acacia",
+			"type": "materiau",
+			"rarete": "raffine",
+			"description": "La sève durcie de l'acacia du désert. Une colle, un liant pour l'encre et les fards, un remède contre la toux : on l'appelle aujourd'hui « gomme arabique ».",
+			"pile": 20,
+			"epoque": "Égypte antique",
+			"recolte": "cueillette",
+			"icone": {
+				"forme": "ambre",
+				"couleur": "#d8a040"
+			}
+		},
+		"natron": {
+			"nom": "Natron",
+			"type": "materiau",
+			"rarete": "commun",
+			"description": "Un sel qui se dépose au bord des lacs du désert. Il sert à laver, à conserver le poisson, à fabriquer la faïence… et à préparer les momies.",
+			"pile": 20,
+			"epoque": "Égypte antique",
+			"recolte": "minage",
+			"icone": {
+				"forme": "minerai",
+				"couleur": "#efe9dc"
+			}
+		},
+		"malachite": {
+			"nom": "Malachite",
+			"type": "materiau",
+			"rarete": "raffine",
+			"description": "La pierre verte du cuivre. Broyée, elle devient le fard vert qui protège les yeux du soleil et des mouches ; fondue, elle donne le métal des outils.",
+			"pile": 20,
+			"epoque": "Égypte antique",
+			"recolte": "minage",
+			"icone": {
+				"forme": "minerai",
+				"couleur": "#2e9a5a"
+			}
+		},
+		"turquoise": {
+			"nom": "Turquoise",
+			"type": "materiau",
+			"rarete": "rare",
+			"description": "La pierre d'Hathor, « la dame de la turquoise ». Les expéditions de pharaon allaient la chercher jusque dans les mines du Sinaï.",
+			"pile": 20,
+			"epoque": "Égypte antique",
+			"recolte": "minage",
+			"icone": {
+				"forme": "cristal",
+				"couleur": "#40c0c0"
+			}
+		},
+		"tilapia": {
+			"nom": "Tilapia du Nil",
+			"type": "materiau",
+			"rarete": "commun",
+			"description": "Le poisson le plus pêché du Nil. Il garde ses petits dans sa bouche et les recrache vivants : les Égyptiens y voyaient le symbole de la renaissance.",
+			"pile": 20,
+			"epoque": "Égypte antique",
+			"recolte": "peche",
+			"icone": {
+				"forme": "poisson",
+				"couleur": "#8a9aa0"
+			}
+		},
+		"poisson_chat": {
+			"nom": "Poisson-chat du Nil",
+			"type": "materiau",
+			"rarete": "raffine",
+			"description": "Un poisson à moustaches qui nage souvent… sur le dos. On le reconnaît, ainsi retourné, sur les murs des tombes de Saqqarah.",
+			"pile": 20,
+			"epoque": "Égypte antique",
+			"recolte": "peche",
+			"icone": {
+				"forme": "poisson",
+				"couleur": "#5a5048"
+			}
+		},
+		"perche_nil": {
+			"nom": "Perche du Nil",
+			"type": "materiau",
+			"rarete": "rare",
+			"description": "Un géant du fleuve, qui peut peser autant qu'un homme. Les pêcheurs de Gizeh la ramènent à deux, accrochée à une perche.",
+			"pile": 10,
+			"epoque": "Égypte antique",
+			"recolte": "peche",
+			"icone": {
+				"forme": "poisson",
+				"couleur": "#b0a888"
+			}
+		},
+		"bouillon_omble": {
+			"nom": "Bouillon d'omble au lichen",
+			"type": "consommable",
+			"rarete": "commun",
+			"description": "Le Chef Goro a passé une nuit sur ce bouillon : « Le lichen, ça donne un goût de forêt sous la neige. Mange, agent. »",
+			"pile": 10,
+			"epoque": "Préhistoire",
+			"repas": {
+				"duree": 1800,
+				"stats": {
+					"pv": 25
+				}
+			},
+			"icone": {
+				"forme": "bol",
+				"couleur": "#d8b080"
+			}
+		},
+		"saumon_fume": {
+			"nom": "Saumon fumé au bouleau",
+			"type": "consommable",
+			"rarete": "raffine",
+			"description": "Fumé lentement au-dessus d'un feu d'écorce de bouleau, comme au camp d'été du clan. Le Chef jure qu'il n'a rien changé à la recette.",
+			"pile": 10,
+			"epoque": "Préhistoire",
+			"repas": {
+				"duree": 1800,
+				"stats": {
+					"degats_pourcent": 3
+				}
+			},
+			"icone": {
+				"forme": "bol",
+				"couleur": "#e0805a"
+			}
+		},
+		"brochet_achillee": {
+			"nom": "Brochet grillé à l'achillée",
+			"type": "consommable",
+			"rarete": "raffine",
+			"description": "Amer, puissant, inoubliable. « L'achillée, c'est pour le courage », dit le Chef en servant.",
+			"pile": 10,
+			"epoque": "Préhistoire",
+			"repas": {
+				"duree": 1800,
+				"stats": {
+					"critique_pourcent": 3
+				}
+			},
+			"icone": {
+				"forme": "bol",
+				"couleur": "#c8c090"
+			}
+		},
+		"tilapia_natron": {
+			"nom": "Tilapia salé au natron",
+			"type": "consommable",
+			"rarete": "raffine",
+			"description": "Salé et séché au soleil comme sur les quais du Port des Marais. Les bâtisseurs en emportaient sur le chantier.",
+			"pile": 10,
+			"epoque": "Égypte antique",
+			"repas": {
+				"duree": 1800,
+				"stats": {
+					"pv": 45
+				}
+			},
+			"icone": {
+				"forme": "bol",
+				"couleur": "#c8b890"
+			}
+		},
+		"poisson_chat_lotus": {
+			"nom": "Poisson-chat au lotus bleu",
+			"type": "consommable",
+			"rarete": "raffine",
+			"description": "Cuit à l'étouffée dans une feuille de lotus. Le parfum calme les nerfs avant le combat.",
+			"pile": 10,
+			"epoque": "Égypte antique",
+			"repas": {
+				"duree": 1800,
+				"stats": {
+					"reduction_pourcent": 3
+				}
+			},
+			"icone": {
+				"forme": "bol",
+				"couleur": "#7a90d0"
+			}
+		},
+		"ramen_perche": {
+			"nom": "Ramen Kaminari à la perche du Nil",
+			"type": "consommable",
+			"rarete": "rare",
+			"description": "Le plat signature du Chef Goro : un bouillon de dix heures, des nouilles maison et de la perche du Nil grillée. « Ça, c'est un repas d'agent. »",
+			"pile": 10,
+			"epoque": "Égypte antique",
+			"repas": {
+				"duree": 1800,
+				"stats": {
+					"pv": 30,
+					"degats_pourcent": 4
+				}
+			},
+			"icone": {
+				"forme": "bol",
+				"couleur": "#f0c060"
+			}
+		},
+		"hache_silex": {
+			"nom": "Hache de silex emmanchée",
+			"type": "equipement",
+			"rarete": "raffine",
+			"description": "Une lame de silex collée au brai de bouleau dans un manche en bois de renne. La colle a 200 000 ans d'avance sur tout le reste.",
+			"emplacement": "arme_principale",
+			"epoque": "Préhistoire",
+			"stats": {
+				"degats_pourcent": 9,
+				"pv": 15
+			},
+			"visuel": {
+				"forme": "massue",
+				"couleur": "#6a645a"
+			}
+		},
+		"pendentif_cristal": {
+			"nom": "Pendentif de cristal de roche",
+			"type": "equipement",
+			"rarete": "rare",
+			"description": "Un cristal transparent, percé avec patience et monté sur un tendon. Il attrape la lumière du feu.",
+			"emplacement": "bijou",
+			"epoque": "Préhistoire",
+			"stats": {
+				"critique_pourcent": 3,
+				"pv": 15
+			},
+			"visuel": {
+				"forme": "collier",
+				"couleur": "#e8f4ff"
+			}
+		},
+		"necessaire_feu": {
+			"nom": "Nécessaire à feu",
+			"type": "equipement",
+			"rarete": "rare",
+			"description": "Un rognon de pyrite, un éclat de silex et de l'amadou, roulés dans un étui de cuir : de quoi faire du feu partout, même sous la tempête.",
+			"emplacement": "relique",
+			"epoque": "Préhistoire",
+			"stats": {
+				"pv": 25,
+				"degats_pourcent": 3
+			},
+			"icone": {
+				"forme": "minerai",
+				"couleur": "#c9a24a"
+			}
+		},
+		"gants_peau_saumon": {
+			"nom": "Gants en peau de saumon",
+			"type": "equipement",
+			"rarete": "raffine",
+			"description": "Tannée, la peau de poisson devient un cuir souple et imperméable. Des peuples du Grand Nord en cousaient encore au XXe siècle.",
+			"emplacement": "mains",
+			"epoque": "Préhistoire",
+			"stats": {
+				"pv": 20,
+				"reduction_pourcent": 2
+			},
+			"visuel": {
+				"forme": "brassards",
+				"couleur": "#9aa0a0"
+			}
+		},
+		"bottes_peau_saumon": {
+			"nom": "Bottes en peau de poisson",
+			"type": "equipement",
+			"rarete": "raffine",
+			"description": "Cousues en peau de saumon et d'omble, doublées de lichen sec. Les pieds restent au sec jusque dans la rivière.",
+			"emplacement": "pieds",
+			"epoque": "Préhistoire",
+			"stats": {
+				"pv": 20,
+				"reduction_pourcent": 2
+			},
+			"visuel": {
+				"forme": "bottes_fourrure",
+				"couleur": "#8a9090"
+			}
+		},
+		"panier_ecorce": {
+			"nom": "Panier en écorce de bouleau",
+			"type": "sac",
+			"rarete": "raffine",
+			"description": "Plié et cousu d'une seule pièce d'écorce, léger comme une plume. Ajoute 10 places.",
+			"places": 10,
+			"epoque": "Préhistoire",
+			"icone": {
+				"forme": "sac",
+				"couleur": "#e6dfcc"
+			}
+		},
+		"hache_cuivre": {
+			"nom": "Hache de cuivre",
+			"type": "equipement",
+			"rarete": "rare",
+			"description": "La malachite fondue au feu de charbon, coulée dans un moule de pierre et martelée. Le métal des bâtisseurs de pyramides.",
+			"emplacement": "arme_principale",
+			"epoque": "Égypte antique",
+			"stats": {
+				"degats_pourcent": 13,
+				"pv": 25
+			},
+			"visuel": {
+				"forme": "massue",
+				"couleur": "#b87333"
+			}
+		},
+		"collier_turquoise": {
+			"nom": "Collier de turquoises",
+			"type": "equipement",
+			"rarete": "rare",
+			"description": "Des perles de turquoise du Sinaï enfilées sur un fil de lin, avec un fermoir de malachite.",
+			"emplacement": "bijou",
+			"epoque": "Égypte antique",
+			"stats": {
+				"pv": 35,
+				"critique_pourcent": 2
+			},
+			"visuel": {
+				"forme": "collier",
+				"couleur": "#40c0c0"
+			}
+		},
+		"amulette_faience": {
+			"nom": "Amulette de faïence bleue",
+			"type": "equipement",
+			"rarete": "raffine",
+			"description": "Du quartz broyé, du natron et un peu de cuivre : cuite, la pâte se couvre toute seule d'un vernis bleu brillant. C'est la « faïence égyptienne ».",
+			"emplacement": "bijou",
+			"epoque": "Égypte antique",
+			"stats": {
+				"pv": 25,
+				"reduction_pourcent": 1
+			},
+			"visuel": {
+				"forme": "collier",
+				"couleur": "#3a8ad0"
+			}
+		},
+		"palette_fard": {
+			"nom": "Palette à fard vert",
+			"type": "equipement",
+			"rarete": "rare",
+			"description": "Une petite palette de pierre où l'on broie la malachite. Le trait vert sous les yeux protégeait du soleil, des mouches… et du mauvais œil.",
+			"emplacement": "relique",
+			"epoque": "Égypte antique",
+			"stats": {
+				"pv": 30,
+				"critique_pourcent": 3
+			},
+			"icone": {
+				"forme": "pierre",
+				"couleur": "#2e9a5a"
+			}
+		},
+		"tunique_lin_fin": {
+			"nom": "Tunique de lin fin",
+			"type": "equipement",
+			"rarete": "rare",
+			"description": "Un lin si fin qu'on voit la lumière à travers, blanchi au natron. Les Égyptiens l'appelaient « l'air tissé ».",
+			"emplacement": "torse",
+			"epoque": "Égypte antique",
+			"stats": {
+				"pv": 45,
+				"reduction_pourcent": 2
+			},
+			"visuel": {
+				"forme": "veste",
+				"couleur": "#f4f0e4"
+			}
+		},
+		"coiffe_lotus": {
+			"nom": "Coiffe de lin au lotus",
+			"type": "equipement",
+			"rarete": "raffine",
+			"description": "Une coiffe de lin blanc piquée d'un lotus bleu, comme sur les peintures des banquets.",
+			"emplacement": "tete",
+			"epoque": "Égypte antique",
+			"stats": {
+				"pv": 25,
+				"critique_pourcent": 1
+			},
+			"visuel": {
+				"forme": "bandeau",
+				"couleur": "#e9e4d6"
+			}
+		},
+		"panier_papyrus": {
+			"nom": "Panier de papyrus tressé",
+			"type": "sac",
+			"rarete": "rare",
+			"description": "Tressé serré, enduit de gomme d'acacia : il porte autant qu'un âne (presque). Ajoute 14 places.",
+			"places": 14,
+			"epoque": "Égypte antique",
+			"icone": {
+				"forme": "sac",
+				"couleur": "#b8a050"
+			}
 		}
 	},
 	"ensembles": {

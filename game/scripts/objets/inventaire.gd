@@ -17,6 +17,7 @@ signal porte_change
 
 const DOSSIER_SAUVEGARDE := "user://sauvegardes/inventaires/"
 const Artisanat := preload("res://scripts/objets/artisanat.gd")
+const Metiers := preload("res://scripts/objets/metiers.gd")
 
 ## État complet (voir Objets). Sur le serveur : la référence. Chez le joueur : la copie reçue.
 var etat: Dictionary = {}
@@ -33,6 +34,8 @@ var _changement := -1
 var _fin_changement := 0.0
 ## Désactive l'enregistrement sur disque (tests).
 var sauvegarde_active := true
+## Serveur : prochaine vérification de la fin du repas.
+var _verif_repas := 0.0
 
 @onready var joueur: Joueur = get_parent()
 @onready var combat: Combattant = get_parent().get_node("Combat")
@@ -140,7 +143,15 @@ func _executer(action: String, a: Array) -> String:
 	var c := cat()
 	match action:
 		"utiliser":
-			return Objets.utiliser(c, etat, int(a[0]))
+			var i := int(a[0])
+			if i >= 0 and i < (etat["cases"] as Array).size() \
+					and String(Objets.objet(c, String((etat["cases"][i] as Dictionary).get("id", ""))).get("type", "")) == "consommable":
+				var plat := String(etat["cases"][i]["id"])
+				var r := Metiers.manger(c, etat, i, heure())
+				if r == "":
+					_dire("Tu manges : %s. Te voilà rassasié." % Objets.objet(c, plat).get("nom", plat))
+				return r
+			return Objets.utiliser(c, etat, i)
 		"retirer":
 			return Objets.retirer(c, etat, String(a[0])) if String(a[0]) in Objets.EMPLACEMENTS else "?"
 		"jeter":
@@ -193,8 +204,29 @@ func _fabriquer(id_recette: String) -> String:
 	return raison
 
 
-func _process(_delta: float) -> void:
-	if _changement < 0 or not multiplayer.is_server():
+## Heure réelle (secondes) : les repas durent même quand on se déconnecte.
+static func heure() -> float:
+	return Time.get_unix_time_from_system()
+
+
+## Serveur : ajoute de l'expérience à un métier de récolte.
+## Renvoie le nouveau niveau s'il a augmenté (0 sinon). Pense à appeler recevoir() ou _appliquer() après.
+func gagner_experience(id_metier: String, xp: int) -> int:
+	return Metiers.gagner(Donnees.recolte, etat, id_metier, xp)
+
+
+func _process(delta: float) -> void:
+	if multiplayer.multiplayer_peer == null or not multiplayer.is_server():
+		return
+	_verif_repas -= delta
+	if _verif_repas <= 0.0 and not etat.is_empty():
+		_verif_repas = 5.0
+		var repas = etat.get("repas")
+		if repas is Dictionary and Metiers.repas_actif(cat(), etat, heure()) == "":
+			etat.erase("repas")
+			_dire("Tu n'es plus rassasié")
+			_appliquer()
+	if _changement < 0:
 		return
 	if joueur.bouge() or combat.en_combat() or not combat.est_vivant():
 		_changement = -1
@@ -241,6 +273,11 @@ func _appliquer() -> void:
 
 func _calculer_bonus() -> void:
 	bonus = Objets.bonus(cat(), etat.get("equipement", {}))
+	# Le repas du Chef Goro s'ajoute à l'équipement.
+	var repas := Metiers.stats_repas(cat(), etat, heure())
+	for s in repas:
+		if (bonus["stats"] as Dictionary).has(s):
+			bonus["stats"][s] = float(bonus["stats"][s]) + float(repas[s])
 	# Le niveau et les talents s'ajoutent à l'équipement (voir ProgressionJoueur).
 	var progression := joueur.get_node_or_null("Progression")
 	if progression != null and progression.is_node_ready():

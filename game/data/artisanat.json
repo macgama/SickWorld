@@ -1,5 +1,5 @@
 {
-	"_aide": "Recettes d'artisanat. « artisan » : forge (Forge Hinode), atelier (Fil & Fibre) ou intendance (échange des insignes de la Vigie, au QG). « verbe » / « fait » : le texte du bouton et du message (par défaut Fabriquer / Fabriqué). « donne » : l'objet fabriqué (voir data/objets.json), « quantite » : combien. « ingredients » : objet -> nombre à apporter (ils doivent être dans les sacs, pas portés). Une amélioration est une recette dont un ingrédient est l'objet à améliorer : l'objet renforcé le remplace aussi dans les tenues de mission. « distance » : à combien de mètres de l'artisan il faut être.",
+	"_aide": "Recettes d'artisanat. « artisan » : forge (Forge Hinode), atelier (Fil & Fibre) intendance (échange des insignes de la Vigie, au QG) ou cuisine (Ramen Kaminari du Chef Goro). « verbe » / « fait » : le texte du bouton et du message (par défaut Fabriquer / Fabriqué). « donne » : l'objet fabriqué (voir data/objets.json), « quantite » : combien. « ingredients » : objet -> nombre à apporter (ils doivent être dans les sacs, pas portés). Une amélioration est une recette dont un ingrédient est l'objet à améliorer : l'objet renforcé le remplace aussi dans les tenues de mission. « distance » : à combien de mètres de l'artisan il faut être.",
 	"distance": 4.5,
 	"artisans": {
 		"forge": {
@@ -49,6 +49,20 @@
 				"sacs",
 				"materiaux"
 			]
+		},
+		"cuisine": {
+			"nom": "Ramen Kaminari",
+			"titre": "雷 Ramen Kaminari",
+			"pnj": [
+				"chef_goro"
+			],
+			"couleur": "#ffd23a",
+			"accueil": "Apporte-moi tes poissons, agent. Le reste, c'est mon affaire.",
+			"verbe": "Cuisiner",
+			"fait": "Cuisiné",
+			"categories": [
+				"plats"
+			]
 		}
 	},
 	"categories": {
@@ -59,7 +73,8 @@
 		"reliques": "Reliques",
 		"ameliorations": "Améliorations",
 		"equipement": "Équipement",
-		"materiaux": "Matériaux"
+		"materiaux": "Matériaux",
+		"plats": "Plats"
 	},
 	"recettes": {
 		"couteau_obsidienne": {
@@ -500,6 +515,215 @@
 			"quantite": 1,
 			"ingredients": {
 				"insigne_vigie": 5
+			}
+		},
+		"hache_silex": {
+			"artisan": "forge",
+			"categorie": "armes",
+			"donne": "hache_silex",
+			"quantite": 1,
+			"ingredients": {
+				"silex": 5,
+				"ecorce_bouleau": 3,
+				"bois_de_renne": 1
+			}
+		},
+		"pendentif_cristal": {
+			"artisan": "forge",
+			"categorie": "bijoux",
+			"donne": "pendentif_cristal",
+			"quantite": 1,
+			"ingredients": {
+				"cristal_de_roche": 3,
+				"tendon_seche": 1
+			}
+		},
+		"necessaire_feu": {
+			"artisan": "forge",
+			"categorie": "reliques",
+			"donne": "necessaire_feu",
+			"quantite": 1,
+			"ingredients": {
+				"pyrite": 3,
+				"silex": 2,
+				"amadouvier": 2
+			}
+		},
+		"hache_cuivre": {
+			"artisan": "forge",
+			"categorie": "armes",
+			"donne": "hache_cuivre",
+			"quantite": 1,
+			"ingredients": {
+				"malachite": 6,
+				"natron": 2,
+				"gomme_acacia": 1
+			}
+		},
+		"collier_turquoise": {
+			"artisan": "forge",
+			"categorie": "bijoux",
+			"donne": "collier_turquoise",
+			"quantite": 1,
+			"ingredients": {
+				"turquoise": 3,
+				"malachite": 2,
+				"lin": 1
+			}
+		},
+		"amulette_faience": {
+			"artisan": "forge",
+			"categorie": "bijoux",
+			"donne": "amulette_faience",
+			"quantite": 1,
+			"ingredients": {
+				"natron": 2,
+				"calcaire_fin": 2,
+				"malachite": 1
+			}
+		},
+		"palette_fard": {
+			"artisan": "forge",
+			"categorie": "reliques",
+			"donne": "palette_fard",
+			"quantite": 1,
+			"ingredients": {
+				"malachite": 3,
+				"calcaire_fin": 1,
+				"gomme_acacia": 1
+			}
+		},
+		"gants_peau_saumon": {
+			"artisan": "atelier",
+			"categorie": "armures",
+			"donne": "gants_peau_saumon",
+			"quantite": 1,
+			"ingredients": {
+				"saumon": 3,
+				"tendon_seche": 1
+			}
+		},
+		"bottes_peau_saumon": {
+			"artisan": "atelier",
+			"categorie": "armures",
+			"donne": "bottes_peau_saumon",
+			"quantite": 1,
+			"ingredients": {
+				"saumon": 2,
+				"omble_arctique": 2,
+				"lichen_renne": 2
+			}
+		},
+		"panier_ecorce": {
+			"artisan": "atelier",
+			"categorie": "sacs",
+			"donne": "panier_ecorce",
+			"quantite": 1,
+			"ingredients": {
+				"ecorce_bouleau": 8,
+				"tendon_seche": 2
+			}
+		},
+		"tunique_lin_fin": {
+			"artisan": "atelier",
+			"categorie": "armures",
+			"donne": "tunique_lin_fin",
+			"quantite": 1,
+			"ingredients": {
+				"lin": 8,
+				"natron": 2
+			}
+		},
+		"coiffe_lotus": {
+			"artisan": "atelier",
+			"categorie": "armures",
+			"donne": "coiffe_lotus",
+			"quantite": 1,
+			"ingredients": {
+				"lin": 4,
+				"lotus_bleu": 2
+			}
+		},
+		"sandales_papyrus": {
+			"artisan": "atelier",
+			"categorie": "armures",
+			"donne": "sandales_papyrus",
+			"quantite": 1,
+			"ingredients": {
+				"tige_papyrus": 6,
+				"lin": 2
+			}
+		},
+		"panier_papyrus": {
+			"artisan": "atelier",
+			"categorie": "sacs",
+			"donne": "panier_papyrus",
+			"quantite": 1,
+			"ingredients": {
+				"tige_papyrus": 12,
+				"lin": 4,
+				"gomme_acacia": 2
+			}
+		},
+		"bouillon_omble": {
+			"artisan": "cuisine",
+			"categorie": "plats",
+			"donne": "bouillon_omble",
+			"quantite": 2,
+			"ingredients": {
+				"omble_arctique": 2,
+				"lichen_renne": 2
+			}
+		},
+		"saumon_fume": {
+			"artisan": "cuisine",
+			"categorie": "plats",
+			"donne": "saumon_fume",
+			"quantite": 2,
+			"ingredients": {
+				"saumon": 2,
+				"ecorce_bouleau": 2
+			}
+		},
+		"brochet_achillee": {
+			"artisan": "cuisine",
+			"categorie": "plats",
+			"donne": "brochet_achillee",
+			"quantite": 2,
+			"ingredients": {
+				"brochet": 2,
+				"achillee": 2
+			}
+		},
+		"tilapia_natron": {
+			"artisan": "cuisine",
+			"categorie": "plats",
+			"donne": "tilapia_natron",
+			"quantite": 2,
+			"ingredients": {
+				"tilapia": 2,
+				"natron": 1
+			}
+		},
+		"poisson_chat_lotus": {
+			"artisan": "cuisine",
+			"categorie": "plats",
+			"donne": "poisson_chat_lotus",
+			"quantite": 2,
+			"ingredients": {
+				"poisson_chat": 2,
+				"lotus_bleu": 1
+			}
+		},
+		"ramen_perche": {
+			"artisan": "cuisine",
+			"categorie": "plats",
+			"donne": "ramen_perche",
+			"quantite": 2,
+			"ingredients": {
+				"perche_nil": 1,
+				"tilapia": 1,
+				"natron": 1
 			}
 		}
 	}

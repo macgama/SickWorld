@@ -11,6 +11,7 @@ extends PanelContainer
 ## et le personnage est affiché en 3D au centre : il change dès qu'on l'équipe.
 
 const APPARENCE := preload("res://scripts/joueur/apparence_agent.gd")
+const Metiers := preload("res://scripts/objets/metiers.gd")
 const TAILLE_CASE := 56
 const TAILLE_EMPLACEMENT := 64
 const COLONNES_SAC := 6
@@ -447,6 +448,21 @@ func rafraichir() -> void:
 		var o := Objets.objet(cat, String(etat["equipement"].get(e, "")))
 		if not o.is_empty():
 			lignes.append("[color=#3d8eff]Relique : %s[/color]" % o.get("nom", ""))
+	var maintenant := Time.get_unix_time_from_system()
+	var repas := Metiers.repas_actif(cat, etat, maintenant)
+	if repas != "":
+		var reste := int(ceil((float(etat["repas"]["fin"]) - maintenant) / 60.0))
+		lignes.append("[color=#ffd23a]Repas : %s (encore %d min)[/color]" % [Objets.objet(cat, repas).get("nom", repas), reste])
+	# Métiers de récolte
+	var rec: Dictionary = Donnees.recolte
+	lignes.append("")
+	lignes.append("[b]Métiers de récolte[/b]")
+	for id_metier in Metiers.METIERS:
+		var m := Metiers.metier(rec, id_metier)
+		var n := Metiers.niveau(rec, etat, id_metier)
+		var p := Metiers.progression(rec, etat, id_metier)
+		var suite := "  (%d / %d)" % [p[0], p[1]] if int(p[1]) > 0 else "  (maximum)"
+		lignes.append("[color=%s]%s[/color] : niveau %d%s" % [m.get("couleur", "#ffffff"), m.get("nom", id_metier), n, suite])
 	_stats.text = "\n".join(lignes)
 
 	# Compétences d'époque
