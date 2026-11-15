@@ -940,3 +940,25 @@ func _surveiller_oublies(delta: float) -> void:
 				if is_instance_valid(libere):
 					libere.global_position = Vector3(cible.x, hauteur(cible.x, cible.y), cible.y))
 			_liberes += 1
+
+
+## Le khamsin (événement public) : un vent de sable brûlant au lieu de la neige.
+var _couleur_brouillard_normale := Color(-1, -1, -1)
+
+
+func tempete(active: bool, anime := true) -> void:
+	super.tempete(active, anime)
+	var environnement := get_node_or_null("Environnement") as WorldEnvironment
+	if environnement != null and environnement.environment != null:
+		var env := environnement.environment
+		if _couleur_brouillard_normale.r < 0.0:
+			_couleur_brouillard_normale = env.fog_light_color
+		env.fog_light_color = Color(0.78, 0.55, 0.32) if active else _couleur_brouillard_normale
+	if _tempete != null and is_instance_valid(_tempete):
+		var grain := _tempete.draw_pass_1 as QuadMesh
+		var m := grain.material as StandardMaterial3D
+		m.albedo_color = Color(0.85, 0.66, 0.42, 0.55)
+		grain.size = Vector2(0.035, 0.035)
+		var processus := _tempete.process_material as ParticleProcessMaterial
+		processus.direction = Vector3(1, -0.05, 0.25)
+		processus.gravity = Vector3(3.0, -0.3, 0.6)

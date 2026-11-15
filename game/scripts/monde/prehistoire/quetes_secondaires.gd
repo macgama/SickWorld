@@ -1,5 +1,5 @@
 extends Node
-## Les quêtes secondaires de l'île de la Préhistoire (data/prehistoire_secondaires.json).
+## Les quêtes secondaires d'une île (data/<île>_secondaires.json : la Préhistoire, l'Égypte…).
 ##
 ## Plusieurs quêtes peuvent être en cours en même temps, dans n'importe quelle zone.
 ## Un personnage qui a une quête à proposer porte un « ! » doré au-dessus de la tête ;
@@ -9,9 +9,7 @@ extends Node
 ## Ce nœud est créé par la quête principale (quete.gd), dont il réutilise la barre
 ## d'action, les annonces, les récompenses et l'apparition des ennemis.
 
-const DONNEES := "res://data/prehistoire_secondaires.json"
 const ObjetQuete := preload("res://scripts/monde/prehistoire/objet_quete.gd")
-const SECTION := "prehistoire_secondaires"
 const PAS_COMMENCEE := -1
 const FINIE := 999
 const OR := Color(1.0, 0.82, 0.35)
@@ -22,8 +20,8 @@ const NOMS_ZONES := {
 	"falaises": "Falaises Peintes",
 	"grotte": "Grande Grotte",
 }
-## Objets détruits quand on les utilise (les objets modernes semés par les fractures).
-const FORMES_CONSOMMEES := ["canette", "telephone", "lunettes"]
+## Objets détruits quand on les utilise (les objets modernes semés par les fractures…).
+const FORMES_CONSOMMEES := ["canette", "telephone", "lunettes", "gobelet", "drone", "chat"]
 
 signal quete_changee(id: String)
 
@@ -34,6 +32,9 @@ var etat := {}
 var compteurs := {}
 var ramasses := {}
 var titres: PackedStringArray = []
+## L'île (« prehistoire », « egypte »…), lue sur la quête principale.
+var ile := "prehistoire"
+var noms_zones: Dictionary = NOMS_ZONES
 
 var _quete: Node
 var _objets := {}
@@ -48,12 +49,15 @@ var _minuterie := 0.0
 func _ready() -> void:
 	add_to_group("quetes_secondaires")
 	_quete = get_parent()
-	var lu = JSON.parse_string(FileAccess.get_file_as_string(DONNEES))
+	ile = String(_quete.get("ile")) if _quete.get("ile") != null else "prehistoire"
+	var lu = JSON.parse_string(FileAccess.get_file_as_string(fichier_donnees(ile)))
 	if lu is Dictionary:
 		quetes = lu.get("quetes", [])
 		objets_def = lu.get("objets", [])
+		if lu.has("noms_zones"):
+			noms_zones = lu["noms_zones"]
 	else:
-		push_error("Impossible de lire %s : vérifie les virgules et les guillemets." % DONNEES)
+		push_error("Impossible de lire %s : vérifie les virgules et les guillemets." % fichier_donnees(ile))
 	for q in quetes:
 		etat[q.id] = PAS_COMMENCEE
 		compteurs[q.id] = 0
@@ -73,6 +77,21 @@ func _ready() -> void:
 	_installer.call_deferred()
 
 
+static func fichier_donnees(nom_ile: String) -> String:
+	return "res://data/%s_secondaires.json" % nom_ile
+
+
+## La section du fichier de sauvegarde (« prehistoire_secondaires », « egypte_secondaires »…).
+func _section() -> String:
+	return ile + "_secondaires"
+
+
+## Le script des objets de l'île (scripts/monde/<île>/objet_<île>.gd), sinon celui de base.
+func _script_objet() -> Script:
+	var chemin := "res://scripts/monde/%s/objet_%s.gd" % [ile, ile]
+	return load(chemin) if ResourceLoader.exists(chemin) else ObjetQuete
+
+
 func _zone() -> String:
 	var ile := get_tree().get_first_node_in_group("ile")
 	return String(ile.get("identifiant_zone")) if ile != null else ""
@@ -85,23 +104,23 @@ func _charger() -> void:
 	if cfg.load(_fichier()) != OK:
 		return
 	for q in quetes:
-		etat[q.id] = int(cfg.get_value(SECTION, "etat_" + q.id, PAS_COMMENCEE))
-		compteurs[q.id] = int(cfg.get_value(SECTION, "compteur_" + q.id, 0))
+		etat[q.id] = int(cfg.get_value(_section(), "etat_" + q.id, PAS_COMMENCEE))
+		compteurs[q.id] = int(cfg.get_value(_section(), "compteur_" + q.id, 0))
 	for o in objets_def:
-		if cfg.get_value(SECTION, "ramasse_" + o.id, false):
+		if cfg.get_value(_section(), "ramasse_" + o.id, false):
 			ramasses[o.id] = true
-	titres = PackedStringArray(cfg.get_value(SECTION, "titres", PackedStringArray()))
+	titres = PackedStringArray(cfg.get_value(_section(), "titres", PackedStringArray()))
 
 
 func _sauvegarder() -> void:
 	var cfg := ConfigFile.new()
 	cfg.load(_fichier())
 	for q in quetes:
-		cfg.set_value(SECTION, "etat_" + q.id, etat[q.id])
-		cfg.set_value(SECTION, "compteur_" + q.id, compteurs[q.id])
+		cfg.set_value(_section(), "etat_" + q.id, etat[q.id])
+		cfg.set_value(_section(), "compteur_" + q.id, compteurs[q.id])
 	for id in ramasses:
-		cfg.set_value(SECTION, "ramasse_" + id, true)
-	cfg.set_value(SECTION, "titres", titres)
+		cfg.set_value(_section(), "ramasse_" + id, true)
+	cfg.set_value(_section(), "titres", titres)
 	cfg.save(_fichier())
 
 
@@ -158,23 +177,25 @@ func _installer() -> void:
 	var ile := get_tree().get_first_node_in_group("ile") as Node3D
 	if ile == null:
 		return
+	var script_objet := _script_objet()
 	for o in objets_def:
 		if o.get("ou", "") != _zone():
 			continue
-		var objet := ObjetQuete.new()
+		var objet: Node3D = script_objet.new()
 		objet.name = "Secondaire_" + String(o.id)
 		objet.identifiant = o.id
 		objet.groupe = o.get("groupe", "")
 		objet.forme = o.get("forme", "")
 		objet.invite = o.get("invite", "[F] Utiliser")
 		objet.set_meta("secondaire", true)
+		objet.set_meta("reste", bool(o.get("reste", false)))
 		var p: Array = o.position
 		objet.position = Vector3(p[0], ile.hauteur(p[0], p[1]), p[1])
 		ile.add_child(objet)
 		_objets[o.id] = objet
 		if ramasses.has(o.id):
 			objet.ramasse = true
-			if objet.forme in FORMES_CONSOMMEES or objet.groupe != "":
+			if _disparait(objet):
 				objet.cacher()
 	# Le monde garde la trace des étapes déjà faites (feu rallumé, main sur la paroi…).
 	for q in quetes:
@@ -350,7 +371,7 @@ func _objet_fini(q: Dictionary, objet: Node3D) -> void:
 	ramasses[id] = true
 	objet.set("ramasse", true)
 	objet.set("actif", false)
-	if e.has("recolter") or String(objet.get("forme")) in FORMES_CONSOMMEES:
+	if (e.has("recolter") and not objet.get_meta("reste", false)) or String(objet.get("forme")) in FORMES_CONSOMMEES:
 		objet.cacher()
 	if e.has("recolter"):
 		compteurs[q.id] = int(compteurs[q.id]) + 1
@@ -383,6 +404,13 @@ func _terminer_etape(q: Dictionary) -> void:
 	_rafraichir()
 
 
+## Un objet déjà utilisé disparaît-il du monde ? (Une ruche ou un blessé, non.)
+func _disparait(objet: Node3D) -> bool:
+	if String(objet.get("forme")) in FORMES_CONSOMMEES:
+		return true
+	return String(objet.get("groupe")) != "" and not objet.get_meta("reste", false)
+
+
 ## Ce qu'une étape change dans le monde quand elle est faite.
 func _appliquer_effet(e: Dictionary, _anime: bool) -> void:
 	if not _ici(e) or not e.has("objet"):
@@ -391,7 +419,12 @@ func _appliquer_effet(e: Dictionary, _anime: bool) -> void:
 	var ile := get_tree().get_first_node_in_group("ile")
 	if objet == null or ile == null:
 		return
-	match String(e.get("effet", "")):
+	var effet := String(e.get("effet", ""))
+	# Les objets d'une île peuvent savoir changer d'eux-mêmes (la marque peinte sur un bloc…).
+	if effet != "" and objet.has_method("appliquer_effet"):
+		objet.appliquer_effet(effet)
+		return
+	match effet:
 		"allumer":
 			if objet.get_node_or_null("FeuRallume") == null and ile.has_method("_feu"):
 				var avant := ile.get_child_count()
@@ -464,7 +497,7 @@ func _mettre_a_jour_liste() -> void:
 			if pnj == null:
 				texte += " · ailleurs sur l'île"
 		if ou != "" and ou != _zone():
-			texte += " · " + String(NOMS_ZONES.get(ou, ou))
+			texte += " · " + String(noms_zones.get(ou, ou))
 		else:
 			var d := _distance(q)
 			if d >= 0.0:

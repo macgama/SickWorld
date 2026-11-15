@@ -211,3 +211,445 @@ func _construire_empreinte_semelle() -> void:
 			cran.material_override = creux
 			cran.position = Vector3(0, 0.004, -0.12 + k * 0.035)
 			pied.add_child(cran)
+
+
+# --- Objets des quêtes secondaires de l'Égypte ------------------------------------------------
+
+## Une gerbe d'orge mûre, liée d'un brin de lin, encore debout dans le champ.
+func _construire_gerbe() -> void:
+	var paille := _mat(Color(0.78, 0.64, 0.33), 0.9)
+	var epi := _mat(Color(0.86, 0.72, 0.38), 0.85)
+	var hasard := RandomNumberGenerator.new()
+	hasard.seed = hash(identifiant)
+	for k in 16:
+		var a := hasard.randf() * TAU
+		var r := hasard.randf_range(0.0, 0.09)
+		var penche := Vector3(hasard.randf_range(-0.18, 0.18), 0, hasard.randf_range(-0.18, 0.18))
+		var tige := CylinderMesh.new()
+		tige.top_radius = 0.004
+		tige.bottom_radius = 0.006
+		tige.height = 0.85
+		var t := _piece(tige, paille, Vector3(cos(a) * r, 0.42, sin(a) * r), penche)
+		var e := CapsuleMesh.new()
+		e.radius = 0.014
+		e.height = 0.11
+		var tete := MeshInstance3D.new()
+		tete.mesh = e
+		tete.material_override = epi
+		tete.position.y = 0.46
+		t.add_child(tete)
+	var lien := TorusMesh.new()
+	lien.inner_radius = 0.07
+	lien.outer_radius = 0.085
+	_piece(lien, _mat(Color(0.88, 0.84, 0.72)), Vector3(0, 0.32, 0))
+
+
+## Miou, une chatte tigrée assise entre les jarres, les yeux qui brillent.
+func _construire_chat() -> void:
+	var pelage := _mat(Color(0.52, 0.42, 0.3), 1.0)
+	var rayure := _mat(Color(0.25, 0.19, 0.13), 1.0)
+	var corps := SphereMesh.new()
+	corps.radius = 0.12
+	corps.height = 0.24
+	_piece(corps, pelage, Vector3(0, 0.14, 0.04), Vector3(-0.35, 0, 0), Vector3(0.85, 1.25, 1.0))
+	var tete := SphereMesh.new()
+	tete.radius = 0.075
+	tete.height = 0.14
+	var t := _piece(tete, pelage, Vector3(0, 0.34, -0.04), Vector3.ZERO, Vector3(1.05, 0.9, 0.95))
+	for cote in [-1.0, 1.0]:
+		var oreille := PrismMesh.new()
+		oreille.size = Vector3(0.05, 0.06, 0.02)
+		var o := MeshInstance3D.new()
+		o.mesh = oreille
+		o.material_override = pelage
+		o.position = Vector3(cote * 0.04, 0.07, 0)
+		o.rotation.z = -cote * 0.25
+		t.add_child(o)
+		var oeil := SphereMesh.new()
+		oeil.radius = 0.012
+		oeil.height = 0.024
+		var yeux := _mat(Color(0.55, 0.75, 0.25), 0.1)
+		yeux.emission_enabled = true
+		yeux.emission = Color(0.6, 0.85, 0.3)
+		yeux.emission_energy_multiplier = 0.8
+		var y := MeshInstance3D.new()
+		y.mesh = oeil
+		y.material_override = yeux
+		y.position = Vector3(cote * 0.03, 0.012, -0.065)
+		t.add_child(y)
+		var patte := CapsuleMesh.new()
+		patte.radius = 0.022
+		patte.height = 0.16
+		_piece(patte, pelage, Vector3(cote * 0.045, 0.08, -0.06))
+	for k in 4:
+		var bande := TorusMesh.new()
+		bande.inner_radius = 0.1
+		bande.outer_radius = 0.112
+		_piece(bande, rayure, Vector3(0, 0.08 + k * 0.05, 0.05), Vector3(-0.35, 0, 0), Vector3(0.85, 1.0, 1.0))
+	var queue := CapsuleMesh.new()
+	queue.radius = 0.016
+	queue.height = 0.32
+	_piece(queue, rayure, Vector3(0.1, 0.03, 0.06), Vector3(PI / 2, 0, 0.9))
+	_visuel.rotation.y = 0.5
+
+
+## Une croûte de natron : le sel blanc qui sèche au bord des oueds.
+func _construire_natron() -> void:
+	var sel := _mat(Color(0.93, 0.92, 0.86), 0.7)
+	var gris := _mat(Color(0.78, 0.76, 0.7), 0.9)
+	var hasard := RandomNumberGenerator.new()
+	hasard.seed = hash(identifiant)
+	for k in 9:
+		var s := SphereMesh.new()
+		s.radius = hasard.randf_range(0.08, 0.2)
+		s.height = s.radius * 2.0
+		_piece(s, sel if k % 3 else gris, Vector3(hasard.randf_range(-0.35, 0.35), 0.0, hasard.randf_range(-0.35, 0.35)),
+				Vector3(0, hasard.randf() * TAU, 0), Vector3(1.0, hasard.randf_range(0.2, 0.4), 1.0))
+
+
+## Des ruches égyptiennes : des tubes de terre crue couchés et empilés, l'entrée vers l'avant.
+func _construire_ruche() -> void:
+	var terre := _mat(Color(0.5, 0.38, 0.27), 1.0)
+	var sombre := _mat(Color(0.12, 0.09, 0.06), 1.0)
+	for place: Vector2 in [Vector2(-0.19, 0.17), Vector2(0.19, 0.17), Vector2(0.0, 0.48)]:
+		var tube := CylinderMesh.new()
+		tube.top_radius = 0.17
+		tube.bottom_radius = 0.18
+		tube.height = 1.0
+		_piece(tube, terre, Vector3(place.x, place.y, 0), Vector3(PI / 2, 0, 0))
+		var trou := CylinderMesh.new()
+		trou.top_radius = 0.035
+		trou.bottom_radius = 0.035
+		trou.height = 0.01
+		_piece(trou, sombre, Vector3(place.x, place.y, -0.505), Vector3(PI / 2, 0, 0))
+	var abeille := _mat(Color(0.2, 0.15, 0.05), 0.6)
+	var hasard := RandomNumberGenerator.new()
+	hasard.seed = hash(identifiant)
+	for k in 8:
+		var b := SphereMesh.new()
+		b.radius = 0.012
+		b.height = 0.02
+		_piece(b, abeille, Vector3(hasard.randf_range(-0.4, 0.4), hasard.randf_range(0.2, 0.8), hasard.randf_range(-0.8, -0.55)))
+
+
+## Un haleur blessé allongé sur une natte de roseau, les mains brûlées par les cordes.
+func _construire_natte() -> void:
+	var roseau := _mat(Color(0.7, 0.6, 0.38), 1.0)
+	var peau := _mat(Color(0.55, 0.36, 0.23), 0.7)
+	var lin := _mat(Color(0.9, 0.87, 0.78), 0.9)
+	var plaie := _mat(Color(0.62, 0.18, 0.12), 0.6)
+	var natte := BoxMesh.new()
+	natte.size = Vector3(0.8, 0.03, 1.9)
+	_piece(natte, roseau, Vector3(0, 0.015, 0))
+	var torse := CapsuleMesh.new()
+	torse.radius = 0.17
+	torse.height = 0.75
+	_piece(torse, peau, Vector3(0, 0.15, -0.25), Vector3(PI / 2, 0, 0), Vector3(1.0, 1.0, 0.75))
+	var pagne := CapsuleMesh.new()
+	pagne.radius = 0.16
+	pagne.height = 0.4
+	_piece(pagne, lin, Vector3(0, 0.14, 0.2), Vector3(PI / 2, 0, 0), Vector3(1.05, 1.0, 0.75))
+	for cote in [-1.0, 1.0]:
+		var jambe := CapsuleMesh.new()
+		jambe.radius = 0.06
+		jambe.height = 0.75
+		_piece(jambe, peau, Vector3(cote * 0.08, 0.08, 0.58), Vector3(PI / 2, 0, 0))
+		var bras := CapsuleMesh.new()
+		bras.radius = 0.045
+		bras.height = 0.6
+		_piece(bras, peau, Vector3(cote * 0.24, 0.08, -0.2), Vector3(PI / 2, 0, 0))
+		var main := SphereMesh.new()
+		main.radius = 0.05
+		main.height = 0.08
+		_piece(main, plaie, Vector3(cote * 0.25, 0.08, 0.1))
+	var tete := SphereMesh.new()
+	tete.radius = 0.1
+	tete.height = 0.2
+	_piece(tete, peau, Vector3(0, 0.12, -0.75))
+	var cheveux := SphereMesh.new()
+	cheveux.radius = 0.102
+	cheveux.height = 0.12
+	_piece(cheveux, _mat(Color(0.05, 0.04, 0.04), 0.9), Vector3(0, 0.13, -0.79))
+	_visuel.rotation.y = hash(identifiant) % 314 / 100.0
+
+
+## Un bloc de calcaire du chantier, prêt à être tiré. Les équipes y peignent leur nom.
+func _construire_bloc() -> void:
+	var calcaire := _mat(Color(0.83, 0.77, 0.64), 0.95)
+	var b := BoxMesh.new()
+	b.size = Vector3(1.5, 1.0, 1.0)
+	_piece(b, calcaire, Vector3(0, 0.5, 0))
+	# La vieille marque, effacée : quelques traînées violettes.
+	var efface := _mat(Color(0.35, 0.18, 0.55), 0.6)
+	efface.emission_enabled = true
+	efface.emission = Color(0.5, 0.25, 0.9)
+	efface.emission_energy_multiplier = 0.5
+	for k in 3:
+		var ligne := BoxMesh.new()
+		ligne.size = Vector3(0.9 - k * 0.2, 0.04, 0.01)
+		_piece(ligne, efface, Vector3(-0.1 + k * 0.08, 0.35 + k * 0.18, -0.505), Vector3(0, 0, 0.08 * (k - 1)))
+
+
+## Ce que change une étape faite (quêtes secondaires) : ici, la marque peinte sur le bloc.
+func appliquer_effet(effet: String) -> void:
+	if effet != "marque" or _visuel == null or _visuel.get_node_or_null("Marque") != null:
+		return
+	for enfant in _visuel.get_children():
+		var mi := enfant as MeshInstance3D
+		if mi != null and mi.mesh is BoxMesh and (mi.mesh as BoxMesh).size.y < 0.05:
+			mi.visible = false
+	var marque := Label3D.new()
+	marque.name = "Marque"
+	marque.text = "COMPAGNONS\nDE KHÉOPS"
+	marque.font_size = 64
+	marque.pixel_size = 0.0026
+	marque.modulate = Color(0.68, 0.17, 0.08)
+	marque.outline_size = 0
+	marque.shaded = true
+	marque.position = Vector3(0.12, 0.55, -0.506)
+	marque.rotation.y = PI
+	_visuel.add_child(marque)
+	# Le cartouche du roi, à côté : un ovale rouge.
+	var cartouche := TorusMesh.new()
+	cartouche.inner_radius = 0.07
+	cartouche.outer_radius = 0.085
+	_piece(cartouche, _mat(Color(0.68, 0.17, 0.08)), Vector3(-0.56, 0.55, -0.505), Vector3(PI / 2, 0, 0), Vector3(0.6, 1.0, 1.5))
+
+
+## Un gobelet en carton (avec son couvercle en plastique) : rien à faire en -2560.
+func _construire_gobelet() -> void:
+	var g := CylinderMesh.new()
+	g.top_radius = 0.045
+	g.bottom_radius = 0.032
+	g.height = 0.12
+	_piece(g, _mat(Color(0.95, 0.94, 0.9), 0.7), Vector3(0, 0.04, 0), Vector3(PI / 2, 0.5, 0))
+	var manchon := CylinderMesh.new()
+	manchon.top_radius = 0.047
+	manchon.bottom_radius = 0.04
+	manchon.height = 0.05
+	_piece(manchon, _mat(Color(0.5, 0.33, 0.2), 0.9), Vector3(0, 0.04, 0), Vector3(PI / 2, 0.5, 0))
+	var couvercle := CylinderMesh.new()
+	couvercle.top_radius = 0.042
+	couvercle.bottom_radius = 0.047
+	couvercle.height = 0.012
+	_piece(couvercle, _mat(Color(0.1, 0.1, 0.1), 0.3), Vector3(0.18, 0.01, 0.1), Vector3(0, 0, 0.1))
+	_trace_violette()
+
+
+## Un petit drone de loisir écrasé dans le sable, une hélice cassée.
+func _construire_drone() -> void:
+	var plastique := _mat(Color(0.22, 0.23, 0.25), 0.4)
+	var corps := BoxMesh.new()
+	corps.size = Vector3(0.12, 0.05, 0.18)
+	_piece(corps, plastique, Vector3(0, 0.05, 0))
+	var camera := SphereMesh.new()
+	camera.radius = 0.025
+	camera.height = 0.05
+	_piece(camera, _mat(Color(0.05, 0.05, 0.06), 0.1, 0.5), Vector3(0, 0.03, -0.09))
+	for k in 4:
+		var a := PI / 4 + k * PI / 2
+		var bras := BoxMesh.new()
+		bras.size = Vector3(0.02, 0.015, 0.17)
+		var dir := Vector3(sin(a), 0, cos(a))
+		_piece(bras, plastique, Vector3(0, 0.055, 0) + dir * 0.09, Vector3(0, a, 0))
+		var helice := CylinderMesh.new()
+		helice.top_radius = 0.07 if k != 2 else 0.035
+		helice.bottom_radius = helice.top_radius
+		helice.height = 0.004
+		var m := _mat(Color(0.75, 0.76, 0.78, 0.6), 0.3)
+		m.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+		_piece(helice, m, Vector3(0, 0.075, 0) + dir * 0.17)
+		var led := SphereMesh.new()
+		led.radius = 0.008
+		led.height = 0.016
+		var lm := _mat(Color(1, 0.1, 0.1) if k < 2 else Color(0.1, 1, 0.2))
+		lm.emission_enabled = true
+		lm.emission = lm.albedo_color
+		lm.emission_energy_multiplier = 2.0
+		_piece(led, lm, Vector3(0, 0.045, 0) + dir * 0.17)
+	_visuel.rotation = Vector3(0.25, 0.7, -0.18)
+	_trace_violette()
+
+
+## Une borne de crue : un pilier de pierre gravé de traits, un par coudée d'eau.
+func _construire_borne() -> void:
+	var pierre := _mat(Color(0.7, 0.64, 0.52), 0.95)
+	var grave := _mat(Color(0.3, 0.26, 0.2), 1.0)
+	var p := BoxMesh.new()
+	p.size = Vector3(0.32, 1.4, 0.32)
+	_piece(p, pierre, Vector3(0, 0.7, 0))
+	var tete := PrismMesh.new()
+	tete.size = Vector3(0.34, 0.14, 0.34)
+	_piece(tete, pierre, Vector3(0, 1.47, 0))
+	for k in 6:
+		var ligne := BoxMesh.new()
+		ligne.size = Vector3(0.2 if k % 2 else 0.12, 0.015, 0.01)
+		_piece(ligne, grave, Vector3(0, 0.25 + k * 0.2, -0.162))
+
+
+## Un pion de senet en faïence bleue, un petit cône.
+func _construire_pion() -> void:
+	var c := CylinderMesh.new()
+	c.top_radius = 0.008
+	c.bottom_radius = 0.028
+	c.height = 0.06
+	var faience := _mat(Color(0.15, 0.45, 0.65), 0.25)
+	faience.emission_enabled = true
+	faience.emission = Color(0.1, 0.3, 0.45)
+	faience.emission_energy_multiplier = 0.3
+	_piece(c, faience, Vector3(0, 0.03, 0))
+	var bout := SphereMesh.new()
+	bout.radius = 0.012
+	bout.height = 0.024
+	_piece(bout, faience, Vector3(0, 0.065, 0))
+
+
+## Le plateau de senet d'Ouni : trois rangées de dix cases, les pions et les bâtonnets.
+func _construire_senet() -> void:
+	var bois := _mat(Color(0.42, 0.28, 0.16), 0.7)
+	var clair := _mat(Color(0.82, 0.72, 0.52), 0.8)
+	var natte := BoxMesh.new()
+	natte.size = Vector3(1.2, 0.02, 0.9)
+	_piece(natte, _mat(Color(0.7, 0.6, 0.38), 1.0), Vector3(0, 0.01, 0))
+	var boite := BoxMesh.new()
+	boite.size = Vector3(0.66, 0.08, 0.24)
+	_piece(boite, bois, Vector3(0, 0.06, 0))
+	for rang in 3:
+		for k in 10:
+			var case_ := BoxMesh.new()
+			case_.size = Vector3(0.056, 0.004, 0.064)
+			_piece(case_, clair if (rang + k) % 2 == 0 else bois, Vector3(-0.29 + k * 0.064, 0.102, -0.072 + rang * 0.072))
+	var bleu := _mat(Color(0.15, 0.45, 0.65), 0.25)
+	var rouge := _mat(Color(0.6, 0.2, 0.12), 0.4)
+	for k in 5:
+		for camp in 2:
+			var pion := CylinderMesh.new()
+			pion.top_radius = 0.006 if camp == 0 else 0.016
+			pion.bottom_radius = 0.016
+			pion.height = 0.035
+			_piece(pion, bleu if camp == 0 else rouge, Vector3(-0.29 + (k * 2 + camp) * 0.064, 0.122, -0.072 + (k % 3) * 0.072))
+	for k in 4:
+		var baton := BoxMesh.new()
+		baton.size = Vector3(0.012, 0.006, 0.14)
+		_piece(baton, clair, Vector3(0.42 + k * 0.03, 0.025, 0.12), Vector3(0, 0.3 * k - 0.4, 0))
+
+
+# --- Objets des événements publics de l'Égypte ------------------------------------------------
+
+## Une corde de papyrus enroulée au pied d'un bloc, prête à l'arrimer sur le traîneau.
+func _construire_corde() -> void:
+	var papyrus := _mat(Color(0.66, 0.55, 0.34), 1.0)
+	var calcaire := _mat(Color(0.86, 0.82, 0.72), 0.95)
+	var bloc := BoxMesh.new()
+	bloc.size = Vector3(1.1, 0.7, 0.8)
+	_piece(bloc, calcaire, Vector3(0, 0.35, 0))
+	for k in 4:
+		var spire := TorusMesh.new()
+		spire.inner_radius = 0.16 - k * 0.02
+		spire.outer_radius = 0.2 - k * 0.02
+		_piece(spire, papyrus, Vector3(0.75, 0.03 + k * 0.035, 0.1))
+	for x in [-0.3, 0.3]:
+		var tour := BoxMesh.new()
+		tour.size = Vector3(0.05, 0.72, 0.82)
+		_piece(tour, papyrus, Vector3(x, 0.36, 0))
+
+
+## Une outre de peau de chèvre, à moitié enfouie dans le sable.
+func _construire_outre() -> void:
+	var cuir := _mat(Color(0.42, 0.28, 0.17), 0.75)
+	var s := SphereMesh.new()
+	s.radius = 0.2
+	s.height = 0.4
+	_piece(s, cuir, Vector3(0, 0.1, 0), Vector3(0, 0.4, 0.3), Vector3(1.3, 0.7, 0.9))
+	var col := CylinderMesh.new()
+	col.top_radius = 0.03
+	col.bottom_radius = 0.05
+	col.height = 0.14
+	_piece(col, cuir, Vector3(0.27, 0.15, -0.1), Vector3(0, 0.4, -1.1))
+	var lien := TorusMesh.new()
+	lien.inner_radius = 0.03
+	lien.outer_radius = 0.04
+	_piece(lien, _mat(Color(0.85, 0.8, 0.68)), Vector3(0.31, 0.17, -0.12), Vector3(0, 0.4, -1.1 + PI / 2))
+
+
+# --- Chapitre 6 : les miroirs de cuivre et les plans d'Hémiounou ------------------------------
+
+## Un miroir de cuivre poli sur un support de bois, qu'on tourne pour envoyer le soleil
+## dans la fausse porte d'une tombe.
+func _construire_miroir() -> void:
+	var bois := _mat(Color(0.42, 0.3, 0.18), 0.9)
+	var cuivre := _mat(Color(0.85, 0.52, 0.3), 0.15, 0.9)
+	var pied := CylinderMesh.new()
+	pied.top_radius = 0.035
+	pied.bottom_radius = 0.05
+	pied.height = 1.0
+	_piece(pied, bois, Vector3(0, 0.5, 0))
+	var socle := CylinderMesh.new()
+	socle.top_radius = 0.2
+	socle.bottom_radius = 0.25
+	socle.height = 0.1
+	_piece(socle, bois, Vector3(0, 0.05, 0))
+	var disque := CylinderMesh.new()
+	disque.top_radius = 0.3
+	disque.bottom_radius = 0.3
+	disque.height = 0.025
+	var d := _piece(disque, cuivre, Vector3(0, 1.15, 0), Vector3(0, 0, PI / 2 - 0.35))
+	d.name = "Disque"
+	var anneau := TorusMesh.new()
+	anneau.inner_radius = 0.29
+	anneau.outer_radius = 0.33
+	_piece(anneau, bois, Vector3(0, 1.15, 0), Vector3(0, 0, PI / 2 - 0.35))
+
+
+## Un rouleau de papyrus attaché d'un cordon, posé sur la table d'offrandes.
+func _construire_rouleau() -> void:
+	var papyrus := _mat(Color(0.86, 0.78, 0.58), 0.9)
+	var r := CylinderMesh.new()
+	r.top_radius = 0.045
+	r.bottom_radius = 0.045
+	r.height = 0.34
+	_piece(r, papyrus, Vector3(0, 0.38, 0), Vector3(PI / 2, 0.3, 0))
+	var cordon := TorusMesh.new()
+	cordon.inner_radius = 0.045
+	cordon.outer_radius = 0.052
+	_piece(cordon, _mat(Color(0.6, 0.2, 0.12)), Vector3(0, 0.38, 0), Vector3(0, 0.3, 0))
+
+
+## Un miroir tourné ne disparaît pas : il renvoie un rayon de soleil vers la fausse porte.
+func cacher() -> void:
+	if forme != "miroir":
+		super.cacher()
+		return
+	actif = false
+	if _visuel == null or _visuel.get_node_or_null("Rayon") != null:
+		return
+	var cible: Vector3 = get_meta("cible", global_position + Vector3(-4, 0, 0))
+	var depart := Vector3(0, 1.15, 0)
+	var arrivee := to_local(Vector3(cible.x, global_position.y + 1.0, cible.z))
+	var rayon := MeshInstance3D.new()
+	rayon.name = "Rayon"
+	var b := BoxMesh.new()
+	var longueur := depart.distance_to(arrivee)
+	b.size = Vector3(0.2, 0.2, longueur)
+	rayon.mesh = b
+	var m := StandardMaterial3D.new()
+	m.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	m.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	m.albedo_color = Color(1.0, 0.93, 0.62, 0.7)
+	m.emission_enabled = true
+	m.emission = Color(1.0, 0.85, 0.45)
+	rayon.material_override = m
+	rayon.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	_visuel.add_child(rayon)
+	rayon.position = (depart + arrivee) * 0.5
+	rayon.look_at(to_global(arrivee), Vector3.UP)
+	var lueur := OmniLight3D.new()
+	lueur.light_color = Color(1.0, 0.82, 0.5)
+	lueur.light_energy = 2.5
+	lueur.omni_range = 3.0
+	lueur.position = arrivee + (depart - arrivee).normalized() * 0.4
+	_visuel.add_child(lueur)
+	var disque := _visuel.get_node_or_null("Disque") as MeshInstance3D
+	if disque != null:
+		disque.look_at(to_global(arrivee), Vector3.UP)
+		disque.rotate_object_local(Vector3.RIGHT, PI / 2)

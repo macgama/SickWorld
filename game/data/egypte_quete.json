@@ -1063,6 +1063,395 @@
 			]
 		},
 		{
+			"numero": 6,
+			"titre": "La mémoire d'Hémiounou",
+			"ou": "desert_rouge",
+			"etapes": [
+				{
+					"id": "retour_gizeh",
+					"ou": "port_des_marais",
+					"objectif": "De retour en Égypte : remonte au Village des Bâtisseurs, Ânkhkhaf te fait chercher",
+					"arriver": "village_batisseurs"
+				},
+				{
+					"id": "ankhkhaf_hemiounou",
+					"ou": "village_batisseurs",
+					"objectif": "Au chantier, Ânkhkhaf t'attend devant le passage des ouvriers",
+					"pnj": "ankhkhaf_chantier",
+					"repliques": [
+						"L'Occidental ! Les dieux t'envoient. Hémiounou a disparu.",
+						"L'architecte du roi. Mon neveu. Il a dessiné chaque pierre de cette pyramide... et hier matin, il ne savait plus combien elle a de côtés.",
+						"Ses plans ont disparu avec lui. Sans eux, personne ne sait comment poser les derniers blocs, ni la pierre de faîte, tout en haut.",
+						"Des haleurs l'ont vu partir vers l'ouest, par la passe des tombes. Vers le désert, le pays des morts. Ramène-le-moi."
+					]
+				},
+				{
+					"id": "vers_desert_6",
+					"ou": "village_batisseurs",
+					"objectif": "Prends la passe des tombes, à l'ouest du village, vers le Désert Rouge",
+					"arriver": "desert_rouge"
+				},
+				{
+					"id": "parler_tamit",
+					"ou": "desert_rouge",
+					"objectif": "Demande aux nomades du désert s'ils ont vu Hémiounou (campement au sud, dans l'ouadi)",
+					"pnj": "tamit",
+					"repliques": [
+						"Un vieil homme en lin blanc ? Oui. Il marchait droit vers les tombes des nobles, sans eau, sans chapeau. Comme un mort qui rentre chez lui.",
+						"Il y avait aussi les hommes aux habits étranges. Ceux de la femme au sablier. Ils sont entrés dans trois tombes avec des rouleaux, et ils sont ressortis sans.",
+						"Ton vieil homme est assis devant la sienne, au nord de la grande allée. Fais vite : le ciel jaunit. Le khamsin arrive."
+					]
+				},
+				{
+					"id": "hemiounou_tombe",
+					"ou": "desert_rouge",
+					"objectif": "Retrouve Hémiounou devant sa tombe, dans le cimetière des nobles",
+					"pnj": "hemiounou",
+					"repliques": [
+						"Le soleil... il faut que le soleil entre. Par la fausse porte. C'est moi qui ai voulu ça. Pourquoi est-ce que je dis ça ?",
+						"Les tombes ont des miroirs de cuivre, devant. Pour les fêtes, on renvoie la lumière dans la niche, et l'âme voit ses offrandes.",
+						"Mes plans... je les ai cachés ? Non. Quelqu'un les a cachés. Là où il fait noir. Il faut de la lumière pour les voir.",
+						"Tourne les miroirs. Ma tombe, et les deux autres où sont entrés ces hommes. Je reste ici. Je ne sais plus marcher droit."
+					]
+				},
+				{
+					"id": "miroirs",
+					"ou": "desert_rouge",
+					"objectif": "Tourne les miroirs de cuivre des trois tombes vers leur fausse porte",
+					"recolter": "miroir",
+					"nombre": 3,
+					"duree": 2.5,
+					"action": "Tu tournes le miroir vers la niche…",
+					"apparition": {
+						"type": "garde_effaceuse",
+						"position": [
+							96,
+							-66
+						],
+						"nombre": 2,
+						"rayon": 3,
+						"attaque": false
+					},
+					"apres": [
+						{
+							"montrer": "plans_hemiounou"
+						}
+					],
+					"recit": {
+						"titre": "La lumière entre",
+						"texte": "Trois rayons de soleil plongent dans trois niches. Au fond de chacune, sur la table d'offrandes, un rouleau de papyrus apparaît."
+					}
+				},
+				{
+					"id": "plans_hemiounou",
+					"ou": "desert_rouge",
+					"objectif": "Prends les trois rouleaux de papyrus dans les niches éclairées",
+					"recolter": "plan_hemiounou",
+					"nombre": 3,
+					"duree": 1.5,
+					"action": "Tu prends le papyrus…",
+					"apparition": {
+						"type": "garde_effaceuse",
+						"position": [
+							124,
+							-8
+						],
+						"nombre": 2,
+						"rayon": 3,
+						"attaque": true
+					},
+					"recompense": [
+						{
+							"id": "plans_hemiounou",
+							"nom": "Plans d'Hémiounou"
+						}
+					],
+					"apres": [
+						{
+							"tempete": true
+						}
+					],
+					"recit": {
+						"titre": "Le khamsin",
+						"texte": "Le ciel devient jaune, puis brun. Un vent brûlant se lève et le sable fouette le visage. Tu n'y vois plus à dix pas."
+					}
+				},
+				{
+					"id": "rendre_plans",
+					"ou": "desert_rouge",
+					"objectif": "Rapporte les plans à Hémiounou, devant sa tombe",
+					"pnj": "hemiounou",
+					"repliques": [
+						"Mes plans ! Ma main, mon écriture... Les pentes. Les chambres. La rainure de la pierre de faîte. Tout revient !",
+						"Je m'appelle Hémiounou, fils de Néfermaât, et je bâtis l'horizon de Khéops. Je le savais. Je le sais.",
+						"Ce vent va nous enterrer vivants. Conduis-moi à la passe des tombes, je te suis. Et garde les chacals loin de moi : je suis un architecte, pas un soldat."
+					]
+				},
+				{
+					"id": "escorte_hemiounou",
+					"ou": "desert_rouge",
+					"objectif": "Conduis Hémiounou jusqu'à la passe des tombes, dans la tempête (reste près de lui)",
+					"escorte": [
+						"hemiounou"
+					],
+					"distance_joueur": 10,
+					"vitesse": 1.3,
+					"chemin": [
+						[
+							117.5,
+							-61
+						],
+						[
+							118,
+							-36
+						],
+						[
+							124,
+							-32
+						],
+						[
+							146,
+							-30
+						]
+					],
+					"vagues": [
+						{
+							"a": 0.3,
+							"annonce": "Des chacals fracturés sortent du sable !",
+							"apparition": {
+								"type": "chacal_fracture",
+								"position": [
+									132,
+									-48
+								],
+								"nombre": 3,
+								"rayon": 3,
+								"attaque": true
+							}
+						},
+						{
+							"a": 0.75,
+							"annonce": "D'autres chacals, devant !",
+							"apparition": {
+								"type": "chacal_fracture",
+								"position": [
+									146,
+									-16
+								],
+								"nombre": 3,
+								"rayon": 3,
+								"attaque": true
+							}
+						}
+					],
+					"apres": [
+						{
+							"masquer": "hemiounou"
+						},
+						{
+							"tempete": false
+						},
+						{
+							"montrer": "hemiounou_chantier"
+						}
+					],
+					"recit": {
+						"titre": "La passe des tombes",
+						"texte": "Le vent tombe d'un coup, comme on ferme une porte. Hémiounou s'appuie sur ton épaule : « Au chantier. Ils m'attendent. »"
+					}
+				},
+				{
+					"id": "retour_chantier_6",
+					"ou": "desert_rouge",
+					"objectif": "Rentre au Village des Bâtisseurs par la passe des tombes",
+					"arriver": "village_batisseurs"
+				},
+				{
+					"id": "fin_chapitre_6",
+					"ou": "village_batisseurs",
+					"objectif": "Retrouve Hémiounou au chantier, au pied de la grande rampe",
+					"pnj": "hemiounou_chantier",
+					"fin_chapitre": true,
+					"repliques": [
+						"Te voilà. Regarde-les : ils reprennent les cordes. Il suffisait qu'un vieil homme se souvienne.",
+						"Avec ces plans, on peut finir. Il ne reste qu'une chose, la plus difficile : la pierre de faîte. Le sommet. Le premier rayon du soleil la touchera chaque matin.",
+						"Prends cette coudée. C'est avec elle que j'ai tout mesuré. Une coudée royale : sept paumes, vingt-huit doigts. La pyramide entière tient dedans."
+					],
+					"recompense": [
+						{
+							"id": "coudee_royale",
+							"nom": "Coudée royale d'Hémiounou"
+						}
+					]
+				}
+			]
+		},
+		{
+			"numero": 7,
+			"titre": "La pierre de faîte",
+			"ou": "village_batisseurs",
+			"etapes": [
+				{
+					"id": "ankhkhaf_faite",
+					"ou": "village_batisseurs",
+					"objectif": "Ânkhkhaf a réuni les équipes : va le voir devant le passage des ouvriers",
+					"pnj": "ankhkhaf_chantier",
+					"repliques": [
+						"Tu as ramené Hémiounou. Je n'oublierai pas. Et le roi non plus, je m'en assurerai.",
+						"La pierre de faîte est sur son traîneau, au milieu du chantier. Quatre de mes meilleurs haleurs vont la tirer jusqu'au pied de la grande rampe.",
+						"Mais le plateau tremble depuis ce matin. Quelque chose bouge sous la pyramide, et les fracturés sortent de partout. Reste près de la pierre. Si elle tombe, elle se brise, et il faudra un an pour en tailler une autre."
+					]
+				},
+				{
+					"id": "halage_faite",
+					"ou": "village_batisseurs",
+					"objectif": "Aide les haleurs à tirer la pierre de faîte jusqu'au pied de la rampe (reste tout près du traîneau)",
+					"escorte": [
+						"haleur_1",
+						"haleur_2",
+						"haleur_3",
+						"haleur_4"
+					],
+					"charge": "traineau_faite",
+					"distance_joueur": 7,
+					"vitesse": 1.1,
+					"chemin": [
+						[
+							1,
+							-94
+						],
+						[
+							0,
+							-112
+						],
+						[
+							-3,
+							-128
+						],
+						[
+							-6,
+							-138
+						]
+					],
+					"vagues": [
+						{
+							"a": 0.3,
+							"annonce": "Des ouvriers oubliés s'en prennent aux haleurs !",
+							"apparition": {
+								"type": "oublie_village",
+								"position": [
+									-18,
+									-112
+								],
+								"nombre": 3,
+								"rayon": 3,
+								"attaque": true
+							}
+						},
+						{
+							"a": 0.65,
+							"annonce": "Des chacals fracturés dévalent le plateau !",
+							"apparition": {
+								"type": "chacal_fracture",
+								"position": [
+									16,
+									-126
+								],
+								"nombre": 3,
+								"rayon": 3,
+								"attaque": true
+							}
+						}
+					],
+					"apres": [
+						{
+							"decor": "traineau_faite",
+							"aller": [
+								-6,
+								-138
+							],
+							"angle": 0.0
+						},
+						{
+							"pnj": "haleur_1",
+							"aller": [
+								-10,
+								-136
+							]
+						},
+						{
+							"pnj": "haleur_2",
+							"aller": [
+								-2,
+								-136
+							]
+						},
+						{
+							"pnj": "haleur_3",
+							"aller": [
+								-11,
+								-133
+							]
+						},
+						{
+							"pnj": "haleur_4",
+							"aller": [
+								-1,
+								-133
+							]
+						}
+					],
+					"recit": {
+						"titre": "Au pied de la rampe",
+						"texte": "Les haleurs lâchent les cordes, couverts de sueur et de sable. La pierre de faîte brille au pied de la rampe. Dans la foule, quelqu'un commence à chanter."
+					}
+				},
+				{
+					"id": "gardes_faite",
+					"ou": "village_batisseurs",
+					"objectif": "Le plateau tremble : repousse les gardes des Effaceurs qui veulent briser la pierre",
+					"tuer": "garde_effaceuse",
+					"nombre": 4,
+					"lieu": [
+						16,
+						-148
+					],
+					"apparition": {
+						"type": "garde_effaceuse",
+						"position": [
+							16,
+							-148
+						],
+						"nombre": 4,
+						"rayon": 4,
+						"attaque": true
+					},
+					"recit": {
+						"titre": "La pierre est sauve",
+						"texte": "Le dernier garde tombe. Sous tes pieds, le sol tremble encore, longtemps. Le bruit vient de la pyramide."
+					}
+				},
+				{
+					"id": "fin_chapitre_7",
+					"ou": "village_batisseurs",
+					"objectif": "Retourne voir Hémiounou",
+					"pnj": "hemiounou_chantier",
+					"fin_chapitre": true,
+					"repliques": [
+						"La pierre de faîte est sauvée. Demain, elle montera la rampe, et après-demain, elle sera tout en haut.",
+						"Mais tu as senti le sol. Ce n'est pas la terre qui tremble, l'Occidental. C'est la chambre du roi. Elle chante, comme un serpent qui siffle dans la pierre.",
+						"Ce qui a mangé ma mémoire est là-dedans. Ânkhkhaf va faire ouvrir le passage des ouvriers. Prends ce pectoral : je l'ai dessiné pour le jour où l'on poserait la dernière pierre."
+					],
+					"recompense": [
+						{
+							"id": "pectoral_faite",
+							"nom": "Pectoral de la pierre de faîte"
+						}
+					]
+				}
+			]
+		},
+		{
 			"numero": 8,
 			"titre": "Ce que le fleuve emporte",
 			"ou": "coeur_pyramide",
@@ -1323,6 +1712,6 @@
 		"chapitre": "L'ÉGYPTE EST SAUVÉE",
 		"objectif": "L'histoire de l'Égypte est réparée. La suite du voyage arrive bientôt.",
 		"titre": "Ce que le fleuve emporte",
-		"message": "La Grande Pyramide brille au soleil, et le journal de Merer garde ton passage. Les chapitres 6 et 7 arrivent bientôt."
+		"message": "La Grande Pyramide brille au soleil, et le journal de Merer garde ton passage."
 	}
 }

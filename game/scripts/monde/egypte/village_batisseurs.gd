@@ -58,6 +58,9 @@ const PASSAGE := Vector2(30, -136)
 ## Les bâtisseurs libérés au cimetière, et où ils se retrouvent ensuite.
 const LIBERES := [Vector2(19, 40), Vector2(20, 48)]
 const NOMS_LIBERES := ["batisseur_kai", "batisseur_hetepi"]
+## Chapitre 7 : la pierre de faîte, tirée sur son traîneau jusqu'au pied de la grande rampe.
+const DEPART_FAITE := Vector2(1, -94)
+const HEMIOUNOU := Vector2(-7, -104)
 
 var _blesses: Array[Node3D] = []
 
@@ -694,6 +697,22 @@ func _construire_quete() -> void:
 		# Les paniers sont proches les uns des autres : on ne prend que celui devant soi.
 		_objet(dossier, "Panier%d" % k, "panier_%d" % k, "panier_amulettes", "panier", "[F] Prendre le panier d'amulettes", PANIERS[k]).set("portee", 1.6)
 	_objet(dossier, "DortoirEchange", "dortoir_echange", "", "", "[F] Échanger les amulettes des dormeurs", ECHANGE)
+	# Chapitres 6 et 7 : Hémiounou revenu du désert, deux haleurs de plus et la pierre de faîte.
+	var hemiounou := _pnj(dossier, "hemiounou_chantier", HEMIOUNOU, -PI * 0.6)
+	hemiounou.add_to_group("decor_quete")
+	hemiounou.set_meta("identifiant", "hemiounou_chantier")
+	hemiounou.visible = false
+	_pnj(dossier, "haleur_3", DEPART_FAITE + Vector2(-3.5, -6), 0.4)
+	_pnj(dossier, "haleur_4", DEPART_FAITE + Vector2(4, -7), -0.5)
+	var faite := Traineau.new()
+	faite.name = "TraineauFaite"
+	faite.add_to_group("decor_quete")
+	faite.set_meta("identifiant", "traineau_faite")
+	faite.position = Vector3(DEPART_FAITE.x, hauteur(DEPART_FAITE.x, DEPART_FAITE.y), DEPART_FAITE.y)
+	faite.materiau_bloc = _mat_calcaire()
+	faite.materiau_bois = _mat_bois()
+	dossier.add_child(faite)
+	_pyramidion(faite)
 	# Chapitre 8 : Ânkhkhaf devant le passage des ouvriers, et Merer qui attend la sortie du groupe.
 	_pnj(dossier, "ankhkhaf_chantier", PASSAGE + Vector2(-4.5, 4.5), PI * 0.15)
 	var merer := _pnj(dossier, "merer_gizeh", PASSAGE + Vector2(4.5, 6.0), -PI * 0.2)
@@ -717,6 +736,41 @@ func _construire_quete() -> void:
 	repere.call(MarqueurCarte.Type.LIEU, "Passe des tombes (Désert Rouge)", PASSE_TOMBES)
 	repere.call(MarqueurCarte.Type.DANGER, "Passage des ouvriers (Cœur de la Pyramide)", PASSAGE)
 	repere.call(MarqueurCarte.Type.DANGER, "Chacals", Vector2(-110, -75))
+
+
+## La pierre de faîte : un petit pyramidion de calcaire fin, la pointe dorée, posé sur le bloc.
+func _pyramidion(traineau: Node3D) -> void:
+	var cm := CylinderMesh.new()
+	cm.top_radius = 0.0
+	cm.bottom_radius = 0.78
+	cm.height = 0.95
+	cm.radial_segments = 4
+	cm.rings = 1
+	var p := MeshInstance3D.new()
+	p.name = "Pyramidion"
+	p.mesh = cm
+	var m := StandardMaterial3D.new()
+	m.albedo_color = Color(0.95, 0.92, 0.84)
+	m.roughness = 0.5
+	p.material_override = m
+	p.position = Vector3(0, 1.78, 0.1)
+	p.rotation.y = PI / 4
+	traineau.add_child(p)
+	var or_mesh := CylinderMesh.new()
+	or_mesh.top_radius = 0.0
+	or_mesh.bottom_radius = 0.24
+	or_mesh.height = 0.29
+	or_mesh.radial_segments = 4
+	or_mesh.rings = 1
+	var pointe := MeshInstance3D.new()
+	pointe.mesh = or_mesh
+	var dore := StandardMaterial3D.new()
+	dore.albedo_color = Color(1.0, 0.78, 0.3)
+	dore.metallic = 1.0
+	dore.roughness = 0.25
+	pointe.material_override = dore
+	pointe.position = Vector3(0, 0.335, 0)
+	p.add_child(pointe)
 
 
 func _objet(parent: Node3D, nom_noeud: String, id: String, groupe_o: String, forme_o: String, texte: String, p: Vector2) -> Node3D:

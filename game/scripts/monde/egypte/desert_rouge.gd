@@ -31,6 +31,11 @@ const FAILLE := Vector2(-90.5, -70)
 const OUADI := [Vector2(-160, 40), Vector2(-100, 70), Vector2(-40, 64), Vector2(10, 92), Vector2(80, 86), Vector2(160, 120)]
 ## Le campement des nomades, au bord de l'ouadi.
 const NOMADES := Vector2(-34, 88)
+## Chapitre 6 : les trois mastabas où sont cachés les plans d'Hémiounou (la première est la
+## sienne). Centre, demi-longueur (nord-sud), demi-largeur (est-ouest), hauteur.
+const MASTABAS_QUETE := [[Vector2(110, -58), 8.0, 4.5, 5.0], [Vector2(80, -76), 7.0, 4.2, 4.6], [Vector2(112, -4), 7.5, 4.4, 5.2]]
+## Tamit, la cheffe des nomades.
+const TAMIT := Vector2(-31, 89.5)
 
 var _sable: FastNoiseLite
 
@@ -228,11 +233,18 @@ func _construire_mastabas() -> void:
 			for t in TRACES:
 				if p.distance_to(t) < longueur + 4.0:
 					loin_traces = false
-			if loin_piste and loin_traces and hasard.randf() < 0.85:
+			var loin_quete := true
+			for mq in MASTABAS_QUETE:
+				if p.distance_to(mq[0]) < longueur + float(mq[1]) + 6.0:
+					loin_quete = false
+			if loin_piste and loin_traces and loin_quete and hasard.randf() < 0.85:
 				_mastaba(c, p, longueur, hasard.randf_range(3.5, 5.0), hasard.randf_range(3.5, 6.0),
 						calcaire if hasard.randf() < 0.7 else briques)
 			z += longueur * 2.0 + 6.0
 		x += 17.0
+	# Les trois mastabas du chapitre 6 (toujours au même endroit).
+	for mq in MASTABAS_QUETE:
+		_mastaba(c, mq[0], mq[1], mq[2], mq[3], calcaire)
 	# Quelques jarres d'offrandes brisées et des stèles renversées dans les rues.
 	for k in 30:
 		var p := Vector2(hasard.randf_range(CIMETIERE.position.x, CIMETIERE.end.x), hasard.randf_range(CIMETIERE.position.y, CIMETIERE.end.y))
@@ -421,15 +433,57 @@ func _construire_quete() -> void:
 	cuir.rotation.y = 0.4
 	carnet.add_child(cuir)
 	_objet(dossier, "RamasserCarnet", "carnet_vera", "", "", "[F] Ramasser le carnet", Vector2(carnet.position.x, carnet.position.z))
+	# Chapitre 6 : Tamit, Hémiounou devant sa tombe, les miroirs de cuivre et les plans cachés.
+	_pnj(dossier, "tamit", TAMIT, -PI / 2)
+	var hemiounou := _pnj(dossier, "hemiounou", position_hemiounou(), PI / 2)
+	hemiounou.name = "Hemiounou"
+	for k in MASTABAS_QUETE.size():
+		var mq: Array = MASTABAS_QUETE[k]
+		var niche: Vector2 = mq[0] + Vector2(float(mq[2]), float(mq[1]) * 0.4)
+		var miroir := _objet(dossier, "Miroir%d" % k, "miroir_%d" % k, "miroir", "miroir", "[F] Tourner le miroir vers la fausse porte", niche + Vector2(4.0, 1.2))
+		miroir.set_meta("cible", Vector3(niche.x + 0.2, 0, niche.y))
+		var plan := _objet(dossier, "Plan%d" % k, "plan_hemiounou_%d" % k, "plan_hemiounou", "rouleau", "[F] Prendre le papyrus", niche + Vector2(1.1, 0))
+		plan.add_to_group("decor_quete")
+		plan.set_meta("identifiant", "plans_hemiounou")
+		plan.visible = false
+	if not Engine.is_editor_hint():
+		_reprendre_etat.call_deferred()
 	# Repères de la carte.
 	var repere := func(type: int, texte: String, p: Vector2) -> void:
 		MarqueurCarte.creer(dossier, type, texte, Vector3(p.x, hauteur(p.x, p.y), p.y))
 	repere.call(MarqueurCarte.Type.LIEU, "Passe des tombes (vers le village)", ENTREE)
+	repere.call(MarqueurCarte.Type.LIEU, "Tombe d'Hémiounou", MASTABAS_QUETE[0][0])
 	repere.call(MarqueurCarte.Type.LIEU, "Cimetière des nobles", CIMETIERE.get_center())
 	repere.call(MarqueurCarte.Type.LIEU, "La grande tombe du rocher", REPAIRE)
 	repere.call(MarqueurCarte.Type.LIEU, "Campement des nomades", NOMADES)
 	repere.call(MarqueurCarte.Type.LIEU, "Ouadi", Vector2(10, 92))
 	repere.call(MarqueurCarte.Type.DANGER, "Chacals", Vector2(-110, 40))
+
+
+## Où Hémiounou attend, devant la fausse porte de sa propre tombe.
+static func position_hemiounou() -> Vector2:
+	var mq: Array = MASTABAS_QUETE[0]
+	return mq[0] + Vector2(float(mq[2]) + 3.0, -3.0)
+
+
+## Les miroirs déjà tournés renvoient toujours le soleil dans la tombe.
+func _reprendre_etat() -> void:
+	var quete := get_tree().get_first_node_in_group("quete")
+	if quete == null or not quete.has_method("etape_atteinte") or _dossier_quete == null:
+		return
+	if quete.etape_atteinte("plans_hemiounou"):
+		for k in MASTABAS_QUETE.size():
+			var miroir := _dossier_quete.get_node_or_null("Miroir%d" % k)
+			if miroir != null:
+				miroir.set("ramasse", true)
+				miroir.cacher()
+	# Les plans rapportés à Hémiounou ne sont plus dans les niches.
+	if quete.etape_atteinte("rendre_plans"):
+		for k in MASTABAS_QUETE.size():
+			var plan := _dossier_quete.get_node_or_null("Plan%d" % k)
+			if plan != null:
+				plan.set("ramasse", true)
+				plan.cacher()
 
 
 func _objet(parent: Node3D, nom_noeud: String, id: String, groupe_o: String, forme_o: String, texte: String, p: Vector2) -> Node3D:

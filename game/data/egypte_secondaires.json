@@ -1,0 +1,692 @@
+{
+	"_aide": "Quêtes secondaires de l'île d'Égypte. Même format que data/prehistoire_secondaires.json : chaque quête est proposée par un personnage (« donneur ») une fois l'étape « apres » de la quête principale passée. Types d'étape : recolter (un groupe d'objets, « nombre »), objet (un objet précis, « effet » possible), tuer (début du nom de l'ennemi, « apparition » possible), pnj (parler à quelqu'un). « ou » est la zone de l'étape. Un objet avec « reste »: true ne disparaît pas quand on l'a utilisé (une ruche, un blessé qu'on soigne).",
+	"noms_zones": {
+		"port_des_marais": "Port des Marais",
+		"carrieres_toura": "Carrières de Toura",
+		"village_batisseurs": "Village des Bâtisseurs",
+		"desert_rouge": "Désert Rouge",
+		"coeur_pyramide": "Cœur de la Pyramide"
+	},
+	"quetes": [
+		{
+			"id": "pain_et_biere",
+			"titre": "Le pain et la bière",
+			"donneur": "meret",
+			"apres": "echange_dortoirs",
+			"offre": [
+				"Tu sais combien de bouches je nourris ? Dix pains et une cruche de bière par homme, chaque jour. Et cette semaine, la moitié de l'orge a pourri dans les greniers.",
+				"Les champs au sud du village ont encore de belles gerbes. Coupe-m'en quatre, et je lance une brassée ce soir.",
+				"Les haleurs ne tirent pas un bloc le ventre vide. Sans bière, pas de pyramide. C'est aussi simple que ça."
+			],
+			"etapes": [
+				{
+					"objectif": "Coupe 4 gerbes d'orge dans les champs, au sud du village",
+					"recolter": "orge",
+					"nombre": 4,
+					"ou": "village_batisseurs",
+					"duree": 1.5,
+					"action": "Tu coupes la gerbe à la faucille…"
+				},
+				{
+					"objectif": "Rapporte l'orge à Méret, à la brasserie",
+					"pnj": "meret",
+					"ou": "village_batisseurs",
+					"repliques": [
+						"Belle orge ! On la mouille, on la laisse germer, on cuit des pains à peine dorés… puis on les émiette dans l'eau des jarres.",
+						"Ça fermente deux ou trois jours. Tiens, celle-ci est prête depuis hier : une cruche pour l'équipe du chantier.",
+						"Porte-la au haleur qui attend au pied de la rampe, sur le plateau. Et ne la goûte pas en route !"
+					]
+				},
+				{
+					"objectif": "Porte la cruche de bière au haleur du chantier, sur le plateau",
+					"pnj": "haleur_2",
+					"ou": "village_batisseurs",
+					"repliques": [
+						"De la bière de Méret ! Les gars, posez la corde !",
+						"Épaisse comme une soupe, comme il faut. Ça, ça vous redonne des bras.",
+						"Dis à Méret que l'équipe des « Verts » la remercie. Et que demain, on tire deux blocs de plus."
+					]
+				},
+				{
+					"objectif": "Retourne voir Méret",
+					"pnj": "meret",
+					"ou": "village_batisseurs",
+					"repliques": [
+						"Deux blocs de plus ? Ils disent ça à chaque cruche.",
+						"Tiens, prends ces pains pour la route, et ce pagne : mon frère le tissait pour les haleurs. Le lin respire, au soleil.",
+						"Reviens quand tu veux. Ici, ceux qui aident mangent."
+					]
+				}
+			],
+			"recompense": [
+				{
+					"id": "pagne_shendyt",
+					"nom": "Pagne shendyt"
+				},
+				{
+					"id": "pain_meret",
+					"nom": "Pains de Méret",
+					"n": 5
+				}
+			]
+		},
+		{
+			"id": "miou",
+			"titre": "Miou",
+			"donneur": "nebi",
+			"apres": "echange_dortoirs",
+			"offre": [
+				"Tu n'aurais pas vu une chatte tigrée ? Elle s'appelle Miou. C'est elle qui chasse les souris dans les réserves de grain de Méret.",
+				"Hier soir, je l'ai entendue crier derrière la brasserie… et puis plus rien. Quand j'y suis allé, il y avait des serpents. Des serpents avec des cristaux violets sur le dos.",
+				"Moi, je ne sais tenir qu'un roseau à écrire. Tu veux bien aller voir ?"
+			],
+			"etapes": [
+				{
+					"objectif": "Chasse les cobras fracturés derrière la brasserie",
+					"tuer": "cobra",
+					"nombre": 3,
+					"ou": "village_batisseurs",
+					"apparition": {
+						"type": "cobra_grenier",
+						"position": [
+							-16,
+							66
+						],
+						"nombre": 3,
+						"rayon": 3,
+						"attaque": false
+					}
+				},
+				{
+					"objectif": "Retrouve Miou, cachée entre les jarres",
+					"objet": "chat_nebi",
+					"ou": "village_batisseurs",
+					"duree": 2.0,
+					"action": "Tu tends doucement la main vers Miou…"
+				},
+				{
+					"objectif": "Ramène Miou à Nebi, sur la grande place",
+					"pnj": "nebi",
+					"ou": "village_batisseurs",
+					"repliques": [
+						"Miou ! Tu es vivante !",
+						"Les chats, ici, on les respecte. Ils protègent le grain, et le grain, c'est la vie du village. Certains disent que la déesse Bastet veille à travers leurs yeux.",
+						"Prends cette amulette. C'est ma mère qui me l'avait donnée. Je crois que Miou voudrait que tu l'aies."
+					]
+				}
+			],
+			"recompense": [
+				{
+					"id": "amulette_bastet",
+					"nom": "Amulette de Bastet"
+				}
+			]
+		},
+		{
+			"id": "remede_peseshet",
+			"titre": "Le remède de Pésèshet",
+			"donneur": "pesechet",
+			"apres": "qg_carnet",
+			"offre": [
+				"Trois haleurs se sont brûlé les mains sur les cordes, hier. La peau est à vif, et dans cette chaleur, une plaie qui s'infecte, ça tue.",
+				"Je les soigne comme le disent les anciens papyrus : du miel sur la plaie, et du natron pour la sécher. Mais je n'ai plus ni l'un ni l'autre.",
+				"Le natron, c'est ce sel blanc qu'on trouve au bord des oueds du Désert Rouge. Le miel, prends-le aux ruches, près des champs. Ne t'inquiète pas pour les abeilles : souffle-leur un peu de fumée."
+			],
+			"etapes": [
+				{
+					"objectif": "Ramasse 3 croûtes de natron au bord de l'oued, dans le Désert Rouge",
+					"recolter": "natron",
+					"nombre": 3,
+					"ou": "desert_rouge",
+					"duree": 1.5,
+					"action": "Tu grattes le sel blanc…"
+				},
+				{
+					"objectif": "Prends le miel de 2 ruches, près des champs du village",
+					"recolter": "miel",
+					"nombre": 2,
+					"ou": "village_batisseurs",
+					"duree": 2.5,
+					"action": "Tu enfumes la ruche et tu prends un rayon de miel…"
+				},
+				{
+					"objectif": "Rapporte le miel et le natron à Pésèshet",
+					"pnj": "pesechet",
+					"ou": "village_batisseurs",
+					"repliques": [
+						"Parfait. Le miel empêche la plaie de pourrir, le natron la sèche. On le sait depuis bien avant moi.",
+						"Je t'ai préparé les pansements de lin. Les trois blessés se reposent entre les dortoirs des haleurs, à l'ouest.",
+						"Pose le pansement doucement, et serre juste assez. Tu as de bonnes mains, j'en suis sûre."
+					]
+				},
+				{
+					"objectif": "Soigne les 3 haleurs blessés, entre les dortoirs",
+					"recolter": "soin",
+					"nombre": 3,
+					"ou": "village_batisseurs",
+					"duree": 3.0,
+					"action": "Tu poses le pansement de miel et de lin…"
+				},
+				{
+					"objectif": "Retourne voir Pésèshet",
+					"pnj": "pesechet",
+					"ou": "village_batisseurs",
+					"repliques": [
+						"Ils m'ont dit qu'un étranger les avait soignés aussi bien que moi. Je ne sais pas si je dois être fière ou vexée.",
+						"Prends ces sandales. Les haleurs qui marchent pieds nus sur la pierre chaude finissent toujours ici.",
+						"Et si un jour tu as une plaie, souviens-toi : miel, natron, lin propre."
+					]
+				}
+			],
+			"recompense": [
+				{
+					"id": "sandales_papyrus",
+					"nom": "Sandales de papyrus"
+				}
+			]
+		},
+		{
+			"id": "marque_equipe",
+			"titre": "La marque de l'équipe",
+			"donneur": "haleur_1",
+			"apres": "echange_dortoirs",
+			"offre": [
+				"Tu vois ces blocs ? Chaque équipe peint son nom dessus, à l'ocre rouge. Comme ça, les scribes savent qui a tiré quoi, et on peut se vanter.",
+				"Notre équipe, c'est les « Compagnons de Khéops ». Mais les traits violets sont passés sur notre dernier bloc, et la marque a disparu. Comme si on n'avait jamais existé.",
+				"Trouve-moi de l'ocre sur le plateau, et repeins-la. Tu es des nôtres, maintenant."
+			],
+			"etapes": [
+				{
+					"objectif": "Ramasse 3 tas d'ocre rouge sur le plateau du chantier",
+					"recolter": "ocre",
+					"nombre": 3,
+					"ou": "village_batisseurs",
+					"duree": 1.5,
+					"action": "Tu ramasses l'ocre…"
+				},
+				{
+					"objectif": "Peins la marque des Compagnons de Khéops sur le bloc",
+					"objet": "bloc_equipe",
+					"ou": "village_batisseurs",
+					"duree": 4.0,
+					"action": "Tu peins le nom de l'équipe à l'ocre…",
+					"effet": "marque"
+				},
+				{
+					"objectif": "Montre le bloc au haleur",
+					"pnj": "haleur_1",
+					"ou": "village_batisseurs",
+					"repliques": [
+						"« Les Compagnons de Khéops ». Ah, ça fait du bien de le revoir !",
+						"Dans quatre mille ans, quelqu'un lira peut-être ce nom, au fond d'une chambre que plus personne n'ouvrira. Et il saura qu'on était là.",
+						"Tiens, la tunique de l'équipe. Tu l'as méritée."
+					]
+				}
+			],
+			"recompense": [
+				{
+					"id": "tunique_compagnons",
+					"nom": "Tunique des Compagnons"
+				}
+			],
+			"titre_obtenu": "Compagnon de Khéops"
+		},
+		{
+			"id": "intrus_modernes_egypte",
+			"titre": "Les intrus modernes",
+			"donneur": "farouk",
+			"apres": "echange_dortoirs",
+			"offre": [
+				"Agent, on a un problème. Les capteurs de la Vigie repèrent des objets qui n'ont rien à faire en -2560. Les fractures les sèment derrière elles.",
+				"Il y en a au moins trois : un ici, dans les papyrus, un aux carrières de Toura, et un autre sur le chantier de Gizeh. Si un scribe les dessine dans un papyrus, l'histoire prend un sacré coup.",
+				"Ramasse-les et rapporte-les-moi. Discrètement."
+			],
+			"etapes": [
+				{
+					"objectif": "Trouve l'objet moderne dans les papyrus du Port des Marais",
+					"recolter": "moderne_port",
+					"nombre": 1,
+					"ou": "port_des_marais",
+					"duree": 1.0,
+					"action": "Tu ramasses l'objet…"
+				},
+				{
+					"objectif": "Trouve l'objet moderne près du camp des carriers, à Toura",
+					"recolter": "moderne_toura",
+					"nombre": 1,
+					"ou": "carrieres_toura",
+					"duree": 1.0,
+					"action": "Tu ramasses l'objet…"
+				},
+				{
+					"objectif": "Trouve l'objet moderne sur le chantier de Gizeh",
+					"recolter": "moderne_village",
+					"nombre": 1,
+					"ou": "village_batisseurs",
+					"duree": 1.5,
+					"action": "Tu attrapes le drone…"
+				},
+				{
+					"objectif": "Rapporte les trois objets à l'agent Farouk, au Port des Marais",
+					"pnj": "farouk",
+					"ou": "port_des_marais",
+					"repliques": [
+						"Des lunettes de soleil, un gobelet en carton… et un drone. Un drone ! Au-dessus de la Grande Pyramide !",
+						"Celui-là a forcément filmé quelque chose. Je l'envoie au labo du QG, à Hikari Bay.",
+						"Beau travail, agent. Prends ces gants de la Vigie : renforcés, et ils ne fondent pas au soleil."
+					]
+				}
+			],
+			"recompense": [
+				{
+					"id": "gants_vigie",
+					"nom": "Gants de terrain de la Vigie"
+				}
+			]
+		},
+		{
+			"id": "crue_qui_monte",
+			"titre": "La crue qui monte trop",
+			"donneur": "batelier_2",
+			"apres": "recompense_ankhkhaf",
+			"offre": [
+				"Le fleuve monte trop vite, cette année. Ce n'est pas normal : la crue devrait encore attendre un mois.",
+				"Merer m'a demandé de relever les bornes de crue, le long du bassin. On grave la hauteur de l'eau dessus, chaque jour. Mais les crocodiles rôdent autour, et ils ont… des cristaux dans le dos.",
+				"Tu peux lire les trois bornes pour moi ? Je te dirai ce que ça veut dire."
+			],
+			"etapes": [
+				{
+					"objectif": "Relève la hauteur de l'eau sur 3 bornes de crue, autour du bassin",
+					"recolter": "borne",
+					"nombre": 3,
+					"ou": "port_des_marais",
+					"duree": 2.0,
+					"action": "Tu lis les traits gravés sur la borne…"
+				},
+				{
+					"objectif": "Des crocodiles fracturés sortent de l'eau !",
+					"tuer": "crocodile_fracture",
+					"nombre": 3,
+					"ou": "port_des_marais",
+					"apparition": {
+						"type": "crocodile_fracture",
+						"position": [
+							60,
+							-28
+						],
+						"nombre": 3,
+						"rayon": 4,
+						"attaque": true
+					}
+				},
+				{
+					"objectif": "Parle à Hori, sur le quai",
+					"pnj": "batelier_2",
+					"ou": "port_des_marais",
+					"repliques": [
+						"Trois coudées de plus qu'hier ? Ce n'est pas la crue, ça. C'est autre chose qui pousse l'eau.",
+						"Le fleuve, c'est notre calendrier. Quand il déborde, on sème ; quand il descend, on récolte. Si quelqu'un le dérègle, tout le pays se dérègle.",
+						"Prends mon harpon. Il a chassé l'hippopotame avec mon père. Contre ces bêtes-là, tu en auras besoin plus que moi."
+					]
+				}
+			],
+			"recompense": [
+				{
+					"id": "harpon_hori",
+					"nom": "Harpon de Hori"
+				}
+			]
+		},
+		{
+			"id": "senet_ouni",
+			"titre": "Le senet d'Ouni",
+			"donneur": "ouni",
+			"apres": "echange_dortoirs",
+			"offre": [
+				"Tu connais le senet ? Trente cases, des pions qui avancent… et les bâtonnets qu'on lance pour savoir de combien.",
+				"Mon petit-fils a joué avec mes pions hier, et il les a semés dans tout le village. Trois. Sans eux, plus de partie.",
+				"Retrouve-les, et je t'apprends. Un vieux comme moi a bien le droit de gagner contre un esprit."
+			],
+			"etapes": [
+				{
+					"objectif": "Retrouve les 3 pions de senet perdus dans le village",
+					"recolter": "pion_senet",
+					"nombre": 3,
+					"ou": "village_batisseurs",
+					"duree": 1.0,
+					"action": "Tu ramasses le pion…"
+				},
+				{
+					"objectif": "Joue une partie de senet avec Ouni, devant son atelier",
+					"objet": "plateau_senet",
+					"ou": "village_batisseurs",
+					"duree": 6.0,
+					"action": "Tu lances les bâtonnets… tu avances ton pion…"
+				},
+				{
+					"objectif": "Parle à Ouni",
+					"pnj": "ouni",
+					"ou": "village_batisseurs",
+					"repliques": [
+						"Ha ! Tu es tombé sur la case de l'eau. Retour au début. Ça arrive aux meilleurs.",
+						"On dit que le senet, c'est le voyage de l'âme vers l'au-delà. Moi, j'y joue surtout pour battre mon voisin.",
+						"Garde ce pion. Le dernier, celui qui arrive au bout. Il porte bonheur."
+					]
+				}
+			],
+			"recompense": [
+				{
+					"id": "pion_senet",
+					"nom": "Pion de senet d'Ouni"
+				}
+			]
+		}
+	],
+	"objets": [
+		{
+			"id": "orge_0",
+			"groupe": "orge",
+			"forme": "gerbe",
+			"ou": "village_batisseurs",
+			"position": [
+				-10,
+				112
+			],
+			"invite": "[F] Couper la gerbe"
+		},
+		{
+			"id": "orge_1",
+			"groupe": "orge",
+			"forme": "gerbe",
+			"ou": "village_batisseurs",
+			"position": [
+				0,
+				106
+			],
+			"invite": "[F] Couper la gerbe"
+		},
+		{
+			"id": "orge_2",
+			"groupe": "orge",
+			"forme": "gerbe",
+			"ou": "village_batisseurs",
+			"position": [
+				22,
+				108
+			],
+			"invite": "[F] Couper la gerbe"
+		},
+		{
+			"id": "orge_3",
+			"groupe": "orge",
+			"forme": "gerbe",
+			"ou": "village_batisseurs",
+			"position": [
+				34,
+				110
+			],
+			"invite": "[F] Couper la gerbe"
+		},
+		{
+			"id": "chat_nebi",
+			"groupe": "",
+			"forme": "chat",
+			"ou": "village_batisseurs",
+			"position": [
+				-18,
+				70
+			],
+			"invite": "[F] Attraper Miou"
+		},
+		{
+			"id": "natron_0",
+			"groupe": "natron",
+			"forme": "natron",
+			"ou": "desert_rouge",
+			"position": [
+				-40,
+				64
+			],
+			"invite": "[F] Ramasser le natron"
+		},
+		{
+			"id": "natron_1",
+			"groupe": "natron",
+			"forme": "natron",
+			"ou": "desert_rouge",
+			"position": [
+				-20,
+				72
+			],
+			"invite": "[F] Ramasser le natron"
+		},
+		{
+			"id": "natron_2",
+			"groupe": "natron",
+			"forme": "natron",
+			"ou": "desert_rouge",
+			"position": [
+				10,
+				90
+			],
+			"invite": "[F] Ramasser le natron"
+		},
+		{
+			"id": "ruche_0",
+			"groupe": "miel",
+			"forme": "ruche",
+			"ou": "village_batisseurs",
+			"position": [
+				50,
+				104
+			],
+			"invite": "[F] Prendre le miel",
+			"reste": true
+		},
+		{
+			"id": "ruche_1",
+			"groupe": "miel",
+			"forme": "ruche",
+			"ou": "village_batisseurs",
+			"position": [
+				56,
+				106
+			],
+			"invite": "[F] Prendre le miel",
+			"reste": true
+		},
+		{
+			"id": "blesse_0",
+			"groupe": "soin",
+			"forme": "natte",
+			"ou": "village_batisseurs",
+			"position": [
+				-56,
+				18
+			],
+			"invite": "[F] Soigner le haleur",
+			"reste": true
+		},
+		{
+			"id": "blesse_1",
+			"groupe": "soin",
+			"forme": "natte",
+			"ou": "village_batisseurs",
+			"position": [
+				-44,
+				30
+			],
+			"invite": "[F] Soigner le haleur",
+			"reste": true
+		},
+		{
+			"id": "blesse_2",
+			"groupe": "soin",
+			"forme": "natte",
+			"ou": "village_batisseurs",
+			"position": [
+				-30,
+				18
+			],
+			"invite": "[F] Soigner le haleur",
+			"reste": true
+		},
+		{
+			"id": "ocre_chantier_0",
+			"groupe": "ocre",
+			"forme": "ocre",
+			"ou": "village_batisseurs",
+			"position": [
+				-2,
+				-118
+			],
+			"invite": "[F] Ramasser l'ocre"
+		},
+		{
+			"id": "ocre_chantier_1",
+			"groupe": "ocre",
+			"forme": "ocre",
+			"ou": "village_batisseurs",
+			"position": [
+				-12,
+				-126
+			],
+			"invite": "[F] Ramasser l'ocre"
+		},
+		{
+			"id": "ocre_chantier_2",
+			"groupe": "ocre",
+			"forme": "ocre",
+			"ou": "village_batisseurs",
+			"position": [
+				4,
+				-122
+			],
+			"invite": "[F] Ramasser l'ocre"
+		},
+		{
+			"id": "bloc_equipe",
+			"groupe": "",
+			"forme": "bloc",
+			"ou": "village_batisseurs",
+			"position": [
+				-28,
+				-132
+			],
+			"invite": "[F] Peindre la marque"
+		},
+		{
+			"id": "lunettes_port",
+			"groupe": "moderne_port",
+			"forme": "lunettes",
+			"ou": "port_des_marais",
+			"position": [
+				-30,
+				70
+			],
+			"invite": "[F] Ramasser"
+		},
+		{
+			"id": "gobelet_toura",
+			"groupe": "moderne_toura",
+			"forme": "gobelet",
+			"ou": "carrieres_toura",
+			"position": [
+				-40,
+				-10
+			],
+			"invite": "[F] Ramasser"
+		},
+		{
+			"id": "drone_chantier",
+			"groupe": "moderne_village",
+			"forme": "drone",
+			"ou": "village_batisseurs",
+			"position": [
+				16,
+				-96
+			],
+			"invite": "[F] Attraper le drone"
+		},
+		{
+			"id": "borne_0",
+			"groupe": "borne",
+			"forme": "borne",
+			"ou": "port_des_marais",
+			"position": [
+				-7.5,
+				-58
+			],
+			"invite": "[F] Lire la borne",
+			"reste": true
+		},
+		{
+			"id": "borne_1",
+			"groupe": "borne",
+			"forme": "borne",
+			"ou": "port_des_marais",
+			"position": [
+				-7.5,
+				-36
+			],
+			"invite": "[F] Lire la borne",
+			"reste": true
+		},
+		{
+			"id": "borne_2",
+			"groupe": "borne",
+			"forme": "borne",
+			"ou": "port_des_marais",
+			"position": [
+				52,
+				-20
+			],
+			"invite": "[F] Lire la borne",
+			"reste": true
+		},
+		{
+			"id": "pion_0",
+			"groupe": "pion_senet",
+			"forme": "pion",
+			"ou": "village_batisseurs",
+			"position": [
+				-34,
+				80
+			],
+			"invite": "[F] Ramasser le pion"
+		},
+		{
+			"id": "pion_1",
+			"groupe": "pion_senet",
+			"forme": "pion",
+			"ou": "village_batisseurs",
+			"position": [
+				-22,
+				110
+			],
+			"invite": "[F] Ramasser le pion"
+		},
+		{
+			"id": "pion_2",
+			"groupe": "pion_senet",
+			"forme": "pion",
+			"ou": "village_batisseurs",
+			"position": [
+				-10,
+				104
+			],
+			"invite": "[F] Ramasser le pion"
+		},
+		{
+			"id": "plateau_senet",
+			"groupe": "",
+			"forme": "senet",
+			"ou": "village_batisseurs",
+			"position": [
+				-24,
+				78
+			],
+			"invite": "[F] Jouer au senet"
+		}
+	]
+}
