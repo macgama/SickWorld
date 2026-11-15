@@ -203,6 +203,7 @@ func _terminer(joueur: Node, numero: int) -> void:
 	var objets := Metiers.tirer(Donnees.objets, rec, point.source, _hasard)
 	var xp := Metiers.gain(rec, inv.etat, point.source)
 	var nouveau_niveau: int = inv.gagner_experience(id_metier, xp)
+	Guildes.contribuer(joueur, "recolte")
 	var restants: Array = inv.recevoir(objets)
 	var pris: Array[String] = []
 	for o in objets:

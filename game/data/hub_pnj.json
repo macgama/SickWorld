@@ -396,6 +396,15 @@
 			"On raconte que l'Ordre du Loup a déjà traversé trois fois le portail de la Préhistoire."
 		]
 	},
+	"intendante_guilde": {
+		"nom": "Mei Takahara",
+		"role": "Intendante des guildes",
+		"modele": "femme",
+		"repliques": [
+			"Les contrats de la semaine sont affichés au tableau, juste à côté. Toute la guilde y travaille ensemble.",
+			"Chaque contrat accompli rapporte des sceaux à ceux qui ont aidé. Apporte-les-moi, j'ai de quoi équiper toute une expédition."
+		]
+	},
 	"retraite_banc": {
 		"nom": "Monsieur Hayashi",
 		"role": "Retraité",

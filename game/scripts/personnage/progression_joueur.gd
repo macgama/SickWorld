@@ -182,6 +182,7 @@ func _recompenser(action: String, a: Array) -> String:
 				xp += Progression.xp_de(donnees(), "fin_chapitre", n)
 			_donner_objets(Recompenses.objets(e.get("recompense", [])), false)
 			gagner_xp(xp, "Quête")
+			Guildes.contribuer(joueur, "quete")
 		"secondaire":
 			if a.size() != 4:
 				return "?"
@@ -193,8 +194,10 @@ func _recompenser(action: String, a: Array) -> String:
 				return "Quête inconnue"
 			var finie := numero == etapes.size() - 1
 			var n := Progression.niveau_zone(donnees(), String(etapes[numero].get("ou", "")))
-			if noter("secondaire_etape:%s:%s:%d" % [ile, q["id"], numero]) and not finie:
-				gagner_xp(Progression.xp_de(donnees(), "etape_secondaire", n), "Quête secondaire")
+			if noter("secondaire_etape:%s:%s:%d" % [ile, q["id"], numero]):
+				Guildes.contribuer(joueur, "quete")
+				if not finie:
+					gagner_xp(Progression.xp_de(donnees(), "etape_secondaire", n), "Quête secondaire")
 			if finie and noter("secondaire:" + String(q["id"])):
 				noter("secondaire_ile:%s:%s" % [ile, q["id"]])
 				_donner_objets(Recompenses.objets(q.get("recompense", [])), false)
@@ -219,6 +222,7 @@ func _recompenser(action: String, a: Array) -> String:
 				etat["faits"].append("evenement:%s:%s" % [ile, ev["id"]])
 			_donner_objets(Recompenses.objets_evenement(ev, palier, reussi, _hasard), true)
 			gagner_xp(xp if reussi else xp / 2, "Événement")
+			Guildes.contribuer(joueur, "evenement")
 		"mission_hub":
 			if a.size() != 1 or Recompenses.mission_hub(String(a[0])).is_empty():
 				return "Mission inconnue"
@@ -237,6 +241,7 @@ func _recompenser(action: String, a: Array) -> String:
 			if noter(Recompenses.fait_mission_du_jour(genre, String(m["id"]), int(a[1]))):
 				_donner_objets(Recompenses.objets(m.get("recompense", [])), false)
 				_appliquer()
+				Guildes.contribuer(joueur, "mission")
 		_:
 			return "Action inconnue"
 	return ""
@@ -262,6 +267,7 @@ func ennemi_vaincu(type_ennemi: String, niveau_ennemi: int) -> void:
 		return
 	etat["tues"][type_ennemi] = int(etat["tues"].get(type_ennemi, 0)) + 1
 	gagner_xp(Progression.xp_ennemi(donnees(), niveau_ennemi, niveau()), "")
+	Guildes.ennemi_vaincu(joueur, type_ennemi)
 
 
 ## Première visite d'une zone.

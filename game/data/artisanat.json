@@ -65,6 +65,22 @@
 				"materiaux"
 			]
 		},
+		"guilde": {
+			"nom": "Intendance des guildes",
+			"titre": "ギルド会館 Intendance des guildes · échange de sceaux",
+			"pnj": [
+				"intendante_guilde"
+			],
+			"couleur": "#d8b04a",
+			"accueil": "Les contrats de la semaine rapportent des sceaux à toute la guilde. Certaines pièces ne sortent qu'aux guildes de haut niveau.",
+			"verbe": "Échanger",
+			"fait": "Échangé",
+			"categories": [
+				"equipement",
+				"sacs",
+				"plats"
+			]
+		},
 		"cuisine": {
 			"nom": "Ramen Kaminari",
 			"titre": "雷 Ramen Kaminari",
@@ -785,6 +801,84 @@
 			"ingredients": {
 				"medaille_arene": 5
 			}
+		},
+		"guilde_insigne": {
+			"artisan": "guilde",
+			"categorie": "equipement",
+			"donne": "insigne_guilde",
+			"quantite": 1,
+			"ingredients": {
+				"sceau_guilde": 15
+			}
+		},
+		"guilde_veste": {
+			"artisan": "guilde",
+			"categorie": "equipement",
+			"donne": "veste_guilde",
+			"quantite": 1,
+			"ingredients": {
+				"sceau_guilde": 25
+			}
+		},
+		"guilde_banquet": {
+			"artisan": "guilde",
+			"categorie": "plats",
+			"donne": "banquet_guilde",
+			"quantite": 2,
+			"ingredients": {
+				"sceau_guilde": 4
+			},
+			"niveau_guilde": 2
+		},
+		"guilde_pantalon": {
+			"artisan": "guilde",
+			"categorie": "equipement",
+			"donne": "pantalon_guilde",
+			"quantite": 1,
+			"ingredients": {
+				"sceau_guilde": 30
+			},
+			"niveau_guilde": 2
+		},
+		"guilde_sacoche": {
+			"artisan": "guilde",
+			"categorie": "sacs",
+			"donne": "sacoche_guilde",
+			"quantite": 1,
+			"ingredients": {
+				"sceau_guilde": 35
+			},
+			"niveau_guilde": 3
+		},
+		"guilde_bottes": {
+			"artisan": "guilde",
+			"categorie": "equipement",
+			"donne": "bottes_guilde",
+			"quantite": 1,
+			"ingredients": {
+				"sceau_guilde": 40
+			},
+			"niveau_guilde": 4
+		},
+		"guilde_lame": {
+			"artisan": "guilde",
+			"categorie": "equipement",
+			"donne": "lame_apparat_guilde",
+			"quantite": 1,
+			"ingredients": {
+				"sceau_guilde": 60
+			},
+			"niveau_guilde": 5
+		},
+		"guilde_etendard": {
+			"artisan": "guilde",
+			"categorie": "equipement",
+			"donne": "etendard_guilde",
+			"quantite": 1,
+			"ingredients": {
+				"sceau_guilde": 90
+			},
+			"niveau_guilde": 7
 		}
 	}
 }

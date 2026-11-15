@@ -37,6 +37,9 @@ const SOUVENIRS_RANGEES := 4
 ## Bannière de la guilde du joueur : dans la Maison des guildes et chez lui.
 const BANNIERE_MAISON := Vector3(-111.6, 5.5, -13.88)
 const BANNIERE_APPART := Vector3(-82.04, SOL_APPART + 1.95, 25.6)
+## Maison des guildes : coffre (banque de la guilde) et tableau des contrats de la semaine.
+const COFFRE := Vector3(-126.4, 0.0, 10.4)
+const TABLEAU_CONTRATS := Vector3(-113.0, 0.0, 13.9)
 
 const CHAUD := Color(1.0, 0.82, 0.6)
 const ROSE := Color(1.0, 0.6, 0.78)
@@ -60,6 +63,10 @@ static func construire(hub: HikariBay) -> void:
 		appart.name = "Appartement"
 		appart.set_script(load("res://scripts/monde/appartement.gd"))
 		hub._contenu.add_child(appart)
+		var maison := Node3D.new()
+		maison.name = "MaisonDesGuildes"
+		maison.set_script(load("res://scripts/monde/maison_des_guildes.gd"))
+		hub._contenu.add_child(maison)
 
 
 ## Où poser le souvenir numéro i sur l'étagère (rangée du haut d'abord).
@@ -328,6 +335,28 @@ static func _construire_guildes(hub: HikariBay) -> void:
 	hub._texte("Recrutement · 募集中", Vector3(-116.0, 3.25, r.position.y + 0.16), CHAUD, 28, 0.0, 1.5)
 	hub._bloc(-127.0, -3.0, -126.0, 3.0, 0, 1.1, bois)
 	hub._texte("Registre des guildes\nFondation : parle au registraire", Vector3(-127.65, 3.6, 0.0), CHAUD, 26, PI / 2, 1.5)
+	# Coffre de la guilde (banque partagée), contre le mur ouest, au sud du registre.
+	var acier := hub._mat("metal")
+	var porte_coffre := StandardMaterial3D.new()
+	porte_coffre.albedo_color = Color(0.22, 0.24, 0.27)
+	porte_coffre.metallic = 0.85
+	porte_coffre.roughness = 0.35
+	hub._bloc(-127.95, COFFRE.z - 1.4, -126.6, COFFRE.z + 1.4, 0, 2.3, acier)
+	hub._boite(Vector3(0.06, 1.8, 2.3), Vector3(-126.56, 1.15, COFFRE.z), porte_coffre, false)
+	var laiton := StandardMaterial3D.new()
+	laiton.albedo_color = Color(0.85, 0.66, 0.3)
+	laiton.metallic = 1.0
+	laiton.roughness = 0.3
+	hub._cylindre(0.28, 0.28, 0.06, Vector3(-126.5, 1.2, COFFRE.z), laiton, false).rotation.z = PI / 2
+	for dz in [-0.75, 0.75]:
+		hub._boite(Vector3(0.05, 0.08, 0.5), Vector3(-126.5, 1.2, COFFRE.z + dz), laiton, false)
+	hub._texte("金庫 · Coffre de guilde", Vector3(-126.5, 2.75, COFFRE.z), CHAUD, 26, PI / 2, 1.5)
+	hub._lumiere(Vector3(-125.2, 2.6, COFFRE.z), CHAUD, 1.6, 6.0)
+	# Tableau des contrats de la semaine (mur sud) et l'intendante, juste à côté.
+	hub._boite(Vector3(3.2, 2.0, 0.08), Vector3(TABLEAU_CONTRATS.x, 2.0, r.end.y - 0.1), liege, false)
+	for k in 3:
+		hub._boite(Vector3(0.7, 0.9, 0.02), Vector3(TABLEAU_CONTRATS.x - 1.0 + k, 1.95, r.end.y - 0.15), hub._mat("blanc"), false)
+	hub._texte("Contrats de guilde · ギルド依頼", Vector3(TABLEAU_CONTRATS.x, 3.25, r.end.y - 0.16), CHAUD, 28, PI, 1.5)
 	# Lustres.
 	for x in [-123.0, -115.0]:
 		hub._cylindre(0.8, 0.5, 0.25, Vector3(x, 6.5, 0), hub._mat("metal"), false)
@@ -444,6 +473,7 @@ static func _construire_habitants(hub: HikariBay) -> void:
 	Marche._pnj(hub, "concierge", Vector3(-83.6, 0, 26.0), PI / 2)
 	Marche._pnj(hub, "registraire", Vector3(-125.2, 0, 0.0), -PI / 2)
 	Marche._pnj(hub, "membre_guilde", Vector3(-119.0, 0, 6.0), PI)
+	Marche._pnj(hub, "intendante_guilde", Vector3(-116.6, 0, 12.3), 0.0)
 	Marche._pnj(hub, "retraite_banc", Vector3(-101.0, 0, 5.0), PI)
 	Marche._pnj(hub, "enfant_balancoire", Vector3(-84.0, 0, 6.5), PI / 2)
 	Marche._pnj(hub, "joggeuse", Vector3(-76.0, 0, -12.0), PI)
