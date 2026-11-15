@@ -141,7 +141,8 @@ func _lancer() -> void:
 	var b = bob.get_node("Combat")
 	# Même classe pour comparer (la vie de base dépend de la classe).
 	_verifier(alice.get_node("CombatJoueur").classe_id() == bob.get_node("CombatJoueur").classe_id(), "Alice et Bob sont de la même classe")
-	bob.get_node("Progression").gagner_xp(10000000)
+	# Juste le niveau 20 (le maximum monte avec chaque île : 30 depuis la Grèce).
+	bob.get_node("Progression").gagner_xp(Progression.xp_total_pour(Progression.donnees(), 20))
 	var inv_b = bob.get_node("Inventaire")
 	inv_b.etat["equipement"]["arme_principale"] = "lame_legende"
 	inv_b.etat["equipement"]["torse"] = "veste_arene"
