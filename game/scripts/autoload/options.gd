@@ -44,6 +44,7 @@ const ACTIONS_MODIFIABLES := [
 	["ranger_arme", "Ranger / sortir l'arme"],
 	["carte", "Carte"],
 	["personnage", "Personnage et sacs"],
+	["talents", "Talents et titres"],
 	["aide", "Aide des contrôles"],
 	["competence_1", "Compétence 1"], ["competence_2", "Compétence 2"],
 	["competence_3", "Compétence 3"], ["competence_4", "Compétence 4"],

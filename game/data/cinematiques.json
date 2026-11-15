@@ -1,0 +1,245 @@
+{
+	"_aide": "Cinématiques des îles. Chaque cinématique se joue une fois par personnage. declencheur : « arrivee » (première arrivée dans la zone) ou « etape » (début d'une étape de la quête principale). Chaque plan : duree (secondes), camera [[x, hauteur au-dessus du sol, z] départ, [..] arrivée], regard (un point, « joueur », « pnj:<id> », « ennemi:<type> », « objet:<id> », « decor:<id> », ou deux points pour un panoramique), fov (angle de vue, ou [départ, arrivée]), titre / sous_titre (grand texte), nom + texte (réplique) ou texte seul (narration), fondu (fondu au noir au début du plan). « hauteurs »: « absolues » si les hauteurs ne sont pas mesurées depuis le sol ; « eau »: false si l'eau ne compte pas comme sol.",
+	"cinematiques": [
+		{
+			"id": "arrivee_prehistoire",
+			"titre": "Arrivée sur la Côte Gelée",
+			"ile": "prehistoire",
+			"zone": "cote_gelee",
+			"declencheur": "arrivee",
+			"plans": [
+				{
+					"duree": 7.0,
+					"camera": [[-46, 22, 118], [-26, 14, 86]],
+					"regard": [[0, 2, 40], [0, 2, 30]],
+					"fov": 60,
+					"titre": "Préhistoire",
+					"sous_titre": "Il y a environ 17 000 ans"
+				},
+				{
+					"duree": 6.0,
+					"camera": [[9, 2.2, 58], [-5, 2.4, 57]],
+					"regard": [0, 2.4, 47],
+					"texte": "La dernière transmission de l'agent Lenoir venait d'ici. Trois jours de silence, depuis."
+				},
+				{
+					"duree": 6.0,
+					"camera": [[-15, 2.8, 44], [-10.5, 1.5, 39.5]],
+					"regard": [-7, 0.4, 36],
+					"fov": [52, 42],
+					"nom": "Agent Lenoir",
+					"texte": "« Par ici... Agent ? Par ici... »"
+				},
+				{
+					"duree": 6.0,
+					"camera": [[-6, 5, 16], [-3, 3.8, 10]],
+					"regard": [3, 3, 0],
+					"fondu": true,
+					"duree_fondu": 0.8,
+					"texte": "Au nord du camp, l'air s'est déchiré. Une faille. Le temps s'y écoule comme d'une plaie."
+				},
+				{
+					"duree": 4.5,
+					"camera": [[2, 5, 62], [0.5, 3.0, 54]],
+					"regard": "joueur",
+					"texte": "Ta première mission commence maintenant."
+				}
+			]
+		},
+		{
+			"id": "montre_effaceurs",
+			"titre": "L'objet impossible",
+			"ile": "prehistoire",
+			"zone": "foret",
+			"declencheur": "etape",
+			"etape": "objet_impossible",
+			"plans": [
+				{
+					"duree": 5.5,
+					"camera": [[-58, 3.5, 49], [-63, 2.2, 55]],
+					"regard": [-70, 0.4, 62],
+					"texte": "La faille s'est refermée. Mais dans la neige, quelque chose brille encore."
+				},
+				{
+					"duree": 6.0,
+					"camera": [[-67.5, 1.0, 59.5], [-68.8, 0.7, 60.8]],
+					"regard": "objet:montre_gousset",
+					"fov": [50, 35],
+					"texte": "Du métal doré. Un tic-tac. Ici, à 17 000 ans de l'invention de l'horlogerie."
+				},
+				{
+					"duree": 4.5,
+					"camera": [[-61, 3.0, 52], [-60, 3.6, 50]],
+					"regard": "joueur",
+					"texte": "Quelqu'un d'autre voyage dans le temps. Et il a laissé une trace."
+				}
+			]
+		},
+		{
+			"id": "arrivee_egypte",
+			"titre": "Arrivée au Port des Marais",
+			"ile": "egypte",
+			"zone": "port_des_marais",
+			"declencheur": "arrivee",
+			"plans": [
+				{
+					"duree": 7.0,
+					"camera": [[100, 26, 30], [55, 18, 0]],
+					"regard": [-560, 60, -250],
+					"fov": 55,
+					"titre": "Égypte antique",
+					"sous_titre": "Règne de Khéops, vers -2560"
+				},
+				{
+					"duree": 6.0,
+					"camera": [[-16, 3.2, 114], [-28, 2.6, 106]],
+					"regard": [[-50, 1, 82], [-48, 1, 78]],
+					"texte": "La crue du Nil a tout recouvert. Les papyrus montent plus haut qu'un homme."
+				},
+				{
+					"duree": 6.0,
+					"camera": [[-34, 9, 0], [-22, 6.5, -10]],
+					"regard": [[16, 0, -40], [10, 0, -44]],
+					"texte": "Au nord, le port de Gizeh. Ses barques apportent la pierre de la plus grande tombe du monde."
+				},
+				{
+					"duree": 5.5,
+					"camera": [[-20, 2.2, 89], [-22.5, 1.9, 86.5]],
+					"regard": "pnj:farouk",
+					"fov": [52, 42],
+					"nom": "Agent Farouk",
+					"texte": "« Par ici ! Vite, avant que les crocodiles ne te remarquent ! »"
+				},
+				{
+					"duree": 4.5,
+					"camera": [[-31, 4.5, 105], [-32.5, 2.8, 99]],
+					"regard": "joueur",
+					"texte": "Ici, personne ne doit savoir d'où tu viens."
+				}
+			]
+		},
+		{
+			"id": "rencontre_vera",
+			"titre": "La dame au sablier",
+			"ile": "egypte",
+			"zone": "desert_rouge",
+			"declencheur": "etape",
+			"etape": "vera",
+			"plans": [
+				{
+					"duree": 6.0,
+					"camera": [[-44, 7, -58], [-58, 5.5, -63]],
+					"regard": [-80, 2.5, -70],
+					"texte": "Au sommet du rocher, une cour fermée. Plus aucun garde. Comme si on t'attendait."
+				},
+				{
+					"duree": 5.5,
+					"camera": [[-79, 2.0, -75], [-81.5, 1.8, -73.5]],
+					"regard": "pnj:vera_lind",
+					"fov": [50, 42],
+					"texte": "Devant une faille ouverte, une femme en robe de prêtresse retourne un sablier."
+				},
+				{
+					"duree": 6.0,
+					"camera": [[-88.8, 1.75, -72.2], [-88.4, 1.7, -71.4]],
+					"regard": "pnj:vera_lind",
+					"fov": [42, 34],
+					"titre": "Vera Lind",
+					"sous_titre": "« Sablier », Effaceuse",
+					"nom": "Vera Lind",
+					"texte": "« Approche, agent. Je ne mords pas. Pas encore. »"
+				},
+				{
+					"duree": 4.5,
+					"camera": [[-87, 2.4, -71], [-86, 2.1, -70]],
+					"regard": "joueur",
+					"nom": "Vera Lind",
+					"texte": "« Parlons un peu, toi et moi. »"
+				}
+			]
+		},
+		{
+			"id": "attaque_pierre_faite",
+			"titre": "L'attaque de la pierre de faîte",
+			"ile": "egypte",
+			"zone": "village_batisseurs",
+			"declencheur": "etape",
+			"etape": "gardes_faite",
+			"plans": [
+				{
+					"duree": 5.5,
+					"camera": [[-16, 2.2, -128], [-12, 2.6, -131]],
+					"regard": "decor:traineau_faite",
+					"texte": "La pierre de faîte est au pied de la rampe. Bientôt, elle couronnera la pyramide."
+				},
+				{
+					"duree": 5.0,
+					"camera": [[2, 4.5, -127], [5, 4.0, -131]],
+					"regard": "ennemi:garde_effaceuse",
+					"fov": [60, 50],
+					"texte": "Puis le plateau tremble. Des silhouettes sortent de la poussière."
+				},
+				{
+					"duree": 5.5,
+					"camera": [[22, 2.2, -141], [20.5, 1.9, -142.5]],
+					"regard": "ennemi:garde_effaceuse",
+					"fov": [50, 40],
+					"nom": "Garde des Effaceurs",
+					"texte": "« Brisez la pierre ! Ordre de Sablier : cette pyramide ne sera jamais finie ! »"
+				}
+			]
+		},
+		{
+			"id": "rencontre_djedi",
+			"titre": "Djedi, chef des gardes",
+			"ile": "egypte",
+			"zone": "coeur_pyramide",
+			"declencheur": "etape",
+			"etape": "djedi",
+			"eau": false,
+			"plans": [
+				{
+					"duree": 6.0,
+					"camera": [[0, 1.8, 42], [0, 2.0, 49]],
+					"regard": "ennemi:garde_chef_djedi",
+					"fov": [55, 42],
+					"titre": "Djedi",
+					"sous_titre": "Chef des gardes de l'Effaceuse",
+					"nom": "Djedi",
+					"texte": "« La patronne a été claire : personne ne monte. Surtout pas la Vigie. »"
+				}
+			]
+		},
+		{
+			"id": "rencontre_isfet",
+			"titre": "Isfet, le Serpent du Désordre",
+			"ile": "egypte",
+			"zone": "coeur_pyramide",
+			"declencheur": "etape",
+			"etape": "isfet",
+			"eau": false,
+			"plans": [
+				{
+					"duree": 5.5,
+					"camera": [[9, 2.2, 64], [5, 3.0, 66]],
+					"regard": [[0, 2, 82], [-6, 2, 78]],
+					"texte": "La chambre du Roi. Du granit rose, un sarcophage vide... et un sifflement qui emplit tout."
+				},
+				{
+					"duree": 6.0,
+					"camera": [[-1, 2.0, 64.5], [-3, 2.4, 65.5]],
+					"regard": [-14.5, 6, 68],
+					"fov": [62, 55],
+					"titre": "Isfet",
+					"sous_titre": "Le Serpent du Désordre"
+				},
+				{
+					"duree": 4.5,
+					"camera": [[-8, 3.5, 70], [-6, 2.6, 72]],
+					"regard": "joueur",
+					"texte": "Le désordre a pris corps. Et il a faim de noms."
+				}
+			]
+		}
+	]
+}

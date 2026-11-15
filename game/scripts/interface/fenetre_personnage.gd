@@ -427,7 +427,12 @@ func rafraichir() -> void:
 	var bonus: Dictionary = inventaire.bonus
 	var s: Dictionary = bonus.get("stats", {})
 	var lignes: Array[String] = []
-	lignes.append("[b]Points de vie[/b] : %d  (%+d grâce à l'équipement)" % [
+	var progression: Node = inventaire.joueur.get_node_or_null("Progression")
+	if progression != null:
+		var titre := String(progression.titre_affiche)
+		lignes.append("[b]Niveau %d[/b]%s   [color=#9aa]N : talents et titres[/color]" % [progression.niveau(),
+				("   « %s »" % titre) if titre != "" else ""])
+	lignes.append("[b]Points de vie[/b] : %d  (%+d grâce au niveau, aux talents et à l'équipement)" % [
 			combat_joueur.pv_de_base() + float(s.get("pv", 0)), int(s.get("pv", 0))])
 	lignes.append("[b]Dégâts[/b] : %+d %%" % int(s.get("degats_pourcent", 0)))
 	lignes.append("[b]Protection[/b] : %d %% de dégâts en moins" % int(s.get("reduction_pourcent", 0)))

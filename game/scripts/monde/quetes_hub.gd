@@ -117,6 +117,9 @@ func _avancer(id: String) -> void:
 		e["etat"] = "terminee"
 		_sauver()
 		quete_terminee.emit(id)
+		var progression := ProgressionJoueur.du_joueur_local(get_tree())
+		if progression != null:
+			progression.mission_faite(id)
 		_annoncer("Mission accomplie : %s\nRécompense : %s" % [quete(id).get("titre", id), quete(id).get("recompense", "")])
 	else:
 		_sauver()

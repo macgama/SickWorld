@@ -99,6 +99,7 @@ func _enter_tree() -> void:
 	$CombatJoueur.set_multiplayer_authority(1, true)
 	$Fiche.set_multiplayer_authority(1, true)
 	$Inventaire.set_multiplayer_authority(1, true)
+	$Progression.set_multiplayer_authority(1, true)
 
 
 ## Numéro réseau du joueur qui contrôle ce personnage.
@@ -244,7 +245,7 @@ func _gerer_arme() -> void:
 		if _rangement_auto >= 0.0 and maintenant >= _rangement_auto:
 			_rangement_auto = -1.0
 			arme_rangee = true
-		var ecrit := get_viewport().gui_get_focus_owner() is LineEdit
+		var ecrit := get_viewport().gui_get_focus_owner() is LineEdit or en_cinematique()
 		if not ecrit and Input.is_action_just_pressed("ranger_arme") and combat.est_vivant():
 			arme_rangee = not arme_rangee
 			_rangement_auto = -1.0
@@ -257,6 +258,11 @@ func _sur_arme_sortie() -> void:
 	if est_local():
 		arme_rangee = false
 		_rangement_auto = -1.0
+
+
+## Vrai pendant une cinématique (voir scripts/monde/cinematiques.gd).
+func en_cinematique() -> bool:
+	return get_tree().has_group("cinematique_en_cours")
 
 
 func _physics_process(delta: float) -> void:
@@ -291,8 +297,9 @@ func _physics_process(delta: float) -> void:
 		return
 
 	var clic_droit := camera.clic_droit_maintenu()
-	# Pendant qu'on écrit (nom d'une tenue…), les touches ne déplacent pas le personnage.
-	var clavier := 0.0 if get_viewport().gui_get_focus_owner() is LineEdit else 1.0
+	# Pendant qu'on écrit (nom d'une tenue…) ou pendant une cinématique,
+	# les touches ne déplacent pas le personnage.
+	var clavier := 0.0 if get_viewport().gui_get_focus_owner() is LineEdit or en_cinematique() else 1.0
 
 	# 1. Orientation du personnage.
 	if clic_droit:

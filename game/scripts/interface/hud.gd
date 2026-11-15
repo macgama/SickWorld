@@ -11,7 +11,8 @@ const TEXTE_AIDE := """[b]Contrôles[/b]  (F1 pour cacher)
 [b]Tab[/b] ou [b]clic[/b] sur un ennemi : le cibler     [b]Échap[/b] : enlever la cible, sinon ouvrir le menu (options, quitter)
 [b]Clic droit[/b] sur un ennemi : l'attaquer
 [b]1 à 8[/b] : compétences (survole une case pour lire sa description)
-[b]C[/b], [b]I[/b] ou [b]B[/b] : personnage, sacs et tenues     [b]F[/b] : ramasser le butin
+[b]C[/b], [b]I[/b] ou [b]B[/b] : personnage, sacs et tenues     [b]N[/b] : talents et titres
+[b]F[/b] : ramasser le butin
 [b]M[/b] : carte     [b]Molette[/b] sur la mini-carte : zoom     [b]V[/b] : monture (sur les îles)
 [b]Entrée[/b] : discuter (/aide pour les commandes)     [b]K[/b] : donjons en groupe     [b]H[/b] : Arène (duels, 2 contre 2)
 [b]F10[/b] : qualité des graphismes (Bas, Moyen, Haut, Ultra)"""
@@ -54,6 +55,17 @@ var _ecran_mort: PanelContainer
 var _cases: Array[Dictionary] = []
 var _plaques: Control
 var _fenetre_personnage: PanelContainer
+var _fenetre_progression: PanelContainer
+var _progression: Node
+var _titre_joueur: Label
+var _xp: ProgressBar
+var _texte_xp: Label
+var _gain_xp: Label
+var _gain_xp_total := 0
+var _gain_xp_fin := 0.0
+var _annonce_niveau: VBoxContainer
+var _annonce_niveau_titre: Label
+var _annonce_niveau_texte: Label
 
 
 func _ready() -> void:
@@ -113,6 +125,52 @@ func _connecter() -> void:
 	var artisanat: PanelContainer = preload("res://scripts/interface/fenetre_artisanat.gd").new()
 	_racine.add_child(artisanat)
 	artisanat.relier(_joueur.get_node("Inventaire"))
+	# Niveau, talents et titres (touche N).
+	_progression = _joueur.get_node_or_null("Progression")
+	if _progression != null:
+		_fenetre_progression = preload("res://scripts/interface/fenetre_progression.gd").new()
+		_racine.add_child(_fenetre_progression)
+		_fenetre_progression.relier(_progression)
+		_progression.xp_gagnee.connect(_sur_xp_gagnee)
+		_progression.niveau_gagne.connect(_sur_niveau_gagne)
+		_progression.titre_obtenu.connect(_sur_titre_obtenu)
+
+
+## Fenêtre Talents et titres (touche N).
+func basculer_talents() -> void:
+	if _fenetre_progression != null:
+		_fenetre_progression.basculer()
+
+
+func _sur_xp_gagnee(montant: int, raison: String) -> void:
+	# Les petits gains rapprochés s'additionnent (« +75 XP »).
+	_gain_xp_total = (_gain_xp_total if Regles.maintenant() < _gain_xp_fin else 0) + montant
+	_gain_xp.text = "+%d XP%s" % [_gain_xp_total, ("  ·  " + raison) if raison != "" else ""]
+	_gain_xp_fin = Regles.maintenant() + 2.5
+
+
+func _sur_niveau_gagne(niveau: int) -> void:
+	_annonce_niveau_titre.text = "Niveau %d !" % niveau
+	var libres := Progression.points_libres(Progression.donnees(), _progression.etat)
+	_annonce_niveau_texte.text = "Plus de vie et de dégâts.   Points de talent à placer : %d   (touche N)" % maxi(libres, 1)
+	_montrer_annonce()
+	Audio.interface("niveau")
+
+
+func _sur_titre_obtenu(nom: String) -> void:
+	_annonce_niveau_titre.text = "« %s »" % nom
+	_annonce_niveau_texte.text = "Nouveau titre obtenu   (touche N pour le porter)"
+	_montrer_annonce()
+
+
+func _montrer_annonce() -> void:
+	_annonce_niveau.visible = true
+	_annonce_niveau.modulate.a = 0.0
+	var anim := _annonce_niveau.create_tween()
+	anim.tween_property(_annonce_niveau, "modulate:a", 1.0, 0.4)
+	anim.tween_interval(3.5)
+	anim.tween_property(_annonce_niveau, "modulate:a", 0.0, 1.0)
+	anim.tween_callback(func(): _annonce_niveau.visible = false)
 
 
 ## Écran Personnage (touches C, I ou B).
@@ -218,6 +276,10 @@ func _construire_cadre_joueur() -> void:
 	cadre.add_child(colonne)
 	_nom_joueur = _petit_texte(15)
 	colonne.add_child(_nom_joueur)
+	_titre_joueur = _petit_texte(12)
+	_titre_joueur.modulate = Color(1.0, 0.85, 0.45)
+	_titre_joueur.visible = false
+	colonne.add_child(_titre_joueur)
 	_pv_joueur = _jauge(Color(0.2, 0.75, 0.25), 20)
 	_texte_pv_joueur = _texte_sur(_pv_joueur)
 	colonne.add_child(_pv_joueur)
@@ -303,6 +365,42 @@ func _construire_barre() -> void:
 			espace.mouse_filter = Control.MOUSE_FILTER_IGNORE
 			ligne.add_child(espace)
 		ligne.add_child(_construire_case(i))
+
+	# Barre d'expérience, sous les compétences (comme dans WoW).
+	_gain_xp = _petit_texte(14)
+	_gain_xp.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_gain_xp.add_theme_color_override("font_color", Color(0.75, 0.55, 1.0))
+	_gain_xp.add_theme_constant_override("outline_size", 4)
+	_gain_xp.add_theme_color_override("font_outline_color", Color.BLACK)
+	_gain_xp.modulate.a = 0.0
+	_xp = _jauge(Color(0.55, 0.3, 0.9), 12)
+	_xp.size_flags_horizontal = Control.SIZE_FILL
+	_texte_xp = _texte_sur(_xp)
+	_texte_xp.add_theme_font_size_override("font_size", 10)
+	bas.add_child(_xp)
+	# Le petit « +64 XP » s'affiche juste au-dessus des compétences.
+	bas.add_child(_gain_xp)
+	bas.move_child(_gain_xp, ligne.get_index())
+
+	# Annonce « Niveau 5 ! » au milieu de l'écran.
+	_annonce_niveau = VBoxContainer.new()
+	_annonce_niveau.set_anchors_preset(Control.PRESET_CENTER_TOP)
+	_annonce_niveau.grow_horizontal = Control.GROW_DIRECTION_BOTH
+	_annonce_niveau.position.y = 190
+	_annonce_niveau.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_annonce_niveau.visible = false
+	_racine.add_child(_annonce_niveau)
+	_annonce_niveau_titre = _petit_texte(46)
+	_annonce_niveau_titre.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_annonce_niveau_titre.add_theme_color_override("font_color", Color(1.0, 0.84, 0.35))
+	_annonce_niveau_titre.add_theme_constant_override("outline_size", 8)
+	_annonce_niveau_titre.add_theme_color_override("font_outline_color", Color(0.15, 0.08, 0.0))
+	_annonce_niveau.add_child(_annonce_niveau_titre)
+	_annonce_niveau_texte = _petit_texte(18)
+	_annonce_niveau_texte.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_annonce_niveau_texte.add_theme_constant_override("outline_size", 5)
+	_annonce_niveau_texte.add_theme_color_override("font_outline_color", Color.BLACK)
+	_annonce_niveau.add_child(_annonce_niveau_texte)
 
 
 func _construire_case(index: int) -> Control:
@@ -397,6 +495,9 @@ func _unhandled_input(event: InputEvent) -> void:
 	elif event.is_action_pressed("personnage") and not event.is_echo():
 		basculer_personnage()
 		get_viewport().set_input_as_handled()
+	elif event.is_action_pressed("talents") and not event.is_echo():
+		basculer_talents()
+		get_viewport().set_input_as_handled()
 
 
 func _afficher_message(texte: String) -> void:
@@ -429,6 +530,22 @@ func _process(_delta: float) -> void:
 		return
 	_statut.visible = false
 	_nom_joueur.text = "%s — %s niv. %d" % [_combat.nom_affiche, _joueur.nom_classe(), _combat.niveau]
+	if _progression != null:
+		var titre := String(_progression.titre_affiche)
+		_titre_joueur.visible = titre != ""
+		_titre_joueur.text = "« %s »" % titre
+		var d := Progression.donnees()
+		var xp := int(_progression.etat.get("xp", 0))
+		var a := Progression.avancement(d, xp)
+		if a.y > 0:
+			_xp.max_value = a.y
+			_xp.value = a.x
+			_texte_xp.text = "Niveau %d   ·   %d / %d XP" % [_combat.niveau, a.x, a.y]
+		else:
+			_xp.max_value = 1
+			_xp.value = 1
+			_texte_xp.text = "Niveau %d   ·   niveau maximum de cette époque" % _combat.niveau
+		_gain_xp.modulate.a = clampf((_gain_xp_fin - Regles.maintenant()) / 0.6, 0.0, 1.0)
 	# Désynchronisé dans l'Arène : pas de retour à la balise, on attend la fin du combat.
 	_ecran_mort.visible = not _combat.est_vivant() and not JcJ.je_me_bats()
 
@@ -499,6 +616,14 @@ func _dessiner_plaques() -> void:
 		if not c.est_vivant():
 			couleur = Color(0.6, 0.6, 0.6)
 		var nom := c.nom_affiche
+		var progression := acteur.get_node_or_null("Progression")
+		if progression != null and String(progression.titre_affiche) != "":
+			var titre := "« %s »" % progression.titre_affiche
+			var largeur_titre := police.get_string_size(titre, HORIZONTAL_ALIGNMENT_LEFT, -1, 12).x
+			_plaques.draw_string_outline(police, p + Vector2(-largeur_titre / 2.0, -24), titre,
+					HORIZONTAL_ALIGNMENT_LEFT, -1, 12, 4, Color.BLACK)
+			_plaques.draw_string(police, p + Vector2(-largeur_titre / 2.0, -24), titre,
+					HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(1.0, 0.85, 0.45))
 		var largeur_texte := police.get_string_size(nom, HORIZONTAL_ALIGNMENT_LEFT, -1, 14).x
 		_plaques.draw_string_outline(police, p + Vector2(-largeur_texte / 2.0, -8), nom,
 				HORIZONTAL_ALIGNMENT_LEFT, -1, 14, 4, Color.BLACK)

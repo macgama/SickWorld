@@ -73,12 +73,17 @@ func _donnees(cat: Dictionary, art: Dictionary) -> void:
 	for s in root.get_node("Donnees").recolte.get("sources", {}).values():
 		for ligne in s.get("donne", []):
 			obtenables[String(ligne.get("objet", ""))] = true
+	# Les insignes de la Vigie se gagnent avec les missions du jour (data/quetes_du_jour.json).
+	var missions = JSON.parse_string(FileAccess.get_file_as_string("res://data/quetes_du_jour.json"))
+	for m in missions.get("quotidiennes", []) + missions.get("hebdomadaires", []):
+		for r in m.get("recompense", []):
+			obtenables[String(r["id"])] = true
 	var introuvables: Array[String] = []
 	for id in cat["objets"]:
 		if String(cat["objets"][id].get("type", "")) == "materiau" and not obtenables.has(id) \
 				and not Artisanat.sert_a(cat, art, String(id)).is_empty():
 			introuvables.append(String(id))
-	_verifier(introuvables.is_empty(), "chaque matériau d'une recette tombe sur un ennemi ou se récolte" + ("" if introuvables.is_empty() else " : " + ", ".join(introuvables)))
+	_verifier(introuvables.is_empty(), "chaque matériau d'une recette tombe sur un ennemi ou se récolte, ou s'obtient en mission" + ("" if introuvables.is_empty() else " : " + ", ".join(introuvables)))
 	_verifier(Artisanat.artisan_du_pnj(art, "forgeron") == "forge" and Artisanat.artisan_du_pnj(art, "lea") == "atelier"
 			and Artisanat.artisan_du_pnj(art, "commandante") == "", "Tetsuo tient la forge, Léa l'atelier, la commandante rien")
 	var renforcee := Objets.objet(cat, "cape_chasseur_renforce")
