@@ -368,8 +368,8 @@ func _creer_pont(f: Dictionary) -> void:
 	var mm := MultiMesh.new()
 	mm.transform_format = MultiMesh.TRANSFORM_3D
 	var sph := SphereMesh.new()
-	sph.radius = 0.6
-	sph.height = 1.2
+	sph.radius = 1.3
+	sph.height = 2.6
 	sph.radial_segments = 6
 	sph.rings = 3
 	sph.material = lampe
@@ -383,6 +383,10 @@ func _creer_pont(f: Dictionary) -> void:
 	mmi.multimesh = mm
 	mmi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	racine.add_child(mmi)
+	# Bandeaux lumineux sur les bords du tablier (on voit la ligne du pont de loin).
+	for cote: float in [-1.0, 1.0]:
+		var bord := _boite(racine, Vector3(longueur, 0.5, 0.3), Vector3(0, h + 0.6, cote * 12.2), _lumineux(Color(0.55, 0.75, 1.0), 4.0))
+		bord.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	# Deux pylônes en H avec leurs feux rouges d'aviation, et les grands câbles illuminés.
 	var x_pylones := [-longueur * 0.22, longueur * 0.22]
 	var haut_pylone := h + 85.0

@@ -15,7 +15,7 @@ const SORTES := {
 	"mouches": {"nombre": 14, "rayon": 2.2, "hauteur": 0.8, "taille": 0.018, "couleur": "#141210", "vie": 8.0, "agitation": 4.5, "vitesse": 1.2, "distance": 22.0},
 	"papillons": {"nombre": 8, "rayon": 6.0, "hauteur": 1.2, "taille": 0.07, "couleur": "#e8d27a", "vie": 14.0, "agitation": 1.6, "vitesse": 0.8, "distance": 45.0, "ailes": true},
 	"libellules": {"nombre": 6, "rayon": 7.0, "hauteur": 0.8, "taille": 0.07, "couleur": "#4a7f8a", "vie": 10.0, "agitation": 2.4, "vitesse": 2.0, "distance": 40.0, "ailes": true},
-	"poussiere": {"nombre": 260, "rayon": 14.0, "hauteur": 5.0, "taille": 0.012, "couleur": "#fff1d6", "vie": 12.0, "agitation": 0.35, "vitesse": 0.08, "distance": 0.0, "lumineux": 0.7},
+	"poussiere": {"nombre": 200, "rayon": 14.0, "hauteur": 4.0, "taille": 0.009, "couleur": "#fff1d6", "vie": 12.0, "agitation": 0.35, "vitesse": 0.08, "distance": 0.0, "lumineux": 0.3},
 	"sable": {"nombre": 420, "rayon": 22.0, "hauteur": 1.2, "taille": 0.03, "couleur": "#d8b884", "vie": 3.5, "agitation": 0.6, "vitesse": 6.0, "distance": 0.0, "vent": true, "trainee": true},
 	"duvet": {"nombre": 60, "rayon": 20.0, "hauteur": 5.0, "taille": 0.03, "couleur": "#f4f1e8", "vie": 16.0, "agitation": 0.6, "vitesse": 0.9, "distance": 0.0, "vent": true},
 	"lucioles": {"nombre": 40, "rayon": 10.0, "hauteur": 1.6, "taille": 0.03, "couleur": "#c8ff6a", "vie": 9.0, "agitation": 0.8, "vitesse": 0.25, "distance": 60.0, "lumineux": 6.0},
@@ -118,7 +118,7 @@ func _maillage() -> Mesh:
 		m.emission_energy_multiplier = float(_fiche["lumineux"])
 		m.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 		m.blend_mode = BaseMaterial3D.BLEND_MODE_ADD
-		m.albedo_color.a = 0.55 if sorte == "poussiere" else 1.0
+		m.albedo_color.a = 0.3 if sorte == "poussiere" else 1.0
 		m.albedo_texture = _point_doux()
 	elif sorte == "duvet" or sorte == "bulles":
 		m.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
