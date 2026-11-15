@@ -45,7 +45,7 @@ func _lancer() -> void:
 	var rec: Dictionary = root.get_node("Donnees").recolte
 	# Tous les métiers au niveau 10 : chaque source est récoltable.
 	for m in Metiers.METIERS:
-		Metiers.gagner(rec, inv.etat, m, 380 if action == "personnage" else 5000)
+		Metiers.gagner(rec, inv.etat, m, 560 if action == "personnage" else 5000)
 	inv._appliquer()
 	var recolte = get_first_node_in_group("recolte")
 	var i: int = recolte.point_proche(Vector3.ZERO, id_source)
@@ -60,11 +60,11 @@ func _lancer() -> void:
 	var distance := 2.0
 	var fiche := Metiers.source(rec, point.source)
 	if String(fiche.get("metier", "")) == "peche" or fiche.get("sur_l_eau", false):
-		for r in [3.0, 4.5, 6.0, 7.5]:
+		for r in [3.0, 4.5, 6.0, 7.5, 8.5]:
 			for k in 24:
 				var a := k * TAU / 24.0
 				var q: Vector3 = p + Vector3(cos(a), 0, sin(a)) * r
-				if ou == Vector3.INF and scene.hauteur(q.x, q.z) > 0.25:
+				if ou == Vector3.INF and scene.hauteur(q.x, q.z) > 0.1:
 					ou = q
 	else:
 		ou = p + Vector3(0.6, 0, distance)
@@ -77,13 +77,14 @@ func _lancer() -> void:
 		camera.lacet = atan2(-d.x, -d.z)
 	if action == "recolter" or action == "personnage":
 		recolte.demander(i)
-		await _attendre(int(Metiers.duree(rec, point.source) * 60 * (0.6 if action == "recolter" else 1.2)))
+		# Le rendu logiciel est très lent et le temps de jeu file : on attend peu d'images.
+		await _attendre(4 if action == "recolter" else 200)
 	if action == "personnage":
 		for fenetre in root.find_children("*", "PanelContainer", true, false):
 			if "inventaire" in fenetre and fenetre.has_method("basculer") and fenetre.has_method("rafraichir"):
 				fenetre.basculer()
 		await _attendre(30)
-	await _attendre(30)
+	await _attendre(2 if action == "recolter" else 30)
 	var image := root.get_texture().get_image()
 	image.save_jpg(sortie, 0.9)
 	print("Capture : ", sortie)
