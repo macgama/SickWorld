@@ -55,7 +55,8 @@ var _cout_esquive_base := 0.0
 var _recuperation_endurance_base := 0.0
 
 # --- État partagé sur le réseau (voir le nœud « Synchro ») ---
-## Nom choisi par le joueur.
+## Nom du personnage, donné par le SERVEUR (il range les sacs et la progression sous ce nom).
+## Il n'est pas envoyé par le joueur : les autres le voient avec Combat.nom_affiche.
 var nom := "Agent"
 ## Position, orientation et vitesse envoyées par le joueur qui contrôle ce personnage.
 var position_reseau := Vector3.ZERO

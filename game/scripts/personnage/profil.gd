@@ -28,6 +28,10 @@ const DOSSIERS := ["sauvegardes", "cartes"]
 
 ## Nom du profil actif ("" = aucun : les chemins restent tels quels).
 static var nom := ""
+## Donjon (instance) : profil de la ville où sont rangés les sacs et la progression des
+## personnages (dossier « sauvegardes »), pour que le groupe garde ses objets et son
+## butin en entrant et en sortant du donjon ("" = le profil actif).
+static var profil_personnages := ""
 
 
 ## Le chemin réel d'une sauvegarde dans le profil actif.
@@ -35,6 +39,8 @@ static func chemin(p: String) -> String:
 	if nom == "" or not p.begins_with("user://"):
 		return p
 	var relatif := p.trim_prefix("user://")
+	if profil_personnages != "" and relatif.begins_with("sauvegardes/"):
+		return dossier(profil_personnages) + relatif
 	if _appartient_au_profil(relatif):
 		return dossier() + relatif
 	return p

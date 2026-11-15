@@ -112,6 +112,8 @@ func _ready() -> void:
 		for argument in arguments:
 			if argument.begins_with("--profil="):
 				profil = argument.get_slice("=", 1).validate_filename()
+			elif argument.begins_with("--personnages="):
+				Profil.profil_personnages = argument.get_slice("=", 1).validate_filename()
 		Profil.activer(profil)
 	multiplayer.peer_connected.connect(_sur_pair_connecte)
 	multiplayer.peer_disconnected.connect(_sur_pair_deconnecte)

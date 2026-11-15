@@ -613,18 +613,12 @@ func _finir(reussi: bool) -> void:
 			prochain[autre.id] = maxf(float(prochain[autre.id]), _maintenant() + 180.0)
 	_sauvegarder()
 	if rang != "":
-		# En cas d'échec, seule la petite récompense est donnée.
-		var cle := rang if reussi else "bronze"
-		var objets: Array = []
-		for o in e.get("recompenses", {}).get(cle, []):
-			if randf() < float(o.get("chance", 1.0)):
-				objets.append(o)
-		if not objets.is_empty():
-			_quete._donner_recompense(objets)
+		# Les objets (petite récompense seulement en cas d'échec) sont tirés et donnés par
+		# le serveur à chaque joueur qui a participé : voir ProgressionJoueur.evenement_fait.
 		_quete.annoncer("Participation : " + String(NOMS_PALIERS[rang]), "Stabilité de l'époque : %d %%" % roundi(stabilite))
 	var progression := ProgressionJoueur.du_joueur_local(get_tree())
 	if progression != null:
-		progression.evenement_fait(String(self.ile), String(e.id), String(e.get("zone", "")), rang, reussi)
+		progression.evenement_fait(String(self.ile), String(e.id), rang, reussi)
 	derniere_participation = rang
 	evenement_fini.emit(String(e.id), reussi)
 

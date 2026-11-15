@@ -14,6 +14,7 @@ var _joueur
 var _quete
 var _dialogue
 var _sacs_avant := {}
+var _progression_avant := {}
 
 
 func _verifier(condition: bool, message: String) -> void:
@@ -160,6 +161,11 @@ func _lancer() -> void:
 	for i in (inventaire.etat["cases"] as Array).size():
 		inventaire.etat["cases"][i] = {}
 	inventaire._sauvegarder()
+	# Une progression sans quête notée, pour que le serveur redonne les récompenses
+	# (il ne les donne qu'une fois par personnage) ; elle est rendue à la fin.
+	var progression = _joueur.get_node("Progression")
+	_progression_avant = progression.etat.duplicate(true)
+	progression.etat["faits"] = []
 	await _charger("village_batisseurs")
 	_verifier(_id_etape() == "ankhkhaf_hemiounou", "en arrivant au village, Ânkhkhaf attend (%s)" % _id_etape())
 	_verifier(not _scene.find_child("HemiounouChantier", true, false).visible, "Hémiounou n'est pas au chantier")
@@ -244,6 +250,9 @@ func _lancer() -> void:
 	var inv = _joueur.get_node("Inventaire")
 	inv.etat = _sacs_avant
 	inv._sauvegarder()
+	var prog = _joueur.get_node("Progression")
+	prog.etat = _progression_avant
+	prog._sauvegarder()
 	_scene.queue_free()
 	await _attendre(5)
 	DirAccess.remove_absolute(ProjectSettings.globalize_path(FICHIER))

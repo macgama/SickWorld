@@ -5,7 +5,9 @@ extends Node
 ## un autre programme du jeu, sans fenêtre, lancé sur le même ordinateur que la ville,
 ## sur le port suivant (7778, 7779…). Il s'éteint tout seul quand le groupe est reparti.
 ## Le donjon suit l'avancée du chef dans l'histoire : sa progression est recopiée
-## dans le dossier du donjon (user://profils/instance_<port>/).
+## dans le dossier du donjon (user://profils/instance_<port>/). Les sacs et la
+## progression de chaque personnage restent ceux de la ville (« --personnages= ») :
+## ce qu'on gagne dans le donjon est gardé en sortant.
 
 const DOSSIER_ETATS := "user://instances/"
 
@@ -42,7 +44,8 @@ func lancer(donjon: Dictionary, groupe: Dictionary, progression: Dictionary) -> 
 		DirAccess.remove_absolute(statut)
 		var groupe_texte := Marshalls.utf8_to_base64(JSON.stringify(groupe))
 		var arguments := Reseau.arguments_serveur(port, ["--instance", "--scene=" + String(donjon["scene"]),
-				"--profil=" + profil, "--statut=" + statut, "--groupe=" + groupe_texte])
+				"--profil=" + profil, "--personnages=" + Profil.nom, "--statut=" + statut,
+				"--groupe=" + groupe_texte])
 		var pid := OS.create_process(OS.get_executable_path(), arguments)
 		if pid <= 0:
 			return -1

@@ -19,6 +19,8 @@ signal change
 signal xp_gagnee(montant: int, raison: String)
 signal niveau_gagne(niveau: int)
 signal titre_obtenu(nom: String)
+## Chez le joueur : objets reçus d'un événement (texte lisible).
+signal recompense_recue(texte: String)
 
 const DOSSIER_SAUVEGARDE := "user://sauvegardes/progression/"
 const ILES := Progression.ILES
@@ -119,46 +121,139 @@ func noter(fait: String) -> bool:
 	return true
 
 
+# --- Quêtes faites : le joueur demande sa récompense au serveur ---------------
+#
+# Les quêtes avancent chez chaque joueur (sa propre partie de l'histoire). Quand une
+# étape, une quête secondaire, un événement ou une mission est fait, la quête appelle
+# une de ces fonctions sur la progression du joueur local : elle passe au serveur, qui
+# retrouve dans data/ ce que cela rapporte (Recompenses) et le donne à CE joueur
+# (objets dans ses sacs + XP). Chaque récompense n'est donnée qu'une fois.
+
 ## Une étape de la quête principale vient d'être faite.
 func etape_faite(ile: String, e: Dictionary) -> void:
-	if not multiplayer.is_server() or not noter("etape:%s:%s" % [ile, e.get("id", "")]):
-		return
-	var n := Progression.niveau_zone(donnees(), String(e.get("ou", "")))
-	var xp := Progression.xp_de(donnees(), "etape_quete", n)
-	if e.get("fin_chapitre", false):
-		xp += Progression.xp_de(donnees(), "fin_chapitre", n)
-	gagner_xp(xp, "Quête")
+	Regles.au_serveur(self, "_demander", ["etape", [ile, String(e.get("id", ""))]])
 
 
-## Une étape d'une quête secondaire vient d'être faite (finie = toute la quête).
-func secondaire_faite(ile: String, id_quete: String, zone: String, finie: bool) -> void:
-	if not multiplayer.is_server():
-		return
-	var n := Progression.niveau_zone(donnees(), zone)
-	if finie:
-		if not noter("secondaire:" + id_quete):
-			return
-		noter("secondaire_ile:%s:%s" % [ile, id_quete])
-		gagner_xp(Progression.xp_de(donnees(), "quete_secondaire", n), "Quête secondaire")
-	else:
-		gagner_xp(Progression.xp_de(donnees(), "etape_secondaire", n), "Quête secondaire")
+## Une étape d'une quête secondaire vient d'être faite (numero = rang de l'étape,
+## finie = c'était la dernière).
+func secondaire_faite(ile: String, id_quete: String, numero: int, finie: bool) -> void:
+	Regles.au_serveur(self, "_demander", ["secondaire", [ile, id_quete, numero, finie]])
 
 
 ## Participation à un événement public (palier : or, argent ou bronze).
-func evenement_fait(ile: String, id_evenement: String, zone: String, palier: String, reussi: bool) -> void:
-	if not multiplayer.is_server() or palier == "":
-		return
-	var n := Progression.niveau_zone(donnees(), zone)
-	var xp := Progression.xp_evenement(donnees(), n, palier if reussi else "bronze")
-	if reussi:
-		etat["faits"].append("evenement:%s:%s" % [ile, id_evenement])
-	gagner_xp(xp if reussi else xp / 2, "Événement")
+func evenement_fait(ile: String, id_evenement: String, palier: String, reussi: bool) -> void:
+	if palier != "":
+		Regles.au_serveur(self, "_demander", ["evenement", [ile, id_evenement, palier, reussi]])
 
 
 ## Mission d'un habitant du hub accomplie.
 func mission_faite(id_mission: String) -> void:
-	if multiplayer.is_server() and noter("mission:" + id_mission):
-		gagner_xp(Progression.xp_de(donnees(), "mission_hub", niveau()), "Mission")
+	Regles.au_serveur(self, "_demander", ["mission_hub", [id_mission]])
+
+
+## Mission du jour (ou de la semaine) rendue ; periode = son jour (ou sa semaine).
+func mission_du_jour_rendue(id_mission: String, periode: int) -> void:
+	Regles.au_serveur(self, "_demander", ["mission_jour", [id_mission, periode]])
+
+
+# --- Serveur : ce que rapportent les quêtes ------------------------------------
+
+## Dernière récompense de chaque événement, par joueur (gardé tant que le serveur tourne,
+## même si le joueur se reconnecte).
+static var _derniers_evenements := {}
+var _hasard := RandomNumberGenerator.new()
+
+
+## Serveur : donne une récompense demandée. Renvoie une raison si elle est refusée ("" sinon).
+func _recompenser(action: String, a: Array) -> String:
+	match action:
+		"etape":
+			if a.size() != 2:
+				return "?"
+			var ile := String(a[0])
+			var e := Recompenses.etape_principale(ile, String(a[1]))
+			if e.is_empty():
+				return "Étape inconnue"
+			if not noter("etape:%s:%s" % [ile, e["id"]]):
+				return ""
+			var n := Progression.niveau_zone(donnees(), String(e.get("ou", "")))
+			var xp := Progression.xp_de(donnees(), "etape_quete", n)
+			if e.get("fin_chapitre", false):
+				xp += Progression.xp_de(donnees(), "fin_chapitre", n)
+			_donner_objets(Recompenses.objets(e.get("recompense", [])), false)
+			gagner_xp(xp, "Quête")
+		"secondaire":
+			if a.size() != 4:
+				return "?"
+			var ile := String(a[0])
+			var q := Recompenses.quete_secondaire(ile, String(a[1]))
+			var etapes: Array = q.get("etapes", [])
+			var numero := int(a[2])
+			if q.is_empty() or numero < 0 or numero >= etapes.size():
+				return "Quête inconnue"
+			var finie := numero == etapes.size() - 1
+			var n := Progression.niveau_zone(donnees(), String(etapes[numero].get("ou", "")))
+			if noter("secondaire_etape:%s:%s:%d" % [ile, q["id"], numero]) and not finie:
+				gagner_xp(Progression.xp_de(donnees(), "etape_secondaire", n), "Quête secondaire")
+			if finie and noter("secondaire:" + String(q["id"])):
+				noter("secondaire_ile:%s:%s" % [ile, q["id"]])
+				_donner_objets(Recompenses.objets(q.get("recompense", [])), false)
+				gagner_xp(Progression.xp_de(donnees(), "quete_secondaire", n), "Quête secondaire")
+		"evenement":
+			if a.size() != 4:
+				return "?"
+			var ile := String(a[0])
+			var ev := Recompenses.evenement(ile, String(a[1]))
+			var palier := String(a[2])
+			var reussi := bool(a[3])
+			if ev.is_empty() or not palier in ["or", "argent", "bronze"]:
+				return "Événement inconnu"
+			var cle := "%s|%s:%s" % [joueur.nom, ile, ev["id"]]
+			var maintenant := Time.get_unix_time_from_system()
+			if maintenant - float(_derniers_evenements.get(cle, -1e9)) < Recompenses.ATTENTE_EVENEMENT:
+				return ""
+			_derniers_evenements[cle] = maintenant
+			var n := Progression.niveau_zone(donnees(), String(ev.get("zone", "")))
+			var xp := Progression.xp_evenement(donnees(), n, palier if reussi else "bronze")
+			if reussi:
+				etat["faits"].append("evenement:%s:%s" % [ile, ev["id"]])
+			_donner_objets(Recompenses.objets_evenement(ev, palier, reussi, _hasard), true)
+			gagner_xp(xp if reussi else xp / 2, "Événement")
+		"mission_hub":
+			if a.size() != 1 or Recompenses.mission_hub(String(a[0])).is_empty():
+				return "Mission inconnue"
+			if noter("mission:" + String(a[0])):
+				gagner_xp(Progression.xp_de(donnees(), "mission_hub", niveau()), "Mission")
+		"mission_jour":
+			if a.size() != 2:
+				return "?"
+			var m := Recompenses.mission_du_jour(String(a[0]))
+			var genre := String(m.get("genre", ""))
+			if m.is_empty() or not Recompenses.periode_plausible(genre, int(a[1]), Recompenses.periode_actuelle(genre)):
+				return "Mission inconnue"
+			var periodes := {"quotidienne": Recompenses.periode_actuelle("quotidienne"),
+					"hebdomadaire": Recompenses.periode_actuelle("hebdomadaire")}
+			Recompenses.oublier_vieilles_missions(etat["faits"], periodes)
+			if noter(Recompenses.fait_mission_du_jour(genre, String(m["id"]), int(a[1]))):
+				_donner_objets(Recompenses.objets(m.get("recompense", [])), false)
+				_appliquer()
+		_:
+			return "Action inconnue"
+	return ""
+
+
+## Serveur : met des objets dans les sacs du joueur. « annoncer » : dire au joueur ce
+## qu'il a reçu (quand c'est tiré au hasard, il ne peut pas le deviner).
+func _donner_objets(liste: Array, annoncer: bool) -> void:
+	var inventaire := joueur.get_node_or_null("Inventaire")
+	if liste.is_empty() or inventaire == null:
+		return
+	var restants: Array = inventaire.recevoir(liste)
+	var cat: Dictionary = inventaire.cat()
+	if annoncer:
+		Regles.chez(joueur.id_reseau(), self, "_recevoir_recompense", [Recompenses.noms(cat, liste)])
+	if not restants.is_empty():
+		_dire("Sacs pleins : %s n'a pas trouvé de place" % Recompenses.noms(cat, restants))
 
 
 ## Un ennemi auquel on a participé vient d'être vaincu.
@@ -244,6 +339,11 @@ func _demander(action: String, arguments: Array) -> void:
 				_dire("Talents oubliés : tes %d points sont libres" % Progression.points_libres(donnees(), etat))
 		"titre":
 			raison = Progression.choisir_titre(donnees(), etat, String(arguments[0]))
+		"etape", "secondaire", "evenement", "mission_hub", "mission_jour":
+			var refus := _recompenser(action, arguments)
+			if refus != "":
+				push_warning("Récompense refusée à %s (%s %s) : %s" % [joueur.nom, action, arguments, refus])
+			return
 		_:
 			raison = "Action inconnue"
 	if raison != "":
@@ -290,6 +390,15 @@ func _recevoir_xp(montant: int, raison: String, nouveau_niveau: int) -> void:
 @rpc("authority", "call_remote", "reliable")
 func _recevoir_titre(nom: String) -> void:
 	titre_obtenu.emit(nom)
+
+
+## Ce qu'un événement vient de rapporter (tiré au hasard par le serveur).
+@rpc("authority", "call_remote", "reliable")
+func _recevoir_recompense(texte: String) -> void:
+	recompense_recue.emit(texte)
+	var quete := get_tree().get_first_node_in_group("quete")
+	if quete != null and quete.has_method("annoncer"):
+		quete.annoncer("Récompense", texte)
 
 
 # --- Sauvegarde (serveur) ----------------------------------------------------
