@@ -10,7 +10,8 @@ extends RefCounted
 ##     "titre": "recrue",                       # titre porté ("" = aucun)
 ##     "tues": {"loup_fracture": 12, …},        # ennemis vaincus par type
 ##     "decouvertes": ["steppe", …],            # zones déjà découvertes
-##     "faits": ["etape:prehistoire:vers_le_camp", "secondaire:miou", "evenement:prehistoire", …]
+##     "faits": ["etape:prehistoire:vers_le_camp", "secondaire:miou", "evenement:prehistoire", …],
+##     "arene": {"victoires": 12, "meilleure_cote": 1642, "meilleur_rang": 3}  # Arène JcJ (rang 0 = jamais classé)
 ##   }
 ## Les réglages (« d ») sont le contenu de data/progression.json (ProgressionJoueur les lit).
 ##
@@ -114,7 +115,8 @@ static func xp_evenement(d: Dictionary, niveau: int, palier: String) -> int:
 # --- État --------------------------------------------------------------------
 
 static func etat_de_depart() -> Dictionary:
-	return {"xp": 0, "talents": {}, "titres": [], "titre": "", "tues": {}, "decouvertes": [], "faits": []}
+	return {"xp": 0, "talents": {}, "titres": [], "titre": "", "tues": {}, "decouvertes": [], "faits": [],
+			"arene": {"victoires": 0, "meilleure_cote": 0, "meilleur_rang": 0}}
 
 
 ## Remet d'aplomb un état lu dans une sauvegarde (talents inconnus ou trop chers retirés…).
@@ -132,6 +134,9 @@ static func valider(d: Dictionary, classe: String, lu) -> Dictionary:
 			for v in lu[cle]:
 				if not String(v) in e[cle]:
 					e[cle].append(String(v))
+	if lu.get("arene") is Dictionary:
+		for cle in e["arene"]:
+			e["arene"][cle] = maxi(0, int(lu["arene"].get(cle, 0)))
 	if lu.get("titres") is Array:
 		for t in lu["titres"]:
 			if not titre(d, String(t)).is_empty() and not String(t) in e["titres"]:
@@ -255,6 +260,25 @@ static func bonus(d: Dictionary, classe: String, e: Dictionary, pv_de_base: floa
 	return {"stats": stats, "competences": competences}
 
 
+## Bonus d'un combat ÉQUILIBRÉ (Arène JcJ) : tout le monde se bat comme s'il était au
+## niveau de référence, avec le même « équipement standard ». L'équipement, les talents
+## et le repas sont ignorés : seuls comptent la classe et le savoir-faire du joueur.
+## eq : la partie « equilibrage » de data/arene.json.
+static func bonus_equilibre(d: Dictionary, eq: Dictionary, pv_de_base: float) -> Dictionary:
+	var stats := {}
+	for s in STATS:
+		stats[s] = 0.0
+	var n := clampi(int(eq.get("niveau_reference", niveau_max(d))), 1, niveau_max(d))
+	var par_niveau: Dictionary = (d.get("niveaux", {}) as Dictionary).get("par_niveau_gagne", {})
+	stats["pv"] = round(pv_de_base * float(par_niveau.get("pv_pourcent", 0)) / 100.0 * (n - 1))
+	stats["degats_pourcent"] = float(par_niveau.get("degats_pourcent", 0)) * (n - 1)
+	var standard: Dictionary = eq.get("equipement_standard", {})
+	for s in standard:
+		if stats.has(s):
+			stats[s] = float(stats[s]) + float(standard[s])
+	return {"stats": stats, "competences": {}, "ensembles": {}, "paliers": []}
+
+
 ## Ajoute les bonus « ajout » (même format) dans « total » (le bonus de l'équipement).
 static func fusionner(total: Dictionary, ajout: Dictionary) -> void:
 	var stats: Dictionary = total.get("stats", {})
@@ -321,6 +345,14 @@ static func condition_remplie(d: Dictionary, e: Dictionary, t: Dictionary, total
 		return compte_faits(e, "evenement:%s:" % c["evenements"]) >= int(c.get("nombre", 1))
 	if c.has("tuer"):
 		return vaincus(e, String(c["tuer"])) >= int(c.get("nombre", 1))
+	var arene: Dictionary = e.get("arene", {})
+	if c.has("arene_victoires"):
+		return int(arene.get("victoires", 0)) >= int(c["arene_victoires"])
+	if c.has("arene_cote"):
+		return int(arene.get("meilleure_cote", 0)) >= int(c["arene_cote"])
+	if c.has("arene_rang"):
+		var rang := int(arene.get("meilleur_rang", 0))
+		return rang > 0 and rang <= int(c["arene_rang"])
 	return false
 
 

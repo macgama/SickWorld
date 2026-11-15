@@ -78,6 +78,9 @@ func _donnees(cat: Dictionary, art: Dictionary) -> void:
 	for m in missions.get("quotidiennes", []) + missions.get("hebdomadaires", []):
 		for r in m.get("recompense", []):
 			obtenables[String(r["id"])] = true
+	# Les médailles de l'arène se gagnent en combattant à l'Arène (data/arene.json).
+	var arene = JSON.parse_string(FileAccess.get_file_as_string("res://data/arene.json"))
+	obtenables[String(arene.get("recompenses", {}).get("objet_medaille", "medaille_arene"))] = true
 	var introuvables: Array[String] = []
 	for id in cat["objets"]:
 		if String(cat["objets"][id].get("type", "")) == "materiau" and not obtenables.has(id) \

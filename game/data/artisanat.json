@@ -1,5 +1,5 @@
 {
-	"_aide": "Recettes d'artisanat. « artisan » : forge (Forge Hinode), atelier (Fil & Fibre) intendance (échange des insignes de la Vigie, au QG) ou cuisine (Ramen Kaminari du Chef Goro). « verbe » / « fait » : le texte du bouton et du message (par défaut Fabriquer / Fabriqué). « donne » : l'objet fabriqué (voir data/objets.json), « quantite » : combien. « ingredients » : objet -> nombre à apporter (ils doivent être dans les sacs, pas portés). Une amélioration est une recette dont un ingrédient est l'objet à améliorer : l'objet renforcé le remplace aussi dans les tenues de mission. « distance » : à combien de mètres de l'artisan il faut être.",
+	"_aide": "Recettes d'artisanat. « artisan » : forge (Forge Hinode), atelier (Fil & Fibre) intendance (échange des insignes de la Vigie, au QG), arene (échange des médailles de l'arène auprès d'Akane) ou cuisine (Ramen Kaminari du Chef Goro). « verbe » / « fait » : le texte du bouton et du message (par défaut Fabriquer / Fabriqué). « donne » : l'objet fabriqué (voir data/objets.json), « quantite » : combien. « ingredients » : objet -> nombre à apporter (ils doivent être dans les sacs, pas portés). Une amélioration est une recette dont un ingrédient est l'objet à améliorer : l'objet renforcé le remplace aussi dans les tenues de mission. « distance » : à combien de mètres de l'artisan il faut être.",
 	"distance": 4.5,
 	"artisans": {
 		"forge": {
@@ -47,6 +47,21 @@
 			"categories": [
 				"equipement",
 				"sacs",
+				"materiaux"
+			]
+		},
+		"arene": {
+			"nom": "Boutique de l'Arène",
+			"titre": "闘技場 Arène de la baie · échange de médailles",
+			"pnj": [
+				"championne"
+			],
+			"couleur": "#ff4a58",
+			"accueil": "Chaque combat te rapporte des médailles de l'arène. Gagne ou perds, mais reviens me voir !",
+			"verbe": "Échanger",
+			"fait": "Échangé",
+			"categories": [
+				"equipement",
 				"materiaux"
 			]
 		},
@@ -724,6 +739,51 @@
 				"perche_nil": 1,
 				"tilapia": 1,
 				"natron": 1
+			}
+		},
+		"arene_echarpe": {
+			"artisan": "arene",
+			"categorie": "equipement",
+			"donne": "echarpe_arene",
+			"quantite": 1,
+			"ingredients": {
+				"medaille_arene": 20
+			}
+		},
+		"arene_pantalon": {
+			"artisan": "arene",
+			"categorie": "equipement",
+			"donne": "pantalon_arene",
+			"quantite": 1,
+			"ingredients": {
+				"medaille_arene": 30
+			}
+		},
+		"arene_dague": {
+			"artisan": "arene",
+			"categorie": "equipement",
+			"donne": "dague_arene",
+			"quantite": 1,
+			"ingredients": {
+				"medaille_arene": 45
+			}
+		},
+		"arene_eclat": {
+			"artisan": "arene",
+			"categorie": "materiaux",
+			"donne": "eclat_de_fracture",
+			"quantite": 1,
+			"ingredients": {
+				"medaille_arene": 4
+			}
+		},
+		"arene_insigne": {
+			"artisan": "arene",
+			"categorie": "materiaux",
+			"donne": "insigne_vigie",
+			"quantite": 1,
+			"ingredients": {
+				"medaille_arene": 5
 			}
 		}
 	}
