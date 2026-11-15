@@ -309,17 +309,29 @@ func rafraichir() -> void:
 	for ing in Artisanat.ingredients(art, etat, recette_choisie):
 		_materiaux.add_child(_ligne_materiau(cat, ing))
 
-	var raison := Artisanat.raison_impossible(cat, art, etat, recette_choisie)
+	var raison := _raison_guilde(r)
+	if raison == "":
+		raison = Artisanat.raison_impossible(cat, art, etat, recette_choisie)
 	_bouton.disabled = raison != ""
 	_bouton.text = "Améliorer" if base != "" else String(Artisanat.artisan(Donnees.artisanat, id_artisan).get("verbe", "Fabriquer"))
 	_raison.text = raison
 	_raison.modulate = ROUGE if raison != "" else VERT
 
 
+## Pièces de l'intendante des guildes : il faut une guilde d'un certain niveau.
+func _raison_guilde(r: Dictionary) -> String:
+	var faut := int(r.get("niveau_guilde", 0))
+	if faut <= 0 or Guildes.mon_niveau() >= faut:
+		return ""
+	if Guildes.mon_niveau() == 0:
+		return "Il faut faire partie d'une guilde de niveau %d" % faut
+	return "Il faut une guilde de niveau %d (la tienne est niveau %d)" % [faut, Guildes.mon_niveau()]
+
+
 func _ligne_recette(cat: Dictionary, art: Dictionary, etat: Dictionary, id: String) -> Button:
 	var r := Artisanat.recette(art, id)
 	var donne := String(r.get("donne", ""))
-	var possible := Artisanat.raison_impossible(cat, art, etat, id) == ""
+	var possible := _raison_guilde(r) == "" and Artisanat.raison_impossible(cat, art, etat, id) == ""
 	var b := Button.new()
 	b.custom_minimum_size = Vector2(0, TAILLE_LIGNE)
 	b.focus_mode = Control.FOCUS_NONE
@@ -338,7 +350,9 @@ func _ligne_recette(cat: Dictionary, art: Dictionary, etat: Dictionary, id: Stri
 	b.add_theme_color_override("font_pressed_color", couleur)
 	b.toggle_mode = true
 	b.button_pressed = id == recette_choisie
-	b.tooltip_text = "Tu as tout ce qu'il faut" if possible else "Il manque des matériaux"
+	b.tooltip_text = "Tu as tout ce qu'il faut" if possible else (_raison_guilde(r) if _raison_guilde(r) != "" else "Il manque des matériaux")
+	if int(r.get("niveau_guilde", 0)) > 0:
+		b.text += "   (guilde niv. %d)" % int(r["niveau_guilde"])
 	b.pressed.connect(func(): choisir(id))
 	return b
 

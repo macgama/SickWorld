@@ -115,6 +115,11 @@ func _utiliser_objets(id: String) -> int:
 
 func _lancer() -> void:
 	DirAccess.remove_absolute(ProjectSettings.globalize_path(FICHIER))
+	# La guilde fondée pendant le test ne touche pas aux vraies sauvegardes.
+	var guildes = root.get_node("Guildes")
+	guildes.fichier_ancien = FICHIER
+	guildes.fichier_client = "user://test_quetes_guilde_%d.cfg" % OS.get_process_id()
+	guildes.fichier_serveur = "user://test_quetes_guildes_%d.json" % OS.get_process_id()
 	_scene = load("res://scenes/monde/hikari_bay.tscn").instantiate()
 	_quetes = _scene.get_node("Quetes")
 	_quetes.fichier_progression = FICHIER
@@ -353,4 +358,6 @@ func _lancer() -> void:
 	DirAccess.remove_absolute(ProjectSettings.globalize_path(FICHIER))
 
 	print("Résultat : %s" % ("TOUT EST BON" if _echecs == 0 else "%d échec(s)" % _echecs))
+	for f in [root.get_node("Guildes").fichier_client, root.get_node("Guildes").fichier_serveur]:
+		DirAccess.remove_absolute(ProjectSettings.globalize_path(Profil.chemin(f)))
 	quit(1 if _echecs > 0 else 0)

@@ -880,6 +880,7 @@ func _recompenser(format: String, equipes: Array, vainqueur: int) -> void:
 			if infos["compte"]:
 				infos["objets"] = _donner_objets(p, f, int(infos["rang"]), int(infos["medailles"]))
 				cfg.set_value("joueurs", _cle_joueur(nom), f)
+				Guildes.contribuer(p, "arene")
 				var progression := p.get_node_or_null("Progression")
 				if progression != null and progression.has_method("resultat_arene"):
 					progression.resultat_arene(_victoires(f), int(f.get("meilleure_cote", 0)), int(infos["rang"]))
