@@ -232,6 +232,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		quete = get_tree().get_first_node_in_group("quetes_secondaires")
 	elif has_meta("evenement"):
 		quete = get_tree().get_first_node_in_group("evenements_publics")
+	elif has_meta("donjon"):
+		# Un mécanisme de boss (ex. les cartouches de la chambre du Roi) : la zone s'en occupe.
+		quete = get_tree().get_first_node_in_group("ile")
 	if quete == null:
 		return
 	get_viewport().set_input_as_handled()

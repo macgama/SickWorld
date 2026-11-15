@@ -53,6 +53,8 @@ const PORTE_DEMI := 4.5
 const H_VILLAGE := 3.0
 const H_PLATEAU := 14.0
 const CHANTIER := Vector2(-6, -100)
+## Le passage des ouvriers : l'entrée du Cœur de la Pyramide (donjon), au fond du chantier.
+const PASSAGE := Vector2(30, -136)
 ## Les bâtisseurs libérés au cimetière, et où ils se retrouvent ensuite.
 const LIBERES := [Vector2(19, 40), Vector2(20, 48)]
 const NOMS_LIBERES := ["batisseur_kai", "batisseur_hetepi"]
@@ -92,14 +94,23 @@ func _init() -> void:
 
 func _ready() -> void:
 	if not Engine.is_editor_hint() and Reseau.get_meta("arrivee_egypte", "") != "":
+		# On arrive par où l'on vient : la route du port, la passe des tombes ou la pyramide.
+		var venu := String(Reseau.get_meta("arrivee_egypte", ""))
 		Reseau.remove_meta("arrivee_egypte")
-		point_apparition = ENTREE + Vector2(-10, 0)
+		if venu == "desert_rouge":
+			point_apparition = PASSE_TOMBES + Vector2(10, 0)
+		elif venu == "coeur_pyramide":
+			point_apparition = PASSAGE + Vector2(0, 6)
+		else:
+			point_apparition = ENTREE + Vector2(-10, 0)
 	super._ready()
 
 
 func sortie_vers(zone: String) -> Vector2:
 	if zone == "desert_rouge":
 		return PASSE_TOMBES
+	if zone == "coeur_pyramide":
+		return PASSAGE
 	return ENTREE if zone != "village_batisseurs" else Vector2.INF
 
 
@@ -475,7 +486,7 @@ func _construire_chantier() -> void:
 	# Des rangées de blocs arrivés de Toura, marqués à l'ocre par leur équipe.
 	for k in 70:
 		var p := CHANTIER + Vector2(hasard.randf_range(-60.0, 60.0), hasard.randf_range(-40.0, 30.0))
-		if absf(p.x - 1.0) < 9.0 or p.distance_to(CHANTIER + Vector2(18, -6)) < 7.0:
+		if absf(p.x - 1.0) < 9.0 or p.distance_to(CHANTIER + Vector2(18, -6)) < 7.0 or p.distance_to(PASSAGE) < 10.0:
 			continue
 		var y := hauteur(p.x, p.y)
 		_bloc_calcaire(ch, Vector3(p.x, y + 0.5, p.y), Vector3(1.5, 1.0, 1.0), hasard.randf_range(-0.1, 0.1) + (PI / 2 if k % 2 == 0 else 0.0))
@@ -508,6 +519,37 @@ func _construire_chantier() -> void:
 	for k in 5:
 		_jarre(ch, Vector3(scribes.x - 2.0 + k * 0.9, hauteur(scribes.x, scribes.y + 2.6) - 0.02, scribes.y + 2.6), 1.0, k)
 	_feu(ch, CHANTIER + Vector2(-20, 6), 0.7)
+	_construire_passage(ch)
+
+
+## Le passage des ouvriers : une porte de calcaire qui s'enfonce dans la masse de la pyramide.
+## Une barrière de planches le ferme tant qu'Ânkhkhaf ne l'a pas fait ouvrir.
+func _construire_passage(parent: Node3D) -> void:
+	var d := Node3D.new()
+	d.name = "PassageOuvriers"
+	parent.add_child(d)
+	var y := hauteur(PASSAGE.x, PASSAGE.y)
+	var pierre := _mat_calcaire()
+	for cote in [-1.0, 1.0]:
+		_boite(Vector3(1.6, 5.0, 2.0), Vector3(PASSAGE.x + cote * 2.4, y + 2.4, PASSAGE.y - 1.6), pierre, d)
+	_boite(Vector3(6.4, 1.3, 2.2), Vector3(PASSAGE.x, y + 5.5, PASSAGE.y - 1.6), pierre, d)
+	# La masse de pierre derrière la porte, et le noir du couloir.
+	_boite(Vector3(10, 8, 12), Vector3(PASSAGE.x, y + 3.6, PASSAGE.y - 8.6), _mat_choix(["large_sandstone_blocks", "sandstone_blocks_08"], Color(0.86, 0.76, 0.6), 0.95, 3.0), d)
+	var noir := StandardMaterial3D.new()
+	noir.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	noir.albedo_color = Color(0.01, 0.008, 0.006)
+	_boite(Vector3(3.2, 4.8, 0.1), Vector3(PASSAGE.x, y + 2.4, PASSAGE.y - 2.55), noir, d, false)
+	# La barrière de planches (enlevée sur l'ordre d'Ânkhkhaf).
+	var barriere := _boite(Vector3(3.4, 2.4, 0.2), Vector3(PASSAGE.x, y + 1.2, PASSAGE.y - 0.5), _mat_bois(), d)
+	barriere.name = "Barriere"
+	barriere.set_meta("identifiant", "barriere_passage")
+	barriere.add_to_group("decor_quete")
+	var corps := barriere.get_child(0) as StaticBody3D
+	barriere.visibility_changed.connect(func():
+		for f in corps.get_children():
+			(f as CollisionShape3D).set_deferred("disabled", not barriere.visible))
+	for cote in [-1.0, 1.0]:
+		_feu(d, PASSAGE + Vector2(cote * 4.2, 1.5), 0.45)
 
 
 # --- Végétation et rochers --------------------------------------------------------------------------
@@ -652,6 +694,12 @@ func _construire_quete() -> void:
 		# Les paniers sont proches les uns des autres : on ne prend que celui devant soi.
 		_objet(dossier, "Panier%d" % k, "panier_%d" % k, "panier_amulettes", "panier", "[F] Prendre le panier d'amulettes", PANIERS[k]).set("portee", 1.6)
 	_objet(dossier, "DortoirEchange", "dortoir_echange", "", "", "[F] Échanger les amulettes des dormeurs", ECHANGE)
+	# Chapitre 8 : Ânkhkhaf devant le passage des ouvriers, et Merer qui attend la sortie du groupe.
+	_pnj(dossier, "ankhkhaf_chantier", PASSAGE + Vector2(-4.5, 4.5), PI * 0.15)
+	var merer := _pnj(dossier, "merer_gizeh", PASSAGE + Vector2(4.5, 6.0), -PI * 0.2)
+	merer.add_to_group("decor_quete")
+	merer.set_meta("identifiant", "merer_gizeh")
+	merer.visible = false
 	if not Engine.is_editor_hint():
 		_reprendre_etat.call_deferred()
 	# Repères de la carte.
@@ -667,6 +715,7 @@ func _construire_quete() -> void:
 	repere.call(MarqueurCarte.Type.LIEU, "Porte du Mur du Corbeau", Vector2(0, MUR_Z))
 	repere.call(MarqueurCarte.Type.LIEU, "Chantier de la pyramide", CHANTIER)
 	repere.call(MarqueurCarte.Type.LIEU, "Passe des tombes (Désert Rouge)", PASSE_TOMBES)
+	repere.call(MarqueurCarte.Type.DANGER, "Passage des ouvriers (Cœur de la Pyramide)", PASSAGE)
 	repere.call(MarqueurCarte.Type.DANGER, "Chacals", Vector2(-110, -75))
 
 
@@ -695,6 +744,12 @@ func _reprendre_etat() -> void:
 		for n in _blesses:
 			if is_instance_valid(n):
 				n.set("blesse", false)
+	# Isfet vaincu : la Grande Pyramide a reçu ses derniers blocs blancs et son pyramidion d'or.
+	if quete.etape_atteinte("journal_merer"):
+		var ancienne := _contenu.get_node_or_null("GrandePyramide")
+		if ancienne != null:
+			ancienne.free()
+		_construire_pyramide(Vector3(-10, H_PLATEAU - 1.0, -320), 0.0, 1.0)
 
 
 # --- Retour vers le Port des Marais ------------------------------------------------------------
@@ -714,3 +769,6 @@ func _process(delta: float) -> void:
 	elif joueur.global_position.x < PASSE_TOMBES.x + 1.0 and absf(joueur.global_position.z - PASSE_TOMBES.y) < 16.0 \
 			and quete.etape_atteinte("vers_desert"):
 		quete.changer_de_zone("desert_rouge")
+	elif absf(joueur.global_position.x - PASSAGE.x) < 1.8 and joueur.global_position.z < PASSAGE.y - 1.2 \
+			and joueur.global_position.z > PASSAGE.y - 4.0 and quete.etape_atteinte("entrer_pyramide"):
+		quete.changer_de_zone("coeur_pyramide")

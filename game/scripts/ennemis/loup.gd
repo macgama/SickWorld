@@ -114,6 +114,11 @@ func _avancer_vers(point: Vector3, vitesse: float, arret := 0.0) -> float:
 	var distance := ecart.length()
 	if distance > 0.05:
 		_regarder(ecart)
+	if _donnees.get("immobile", false):
+		# Un boss fixé à un mur (Isfet) : il se tourne, mais ne marche pas.
+		velocity.x = 0.0
+		velocity.z = 0.0
+		return distance
 	if distance > arret:
 		var v := ecart.normalized() * vitesse * combat.multiplicateur_vitesse()
 		velocity.x = v.x
@@ -174,8 +179,8 @@ func _poursuivre() -> void:
 		if plus_menacant != null and plus_menacant != _cible \
 				and combat.menace[plus_menacant] > combat.menace.get(_cible, 0.0) * 1.1:
 			_cible = plus_menacant
-	# Étourdi : ne bouge plus et n'attaque plus.
-	if combat.est_etourdi():
+	# Étourdi (ou rentré dans un mur, comme Isfet) : ne bouge plus et n'attaque plus.
+	if combat.est_etourdi() or combat.a_effet("enfoui"):
 		velocity.x = 0.0
 		velocity.z = 0.0
 		return

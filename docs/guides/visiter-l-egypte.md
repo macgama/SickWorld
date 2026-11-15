@@ -87,6 +87,30 @@ Les deux choix mènent à la suite.
 
 Le chapitre 6 (« La mémoire d'Hémiounou ») arrive bientôt.
 
+## Le chapitre 8 : « Ce que le fleuve emporte » (donjon)
+
+En attendant les chapitres 6 et 7, le chapitre 8 suit directement le chapitre 5. Au retour du QG, **Ânkhkhaf** attend au fond du chantier, devant le **passage des ouvriers** (une porte de pierre dans la masse de la pyramide). Il fait enlever la barrière de planches, et l'on entre dans le **Cœur de la Pyramide**, un donjon prévu pour 5 joueurs (niveau 20).
+
+1. Descendre le couloir jusqu'à la **chambre souterraine** et tuer 5 cobras fracturés.
+2. Remonter jusqu'à la **chambre de la Reine** : trois bâtisseurs emmurés ont perdu leur nom. On les met à terre, puis on leur rend leur nom (F). Sekhem explique comment ouvrir le bouchon de granit.
+3. Au carrefour, retirer les **coins de bois** : le bouchon glisse et ouvre la **Grande Galerie**.
+4. Monter la galerie en battant 4 gardes, puis **Djedi**, leur chef (il appelle des renforts à la moitié de sa vie).
+5. Lever les **trois herses** de granit de l'antichambre (une par une, avec F).
+6. Affronter **Isfet, le Serpent du Désordre**, dans la chambre du Roi :
+   - **Phase 1, les murs vivants** : il sort des quatre bouches des murs et, de temps en temps, plonge dans la pierre pour ressortir ailleurs. Du sable tombe du plafond : un cercle rouge apparaît au sol, il faut en sortir avant qu'il ne s'écroule.
+   - **Phase 2, les noms effacés** (sous 66 % de vie) : des cobras arrivent, et Isfet efface le nom d'un joueur. Ce joueur ne peut plus utiliser ses compétences d'époque (touches 6 et 7). Pour lui rendre son nom, quelqu'un **grave un cartouche** sur un mur (F). Ça marche pour tous les alliés à la fois, et chaque cartouche doit ensuite se recharger 12 secondes.
+   - **Phase 3, le sablier** (sous 33 % de vie) : Vera Lind apparaît au balcon et retourne son sablier. La chambre se remplit de sable. Le groupe a **75 secondes** pour finir le serpent, sinon le sable engloutit tout le monde et le combat recommence.
+7. Refermer la fracture majeure derrière le sarcophage. La récompense est la **Plume de Maât**, une relique historique.
+8. Ressortir : la pyramide est terminée, avec son pyramidion doré. **Merer** lit la dernière ligne de son journal.
+
+On ne peut pas monter sa monture dans le donjon.
+
+![La Grande Galerie et sa voûte en encorbellement](../images/egypte-pyramide-galerie.jpg)
+
+![Isfet sort du mur de la chambre du Roi](../images/egypte-pyramide-isfet.jpg)
+
+![Le passage des ouvriers, devant la pyramide terminée](../images/egypte-pyramide-passage.jpg)
+
 ## Les Carrières de Toura (zone 2)
 
 ![La carrière en gradins](../images/egypte-toura-carriere.jpg)
@@ -156,6 +180,11 @@ Pour revenir au village, suivre la rue principale vers l'est jusqu'à la passe.
 | Bâtisseur oublié | 15 | au cimetière du village, au chapitre 4 |
 | Chacal fracturé | 15 | dans le désert, à l'ouest du village, et sur la place si on brise les amulettes |
 | Garde de l'Effaceuse | 16-17 | dans le Désert Rouge, autour de la grande tombe (ils cachent une radio moderne) |
+| Cobra fracturé | 19 | dans la chambre souterraine de la pyramide, et pendant le combat contre Isfet |
+| Bâtisseur emmuré | 19 | dans la chambre de la Reine (on le met à terre, puis on lui rend son nom) |
+| Garde de l'Effaceuse | 20 | dans la Grande Galerie |
+| Djedi, chef des gardes (élite) | 21 | en haut de la Grande Galerie |
+| Isfet, le Serpent du Désordre (boss) | 22 | dans la chambre du Roi |
 
 Ils laissent du limon du Nil, des écailles de crocodile, des défenses d'hippopotame, des canines de babouin et du calcaire fin.
 
