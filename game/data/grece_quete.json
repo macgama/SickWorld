@@ -1,0 +1,281 @@
+{
+	"_aide": "Quête principale de la Grèce : « Que le temps n'efface pas ». Mêmes règles que data/prehistoire_quete.json et data/egypte_quete.json (voir leur « _aide »). En plus : l'étape « triere_cadence » est terminée par la trière elle-même, à la fin du tour du bassin où l'on rame en cadence. Pour changer un texte, modifie ce qui est entre guillemets. Garde les virgules.",
+	"zones": {
+		"le_piree": {
+			"scene": "res://scenes/monde/grece/le_piree.tscn",
+			"arrivee": {
+				"titre": "Le Pirée",
+				"sous_titre": "Grèce · Athènes au temps de Périclès, été -438",
+				"texte": "Une gerbe d'eau salée, puis le silence. Tu as de l'eau fraîche jusqu'aux genoux, des galets sous les pieds, et partout l'odeur de la mer et du thym chauffé au soleil. Plus loin, un vieil homme te regarde, une main sur son filet."
+			}
+		}
+	},
+	"camps": {
+		"le_piree": [
+			{ "type": "chien_fracture", "position": [-72, 86], "nombre": 3, "rayon": 5 },
+			{ "type": "chien_fracture", "position": [-36, 70], "nombre": 2, "rayon": 4 },
+			{ "type": "chien_fracture", "position": [-110, 60], "nombre": 2, "rayon": 5 }
+		]
+	},
+	"chapitres": [
+		{
+			"numero": 1,
+			"titre": "Le naufragé",
+			"ou": "le_piree",
+			"etapes": [
+				{
+					"id": "rencontre_glaukos",
+					"objectif": "Parle au vieux pêcheur, sur la plage de la crique",
+					"pnj": "glaukos",
+					"repliques": [
+						"Par Poséidon ! Tu es tombé du ciel, ou tu es sorti de la mer ? Les deux, on dirait.",
+						"N'aie pas peur. Ici, on reçoit l'étranger comme un invité : c'est la loi de Zeus Xénios, le protecteur des hôtes. Je m'appelle Glaukos. Je pêche dans cette crique depuis quarante ans.",
+						"Tu n'es pas le premier, d'ailleurs. Ce matin, un autre étranger est sorti de cette même lumière bleue, avec un sac sur le dos et des habits bizarres. Il parlait grec avec un drôle d'accent.",
+						"Les archers scythes de l'arsenal l'ont attrapé sur le chemin du port. Ils l'ont pris pour un espion de Sparte. En s'enfuyant, il a jeté son sac dans les rochers, là-haut, à l'ouest.",
+						"Va le chercher si tu veux. Mais attention aux chiens. Les chiens du port sont devenus fous depuis quelques jours : ils ont des yeux comme des braises violettes."
+					]
+				},
+				{
+					"id": "sac_markos",
+					"objectif": "Dégage le sac de la Vigie coincé dans les rochers, à l'ouest de la crique",
+					"objet": "sac_markos",
+					"duree": 2,
+					"action": "Tu dégages le sac…",
+					"consomme": true,
+					"recit": {
+						"titre": "La radio de Markos",
+						"texte": "Dans le sac, une radio grésille : « ...ici l'agent Markos, si quelqu'un de la Vigie m'entend... La balise est dans le sac, plantez-la près du portail. Et méfiez-vous : ici, les gens perdent la voix. »"
+					}
+				},
+				{
+					"id": "chiens",
+					"objectif": "Élimine les chiens errants fracturés qui rôdent sur l'Akté",
+					"tuer": "chien_fracture",
+					"nombre": 4,
+					"lieu": [-72, 86],
+					"recit": {
+						"titre": "Les chiens du port",
+						"texte": "Le dernier chien tombe en gémissant. Ses éclats violets s'éteignent un à un. Plus bas, dans la crique, Glaukos te fait un grand signe."
+					}
+				},
+				{
+					"id": "balise",
+					"objectif": "Plante la balise de la Vigie sur la plage, près du portail (reste immobile)",
+					"objet": "installer_balise",
+					"duree": 4,
+					"action": "Installation de la balise…",
+					"apres": [
+						{ "montrer": "balise_installee" }
+					]
+				},
+				{
+					"id": "rapport_glaukos",
+					"objectif": "Retourne voir Glaukos, sur la plage",
+					"pnj": "glaukos",
+					"repliques": [
+						"Une lumière bleue qui ne s'éteint pas ? Tu as apporté un astre avec toi ? Bon. Si ça éloigne les chiens, je ne dis rien.",
+						"Puisque tu as l'air de savoir te battre, écoute. Mes filets sont restés au fond de la crique, sur le haut-fond, au sud.",
+						"Une bête s'y est installée. Un poulpe. Pas un petit poulpe qu'on grille avec de l'huile, non : un poulpe grand comme une barque, avec ces mêmes éclats violets sur la peau.",
+						"Sans mes filets, je ne pêche plus. Et sans poisson, je ne mange plus. Tu comprends le problème."
+					]
+				},
+				{
+					"id": "poulpe",
+					"objectif": "Affronte le poulpe fracturé sur le haut-fond de la crique, au sud",
+					"tuer": "poulpe_fracture",
+					"nombre": 1,
+					"lieu": [-53, 135],
+					"apparition": { "type": "poulpe_fracture", "position": [-53, 136], "nombre": 1, "rayon": 1, "attaque": false },
+					"recit": {
+						"titre": "La bête de la crique",
+						"texte": "Le poulpe se tord une dernière fois et s'affaisse sur les galets. Une encre noire se répand dans l'eau claire, puis s'efface. Les filets de Glaukos flottent juste à côté."
+					}
+				},
+				{
+					"id": "filets",
+					"objectif": "Récupère les filets de Glaukos sur le haut-fond",
+					"objet": "filets_glaukos",
+					"duree": 1.5,
+					"action": "Tu démêles les filets…",
+					"consomme": true
+				},
+				{
+					"id": "faille_glaukos",
+					"objectif": "Rapporte ses filets à Glaukos",
+					"pnj": "glaukos",
+					"repliques": [
+						"Mes filets ! Intacts, ou presque. Tu es un invité qui rapporte plus qu'il ne mange. C'est rare.",
+						"Maintenant, regarde là-haut, sur le flanc de l'Akté. Tu vois cette lueur, entre les rochers ? Elle était là avant les chiens fous. Avant le poulpe.",
+						"Je n'y vais pas. Quand je m'approche, j'ai la gorge serrée, comme si je ne pouvais plus parler. Toi, tu vas peut-être pouvoir."
+					]
+				},
+				{
+					"id": "faille",
+					"objectif": "Referme la faille sur le flanc de l'Akté (reste immobile)",
+					"objet": "faille_akte",
+					"duree": 5,
+					"action": "Fermeture de la faille…",
+					"apparition": { "type": "chien_fracture_faille", "position": [-92, 90], "nombre": 2, "rayon": 3, "attaque": false },
+					"apres": [
+						{ "cacher": "faille_akte" }
+					]
+				},
+				{
+					"id": "fin_chapitre_1",
+					"objectif": "Retourne voir Glaukos, sur la plage",
+					"pnj": "glaukos",
+					"repliques": [
+						"La lueur est partie. Et ma gorge s'est desserrée d'un coup. Je ne sais pas ce que tu as fait, mais merci.",
+						"Pour ton ami aux habits bizarres, va au port. Suis le chemin de la côte, vers le nord : il mène tout droit aux loges des trières, là où dorment les navires de guerre.",
+						"Demande Lysimaque. C'est le fils de ma sœur, un rameur de la Paralos, la trière sacrée. Il a une grande bouche et un grand cœur. Dis-lui que Glaukos t'envoie.",
+						"Et si on te demande d'où tu viens, dis « de la mer ». C'est vrai, et ça suffit."
+					],
+					"fin_chapitre": true
+				}
+			]
+		},
+		{
+			"numero": 2,
+			"titre": "Le Xénos",
+			"ou": "le_piree",
+			"etapes": [
+				{
+					"id": "vers_le_port",
+					"objectif": "Suis le chemin de la côte jusqu'aux loges des trières, au nord",
+					"zone": [-14, 22],
+					"rayon": 9
+				},
+				{
+					"id": "rencontre_lysimaque",
+					"objectif": "Trouve Lysimaque, le rameur, devant les loges des trières",
+					"pnj": "lysimaque",
+					"repliques": [
+						"Glaukos t'envoie ? Alors tu es mon invité. Xénos, sois le bienvenu au Pirée, le plus grand port du monde. Enfin, le plus grand que je connaisse.",
+						"Ton ami à l'accent bizarre ? Les archers scythes l'ont enfermé dans leur enclos, au bout des loges. Toxaris, leur chef, ne relâche personne sans l'ordre d'un stratège.",
+						"Et le stratège ici, c'est Phormion. Le commandant de la flotte. Il est au fond de l'arsenal, devant la maison des agrès.",
+						"Parle d'abord à ton ami, si tu veux. Toxaris laisse parler à travers les barreaux. Il n'est pas méchant : il fait son travail, c'est tout."
+					]
+				},
+				{
+					"id": "markos_enclos",
+					"objectif": "Parle à l'agent Markos, à travers les barreaux de l'enclos des archers",
+					"pnj": "markos",
+					"repliques": [
+						"Agent ! Enfin quelqu'un de chez nous. Théo Markos, archéologue de la Vigie. Oui, je sais, j'ai l'air malin, derrière des barreaux en bois d'olivier.",
+						"Je suis arrivé ce matin. On est en -438, l'été des Grandes Panathénées : dans quelques jours, Athènes consacre la statue d'Athéna dans le Parthénon tout neuf. Tu te rends compte ?",
+						"Le problème, c'est ça : depuis une semaine, à Athènes, des gens perdent la voix. D'abord ils n'osent plus contredire, puis ils ne parlent plus du tout. Et certains... deviennent des statues. Du vrai marbre.",
+						"J'ai voulu monter en ville trop vite, et les Scythes m'ont pris pour un espion de Sparte. À cette époque, tout le monde voit des espions de Sparte partout. La guerre approche.",
+						"Va voir Phormion, le stratège. Lui seul peut me faire sortir. Et sois poli : c'est l'un des meilleurs amiraux de toute l'histoire grecque. Il ne le sait pas encore, mais c'est vrai."
+					]
+				},
+				{
+					"id": "rencontre_phormion",
+					"objectif": "Présente-toi à Phormion, le stratège, au fond de l'arsenal",
+					"pnj": "phormion",
+					"repliques": [
+						"L'ami de l'espion. Les Scythes m'ont prévenu. Tu as l'air aussi peu spartiate que lui, je te l'accorde : un Spartiate ne sourit pas autant.",
+						"Mais un étranger qui débarque d'on ne sait où, juste avant les Panathénées, quand toute la flotte est au port... je dois être prudent.",
+						"Voilà ce que je te propose. La Paralos, notre trière sacrée, part à l'entraînement. Un de ses rameurs est malade. Prends sa place pour un tour du bassin.",
+						"Si tu rames avec nos hommes comme un des nôtres, je saurai que tu es avec Athènes. Un espion, ça ne rame pas : ça regarde. Monte à bord, au quai ouest du bassin."
+					]
+				},
+				{
+					"id": "embarquer",
+					"objectif": "Monte à bord de la Paralos, amarrée au quai ouest du bassin",
+					"objet": "monter_triere",
+					"apres": [
+						{ "appeler": "triere_paralos", "methode": "partir" }
+					]
+				},
+				{
+					"id": "triere_cadence",
+					"objectif": "Rame en cadence avec l'équipage : appuie sur F quand la jauge est pleine",
+					"objet": "triere_cadence",
+					"recit": {
+						"titre": "Un tour du bassin",
+						"texte": "La Paralos revient glisser le long du quai, si droite qu'on dirait qu'elle n'a jamais bougé. Sur le pont, les rameurs te tapent dans le dos en riant : « Il rame comme un Athénien, l'étranger ! »"
+					}
+				},
+				{
+					"id": "retour_phormion",
+					"objectif": "Retourne voir Phormion, au fond de l'arsenal",
+					"pnj": "phormion",
+					"repliques": [
+						"Je t'ai regardé depuis le quai. Tu as raté les premiers coups, comme tout le monde. Puis tu as écouté la flûte. C'est tout ce que je demande à un rameur.",
+						"Bien. Je vais signer l'ordre pour ton ami. Mais avant... tu entends ces aboiements ? Ça vient des loges.",
+						"Les chiens fous. Ils sont entrés dans l'arsenal. Avec eux, il y a cette bête énorme qui terrorise le port depuis trois jours : un molosse, noir comme la poix, avec des yeux violets.",
+						"S'ils mettent le feu à une loge en renversant une lampe, c'est une trière qui brûle. Chasse-les, Xénos. Et après, nous parlerons de ton ami."
+					]
+				},
+				{
+					"id": "chiens_loges",
+					"objectif": "Chasse les chiens fracturés entrés dans les loges des trières",
+					"tuer": "chien_fracture_loges",
+					"nombre": 3,
+					"lieu": [-6, -12],
+					"apparition": { "type": "chien_fracture_loges", "position": [-6, -12], "nombre": 3, "rayon": 4, "attaque": true }
+				},
+				{
+					"id": "molosse",
+					"objectif": "Abats le molosse fracturé, au fond des loges",
+					"tuer": "molosse_fracture",
+					"nombre": 1,
+					"lieu": [-12, -28],
+					"apparition": { "type": "molosse_fracture", "position": [-12, -28], "nombre": 1, "rayon": 1, "attaque": true },
+					"recit": {
+						"titre": "Le molosse est tombé",
+						"texte": "La grande bête s'écroule sur la cale, entre deux coques noires. Les rameurs, armés de bâtons et de rames, poussent un grand cri de victoire qui résonne sous les toits des loges."
+					}
+				},
+				{
+					"id": "liberation",
+					"objectif": "Retourne voir Phormion, au fond de l'arsenal",
+					"pnj": "phormion",
+					"repliques": [
+						"Plus de chiens, plus de molosse, et pas une loge en feu. Tu as sauvé deux trières aujourd'hui, et tu n'es même pas citoyen.",
+						"Toxaris ! Ouvre l'enclos. L'étranger aux habits bizarres est libre : j'en réponds devant l'assemblée.",
+						"Écoute-moi bien, Xénos. Ici, un étranger peut vivre, commercer, se battre pour nous. Mais il ne parle pas à l'assemblée : seuls les citoyens ont une voix.",
+						"Aujourd'hui, tu as fait plus pour Athènes que bien des citoyens. Garde ça en tête, quand tu monteras en ville. Lysimaque t'attend, il a quelque chose pour toi."
+					],
+					"apres": [
+						{ "pnj": "markos", "aller": [-30, 18] }
+					]
+				},
+				{
+					"id": "recompense_lysimaque",
+					"objectif": "Retourne voir Lysimaque, devant les loges",
+					"pnj": "lysimaque",
+					"repliques": [
+						"Tout le Pirée ne parle que de toi ! L'étranger qui rame en cadence et qui chasse les molosses à mains nues. Bon, avec une arme. Mais quand même.",
+						"Tiens. C'est le xiphos de mon père, une épée courte de bronze. Il l'avait à Salamine, il y a quarante-deux ans, quand les rameurs ont sauvé la cité face aux Perses.",
+						"Grâce à ça, les pauvres comme nous ont gagné le droit de voter. Parce que sans nos bras, il n'y avait plus d'Athènes. Mon père disait : « Un rameur a une voix. »",
+						"Prends aussi ce bandeau de la Paralos. Maintenant, tu es un peu des nôtres."
+					],
+					"recompense": [
+						{ "id": "xiphos_lysimaque", "nom": "Xiphos de Lysimaque" },
+						{ "id": "bandeau_rameur", "nom": "Bandeau de rameur" }
+					]
+				},
+				{
+					"id": "fin_chapitre_2",
+					"objectif": "Parle à l'agent Markos, libéré, devant l'enclos",
+					"pnj": "markos",
+					"repliques": [
+						"Libre ! Merci, agent. Toxaris m'a même rendu mes sandales. Bon, ce ne sont pas les miennes, mais elles vont très bien.",
+						"Pendant que tu ramais, j'ai fait parler les archers. Ils ont vu passer des hommes qui distribuaient des masques de théâtre à la porte des Longs Murs. Des masques. Avant les Panathénées.",
+						"Et ceux qui en portent un ne parlent plus. Ce n'est pas une maladie, agent. Quelqu'un fait ça exprès.",
+						"Athènes est au bout des Longs Murs, à deux heures de marche au nord, à travers les oliveraies. Quand la porte s'ouvrira, on y va. Ensemble, cette fois.",
+						"Regarde, là-bas, tout au bout de la route : ce point blanc qui brille sur son rocher. C'est le Parthénon. Tout neuf. Personne, dans mon époque, ne l'a jamais vu comme ça."
+					],
+					"fin_chapitre": true
+				}
+			]
+		}
+	],
+	"fin_provisoire": {
+		"chapitre": "LA SUITE ARRIVE",
+		"objectif": "La route d'Athènes, à travers les oliveraies, s'ouvre bientôt.",
+		"titre": "Que le temps n'efface pas",
+		"message": "Le Pirée est en sécurité. Athènes t'attend au bout des Longs Murs."
+	}
+}

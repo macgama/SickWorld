@@ -39,6 +39,7 @@ static var _textures_renne := {}
 const ApparenceNil := preload("res://scripts/ennemis/apparence_nil.gd")
 const ApparenceOublie := preload("res://scripts/ennemis/apparence_oublie.gd")
 const ApparenceSerpent := preload("res://scripts/ennemis/apparence_serpent.gd")
+const ApparencePoulpe := preload("res://scripts/ennemis/apparence_poulpe.gd")
 ## Apparence d'une autre famille d'animaux à qui tout est confié (bêtes du Nil).
 var _delegue: Node3D
 
@@ -74,6 +75,15 @@ func _ready() -> void:
 		if type.contains("geant") or type.contains("enrage"):
 			scale = Vector3.ONE * 1.35
 		return
+	if type.begins_with("poulpe"):
+		# Le poulpe de la crique du Pirée (île de Grèce).
+		espece = "poulpe"
+		_delegue = ApparencePoulpe.new()
+		_delegue.name = "Poulpe"
+		add_child(_delegue)
+		if type.contains("fracture"):
+			scale = Vector3.ONE * 1.5
+		return
 	if type.begins_with("renne"):
 		espece = "renne"
 	elif type.begins_with("ours"):
@@ -82,6 +92,11 @@ func _ready() -> void:
 		_construire_modele()
 		if type.begins_with("ours_sans"):
 			scale = Vector3.ONE * 2.4
+		elif type.begins_with("chien") or type.begins_with("molosse"):
+			# Les chiens du port du Pirée : plus trapus et plus sombres qu'un loup ;
+			# le molosse (le grand chien de garde des Grecs) est massif.
+			scale = Vector3(1.05, 1.0, 0.95) if type.begins_with("molosse") else Vector3(0.78, 0.76, 0.74)
+			_en_chien(type.begins_with("molosse"))
 		elif type.begins_with("chacal"):
 			# Le chacal doré d'Égypte : un petit loup fin, au pelage fauve.
 			scale = Vector3(0.72, 0.74, 0.7)
@@ -123,6 +138,19 @@ func _construire_modele() -> void:
 		_retirer_deplacement(a)
 		_vitesses_ref[nom] = float(a.get_meta("vitesse_ref", 0.0)) * (1.2 if espece == "ours" else 1.0)
 	_jouer(_nom_repos())
+
+
+## Pelage brun-gris des chiens errants, noir du molosse (on teinte la texture du loup).
+func _en_chien(molosse: bool) -> void:
+	if _pivot == null:
+		return
+	for mi in _pivot.find_children("*", "MeshInstance3D", true, false):
+		var m := (mi as MeshInstance3D).get_active_material(0) as StandardMaterial3D
+		if m == null:
+			continue
+		var pelage := m.duplicate() as StandardMaterial3D
+		pelage.albedo_color = Color(0.42, 0.38, 0.36) if molosse else Color(1.05, 0.86, 0.66)
+		(mi as MeshInstance3D).material_override = pelage
 
 
 ## Pelage fauve et dos plus sombre du chacal (on teinte la texture du loup).

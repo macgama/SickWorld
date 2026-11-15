@@ -1,0 +1,151 @@
+{
+	"_aide": "Personnages de l'île de Grèce (Athènes, été -438). Pour changer ce qu'ils disent, modifie le texte entre guillemets (une ligne = une bulle de dialogue). Garde les virgules entre les lignes. « tenue » = objets de data/objets.json portés par le personnage, « peau » = couleur de peau, « habits » = couleur de la tunique (chiton) ou du manteau.",
+	"glaukos": {
+		"nom": "Glaukos",
+		"role": "Pêcheur de l'Akté",
+		"modele": "homme",
+		"taille_cm": 166,
+		"peau": "#a87a56",
+		"habits": "#b8a98a",
+		"repliques": [
+			"La mer donne, la mer reprend. Ce matin, elle t'a donné, toi. Je me demande ce qu'elle va reprendre.",
+			"Les dieux envoient parfois des étrangers pour voir comment on les reçoit. Alors je te reçois bien, on ne sait jamais."
+		]
+	},
+	"lysimaque": {
+		"nom": "Lysimaque",
+		"role": "Rameur de la Paralos",
+		"modele": "homme",
+		"taille_cm": 176,
+		"peau": "#a5764f",
+		"habits": "#c9b48a",
+		"tenue": ["bandeau_rameur"],
+		"repliques": [
+			"Mon grand-père ramait à Salamine. Grâce à des rameurs comme lui, un homme pauvre comme moi vote à l'assemblée. Ne l'oublie jamais, Xénos.",
+			"Un rameur, ça n'a pas de bouclier ni de cheval. Ça a des bras, du souffle, et une voix."
+		]
+	},
+	"phormion": {
+		"nom": "Phormion",
+		"role": "Stratège · Commandant de la flotte",
+		"modele": "homme",
+		"taille_cm": 180,
+		"peau": "#9c6e4b",
+		"habits": "#7a2a22",
+		"repliques": [
+			"Une flotte, c'est cent soixante-dix hommes qui respirent ensemble. Un seul faux rythme, et la trière tourne en rond.",
+			"Les Corinthiens et les Spartiates nous regardent. Le jour où ils attaqueront, nos rames devront être prêtes."
+		]
+	},
+	"markos": {
+		"nom": "Agent Théo Markos",
+		"role": "Vigie · Le Pirée",
+		"modele": "homme",
+		"taille_cm": 174,
+		"peau": "#b98a66",
+		"repliques": [
+			"Les loges des trières ! Tu te rends compte ? Les archéologues n'en ont retrouvé que les fondations. Et là, elles sont pleines de navires.",
+			"Petit conseil : ne dis jamais « toge » ici. La toge, c'est romain. Eux portent un chiton. Je ne sais pas pourquoi tous les films se trompent."
+		]
+	},
+	"archer_scythe": {
+		"nom": "Toxaris",
+		"role": "Archer scythe · Gardien de l'arsenal",
+		"modele": "homme",
+		"taille_cm": 178,
+		"peau": "#c49a78",
+		"habits": "#3a4a6a",
+		"repliques": [
+			"Je suis payé par la cité pour garder l'arsenal. Pas pour réfléchir. L'étranger reste là jusqu'à ce que le stratège dise le contraire.",
+			"Chez moi, dans les steppes, on garde des chevaux. Ici, je garde des bateaux. C'est moins têtu, au moins."
+		]
+	},
+	"aulete": {
+		"nom": "Kallias",
+		"role": "Aulète de la Paralos (joueur de flûte)",
+		"modele": "homme",
+		"taille_cm": 168,
+		"peau": "#a87b58",
+		"habits": "#e6dcc6",
+		"repliques": [
+			"Ma flûte, c'est le cœur de la trière. Quand elle bat vite, cent soixante-dix rames battent vite.",
+			"Écoute la note, pas tes bras. Tes bras mentent quand ils sont fatigués. La note, jamais."
+		]
+	},
+	"rameur_1": {
+		"nom": "Dion",
+		"role": "Rameur du rang du haut (thranite)",
+		"modele": "homme",
+		"taille_cm": 174,
+		"peau": "#9f714c",
+		"habits": "#cdbb98",
+		"tenue": ["bandeau_rameur"],
+		"repliques": [
+			"Les thranites, c'est nous : le rang du haut. Les rames les plus longues, et la meilleure paie. Et la vue sur la mer !",
+			"Tu as les mains douces, Xénos. Après une semaine ici, elles seront comme du cuir."
+		]
+	},
+	"rameur_2": {
+		"nom": "Nikias",
+		"role": "Rameur du rang du milieu (zygite)",
+		"modele": "homme",
+		"taille_cm": 170,
+		"peau": "#a2744f",
+		"habits": "#b8a07a",
+		"tenue": ["bandeau_rameur"],
+		"repliques": [
+			"Au milieu, on ne voit rien. On entend la flûte, et on rame. C'est reposant, presque.",
+			"Ce soir, on vote à l'assemblée pour l'entretien de la flotte. Évidemment que je vais voter pour !"
+		]
+	},
+	"rameur_3": {
+		"nom": "Eudoros",
+		"role": "Rameur du rang du bas (thalamite)",
+		"modele": "homme",
+		"taille_cm": 168,
+		"peau": "#97694a",
+		"habits": "#a89068",
+		"tenue": ["bandeau_rameur"],
+		"repliques": [
+			"Le rang du bas, au ras de l'eau. Quand la mer est grosse, on boit la tasse. On a du cuir autour des sabords, pour que l'eau n'entre pas.",
+			"Mon voisin du dessus a mangé de l'ail ce matin. Tu peux me croire, au rang du bas, on le sait."
+		]
+	},
+	"rameur_4": {
+		"nom": "Thrasybule",
+		"role": "Rameur de la Paralos",
+		"modele": "homme",
+		"taille_cm": 179,
+		"peau": "#a87a55",
+		"habits": "#d4c4a0",
+		"tenue": ["bandeau_rameur"],
+		"repliques": [
+			"La Paralos est une trière sacrée : on y emmène les ambassades et les offrandes aux dieux. Tous ceux qui rament ici sont des citoyens libres.",
+			"Si tu rames bien, je t'offre une coupe de vin coupé d'eau. Pas pur, hein. Le vin pur, c'est bon pour les barbares."
+		]
+	},
+	"marchande_huile": {
+		"nom": "Thalia",
+		"role": "Marchande d'huile d'olive",
+		"modele": "femme",
+		"taille_cm": 160,
+		"peau": "#b3855f",
+		"habits": "#6a7a4a",
+		"repliques": [
+			"Huile d'Attique, la meilleure du monde ! Pour la lampe, pour la cuisine, pour la peau des athlètes !",
+			"Une femme ne vote pas, étranger. Mais c'est moi qui tiens les comptes de la boutique, et mon mari le sait."
+		]
+	},
+	"marchand_vin": {
+		"nom": "Mnésarque",
+		"role": "Marchand de vin de Chios",
+		"modele": "homme",
+		"taille_cm": 172,
+		"peau": "#a07049",
+		"habits": "#7a3a4a",
+		"repliques": [
+			"Du vin de Chios, de Thasos, de Lesbos ! On le coupe d'eau, bien sûr : trois parts d'eau pour une de vin.",
+			"Le marché est bizarre, ces jours-ci. Des clients qui pointent du doigt ce qu'ils veulent, sans un mot. Comme s'ils avaient perdu leur langue."
+		]
+	}
+}

@@ -2,8 +2,8 @@
 	"_aide": "Progression du personnage : niveaux, expérience (XP), arbres de talents et titres. Tout se règle ici sans toucher au code (voir docs/guides/la-progression.md). Les montants d'XP dépendent du niveau de la zone (partie « zones ») ou de l'ennemi.",
 
 	"niveaux": {
-		"_aide": "XP pour passer du niveau N au niveau N+1 = base + par_niveau × N + carre × N × N. niveau_max monte à chaque nouvelle île (Préhistoire 1-10, Égypte 10-20). Chaque niveau donne pv_pourcent de vie de base en plus et degats_pourcent de dégâts en plus. Un point de talent par niveau à partir du niveau 2.",
-		"niveau_max": 20,
+		"_aide": "XP pour passer du niveau N au niveau N+1 = base + par_niveau × N + carre × N × N. niveau_max monte à chaque nouvelle île (Préhistoire 1-10, Égypte 10-20, Grèce 20-30). Chaque niveau donne pv_pourcent de vie de base en plus et degats_pourcent de dégâts en plus. Un point de talent par niveau à partir du niveau 2.",
+		"niveau_max": 30,
 		"base": 0,
 		"par_niveau": 120,
 		"carre": 10,
@@ -36,7 +36,8 @@
 		"carrieres_toura": 13,
 		"village_batisseurs": 15,
 		"desert_rouge": 17,
-		"coeur_pyramide": 20
+		"coeur_pyramide": 20,
+		"le_piree": 21
 	},
 
 	"talents": {

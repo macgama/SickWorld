@@ -21,7 +21,7 @@ extends RefCounted
 const STATS := ["pv", "degats_pourcent", "reduction_pourcent", "critique_pourcent"]
 const FICHIER_DONNEES := "res://data/progression.json"
 ## Les îles dont on lit les quêtes (rattrapage, titre « toutes les secondaires »).
-const ILES := ["prehistoire", "egypte"]
+const ILES := ["prehistoire", "egypte", "grece"]
 
 static var _donnees: Dictionary = {}
 
