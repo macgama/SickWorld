@@ -29,6 +29,7 @@ Audio="*res://scripts/autoload/audio.gd"
 Options="*res://scripts/autoload/options.gd"
 Conseils="*res://scripts/autoload/conseils.gd"
 Social="*res://scripts/autoload/social.gd"
+JcJ="*res://scripts/autoload/jcj.gd"
 
 [display]
 

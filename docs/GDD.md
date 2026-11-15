@@ -135,7 +135,7 @@ C'est un lieu **sûr** : pas de combat (sauf dans l'arène, voir plus bas). Les 
 | **Le Quartier des Artisans** | Fabrication d'objets à partir des matériaux rapportés des époques. |
 | **Le Musée** | Les objets historiques récupérés y sont exposés : c'est la « collection » du joueur, visible par tous. |
 | **Les Résidences** | Plus tard : appartements personnels et sièges de guildes. |
-| **L'Arène** | Plus tard : combats entre joueurs (JcJ) pour ceux qui le souhaitent. |
+| **L'Arène** | Combats entre joueurs (JcJ) pour ceux qui le souhaitent : duels 1 contre 1 et escarmouches 2 contre 2, sans risque, avec classement (voir docs/guides/l-arene-jcj.md). |
 
 ### Une idée forte : la ville qui change
 

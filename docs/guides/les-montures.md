@@ -31,10 +31,9 @@ Pour l'instant, la monture de l'île est donnée à tout le monde pour que tu pu
 essayer. Plus tard (comme prévu dans le GDD), elles se gagneront avec la réputation :
 cheval de Przewalski en Préhistoire, barque de papyrus en Égypte (monture aquatique).
 
-**Modèles 3D** : les deux montures utilisent pour l'instant le modèle animé de l'élan
-(Sketchfab, CC-BY, voir `game/assets/animaux/CREDITS.md`) : avec ses bois et un pelage gris
-pour le renne, sans bois, plus petit, gris et avec de grandes oreilles pour l'âne. Un vrai
-modèle d'âne (et de cheval) pourra le remplacer : il suffira de changer la ligne `modele`.
+**Modèles 3D** (Sketchfab, CC-BY, voir `game/assets/animaux/CREDITS.md`) : le renne est l'élan
+animé de WildMesh 3D, recoloré ; l'âne est le « Realistic Animated Donkey » de WildMesh 3D,
+avec sa selle et ses rênes (marche, trot, petit galop, galop, sprint).
 
 ## Régler les montures (sans coder)
 
@@ -49,7 +48,11 @@ Tout est dans **`game/data/montures.json`** (s'ouvre avec le Bloc-notes) :
   - `echelle` : taille de la bête ;
   - `bois` : `true` pour garder les bois de l'élan, `false` pour les cacher ;
   - `oreilles` : taille des oreilles (1 = normale) ;
-  - `selle` : hauteur où le personnage s'assoit (augmenter s'il s'enfonce dans le dos).
+  - `selle` : hauteur où le personnage s'assoit (augmenter s'il s'enfonce dans le dos) ;
+  - `tourner` : tourne le modèle (degrés) s'il ne regarde pas devant ;
+  - pour un autre modèle que l'élan : `allures` (animations de la plus lente à la plus rapide),
+    `repos`, `saut`, `os_selle`, `os_racine` (os qui porte le déplacement),
+    `garder_hauteur_racine`.
 
 ## Pour les développeurs
 

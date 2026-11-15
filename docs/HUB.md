@@ -67,7 +67,7 @@ La baie qui donne son nom à la ville.
 ### Plus tard (placés mais fermés)
 
 - **Les Résidences** (ouest) : appartements personnels et sièges de guildes. Barrières de chantier « Bientôt ».
-- **L'Arène** (sud-est, au bord de l'eau) : un stade en rénovation, pour le JcJ.
+- **L'Arène** (sud-est, au bord de l'eau) : le stade du JcJ, tout juste rénové : duels 1 contre 1 et escarmouches 2 contre 2 (voir [le guide](guides/l-arene-jcj.md)).
 
 ## 4. Le QG de la Vigie (sous la place)
 

@@ -69,8 +69,18 @@ func est_vivant() -> bool:
 	return pv > 0.0
 
 
+## Deux factions différentes sont ennemies, sauf pendant un combat d'arène (JcJ) :
+## les équipes « arene_0 » et « arene_1 » se battent entre elles, mais ni contre
+## les spectateurs, ni contre le reste du monde (voir l'autoload JcJ).
 func est_hostile(autre: Combattant) -> bool:
-	return autre != null and autre.faction != faction
+	if autre == null or autre.faction == faction:
+		return false
+	return faction.begins_with("arene_") == autre.faction.begins_with("arene_")
+
+
+## Même camp : on peut le soigner, le protéger…
+func est_allie(autre: Combattant) -> bool:
+	return autre != null and autre.faction == faction
 
 
 func en_combat() -> bool:

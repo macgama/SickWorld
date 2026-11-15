@@ -181,7 +181,7 @@ func texte_pas_assez() -> String:
 
 ## La cible d'une compétence de soutien : l'allié ciblé, sinon soi-même.
 func cible_de_soutien() -> Combattant:
-	if cible != null and is_instance_valid(cible) and cible.est_vivant() and not combat.est_hostile(cible):
+	if cible != null and is_instance_valid(cible) and cible.est_vivant() and combat.est_allie(cible):
 		return cible
 	return combat
 
@@ -343,7 +343,7 @@ func raison_impossible(index: int) -> String:
 			return "La cible a encore trop de vie"
 	elif type == "interception":
 		if cible == null or not is_instance_valid(cible) or not cible.est_vivant() \
-				or combat.est_hostile(cible) or cible == combat:
+				or not combat.est_allie(cible) or cible == combat:
 			return "Cible un allié"
 		return _raison_distance(c, cible)
 	elif type in TYPES_SOUTIEN:
@@ -423,6 +423,9 @@ func _demander_annulation() -> void:
 @rpc("any_peer", "call_remote", "reliable")
 func _demander_reapparition() -> void:
 	if not multiplayer.is_server() or not _est_le_proprietaire() or combat.est_vivant():
+		return
+	# En plein combat d'arène : on attend la fin (tout le monde est alors soigné, sans pénalité).
+	if JcJ.participe(joueur.id_reseau()):
 		return
 	var balise := get_tree().get_first_node_in_group("balises") as Node3D
 	var p := joueur.global_position
@@ -624,7 +627,7 @@ func _invoquer(c: Dictionary) -> void:
 		var loup: Loup = SCENE_LOUP.instantiate()
 		loup.name = "Meute_%d_%d" % [joueur.id_reseau(), _compteur_invocations]
 		loup.type_ennemi = "loup_allie"
-		loup.faction = "joueur"
+		loup.faction = combat.faction
 		loup.maitre = joueur
 		loup.fin_invocation = Regles.maintenant() + float(c.get("duree", 20))
 		var cote := -1.0 if i == 0 else 1.0

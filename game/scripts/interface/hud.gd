@@ -14,7 +14,7 @@ const TEXTE_AIDE := """[b]Contrôles[/b]  (F1 pour cacher)
 [b]C[/b], [b]I[/b] ou [b]B[/b] : personnage, sacs et tenues     [b]N[/b] : talents et titres
 [b]F[/b] : ramasser le butin
 [b]M[/b] : carte     [b]Molette[/b] sur la mini-carte : zoom     [b]V[/b] : monture (sur les îles)
-[b]Entrée[/b] : discuter (/aide pour les commandes)     [b]K[/b] : donjons en groupe
+[b]Entrée[/b] : discuter (/aide pour les commandes)     [b]K[/b] : donjons en groupe     [b]H[/b] : Arène (duels, 2 contre 2)
 [b]F10[/b] : qualité des graphismes (Bas, Moyen, Haut, Ultra)"""
 
 const TAILLE_CASE := 70
@@ -546,7 +546,8 @@ func _process(_delta: float) -> void:
 			_xp.value = 1
 			_texte_xp.text = "Niveau %d   ·   niveau maximum de cette époque" % _combat.niveau
 		_gain_xp.modulate.a = clampf((_gain_xp_fin - Regles.maintenant()) / 0.6, 0.0, 1.0)
-	_ecran_mort.visible = not _combat.est_vivant()
+	# Désynchronisé dans l'Arène : pas de retour à la balise, on attend la fin du combat.
+	_ecran_mort.visible = not _combat.est_vivant() and not JcJ.je_me_bats()
 
 	_endurance.max_value = _joueur.endurance_max
 	_endurance.value = _joueur.endurance
