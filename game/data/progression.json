@@ -277,7 +277,7 @@
 	},
 
 	"titres": {
-		"_aide": "Titres affichés sous le nom du personnage. condition : niveau (atteindre un niveau), etape (« ile:id d'étape » de la quête principale), secondaire (id d'une quête secondaire), secondaires (toutes celles d'une île), evenements (nombre d'événements publics réussis sur une île), tuer (type d'ennemi, ou début du nom du type) avec nombre.",
+		"_aide": "Titres affichés sous le nom du personnage. condition : niveau (atteindre un niveau), etape (« ile:id d'étape » de la quête principale), secondaire (id d'une quête secondaire), secondaires (toutes celles d'une île), evenements (nombre d'événements publics réussis sur une île), tuer (type d'ennemi, ou début du nom du type) avec nombre. Arène : arene_victoires (nombre de victoires), arene_cote (meilleure cote atteinte), arene_rang (meilleure place au classement, 1 = premier).",
 		"liste": [
 			{ "id": "recrue", "nom": "Recrue de la Vigie", "epoque": "La Vigie",
 				"comment": "Le premier titre de tout agent.", "condition": { "niveau": 1 } },
@@ -310,7 +310,25 @@
 			{ "id": "pourfendeur_d_isfet", "nom": "Pourfendeur d'Isfet", "epoque": "Égypte",
 				"comment": "Vaincre Isfet au cœur de la pyramide.", "condition": { "tuer": "isfet", "nombre": 1 } },
 			{ "id": "batisseur_de_gizeh", "nom": "Bâtisseur de Gizeh", "epoque": "Égypte",
-				"comment": "Terminer la quête principale d'Égypte.", "condition": { "etape": "egypte:journal_merer" } }
+				"comment": "Terminer la quête principale d'Égypte.", "condition": { "etape": "egypte:journal_merer" } },
+			{ "id": "bapteme_arene", "nom": "Baptême de l'arène", "epoque": "Arène de la baie",
+				"comment": "Gagner un premier combat à l'Arène de la baie.", "condition": { "arene_victoires": 1 } },
+			{ "id": "habitue_arene", "nom": "Habitué de l'arène", "epoque": "Arène de la baie",
+				"comment": "Gagner 25 combats à l'Arène.", "condition": { "arene_victoires": 25 } },
+			{ "id": "veteran_arene", "nom": "Vétéran de l'arène", "epoque": "Arène de la baie",
+				"comment": "Gagner 100 combats à l'Arène.", "condition": { "arene_victoires": 100 } },
+			{ "id": "espoir_de_la_baie", "nom": "Espoir de la baie", "epoque": "Arène de la baie",
+				"comment": "Atteindre une cote de 1 600 à l'Arène.", "condition": { "arene_cote": 1600 } },
+			{ "id": "combattant_de_la_baie", "nom": "Combattant de la baie", "epoque": "Arène de la baie",
+				"comment": "Atteindre une cote de 1 750 à l'Arène.", "condition": { "arene_cote": 1750 } },
+			{ "id": "etoile_de_l_arene", "nom": "Étoile de l'arène", "epoque": "Arène de la baie",
+				"comment": "Atteindre une cote de 1 900 à l'Arène.", "condition": { "arene_cote": 1900 } },
+			{ "id": "legende_de_la_baie", "nom": "Légende de la baie", "epoque": "Arène de la baie",
+				"comment": "Atteindre une cote de 2 100 à l'Arène.", "condition": { "arene_cote": 2100 } },
+			{ "id": "grand_nom_de_l_arene", "nom": "Grand nom de l'arène", "epoque": "Arène de la baie",
+				"comment": "Entrer dans les 10 premiers du classement de l'Arène (après 10 combats).", "condition": { "arene_rang": 10 } },
+			{ "id": "champion_de_la_baie", "nom": "Champion de la baie", "epoque": "Arène de la baie",
+				"comment": "Prendre la 1re place du classement de l'Arène (après 10 combats).", "condition": { "arene_rang": 1 } }
 		]
 	}
 }

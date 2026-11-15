@@ -185,6 +185,21 @@ func _decouvrir_zone() -> void:
 		zone_decouverte(String(ile.get("identifiant_zone")))
 
 
+## Un combat d'arène vient de finir (appelé par JcJ) : victoires, meilleure cote et
+## meilleur rang du classement, pour les titres de l'Arène.
+func resultat_arene(victoires: int, cote: int, rang: int) -> void:
+	if not multiplayer.is_server():
+		return
+	var a: Dictionary = etat.get("arene", {})
+	a["victoires"] = maxi(int(a.get("victoires", 0)), victoires)
+	a["meilleure_cote"] = maxi(int(a.get("meilleure_cote", 0)), cote)
+	if rang > 0 and (int(a.get("meilleur_rang", 0)) == 0 or rang < int(a.get("meilleur_rang", 0))):
+		a["meilleur_rang"] = rang
+	etat["arene"] = a
+	_verifier_titres()
+	_appliquer()
+
+
 func _verifier_titres() -> void:
 	for id in Progression.nouveaux_titres(donnees(), etat, _total_secondaires()):
 		Regles.chez(joueur.id_reseau(), self, "_recevoir_titre", [Progression.nom_titre(donnees(), id)])
