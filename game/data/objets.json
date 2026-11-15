@@ -1763,6 +1763,77 @@
 				"forme": "sac",
 				"couleur": "#b8a050"
 			}
+		},
+		"xiphos_lysimaque": {
+			"nom": "Xiphos de Lysimaque",
+			"type": "equipement",
+			"rarete": "rare",
+			"description": "Une épée courte à lame de bronze en forme de feuille. Le père de Lysimaque l'avait à Salamine, quand les rameurs ont sauvé la cité. La Vigie y a glissé un éclat de technologie.",
+			"emplacement": "arme_principale",
+			"epoque": "Grèce antique",
+			"stats": {
+				"degats_pourcent": 15,
+				"pv": 35
+			},
+			"visuel": {
+				"forme": "lame",
+				"couleur": "#b08a4a"
+			}
+		},
+		"bandeau_rameur": {
+			"nom": "Bandeau de rameur",
+			"type": "equipement",
+			"rarete": "commun",
+			"description": "Une bande de laine nouée sur le front, contre la sueur et le sel. Tous les rameurs de la Paralos en portent un.",
+			"emplacement": "tete",
+			"epoque": "Grèce antique",
+			"stats": {
+				"pv": 30
+			},
+			"visuel": {
+				"forme": "bandeau",
+				"couleur": "#8a3a2a"
+			}
+		},
+		"croc_de_chien": {
+			"nom": "Croc de chien errant",
+			"type": "materiau",
+			"rarete": "commun",
+			"description": "Un croc jauni, pris à un chien du port.",
+			"pile": 20,
+			"epoque": "Grèce antique",
+			"icone": {
+				"forme": "croc",
+				"couleur": "#d8ccb0"
+			}
+		},
+		"encre_de_poulpe": {
+			"nom": "Encre de poulpe",
+			"type": "materiau",
+			"rarete": "raffine",
+			"description": "Une poche d'encre noire, épaisse et brillante. Les peintres de vases s'en servent parfois.",
+			"pile": 20,
+			"epoque": "Grèce antique",
+			"icone": {
+				"forme": "ocre",
+				"couleur": "#1a1820"
+			}
+		},
+		"collier_molosse": {
+			"nom": "Collier à pointes du molosse",
+			"type": "equipement",
+			"rarete": "raffine",
+			"description": "Un collier de cuir clouté de bronze, arraché au grand chien de garde. Il protège le cou… et impressionne.",
+			"emplacement": "bijou",
+			"epoque": "Grèce antique",
+			"stats": {
+				"pv": 45,
+				"reduction_pourcent": 1
+			},
+			"visuel": {
+				"forme": "collier",
+				"couleur": "#6a4a2a"
+			}
 		}
 	},
 	"ensembles": {
@@ -1819,6 +1890,11 @@
 		"appel_de_la_meute"
 	],
 	"butin": {
+		"chien_fracture": [{"objet": "eclat_de_fracture", "chance": 0.45}, {"objet": "croc_de_chien", "chance": 0.6, "quantite": [1, 2]}],
+		"chien_fracture_faille": [{"objet": "eclat_de_fracture", "chance": 0.6}],
+		"chien_fracture_loges": [{"objet": "eclat_de_fracture", "chance": 0.5}, {"objet": "croc_de_chien", "chance": 0.5}],
+		"molosse_fracture": [{"objet": "eclat_de_fracture", "chance": 1.0, "quantite": [2, 3]}, {"objet": "collier_molosse", "chance": 1.0}],
+		"poulpe_fracture": [{"objet": "eclat_de_fracture", "chance": 1.0, "quantite": [2, 3]}, {"objet": "encre_de_poulpe", "chance": 1.0, "quantite": [1, 2]}],
 		"crocodile_fracture": [{"objet": "eclat_de_fracture", "chance": 0.45}, {"objet": "ecaille_crocodile", "chance": 0.6, "quantite": [1, 2]}],
 		"crocodile_fracture_faille": [{"objet": "eclat_de_fracture", "chance": 0.6}],
 		"crocodile": [{"objet": "ecaille_crocodile", "chance": 0.7, "quantite": [1, 3]}],

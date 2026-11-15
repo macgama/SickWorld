@@ -1,6 +1,6 @@
 # SickWorld — Île n°3 : l'Athènes de Périclès
 
-*Version 0.1 — **proposition à valider par Gaël** (15 novembre 2026). Rien n'est encore construit : ce document sert à choisir. La dernière section liste les décisions à prendre, avec une recommandation pour chacune.*
+*Version 1.0 — **validée par Gaël le 15 novembre 2026** (toutes les recommandations de la dernière section sont retenues). L'île se construit zone par zone : ce document sert de plan.*
 
 Ce document suit le même modèle que l'Égypte ([ILE-2-EGYPTE.md](ILE-2-EGYPTE.md)) : cadre historique, moment clé, peuple, fil rouge, zones, quête principale, quêtes secondaires, events, ennemis, compétences, équipement, ambiance, anachronismes, technique.
 
@@ -24,7 +24,7 @@ Ce document suit le même modèle que l'Égypte ([ILE-2-EGYPTE.md](ILE-2-EGYPTE.
 16. [Ce qu'on évite : les anachronismes](#16-ce-quon-évite--les-anachronismes)
 17. [Ce qu'il faudra construire (technique)](#17-ce-quil-faudra-construire-technique)
 18. [Références](#18-références)
-19. [Décisions à valider](#19-décisions-à-valider)
+19. [Décisions validées](#19-décisions-validées-15-novembre-2026)
 
 ---
 
@@ -361,9 +361,9 @@ Beaucoup se réutilise : les quêtes en fichiers de données, les étapes (parle
 
 ---
 
-## 19. Décisions à valider
+## 19. Décisions validées (15 novembre 2026)
 
-Pour chaque point, la recommandation est en gras. Gaël peut tout valider d'un mot, ou changer un point.
+Gaël a choisi l'Athènes de Périclès, puis validé les 13 points en suivant toutes les recommandations (en gras) :
 
 1. **L'époque :** **l'Athènes de Périclès en -438** (autres possibilités : Olympie des premiers Jeux, Alexandrie et sa Bibliothèque, Rome de César). Rome garderait une île à elle plus tard.
 2. **Le thème de « la voix » :** **les gens deviennent muets puis se changent en statues ; on brise le marbre et on leur rend la voix au lieu de les tuer.**
