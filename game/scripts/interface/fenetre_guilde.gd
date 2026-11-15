@@ -62,7 +62,7 @@ var _minuteur := 0.0
 
 
 func _ready() -> void:
-	layer = 7
+	layer = 9
 	_racine = Control.new()
 	_racine.set_anchors_preset(Control.PRESET_FULL_RECT)
 	_racine.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -140,6 +140,21 @@ func _cadre(fond: Color, bord: Color, marge := 14) -> StyleBoxFlat:
 	return s
 
 
+## Barre de progression colorée (fond sombre).
+func _barre(couleur: Color) -> ProgressBar:
+	var b := ProgressBar.new()
+	b.show_percentage = false
+	var fond := StyleBoxFlat.new()
+	fond.bg_color = Color(0.12, 0.13, 0.16)
+	fond.set_corner_radius_all(4)
+	var plein := StyleBoxFlat.new()
+	plein.bg_color = couleur.darkened(0.15)
+	plein.set_corner_radius_all(4)
+	b.add_theme_stylebox_override("background", fond)
+	b.add_theme_stylebox_override("fill", plein)
+	return b
+
+
 func _vider(conteneur: Node) -> void:
 	for enfant in conteneur.get_children():
 		conteneur.remove_child(enfant)
@@ -185,7 +200,7 @@ func _construire_fenetre() -> void:
 	_fenetre = PanelContainer.new()
 	_fenetre.visible = false
 	_fenetre.mouse_filter = Control.MOUSE_FILTER_STOP
-	_fenetre.add_theme_stylebox_override("panel", _cadre(Color(0.04, 0.05, 0.08, 0.97), Color(OR, 0.55)))
+	_fenetre.add_theme_stylebox_override("panel", _cadre(Color(0.04, 0.05, 0.08, 0.995), Color(OR, 0.55)))
 	_racine.add_child(_fenetre)
 	var colonne := VBoxContainer.new()
 	colonne.add_theme_constant_override("separation", 10)
@@ -241,12 +256,12 @@ func _construire_onglet_guilde() -> Control:
 	var infos := VBoxContainer.new()
 	infos.add_theme_constant_override("separation", 8)
 	infos.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	infos.custom_minimum_size = Vector2(640, 0)
 	haut.add_child(infos)
 	_niveau = _texte("", 22, OR)
 	infos.add_child(_niveau)
-	_barre_xp = ProgressBar.new()
+	_barre_xp = _barre(OR)
 	_barre_xp.custom_minimum_size = Vector2(0, 18)
-	_barre_xp.show_percentage = false
 	infos.add_child(_barre_xp)
 	_texte_xp = _texte("", 13, GRIS)
 	infos.add_child(_texte_xp)
@@ -366,7 +381,7 @@ func _construire_invitation() -> void:
 	_invitation.anchor_right = 0.5
 	_invitation.offset_left = -230
 	_invitation.offset_right = 230
-	_invitation.offset_top = 150
+	_invitation.offset_top = 250
 	_racine.add_child(_invitation)
 	var colonne := VBoxContainer.new()
 	colonne.add_theme_constant_override("separation", 8)
@@ -720,8 +735,7 @@ func _remplir_contrats() -> void:
 		haut.add_child(titre)
 		haut.add_child(_texte("✓ Accompli" if k["fini"] else "%d / %d" % [int(k["compte"]), int(k["nombre"])], 15, VERT if k["fini"] else Color.WHITE))
 		colonne.add_child(_paragraphe(String(k["texte"]), 13, GRIS))
-		var barre := ProgressBar.new()
-		barre.show_percentage = false
+		var barre := _barre(VERT if k["fini"] else OR)
 		barre.custom_minimum_size = Vector2(0, 14)
 		barre.max_value = maxi(1, int(k["nombre"]))
 		barre.value = int(k["compte"])
