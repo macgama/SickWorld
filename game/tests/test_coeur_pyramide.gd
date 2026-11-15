@@ -177,7 +177,11 @@ func _lancer() -> void:
 		essais += 1
 		for o in get_nodes_in_group("objet_quete"):
 			if o.get("groupe") == "nom_rendu" and o.actif and not o.ramasse:
-				await _utiliser(String(o.name), 20)
+				# On se place à côté du corps, du côté du milieu de la salle (pas dans un mur).
+				var vers_centre: Vector3 = (Vector3(34, o.global_position.y, -2) - o.global_position).limit_length(0.8)
+				await _placer(o.global_position + vers_centre + Vector3(0, 0.5, 0), 0.0)
+				await _appuyer_f()
+				await _attendre(20)
 				break
 	_verifier(_id_etape() == "parler_sekhem", "leurs noms sont rendus (%s)" % _id_etape())
 	await _attendre(10)
