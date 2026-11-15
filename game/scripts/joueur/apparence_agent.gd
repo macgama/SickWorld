@@ -19,7 +19,9 @@ const ANIMATIONS := ["immobile", "marcher", "courir", "reculer", "pas_gauche", "
 	"roulade", "attaque", "touche", "mort",
 	# Gestes de combat propres aux classes (Mixamo, facultatifs : sinon « attaque »).
 	"attaque_lame", "attaque_bouclier", "bouclier_leve", "provocation", "tir_arc", "lancer",
-	"incantation", "sort", "esquive_arriere"]
+	"incantation", "sort", "esquive_arriere",
+	# Dégainer / ranger l'arme (Mixamo, facultatifs : sinon geste calculé), joués sur le haut du corps.
+	"sortir_arme_dos", "ranger_arme_dos", "sortir_arme_hanche", "ranger_arme_hanche"]
 ## Vitesse (m/s) des pieds au sol dans chaque animation de déplacement, mesurée sur les
 ## animations Mixamo (pied d'appui). En jouant l'animation à vitesse × (vitesse réelle /
 ## vitesse naturelle), les pieds ne glissent pas sur le sol.
@@ -39,10 +41,21 @@ const TAILLE_REFERENCE := 180.0
 const PEAU_DE_REFERENCE := Color(0.80, 0.62, 0.50)
 const VisuelEquipement := preload("res://scripts/objets/visuel_equipement.gd")
 const GesteArme := preload("res://scripts/joueur/geste_arme.gd")
-## Durée du geste pour ranger ou sortir l'arme (secondes).
+## Durée du geste calculé pour ranger ou sortir l'arme (secondes).
 const DUREE_GESTE_ARME := 0.75
-## Moment du geste (0 à 1) où l'arme passe de la main au dos / à la ceinture.
+## Moment du geste calculé (0 à 1) où l'arme passe de la main au dos / à la ceinture.
 const MOMENT_ECHANGE := 0.45
+## Animations Mixamo de l'arme (mesurées sur les fichiers, homme et femme ont le même rythme) :
+## [début, fin] (secondes) de la partie jouée, vitesse de lecture, moment (secondes dans
+## l'animation) où la main attrape / lâche l'arme, et durée d'approche (secondes) : les
+## animations « dos » commencent la main déjà sur la poignée, le bras y monte d'abord en
+## douceur pendant l'approche. Une animation absente du tableau est jouée en entier.
+const ANIMS_ARME := {
+	"sortir_arme_dos": [0.0, 0.8, 1.0, 0.0, 0.3],       # « Draw A Great Sword 2 »
+	"ranger_arme_dos": [0.0, 1.13, 1.2, 0.0, 0.32],     # « Sheath A Great Sword 2 »
+	"sortir_arme_hanche": [0.15, 1.25, 1.35, 0.6, 0.0], # « Withdrawing Sword »
+	"ranger_arme_hanche": [0.2, 1.62, 1.4, 1.25, 0.0],  # « Sheathing Sword »
+}
 
 ## Émis quand le personnage sort son arme tout seul pour attaquer.
 signal arme_sortie_pour_attaquer
@@ -87,6 +100,14 @@ var _armes_rangees_voulu := false
 ## Geste en cours pour ranger / sortir l'arme (-1 = aucun), et durée pendant laquelle on
 ## refuse de ranger l'arme (juste après une attaque).
 var _geste := -1.0
+## Durée (secondes) et moment de l'échange (0 à 1) du geste en cours.
+var _duree_geste := DUREE_GESTE_ARME
+var _moment_echange := MOMENT_ECHANGE
+## Animation Mixamo du geste en cours : [début, fin] en secondes (vide = geste calculé).
+var _plage_anim := []
+## Vitesse de lecture et durée d'approche (secondes) de l'animation en cours.
+var _vitesse_anim := 1.0
+var _approche := 0.0
 var _sans_rangement := 0.0
 var _modif_geste: SkeletonModifier3D
 
@@ -422,10 +443,13 @@ func ranger_arme(oui: bool, avec_geste := true) -> void:
 			_armes_rangees = oui
 			_appliquer_equipement()
 		return
-	if _geste >= 0.0 and _geste < MOMENT_ECHANGE:
+	if _geste >= 0.0 and _geste < _moment_echange:
 		return   # le geste en cours va déjà chercher l'arme : il suffit de changer le résultat
-	_geste = 0.0 if _geste < 0.0 else 1.0 - _geste
 	_regler_bras()
+	if not _preparer_animation_arme(oui):
+		_geste = 0.0 if _geste < 0.0 else 1.0 - _geste
+	else:
+		_geste = 0.0
 	Audio.effet("ranger_arme" if oui else "sortir_arme", get_parent())
 
 
@@ -439,21 +463,70 @@ func _regler_bras() -> void:
 	_modif_geste.bras = bras
 
 
+## Nom de l'animation Mixamo pour ranger / sortir l'arme principale (dos ou ceinture).
+func _nom_animation_arme(ranger: bool) -> String:
+	var ou := "hanche"
+	if _visuels.has("arme_principale"):
+		ou = String(VisuelEquipement.rangement(String(_visuels["arme_principale"].get("forme", "")), "arme_principale")[3])
+	elif _visuels.has("arme_secondaire"):
+		return ""   # arme en main gauche seulement : geste calculé
+	return "%s_arme_%s" % ["ranger" if ranger else "sortir", ou]
+
+
+## Prépare la vraie animation du geste si elle existe. Renvoie false sinon (geste calculé).
+func _preparer_animation_arme(ranger: bool) -> bool:
+	var nom := _nom_animation_arme(ranger)
+	var cle := "agent/" + nom
+	if nom == "" or _lecteur == null or not _lecteur.has_animation(cle):
+		_modif_geste.animation = null
+		_plage_anim = []
+		_duree_geste = DUREE_GESTE_ARME
+		_moment_echange = MOMENT_ECHANGE
+		return false
+	var anim := _lecteur.get_animation(cle)
+	var reglage: Array = ANIMS_ARME.get(nom, [0.0, anim.length, 1.0, anim.length * 0.45, 0.0])
+	var debut := float(reglage[0])
+	var fin := minf(float(reglage[1]), anim.length)
+	_plage_anim = [debut, fin]
+	_vitesse_anim = float(reglage[2])
+	_approche = float(reglage[4])
+	_duree_geste = maxf(0.1, _approche + (fin - debut) / _vitesse_anim)
+	var echange := _approche + (float(reglage[3]) - debut) / _vitesse_anim
+	_moment_echange = clampf(echange / _duree_geste, 0.0, 0.95)
+	_modif_geste.animation = anim
+	_modif_geste.temps = debut
+	return true
+
+
 func _avancer_geste(delta: float) -> void:
 	_sans_rangement = maxf(0.0, _sans_rangement - delta)
 	if _geste < 0.0 or _modif_geste == null:
 		return
 	var avant := _geste
-	_geste += delta / DUREE_GESTE_ARME
-	if avant < MOMENT_ECHANGE and _geste >= MOMENT_ECHANGE and _armes_rangees != _armes_rangees_voulu:
+	_geste += delta / _duree_geste
+	if avant <= _moment_echange and _geste >= _moment_echange and _armes_rangees != _armes_rangees_voulu:
 		_armes_rangees = _armes_rangees_voulu
 		_appliquer_equipement()
 	if _geste >= 1.0:
 		_terminer_geste()
 		return
-	# Le bras monte vite vers l'arme, s'y arrête un instant, puis redescend.
 	var t := _geste
-	var poids := smoothstep(0.0, 0.38, t) if t < 0.38 else (1.0 if t < 0.52 else 1.0 - smoothstep(0.52, 1.0, t))
+	var poids := 0.0
+	if not _plage_anim.is_empty():
+		# Vraie animation : approche (le bras monte vers la poignée), puis l'animation,
+		# et un fondu à la fin pour rendre la main à la course / l'attente.
+		var ecoule := t * _duree_geste
+		var reste := _duree_geste - ecoule
+		if ecoule < _approche:
+			_modif_geste.temps = _plage_anim[0]
+			poids = smoothstep(0.0, _approche, ecoule)
+		else:
+			_modif_geste.temps = minf(_plage_anim[1], _plage_anim[0] + (ecoule - _approche) * _vitesse_anim)
+			poids = 1.0 if _approche > 0.0 else smoothstep(0.0, 0.15, ecoule)
+		poids *= smoothstep(0.0, 0.22, reste)
+	else:
+		# Geste calculé : le bras monte vite vers l'arme, s'y arrête un instant, puis redescend.
+		poids = smoothstep(0.0, 0.38, t) if t < 0.38 else (1.0 if t < 0.52 else 1.0 - smoothstep(0.52, 1.0, t))
 	_modif_geste.influence = poids
 
 
@@ -462,6 +535,10 @@ func _terminer_geste() -> void:
 	if _modif_geste:
 		_modif_geste.influence = 0.0
 		_modif_geste.bras = {}
+		_modif_geste.animation = null
+	_plage_anim = []
+	_duree_geste = DUREE_GESTE_ARME
+	_moment_echange = MOMENT_ECHANGE
 	if _armes_rangees != _armes_rangees_voulu:
 		_armes_rangees = _armes_rangees_voulu
 		_appliquer_equipement()

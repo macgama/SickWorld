@@ -33,16 +33,18 @@ const MAIN := {
 ## Pour une arme tenue en main gauche (arme secondaire), le côté est inversé (miroir).
 const RANGEMENT := {
 	# Lame et lance : dans le dos, en diagonale, poignée au-dessus de l'épaule droite.
-	"lame": ["mixamorig_Spine2", Vector3(0.13, 0.2, -0.16), Vector3(-0.5, -1.0, -0.06), "dos"],
+	"lame": ["mixamorig_Spine2", Vector3(0.1, 0.27, -0.16), Vector3(-0.45, -1.0, -0.06), "dos"],
 	"lance": ["mixamorig_Spine2", Vector3(-0.08, -0.12, -0.19), Vector3(0.72, 1.0, -0.04), "dos"],
 	"propulseur": ["mixamorig_Spine2", Vector3(0.1, 0.1, -0.15), Vector3(-0.35, -1.0, -0.05), "dos"],
-	# Massue, dague, couteau : à la ceinture, sur la hanche, pointe vers le bas.
-	"massue": ["mixamorig_Hips", Vector3(0.18, 0.04, -0.07), Vector3(0.12, -1.0, -0.5), "hanche"],
-	"dague": ["mixamorig_Hips", Vector3(0.17, 0.02, 0.02), Vector3(0.05, -1.0, 0.25), "hanche"],
-	"couteau": ["mixamorig_Hips", Vector3(0.17, 0.02, 0.02), Vector3(0.05, -1.0, 0.25), "hanche"],
+	# Massue, dague, couteau : à la ceinture, pointe vers le bas. L'arme de la main droite
+	# se porte sur la hanche GAUCHE (on la dégaine en croisant, comme dans l'animation
+	# « Withdrawing Sword ») ; celle de la main gauche, sur la hanche droite.
+	"massue": ["mixamorig_Hips", Vector3(-0.18, 0.05, 0.0), Vector3(-0.1, -1.0, -0.45), "hanche"],
+	"dague": ["mixamorig_Hips", Vector3(-0.17, 0.03, 0.04), Vector3(-0.05, -1.0, -0.3), "hanche"],
+	"couteau": ["mixamorig_Hips", Vector3(-0.17, 0.03, 0.04), Vector3(-0.05, -1.0, -0.3), "hanche"],
 }
 ## Arme d'une forme inconnue : à la ceinture.
-const RANGEMENT_PAR_DEFAUT := ["mixamorig_Hips", Vector3(0.18, 0.02, 0.0), Vector3(0.0, -1.0, 0.2), "hanche"]
+const RANGEMENT_PAR_DEFAUT := ["mixamorig_Hips", Vector3(-0.18, 0.03, 0.03), Vector3(-0.05, -1.0, -0.3), "hanche"]
 
 
 ## Où se range l'arme d'un emplacement (voir RANGEMENT), côté déjà corrigé pour la main gauche.

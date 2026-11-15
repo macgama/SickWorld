@@ -12,10 +12,19 @@ Réglé dans `game/scripts/objets/visuel_equipement.gd`, tableau `RANGEMENT` :
 | Arme | Place |
 |---|---|
 | Lame, lance, propulseur | dans le dos, en diagonale (poignée au-dessus de l'épaule droite) |
-| Massue, dague, couteau | à la ceinture, sur la hanche |
+| Massue, dague, couteau | à la ceinture, sur la hanche gauche (on la dégaine en croisant) |
 
-Une arme tenue en main gauche (arme secondaire) se range de l'autre côté.
+Une arme tenue en main gauche (arme secondaire) se range de l'autre côté (hanche droite).
 
 ## Le geste
 
-Le bras va chercher l'arme par-dessus l'épaule (dos) ou à la hanche, puis revient : c'est un geste calculé (`scripts/joueur/geste_arme.gd`), qui ne bouge que les bras, donc on peut ranger son arme en courant. Une vraie animation Mixamo (« Sheathing Sword » / « Draw Sword ») pourra le remplacer plus tard.
+Ce sont de vraies animations Mixamo, jouées seulement sur le haut du corps (les jambes continuent de courir) :
+
+| Fichier (dans `game/assets/personnages/<homme|femme>/`) | Animation Mixamo |
+|---|---|
+| `sortir_arme_dos.fbx` | Draw A Great Sword 2 |
+| `ranger_arme_dos.fbx` | Sheath A Great Sword 2 |
+| `sortir_arme_hanche.fbx` | Withdrawing Sword |
+| `ranger_arme_hanche.fbx` | Sheathing Sword |
+
+Le rythme (partie jouée, vitesse, moment où la main attrape l'arme) se règle dans le tableau `ANIMS_ARME` de `game/scripts/joueur/apparence_agent.gd`. Si un fichier manque, un geste calculé le remplace (`scripts/joueur/geste_arme.gd`).
