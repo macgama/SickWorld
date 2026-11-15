@@ -207,6 +207,37 @@ static func _amenager_hall(hub: HikariBay, metal: Material) -> void:
 	hub._texte("Salle des portails", Vector3(-23.0, SOL + 4.6, HALL.end.y - 0.6), CYAN, 70, PI, 2.5)
 	# La commandante, près de la table, face à l'escalier.
 	_pnj(hub, "commandante", c + Vector3(-1.5, 0, -5.5), 0.0)
+	_amenager_missions(hub, metal)
+
+
+## Bureau des missions, contre le mur nord à droite de l'escalier : Ayaka Mori
+## (missions du jour et de la semaine, voir quetes_du_jour.gd) et Sven Halvorsen,
+## l'intendant qui échange les insignes de la Vigie (artisan « intendance »).
+static func _amenager_missions(hub: HikariBay, metal: Material) -> void:
+	var z := HALL.position.y
+	# Comptoir devant les deux agents.
+	hub._bloc(-11.0, z + 6.6, -0.8, z + 7.4, SOL, SOL + 1.05, metal)
+	hub._boite(Vector3(10.2, 0.05, 0.9), Vector3(-5.9, SOL + 1.08, z + 7.0), hub._neon(CYAN, 0.5), false)
+	# Tableau des missions : grand écran posé derrière le comptoir.
+	hub._bloc(-11.0, z + 1.0, -0.8, z + 1.4, SOL, SOL + 0.6, metal)
+	var tableau := MeshInstance3D.new()
+	var quad := QuadMesh.new()
+	quad.size = Vector2(9.6, 1.9)
+	tableau.mesh = quad
+	var mat := ShaderMaterial.new()
+	mat.shader = HikariBay.SHADER_ECRAN
+	mat.set_shader_parameter("couleur_a", CYAN)
+	mat.set_shader_parameter("couleur_b", Color(1.0, 0.82, 0.35))
+	mat.set_shader_parameter("luminosite", 0.55)
+	tableau.material_override = mat
+	tableau.position = Vector3(-5.9, SOL + 1.6, z + 1.3)
+	hub._contenu.add_child(tableau)
+	hub._texte("MISSIONS · 任務", Vector3(-5.9, SOL + 2.25, z + 1.36), Color(1, 1, 1), 64, 0.0, 2.0)
+	hub._texte("Du jour · De la semaine", Vector3(-8.4, SOL + 1.35, z + 1.36), Color(0.8, 0.95, 1.0), 40, 0.0, 1.5)
+	hub._texte("Échange d'insignes", Vector3(-2.9, SOL + 1.35, z + 1.36), Color(1.0, 0.85, 0.5), 40, 0.0, 1.5)
+	hub._lumiere(Vector3(-5.9, SOL + 3.2, z + 5.0), Color(0.75, 0.9, 1.0), 2.2, 10.0)
+	_pnj(hub, "maitre_missions", Vector3(-8.2, SOL, z + 5.2), PI)
+	_pnj(hub, "intendant", Vector3(-3.0, SOL, z + 5.2), PI)
 
 
 # --- Coffre (banque) -------------------------------------------------------

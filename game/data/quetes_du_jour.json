@@ -1,0 +1,214 @@
+{
+	"_aide": "Missions du jour et de la semaine, données par Ayaka Mori, la maîtresse des missions du QG de la Vigie (voir scripts/monde/quetes_du_jour.gd et docs/guides/missions-du-jour.md). Chaque jour à « heure_renouvellement » (heure de ton PC), le jeu tire « nombre_quotidiennes » missions dans la liste « quotidiennes » ; chaque lundi à la même heure, « nombre_hebdomadaires » missions dans « hebdomadaires ». Tout le monde a le même tirage le même jour. On ne reçoit que les missions des îles déjà visitées. « objectif » : « tuer » (liste de débuts de noms d'ennemis, voir data/ennemis.json ; « sauf » pour en exclure), « tuer_contient » (un mot du nom, ex. « fracture »), « recolter » (objets posés dans la zone « ou », aux « positions » [x, z]), « evenement » (réussir un événement public ; \"\" = n'importe lequel) ou « rendre » (rendre des missions du jour). « ou » : la zone (\"\" = n'importe où sur l'île). « ile » : prehistoire ou egypte (\"\" = n'importe laquelle). « apres » : {île: étape de la quête principale} à avoir dépassée. « recompense » : objets de data/objets.json, donnés quand on rend la mission. Les insignes de la Vigie s'échangent chez l'intendant Sven Halvorsen, à côté d'Ayaka (data/artisanat.json, artisan « intendance »).",
+	"reglages": {
+		"heure_renouvellement": 6,
+		"nombre_quotidiennes": 3,
+		"nombre_hebdomadaires": 2,
+		"pnj": "maitre_missions",
+		"distance": 6.0
+	},
+	"noms_zones": {
+		"cote_gelee": "Côte Gelée",
+		"steppe": "Steppe des Mammouths",
+		"foret": "Forêt des Bouleaux",
+		"falaises": "Falaises Peintes",
+		"grotte": "Grande Grotte",
+		"port_des_marais": "Port des Marais",
+		"carrieres_toura": "Carrières de Toura",
+		"village_batisseurs": "Village des Bâtisseurs",
+		"desert_rouge": "Désert Rouge",
+		"coeur_pyramide": "Cœur de la Pyramide"
+	},
+	"noms_iles": {
+		"prehistoire": "Préhistoire",
+		"egypte": "Égypte antique"
+	},
+	"quotidiennes": [
+		{
+			"id": "meute_de_la_steppe",
+			"titre": "La meute de la steppe",
+			"ile": "prehistoire",
+			"resume": "Les loups rôdent trop près du camp d'Aïna. Éclaircis leurs rangs avant qu'ils ne s'en prennent aux chasseurs.",
+			"objectif": {"texte": "Vaincre des loups dans la Steppe des Mammouths", "tuer": ["loup"], "sauf": ["loup_allie"], "nombre": 8, "ou": "steppe"},
+			"recompense": [{"id": "insigne_vigie", "n": 2}, {"id": "peau_loup", "n": 2}, {"id": "croc_loup", "n": 2}]
+		},
+		{
+			"id": "fractures_de_la_cote",
+			"titre": "Fractures sur la Côte",
+			"ile": "prehistoire",
+			"resume": "Nos capteurs voient encore des loups fracturés autour du point d'arrivée. Chaque loup fracturé abîme un peu plus l'époque.",
+			"objectif": {"texte": "Vaincre des loups fracturés sur la Côte Gelée", "tuer": ["loup_fracture"], "nombre": 5, "ou": "cote_gelee"},
+			"recompense": [{"id": "insigne_vigie", "n": 2}, {"id": "eclat_de_fracture", "n": 1}]
+		},
+		{
+			"id": "sous_les_bouleaux",
+			"titre": "Ombres sous les bouleaux",
+			"ile": "prehistoire",
+			"apres": {"prehistoire": "fermer_faille_foret"},
+			"resume": "Les failles de la forêt sont fermées, mais des loups fracturés en sont sortis avant. Fais le ménage.",
+			"objectif": {"texte": "Vaincre des loups fracturés dans la Forêt des Bouleaux", "tuer": ["loup_fracture"], "nombre": 6, "ou": "foret"},
+			"recompense": [{"id": "insigne_vigie", "n": 2}, {"id": "eclat_de_fracture", "n": 1}, {"id": "tendon_seche", "n": 2}]
+		},
+		{
+			"id": "gardiens_des_falaises",
+			"titre": "Gardiens des Falaises",
+			"ile": "prehistoire",
+			"apres": {"prehistoire": "vers_les_falaises"},
+			"resume": "Les peintres des Falaises n'osent plus sortir de l'abri. Montre aux loups que la paroi est protégée.",
+			"objectif": {"texte": "Vaincre des loups aux Falaises Peintes", "tuer": ["loup"], "sauf": ["loup_allie"], "nombre": 8, "ou": "falaises"},
+			"recompense": [{"id": "insigne_vigie", "n": 2}, {"id": "ocre_rouge", "n": 3}]
+		},
+		{
+			"id": "chasse_au_renne",
+			"titre": "Viande pour l'hiver",
+			"ile": "prehistoire",
+			"resume": "Le clan manque de viande et de bois de renne pour ses outils. Aide les chasseurs : la harde paît au sud de la steppe.",
+			"objectif": {"texte": "Chasser des rennes dans la Steppe des Mammouths", "tuer": ["renne"], "nombre": 4, "ou": "steppe"},
+			"recompense": [{"id": "insigne_vigie", "n": 2}, {"id": "bois_de_renne", "n": 3}, {"id": "tendon_seche", "n": 1}]
+		},
+		{
+			"id": "eclats_dans_la_neige",
+			"titre": "Éclats dans la neige",
+			"ile": "prehistoire",
+			"resume": "Le passage du portail a semé des éclats de temps sur la Côte Gelée. Laissés là, ils attirent les fractures. Ramasse-les.",
+			"objectif": {"texte": "Ramasser des éclats de temps sur la Côte Gelée", "recolter": "eclat_temps", "nombre": 5, "ou": "cote_gelee",
+				"positions": [[-14, 26], [16, 30], [-30, 0], [34, -6], [-28, -44], [32, -54], [0, -70], [-22, -84]]},
+			"recompense": [{"id": "insigne_vigie", "n": 2}, {"id": "silex", "n": 3}]
+		},
+		{
+			"id": "eclats_de_la_steppe",
+			"titre": "Le temps qui s'effrite",
+			"ile": "prehistoire",
+			"resume": "Dans la steppe, l'herbe gèle autour d'éclats de temps tombés du ciel. Les mammouths les évitent : à toi de les ramasser.",
+			"objectif": {"texte": "Ramasser des éclats de temps dans la Steppe des Mammouths", "recolter": "eclat_temps", "nombre": 5, "ou": "steppe",
+				"positions": [[36, -40], [10, -30], [-20, -10], [40, 20], [-10, 40], [20, 60], [-30, 64], [60, -10]]},
+			"recompense": [{"id": "insigne_vigie", "n": 2}, {"id": "silex", "n": 2}, {"id": "peau_loup", "n": 1}]
+		},
+		{
+			"id": "echos_sur_la_paroi",
+			"titre": "Échos sur la paroi",
+			"ile": "prehistoire",
+			"apres": {"prehistoire": "vers_les_falaises"},
+			"resume": "Au pied des Falaises Peintes, des éclats de temps font pâlir les peintures. Récupère-les avant qu'il ne reste plus rien.",
+			"objectif": {"texte": "Ramasser des éclats de temps aux Falaises Peintes", "recolter": "eclat_temps", "nombre": 5, "ou": "falaises",
+				"positions": [[-20, 100], [20, 104], [-30, 60], [24, 70], [-10, 30], [10, 10], [-24, -10], [30, -16]]},
+			"recompense": [{"id": "insigne_vigie", "n": 2}, {"id": "ocre_rouge", "n": 2}]
+		},
+		{
+			"id": "renfort_prehistoire",
+			"titre": "Renfort au clan",
+			"ile": "prehistoire",
+			"apres": {"prehistoire": "fermer_faille_foret"},
+			"resume": "Quand une faille s'ouvre ou qu'une tempête se lève, le clan a besoin de tous les bras. Prends part à un événement public et fais-le réussir.",
+			"objectif": {"texte": "Réussir un événement public en Préhistoire", "evenement": "", "nombre": 1, "ile": "prehistoire"},
+			"recompense": [{"id": "insigne_vigie", "n": 3}, {"id": "eclat_de_fracture", "n": 2}]
+		},
+		{
+			"id": "crocodiles_du_port",
+			"titre": "Les crocodiles du port",
+			"ile": "egypte",
+			"resume": "Les bateliers de Merer perdent des paniers chaque nuit. Les crocodiles du Port des Marais sont devenus trop hardis.",
+			"objectif": {"texte": "Vaincre des crocodiles au Port des Marais", "tuer": ["crocodile"], "nombre": 6, "ou": "port_des_marais"},
+			"recompense": [{"id": "insigne_vigie", "n": 3}, {"id": "ecaille_crocodile", "n": 3}, {"id": "limon_du_nil", "n": 2}]
+		},
+		{
+			"id": "babouins_des_gradins",
+			"titre": "Pillards des gradins",
+			"ile": "egypte",
+			"apres": {"egypte": "traversee"},
+			"resume": "Les babouins des Carrières de Toura volent les outils de cuivre des carriers. Ceux qui sont fracturés mordent.",
+			"objectif": {"texte": "Vaincre des babouins aux Carrières de Toura", "tuer": ["babouin"], "nombre": 8, "ou": "carrieres_toura"},
+			"recompense": [{"id": "insigne_vigie", "n": 3}, {"id": "canine_babouin", "n": 3}, {"id": "calcaire_fin", "n": 1}]
+		},
+		{
+			"id": "chacals_du_village",
+			"titre": "La ronde des chacals",
+			"ile": "egypte",
+			"apres": {"egypte": "vers_village"},
+			"resume": "Des chacals fracturés tournent autour du Village des Bâtisseurs. Les ouvriers ne dorment plus.",
+			"objectif": {"texte": "Vaincre des chacals fracturés autour du Village des Bâtisseurs", "tuer": ["chacal_fracture"], "nombre": 6, "ou": "village_batisseurs"},
+			"recompense": [{"id": "insigne_vigie", "n": 3}, {"id": "pain_meret", "n": 2}, {"id": "eclat_de_fracture", "n": 1}]
+		},
+		{
+			"id": "sentinelles_du_desert",
+			"titre": "Sentinelles du Désert Rouge",
+			"ile": "egypte",
+			"apres": {"egypte": "vers_desert"},
+			"resume": "L'Effaceuse a laissé des gardes à son ancien camp du Désert Rouge. Ils surveillent les caravanes pour elle.",
+			"objectif": {"texte": "Vaincre des gardes de l'Effaceuse dans le Désert Rouge", "tuer": ["garde_effaceuse"], "nombre": 4, "ou": "desert_rouge"},
+			"recompense": [{"id": "insigne_vigie", "n": 4}, {"id": "radio_effaceur", "n": 1}]
+		},
+		{
+			"id": "encre_des_carrieres",
+			"titre": "Éclats dans la poussière",
+			"ile": "egypte",
+			"apres": {"egypte": "traversee"},
+			"resume": "Dans les Carrières de Toura, des éclats de temps se mêlent à la poussière de calcaire. Les carriers les prennent pour des pierres porte-malheur.",
+			"objectif": {"texte": "Ramasser des éclats de temps aux Carrières de Toura", "recolter": "eclat_temps", "nombre": 5, "ou": "carrieres_toura",
+				"positions": [[-50, -10], [-40, 14], [-20, 20], [-10, -14], [0, 10], [-60, 20], [10, -30], [-56, -24]]},
+			"recompense": [{"id": "insigne_vigie", "n": 3}, {"id": "calcaire_fin", "n": 2}]
+		},
+		{
+			"id": "sable_qui_oublie",
+			"titre": "Le sable qui oublie",
+			"ile": "egypte",
+			"apres": {"egypte": "vers_desert"},
+			"resume": "Le vent du Désert Rouge roule des éclats de temps entre les dunes. Chaque éclat efface un peu la route des caravanes.",
+			"objectif": {"texte": "Ramasser des éclats de temps dans le Désert Rouge", "recolter": "eclat_temps", "nombre": 5, "ou": "desert_rouge",
+				"positions": [[-80, 10], [-40, 40], [0, 60], [40, 70], [-90, 80], [-30, 90], [60, 30], [10, 20]]},
+			"recompense": [{"id": "insigne_vigie", "n": 3}, {"id": "limon_du_nil", "n": 2}, {"id": "ecaille_crocodile", "n": 1}]
+		},
+		{
+			"id": "renfort_egypte",
+			"titre": "Main-d'œuvre pour Gizeh",
+			"ile": "egypte",
+			"apres": {"egypte": "rapport_iry"},
+			"resume": "Convoi attaqué, crue, khamsin, chacals : il se passe toujours quelque chose sur le chantier. Prends part à un événement public et fais-le réussir.",
+			"objectif": {"texte": "Réussir un événement public en Égypte", "evenement": "", "nombre": 1, "ile": "egypte"},
+			"recompense": [{"id": "insigne_vigie", "n": 4}, {"id": "calcaire_fin", "n": 1}, {"id": "eclat_de_fracture", "n": 2}]
+		}
+	],
+	"hebdomadaires": [
+		{
+			"id": "grand_menage",
+			"titre": "Le grand ménage",
+			"ile": "",
+			"resume": "Chaque créature fracturée est une blessure dans l'histoire. Cette semaine, la commandante Morel veut des chiffres.",
+			"objectif": {"texte": "Vaincre des créatures fracturées, sur n'importe quelle île", "tuer_contient": "fracture", "nombre": 30},
+			"recompense": [{"id": "insigne_vigie", "n": 10}, {"id": "eclat_de_fracture", "n": 4}]
+		},
+		{
+			"id": "agent_assidu",
+			"titre": "Agent assidu",
+			"ile": "",
+			"resume": "La Vigie récompense ceux qui reviennent chaque jour. Rends des missions du jour à Ayaka.",
+			"objectif": {"texte": "Rendre des missions du jour", "rendre": 6},
+			"recompense": [{"id": "insigne_vigie", "n": 12}, {"id": "broche_missions", "n": 1}]
+		},
+		{
+			"id": "heros_des_epoques",
+			"titre": "Héros des époques",
+			"ile": "",
+			"apres": {"prehistoire": "fermer_faille_foret"},
+			"resume": "Les événements publics sont nos meilleures chances de stabiliser une époque. Fais-en réussir plusieurs cette semaine.",
+			"objectif": {"texte": "Réussir des événements publics, sur n'importe quelle île", "evenement": "", "nombre": 3},
+			"recompense": [{"id": "insigne_vigie", "n": 12}, {"id": "eclat_de_fracture", "n": 3}]
+		},
+		{
+			"id": "terreur_de_la_steppe",
+			"titre": "Le cœur de l'hiver",
+			"ile": "prehistoire",
+			"resume": "L'hiver pousse les loups vers les camps du clan. La Vigie veut que toute la Préhistoire respire.",
+			"objectif": {"texte": "Vaincre des loups en Préhistoire", "tuer": ["loup"], "sauf": ["loup_allie"], "nombre": 30},
+			"recompense": [{"id": "insigne_vigie", "n": 10}, {"id": "peau_loup", "n": 4}, {"id": "bois_de_renne", "n": 2}]
+		},
+		{
+			"id": "gardiens_du_nil",
+			"titre": "Gardiens du Nil",
+			"ile": "egypte",
+			"resume": "Le chantier de Khéops dépend du fleuve et des carrières. Protège les deux, du port jusqu'au désert.",
+			"objectif": {"texte": "Vaincre des créatures en Égypte (crocodiles, babouins, chacals…)", "tuer": ["crocodile", "babouin", "chacal", "hippopotame", "cobra", "garde"], "nombre": 30},
+			"recompense": [{"id": "insigne_vigie", "n": 14}, {"id": "calcaire_fin", "n": 2}, {"id": "ecaille_crocodile", "n": 3}]
+		}
+	]
+}

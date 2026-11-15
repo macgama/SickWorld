@@ -65,6 +65,24 @@
 			"Les Tisseurs rejoindront bientôt la Vigie. Mes recherches avancent."
 		]
 	},
+	"maitre_missions": {
+		"nom": "Ayaka Mori",
+		"role": "Maîtresse des missions",
+		"modele": "femme",
+		"repliques": [
+			"Agent ! Les grandes missions, c'est la commandante. Les petites, celles qui tiennent les époques debout jour après jour, c'est moi.",
+			"Chaque matin à 6 h, je reçois de nouvelles missions du jour. Le lundi, celles de la semaine. Choisis celles que tu veux, puis reviens me voir quand c'est fait."
+		]
+	},
+	"intendant": {
+		"nom": "Sven Halvorsen",
+		"role": "Intendant de la Vigie",
+		"modele": "homme",
+		"repliques": [
+			"Les insignes qu'Ayaka te donne, c'est ici qu'ils se dépensent. Sacs, bijoux, matériaux d'époque : j'ai de quoi équiper un agent sérieux.",
+			"Pas de crédit, pas de ristourne. Un insigne, c'est une mission bien faite."
+		]
+	},
 	"technicienne": {
 		"nom": "Yuki Tanabe",
 		"role": "Technicienne des portails",

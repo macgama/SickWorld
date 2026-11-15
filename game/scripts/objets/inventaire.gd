@@ -188,7 +188,8 @@ func _fabriquer(id_recette: String) -> String:
 	if raison == "":
 		var donne := String(r["donne"])
 		var n := maxi(1, int(r.get("quantite", 1)))
-		_dire("Fabriqué : %s%s" % [Objets.objet(cat(), donne).get("nom", donne), " × %d" % n if n > 1 else ""])
+		var fait := String(Artisanat.artisan(art, id_artisan).get("fait", "Fabriqué"))
+		_dire("%s : %s%s" % [fait, Objets.objet(cat(), donne).get("nom", donne), " × %d" % n if n > 1 else ""])
 	return raison
 
 

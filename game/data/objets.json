@@ -1153,6 +1153,50 @@
 				"forme": "pierre",
 				"couleur": "#c79a5a"
 			}
+		},
+		"insigne_vigie": {
+			"nom": "Insigne de la Vigie",
+			"type": "materiau",
+			"rarete": "rare",
+			"description": "Un jeton de métal bleu frappé de l'œil de la Vigie. Ayaka Mori en donne un pour chaque mission bien faite ; Sven Halvorsen, l'intendant du QG, les échange contre du matériel.",
+			"pile": 200,
+			"epoque": "Moderne",
+			"icone": {
+				"forme": "eclat",
+				"couleur": "#3fc8ff"
+			}
+		},
+		"broche_missions": {
+			"nom": "Broche de l'agent assidu",
+			"type": "equipement",
+			"rarete": "epique",
+			"description": "Remise par Ayaka Mori aux agents qui rendent leurs missions jour après jour. Au dos, gravé : « Une époque tient debout grâce aux petites choses. »",
+			"emplacement": "bijou",
+			"epoque": "Moderne",
+			"stats": {
+				"pv": 45,
+				"critique_pourcent": 3
+			},
+			"visuel": {
+				"forme": "collier",
+				"couleur": "#3fc8ff"
+			}
+		},
+		"insigne_argent_vigie": {
+			"nom": "Médaille d'argent de la Vigie",
+			"type": "equipement",
+			"rarete": "rare",
+			"description": "La médaille des agents de terrain confirmés. Elle s'échange contre des insignes auprès de l'intendant du QG.",
+			"emplacement": "bijou",
+			"epoque": "Moderne",
+			"stats": {
+				"pv": 30,
+				"reduction_pourcent": 2
+			},
+			"visuel": {
+				"forme": "collier",
+				"couleur": "#c8d0d8"
+			}
 		}
 	},
 	"ensembles": {
