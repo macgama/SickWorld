@@ -6,7 +6,27 @@
 		"recharge_apres_chute": 3.0
 	},
 	"montures": {
+		"cheval": {
+			"nom": "Cheval de Przewalski",
+			"epoque": "prehistoire",
+			"description": "Le cheval sauvage de l'âge glaciaire, celui que peignaient les chasseurs sur les parois des grottes : robe isabelle, crinière noire dressée, pattes sombres.",
+			"modele": "res://assets/animaux/cheval/scene.gltf",
+			"echelle": 0.075,
+			"tourner": 0,
+			"garrot": 1.35,
+			"selle": 0.1,
+			"os_selle": "BN_Spine_02_04_04",
+			"os_racine": "_aucun_",
+			"allures": ["Skeleton|Walk", "Skeleton|Gallop"],
+			"vitesses": {"Skeleton|Walk": 1.7, "Skeleton|Gallop": 10.0},
+			"repos": "Skeleton|1 Ilde",
+			"saut": "Skeleton|Jump_Run",
+			"cacher": ["Saddle", "Horseshoe", "Icosphere"],
+			"robe": {"couleur": "#b8935c", "pattes": "#2a2018", "crins": "#2a2018"},
+			"vitesse_pourcent": 80
+		},
 		"renne": {
+			"actif": false,
 			"nom": "Renne de la steppe",
 			"epoque": "prehistoire",
 			"description": "Un renne apprivoisé par le clan du Feu. Il connaît chaque piste de la toundra.",

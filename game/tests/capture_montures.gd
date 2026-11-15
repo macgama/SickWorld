@@ -53,6 +53,8 @@ func _lancer() -> void:
 	var choix := args.slice(1)
 	if choix.is_empty() or "renne" in choix:
 		await _capturer("res://scenes/monde/prehistoire/steppe.tscn", "renne", dossier, "renne")
+	if choix.is_empty() or "cheval" in choix:
+		await _capturer("res://scenes/monde/prehistoire/steppe.tscn", "cheval", dossier, "cheval")
 	if choix.is_empty() or "galop" in choix:
 		await _capturer("res://scenes/monde/prehistoire/steppe.tscn", "renne", dossier, "galop", 11.0)
 	if choix.is_empty() or "ane" in choix:

@@ -68,3 +68,14 @@ Modèles 3D téléchargés sur Sketchfab, sous licence **Creative Commons Attrib
   comprises. L'os `CG_01` porte le déplacement (« root motion ») : le jeu ne garde que sa hauteur.
 - **Animations (117) :** entre autres H_Idle_01, H_Walk, H_Trot, H_Canter, H_Gallop, H_Sprint,
   H_Jump_*, H_Eat, H_Drink, H_Swim_*, H_Sleep_*, H_Death01.
+
+## Cheval (monture de la Préhistoire, recoloré en cheval de Przewalski) — `cheval/scene.gltf`
+
+- **Modèle :** Horse
+- **Auteur :** henrysteve973 (affiché « henry_7 », https://sketchfab.com/henrysteve973)
+- **URL :** https://sketchfab.com/3d-models/horse-a6f860e43e364619bccb174a1ac7d0c9
+- **Licence :** CC-BY 4.0 (voir `cheval/license.txt`)
+- **Remarques :** fichiers glTF d'origine, sans conversion (la conversion par Blender cassait le cou).
+  Dans le jeu : selle et fers cachés, robe isabelle et pattes sombres par le shader
+  `shaders/robe_cheval.gdshader`, crins teintés en noir.
+- **Animations (28) :** Skeleton|1 Ilde, Walk, Gallop, Jump, Jump_Run, Eat, Sleep, Swim, Death, Buck…

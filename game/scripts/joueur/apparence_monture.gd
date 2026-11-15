@@ -17,6 +17,8 @@ var _vitesses_ref := {}
 var _os_selle := -1
 var _temps_en_l_air := 0.0
 static var _textures := {}
+var _robes: Array[ShaderMaterial] = []
+const SHADER_ROBE := preload("res://shaders/robe_cheval.gdshader")
 
 ## Noms par défaut (modèles « élan / ours » de WildMesh 3D). Chaque monture peut
 ## donner les siens dans data/montures.json : « allures », « repos », « saut »,
@@ -71,14 +73,27 @@ func _ready() -> void:
 			a.loop_mode = Animation.LOOP_LINEAR
 		_retirer_deplacement(a)
 		_vitesses_ref[nom] = float(a.get_meta("vitesse_ref", 0.0)) * float(reglages.get("echelle", 0.8))
+	# Animations jouées sur place (sans « root motion ») : vitesses données à la main (m/s).
+	var vitesses: Dictionary = reglages.get("vitesses", {})
+	for nom in vitesses:
+		_vitesses_ref[nom] = float(vitesses[nom])
 	_jouer(_repos, 0.0)
 
 
 ## Pelage, bois et oreilles.
 func _habiller() -> void:
 	var pelage: Array = PELAGES.get(String(reglages.get("pelage", "")), [])
+	# « cacher » : matériaux (ou maillages) à ne pas montrer (selle, fers…).
+	var cacher: Array = reglages.get("cacher", [])
+	var robe = reglages.get("robe", null)
 	for mi in _modele.find_children("*", "MeshInstance3D", true, false):
 		var maille := mi as MeshInstance3D
+		if maille.name in cacher or _materiau(maille) in cacher:
+			maille.visible = false
+			continue
+		if robe is Dictionary:
+			_mettre_robe(maille, robe)
+			continue
 		# Les bois de l'élan sont un maillage à part (« Chifre »).
 		if maille.name.begins_with("Chifre") and not bool(reglages.get("bois", true)):
 			maille.visible = false
@@ -109,6 +124,43 @@ func _habiller() -> void:
 		grandes.facteur = oreilles
 		grandes.os = reglages.get("os_oreilles", OS_OREILLES)
 		_squelette.add_child(grandes)
+
+
+func _materiau(maille: MeshInstance3D) -> String:
+	if maille.mesh == null or maille.mesh.get_surface_count() == 0:
+		return ""
+	var m := maille.mesh.surface_get_material(0)
+	return m.resource_name if m != null else ""
+
+
+## Robe unie (data/montures.json : « robe ») : le corps passe par le shader robe_cheval,
+## les crins (crinière, queue) sont teintés.
+func _mettre_robe(maille: MeshInstance3D, robe: Dictionary) -> void:
+	for i in maille.mesh.get_surface_count():
+		var m := maille.mesh.surface_get_material(i) as BaseMaterial3D
+		if m == null:
+			continue
+		if m.resource_name == String(robe.get("materiau_corps", "Horse")) and m.albedo_texture != null:
+			var sm := ShaderMaterial.new()
+			sm.shader = SHADER_ROBE
+			sm.set_shader_parameter("texture_albedo", m.albedo_texture)
+			if m.normal_texture != null:
+				sm.set_shader_parameter("texture_normal", m.normal_texture)
+				sm.set_shader_parameter("force_normale", m.normal_scale)
+			sm.set_shader_parameter("robe", Color.html(String(robe.get("couleur", "#b88f57"))))
+			sm.set_shader_parameter("pattes", Color.html(String(robe.get("pattes", "#2a1f17"))))
+			sm.set_shader_parameter("garrot", float(reglages.get("garrot", 1.35)))
+			maille.set_surface_override_material(i, sm)
+			_robes.append(sm)
+		elif m.resource_name == String(robe.get("materiau_crins", "Hair")):
+			var crins := m.duplicate() as BaseMaterial3D
+			crins.albedo_color = Color.html(String(robe.get("crins", "#2b2119")))
+			maille.set_surface_override_material(i, crins)
+
+
+func _process(_delta: float) -> void:
+	for sm in _robes:
+		sm.set_shader_parameter("sol", global_position.y)
 
 
 ## Agrandit les oreilles (l'âne a de grandes oreilles, l'élan non).

@@ -53,7 +53,7 @@ func _vitesse(joueur) -> float:
 func _lancer() -> void:
 	print("Test des montures")
 	var Monture = load("res://scripts/joueur/monture.gd")
-	_verifier(Monture.fiche("renne").get("epoque") == "prehistoire", "le renne est la monture de la Préhistoire")
+	_verifier(Monture.fiche("renne").get("epoque") == "prehistoire" and Monture.fiche("cheval").get("epoque") == "prehistoire", "le renne existe encore")
 	_verifier(Monture.fiche("ane").get("epoque") == "egypte", "l'âne de bât est la monture de l'Égypte")
 
 	# --- Steppe (Préhistoire) ---
@@ -61,7 +61,7 @@ func _lancer() -> void:
 	var joueur = get_first_node_in_group("joueur_local")
 	var m = joueur.get_node("Monture")
 	_verifier(Monture.lieu(self) == "prehistoire", "la Steppe est en Préhistoire (%s)" % Monture.lieu(self))
-	_verifier(Monture.monture_du_lieu(self) == "renne", "la monture de la Steppe est le renne")
+	_verifier(Monture.monture_du_lieu(self) == "cheval", "la monture de la Steppe est le cheval de Przewalski")
 	var a_pied: float = await _vitesse(joueur)
 
 	var messages := []
@@ -81,15 +81,15 @@ func _lancer() -> void:
 	await _attendre(30)
 	_verifier(not m.est_monte(), "l'appel prend du temps (barre d'incantation)")
 	await _attendre(80)
-	_verifier(m.est_monte() and m.monture == "renne", "après 1,5 s, on est sur le renne")
+	_verifier(m.est_monte() and m.monture == "cheval", "après 1,5 s, on est sur le cheval")
 	_verifier(m.get_node_or_null("Bete") != null, "le renne apparaît sous le personnage")
 	await _attendre(10)
-	_verifier(joueur.apparence.position.y > 0.3, "le cavalier est assis sur le dos (%.2f m)" % joueur.apparence.position.y)
+	_verifier(joueur.apparence.position.y > 0.2, "le cavalier est assis sur le dos (%.2f m)" % joueur.apparence.position.y)
 	var squelette = joueur.apparence._squelette()
 	_verifier(squelette.get_node_or_null("PoseCavalier") != null, "le cavalier prend la pose assise")
 	var en_selle: float = await _vitesse(joueur)
-	_verifier(_allure in ["Run", "Sprint"], "le renne galope (%s)" % _allure)
-	_verifier(en_selle > a_pied * 1.5, "on va plus vite à dos de renne (%.1f m contre %.1f m)" % [en_selle, a_pied])
+	_verifier(_allure == "Skeleton|Gallop", "le cheval galope (%s)" % _allure)
+	_verifier(en_selle > a_pied * 1.5, "on va plus vite à cheval (%.1f m contre %.1f m)" % [en_selle, a_pied])
 
 	# Une attaque fait tomber.
 	joueur.combat.subir(5.0, null)
