@@ -8,6 +8,7 @@ extends Node3D
 
 const SCENE_JOUEUR := preload("res://scenes/joueur/joueur.tscn")
 const SCRIPT_BUTIN := preload("res://scripts/objets/butin.gd")
+const SCRIPT_RECOLTE := preload("res://scripts/monde/recolte.gd")
 
 @onready var joueurs: Node3D = $Joueurs
 @onready var loups: Node3D = $Loups
@@ -22,6 +23,10 @@ func _ready() -> void:
 	add_child(butin)
 	if Engine.is_editor_hint():
 		return
+	# Points de récolte de la zone (cueillette, minage, pêche : voir data/recolte.json).
+	var recolte: Node3D = SCRIPT_RECOLTE.new()
+	recolte.name = "Recolte"
+	add_child(recolte)
 	if Reseau.demarrer() != OK:
 		Reseau.quitter.call_deferred()
 		return

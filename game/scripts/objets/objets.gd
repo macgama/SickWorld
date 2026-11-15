@@ -91,7 +91,8 @@ static func capacite(cat: Dictionary, etat: Dictionary) -> int:
 ## Inventaire d'un nouveau personnage (data/objets.json, partie « depart »).
 static func etat_de_depart(cat: Dictionary, barre_par_defaut: Array) -> Dictionary:
 	var depart: Dictionary = cat.get("depart", {})
-	var etat := {"cases": [], "sacs": [], "equipement": {}, "barre": [], "tenues": []}
+	var etat := {"cases": [], "sacs": [], "equipement": {}, "barre": [], "tenues": [],
+			"metiers": {"cueillette": 0, "minage": 0, "peche": 0}}
 	for e in EMPLACEMENTS:
 		etat["equipement"][e] = ""
 	for e in depart.get("equipement", {}):
@@ -159,6 +160,14 @@ static func valider(cat: Dictionary, etat, barre_par_defaut: Array, competences:
 					"barre": barre_valide(cat, t.get("barre", []), propre["barre"], competences)})
 		else:
 			propre["tenues"].append({})
+	# Métiers de récolte (expérience) et repas en cours : voir metiers.gd.
+	var metiers_lus = etat.get("metiers", {})
+	propre["metiers"] = {}
+	for m in ["cueillette", "minage", "peche"]:
+		propre["metiers"][m] = maxi(0, int(metiers_lus.get(m, 0))) if metiers_lus is Dictionary else 0
+	var repas = etat.get("repas")
+	if repas is Dictionary and String(objet(cat, String(repas.get("id", ""))).get("type", "")) == "consommable":
+		propre["repas"] = {"id": String(repas["id"]), "fin": float(repas.get("fin", 0.0))}
 	return propre
 
 
@@ -269,7 +278,9 @@ static func utiliser(cat: Dictionary, etat: Dictionary, index: int) -> String:
 			return equiper_dans(cat, etat, index, emplacement_pour(cat, etat, id))
 		"sac":
 			return accrocher_sac(cat, etat, index)
-	return "Matériau d'artisanat : apporte-le à la forge Hinode ou à l'atelier Fil & Fibre (Quartier des Artisans)"
+		"consommable":
+			return "Un plat se mange hors combat"
+	return "Matériau d'artisanat : apporte-le à un artisan du hub (forge Hinode, atelier Fil & Fibre ou Chef Goro au Ramen Kaminari)"
 
 
 ## Met l'objet de la case « index » dans l'emplacement donné. L'ancien objet prend sa place dans le sac.
@@ -536,6 +547,8 @@ static func description(cat: Dictionary, id: String) -> String:
 			genre = "Sac (%d places)" % int(o.get("places", 0))
 		"materiau":
 			genre = "Matériau"
+		"consommable":
+			genre = "Plat"
 	lignes.append("%s — %s — %s" % [r.get("nom", ""), genre, o.get("epoque", "")])
 	var stats: Dictionary = o.get("stats", {})
 	for s in STATS:
@@ -548,6 +561,19 @@ static func description(cat: Dictionary, id: String) -> String:
 		var p: Dictionary = ens.get("paliers", {})
 		for seuil in p:
 			lignes.append("  %s pièces : %s" % [seuil, p[seuil].get("texte", "")])
+	if o.has("recolte"):
+		var metier := String({"cueillette": "Cueillette", "minage": "Minage", "peche": "Pêche"}.get(String(o["recolte"]), ""))
+		if metier != "":
+			lignes.append("Se récolte sur les îles (%s)" % metier)
+	var repas: Dictionary = o.get("repas", {})
+	if not repas.is_empty():
+		var effets: Array[String] = []
+		var sr: Dictionary = repas.get("stats", {})
+		for s in STATS:
+			if float(sr.get(s, 0)) != 0.0:
+				effets.append(("+%d %s" if s == "pv" else "+%d %% %s") % [float(sr[s]), String(NOMS_STATS[s]).to_lower()])
+		lignes.append("Repas (%d min) : %s" % [int(float(repas.get("duree", 1800)) / 60.0), ", ".join(effets)])
+		lignes.append("Clic : manger (hors combat). Un seul repas à la fois.")
 	lignes.append("")
 	lignes.append(String(o.get("description", "")))
 	return "\n".join(lignes)

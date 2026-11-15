@@ -58,6 +58,9 @@ func _lancer() -> void:
 		var o: Dictionary = cat["objets"][id]
 		var v: Dictionary = o.get("icone", o.get("visuel", {}))
 		var forme := String(v.get("forme", ""))
+		# « -- --manquantes » : seulement les objets qui n'ont pas encore d'icône.
+		if "--manquantes" in OS.get_cmdline_user_args() and FileAccess.file_exists(DOSSIER + id + ".png"):
+			continue
 		if forme == "":
 			print("  (pas de forme pour %s)" % id)
 			continue

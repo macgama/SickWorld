@@ -1,0 +1,641 @@
+{
+	"_aide": "Métiers de récolte. « metiers » : nom, verbe affiché après [F], durée de l'action (secondes, sans bouger), temps avant que la source repousse (secondes, chaque joueur a ses propres sources), portée (mètres). « paliers » : expérience totale à atteindre pour chaque niveau (niveau 1 = 0). « sources » : un type de point de récolte, avec le métier, le niveau qu'il faut, son apparence (forme : touffe, fleurs, lotus, ecorce, champignon, roseaux, lin, buisson, filon, cristaux, banc) « sur_l_eau » : la source flotte sur l'eau (on la cueille depuis la rive), et ce qu'il donne (objet, quantité [min, max], chance de 0 à 1). « zones » : les points de chaque zone, [source, x, z] (x vers l'est, z vers le sud, en mètres). Pour en ajouter un : copier une ligne et changer les nombres.",
+	"reglages": {
+		"xp_base": 10,
+		"xp_par_niveau": 5,
+		"niveau_eau": 0.0
+	},
+	"paliers": [
+		0,
+		40,
+		100,
+		180,
+		280,
+		400,
+		540,
+		700,
+		880,
+		1080
+	],
+	"metiers": {
+		"cueillette": {
+			"nom": "Cueillette",
+			"verbe": "Cueillir",
+			"duree": 2.0,
+			"reapparition": 90,
+			"portee": 2.6,
+			"couleur": "#6fd36a",
+			"description": "Plantes, écorces et champignons : les remèdes, les fibres et les colles des anciens."
+		},
+		"minage": {
+			"nom": "Minage",
+			"verbe": "Miner",
+			"duree": 3.0,
+			"reapparition": 120,
+			"portee": 2.8,
+			"couleur": "#d8a45a",
+			"description": "Pierres, pigments et minerais : la matière des outils, des bijoux et des couleurs."
+		},
+		"peche": {
+			"nom": "Pêche",
+			"verbe": "Pêcher",
+			"duree": 5.0,
+			"reapparition": 75,
+			"portee": 9.0,
+			"couleur": "#5ab4e8",
+			"description": "On pêche depuis la rive, près des ronds dans l'eau. Le Chef Goro cuisine les prises."
+		}
+	},
+	"sources": {
+		"lichen_des_rennes": {
+			"metier": "cueillette",
+			"nom": "Lichen des rennes",
+			"niveau": 1,
+			"visuel": {
+				"forme": "touffe",
+				"couleur": "#c9cfb0",
+				"accent": "#a9b48c",
+				"hauteur_etincelle": 0.8
+			},
+			"donne": [
+				{
+					"objet": "lichen_renne",
+					"quantite": [
+						2,
+						3
+					]
+				}
+			]
+		},
+		"bouleau_ecorce": {
+			"metier": "cueillette",
+			"nom": "Bouleau abattu",
+			"niveau": 1,
+			"visuel": {
+				"forme": "ecorce",
+				"couleur": "#ece8dc",
+				"accent": "#d9cdb0",
+				"hauteur_etincelle": 0.9
+			},
+			"donne": [
+				{
+					"objet": "ecorce_bouleau",
+					"quantite": [
+						2,
+						3
+					]
+				}
+			]
+		},
+		"achillee": {
+			"metier": "cueillette",
+			"nom": "Achillée millefeuille",
+			"niveau": 2,
+			"visuel": {
+				"forme": "fleurs",
+				"couleur": "#4e6a34",
+				"accent": "#f3f0e4",
+				"hauteur_etincelle": 1.0
+			},
+			"donne": [
+				{
+					"objet": "achillee",
+					"quantite": [
+						1,
+						2
+					]
+				}
+			]
+		},
+		"amadouvier": {
+			"metier": "cueillette",
+			"nom": "Amadouvier",
+			"niveau": 3,
+			"visuel": {
+				"forme": "champignon",
+				"couleur": "#7a5c40",
+				"accent": "#c9b596",
+				"hauteur_etincelle": 1.3
+			},
+			"donne": [
+				{
+					"objet": "amadouvier",
+					"quantite": 1
+				},
+				{
+					"objet": "ecorce_bouleau",
+					"quantite": 1,
+					"chance": 0.4
+				}
+			]
+		},
+		"affleurement_silex": {
+			"metier": "minage",
+			"nom": "Affleurement de silex",
+			"niveau": 1,
+			"visuel": {
+				"forme": "filon",
+				"couleur": "#8a857a",
+				"accent": "#3a3836",
+				"hauteur_etincelle": 1.2
+			},
+			"donne": [
+				{
+					"objet": "silex",
+					"quantite": [
+						2,
+						3
+					]
+				},
+				{
+					"objet": "cristal_de_roche",
+					"quantite": 1,
+					"chance": 0.04
+				}
+			]
+		},
+		"veine_ocre": {
+			"metier": "minage",
+			"nom": "Veine d'ocre",
+			"niveau": 2,
+			"visuel": {
+				"forme": "filon",
+				"couleur": "#9a7a5e",
+				"accent": "#a8402a",
+				"hauteur_etincelle": 1.2
+			},
+			"donne": [
+				{
+					"objet": "ocre_rouge",
+					"quantite": [
+						2,
+						3
+					]
+				}
+			]
+		},
+		"rognon_pyrite": {
+			"metier": "minage",
+			"nom": "Rognons de pyrite",
+			"niveau": 3,
+			"visuel": {
+				"forme": "cristaux",
+				"couleur": "#6a645a",
+				"accent": "#c9a24a",
+				"hauteur_etincelle": 1.2
+			},
+			"donne": [
+				{
+					"objet": "pyrite",
+					"quantite": [
+						1,
+						2
+					]
+				},
+				{
+					"objet": "silex",
+					"quantite": 1,
+					"chance": 0.3
+				}
+			]
+		},
+		"geode_cristal": {
+			"metier": "minage",
+			"nom": "Géode de cristal de roche",
+			"niveau": 4,
+			"visuel": {
+				"forme": "cristaux",
+				"couleur": "#7a7670",
+				"accent": "#e8f4ff",
+				"hauteur_etincelle": 1.2
+			},
+			"donne": [
+				{
+					"objet": "cristal_de_roche",
+					"quantite": 1
+				},
+				{
+					"objet": "eclat_de_fracture",
+					"quantite": 1,
+					"chance": 0.08
+				}
+			]
+		},
+		"banc_ombles": {
+			"metier": "peche",
+			"nom": "Banc d'ombles arctiques",
+			"niveau": 1,
+			"visuel": {
+				"forme": "banc",
+				"couleur": "#5a5040",
+				"accent": "#c86a4a",
+				"hauteur_etincelle": 0.6
+			},
+			"donne": [
+				{
+					"objet": "omble_arctique",
+					"quantite": [
+						1,
+						2
+					]
+				}
+			]
+		},
+		"banc_saumons": {
+			"metier": "peche",
+			"nom": "Banc de saumons",
+			"niveau": 2,
+			"visuel": {
+				"forme": "banc",
+				"couleur": "#7a8288",
+				"accent": "#a0a8ac",
+				"hauteur_etincelle": 0.6
+			},
+			"donne": [
+				{
+					"objet": "saumon",
+					"quantite": [
+						1,
+						2
+					]
+				}
+			]
+		},
+		"brochet": {
+			"metier": "peche",
+			"nom": "Brochet à l'affût",
+			"niveau": 3,
+			"visuel": {
+				"forme": "banc",
+				"couleur": "#4a5a30",
+				"accent": "#8a9a50",
+				"hauteur_etincelle": 0.6
+			},
+			"donne": [
+				{
+					"objet": "brochet",
+					"quantite": 1
+				}
+			]
+		},
+		"papyrus": {
+			"metier": "cueillette",
+			"nom": "Touffe de papyrus",
+			"niveau": 4,
+			"visuel": {
+				"forme": "roseaux",
+				"couleur": "#5f8a34",
+				"accent": "#8fb050",
+				"hauteur_etincelle": 2.6
+			},
+			"donne": [
+				{
+					"objet": "tige_papyrus",
+					"quantite": [
+						2,
+						3
+					]
+				}
+			]
+		},
+		"lin": {
+			"metier": "cueillette",
+			"nom": "Lin en fleurs",
+			"niveau": 5,
+			"visuel": {
+				"forme": "lin",
+				"couleur": "#7a9a4a",
+				"accent": "#6a8ae0",
+				"hauteur_etincelle": 1.2
+			},
+			"donne": [
+				{
+					"objet": "lin",
+					"quantite": [
+						2,
+						3
+					]
+				}
+			]
+		},
+		"lotus_bleu": {
+			"metier": "cueillette",
+			"nom": "Lotus bleu",
+			"niveau": 6,
+			"visuel": {
+				"forme": "lotus",
+				"couleur": "#3f6a3a",
+				"accent": "#6a86e8",
+				"hauteur_etincelle": 1.0
+			},
+			"donne": [
+				{
+					"objet": "lotus_bleu",
+					"quantite": 1
+				}
+			],
+			"sur_l_eau": true,
+			"portee": 6.0
+		},
+		"acacia": {
+			"metier": "cueillette",
+			"nom": "Acacia du désert",
+			"niveau": 7,
+			"visuel": {
+				"forme": "buisson",
+				"couleur": "#6a7a3a",
+				"accent": "#d8a040",
+				"hauteur_etincelle": 2.3
+			},
+			"donne": [
+				{
+					"objet": "gomme_acacia",
+					"quantite": [
+						1,
+						2
+					]
+				}
+			]
+		},
+		"croute_natron": {
+			"metier": "minage",
+			"nom": "Croûte de natron",
+			"niveau": 4,
+			"visuel": {
+				"forme": "filon",
+				"couleur": "#d8cdb4",
+				"accent": "#f2eee4",
+				"hauteur_etincelle": 1.2
+			},
+			"donne": [
+				{
+					"objet": "natron",
+					"quantite": [
+						2,
+						3
+					]
+				}
+			]
+		},
+		"bloc_calcaire": {
+			"metier": "minage",
+			"nom": "Bloc de calcaire fin",
+			"niveau": 5,
+			"visuel": {
+				"forme": "filon",
+				"couleur": "#e4dccb",
+				"accent": "#f6f2ea",
+				"hauteur_etincelle": 1.3
+			},
+			"donne": [
+				{
+					"objet": "calcaire_fin",
+					"quantite": [
+						1,
+						2
+					]
+				}
+			]
+		},
+		"filon_malachite": {
+			"metier": "minage",
+			"nom": "Filon de malachite",
+			"niveau": 6,
+			"visuel": {
+				"forme": "filon",
+				"couleur": "#8a6a4e",
+				"accent": "#2e9a5a",
+				"hauteur_etincelle": 1.2
+			},
+			"donne": [
+				{
+					"objet": "malachite",
+					"quantite": [
+						1,
+						2
+					]
+				}
+			]
+		},
+		"filon_turquoise": {
+			"metier": "minage",
+			"nom": "Filon de turquoise",
+			"niveau": 8,
+			"visuel": {
+				"forme": "cristaux",
+				"couleur": "#9a8468",
+				"accent": "#40c0c0",
+				"hauteur_etincelle": 1.2
+			},
+			"donne": [
+				{
+					"objet": "turquoise",
+					"quantite": 1
+				},
+				{
+					"objet": "malachite",
+					"quantite": 1,
+					"chance": 0.3
+				}
+			]
+		},
+		"banc_tilapias": {
+			"metier": "peche",
+			"nom": "Banc de tilapias",
+			"niveau": 4,
+			"visuel": {
+				"forme": "banc",
+				"couleur": "#7a8a8a",
+				"accent": "#9aaab0",
+				"hauteur_etincelle": 0.6
+			},
+			"donne": [
+				{
+					"objet": "tilapia",
+					"quantite": [
+						1,
+						2
+					]
+				}
+			]
+		},
+		"poissons_chats": {
+			"metier": "peche",
+			"nom": "Poissons-chats du Nil",
+			"niveau": 6,
+			"visuel": {
+				"forme": "banc",
+				"couleur": "#4a4038",
+				"accent": "#6a5a48",
+				"hauteur_etincelle": 0.6
+			},
+			"donne": [
+				{
+					"objet": "poisson_chat",
+					"quantite": 1
+				}
+			]
+		},
+		"perche_du_nil": {
+			"metier": "peche",
+			"nom": "Perche du Nil",
+			"niveau": 8,
+			"visuel": {
+				"forme": "banc",
+				"couleur": "#8a8668",
+				"accent": "#c0b890",
+				"hauteur_etincelle": 0.6
+			},
+			"donne": [
+				{
+					"objet": "perche_nil",
+					"quantite": 1
+				}
+			],
+			"duree": 7.0
+		}
+	},
+	"zones": {
+		"carrieres_toura": [
+			["bloc_calcaire", -1.0, -25.0],
+			["bloc_calcaire", -54.0, 54.0],
+			["bloc_calcaire", 52.0, -56.5],
+			["bloc_calcaire", 36.5, 12.0],
+			["bloc_calcaire", 79.0, -0.5],
+			["bloc_calcaire", -59.0, -43.0],
+			["papyrus", -32.0, 16.0],
+			["papyrus", -84.5, -0.5],
+			["banc_tilapias", -97.5, 79.0],
+			["banc_tilapias", -101.5, 36.5],
+			["poissons_chats", -102.5, -38.5],
+			["poissons_chats", -102.5, -79.0],
+			["perche_du_nil", -103.5, 4.5],
+			["perche_du_nil", -103.0, -60.5]
+		],
+		"cote_gelee": [
+			["lichen_des_rennes", -26.0, -80.5],
+			["lichen_des_rennes", 23.5, -11.0],
+			["lichen_des_rennes", -44.0, 0.5],
+			["lichen_des_rennes", 12.0, -62.0],
+			["lichen_des_rennes", -54.5, -38.5],
+			["affleurement_silex", -11.0, 36.0],
+			["affleurement_silex", -50.0, 53.5],
+			["affleurement_silex", 36.0, 39.5],
+			["affleurement_silex", 12.5, -107.5],
+			["banc_ombles", 77.5, 69.5],
+			["banc_ombles", 22.5, 66.0],
+			["banc_ombles", -77.0, 72.0],
+			["banc_ombles", -19.5, 63.0]
+		],
+		"desert_rouge": [
+			["croute_natron", 65.0, -62.5],
+			["croute_natron", -115.0, -92.5],
+			["croute_natron", 119.0, 12.0],
+			["croute_natron", -6.0, -29.5],
+			["croute_natron", -86.5, -38.0],
+			["filon_malachite", 18.5, -98.0],
+			["filon_malachite", 84.5, -98.0],
+			["filon_malachite", 95.0, -29.0],
+			["filon_malachite", -59.5, -90.5],
+			["filon_turquoise", 132.5, -59.0],
+			["filon_turquoise", 57.5, 0.0],
+			["filon_turquoise", -50.5, -17.0],
+			["acacia", -23.0, -108.0],
+			["acacia", -38.5, -56.0],
+			["acacia", 21.5, -43.5],
+			["acacia", 143.0, -85.5]
+		],
+		"falaises": [
+			["achillee", -30.0, 36.5],
+			["achillee", -21.0, 111.5],
+			["achillee", -24.0, -78.5],
+			["veine_ocre", 52.5, -53.5],
+			["veine_ocre", 51.5, 87.5],
+			["veine_ocre", 27.5, 126.0],
+			["veine_ocre", 30.0, 29.0],
+			["rognon_pyrite", -18.5, -20.0],
+			["rognon_pyrite", 28.0, -89.5],
+			["rognon_pyrite", -6.0, 70.5],
+			["geode_cristal", 35.5, -12.0],
+			["geode_cristal", -53.5, 76.5],
+			["geode_cristal", -56.0, 5.5],
+			["geode_cristal", -54.0, -43.0]
+		],
+		"foret": [
+			["bouleau_ecorce", -108.0, 22.5],
+			["bouleau_ecorce", 63.0, -0.5],
+			["bouleau_ecorce", 10.0, 29.0],
+			["bouleau_ecorce", -85.0, -66.5],
+			["bouleau_ecorce", 95.5, -95.5],
+			["amadouvier", 21.0, -36.5],
+			["amadouvier", -20.5, -14.0],
+			["amadouvier", -121.5, -25.5],
+			["amadouvier", 24.0, -90.0],
+			["rognon_pyrite", 87.0, -54.5],
+			["rognon_pyrite", -13.0, -65.5],
+			["rognon_pyrite", -31.5, 47.5],
+			["banc_saumons", 22.0, 72.5],
+			["banc_saumons", 9.5, -115.0],
+			["brochet", 17.5, -6.0],
+			["brochet", -1.5, -38.5],
+			["brochet", 5.0, -91.0],
+			["brochet", 21.5, 47.0]
+		],
+		"port_des_marais": [
+			["papyrus", -7.0, -8.0],
+			["papyrus", -61.5, -8.5],
+			["papyrus", -13.0, -60.5],
+			["papyrus", -83.5, 51.5],
+			["papyrus", -33.0, 94.0],
+			["lotus_bleu", 28.0, -60.5],
+			["lotus_bleu", -77.5, 101.5],
+			["lotus_bleu", 47.0, -13.5],
+			["lotus_bleu", -83.5, 136.5],
+			["banc_tilapias", -5.5, -26.5],
+			["banc_tilapias", 48.5, -62.0],
+			["banc_tilapias", 23.0, -14.0],
+			["banc_tilapias", 7.0, -61.0],
+			["poissons_chats", -45.0, 96.5],
+			["poissons_chats", -1.0, -49.5],
+			["poissons_chats", -41.0, 83.5],
+			["perche_du_nil", -20.5, 95.0],
+			["perche_du_nil", 0.5, -18.0]
+		],
+		"steppe": [
+			["lichen_des_rennes", -2.0, -2.5],
+			["lichen_des_rennes", 2.5, 97.5],
+			["lichen_des_rennes", 21.0, -76.5],
+			["achillee", -26.5, -62.5],
+			["achillee", 69.0, 11.0],
+			["achillee", 17.0, 140.0],
+			["achillee", 64.5, 73.5],
+			["affleurement_silex", 4.5, 46.0],
+			["affleurement_silex", 62.0, -75.0],
+			["affleurement_silex", 38.5, -26.0],
+			["veine_ocre", -39.5, 94.0],
+			["veine_ocre", 58.5, 124.5],
+			["veine_ocre", -33.5, 25.5],
+			["banc_saumons", 110.0, -2.0],
+			["banc_saumons", -45.0, -27.0],
+			["banc_saumons", 51.5, -3.5],
+			["banc_saumons", 89.0, 3.5]
+		],
+		"village_batisseurs": [
+			["lin", 42.5, 82.5],
+			["lin", 6.0, -99.0],
+			["lin", 16.0, 16.0],
+			["lin", 42.0, -56.0],
+			["lin", -35.5, -114.5],
+			["lin", -12.0, -41.5],
+			["lin", -18.5, 79.0],
+			["bloc_calcaire", 10.0, -145.5],
+			["bloc_calcaire", 53.5, 36.0],
+			["bloc_calcaire", 112.5, 5.5],
+			["lotus_bleu", 117.5, 126.5],
+			["lotus_bleu", 66.0, 127.0],
+			["banc_tilapias", 137.0, 129.0],
+			["banc_tilapias", 95.0, 125.5],
+			["banc_tilapias", 107.0, 125.0]
+		]
+	}
+}

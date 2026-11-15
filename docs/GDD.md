@@ -486,6 +486,36 @@ Le butin des époques sert à **fabriquer** et **améliorer** son équipement ch
 
 **Côté technique.** Les recettes sont dans `data/artisanat.json` (modifiables sans code). C'est le serveur qui décide : il vérifie qu'on est près de l'artisan, qu'on a les matériaux et la place dans les sacs. Plus tard : métiers d'artisan pour les joueurs, recettes rares trouvées en exploration, matériaux des autres époques.
 
+### 3 ter. Les métiers de récolte (cueillette, minage, pêche)
+
+*Ajouté le 15 novembre 2026.*
+
+Sur chaque île, on récolte soi-même les matériaux de l'époque, en plus du butin des ennemis. Trois métiers, que **tout le monde** peut pratiquer (pas besoin de choisir) :
+
+| Métier | Où | Durée de l'action |
+|---|---|---|
+| **Cueillette** | Plantes, écorces, champignons | 2 s |
+| **Minage** | Affleurements, veines et filons | 3 s |
+| **Pêche** | Bancs de poissons (ronds dans l'eau), depuis la rive | 5 s (7 s pour la perche du Nil) |
+
+**Comment ça marche.** Une petite étincelle signale chaque source de loin. Tout près, on lit « [F] Cueillir : Achillée millefeuille · Cueillette niv. 2 », en couleur (rouge : niveau trop bas ; jaune : bonne expérience ; vert : moitié moins ; gris : plus rien à apprendre). On appuie sur **F** et on ne bouge plus pendant la barre d'action. Bouger, se faire attaquer ou monter en selle interrompt (descendre de monture est automatique). Les sources sont **personnelles**, comme le butin : chaque joueur a les siennes, et elles repoussent au bout d'une à deux minutes.
+
+**Les niveaux.** Chaque métier va du niveau 1 au niveau 10. Les sources de la Préhistoire vont du niveau 1 à 4, celles de l'Égypte du niveau 4 à 8 : on commence naturellement par la première île. Les niveaux se voient dans l'écran Personnage (touche C).
+
+| Époque | Cueillette | Minage | Pêche |
+|---|---|---|---|
+| **Préhistoire** | Lichen des rennes (1), écorce de bouleau (1), achillée (2), amadouvier (3) | Silex (1), ocre rouge (2), pyrite (3), cristal de roche (4) | Omble arctique (1), saumon (2), brochet (3) |
+| **Égypte** | Papyrus (4), lin (5), lotus bleu (6), gomme d'acacia (7) | Natron (4), calcaire fin de Toura (5), malachite (6), turquoise (8) | Tilapia (4), poisson-chat (6), perche du Nil (8) |
+
+Chaque ressource est **historiquement juste** et sa description l'explique : le brai de bouleau, première colle de l'humanité ; l'amadouvier qu'Ötzi portait à la ceinture ; la faïence égyptienne faite de quartz, de natron et de cuivre ; le fard vert de malachite…
+
+**À quoi ça sert.** 20 nouvelles recettes dans le hub :
+- **Forge Hinode** : hache de silex, pendentif de cristal, nécessaire à feu, hache de cuivre, collier de turquoises, amulette de faïence, palette à fard.
+- **Fil & Fibre** : gants et bottes en peau de poisson, panier en écorce (10 places), tunique de lin fin, coiffe au lotus, sandales de papyrus, panier de papyrus (14 places).
+- **Ramen Kaminari (Chef Goro, nouveau)** : la pêche nourrit la cuisine. Six plats (bouillon d'omble, saumon fumé, brochet à l'achillée, tilapia salé, poisson-chat au lotus, ramen à la perche du Nil). On mange un plat en cliquant dessus dans le sac, hors combat : un bonus pendant **30 minutes** (points de vie, dégâts, critiques ou protection). Un seul repas à la fois ; il continue même quand on se déconnecte.
+
+**Côté technique.** Sources et points de chaque zone dans `data/recolte.json` (modifiables sans code), règles dans `scripts/objets/metiers.gd`, points posés par `scripts/monde/recolte.gd`. C'est le serveur qui décide de tout (distance, niveau, place dans les sacs, durée). L'expérience des métiers et le repas sont gardés avec l'inventaire. Plus tard : sources rares qui apparaissent par moments, outils de récolte améliorés, vente au marché.
+
 ### 4. La réputation par époque
 
 - Chaque peuple (clan du Bison, Égyptiens, etc.) a une jauge de réputation : *Méfiant → Neutre → Accueilli → Honoré → Membre du clan*.

@@ -13,6 +13,9 @@ var objets: Dictionary = {}
 var classes: Dictionary = {}
 ## Recettes des artisans du hub (voir scripts/objets/artisanat.gd).
 var artisanat: Dictionary = {}
+## Métiers de récolte : sources (plantes, filons, bancs de poissons) et points par zone
+## (voir scripts/objets/metiers.gd et scripts/monde/recolte.gd).
+var recolte: Dictionary = {}
 
 
 func _ready() -> void:
@@ -23,6 +26,7 @@ func _ready() -> void:
 	objets = _lire("res://data/objets.json")
 	classes = _lire("res://data/classes.json")
 	artisanat = _lire("res://data/artisanat.json")
+	recolte = _lire("res://data/recolte.json")
 
 
 func competence(id: String) -> Dictionary:

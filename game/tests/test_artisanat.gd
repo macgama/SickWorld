@@ -69,12 +69,16 @@ func _donnees(cat: Dictionary, art: Dictionary) -> void:
 	for table in cat.get("butin", {}).values():
 		for ligne in table:
 			obtenables[String(ligne.get("objet", ""))] = true
+	# … ou se récolte sur les îles (cueillette, minage, pêche : data/recolte.json).
+	for s in root.get_node("Donnees").recolte.get("sources", {}).values():
+		for ligne in s.get("donne", []):
+			obtenables[String(ligne.get("objet", ""))] = true
 	var introuvables: Array[String] = []
 	for id in cat["objets"]:
 		if String(cat["objets"][id].get("type", "")) == "materiau" and not obtenables.has(id) \
 				and not Artisanat.sert_a(cat, art, String(id)).is_empty():
 			introuvables.append(String(id))
-	_verifier(introuvables.is_empty(), "chaque matériau d'une recette tombe sur un ennemi" + ("" if introuvables.is_empty() else " : " + ", ".join(introuvables)))
+	_verifier(introuvables.is_empty(), "chaque matériau d'une recette tombe sur un ennemi ou se récolte" + ("" if introuvables.is_empty() else " : " + ", ".join(introuvables)))
 	_verifier(Artisanat.artisan_du_pnj(art, "forgeron") == "forge" and Artisanat.artisan_du_pnj(art, "lea") == "atelier"
 			and Artisanat.artisan_du_pnj(art, "commandante") == "", "Tetsuo tient la forge, Léa l'atelier, la commandante rien")
 	var renforcee := Objets.objet(cat, "cape_chasseur_renforce")
