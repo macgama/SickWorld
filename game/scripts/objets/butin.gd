@@ -45,6 +45,7 @@ func ennemi_vaincu(ennemi: Combattant, type_ennemi: String, position_monde: Vect
 		for id_membre in Social.membres_proches(id_gagnant, position_monde):
 			if not gagnants.has(id_membre):
 				gagnants[id_membre] = null
+	_donner_xp(gagnants, ennemi, type_ennemi)
 	var n := 0
 	for id_joueur in gagnants:
 		var objets := Objets.tirer_butin(_cat(), type_ennemi, _hasard)
@@ -57,6 +58,16 @@ func ennemi_vaincu(ennemi: Combattant, type_ennemi: String, position_monde: Vect
 		_sacs[_compteur] = {"joueur": id_joueur, "objets": objets, "position": p,
 				"fin": Regles.maintenant() + float(Objets.reglage(_cat(), "duree_butin", 180))}
 		Regles.chez(id_joueur, self, "_montrer", [_compteur, p, _resume(objets)])
+
+
+## Expérience : chaque joueur qui a participé (et son groupe tout proche) gagne l'XP
+## de l'ennemi, selon l'écart de niveau (voir ProgressionJoueur et data/progression.json).
+func _donner_xp(gagnants: Dictionary, ennemi: Combattant, type_ennemi: String) -> void:
+	for j in get_tree().get_nodes_in_group("joueur"):
+		if j is Joueur and gagnants.has(j.id_reseau()):
+			var progression := j.get_node_or_null("Progression")
+			if progression != null:
+				progression.ennemi_vaincu(type_ennemi, ennemi.niveau)
 
 
 ## Sacs de butin d'un joueur (pour les tests et l'affichage serveur).

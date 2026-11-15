@@ -36,6 +36,7 @@ const TOUCHES_LETTRES := {
 	"carte": [KEY_M],                    # M : ouvrir / fermer la grande carte
 	"personnage": [KEY_C, KEY_I, KEY_B], # C, I ou B : écran Personnage (équipement, sacs, tenues)
 	"monture": [KEY_V],                  # V : appeler sa monture / descendre (sur les îles)
+	"talents": [KEY_N],                  # N : talents et titres
 }
 
 
