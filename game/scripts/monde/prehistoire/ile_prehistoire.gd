@@ -45,6 +45,7 @@ const SHADER_TERRAIN := preload("res://shaders/prehistoire_terrain.gdshader")
 const SHADER_HERBE := preload("res://shaders/prehistoire_herbe.gdshader")
 const SHADER_FRACTURE := preload("res://shaders/prehistoire_fracture.gdshader")
 const AmbiancePrehistoire := preload("res://scripts/monde/prehistoire/ambiance_prehistoire.gd")
+const VieAmbiante := preload("res://scripts/monde/vie/vie_ambiante.gd")
 
 ## Textures Poly Haven de chaque sol (la première trouvée est utilisée).
 const TEXTURES_SOLS := {
@@ -92,6 +93,8 @@ func _ready() -> void:
 	reconstruire()
 	if Engine.is_editor_hint():
 		return
+	# Oiseaux, insectes, figurants et petits objets semés (data/vie_ambiante.json).
+	VieAmbiante.installer(self, identifiant_zone)
 	var loups := get_node_or_null("Partie/Loups")
 	if loups != null:
 		loups.child_entered_tree.connect(func(n: Node): _habiller_fracture.call_deferred(n))
