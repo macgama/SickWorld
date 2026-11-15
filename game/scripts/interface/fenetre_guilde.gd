@@ -221,7 +221,10 @@ func _construire_fenetre() -> void:
 
 	_onglets = TabContainer.new()
 	_onglets.custom_minimum_size = Vector2(840, 520)
-	_onglets.tab_changed.connect(func(_n): _rafraichir_onglet())
+	_onglets.tab_changed.connect(func(_n):
+		_rafraichir_onglet()
+		if _fenetre.visible:
+			_recentrer())
 	colonne.add_child(_onglets)
 	_onglets.add_child(_construire_onglet_guilde())
 	_onglets.add_child(_construire_onglet_membres())
@@ -434,7 +437,7 @@ func ouvrir(onglet := -1) -> void:
 	_fenetre.visible = true
 	Guildes.rafraichir()
 	rafraichir()
-	_centrer.call_deferred()
+	_recentrer()
 
 
 func fermer() -> void:
@@ -445,6 +448,17 @@ func fermer() -> void:
 
 func est_ouverte() -> bool:
 	return _fenetre.visible
+
+
+## Recentre maintenant puis après deux images : les textes à la ligne ne connaissent leur
+## vraie hauteur qu'une fois la largeur posée (sinon la fenêtre reste trop haute).
+func _recentrer() -> void:
+	_centrer.call_deferred()
+	for i in 2:
+		await get_tree().process_frame
+		if not _fenetre.visible:
+			return
+		_centrer()
 
 
 func _centrer() -> void:
