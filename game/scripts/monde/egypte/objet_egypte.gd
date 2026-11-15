@@ -570,3 +570,86 @@ func _construire_outre() -> void:
 	lien.inner_radius = 0.03
 	lien.outer_radius = 0.04
 	_piece(lien, _mat(Color(0.85, 0.8, 0.68)), Vector3(0.31, 0.17, -0.12), Vector3(0, 0.4, -1.1 + PI / 2))
+
+
+# --- Chapitre 6 : les miroirs de cuivre et les plans d'Hémiounou ------------------------------
+
+## Un miroir de cuivre poli sur un support de bois, qu'on tourne pour envoyer le soleil
+## dans la fausse porte d'une tombe.
+func _construire_miroir() -> void:
+	var bois := _mat(Color(0.42, 0.3, 0.18), 0.9)
+	var cuivre := _mat(Color(0.85, 0.52, 0.3), 0.15, 0.9)
+	var pied := CylinderMesh.new()
+	pied.top_radius = 0.035
+	pied.bottom_radius = 0.05
+	pied.height = 1.0
+	_piece(pied, bois, Vector3(0, 0.5, 0))
+	var socle := CylinderMesh.new()
+	socle.top_radius = 0.2
+	socle.bottom_radius = 0.25
+	socle.height = 0.1
+	_piece(socle, bois, Vector3(0, 0.05, 0))
+	var disque := CylinderMesh.new()
+	disque.top_radius = 0.3
+	disque.bottom_radius = 0.3
+	disque.height = 0.025
+	var d := _piece(disque, cuivre, Vector3(0, 1.15, 0), Vector3(0, 0, PI / 2 - 0.35))
+	d.name = "Disque"
+	var anneau := TorusMesh.new()
+	anneau.inner_radius = 0.29
+	anneau.outer_radius = 0.33
+	_piece(anneau, bois, Vector3(0, 1.15, 0), Vector3(0, 0, PI / 2 - 0.35))
+
+
+## Un rouleau de papyrus attaché d'un cordon, posé sur la table d'offrandes.
+func _construire_rouleau() -> void:
+	var papyrus := _mat(Color(0.86, 0.78, 0.58), 0.9)
+	var r := CylinderMesh.new()
+	r.top_radius = 0.045
+	r.bottom_radius = 0.045
+	r.height = 0.34
+	_piece(r, papyrus, Vector3(0, 0.38, 0), Vector3(PI / 2, 0.3, 0))
+	var cordon := TorusMesh.new()
+	cordon.inner_radius = 0.045
+	cordon.outer_radius = 0.052
+	_piece(cordon, _mat(Color(0.6, 0.2, 0.12)), Vector3(0, 0.38, 0), Vector3(0, 0.3, 0))
+
+
+## Un miroir tourné ne disparaît pas : il renvoie un rayon de soleil vers la fausse porte.
+func cacher() -> void:
+	if forme != "miroir":
+		super.cacher()
+		return
+	actif = false
+	if _visuel == null or _visuel.get_node_or_null("Rayon") != null:
+		return
+	var cible: Vector3 = get_meta("cible", global_position + Vector3(-4, 0, 0))
+	var depart := Vector3(0, 1.15, 0)
+	var arrivee := to_local(Vector3(cible.x, global_position.y + 1.0, cible.z))
+	var rayon := MeshInstance3D.new()
+	rayon.name = "Rayon"
+	var b := BoxMesh.new()
+	var longueur := depart.distance_to(arrivee)
+	b.size = Vector3(0.2, 0.2, longueur)
+	rayon.mesh = b
+	var m := StandardMaterial3D.new()
+	m.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	m.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	m.albedo_color = Color(1.0, 0.93, 0.62, 0.7)
+	m.emission_enabled = true
+	m.emission = Color(1.0, 0.85, 0.45)
+	rayon.material_override = m
+	rayon.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	_visuel.add_child(rayon)
+	rayon.position = (depart + arrivee) * 0.5
+	rayon.look_at(to_global(arrivee), Vector3.UP)
+	var lueur := OmniLight3D.new()
+	lueur.light_color = Color(1.0, 0.82, 0.5)
+	lueur.light_energy = 2.5
+	lueur.omni_range = 3.0
+	lueur.position = arrivee + (depart - arrivee).normalized() * 0.4
+	_visuel.add_child(lueur)
+	var disque := _visuel.get_node_or_null("Disque") as MeshInstance3D
+	if disque != null:
+		disque.look_at(to_global(arrivee), Vector3.UP)
+		disque.rotate_object_local(Vector3.RIGHT, PI / 2)

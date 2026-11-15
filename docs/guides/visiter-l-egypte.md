@@ -85,11 +85,30 @@ Les deux choix mènent à la suite.
 8. Parler à l'**agent Lenoir**, qui arrive en courant, puis **rentrer au QG** par le portail du marais (au Port des Marais).
 9. Au QG, une mission se lance toute seule : **« Le carnet de Sablier »** (la commandante Morel, puis Yuki à la salle des portails, puis Morel). Le code du carnet cache... les anciens codes d'accès de la Vigie.
 
-Le chapitre 6 (« La mémoire d'Hémiounou ») arrive bientôt.
+## Le chapitre 6 : « La mémoire d'Hémiounou »
+
+1. De retour en Égypte, remonter au **village** : **Ânkhkhaf** attend devant le passage des ouvriers. L'architecte **Hémiounou** a perdu la mémoire et il est parti vers l'ouest avec ses plans.
+2. Au **Désert Rouge**, aller au **campement des nomades**, dans l'ouadi au sud : **Tamit**, leur cheffe, l'a vu marcher vers les tombes.
+3. Retrouver **Hémiounou**, assis devant **sa propre tombe** (la « Tombe d'Hémiounou » sur la carte, au nord de la grande allée du cimetière).
+4. **Tourner les 3 miroirs de cuivre** (F) devant trois mastabas : un rayon de soleil entre dans chaque fausse porte. Deux gardes des Effaceurs rôdent.
+5. La lumière révèle **3 rouleaux de papyrus** dans les niches : les prendre. Deux gardes attaquent, puis le **khamsin** se lève (tempête de sable).
+6. Rendre les plans à Hémiounou, puis **l'escorter dans la tempête** jusqu'à la passe des tombes en restant près de lui. Deux vagues de chacals attaquent.
+7. Rentrer au village : Hémiounou est au chantier, il offre sa **coudée royale**.
+
+![Un miroir de cuivre renvoie le soleil dans la fausse porte de la tombe d'Hémiounou](../images/egypte-ch6-miroir.jpg)
+
+## Le chapitre 7 : « La pierre de faîte »
+
+1. **Ânkhkhaf** a réuni les équipes : parler avec lui devant le passage des ouvriers.
+2. **Tirer la pierre de faîte** (un petit pyramidion à pointe dorée) avec 4 haleurs, du milieu du chantier jusqu'au **pied de la grande rampe**. Il faut rester tout près du traîneau. Des ouvriers oubliés, puis des chacals, attaquent en route.
+3. Le plateau tremble : repousser **4 gardes des Effaceurs** qui veulent briser la pierre.
+4. **Hémiounou** comprend que le bruit vient de la chambre du roi, et offre le **pectoral de la pierre de faîte**. Le chapitre 8 commence.
+
+![La pierre de faîte sur son traîneau, avec ses haleurs](../images/egypte-ch7-pierre-de-faite.jpg)
 
 ## Le chapitre 8 : « Ce que le fleuve emporte » (donjon)
 
-En attendant les chapitres 6 et 7, le chapitre 8 suit directement le chapitre 5. Au retour du QG, **Ânkhkhaf** attend au fond du chantier, devant le **passage des ouvriers** (une porte de pierre dans la masse de la pyramide). Il fait enlever la barrière de planches, et l'on entre dans le **Cœur de la Pyramide**, un donjon prévu pour 5 joueurs (niveau 20).
+Après la pierre de faîte, **Ânkhkhaf** attend au fond du chantier, devant le **passage des ouvriers** (une porte de pierre dans la masse de la pyramide). Il fait enlever la barrière de planches, et l'on entre dans le **Cœur de la Pyramide**, un donjon prévu pour 5 joueurs (niveau 20).
 
 1. Descendre le couloir jusqu'à la **chambre souterraine** et tuer 5 cobras fracturés.
 2. Remonter jusqu'à la **chambre de la Reine** : trois bâtisseurs emmurés ont perdu leur nom. On les met à terre, puis on leur rend leur nom (F). Sekhem explique comment ouvrir le bouchon de granit.

@@ -173,8 +173,10 @@ func _lancer() -> void:
 	# Les bâtisseurs tombent parfois tout près les uns des autres : on rend les noms
 	# qui restent jusqu'à ce que l'étape change.
 	var essais := 0
-	while _id_etape() == "noms_emmures" and essais < 8:
+	while _id_etape() == "noms_emmures" and essais < 20:
 		essais += 1
+		# Les objets « Rendre son nom » apparaissent un peu après la chute des bâtisseurs.
+		await _attendre(10)
 		for o in get_nodes_in_group("objet_quete"):
 			if o.get("groupe") == "nom_rendu" and o.actif and not o.ramasse:
 				# On se place à côté du corps, du côté du milieu de la salle (pas dans un mur).

@@ -211,7 +211,7 @@ func _lancer() -> void:
 	await _attendre(20)
 	_quete.rentrer_au_hub()
 	await _attendre(10)
-	_verifier(_id_etape() == "ankhkhaf_rampe", "chapitre 5 terminé au QG, le chapitre 8 attend au chantier (%s)" % _id_etape())
+	_verifier(_id_etape() == "retour_gizeh", "chapitre 5 terminé au QG, le chapitre 6 commence (%s)" % _id_etape())
 	_verifier(root.get_node("Reseau").get_meta("mission_hub_auto", "") == "carnet", "le hub lancera la mission du carnet")
 	_verifier(not root.get_node("Reseau").get_meta("visite_guidee_qg", false), "pas de deuxième visite guidée")
 	root.get_node("Reseau").remove_meta("mission_hub_auto")
