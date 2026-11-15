@@ -6,6 +6,10 @@ extends PanelContainer
 ## Un palier s'ouvre quand on a assez de points dans la même voie (3, 6 puis 8).
 ## « Oublier mes talents » rend tous les points, gratuitement (hors combat).
 ##
+## Onglet Arène : les 6 talents d'Arène de la classe ; on en choisit 3 (un clic pour
+## choisir, un autre pour retirer). Ils ne servent que pendant un combat d'Arène, où les
+## talents normaux, l'équipement et le repas sont ignorés.
+##
 ## Onglet Titres : tous les titres des époques ; un clic sur un titre obtenu le porte
 ## (il s'affiche sous le nom du personnage, pour tout le monde).
 ##
@@ -20,6 +24,8 @@ var _points: Label
 var _onglets: TabContainer
 var _voies: HBoxContainer
 var _titres: VBoxContainer
+var _arene_entete: Label
+var _arene_grille: GridContainer
 var _oublier: Button
 var _confirmation: ConfirmationDialog
 
@@ -81,6 +87,26 @@ func _ready() -> void:
 	_voies.add_theme_constant_override("separation", 14)
 	talents.add_child(_voies)
 
+	# --- Onglet Arène
+	var arene := VBoxContainer.new()
+	arene.name = "Arène"
+	arene.add_theme_constant_override("separation", 10)
+	_onglets.add_child(arene)
+	_arene_entete = _texte("", 15)
+	_arene_entete.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_arene_entete.custom_minimum_size.x = 3 * LARGEUR_TALENT
+	arene.add_child(_arene_entete)
+	var explication := _texte("Ces talents ne servent QUE pendant un combat d'Arène : là-bas, tout le monde est au niveau 20 avec le même équipement, et tes talents normaux sont mis de côté. Clic : choisir ou retirer (hors combat).", 13)
+	explication.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	explication.custom_minimum_size.x = 3 * LARGEUR_TALENT
+	explication.modulate.a = 0.7
+	arene.add_child(explication)
+	_arene_grille = GridContainer.new()
+	_arene_grille.columns = 3
+	_arene_grille.add_theme_constant_override("h_separation", 14)
+	_arene_grille.add_theme_constant_override("v_separation", 12)
+	arene.add_child(_arene_grille)
+
 	# --- Onglet Titres
 	var defilement := ScrollContainer.new()
 	defilement.name = "Titres"
@@ -113,7 +139,7 @@ func basculer() -> void:
 		_centrer.call_deferred()
 
 
-## Ouvre directement un onglet (0 = Talents, 1 = Titres).
+## Ouvre directement un onglet (0 = Talents, 1 = Arène, 2 = Titres).
 func montrer_onglet(n: int) -> void:
 	_onglets.current_tab = n
 	if not visible:
@@ -166,6 +192,7 @@ func rafraichir() -> void:
 	_points.modulate = Color(1.0, 0.85, 0.4) if libres > 0 else Color(0.75, 0.8, 0.85)
 	_oublier.disabled = Progression.points_depenses(e) == 0
 	_remplir_voies(d, classe, e)
+	_remplir_arene(d, classe, e)
 	_remplir_titres(d, e)
 	if visible:
 		_centrer.call_deferred()
@@ -240,6 +267,44 @@ func _case_talent(d: Dictionary, classe: String, e: Dictionary, t: Dictionary, c
 		b.modulate = Color(1, 1, 1, 0.45)
 	b.pressed.connect(func(): progression.prendre_talent(id))
 	return b
+
+
+func _remplir_arene(d: Dictionary, classe: String, e: Dictionary) -> void:
+	for c in _arene_grille.get_children():
+		_arene_grille.remove_child(c)
+		c.queue_free()
+	var choisis: Array = e.get("talents_arene", [])
+	var places := Progression.emplacements_arene(d)
+	_arene_entete.text = "Talents d'Arène choisis : %d / %d" % [choisis.size(), places]
+	_arene_entete.modulate = Color(1.0, 0.85, 0.4) if choisis.size() < places else Color(0.75, 0.85, 0.9)
+	var or_arene := Color(0.95, 0.55, 0.25)
+	for t in Progression.talents_arene(d, classe):
+		var id := String(t["id"])
+		var pris := id in choisis
+		var b := Button.new()
+		b.name = "Arene_" + id
+		b.custom_minimum_size = Vector2(LARGEUR_TALENT, 110)
+		b.focus_mode = Control.FOCUS_NONE
+		b.alignment = HORIZONTAL_ALIGNMENT_LEFT
+		b.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		b.add_theme_font_size_override("font_size", 13)
+		b.text = "%s  %s%s\n%s" % [t.get("icone", "✦"), t.get("nom", id), "   ✔ choisi" if pris else "", t.get("texte", "")]
+		var plein := not pris and choisis.size() >= places
+		b.tooltip_text = "%s\n%s%s" % [t.get("nom", id), t.get("texte", ""),
+				"\n\nClic pour le retirer." if pris else ("\n\nRetire d'abord un talent choisi." if plein else "\n\nClic pour le choisir.")]
+		var fond := or_arene.darkened(0.65) if pris else Color(0.12, 0.14, 0.18)
+		var bord := or_arene.lightened(0.15) if pris else (Color(0.3, 0.33, 0.38) if plein else Color(1.0, 0.85, 0.4, 0.9))
+		var normal := _cadre(fond, bord)
+		normal.set_border_width_all(2 if pris or not plein else 1)
+		b.add_theme_stylebox_override("normal", normal)
+		var survol := _cadre(fond.lightened(0.08), bord.lightened(0.2))
+		survol.set_border_width_all(2)
+		b.add_theme_stylebox_override("hover", survol)
+		b.add_theme_stylebox_override("pressed", survol)
+		if plein:
+			b.modulate = Color(1, 1, 1, 0.55)
+		b.pressed.connect(func(): progression.choisir_talent_arene(id))
+		_arene_grille.add_child(b)
 
 
 func _remplir_titres(d: Dictionary, e: Dictionary) -> void:

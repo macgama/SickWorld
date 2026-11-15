@@ -25,6 +25,7 @@ const NOMS_EFFETS := {
 	"protection": "Protégé par un Rempart", "etourdi": "Étourdi", "immobilise": "Immobilisé",
 	"poison": "Empoisonné", "bulle_lente": "Temps ralenti", "acceleration": "Accéléré",
 	"nom_efface": "Nom effacé (compétences d'époque bloquées)", "enfoui": "Dans les murs",
+	"blessure": "Blessure (soins reçus réduits)",
 }
 
 var _joueur: Joueur

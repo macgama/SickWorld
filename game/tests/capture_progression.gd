@@ -1,7 +1,7 @@
 extends SceneTree
 ## Captures de la progression (fenêtre visible, pas en --headless) :
 ## un personnage niveau 12 avec des talents, la fenêtre Talents ou Titres, la barre d'XP.
-## Lancement : godot --path game -s res://tests/capture_progression.gd -- [talents|titres|niveau] [chemin.jpg] [classe]
+## Lancement : godot --path game -s res://tests/capture_progression.gd -- [talents|arene|titres|niveau] [chemin.jpg] [classe]
 
 const TALENTS := {
 	"lame": ["lame_affutee", "lame_affutee", "lame_affutee", "taille_eclair", "taille_eclair", "taille_eclair",
@@ -50,6 +50,10 @@ func _lancer() -> void:
 	prog.etat["titre"] = "gardien_des_murs"
 	for t in TALENTS.get(classe, []):
 		Progression.prendre_talent(d, classe, prog.etat, t)
+	var talents_arene := Progression.talents_arene(d, classe)
+	for i in [0, 1, 4]:
+		if i < talents_arene.size():
+			Progression.choisir_talent_arene(d, classe, prog.etat, String(talents_arene[i]["id"]))
 	prog._appliquer()
 	await _attendre(10)
 	var hud: Node = null
@@ -63,8 +67,10 @@ func _lancer() -> void:
 	match vue:
 		"talents":
 			hud._fenetre_progression.montrer_onglet(0)
-		"titres":
+		"arene":
 			hud._fenetre_progression.montrer_onglet(1)
+		"titres":
+			hud._fenetre_progression.montrer_onglet(2)
 		"niveau":
 			hud._sur_xp_gagnee(240, "Quête")
 			hud._sur_niveau_gagne(12)

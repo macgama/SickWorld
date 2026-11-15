@@ -277,6 +277,96 @@
 		]
 	},
 
+	"talents_arene": {
+		"_aide": "Talents d'Arène : ils ne servent QUE pendant un combat d'Arène (où les talents normaux, l'équipement et le repas sont ignorés). Chaque classe en a 6 ; on en choisit « emplacements » (3), hors combat, dans la fenêtre Talents (touche N, onglet Arène). Chaque talent vaut à peu près la même chose (environ 6 à 8 % de puissance) pour qu'aucun choix ne soit obligatoire. « stats » : pv, degats_pourcent, reduction_pourcent, critique_pourcent, et les statistiques propres au JcJ : resistance_controles_pourcent (étourdi, immobilisé et ralenti durent moins longtemps), soins_pourcent (soins donnés en plus), vol_de_vie_pourcent (part des dégâts infligés rendue en vie), blessure_pourcent (les coups réduisent les soins reçus par la cible pendant 6 s ; on garde la plus forte). « competences » : comme les talents normaux (valeur ajoutée à la compétence).",
+		"emplacements": 3,
+		"duree_blessure": 6,
+
+		"lame": [
+			{ "id": "arene_gladiateur", "nom": "Gladiateur", "icone": "⚔",
+				"texte": "+6 % de dégâts.",
+				"stats": { "degats_pourcent": 6 } },
+			{ "id": "arene_plaie_mortelle", "nom": "Plaie mortelle", "icone": "✚",
+				"texte": "Tes coups réduisent de 30 % les soins reçus par ta cible pendant 6 s. Idéal contre un Tisseur.",
+				"stats": { "blessure_pourcent": 30 } },
+			{ "id": "arene_soif_de_sang", "nom": "Soif de sang", "icone": "♥",
+				"texte": "6 % des dégâts que tu infliges te soignent.",
+				"stats": { "vol_de_vie_pourcent": 6 } },
+			{ "id": "arene_volonte_de_fer", "nom": "Volonté de fer", "icone": "⛓",
+				"texte": "Étourdissements, immobilisations et ralentissements durent 30 % de moins sur toi.",
+				"stats": { "resistance_controles_pourcent": 30 } },
+			{ "id": "arene_poursuite", "nom": "Poursuite", "icone": "➹",
+				"texte": "Bond : 4 s de recharge en moins, et la cible reste ralentie 1,5 s de plus.",
+				"competences": { "bond": { "recharge": -4, "ralenti.duree": 1.5 } } },
+			{ "id": "arene_bourreau", "nom": "Bourreau", "icone": "☠",
+				"texte": "Exécution : utilisable dès 30 % de vie de la cible (au lieu de 20 %).",
+				"competences": { "execution": { "pv_cible_max_pourcent": 10 } } }
+		],
+
+		"rempart": [
+			{ "id": "arene_garde_du_corps", "nom": "Garde du corps", "icone": "⛨",
+				"texte": "Charge protectrice : 6 s de recharge en moins et dure 4 s de plus. Pour le 2 contre 2.",
+				"competences": { "charge_protectrice": { "recharge": -6, "duree": 4 } } },
+			{ "id": "arene_onde_paralysante", "nom": "Onde paralysante", "icone": "✺",
+				"texte": "Onde de choc : étourdit 0,5 s de plus et 3 s de recharge en moins.",
+				"competences": { "onde_de_choc": { "etourdit": 0.5, "recharge": -3 } } },
+			{ "id": "arene_bastion_vivant", "nom": "Bastion vivant", "icone": "▣",
+				"texte": "+6 % de protection.",
+				"stats": { "reduction_pourcent": 6 } },
+			{ "id": "arene_contre_attaque", "nom": "Contre-attaque", "icone": "⚔",
+				"texte": "+7 % de dégâts et +3 % de coups critiques.",
+				"stats": { "degats_pourcent": 7, "critique_pourcent": 3 } },
+			{ "id": "arene_inflexible", "nom": "Inflexible", "icone": "⛓",
+				"texte": "Étourdissements, immobilisations et ralentissements durent 35 % de moins sur toi.",
+				"stats": { "resistance_controles_pourcent": 35 } },
+			{ "id": "arene_coup_ecrasant", "nom": "Coup écrasant", "icone": "✚",
+				"texte": "Tes coups réduisent de 25 % les soins reçus par ta cible pendant 6 s.",
+				"stats": { "blessure_pourcent": 25 } }
+		],
+
+		"traqueur": [
+			{ "id": "arene_fleches_barbelees", "nom": "Flèches barbelées", "icone": "✚",
+				"texte": "Tes coups réduisent de 30 % les soins reçus par ta cible pendant 6 s. Idéal contre un Tisseur.",
+				"stats": { "blessure_pourcent": 30 } },
+			{ "id": "arene_oeil_de_faucon", "nom": "Œil de faucon", "icone": "◎",
+				"texte": "+8 % de coups critiques.",
+				"stats": { "critique_pourcent": 8 } },
+			{ "id": "arene_tir_de_precision", "nom": "Tir de précision", "icone": "➶",
+				"texte": "Tir visé : 0,4 s d'incantation en moins et +5 dégâts.",
+				"competences": { "tir_vise": { "incantation": -0.4, "degats": 5 } } },
+			{ "id": "arene_pieges_rapides", "nom": "Pièges rapides", "icone": "⊗",
+				"texte": "Piège à collet : 7 s de recharge en moins.",
+				"competences": { "piege_a_collet": { "recharge": -7 } } },
+			{ "id": "arene_desengagement", "nom": "Désengagement", "icone": "↶",
+				"texte": "Repli : 5 s de recharge en moins, et les ennemis restent ralentis 1,5 s de plus.",
+				"competences": { "repli": { "recharge": -5, "ralenti.duree": 1.5 } } },
+			{ "id": "arene_insaisissable", "nom": "Insaisissable", "icone": "⛓",
+				"texte": "Étourdissements, immobilisations et ralentissements durent 30 % de moins sur toi.",
+				"stats": { "resistance_controles_pourcent": 30 } }
+		],
+
+		"tisseur": [
+			{ "id": "arene_fils_renforces", "nom": "Fils renforcés", "icone": "❋",
+				"texte": "+12 % de soins donnés.",
+				"stats": { "soins_pourcent": 12 } },
+			{ "id": "arene_incantation_vive", "nom": "Incantation vive", "icone": "⌛",
+				"texte": "Fil de vie : 0,4 s d'incantation en moins.",
+				"competences": { "fil_de_vie": { "incantation": -0.4 } } },
+			{ "id": "arene_stase", "nom": "Stase", "icone": "↺",
+				"texte": "Retour en arrière : 7 s de recharge en moins.",
+				"competences": { "retour_en_arriere": { "recharge": -7 } } },
+			{ "id": "arene_bulle_etouffante", "nom": "Bulle étouffante", "icone": "◌",
+				"texte": "Bulle lente : dure 2 s de plus et ralentit davantage (60 % → 70 %).",
+				"competences": { "bulle_lente": { "duree": 2, "vitesse": -0.1 } } },
+			{ "id": "arene_temps_suspendu", "nom": "Temps suspendu", "icone": "⛓",
+				"texte": "Étourdissements, immobilisations et ralentissements durent 35 % de moins sur toi.",
+				"stats": { "resistance_controles_pourcent": 35 } },
+			{ "id": "arene_eclats_tranchants", "nom": "Éclats tranchants", "icone": "✦",
+				"texte": "Tes coups réduisent de 25 % les soins reçus par ta cible pendant 6 s. Contre un autre Tisseur.",
+				"stats": { "blessure_pourcent": 25 } }
+		]
+	},
+
 	"titres": {
 		"_aide": "Titres affichés sous le nom du personnage. condition : niveau (atteindre un niveau), etape (« ile:id d'étape » de la quête principale), secondaire (id d'une quête secondaire), secondaires (toutes celles d'une île), evenements (nombre d'événements publics réussis sur une île), tuer (type d'ennemi, ou début du nom du type) avec nombre. Arène : arene_victoires (nombre de victoires), arene_cote (meilleure cote atteinte), arene_rang (meilleure place au classement, 1 = premier).",
 		"liste": [
