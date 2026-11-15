@@ -301,6 +301,12 @@ const MOYENNES_TEXTURES := {
 	"wood_planks": Color(0.47, 0.35, 0.22),
 	"granite_tile": Color(0.3, 0.31, 0.31),
 	"white_rough_plaster": Color(0.72, 0.71, 0.68),
+	"metal_plate_02": Color(0.33, 0.28, 0.24),
+	"concrete_wall_006": Color(0.36, 0.32, 0.27),
+	"brushed_concrete_03": Color(0.42, 0.37, 0.3),
+	"dark_wooden_planks": Color(0.33, 0.29, 0.25),
+	"bark_brown_02": Color(0.37, 0.34, 0.25),
+	"japanese_stone_wall": Color(0.49, 0.47, 0.44),
 }
 
 
