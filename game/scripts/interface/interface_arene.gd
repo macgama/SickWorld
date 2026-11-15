@@ -5,7 +5,9 @@ extends CanvasLayer
 ## - pendant un combat : le bandeau en haut (qui contre qui, temps restant), le compte
 ##   à rebours 3… 2… 1… « COMBAT ! » et le résultat (Victoire, Défaite, Égalité) ;
 ## - la fenêtre de l'ARÈNE (touche H, /arene ou la borne de l'entrée) : files
-##   d'attente 1 contre 1 et 2 contre 2, combat en cours, classement.
+##   d'attente 1 contre 1 et 2 contre 2, combat en cours, notre cote et la prochaine
+##   récompense, classement ;
+## - à la fin d'un combat : la cote gagnée ou perdue, les médailles et les objets reçus.
 
 const Style := preload("res://scripts/interface/style_menu.gd")
 ## On voit le bandeau du combat jusqu'à cette distance du terrain (mètres).
@@ -22,6 +24,9 @@ var _bandeau: PanelContainer
 var _titre_bandeau: Label
 var _temps_bandeau: Label
 var _annonce: Label
+var _recompense: Label
+var _recompense_fin := 0.0
+var _bilan_fenetre: Label
 var _fenetre: PanelContainer
 var _etat_fenetre: Label
 var _boutons_files: Dictionary = {}
@@ -53,6 +58,7 @@ func _ready() -> void:
 	JcJ.defi_change.connect(_sur_defi)
 	JcJ.file_change.connect(func(_f): _rafraichir_fenetre())
 	JcJ.classement_recu.connect(_remplir_classement)
+	JcJ.recompense_recue.connect(_sur_recompense)
 	_sur_etat()
 	if JcJ.defi_de != "":
 		_sur_defi(JcJ.defi_de, JcJ.defi_format)
@@ -135,6 +141,40 @@ func _construire_annonce() -> void:
 	_annonce.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_annonce.visible = false
 	_racine.add_child(_annonce)
+	_recompense = Label.new()
+	_recompense.set_anchors_preset(Control.PRESET_CENTER)
+	_recompense.grow_horizontal = Control.GROW_DIRECTION_BOTH
+	_recompense.grow_vertical = Control.GROW_DIRECTION_BOTH
+	_recompense.position.y -= 10
+	_recompense.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_recompense.add_theme_font_size_override("font_size", 24)
+	_recompense.add_theme_constant_override("outline_size", 8)
+	_recompense.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.85))
+	_recompense.add_theme_color_override("font_color", OR)
+	_recompense.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_recompense.visible = false
+	_racine.add_child(_recompense)
+
+
+## Fin de notre combat : cote, médailles, objets (sous « VICTOIRE ! » / « DÉFAITE »).
+func _sur_recompense(infos: Dictionary) -> void:
+	_recompense.text = texte_recompense(infos)
+	_recompense.visible = true
+	_recompense_fin = Regles.maintenant() + 6.0
+
+
+static func texte_recompense(infos: Dictionary) -> String:
+	if not infos.get("compte", true):
+		return "Combat amical : il ne compte pas pour le classement"
+	var lignes: Array[String] = []
+	var v := int(infos.get("variation", 0))
+	var ligne := "Cote %d  (%s%d)" % [int(infos.get("cote", 0)), "+" if v >= 0 else "", v]
+	if int(infos.get("medailles", 0)) > 0:
+		ligne += "   ·   +%d médaille%s" % [int(infos["medailles"]), "s" if int(infos["medailles"]) > 1 else ""]
+	lignes.append(ligne)
+	for nom in infos.get("objets", []):
+		lignes.append("Récompense : " + String(nom))
+	return "\n".join(PackedStringArray(lignes))
 
 
 func _sur_etat() -> void:
@@ -188,6 +228,9 @@ func _process(_delta: float) -> void:
 		match phase:
 			"preparation":
 				_temps_bandeau.text = "Préparez-vous…"
+				if bool(JcJ.reglages.get("equilibrage", {}).get("actif", true)):
+					_titre_bandeau.text += "\nCombat équilibré : niveau %d et même équipement pour tous" \
+							% int(JcJ.reglages.get("equilibrage", {}).get("niveau_reference", 20))
 			"combat":
 				_temps_bandeau.text = "%d:%02d" % [int(t) / 60, int(t) % 60]
 			_:
@@ -200,6 +243,8 @@ func _process(_delta: float) -> void:
 			_annonce_fin = Regles.maintenant() + 0.3
 	if _annonce.visible and Regles.maintenant() > _annonce_fin:
 		_annonce.visible = false
+	if _recompense.visible and Regles.maintenant() > _recompense_fin:
+		_recompense.visible = false
 	var cible := _joueur_cible()
 	_bouton_defier.visible = cible != null and _arene_ici() and not JcJ.je_me_bats() \
 			and not JcJ.se_bat(String(cible.get_node("Combat").nom_affiche))
@@ -255,7 +300,9 @@ func _construire_fenetre() -> void:
 	colonne.add_child(_etiquette("ARÈNE DE LA BAIE · 闘技場", 22, ROUGE))
 	var aide := _etiquette("Affronte d'autres agents sans rien risquer : à la fin du combat, tout le monde est soigné, "
 			+ "sans pénalité. Gagne en désynchronisant tous tes adversaires (ou en gardant le plus de vie après 3 minutes). "
-			+ "Pour défier un joueur précis : cible-le, puis « Défier » (ou /duel Nom).", 14, Style.TEXTE_DOUX)
+			+ "Pour défier un joueur précis : cible-le, puis « Défier » (ou /duel Nom).\n"
+			+ "Combats équilibrés : tout le monde se bat au même niveau, avec le même équipement. "
+			+ "Chaque combat rapporte des médailles (à échanger auprès d'Akane) et fait bouger ta cote.", 14, Style.TEXTE_DOUX)
 	aide.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	aide.custom_minimum_size.x = 540
 	colonne.add_child(aide)
@@ -274,7 +321,12 @@ func _construire_fenetre() -> void:
 	_bouton_quitter_file = _petit_bouton("Quitter la file", JcJ.desinscrire)
 	colonne.add_child(_bouton_quitter_file)
 	_bouton_quitter_file.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
-	colonne.add_child(Style.titre_section("Classement (victoires)"))
+	colonne.add_child(Style.titre_section("Ta cote"))
+	_bilan_fenetre = _etiquette("", 15, Style.TEXTE)
+	_bilan_fenetre.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_bilan_fenetre.custom_minimum_size.x = 540
+	colonne.add_child(_bilan_fenetre)
+	colonne.add_child(Style.titre_section("Classement (cote)"))
 	_liste_classement = VBoxContainer.new()
 	_liste_classement.add_theme_constant_override("separation", 2)
 	colonne.add_child(_liste_classement)
@@ -317,18 +369,40 @@ func _rafraichir_fenetre() -> void:
 	_bouton_quitter_file.visible = JcJ.ma_file != ""
 
 
+## Le texte « Ta cote » de la fenêtre, d'après notre bilan envoyé par le serveur.
+static func texte_bilan(b: Dictionary) -> String:
+	if b.is_empty():
+		return "…"
+	var lignes: Array[String] = []
+	var rang := "pas encore classé (%d combat%s sur %d)" % [int(b["combats"]), "s" if int(b["combats"]) > 1 else "",
+			int(b["combats_pour_etre_classe"])]
+	if int(b["rang"]) > 0:
+		rang = "1er du classement" if int(b["rang"]) == 1 else "%de du classement" % int(b["rang"])
+	lignes.append("Cote %d   ·   %s   ·   %d victoire%s, %d défaite%s" % [int(b["cote"]), rang,
+			int(b["victoires"]), "s" if int(b["victoires"]) > 1 else "", int(b["defaites"]), "s" if int(b["defaites"]) > 1 else ""])
+	lignes.append("Médailles gagnées aujourd'hui : %d / %d" % [int(b["medailles_jour"]), int(b["medailles_max"])])
+	var p: Dictionary = b.get("prochain", {})
+	if not p.is_empty():
+		lignes.append("Prochaine récompense à %d de cote : %s et le titre « %s »." % [int(p["cote"]), p["objet"], p["titre"]])
+	else:
+		lignes.append("Tu as atteint toutes les récompenses de cote. Reste la 1re place du classement !")
+	return "\n".join(PackedStringArray(lignes))
+
+
 func _remplir_classement(liste: Array) -> void:
+	_bilan_fenetre.text = texte_bilan(JcJ.mon_bilan)
 	for enfant in _liste_classement.get_children():
 		enfant.free()
 	if liste.is_empty():
-		_liste_classement.add_child(_etiquette("Personne n'a encore gagné de combat. La place est à prendre !", 14, Style.TEXTE_DOUX))
+		_liste_classement.add_child(_etiquette("Personne n'a encore combattu. La place est à prendre !", 14, Style.TEXTE_DOUX))
 		return
 	for i in liste.size():
 		var l: Dictionary = liste[i]
-		var texte := "%d.  %s   —   %d victoire%s, %d défaite%s   (duels %d-%d · 2c2 %d-%d)" % [i + 1, l["nom"],
-				l["victoires"], "s" if int(l["victoires"]) > 1 else "", l["defaites"], "s" if int(l["defaites"]) > 1 else "",
-				l["victoires_1c1"], l["defaites_1c1"], l["victoires_2c2"], l["defaites_2c2"]]
-		_liste_classement.add_child(_etiquette(texte, 14, OR if i == 0 else Style.TEXTE))
+		var place := "%d." % (i + 1) if l.get("classe", false) else "–"
+		var texte := "%s  %s   —   cote %d   ·   %d victoire%s, %d défaite%s   (duels %d-%d · 2c2 %d-%d)" % [place, l["nom"],
+				int(l.get("cote", 1500)), l["victoires"], "s" if int(l["victoires"]) > 1 else "", l["defaites"],
+				"s" if int(l["defaites"]) > 1 else "", l["victoires_1c1"], l["defaites_1c1"], l["victoires_2c2"], l["defaites_2c2"]]
+		_liste_classement.add_child(_etiquette(texte, 14, OR if i == 0 and l.get("classe", false) else Style.TEXTE))
 
 
 # --- Touches ------------------------------------------------------------------------------

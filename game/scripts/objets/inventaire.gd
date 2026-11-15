@@ -36,6 +36,9 @@ var _fin_changement := 0.0
 var sauvegarde_active := true
 ## Serveur : prochaine vérification de la fin du repas.
 var _verif_repas := 0.0
+## Vrai pendant un combat d'Arène : les bonus sont ceux du combat équilibré (même niveau,
+## même équipement standard pour tous, voir Progression.bonus_equilibre et data/arene.json).
+var mode_arene := false
 
 @onready var joueur: Joueur = get_parent()
 @onready var combat: Combattant = get_parent().get_node("Combat")
@@ -271,7 +274,24 @@ func _appliquer() -> void:
 	change.emit()
 
 
+## Serveur : passe en combat équilibré (Arène) ou en revient.
+func definir_mode_arene(actif: bool) -> void:
+	if not multiplayer.is_server() or mode_arene == actif:
+		return
+	mode_arene = actif
+	Regles.chez(joueur.id_reseau(), self, "_recevoir_mode_arene", [actif])
+	if not etat.is_empty():
+		_appliquer()
+
+
 func _calculer_bonus() -> void:
+	if mode_arene:
+		var eq: Dictionary = JcJ.reglages.get("equilibrage", {})
+		if bool(eq.get("actif", true)):
+			bonus = Progression.bonus_equilibre(Progression.donnees(), eq, combat_joueur.pv_de_base())
+			combat_joueur.modifs_competences = bonus["competences"]
+			combat_joueur.definir_barre(etat.get("barre", []))
+			return
 	bonus = Objets.bonus(cat(), etat.get("equipement", {}))
 	# Le repas du Chef Goro s'ajoute à l'équipement.
 	var repas := Metiers.stats_repas(cat(), etat, heure())
@@ -295,6 +315,14 @@ func _dire(texte: String) -> void:
 @rpc("authority", "call_remote", "reliable")
 func _recevoir_etat(nouvel_etat: Dictionary) -> void:
 	etat = nouvel_etat
+	if not multiplayer.is_server():
+		_calculer_bonus()
+	change.emit()
+
+
+@rpc("authority", "call_remote", "reliable")
+func _recevoir_mode_arene(actif: bool) -> void:
+	mode_arene = actif
 	if not multiplayer.is_server():
 		_calculer_bonus()
 	change.emit()
