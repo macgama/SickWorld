@@ -753,7 +753,11 @@ func _mettre_a_jour_liste() -> void:
 func _placer() -> void:
 	var haut := 268.0
 	var partie := get_tree().get_first_node_in_group("partie")
-	var hud := partie.get_node_or_null("Interface") if partie != null else null
+	var hud: Node = null
+	if partie != null:
+		hud = partie.get_node_or_null("Interface")
+		if hud == null and partie.get_parent() != null:
+			hud = partie.get_parent().get_node_or_null("Interface")
 	var aide = hud.get("_aide") if hud != null else null
 	if aide is Control and aide.is_visible_in_tree():
 		haut = maxf(haut, aide.get_global_rect().end.y + 10.0)
