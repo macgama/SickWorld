@@ -22,6 +22,8 @@ Ton personnage progresse de trois façons : il **monte de niveau**, il place des
 
 Chaque classe a **3 voies** de **4 talents**. Les talents du haut sont ouverts tout de suite ; pour les suivants, il faut avoir mis assez de points **dans la même voie** : 3 points pour le palier 2, 6 pour le palier 3, 8 pour le dernier talent (le plus fort). Une voie complète coûte 9 points : au niveau 20 (19 points), tu peux finir deux voies et commencer la troisième.
 
+Dans l'Arène JcJ, ces talents sont mis de côté : on y utilise des **talents d'Arène** à part (onglet *Arène* de la même fenêtre, 3 à choisir parmi 6, voir [l'Arène JcJ](l-arene-jcj.md)).
+
 Clique sur un talent pour y mettre un point. Le bouton **Oublier mes talents** rend tous les points, gratuitement, quand tu n'es pas en combat. Changer de classe remet aussi les talents à zéro.
 
 

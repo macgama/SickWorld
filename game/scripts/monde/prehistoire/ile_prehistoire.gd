@@ -356,6 +356,17 @@ func _mat_pbr(id: String, couleur: Color, rugosite := 0.9, taille_motif := 2.0) 
 		m.albedo_texture = tex
 		m.normal_enabled = true
 		m.normal_texture = _texture(id, "nor_gl")
+		# Carte « arm » : ombres de contact dans les creux (rouge) et rugosité (vert),
+		# pour que les joints restent mats et que la pierre polie brille un peu.
+		var arm := _texture(id, "arm")
+		if arm != null:
+			m.ao_enabled = true
+			m.ao_texture = arm
+			m.ao_texture_channel = BaseMaterial3D.TEXTURE_CHANNEL_RED
+			m.ao_light_affect = 0.3
+			m.roughness_texture = arm
+			m.roughness_texture_channel = BaseMaterial3D.TEXTURE_CHANNEL_GREEN
+			m.roughness = minf(1.0, rugosite + 0.1)
 		m.uv1_triplanar = true
 		m.uv1_scale = Vector3.ONE / taille_motif
 	_materiaux[cle] = m

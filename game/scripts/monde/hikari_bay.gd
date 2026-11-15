@@ -274,8 +274,59 @@ func _mat(nom: String) -> Material:
 			m.roughness = 0.1
 		_:
 			m.albedo_color = Color.MAGENTA
-	_materiaux[nom] = m
-	return m
+	# Version réaliste (texture Poly Haven) quand elle est téléchargée : même couleur
+	# moyenne, mais avec le grain, les rayures et le relief du vrai matériau.
+	var reel := _version_texturee(nom, m)
+	_materiaux[nom] = reel if reel != null else m
+	return _materiaux[nom]
+
+
+## Matériaux simples qui ont une version texturée : nom -> [textures possibles, taille du motif (m)].
+const TEXTURES_SIMPLES := {
+	"metal": [["metal_plate_02", "metal_plate"], 1.2],
+	"beton": [["concrete_wall_006", "brushed_concrete_03", "brushed_concrete"], 2.5],
+	"bois": [["dark_wooden_planks", "wood_planks"], 1.5],
+	"tronc": [["bark_brown_02"], 0.8],
+	"pierre": [["japanese_stone_wall", "granite_tile"], 2.0],
+	"blanc": [["white_rough_plaster"], 2.0],
+}
+
+## Couleur moyenne (sRGB) de chaque texture : on la corrige pour retrouver la couleur voulue.
+const MOYENNES_TEXTURES := {
+	"metal_plate": Color(0.24, 0.2, 0.11),
+	"brushed_concrete": Color(0.42, 0.39, 0.35),
+	"wood_planks": Color(0.47, 0.35, 0.22),
+	"granite_tile": Color(0.3, 0.31, 0.31),
+	"white_rough_plaster": Color(0.72, 0.71, 0.68),
+}
+
+
+func _version_texturee(nom: String, simple: StandardMaterial3D) -> Material:
+	if not TEXTURES_SIMPLES.has(nom):
+		return null
+	var reglage: Array = TEXTURES_SIMPLES[nom]
+	for id: String in reglage[0]:
+		var couleur := _texture(id, "Diffuse")
+		if couleur == null:
+			continue
+		var m := ORMMaterial3D.new()
+		m.albedo_texture = couleur
+		var moyenne: Color = MOYENNES_TEXTURES.get(id, Color(0.5, 0.5, 0.5))
+		var voulu := simple.albedo_color
+		m.albedo_color = Color(
+			clampf(voulu.r / maxf(moyenne.r, 0.02), 0.0, 2.5),
+			clampf(voulu.g / maxf(moyenne.g, 0.02), 0.0, 2.5),
+			clampf(voulu.b / maxf(moyenne.b, 0.02), 0.0, 2.5))
+		m.normal_enabled = true
+		m.normal_texture = _texture(id, "nor_gl")
+		m.orm_texture = _texture(id, "arm")
+		# La carte « arm » donne la rugosité et le métal ; on garde le caractère voulu.
+		m.metallic = 1.0 if simple.metallic > 0.5 else 0.0
+		m.roughness = 1.0
+		m.uv1_triplanar = true
+		m.uv1_scale = Vector3.ONE / float(reglage[1])
+		return m
+	return null
 
 
 func _neon(couleur: Color, energie := 4.0) -> StandardMaterial3D:

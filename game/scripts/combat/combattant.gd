@@ -32,6 +32,13 @@ var en_combat_synchro := false
 var bonus_degats := 0.0
 var bonus_reduction := 0.0
 var bonus_critique := 0.0
+## Statistiques propres au JcJ (talents d'Arène), en pourcentage :
+## contrôles subis plus courts, soins donnés en plus, vol de vie, et « blessure »
+## (nos coups réduisent les soins reçus par la cible pendant quelques secondes).
+var bonus_resistance_controles := 0.0
+var bonus_soins := 0.0
+var bonus_vol_de_vie := 0.0
+var bonus_blessure := 0.0
 ## Multiplie la menace que ce combattant génère (le Rempart en produit plus, voir classes.json).
 var facteur_menace := 1.0
 ## Vrai pour les gros ennemis (boss) : ni étourdis, ni immobilisés.
@@ -145,6 +152,9 @@ func reanimer(pourcentage := 100.0) -> void:
 func ajouter_effet(id: String, duree: float, donnees: Dictionary = {}, source: Combattant = null) -> void:
 	if not est_vivant():
 		return
+	# Un ralentissement venu d'un autre combattant dure moins avec de la résistance aux contrôles.
+	if id == "ralenti" and source != null and source != self:
+		duree *= facteur_controles()
 	var effet := donnees.duplicate()
 	effet["fin"] = Regles.maintenant() + duree
 	effet["source"] = source
@@ -197,9 +207,23 @@ func ajouter_controle(id: String, duree: float, source: Combattant = null) -> fl
 		return 0.0
 	if effets.has("resistance_" + id):
 		duree *= 0.5
+	duree *= facteur_controles()
 	ajouter_effet(id, duree, {}, source)
 	ajouter_effet("resistance_" + id, duree + RESISTANCE_CONTROLES)
 	return duree
+
+
+## Multiplicateur de durée des contrôles subis (1 = normal ; 0,7 avec 30 % de résistance).
+func facteur_controles() -> float:
+	return 1.0 - clampf(bonus_resistance_controles, 0.0, 75.0) / 100.0
+
+
+## Multiplicateur des soins reçus (une « blessure » les réduit ; on garde la plus forte).
+func facteur_soins_recus() -> float:
+	var m := 1.0
+	for effet in effets.values():
+		m = minf(m, float(effet.get("soins_recus", 1.0)))
+	return m
 
 
 ## Vie qu'on avait il y a « secondes » secondes (serveur).
