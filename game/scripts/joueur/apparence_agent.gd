@@ -45,10 +45,17 @@ const GesteArme := preload("res://scripts/joueur/geste_arme.gd")
 const DUREE_GESTE_ARME := 0.75
 ## Moment du geste calculé (0 à 1) où l'arme passe de la main au dos / à la ceinture.
 const MOMENT_ECHANGE := 0.45
-## Animations Mixamo de l'arme : [début, fin] (secondes) de la partie jouée, vitesse de
-## lecture, et moment (secondes dans l'animation) où la main attrape / lâche l'arme.
-## Une animation absente de ce tableau est jouée en entier, échange à 45 %.
-const ANIMS_ARME := {}
+## Animations Mixamo de l'arme (mesurées sur les fichiers, homme et femme ont le même rythme) :
+## [début, fin] (secondes) de la partie jouée, vitesse de lecture, moment (secondes dans
+## l'animation) où la main attrape / lâche l'arme, et durée d'approche (secondes) : les
+## animations « dos » commencent la main déjà sur la poignée, le bras y monte d'abord en
+## douceur pendant l'approche. Une animation absente du tableau est jouée en entier.
+const ANIMS_ARME := {
+	"sortir_arme_dos": [0.0, 0.8, 1.0, 0.0, 0.3],       # « Draw A Great Sword 2 »
+	"ranger_arme_dos": [0.0, 1.13, 1.2, 0.0, 0.32],     # « Sheath A Great Sword 2 »
+	"sortir_arme_hanche": [0.15, 1.25, 1.35, 0.6, 0.0], # « Withdrawing Sword »
+	"ranger_arme_hanche": [0.2, 1.62, 1.4, 1.25, 0.0],  # « Sheathing Sword »
+}
 
 ## Émis quand le personnage sort son arme tout seul pour attaquer.
 signal arme_sortie_pour_attaquer
@@ -98,6 +105,9 @@ var _duree_geste := DUREE_GESTE_ARME
 var _moment_echange := MOMENT_ECHANGE
 ## Animation Mixamo du geste en cours : [début, fin] en secondes (vide = geste calculé).
 var _plage_anim := []
+## Vitesse de lecture et durée d'approche (secondes) de l'animation en cours.
+var _vitesse_anim := 1.0
+var _approche := 0.0
 var _sans_rangement := 0.0
 var _modif_geste: SkeletonModifier3D
 
@@ -474,12 +484,15 @@ func _preparer_animation_arme(ranger: bool) -> bool:
 		_moment_echange = MOMENT_ECHANGE
 		return false
 	var anim := _lecteur.get_animation(cle)
-	var reglage: Array = ANIMS_ARME.get(nom, [0.0, anim.length, 1.0, anim.length * 0.45])
+	var reglage: Array = ANIMS_ARME.get(nom, [0.0, anim.length, 1.0, anim.length * 0.45, 0.0])
 	var debut := float(reglage[0])
 	var fin := minf(float(reglage[1]), anim.length)
 	_plage_anim = [debut, fin]
-	_duree_geste = maxf(0.1, (fin - debut) / float(reglage[2]))
-	_moment_echange = clampf((float(reglage[3]) - debut) / maxf(0.01, fin - debut), 0.05, 0.95)
+	_vitesse_anim = float(reglage[2])
+	_approche = float(reglage[4])
+	_duree_geste = maxf(0.1, _approche + (fin - debut) / _vitesse_anim)
+	var echange := _approche + (float(reglage[3]) - debut) / _vitesse_anim
+	_moment_echange = clampf(echange / _duree_geste, 0.0, 0.95)
 	_modif_geste.animation = anim
 	_modif_geste.temps = debut
 	return true
@@ -491,7 +504,7 @@ func _avancer_geste(delta: float) -> void:
 		return
 	var avant := _geste
 	_geste += delta / _duree_geste
-	if avant < _moment_echange and _geste >= _moment_echange and _armes_rangees != _armes_rangees_voulu:
+	if avant <= _moment_echange and _geste >= _moment_echange and _armes_rangees != _armes_rangees_voulu:
 		_armes_rangees = _armes_rangees_voulu
 		_appliquer_equipement()
 	if _geste >= 1.0:
@@ -500,9 +513,17 @@ func _avancer_geste(delta: float) -> void:
 	var t := _geste
 	var poids := 0.0
 	if not _plage_anim.is_empty():
-		# Vraie animation : on la suit presque en entier, avec un fondu au début et à la fin.
-		_modif_geste.temps = lerpf(_plage_anim[0], _plage_anim[1], t)
-		poids = smoothstep(0.0, 0.12, t) * (1.0 - smoothstep(0.85, 1.0, t))
+		# Vraie animation : approche (le bras monte vers la poignée), puis l'animation,
+		# et un fondu à la fin pour rendre la main à la course / l'attente.
+		var ecoule := t * _duree_geste
+		var reste := _duree_geste - ecoule
+		if ecoule < _approche:
+			_modif_geste.temps = _plage_anim[0]
+			poids = smoothstep(0.0, _approche, ecoule)
+		else:
+			_modif_geste.temps = minf(_plage_anim[1], _plage_anim[0] + (ecoule - _approche) * _vitesse_anim)
+			poids = 1.0 if _approche > 0.0 else smoothstep(0.0, 0.15, ecoule)
+		poids *= smoothstep(0.0, 0.22, reste)
 	else:
 		# Geste calculé : le bras monte vite vers l'arme, s'y arrête un instant, puis redescend.
 		poids = smoothstep(0.0, 0.38, t) if t < 0.38 else (1.0 if t < 0.52 else 1.0 - smoothstep(0.52, 1.0, t))

@@ -14,8 +14,9 @@ extends SkeletonModifier3D
 
 ## Direction du bras puis de l'avant-bras pour attraper une arme dans le dos (bras droit).
 const DOS := [Vector3(0.35, 0.8, 0.3), Vector3(-0.3, 0.45, -0.85)]
-## Même chose pour une arme à la ceinture (bras droit).
-const HANCHE := [Vector3(0.35, -0.85, -0.25), Vector3(0.05, -0.75, -0.65)]
+## Même chose pour une arme à la ceinture (bras droit) : elle est portée sur la hanche
+## opposée, la main va la chercher en croisant devant le ventre.
+const HANCHE := [Vector3(-0.1, -0.85, 0.45), Vector3(-0.9, -0.15, 0.3)]
 
 ## Bras qui bougent : « droit » et/ou « gauche » -> « dos » ou « hanche ».
 var bras := {}
@@ -69,9 +70,9 @@ func _process_modification() -> void:
 			_preparer_pistes(squelette)
 		for p in _pistes:
 			squelette.set_bone_pose_rotation(p[1], animation.rotation_track_interpolate(p[0], temps))
+	if animation != null:
+		return   # les deux bras suivent l'animation (l'arme de la main gauche change de place sans geste)
 	for cote: String in bras:
-		if animation != null and cote == "droit":
-			continue   # le bras droit suit l'animation
 		var cible: Array = DOS if bras[cote] == "dos" else HANCHE
 		var nom := "Right" if cote == "droit" else "Left"
 		var miroir := 1.0 if cote == "droit" else -1.0
