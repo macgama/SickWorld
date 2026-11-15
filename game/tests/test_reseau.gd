@@ -60,6 +60,13 @@ func _lancer() -> void:
 	# Inventaire : décidé par le serveur, envoyé seulement à nous.
 	var inv = joueur.get_node("Inventaire")
 	_verifier(not inv.etat.is_empty(), "le serveur nous envoie notre inventaire")
+	# Progression : niveau, XP et titre décidés par le serveur.
+	var prog = joueur.get_node("Progression")
+	_verifier(prog.etat.has("xp") and prog.etat["titres"].has("recrue"), "le serveur nous envoie notre progression")
+	_verifier(String(prog.titre_affiche) == "Recrue de la Vigie", "notre titre est partagé par le serveur")
+	prog.prendre_talent("lame_affutee")
+	await _secondes(1.0)
+	_verifier(not prog.etat["talents"].has("lame_affutee"), "le serveur refuse un talent sans point")
 	var capuche: int = Objets.trouver(inv.etat, "capuche_chasseur")
 	if capuche >= 0:
 		inv.utiliser(capuche)

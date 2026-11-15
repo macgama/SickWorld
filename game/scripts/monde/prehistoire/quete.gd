@@ -339,6 +339,10 @@ func _appliquer_apres(e: Dictionary, anime: bool) -> void:
 		_appliquer_effet(effet, anime)
 	if anime and e.has("recompense"):
 		_donner_recompense(e["recompense"])
+	if anime:
+		var progression := ProgressionJoueur.du_joueur_local(get_tree())
+		if progression != null:
+			progression.etape_faite(ile, e)
 	if anime and e.has("recit"):
 		_annoncer(e["recit"].get("titre", ""), e["recit"].get("texte", ""))
 	if anime and e.get("fin_chapitre", false):

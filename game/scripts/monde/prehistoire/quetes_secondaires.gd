@@ -393,12 +393,15 @@ func _terminer_etape(q: Dictionary) -> void:
 		etat[q.id] = FINIE
 		if q.has("recompense"):
 			_quete._donner_recompense(q.recompense)
+		# Le titre lui-même est donné par la progression (data/progression.json).
 		if q.has("titre_obtenu") and not titres.has(q.titre_obtenu):
 			titres.append(q.titre_obtenu)
-			_quete.annoncer("Titre obtenu", "« %s »" % q.titre_obtenu)
 		_quete.annoncer("Quête terminée", q.titre)
 	else:
 		_commencer_etape(q, true)
+	var progression := ProgressionJoueur.du_joueur_local(get_tree())
+	if progression != null:
+		progression.secondaire_faite(ile, String(q.id), String(e.get("ou", "")), etat_quete(q.id) == FINIE)
 	_sauvegarder()
 	quete_changee.emit(q.id)
 	_rafraichir()
