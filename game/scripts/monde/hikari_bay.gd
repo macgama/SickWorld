@@ -26,6 +26,7 @@ const Residences := preload("res://scripts/monde/quartier_residences.gd")
 const Arene := preload("res://scripts/monde/quartier_arene.gd")
 const Passants := preload("res://scripts/monde/quartier_passants.gd")
 const Vie := preload("res://scripts/monde/quartier_vie.gd")
+const VieAmbiante := preload("res://scripts/monde/vie/vie_ambiante.gd")
 
 ## Quand c'est coché, la Préhistoire est réparée : la statue du Gardien est
 ## intacte. Sinon, elle est fissurée et entourée d'éclats de fracture.
@@ -200,6 +201,8 @@ func reconstruire() -> void:
 	Arene.construire(self)
 	Passants.construire(self)
 	Vie.construire(self)
+	# Foule, bateaux, pont, avions, objets de rue (data/vie_ambiante.json, section hikari_bay).
+	VieAmbiante.installer(self, "hikari_bay")
 	if not Engine.is_editor_hint():
 		for zone: Area3D in qg.get("portails", []):
 			zone.body_entered.connect(_sur_portail.bind(zone))
