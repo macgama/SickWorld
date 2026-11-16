@@ -1,10 +1,19 @@
 @tool
 extends Node3D
-## Apparence du poulpe (île de Grèce), sculptée en code : un manteau en forme de
-## sac, deux gros yeux, et huit bras faits de segments qui ondulent chacun à son rythme.
+## Apparence du poulpe (île de Grèce). On utilise le vrai modèle 3D (« Octopus with
+## Textured Reddish-Brown Skin », Pigcraft, CC-BY, allégé à 40 000 triangles : voir
+## assets/animaux/CREDITS.md). Il n'a pas de squelette : ses bras ondulent grâce au
+## shader shaders/poulpe_bras.gdshader. S'il manque, on retombe sur le poulpe sculpté
+## en code : un manteau en forme de sac, deux gros yeux, et huit bras en segments.
 ## Le poulpe fracturé de la crique est bien plus grand qu'un vrai (près de 4 m de bras).
 ##
 ## Appelé par apparence_loup.gd (même interface : animer, mordre, colorer).
+
+const MODELE := "res://assets/animaux/poulpe/poulpe.glb"
+## Le modèle mesure 0,98 m de bout de bras à bout de bras : on l'agrandit.
+const ECHELLE_MODELE := 2.6
+## Il est centré sur son origine : sa base est 0,42 m plus bas.
+const BASE_MODELE := 0.42
 
 var _corps: Node3D
 var _manteau: Node3D
@@ -12,10 +21,64 @@ var _bras: Array = []
 var _phase := 0.0
 var _frappe := 0.0
 static var _peau: StandardMaterial3D
+# Vrai modèle.
+var _modele: Node3D
+var _shader: ShaderMaterial
+var _affaisse := 0.0
+static var _taches: NoiseTexture2D
 
 
 func _ready() -> void:
-	_construire()
+	if ResourceLoader.exists(MODELE):
+		_construire_modele()
+	else:
+		_construire()
+
+
+func _construire_modele() -> void:
+	for enfant in get_children():
+		enfant.free()
+	_corps = Node3D.new()
+	_corps.name = "Corps"
+	add_child(_corps)
+	_modele = (load(MODELE) as PackedScene).instantiate()
+	# Sa face regarde vers +X : on la tourne vers -Z (l'avant du jeu).
+	_modele.rotation.y = PI / 2
+	_modele.scale = Vector3.ONE * ECHELLE_MODELE
+	# Posé sur le haut-fond, le bas des bras un peu dans l'eau.
+	_modele.position.y = BASE_MODELE * ECHELLE_MODELE - 0.12
+	_corps.add_child(_modele)
+	for mi in _modele.find_children("*", "MeshInstance3D", true, false):
+		var m := mi as MeshInstance3D
+		var source := m.get_active_material(0) as BaseMaterial3D
+		_shader = ShaderMaterial.new()
+		_shader.shader = load("res://shaders/poulpe_bras.gdshader")
+		if source != null:
+			_shader.set_shader_parameter("couleur", source.albedo_texture)
+			_shader.set_shader_parameter("normales", source.normal_texture)
+			_shader.set_shader_parameter("rugosite_metal", source.roughness_texture)
+		_shader.set_shader_parameter("taches", _texture_taches())
+		# Le centre du corps, d'après la boîte du maillage (le manteau n'est pas tout à fait au milieu).
+		var boite := m.get_aabb()
+		_shader.set_shader_parameter("centre", Vector3(boite.get_center().x, boite.position.y, boite.get_center().z))
+		m.material_override = _shader
+		# Les bras bougent : on élargit la boîte pour qu'il ne disparaisse pas au bord de l'écran.
+		m.extra_cull_margin = 0.5
+		m.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON
+
+
+static func _texture_taches() -> NoiseTexture2D:
+	if _taches == null:
+		_taches = NoiseTexture2D.new()
+		_taches.width = 256
+		_taches.height = 256
+		_taches.seamless = true
+		var n := FastNoiseLite.new()
+		n.noise_type = FastNoiseLite.TYPE_CELLULAR
+		n.frequency = 0.05
+		n.cellular_return_type = FastNoiseLite.RETURN_CELL_VALUE
+		_taches.noise = n
+	return _taches
 
 
 static func _materiau() -> StandardMaterial3D:
@@ -161,6 +224,8 @@ func _poser(phase: float, coup: float, t: float) -> void:
 func colorer(allie: bool) -> void:
 	if not allie:
 		return
+	if _shader != null:
+		_shader.set_shader_parameter("fracture", 0.0)
 	var lueur := StandardMaterial3D.new()
 	lueur.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	lueur.blend_mode = BaseMaterial3D.BLEND_MODE_ADD
@@ -175,6 +240,9 @@ func mordre() -> void:
 
 func animer(delta: float, vitesse: float, mort: bool) -> void:
 	if _corps == null:
+		return
+	if _shader != null:
+		_animer_modele(delta, vitesse, mort)
 		return
 	var t := Time.get_ticks_msec() * 0.001
 	if mort:
@@ -192,3 +260,17 @@ func animer(delta: float, vitesse: float, mort: bool) -> void:
 	_manteau.scale = Vector3.ONE * (1.0 + sin(t * 1.8) * 0.04)
 	_corps.position.y = 0.35 + sin(t * 1.1) * 0.05
 	_poser(_phase, coup, t)
+
+
+func _animer_modele(delta: float, vitesse: float, mort: bool) -> void:
+	_affaisse = move_toward(_affaisse, 1.0 if mort else 0.0, delta * 1.5)
+	_shader.set_shader_parameter("affaisse", _affaisse)
+	if mort:
+		_shader.set_shader_parameter("frappe", 0.0)
+		return
+	_phase += delta * (1.6 + vitesse * 1.4)
+	_frappe = maxf(0.0, _frappe - delta)
+	_shader.set_shader_parameter("phase", _phase)
+	_shader.set_shader_parameter("frappe", sin(clampf(_frappe / 0.6, 0.0, 1.0) * PI))
+	# Il se soulève un peu et retombe, comme posé sur la houle.
+	_corps.position.y = sin(_phase * 0.37) * 0.04

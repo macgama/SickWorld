@@ -120,6 +120,8 @@ func _lancer() -> void:
 	_verifier(_vivants("chien_fracture").size() >= 5, "des chiens fracturés rôdent (%d)" % _vivants("chien_fracture").size())
 	var chien = _vivants("chien_fracture")[0] if not _vivants("chien_fracture").is_empty() else null
 	_verifier(chien != null and chien.get_node("Apparence").get("espece") == "loup", "les chiens ont un corps d'animal")
+	_verifier(chien != null and chien.get_node("Apparence").find_child("Chien", false, false) != null,
+			"les chiens ont le vrai modèle de chien (Sketchfab)")
 	_verifier(_scene.find_child("Paralos", true, false) != null, "la Paralos est amarrée au quai")
 	_verifier(_scene.find_child("TriereAuSec0", true, false) != null, "des trières sont au sec dans les loges")
 	_verifier(_scene.find_child("AcropoleLointaine", true, false) != null, "l'Acropole se dresse au loin")
@@ -165,6 +167,8 @@ func _lancer() -> void:
 	_verifier(poulpe.size() == 1, "le poulpe fracturé garde le haut-fond")
 	if poulpe.size() == 1:
 		_verifier(poulpe[0].get_node("Apparence").get("_delegue") != null, "il a un corps de poulpe (huit bras)")
+		_verifier(poulpe[0].get_node("Apparence").get("_delegue").get("_shader") != null,
+				"c'est le vrai modèle de poulpe, aux bras animés")
 		poulpe[0].combat.subir(999999.0, combat_joueur)
 	await _attendre(10)
 	_verifier(_id_etape() == "filets", "le poulpe est vaincu (%s)" % _id_etape())
