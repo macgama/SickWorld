@@ -101,18 +101,21 @@ Les îles suivent l'ordre chronologique. Liste prévue (elle pourra encore être
 |---|---|---|
 | 1 | **Préhistoire** (environ -17 000 ans) | La naissance de l'art et l'amitié entre l'homme et le loup |
 | 2 | **Égypte antique** (vers -2560, règne de Khéops) | La fin du chantier de la Grande Pyramide et le journal de Merer *(conception détaillée validée le 14/11/2026 : [ILE-2-EGYPTE.md](ILE-2-EGYPTE.md))* |
-| 3 | **Grèce antique** (été -438, Athènes de Périclès) | Les Panathénées, le Parthénon et la démocratie athénienne *(conception validée le 15/11/2026 : [ILE-3-GRECE.md](ILE-3-GRECE.md) ; Rome aura une île à part plus tard)* |
-| 4 | Asie ancienne (Chine / Japon) | La route de la soie, un empire naissant |
-| 5 | Moyen Âge européen | Les cathédrales, les croisades, la peste |
-| 6 | Grandes découvertes / Renaissance | Les navigateurs, l'imprimerie, les artistes |
-| 7 | Révolution industrielle | Vapeur, usines, grandes villes |
-| 8 | XXe siècle | Les grands conflits et la conquête spatiale |
+| 3 | **Grèce antique** (été -438, Athènes de Périclès) | Les Panathénées, le Parthénon et la démocratie athénienne *(conception validée le 15/11/2026 : [ILE-3-GRECE.md](ILE-3-GRECE.md) ; Rome a son île à part, la n°4)* |
+| 4 | **Rome antique** (été 80 apr. J.-C., Rome de Titus) | L'inauguration du Colisée, les aqueducs et les routes, Pompéi sous la cendre *(conception proposée le 16/11/2026, en attente de validation : [ILE-4-ROME.md](ILE-4-ROME.md))* |
+| 5 | Asie ancienne (Chine / Japon) | La route de la soie, un empire naissant |
+| 6 | Moyen Âge européen | Les cathédrales, les croisades, la peste |
+| 7 | Grandes découvertes / Renaissance | Les navigateurs, l'imprimerie, les artistes |
+| 8 | Révolution industrielle | Vapeur, usines, grandes villes |
+| 9 | XXe siècle | Les grands conflits et la conquête spatiale |
 
 On commence par la Préhistoire, et **une seule île sera construite pour la première version**.
 
 La conception de la deuxième île (l'Égypte des bâtisseurs), validée par Gaël le 14 novembre 2026, est dans un document à part : [ILE-2-EGYPTE.md](ILE-2-EGYPTE.md).
 
 La conception de la troisième île (l'Athènes de Périclès), validée par Gaël le 15 novembre 2026, est dans [ILE-3-GRECE.md](ILE-3-GRECE.md).
+
+La conception de la quatrième île (la Rome de Titus), proposée le 16 novembre 2026, est dans [ILE-4-ROME.md](ILE-4-ROME.md).
 
 ---
 
