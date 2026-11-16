@@ -122,6 +122,9 @@ func _habiller() -> void:
 	if variante == "mercenaire":
 		_habiller_mercenaire(hasard)
 		return
+	if variante == "pretorien":
+		_habiller_pretorien(hasard)
+		return
 	if variante == "pirate":
 		_habiller_pirate(hasard)
 		return
@@ -215,6 +218,23 @@ func _habiller_mercenaire(hasard: RandomNumberGenerator) -> void:
 		_corps.equiper({"tete": {"forme": "casque_hoplite", "couleur": "#b0813e"},
 				"arme_principale": {"forme": "lance", "couleur": "#6b5034"},
 				"arme_secondaire": {"forme": "bouclier_rond", "couleur": "#a8743a"}})
+
+
+## Un faux prétorien de Janus (île de Rome) : la tunique rouge et le casque de la garde,
+## un glaive et un bouclier. Sous la tunique, du matériel moderne (l'éclat violet).
+func _habiller_pretorien(hasard: RandomNumberGenerator) -> void:
+	if _corps.has_method("appliquer"):
+		_corps.appliquer({"sexe": "homme", "taille_cm": hasard.randi_range(176, 190),
+				"peau": Color.from_string(PEAUX_GRECQUES[hasard.randi() % PEAUX_GRECQUES.size()], Color.WHITE)})
+	var teinte := Color.from_string(["#8a1e1a", "#7a1a20", "#922a1e"][hasard.randi() % 3], Color.WHITE)
+	if _corps.has_method("teindre_tenue"):
+		_corps.teindre_tenue(teinte)
+	if _corps.has_method("porter_habit"):
+		_corps.porter_habit("chiton_court", {"principal": teinte})
+	if _corps.has_method("equiper"):
+		_corps.equiper({"tete": {"forme": "casque", "couleur": "#a8a8a8"},
+				"arme_principale": {"forme": "lame", "couleur": "#b0b0b0"},
+				"arme_secondaire": {"forme": "bouclier_rond", "couleur": "#7a1e1a"}})
 
 
 ## Un pirate de l'Égée (île de Grèce) : tunique courte délavée par le sel, bandeau, épée

@@ -62,6 +62,15 @@ const OREILLETTE := Vector2(58, -92)
 const CARPOPHORE := Vector2(126, 98)
 const CAGE_RHINO := Vector2(146, 104)
 const SORTIE_SUD := Vector2(128, 156)
+# Chapitre 5 : l'incendie du Champ de Mars, les oies du Capitole et Janus.
+const LUCRETIUS := Vector2(-62, -92)
+const VIGILES := [Vector2(-66, -88), Vector2(-58, -97)]
+const FEUX := [Vector2(-132, -108), Vector2(-90, -118), Vector2(-142, -142), Vector2(-82, -136)]
+const OIES := CAPITOLE + Vector2(-10, 12)
+const JANUS := Vector2(-100, -150)
+const PORTAIL_QG := Vector2(-74, -146)
+
+var _portail_qg: Node3D
 
 var _hasard := RandomNumberGenerator.new()
 
@@ -620,7 +629,7 @@ func _construire_capitole() -> void:
 	var y := hauteur(CAPITOLE.x - 10.0, CAPITOLE.y + 12.0)
 	for k in 8:
 		var a := TAU * k / 8.0
-		_boite(Vector3(0.12, 1.0, 3.0), Vector3(CAPITOLE.x - 10.0 + cos(a) * 3.5, y + 0.5, CAPITOLE.y + 12.0 + sin(a) * 3.5), _mat_bois(), capitole, false).rotation.y = -a
+		_boite(Vector3(0.12, 0.5, 3.0), Vector3(CAPITOLE.x - 10.0 + cos(a) * 3.5, y + 0.25, CAPITOLE.y + 12.0 + sin(a) * 3.5), _mat_bois(), capitole, false).rotation.y = -a
 	_fusionner(capitole)
 
 
@@ -766,7 +775,7 @@ func _terrain_libre(p: Vector2, marge: float) -> bool:
 			return false
 	if p.distance_to(CAPITOLE) < 32.0 + marge or _avancee_clivus(p).x < 8.0 + marge:
 		return false
-	for q: Vector2 in [ENTREE, LIVIA, CARPOPHORE, CAGE_RHINO, SORTIE_SUD]:
+	for q: Vector2 in [ENTREE, LIVIA, CARPOPHORE, CAGE_RHINO, SORTIE_SUD, LUCRETIUS, JANUS, PORTAIL_QG] + VIGILES + FEUX:
 		if p.distance_to(q) < 10.0 + marge:
 			return false
 	if p.distance_to(ARENE_RHINO) < 22.0 + marge:
@@ -827,7 +836,8 @@ func _construire_champ_de_mars() -> void:
 	_portique(champ, Vector2(-90, -108), 40.0, 6.0, PI, 5.0)
 	for k in 6:
 		var p := Vector2(_hasard.randf_range(CHAMP_DE_MARS.position.x + 8.0, CHAMP_DE_MARS.end.x - 8.0), _hasard.randf_range(CHAMP_DE_MARS.position.y + 6.0, CHAMP_DE_MARS.end.y - 6.0))
-		if p.distance_to(PANTHEON) < 24.0:
+		if p.distance_to(PANTHEON) < 24.0 or p.distance_to(JANUS) < 14.0 or p.distance_to(PORTAIL_QG) < 14.0 \
+				or FEUX.any(func(f: Vector2) -> bool: return p.distance_to(f) < 12.0):
 			continue
 		_insula(champ, p, Vector2(14, 12), 2)
 	_fusionner(champ)
@@ -1024,6 +1034,7 @@ func _construire_quete() -> void:
 	cage.portee = 3.0
 	cage.position = Vector3(CAGE_RHINO.x, hauteur(CAGE_RHINO.x, CAGE_RHINO.y), CAGE_RHINO.y)
 	dossier.add_child(cage)
+	_construire_quete_incendie(dossier)
 	# Repères de la carte.
 	var repere := func(type: int, texte: String, p: Vector2) -> void:
 		MarqueurCarte.creer(dossier, type, texte, Vector3(p.x, hauteur(p.x, p.y), p.y))
@@ -1036,6 +1047,52 @@ func _construire_quete() -> void:
 	repere.call(MarqueurCarte.Type.LIEU, "Champ de Mars", PANTHEON)
 	repere.call(MarqueurCarte.Type.LIEU, "Vivarium", VIVARIUM.get_center())
 	repere.call(MarqueurCarte.Type.LIEU, "Vers la Porta Maggiore", SORTIE_SUD)
+	repere.call(MarqueurCarte.Type.LIEU, "Caserne des vigiles", LUCRETIUS)
+
+
+## Chapitre 5 : le centurion des vigiles et ses hommes, les foyers de l'incendie, l'enclos
+## des oies du Capitole, les deux réponses à Janus et le portail de campagne de Lenoir.
+func _construire_quete_incendie(dossier: Node3D) -> void:
+	_pnj(dossier, "lucretius", LUCRETIUS, PI * 0.75)
+	for k in VIGILES.size():
+		_pnj(dossier, "vigile_%d" % (k + 1), VIGILES[k], PI * (0.6 + k * 0.3))
+	for k in FEUX.size():
+		var p: Vector2 = FEUX[k]
+		var feu := ObjetRome.new()
+		feu.name = "FoyerChamp%d" % k
+		feu.identifiant = "foyer_champ_%d" % k
+		feu.groupe = "foyer_champ"
+		feu.forme = "brasier"
+		feu.invite = "[F] Faire la chaîne des seaux"
+		feu.portee = 3.0
+		feu.position = Vector3(p.x, hauteur(p.x, p.y), p.y)
+		dossier.add_child(feu)
+	var oies := ObjetRome.new()
+	oies.name = "EnclosOies"
+	oies.identifiant = "enclos_oies"
+	oies.forme = "oies"
+	oies.invite = "[F] Ouvrir l'enclos des oies"
+	oies.portee = 3.6
+	oies.position = Vector3(OIES.x, hauteur(OIES.x, OIES.y), OIES.y)
+	dossier.add_child(oies)
+	for r in [["arreter_janus", "[F] « Livia Conti, je t'arrête au nom de la Vigie »", Vector2(-2.5, 2.5)],
+			["ecouter_janus", "[F] « Explique-toi. Pourquoi ? »", Vector2(2.5, 2.5)]]:
+		var reponse := ObjetRome.new()
+		reponse.name = String(r[0]).to_pascal_case()
+		reponse.identifiant = r[0]
+		reponse.invite = r[1]
+		reponse.portee = 2.0
+		var q: Vector2 = JANUS + r[2]
+		reponse.position = Vector3(q.x, hauteur(q.x, q.y), q.y)
+		dossier.add_child(reponse)
+	# Le portail de campagne : Lenoir l'ouvre quand Janus s'est enfuie.
+	_construire_portail(dossier, PORTAIL_QG, PI * 0.25)
+	_portail_qg = dossier.get_node("Portail") as Node3D
+	_portail_qg.name = "PortailCampagne"
+	_portail_qg.add_to_group("decor_quete")
+	_portail_qg.set_meta("identifiant", "portail_qg")
+	_portail_qg.visible = false
+	_zone_portail.monitoring = false
 
 
 # --- La sortie : la route de la Porta Maggiore ---------------------------------------------------
@@ -1047,6 +1104,9 @@ func _process(delta: float) -> void:
 	super._process(delta)
 	if Engine.is_editor_hint():
 		return
+	# Le portail de campagne ne ramène au QG qu'une fois ouvert.
+	if _portail_qg != null and _zone_portail != null and _zone_portail.monitoring != _portail_qg.visible:
+		_zone_portail.monitoring = _portail_qg.visible
 	_attente_sortie -= delta
 	if _attente_sortie > 0.0:
 		return

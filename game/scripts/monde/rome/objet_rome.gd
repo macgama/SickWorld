@@ -97,3 +97,117 @@ func _construire_sac() -> void:
 	grain.bottom_radius = 0.26
 	grain.height = 0.05
 	_morceau(grain, _mat_uni(Color(0.86, 0.72, 0.4), 0.9), Vector3(0.32, 0.02, 0.1))
+
+
+## Les oies sacrées de Junon, dans leur enclos du Capitole : blanches, le cou tendu, le
+## bec orange. Quand on ouvre l'enclos (cacher()), elles s'envolent en criant.
+func _construire_oies() -> void:
+	var blanc := _mat_uni(Color(0.95, 0.94, 0.9), 0.8)
+	var orange := _mat_uni(Color(0.95, 0.55, 0.15), 0.6)
+	var hasard := RandomNumberGenerator.new()
+	hasard.seed = hash(identifiant)
+	for k in 7:
+		var oie := Node3D.new()
+		oie.position = Vector3(hasard.randf_range(-2.2, 2.2), 0, hasard.randf_range(-2.2, 2.2))
+		oie.rotation.y = hasard.randf() * TAU
+		_visuel.add_child(oie)
+		var corps := MeshInstance3D.new()
+		var s := SphereMesh.new()
+		s.radius = 0.22
+		s.height = 0.36
+		corps.mesh = s
+		corps.material_override = blanc
+		corps.scale = Vector3(1.0, 1.0, 1.5)
+		corps.position.y = 0.32
+		oie.add_child(corps)
+		var cou := MeshInstance3D.new()
+		var c := CylinderMesh.new()
+		c.top_radius = 0.04
+		c.bottom_radius = 0.06
+		c.height = 0.36
+		cou.mesh = c
+		cou.material_override = blanc
+		cou.position = Vector3(0, 0.56, 0.24)
+		cou.rotation.x = -0.35
+		oie.add_child(cou)
+		var tete := MeshInstance3D.new()
+		var t := SphereMesh.new()
+		t.radius = 0.07
+		t.height = 0.13
+		tete.mesh = t
+		tete.material_override = blanc
+		tete.position = Vector3(0, 0.75, 0.3)
+		oie.add_child(tete)
+		var bec := MeshInstance3D.new()
+		var b := CylinderMesh.new()
+		b.top_radius = 0.0
+		b.bottom_radius = 0.035
+		b.height = 0.12
+		bec.mesh = b
+		bec.material_override = orange
+		bec.position = Vector3(0, 0.74, 0.41)
+		bec.rotation.x = PI / 2
+		oie.add_child(bec)
+		for cote in [-1.0, 1.0]:
+			var patte := MeshInstance3D.new()
+			var pm := CylinderMesh.new()
+			pm.top_radius = 0.015
+			pm.bottom_radius = 0.015
+			pm.height = 0.18
+			patte.mesh = pm
+			patte.material_override = orange
+			patte.position = Vector3(cote * 0.08, 0.09, 0)
+			oie.add_child(patte)
+
+
+## Un foyer de l'incendie du Champ de Mars : des poutres et des débris qui flambent haut,
+## et une colonne de fumée noire qu'on voit de loin.
+func _construire_brasier() -> void:
+	_construire_incendie()
+	_visuel.scale = Vector3(2.6, 2.6, 2.6)
+	if _lumiere_feu != null:
+		_lumiere_feu.omni_range = 6.0
+		_lumiere_feu.light_energy = 3.5
+	var bois := _mat_uni(Color(0.16, 0.1, 0.07), 0.9)
+	for k in 3:
+		var poutre := BoxMesh.new()
+		poutre.size = Vector3(0.12, 0.12, 1.6)
+		_morceau(poutre, bois, Vector3(-0.4 + k * 0.4, 0.25, 0.0), Vector3(0.3, k * 0.9, 0.0))
+	# La fumée : des volutes grises qui montent, grossissent et s'effacent, poussées par le vent.
+	var fumee := CPUParticles3D.new()
+	fumee.amount = 36
+	fumee.lifetime = 7.0
+	fumee.preprocess = 7.0
+	fumee.position = Vector3(0, 1.4, 0)
+	fumee.emission_shape = CPUParticles3D.EMISSION_SHAPE_SPHERE
+	fumee.emission_sphere_radius = 0.4
+	fumee.direction = Vector3(0, 1, 0)
+	fumee.spread = 12.0
+	fumee.gravity = Vector3(0.25, 0.35, 0.05)
+	fumee.initial_velocity_min = 0.5
+	fumee.initial_velocity_max = 0.8
+	fumee.scale_amount_min = 0.6
+	fumee.scale_amount_max = 1.0
+	var taille := Curve.new()
+	taille.max_value = 4.0
+	taille.add_point(Vector2(0, 0.5))
+	taille.add_point(Vector2(1, 3.2))
+	fumee.scale_amount_curve = taille
+	var teinte := Gradient.new()
+	teinte.set_color(0, Color(0.14, 0.13, 0.12, 0.55))
+	teinte.set_color(1, Color(0.45, 0.43, 0.4, 0.0))
+	fumee.color_ramp = teinte
+	var boule := SphereMesh.new()
+	boule.radius = 0.8
+	boule.height = 1.3
+	boule.radial_segments = 10
+	boule.rings = 5
+	var m := StandardMaterial3D.new()
+	m.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	m.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	m.vertex_color_use_as_albedo = true
+	m.albedo_color = Color.WHITE
+	boule.material = m
+	fumee.mesh = boule
+	fumee.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	_visuel.add_child(fumee)

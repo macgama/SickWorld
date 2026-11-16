@@ -273,5 +273,42 @@
 		"repliques": [
 			"« Frapper homme je... pas cet voulais ne ! » Il regarde ses mains, effrayé de sa propre force."
 		]
+	},
+	"lucretius": {
+		"nom": "Gnaeus Lucretius",
+		"role": "Centurion des vigiles",
+		"modele": "homme",
+		"habit": "chiton_court",
+		"taille_cm": 180,
+		"peau": "#b07a54",
+		"habits": "#8a2a1e",
+		"repliques": [
+			"Sept cohortes de vigiles, une pour deux quartiers. La nuit, on fait la ronde avec des seaux, des haches et des couvertures mouillées. Le jour, on dort. Quand on peut.",
+			"Ta Vigie, là... Elle veille sur quoi, au juste ? Les époques ? Drôle de métier. Le mien me suffit."
+		]
+	},
+	"vigile_1": {
+		"nom": "Un vigile",
+		"role": "Vigile, 4e cohorte",
+		"modele": "homme",
+		"habit": "exomis",
+		"taille_cm": 174,
+		"peau": "#a87850",
+		"habits": "#7a2a1e",
+		"repliques": [
+			"Un seau, puis un autre, puis un autre. On ne réfléchit pas, on passe le seau."
+		]
+	},
+	"vigile_2": {
+		"nom": "Une porteuse d'eau",
+		"role": "Habitante du quartier",
+		"modele": "femme",
+		"habit": "peplos_himation",
+		"taille_cm": 162,
+		"peau": "#c09068",
+		"habits": "#6a5a4a",
+		"repliques": [
+			"Ma maison est à deux rues d'ici. Alors je porte de l'eau, comme tout le monde."
+		]
 	}
 }

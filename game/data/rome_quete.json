@@ -882,12 +882,184 @@
 					"fin_chapitre": true
 				}
 			]
+		},
+		{
+			"numero": 5,
+			"titre": "Les deux visages",
+			"ou": "rome",
+			"etapes": [
+				{
+					"id": "vigiles_incendie",
+					"objectif": "De la fumée noire monte du Champ de Mars, à l'ouest : rejoins le centurion des vigiles, au bord du quartier",
+					"pnj": "lucretius",
+					"repliques": [
+						"Gnaeus Lucretius, centurion de la quatrième cohorte des vigiles. Tu tombes bien, l'étranger : il me manque des bras.",
+						"Le Champ de Mars a brûlé il y a trois mois. Trois jours et trois nuits. Le Panthéon, les thermes d'Agrippa, le temple de Jupiter sur le Capitole... Et ce matin, ça repart. Pas d'un seul foyer : de quatre à la fois.",
+						"Un feu qui repart tout seul, à quatre endroits, par un matin sans vent ? Je fais ce métier depuis vingt ans. Ça n'existe pas.",
+						"Mes hommes font la chaîne avec les seaux de la fontaine. Prends une place dans la chaîne, devant chaque foyer, et ne lâche pas tant qu'il n'est pas éteint."
+					]
+				},
+				{
+					"id": "chaine_seaux",
+					"objectif": "Éteins les quatre foyers de l'incendie avec la chaîne des seaux (F, reste immobile)",
+					"recolter": "foyer_champ",
+					"nombre": 4,
+					"duree": 4,
+					"action": "Les seaux passent de main en main…",
+					"apres": [
+						{
+							"cacher": "foyer_champ_0"
+						},
+						{
+							"cacher": "foyer_champ_1"
+						},
+						{
+							"cacher": "foyer_champ_2"
+						},
+						{
+							"cacher": "foyer_champ_3"
+						}
+					],
+					"recit": {
+						"titre": "La chaîne tient",
+						"texte": "Le dernier foyer siffle sous les seaux et s'éteint dans un nuage de vapeur blanche. Les vigiles s'assoient dans la cendre, noirs de suie, et rient comme des enfants. Mais au-dessus du Capitole, une autre fumée monte. Et des cris. Des cris d'oies."
+					}
+				},
+				{
+					"id": "oies_capitole",
+					"objectif": "Les flammes gagnent le Capitole : monte par la rampe du Forum et ouvre l'enclos des oies sacrées (F)",
+					"objet": "enclos_oies",
+					"apres": [
+						{
+							"cacher": "enclos_oies"
+						}
+					],
+					"recit": {
+						"titre": "Les oies de Junon",
+						"texte": "Tu tires le loquet. Les oies jaillissent de l'enclos en hurlant, battent des ailes, et dévalent la rampe dans un vacarme incroyable. Il y a quatre cents ans, leurs cris ont réveillé la garde quand les Gaulois escaladaient la colline. Aujourd'hui encore, Rome leur doit quelque chose."
+					}
+				},
+				{
+					"id": "retour_lucretius",
+					"objectif": "Retourne voir le centurion Lucretius, au bord du Champ de Mars",
+					"pnj": "lucretius",
+					"repliques": [
+						"Les oies ! Tu as sauvé les oies ! Les prêtres de Junon vont te porter en triomphe. Moi, je te paie à boire, c'est tout ce que j'ai.",
+						"Tiens. Une couronne de feuilles de chêne. On la donne à celui qui sauve la vie d'un citoyen. Tu en as sauvé une centaine ce matin, et quelques oies en plus.",
+						"Autre chose. Mon guetteur, sur le toit du portique, a vu quelqu'un près du Panthéon, juste avant que ça reparte. Une femme, avec une petite lampe qui brillait bleu.",
+						"Une lampe bleue. Ça ne te dit rien ? Moi non plus. Va voir, mais prends garde."
+					],
+					"recompense": [
+						{
+							"id": "couronne_civique",
+							"nom": "Couronne civique"
+						}
+					]
+				},
+				{
+					"id": "surprendre_janus",
+					"objectif": "Approche-toi discrètement du Panthéon, au nord du Champ de Mars",
+					"zone": [
+						-100,
+						-150
+					],
+					"rayon": 12,
+					"action_pnj": [
+						{
+							"pnj": "livia",
+							"aller": [
+								-100,
+								-150
+							]
+						}
+					],
+					"recit": {
+						"titre": "La lampe bleue",
+						"texte": "Elle est là, devant les colonnes noircies du Panthéon, dos à toi. Dans sa main, un petit boîtier de la Vigie, de ceux qu'on utilise pour stabiliser une faille. Elle le tourne vers une poutre. La poutre s'embrase d'un coup, sans une étincelle. Livia Conti se retourne."
+					}
+				},
+				{
+					"id": "confrontation",
+					"objectif": "Livia t'a vu. Parle-lui",
+					"pnj": "livia",
+					"repliques": [
+						"Ah. Toi. J'aurais dû me douter que le centurion avait un guetteur.",
+						"Livia Conti, archéologue, spécialiste des Flaviens, quinze ans de Vigie. Tout ça est vrai. Mais pour les gens de E., je m'appelle Janus. Le dieu des portes. Celui qui a deux visages : un vers le passé, un vers l'avenir.",
+						"Tu veux savoir pourquoi ? Regarde autour de toi. Rome, c'est un million de personnes et trois cent mille esclaves. Des jeux où l'on fait mourir des gens pour amuser la foule. Un empire bâti sur la conquête. Et toi, tu cours partout pour le protéger.",
+						"On ne détruit rien, nous. On efface ce qui n'aurait jamais dû être. Alors, qu'est-ce que tu fais, maintenant ?"
+					]
+				},
+				{
+					"id": "choix_janus",
+					"objectif": "Janus attend ta réponse : que fais-tu ?",
+					"choix": [
+						{
+							"objet": "arreter_janus",
+							"objectif": "Tente d'arrêter Janus",
+							"pnj": "livia",
+							"repliques": [
+								"M'arrêter ? Avec quoi, ton glaive de légionnaire ? Tu n'as même pas compris où tu étais.",
+								"Je ne me bats pas, moi. J'ai des amis pour ça."
+							]
+						},
+						{
+							"objet": "ecouter_janus",
+							"objectif": "Laisse-la s'expliquer",
+							"pnj": "livia",
+							"repliques": [
+								"Tu écoutes. C'est rare, à la Vigie. Ils t'ont bien choisi.",
+								"Alors écoute bien : ce qui relie les gens, les routes, les langues, l'eau, c'est aussi ce qui fait avancer les légions. Couper les liens, c'est arrêter la machine. Tu y penseras, à Pompéi.",
+								"Maintenant, pardon. J'ai des amis qui n'aiment pas les conversations."
+							]
+						}
+					]
+				},
+				{
+					"id": "pretoriens_janus",
+					"objectif": "Repousse les prétoriens de Janus devant le Panthéon",
+					"tuer": "pretorien_janus",
+					"nombre": 4,
+					"lieu": [
+						-100,
+						-150
+					],
+					"apparition": {
+						"type": "pretorien_janus",
+						"position": [
+							-100,
+							-144
+						],
+						"nombre": 4,
+						"rayon": 4,
+						"attaque": true
+					},
+					"apres": [
+						{
+							"masquer": "livia"
+						},
+						{
+							"montrer": "portail_qg"
+						}
+					],
+					"recit": {
+						"titre": "Janus s'enfuit",
+						"texte": "Le dernier prétorien tombe. Sous sa tunique rouge, un gilet de kevlar et une radio. Quand tu te retournes, Janus est déjà dans une faille qu'elle a ouverte d'un geste : « On se reverra à Pompéi, toi et moi. » La faille se referme. Dans ton oreille, la voix de Lenoir grésille : « J'ai tout entendu. Je t'ouvre un portail de campagne, près du portique. Rentre. Tout de suite. »"
+					}
+				},
+				{
+					"id": "qg_bureau_livia",
+					"objectif": "Traverse le portail de campagne que Lenoir a ouvert près du portique, pour rentrer au QG de la Vigie",
+					"portail": true,
+					"mission_hub": "bureau_livia",
+					"fin_chapitre": true
+				}
+			]
 		}
 	],
 	"fin_provisoire": {
-		"chapitre": "Chapitre 5 : Les deux visages",
-		"objectif": "La suite arrive bientôt : l'incendie du Champ de Mars.",
+		"chapitre": "Chapitre 6 : Pompéi sous la cendre",
+		"objectif": "La suite arrive bientôt : Janus s'est enfuie à Pompéi.",
 		"titre": "Tous les chemins",
-		"message": "La Subure est calme et le rhinocéros du vivarium ne chargera plus. Mais quelqu'un, à Rome, ouvre les cages."
+		"message": "Livia Conti était Janus. Elle s'est enfuie à Pompéi, sous la cendre du Vésuve."
 	}
 }

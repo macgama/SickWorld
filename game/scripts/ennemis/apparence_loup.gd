@@ -71,7 +71,7 @@ func _ready() -> void:
 		return
 	if type.begins_with("oublie") or type.begins_with("garde") or type.begins_with("petrifie") \
 			or type.begins_with("masque") or type.begins_with("mercenaire") or type.begins_with("statue") \
-			or type.begins_with("meduse"):
+			or type.begins_with("meduse") or type.begins_with("pretorien"):
 		# Pas « "" » : ce serait un agent de la Vigie pour le bruiteur (pas, esquives…).
 		espece = "oublie"
 		_delegue = ApparenceOublie.new()
@@ -79,7 +79,8 @@ func _ready() -> void:
 		_delegue.graine = parent.get_instance_id() % 997
 		_delegue.variante = "garde" if type.begins_with("garde") else ("petrifie" if type.begins_with("petrifie") \
 				else ("masque" if type.begins_with("masque") else ("mercenaire" if type.begins_with("mercenaire") \
-				else ("statue" if type.begins_with("statue") else ("gorgone" if type.begins_with("meduse") else "oublie")))))
+				else ("statue" if type.begins_with("statue") else ("gorgone" if type.begins_with("meduse") \
+				else ("pretorien" if type.begins_with("pretorien") else "oublie"))))))
 		_delegue.chef = type == "masque_effaceur" or type == "masque_acropole"
 		add_child(_delegue)
 		return

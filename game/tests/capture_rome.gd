@@ -15,6 +15,9 @@ const VUES := [
 	["champ_mars", Vector3(-80, 4.0, -110), Vector3(-112, 6.0, -128), false],
 	["vivarium", Vector3(120, 3.0, 80), Vector3(144, 1.0, 104), false],
 	["haut", Vector3(150, 80.0, 150), Vector3(0, 0.0, -40), true],
+	["incendie", Vector3(-100, 3.0, -96), Vector3(-120, 1.0, -124), false],
+	["oies", Vector3(-136, 2.5, -20), Vector3(-142, 0.5, -28), false],
+	["pantheon", Vector3(-90, 3.0, -160), Vector3(-108, 6.0, -132), false],
 	["quartiers", Vector3(100, 2.0, 0), Vector3(130, 6.0, -60), false],
 ]
 
