@@ -1,0 +1,26 @@
+# Written by MakeHuman 1.2.1 alpha
+version v1.2.1
+camera 0.0 0.0 0.0 0.0 0.0 1.0
+modifier breast/BreastSize 0.500000
+modifier breast/BreastFirmness 0.500000
+modifier macrodetails/Gender 1.000000
+modifier macrodetails/Age 0.538462
+modifier macrodetails/African 0.100000
+modifier macrodetails/Asian 0.100000
+modifier macrodetails/Caucasian 0.800000
+modifier macrodetails-universal/Muscle 0.550000
+modifier macrodetails-universal/Weight 0.500000
+modifier macrodetails-height/Height 0.527521
+modifier macrodetails-proportions/BodyProportions 0.600000
+proxy male1591 d7e4934e-daed-4ad5-a055-18c9cba487dc
+hair short02 c104cd4a-1edc-43f9-8b94-f63345a44638
+eyelashes Eyelashes01 d533836f-13ad-4836-8b65-051108253cd2
+eyebrows eyebrow001 9c81ec3a-faa5-4c94-9cdb-992300ba3084
+eyes Low-Poly 1cc97a30-85a1-42e6-a9f7-b3e753732baa
+clothesHideFaces True
+skinMaterial skins/young_caucasian_male/young_caucasian_male.mhmat
+material short02 c104cd4a-1edc-43f9-8b94-f63345a44638 short02.mhmat
+material Low-Poly 1cc97a30-85a1-42e6-a9f7-b3e753732baa eyes/materials/brown.mhmat
+material eyebrow001 9c81ec3a-faa5-4c94-9cdb-992300ba3084 eyebrow001.mhmat
+material Eyelashes01 d533836f-13ad-4836-8b65-051108253cd2 eyelashes01.mhmat
+subdivide False
