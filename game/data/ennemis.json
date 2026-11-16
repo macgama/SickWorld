@@ -498,5 +498,61 @@
 		"distance_laisse": 25,
 		"entraide": 0,
 		"temps_reapparition": 0
+	},
+	"sanglier_fracture": {
+		"nom": "Sanglier fracturé",
+		"niveau": 23,
+		"points_de_vie": 820,
+		"degats": [28, 38],
+		"intervalle_attaque": 1.8,
+		"portee_attaque": 2.3,
+		"vitesse_course": 7.5,
+		"vitesse_marche": 1.6,
+		"distance_detection": 12,
+		"distance_laisse": 40,
+		"entraide": 14,
+		"temps_reapparition": 60
+	},
+	"loup_fracture_oliveraie": {
+		"nom": "Loup d'Attique fracturé",
+		"niveau": 22,
+		"points_de_vie": 700,
+		"degats": [24, 32],
+		"intervalle_attaque": 1.5,
+		"portee_attaque": 2.2,
+		"vitesse_course": 7.2,
+		"vitesse_marche": 1.9,
+		"distance_detection": 14,
+		"distance_laisse": 40,
+		"entraide": 14,
+		"temps_reapparition": 55
+	},
+	"vipere_fracture": {
+		"nom": "Vipère fracturée",
+		"niveau": 23,
+		"points_de_vie": 560,
+		"degats": [26, 34],
+		"intervalle_attaque": 1.6,
+		"portee_attaque": 2.2,
+		"vitesse_course": 4.4,
+		"vitesse_marche": 0.8,
+		"distance_detection": 9,
+		"distance_laisse": 40,
+		"entraide": 14,
+		"temps_reapparition": 60
+	},
+	"vipere_fracture_faille": {
+		"nom": "Vipère fracturée",
+		"niveau": 23,
+		"points_de_vie": 560,
+		"degats": [26, 34],
+		"intervalle_attaque": 1.6,
+		"portee_attaque": 2.2,
+		"vitesse_course": 4.4,
+		"vitesse_marche": 0.8,
+		"distance_detection": 11,
+		"distance_laisse": 40,
+		"entraide": 14,
+		"temps_reapparition": 0
 	}
 }

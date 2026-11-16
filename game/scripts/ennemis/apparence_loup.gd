@@ -59,21 +59,26 @@ func _ready() -> void:
 		_delegue.variante = "garde" if type.begins_with("garde") else "oublie"
 		add_child(_delegue)
 		return
-	if type.begins_with("cobra") or type.begins_with("isfet"):
+	if type.begins_with("cobra") or type.begins_with("isfet") or type.begins_with("vipere"):
 		espece = "serpent"
 		_delegue = ApparenceSerpent.new()
 		_delegue.name = "Serpent"
-		_delegue.espece = "isfet" if type.begins_with("isfet") else "cobra"
+		_delegue.espece = "isfet" if type.begins_with("isfet") else ("vipere" if type.begins_with("vipere") else "cobra")
 		add_child(_delegue)
 		return
-	if type.begins_with("crocodile") or type.begins_with("hippopotame") or type.begins_with("babouin"):
-		espece = "hippopotame" if type.begins_with("hippopotame") else ("babouin" if type.begins_with("babouin") else "crocodile")
+	if type.begins_with("crocodile") or type.begins_with("hippopotame") or type.begins_with("babouin") \
+			or type.begins_with("sanglier"):
+		espece = "hippopotame" if type.begins_with("hippopotame") else ("babouin" if type.begins_with("babouin") \
+				else "sanglier" if type.begins_with("sanglier") else "crocodile")
 		_delegue = ApparenceNil.new()
 		_delegue.name = "Nil"
 		_delegue.espece = espece
 		add_child(_delegue)
 		if type.contains("geant") or type.contains("enrage"):
 			scale = Vector3.ONE * 1.35
+		elif type.contains("hymette"):
+			# Le grand sanglier de l'Hymette, qui ravage les vignes.
+			scale = Vector3.ONE * 1.6
 		return
 	if type.begins_with("poulpe"):
 		# Le poulpe de la crique du Pirée (île de Grèce).

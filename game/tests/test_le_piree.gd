@@ -257,7 +257,7 @@ func _lancer() -> void:
 	_verifier(_id_etape() == "fin_chapitre_2", "Markos veut parler (%s)" % _id_etape())
 	lues = await _parler("Markos")
 	_verifier(lues >= 4, "Markos parle des masques (%d bulles)" % lues)
-	_verifier(_quete.etape < 0, "chapitres 1 et 2 terminés : la suite arrive bientôt")
+	_verifier(_id_etape() == "vers_athenes", "chapitres 1 et 2 terminés : en route pour Athènes (%s)" % _id_etape())
 
 	# --- La progression est gardée.
 	var cfg := ConfigFile.new()
@@ -267,7 +267,7 @@ func _lancer() -> void:
 	_scene.queue_free()
 	await _attendre(5)
 	await _charger()
-	_verifier(_quete.etape < 0, "au retour, la quête reprend où on l'avait laissée")
+	_verifier(_id_etape() == "vers_athenes", "au retour, la quête reprend où on l'avait laissée (%s)" % _id_etape())
 	_verifier(_scene.find_child("Faille", true, false).fermee, "la faille est toujours fermée")
 	_verifier(_scene.find_child("BaliseInstallee", true, false).visible, "la balise est toujours en place")
 	var m2: Node3D = _scene.find_child("Markos", true, false)

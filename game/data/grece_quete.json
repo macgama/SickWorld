@@ -8,6 +8,14 @@
 				"sous_titre": "Grèce · Athènes au temps de Périclès, été -438",
 				"texte": "Une gerbe d'eau salée, puis le silence. Tu as de l'eau fraîche jusqu'aux genoux, des galets sous les pieds, et partout l'odeur de la mer et du thym chauffé au soleil. Plus loin, un vieil homme te regarde, une main sur son filet."
 			}
+		},
+		"oliveraies": {
+			"scene": "res://scenes/monde/grece/oliveraies.tscn",
+			"arrivee": {
+				"titre": "Les Oliveraies d'Attique",
+				"sous_titre": "Grèce · entre le Pirée et Athènes",
+				"texte": "La route file tout droit entre deux murailles. Par-dessus, on voit des oliviers à perte de vue, d'un vert presque gris, et des cigales qui crient si fort qu'on n'entend plus ses pas. Au bout, très loin, un rocher blanc : l'Acropole."
+			}
 		}
 	},
 	"camps": {
@@ -15,6 +23,50 @@
 			{ "type": "chien_fracture", "position": [-72, 86], "nombre": 3, "rayon": 5 },
 			{ "type": "chien_fracture", "position": [-36, 70], "nombre": 2, "rayon": 4 },
 			{ "type": "chien_fracture", "position": [-110, 60], "nombre": 2, "rayon": 5 }
+		],
+		"oliveraies": [
+			{
+				"type": "sanglier_fracture",
+				"position": [116, 30],
+				"nombre": 3,
+				"rayon": 6
+			},
+			{
+				"type": "sanglier_fracture",
+				"position": [124, -10],
+				"nombre": 2,
+				"rayon": 5
+			},
+			{
+				"type": "sanglier_fracture",
+				"position": [100, 66],
+				"nombre": 2,
+				"rayon": 5
+			},
+			{
+				"type": "loup_fracture_oliveraie",
+				"position": [-70, 40],
+				"nombre": 3,
+				"rayon": 6
+			},
+			{
+				"type": "loup_fracture_oliveraie",
+				"position": [-112, 10],
+				"nombre": 2,
+				"rayon": 5
+			},
+			{
+				"type": "vipere_fracture",
+				"position": [-120, -86],
+				"nombre": 2,
+				"rayon": 4
+			},
+			{
+				"type": "vipere_fracture",
+				"position": [-54, -90],
+				"nombre": 2,
+				"rayon": 4
+			}
 		]
 	},
 	"chapitres": [
@@ -268,6 +320,168 @@
 						"Regarde, là-bas, tout au bout de la route : ce point blanc qui brille sur son rocher. C'est le Parthénon. Tout neuf. Personne, dans mon époque, ne l'a jamais vu comme ça."
 					],
 					"fin_chapitre": true
+				}
+			]
+		},
+		{
+			"numero": 3,
+			"titre": "Les muets de l'Agora",
+			"ou": "oliveraies",
+			"etapes": [
+				{
+					"id": "vers_athenes",
+					"ou": "le_piree",
+					"objectif": "Franchis la porte des Longs Murs, tout au nord du Pirée, et prends la route d'Athènes",
+					"arriver": "oliveraies"
+				},
+				{
+					"id": "route_markos",
+					"objectif": "Parle à l'agent Markos, sur la route entre les Longs Murs",
+					"pnj": "markos",
+					"repliques": [
+						"Six kilomètres de muraille, agent. Deux murs parallèles, du port jusqu'à la ville. Comme ça, même si Sparte assiège Athènes, les bateaux continuent d'apporter le blé.",
+						"Dans sept ans, ce sera la guerre. Toute la campagne viendra s'entasser ici, entre ces murs. Ensuite, la peste... Bon. On n'est pas là pour ça.",
+						"Tu entends ? À l'est, derrière la poterne. Quelqu'un appelle. Une femme.",
+						"Vas-y, je te suis. Et garde ta radio allumée."
+					]
+				},
+				{
+					"id": "rencontre_myrto",
+					"objectif": "Passe la poterne de l'est et trouve la femme qui appelle, à la ferme",
+					"pnj": "myrto",
+					"repliques": [
+						"Étranger ! Les dieux t'envoient. Ma fille, Néra... Elle ne parle plus. Depuis hier soir, plus un mot. Elle ouvre la bouche et rien ne sort.",
+						"Elle est revenue des ruches en courant, toute pâle. Et cette nuit, les sangliers sont descendus de l'Hymette. Pas des sangliers normaux : ils brillent, comme des braises violettes.",
+						"Je m'appelle Myrtô. Mes abeilles font le meilleur miel de l'Hymette, tout le monde te le dira. Mais là, je m'en moque, du miel. Aide ma fille."
+					]
+				},
+				{
+					"id": "nera_muette",
+					"objectif": "Approche-toi de Néra, la fille de Myrtô",
+					"pnj": "nera",
+					"repliques": [
+						"Néra te regarde avec de grands yeux. Elle ouvre la bouche. Aucun son.",
+						"Elle tend le bras vers la pente, du côté des ruches, et elle fait le geste de mettre quelque chose sur son visage.",
+						"Puis elle secoue la tête très fort, comme pour dire : surtout pas."
+					]
+				},
+				{
+					"id": "masque",
+					"objectif": "Cherche ce que Néra a vu près des ruches, sur la pente de l'Hymette",
+					"objet": "masque_nera",
+					"recit": {
+						"titre": "Le masque qui rit",
+						"texte": "Dans le thym, un masque de théâtre blanc te sourit, la bouche grande ouverte. Dans son front, un éclat violet bat comme un cœur. La radio grésille : « Agent, c'est une faille. Minuscule, mais c'est une faille. Ne le mets surtout pas. Quelqu'un en distribue. »"
+					},
+					"consomme": true
+				},
+				{
+					"id": "sangliers",
+					"objectif": "Chasse les sangliers fracturés qui ravagent les ruches de l'Hymette",
+					"tuer": "sanglier_fracture",
+					"nombre": 4,
+					"lieu": [116, 30],
+					"recit": {
+						"titre": "La pente est calme",
+						"texte": "Le dernier sanglier s'effondre dans les cailloux. Plus bas, les abeilles reviennent une à une vers les ruches de terre cuite, comme si de rien n'était."
+					}
+				},
+				{
+					"id": "retour_myrto",
+					"objectif": "Rapporte à Myrtô ce que tu as trouvé",
+					"pnj": "myrto",
+					"repliques": [
+						"Un masque ? Néra l'a ramassé, puis jeté, j'en suis sûre. Elle a toujours eu peur des masques de théâtre. Mais ça a suffi.",
+						"Hier, un homme est passé sur la route, avec des mules chargées de masques. Un beau parleur. Il disait qu'il allait à Athènes, pour les Panathénées.",
+						"Va voir Théano, la prêtresse, au sanctuaire des oliviers sacrés, de l'autre côté des murs. Elle sait des choses que les autres ne savent pas. Et ce matin, elle avait l'air inquiète."
+					]
+				},
+				{
+					"id": "pretresse",
+					"objectif": "Passe la poterne de l'ouest et parle à Théano, la prêtresse, au sanctuaire des oliviers sacrés",
+					"pnj": "pretresse",
+					"repliques": [
+						"Un étranger, dans l'enclos d'Athéna ? Tes yeux disent que tu ne viens pas voler l'huile. Approche.",
+						"Ces oliviers sont nés de celui qu'Athéna a fait pousser sur l'Acropole, quand elle a gagné la ville contre Poséidon. Celui-ci, la Moria, est le plus vieux de tous.",
+						"Depuis hier, la Moria saigne. Une lumière violette sort de ses racines, et mes chants n'y font rien. Tout autour, les vipères deviennent folles.",
+						"Si tu as un remède, étranger, c'est maintenant."
+					]
+				},
+				{
+					"id": "faille_moria",
+					"objectif": "Referme la faille entre les racines de la Moria (reste immobile)",
+					"objet": "faille_moria",
+					"duree": 5,
+					"action": "Fermeture de la faille…",
+					"apparition": {
+						"type": "vipere_fracture_faille",
+						"position": [-98, -74],
+						"nombre": 3,
+						"rayon": 3,
+						"attaque": false
+					},
+					"apres": [
+						{
+							"cacher": "faille_moria"
+						}
+					],
+					"recit": {
+						"titre": "La Moria respire",
+						"texte": "La lumière violette rentre sous terre comme une eau qui s'en va. Les feuilles de la Moria frémissent. Derrière toi, Théano chante, et sa voix tremble un peu."
+					}
+				},
+				{
+					"id": "couronne_theano",
+					"objectif": "Retourne voir Théano, près de l'autel",
+					"pnj": "pretresse",
+					"repliques": [
+						"Tu as fait ce qu'aucun prêtre n'a su faire. Athéna a des alliés étranges, cette année.",
+						"Tiens. Une couronne tressée avec des rameaux de la Moria. Aux Panathénées, on en couronne les vainqueurs. Toi, tu l'as déjà gagnée.",
+						"Retourne voir la petite Néra. Je crois que quelque chose a changé."
+					],
+					"recompense": [
+						{
+							"id": "couronne_olivier",
+							"nom": "Couronne d'olivier sacré"
+						}
+					]
+				},
+				{
+					"id": "nera_parle",
+					"objectif": "Retourne à la ferme de Myrtô, voir Néra",
+					"pnj": "nera",
+					"repliques": [
+						"« ... Mer... merci. »",
+						"Néra porte les mains à sa bouche, surprise d'entendre sa propre voix. Puis elle parle, très vite, comme pour rattraper tout ce qu'elle n'a pas dit.",
+						"« L'homme aux masques, il avait un masque à lui aussi, un masque qui ne rit pas. Il a dit aux gens de la route : “Mettez-les, et vous n'aurez plus jamais besoin de vous disputer.” »",
+						"« Il allait à l'Agora. Il a dit qu'à l'Agora, bientôt, tout le monde se tairait. »"
+					],
+					"apres": [
+						{
+							"pnj": "markos",
+							"aller": [4, -126]
+						}
+					]
+				},
+				{
+					"id": "porte_athenes",
+					"objectif": "Rejoins Markos à la porte d'Athènes, tout au nord des Longs Murs",
+					"zone": [0, -128],
+					"rayon": 8
+				},
+				{
+					"id": "garde_muet",
+					"objectif": "Parle au garde de la porte d'Athènes",
+					"pnj": "garde_porte",
+					"repliques": [
+						"Le garde te regarde approcher. Il ouvre la bouche, la referme. Rien.",
+						"Il tire de sa ceinture une tablette de cire et y grave, en lettres maladroites : « PORTE FERMÉE. PERSONNE N'ENTRE AVANT LA FÊTE. »",
+						"Markos se penche par-dessus ton épaule : « Muet, lui aussi. Et un garde d'Athènes qui ne crie pas, crois-moi, ça n'existe pas. »"
+					],
+					"recit": {
+						"titre": "Athènes se tait",
+						"texte": "Derrière le rempart, la ville devrait gronder comme une ruche : la fête approche, les marchands crient, les orateurs s'époumonent. On n'entend que les cigales."
+					}
 				}
 			]
 		}

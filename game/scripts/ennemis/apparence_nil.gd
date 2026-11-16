@@ -1,6 +1,7 @@
 @tool
 extends Node3D
-## Apparence des bêtes d'Égypte : crocodile et hippopotame (le Nil), babouin (Toura).
+## Apparence des bêtes d'Égypte : crocodile et hippopotame (le Nil), babouin (Toura),
+## et du sanglier d'Attique (île de Grèce).
 ##
 ## Aucun modèle gratuit et réaliste n'étant encore choisi pour ces animaux, ils
 ## sont sculptés ici dans le code : le corps est une suite de sections ovales
@@ -10,7 +11,7 @@ extends Node3D
 ##
 ## Appelé par apparence_loup.gd (même interface : animer, mordre, colorer).
 
-## « crocodile », « hippopotame » ou « babouin ».
+## « crocodile », « hippopotame », « babouin » ou « sanglier ».
 @export var espece := "crocodile":
 	set(valeur):
 		espece = valeur
@@ -46,6 +47,8 @@ func _construire() -> void:
 		_construire_hippopotame()
 	elif espece == "babouin":
 		_construire_babouin()
+	elif espece == "sanglier":
+		_construire_sanglier()
 	else:
 		_construire_crocodile()
 
@@ -144,6 +147,30 @@ static func _materiau(cle: String) -> StandardMaterial3D:
 			m.roughness = 1.0
 			m.uv1_triplanar = true
 			m.uv1_scale = Vector3.ONE * 2.0
+		"sanglier":
+			# Soies brun-noir, raides et épaisses, plus claires au bout.
+			m.albedo_texture = _bruit_cellules(31, 0.2, false, [Color(0.3, 0.24, 0.18), Color(0.12, 0.1, 0.08)])
+			m.normal_enabled = true
+			m.normal_texture = _bruit_cellules(31, 0.2, true, [])
+			m.normal_scale = 1.6
+			m.roughness = 1.0
+			m.uv1_triplanar = true
+			m.uv1_scale = Vector3.ONE * 4.0
+		"sanglier_criniere":
+			# La crête de soies hérissées sur l'échine.
+			m.albedo_texture = _bruit_cellules(33, 0.3, false, [Color(0.2, 0.16, 0.12), Color(0.05, 0.04, 0.03)])
+			m.normal_enabled = true
+			m.normal_texture = _bruit_cellules(33, 0.3, true, [])
+			m.normal_scale = 2.0
+			m.roughness = 1.0
+			m.uv1_triplanar = true
+			m.uv1_scale = Vector3.ONE * 6.0
+		"groin":
+			m.albedo_color = Color(0.32, 0.22, 0.2)
+			m.roughness = 0.45
+		"sabot":
+			m.albedo_color = Color(0.08, 0.07, 0.06)
+			m.roughness = 0.5
 		"babouin_visage":
 			m.albedo_color = Color(0.78, 0.45, 0.42)
 			m.roughness = 0.5
@@ -424,6 +451,77 @@ func _construire_babouin() -> void:
 
 # --- Animation -------------------------------------------------------------------------
 
+# --- Sanglier d'Attique (environ 1,5 m, 0,9 m au garrot) ----------------------------------
+
+func _construire_sanglier() -> void:
+	_hauteur = 0.0
+	var peau := _materiau("sanglier")
+	# Un corps en coin : un avant massif et haut (le « bouclier »), un arrière plus étroit.
+	_piece(_corps, _loft([
+		[0.78, 0.12, 0.14, 0.66, 0.2], [0.68, 0.22, 0.24, 0.66, 0.3], [0.4, 0.27, 0.3, 0.64, 0.35],
+		[0.0, 0.29, 0.34, 0.66, 0.35], [-0.35, 0.3, 0.38, 0.7, 0.3], [-0.6, 0.26, 0.36, 0.72, 0.2],
+		[-0.75, 0.18, 0.26, 0.72, 0.1],
+	], 20), peau)
+	# La crête de soies, de la nuque au milieu du dos.
+	_piece(_corps, _loft([
+		[0.2, 0.02, 0.04, 1.0, 0.0], [-0.2, 0.06, 0.1, 1.06, 0.0], [-0.55, 0.07, 0.12, 1.08, 0.0], [-0.78, 0.03, 0.06, 1.02, 0.0],
+	], 8), _materiau("sanglier_criniere"))
+	# La queue fine, terminée par un pinceau.
+	_queue.clear()
+	var queue := _pivot(_corps, Vector3(0, 0.74, 0.8), "Queue")
+	_piece(queue, _cylindre(0.012, 0.025, 0.3), peau, Vector3(0, -0.12, 0.05), Vector3(0.35, 0, 0))
+	_piece(queue, _sphere(0.035), _materiau("sanglier_criniere"), Vector3(0, -0.27, 0.1), Vector3.ZERO, Vector3(0.8, 1.6, 0.8))
+	_queue.append(queue)
+	_queue.append(queue)
+	# La tête en coin, longue, qui finit par le groin.
+	_tete = _pivot(_corps, Vector3(0, 0.74, -0.72), "Tete")
+	_piece(_tete, _loft([
+		[0.12, 0.2, 0.26, 0.0, 0.2], [-0.1, 0.18, 0.22, -0.06, 0.3], [-0.3, 0.13, 0.15, -0.14, 0.3],
+		[-0.48, 0.09, 0.1, -0.22, 0.3], [-0.58, 0.075, 0.075, -0.26, 0.2],
+	], 16), peau)
+	# Le groin : un disque rose-gris au bout du museau.
+	_piece(_tete, _cylindre(0.075, 0.075, 0.04), _materiau("groin"), Vector3(0, -0.26, -0.6), Vector3(PI / 2, 0, 0))
+	for cote in [-1.0, 1.0]:
+		_piece(_tete, _sphere(0.022), _materiau("oeil"), Vector3(cote * 0.13, 0.04, -0.2))
+		# Les oreilles dressées, poilues.
+		var oreille := _pivot(_tete, Vector3(cote * 0.12, 0.2, 0.05), "Oreille")
+		_piece(oreille, _cone(0.06, 0.16), peau, Vector3(0, 0.07, 0), Vector3(0.2, 0, cote * -0.3), Vector3(1, 1, 0.5))
+		_oreilles.append(oreille)
+		# Les défenses qui sortent de la gueule et se recourbent vers le haut.
+		_piece(_tete, _cone(0.022, 0.16), _materiau("dent"), Vector3(cote * 0.085, -0.19, -0.45), Vector3(-0.5, 0, cote * -0.45))
+	# La mâchoire du bas, petite.
+	_machoire = _pivot(_tete, Vector3(0, -0.24, -0.2), "Machoire")
+	_piece(_machoire, _loft([[0.1, 0.1, 0.05, 0.0, 0.3], [-0.3, 0.06, 0.04, -0.04, 0.3]], 10), peau)
+	# Quatre pattes fines terminées par des sabots fendus.
+	var attaches := [Vector3(-0.17, 0.5, -0.45), Vector3(0.17, 0.5, -0.45), Vector3(-0.15, 0.52, 0.55), Vector3(0.15, 0.52, 0.55)]
+	for k in 4:
+		var patte := _pivot(_corps, attaches[k], "Patte%d" % k)
+		_piece(patte, _cylindre(0.05, 0.08, 0.32), peau, Vector3(0, -0.12, 0))
+		_piece(patte, _cylindre(0.035, 0.045, 0.22), peau, Vector3(0, -0.38, 0))
+		_piece(patte, _cylindre(0.035, 0.045, 0.06), _materiau("sabot"), Vector3(0, -0.5, 0))
+		_pattes.append(patte)
+
+
+func _animer_sanglier(delta: float, vitesse: float) -> void:
+	var allure := clampf(vitesse / 7.0, 0.0, 1.0)
+	_phase += delta * (2.4 + vitesse * 2.0)
+	var t := Time.get_ticks_msec() * 0.001
+	# Petit trot nerveux ; à la charge, les pattes battent vite et le corps plonge en avant.
+	var pas := [0.0, PI, PI, 0.0]
+	for k in _pattes.size():
+		_pattes[k].rotation.x = sin(_phase + pas[k]) * (0.2 + 0.5 * allure) * minf(1.0, allure * 3.0)
+	_corps.position.y = absf(sin(_phase)) * 0.04 * allure
+	_corps.rotation.x = allure * 0.06
+	_queue[0].rotation.z = sin(t * 6.0) * 0.4
+	for k in _oreilles.size():
+		_oreilles[k].rotation.x = sin(t * 3.0 + k) * 0.15 * float(fmod(t, 4.0) < 0.8)
+	# Il fouille le sol à l'arrêt ; quand il frappe, il donne un coup de boutoir vers le haut.
+	var fouille := (1.0 - allure) * (0.25 + sin(t * 1.2) * 0.15)
+	var coup := sin(clampf(_morsure / 0.35, 0.0, 1.0) * PI)
+	_tete.rotation.x = fouille - coup * 0.7
+	_machoire.rotation.x = coup * 0.3
+
+
 func colorer(allie: bool) -> void:
 	if not allie:
 		return
@@ -436,7 +534,7 @@ func colorer(allie: bool) -> void:
 
 
 func mordre() -> void:
-	_morsure = 0.45 if espece == "hippopotame" else (0.4 if espece == "babouin" else 0.3)
+	_morsure = 0.45 if espece == "hippopotame" else (0.4 if espece == "babouin" else 0.35 if espece == "sanglier" else 0.3)
 
 
 func animer(delta: float, vitesse: float, mort: bool) -> void:
@@ -445,7 +543,7 @@ func animer(delta: float, vitesse: float, mort: bool) -> void:
 	if mort:
 		# Sur le dos (crocodile) ou couché sur le flanc (hippopotame).
 		var angle := PI * 0.95 if espece == "crocodile" else PI / 2
-		var sol := 0.35 if espece == "crocodile" else (0.12 if espece == "babouin" else 0.5)
+		var sol := 0.35 if espece == "crocodile" else (0.12 if espece == "babouin" else 0.2 if espece == "sanglier" else 0.5)
 		_corps.rotation.z = lerpf(_corps.rotation.z, angle, 0.12)
 		_corps.position.y = lerpf(_corps.position.y, sol, 0.12)
 		if _machoire != null:
@@ -458,6 +556,8 @@ func animer(delta: float, vitesse: float, mort: bool) -> void:
 		_animer_hippopotame(delta, vitesse)
 	elif espece == "babouin":
 		_animer_babouin(delta, vitesse)
+	elif espece == "sanglier":
+		_animer_sanglier(delta, vitesse)
 	else:
 		_animer_crocodile(delta, vitesse)
 

@@ -3,7 +3,8 @@ extends "res://scripts/monde/egypte/objet_egypte.gd"
 ## Objets de quête de l'île de Grèce (en plus de ceux de l'Égypte et de la Préhistoire) :
 ## - « sac_voyage » : le sac à dos de l'agent Markos, coincé entre deux rochers ;
 ## - « filet » : un filet de pêche emmêlé, avec ses flotteurs de liège ;
-## - « amphore » : une amphore de terre cuite, debout.
+## - « amphore » : une amphore de terre cuite, debout ;
+## - « masque » : un masque de théâtre blanc, posé dans l'herbe, avec un éclat violet.
 
 
 func _construire_sac_voyage() -> void:
@@ -90,3 +91,49 @@ func _construire_amphore() -> void:
 	col.material_override = argile
 	col.position.y = 0.76
 	_visuel.add_child(col)
+
+
+func _construire_masque() -> void:
+	# Un masque de tragédie en lin plâtré, blanc, la bouche ouverte, posé de biais.
+	var platre := StandardMaterial3D.new()
+	platre.albedo_color = Color(0.92, 0.9, 0.84)
+	platre.roughness = 0.7
+	var noir := StandardMaterial3D.new()
+	noir.albedo_color = Color(0.04, 0.03, 0.03)
+	var visage := MeshInstance3D.new()
+	var s := SphereMesh.new()
+	s.radius = 0.16
+	s.height = 0.4
+	s.is_hemisphere = true
+	visage.mesh = s
+	visage.material_override = platre
+	visage.scale = Vector3(1.0, 1.0, 0.45)
+	visage.rotation = Vector3(-1.35, 0.5, 0.0)
+	visage.position.y = 0.06
+	_visuel.add_child(visage)
+	for k in 3:
+		var trou := MeshInstance3D.new()
+		var t := SphereMesh.new()
+		t.radius = 0.03 if k < 2 else 0.045
+		t.height = t.radius * 1.2
+		trou.mesh = t
+		trou.material_override = noir
+		trou.position = Vector3((-0.055 if k == 0 else 0.055) if k < 2 else 0.0, 0.18, 0.06 if k < 2 else -0.07)
+		trou.scale = Vector3(1.0, 0.3, 1.3 if k < 2 else 0.8)
+		visage.add_child(trou)
+	# L'éclat de faille, violet, planté dans le front.
+	var cristal := StandardMaterial3D.new()
+	cristal.albedo_color = Color(0.6, 0.3, 1.0)
+	cristal.emission_enabled = true
+	cristal.emission = Color(0.6, 0.3, 1.0)
+	cristal.emission_energy_multiplier = 2.5
+	var eclat := MeshInstance3D.new()
+	var c := CylinderMesh.new()
+	c.top_radius = 0.0
+	c.bottom_radius = 0.025
+	c.height = 0.12
+	c.radial_segments = 5
+	eclat.mesh = c
+	eclat.material_override = cristal
+	eclat.position = Vector3(0.0, 0.14, 0.13)
+	visage.add_child(eclat)
