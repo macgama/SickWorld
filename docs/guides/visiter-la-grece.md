@@ -16,7 +16,7 @@ On y trouve, du sud au nord :
 
 Au loin, au bout des Longs Murs, on voit **l'Acropole et le Parthénon** tout neuf. À l'ouest, l'île de Salamine ; au sud, Égine.
 
-Tout est fabriqué par le code : le terrain, les bâtiments, les colonnes, les trières, les oliviers, les chiens (le modèle du loup recoloré) et le poulpe. Les textures viennent de **Poly Haven** (gratuites, licence CC0) ; celles qui sont propres à la Grèce (marbre, tuiles) seront ajoutées plus tard, en attendant on réutilise celles de l'Égypte.
+Tout est fabriqué par le code : le terrain, les bâtiments, les colonnes, les trières, les oliviers. Les chiens, le molosse et le poulpe sont de vrais modèles 3D gratuits de Sketchfab (licence CC-BY, auteurs cités dans `game/assets/animaux/CREDITS.md`) : un chien roux de rue, un labrador assombri pour le molosse, et un poulpe brun-rouge dont les bras ondulent. Les bêtes fracturées ont les yeux ou des taches violettes. Les textures viennent de **Poly Haven** (gratuites, licence CC0) ; celles qui sont propres à la Grèce (marbre, tuiles) seront ajoutées plus tard, en attendant on réutilise celles de l'Égypte.
 
 ## L'ouvrir
 

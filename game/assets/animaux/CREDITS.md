@@ -79,3 +79,32 @@ Modèles 3D téléchargés sur Sketchfab, sous licence **Creative Commons Attrib
   Dans le jeu : selle et fers cachés, robe isabelle et pattes sombres par le shader
   `shaders/robe_cheval.gdshader`, crins teintés en noir.
 - **Animations (28) :** Skeleton|1 Ilde, Walk, Gallop, Jump, Jump_Run, Eat, Sleep, Swim, Death, Buck…
+
+## Chien errant du Pirée (Grèce) — `chien/scene.gltf`
+
+- **Modèle :** Dog animated
+- **Auteur :** MAXDESIGN-3D (https://sketchfab.com/MAXDESIGN)
+- **URL :** https://sketchfab.com/3d-models/dog-animated-21b7336c58a442578ab88fc47233ef11
+- **Licence :** CC-BY 4.0 (voir `chien/license.txt`)
+- **Remarques :** fichiers glTF d'origine. Squelette Biped de 39 os. Une seule animation
+  (« Take 001 », 8,1 s) dont le jeu tire deux clips : la marche (5,6 à 6,97 s) et l'attente
+  (1,6 à 5,4 s). Morsure, mort et yeux violets ajoutés par `scripts/ennemis/apparence_chien.gd`.
+
+## Molosse du Pirée (Grèce, fait d'un labrador assombri) — `molosse/scene.gltf`
+
+- **Modèle :** Labrador Dog
+- **Auteur :** kenchoo (https://sketchfab.com/kenchoo)
+- **URL :** https://sketchfab.com/3d-models/labrador-dog-1f56cfbab07e4fe49b5d9e521c82073a
+- **Licence :** CC-BY 4.0 (voir `molosse/license.txt`)
+- **Remarques :** fichiers glTF d'origine. 53 os, une seule animation d'attente (13 s). Dans le
+  jeu : pelage teinté presque noir, objet `Object_18` caché, marche et course faites en code.
+
+## Poulpe fracturé de la crique (Grèce) — `poulpe/poulpe.glb`
+
+- **Modèle :** Octopus with Textured Reddish-Brown Skin
+- **Auteur :** Pigcraft (https://sketchfab.com/s8819296)
+- **URL :** https://sketchfab.com/3d-models/octopus-with-textured-reddish-brown-skin-a6e8afbc35604438bbd4fba04e866025
+- **Licence :** CC-BY 4.0 (voir `poulpe/license.txt`)
+- **Remarques :** allégé de 1 968 430 à 40 000 triangles avec Blender
+  (`tools/animaux/alleger_poulpe.py`), textures réduites à 2048 px. Pas de squelette : les bras
+  ondulent grâce au shader `shaders/poulpe_bras.gdshader`.

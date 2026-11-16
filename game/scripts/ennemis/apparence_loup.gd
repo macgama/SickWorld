@@ -40,6 +40,7 @@ const ApparenceNil := preload("res://scripts/ennemis/apparence_nil.gd")
 const ApparenceOublie := preload("res://scripts/ennemis/apparence_oublie.gd")
 const ApparenceSerpent := preload("res://scripts/ennemis/apparence_serpent.gd")
 const ApparencePoulpe := preload("res://scripts/ennemis/apparence_poulpe.gd")
+const ApparenceChien := preload("res://scripts/ennemis/apparence_chien.gd")
 ## Apparence d'une autre famille d'animaux à qui tout est confié (bêtes du Nil).
 var _delegue: Node3D
 
@@ -97,6 +98,15 @@ func _ready() -> void:
 		add_child(_delegue)
 		if type.contains("fracture"):
 			scale = Vector3.ONE * 1.5
+		return
+	if (type.begins_with("chien") or type.begins_with("molosse")) \
+			and ApparenceChien.disponible("molosse" if type.begins_with("molosse") else "chien"):
+		# Les chiens du port du Pirée (île de Grèce) : vrais modèles de chiens.
+		# « espece » reste « loup » pour les bruits (grondements, morsures).
+		_delegue = ApparenceChien.new()
+		_delegue.name = "Chien"
+		_delegue.espece = "molosse" if type.begins_with("molosse") else "chien"
+		add_child(_delegue)
 		return
 	if type.begins_with("renne"):
 		espece = "renne"
