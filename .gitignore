@@ -13,3 +13,4 @@ export_credentials.cfg
 .DS_Store
 Thumbs.db
 desktop.ini
+tools/personnages/habits_json/

@@ -140,6 +140,9 @@ func _habiller() -> void:
 		lin.albedo_color = teinte.lerp(Color(0.4, 0.28, 0.18), 0.7)
 		lin.roughness = 0.9
 		(n as MeshInstance3D).material_override = lin
+	# Vrai pagne de lin (voir habit_epoque.gd) quand il existe.
+	if _corps.has_method("porter_habit"):
+		_corps.porter_habit("shendyt" if variante == "garde" else "shendyt_court", {"principal": teinte})
 	if _corps.has_method("equiper"):
 		if variante == "garde":
 			_corps.equiper({"tete": {"forme": "bandeau", "couleur": "#2e2620"},
@@ -158,6 +161,8 @@ func _habiller_athenien(hasard: RandomNumberGenerator) -> void:
 	var teinte := Color.from_string(HABITS_GRECS[hasard.randi() % HABITS_GRECS.size()], Color.WHITE)
 	if _corps.has_method("teindre_tenue"):
 		_corps.teindre_tenue(teinte * Color(0.92, 0.9, 0.88))
+	if _corps.has_method("porter_habit"):
+		_corps.porter_habit("peplos" if femme else "chiton_court", {"principal": teinte})
 	_gangue.set_shader_parameter("niveau", hasard.randf_range(1.05, 1.4) * (0.94 if femme else 1.0))
 	_poser_gangue(true)
 
@@ -173,6 +178,8 @@ func _habiller_masque(hasard: RandomNumberGenerator) -> void:
 		teinte = Color("#4a1d24")
 	if _corps.has_method("teindre_tenue"):
 		_corps.teindre_tenue(teinte)
+	if _corps.has_method("porter_habit"):
+		_corps.porter_habit("chiton_himation", {"principal": teinte.lightened(0.15), "drape": teinte})
 	if _corps.has_method("equiper"):
 		_corps.equiper({"tete": {"forme": "masque_theatre", "couleur": "#d8b65a" if chef else "#ece6da"},
 				"arme_principale": {"forme": "lame", "couleur": "#a8743a"}})
@@ -187,6 +194,8 @@ func _habiller_mercenaire(hasard: RandomNumberGenerator) -> void:
 	var teinte := Color.from_string(["#7a2a1e", "#6a2a22", "#5e3a2a"][hasard.randi() % 3], Color.WHITE)
 	if _corps.has_method("teindre_tenue"):
 		_corps.teindre_tenue(teinte)
+	if _corps.has_method("porter_habit"):
+		_corps.porter_habit("chiton_court", {"principal": teinte})
 	if _corps.has_method("equiper"):
 		_corps.equiper({"tete": {"forme": "casque_hoplite", "couleur": "#b0813e"},
 				"arme_principale": {"forme": "lance", "couleur": "#6b5034"},

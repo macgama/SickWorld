@@ -3,6 +3,7 @@
 	"modeles_figurants": {
 		"clan_homme": {
 			"modele": "homme",
+			"habit": "peaux",
 			"taille_cm": 170,
 			"peau": "#b08260",
 			"habits": "#6e5640",
@@ -14,6 +15,7 @@
 		},
 		"clan_femme": {
 			"modele": "femme",
+			"habit": "peaux_femme",
 			"taille_cm": 160,
 			"peau": "#b88a66",
 			"habits": "#6c5038",
@@ -24,6 +26,7 @@
 		},
 		"clan_chasseur": {
 			"modele": "homme",
+			"habit": "peaux",
 			"taille_cm": 174,
 			"peau": "#a87a58",
 			"habits": "#7a6048",
@@ -73,6 +76,7 @@
 		},
 		"egy_homme": {
 			"modele": "homme",
+			"habit": "shendyt",
 			"taille_cm": 170,
 			"peau": "#8f5f3e",
 			"habits": "#ddd2b8",
@@ -82,18 +86,21 @@
 		},
 		"egy_ouvrier": {
 			"modele": "homme",
+			"habit": "shendyt_court",
 			"taille_cm": 168,
 			"peau": "#87583a",
 			"habits": "#d8cdb2"
 		},
 		"egy_femme": {
 			"modele": "femme",
+			"habit": "kalasiris",
 			"taille_cm": 158,
 			"peau": "#9b6a46",
 			"habits": "#efe6d2"
 		},
 		"egy_scribe": {
 			"modele": "homme",
+			"habit": "shendyt_long",
 			"taille_cm": 166,
 			"peau": "#94633f",
 			"habits": "#f2ecdc",
@@ -103,18 +110,21 @@
 		},
 		"nomade_h": {
 			"modele": "homme",
+			"habit": "robe_nomade",
 			"taille_cm": 174,
 			"peau": "#7a4f33",
 			"habits": "#5c4a3a"
 		},
 		"nomade_f": {
 			"modele": "femme",
+			"habit": "robe_nomade",
 			"taille_cm": 162,
 			"peau": "#7f5236",
 			"habits": "#6a5442"
 		},
 		"grec_homme": {
 			"modele": "homme",
+			"habit": "chiton_court",
 			"taille_cm": 172,
 			"peau": "#a8794f",
 			"habits": "#e4dac4",
@@ -124,6 +134,7 @@
 		},
 		"grec_docker": {
 			"modele": "homme",
+			"habit": "exomis",
 			"taille_cm": 171,
 			"peau": "#93653f",
 			"habits": "#a8916c",
@@ -136,6 +147,7 @@
 		},
 		"grec_marin": {
 			"modele": "homme",
+			"habit": "chiton_court",
 			"taille_cm": 174,
 			"peau": "#9c6c47",
 			"habits": "#c4b08a",
@@ -148,6 +160,7 @@
 		},
 		"grec_marchand": {
 			"modele": "homme",
+			"habit": "chiton_himation",
 			"taille_cm": 169,
 			"peau": "#a77852",
 			"habits": "#6a3a2e",
@@ -158,6 +171,7 @@
 		},
 		"grec_vieillard": {
 			"modele": "homme",
+			"habit": "chiton_himation",
 			"taille_cm": 167,
 			"peau": "#b08560",
 			"habits": "#ece4d2",
@@ -168,6 +182,7 @@
 		},
 		"grec_femme": {
 			"modele": "femme",
+			"habit": "peplos_himation",
 			"taille_cm": 160,
 			"peau": "#b98c66",
 			"habits": "#8a4a3a",
@@ -178,6 +193,7 @@
 		},
 		"grec_femme_2": {
 			"modele": "femme",
+			"habit": "peplos_himation",
 			"taille_cm": 158,
 			"peau": "#b38660",
 			"habits": "#4a5a7a",
@@ -188,6 +204,7 @@
 		},
 		"grec_servante": {
 			"modele": "femme",
+			"habit": "peplos",
 			"taille_cm": 157,
 			"peau": "#9c6c48",
 			"habits": "#c8b896",
@@ -197,6 +214,7 @@
 		},
 		"grec_pretresse": {
 			"modele": "femme",
+			"habit": "peplos_himation",
 			"taille_cm": 164,
 			"peau": "#c09470",
 			"habits": "#f2ede0",
@@ -207,6 +225,7 @@
 		},
 		"archer_scythe": {
 			"modele": "homme",
+			"habit": "scythe",
 			"taille_cm": 178,
 			"peau": "#c49a78",
 			"habits": "#3a4a6a"

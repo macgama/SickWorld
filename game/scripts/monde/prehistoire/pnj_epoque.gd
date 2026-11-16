@@ -5,6 +5,7 @@ extends "res://scripts/monde/pnj.gd"
 ## son nom et ses répliques viennent de data/prehistoire_pnj.json.
 ## Un personnage « blessé » est allongé au sol jusqu'à ce qu'on le soigne.
 
+const HabitEpoque := preload("res://scripts/personnage/habit_epoque.gd")
 const DONNEES_EPOQUE := "res://data/prehistoire_pnj.json"
 ## Les personnages des autres îles (lus en plus de ceux de la Préhistoire).
 const AUTRES_EPOQUES := ["res://data/egypte_pnj.json", "res://data/grece_pnj.json"]
@@ -71,7 +72,8 @@ func _habiller(fiche: Dictionary) -> void:
 		_apparence.appliquer({"sexe": fiche.get("modele", "homme"),
 				"taille_cm": fiche.get("taille_cm", 175 if fiche.get("modele", "homme") == "homme" else 165),
 				"peau": Color.from_string(String(fiche["peau"]), Color.WHITE)})
-	if fiche.has("habits"):
+	var habille := HabitEpoque.depuis_fiche(_apparence, fiche)
+	if fiche.has("habits") and not habille:
 		_teindre_habits(Color.from_string(String(fiche["habits"]), Color.WHITE))
 	if not fiche.has("tenue") or not _apparence.has_method("equiper"):
 		return
