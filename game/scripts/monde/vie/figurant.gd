@@ -26,7 +26,7 @@ var arrets: Array = []
 ## Geste pendant les pauses : « travail » (frappe lente, comme on taille la pierre),
 ## « priere », « discute » (se tourne vers « regarde »), « assis » (allongé au repos), « » = rien.
 var geste := ""
-## Ce qu'il porte : « jarre » (sur la tête), « panier », « fagot », « sac », « lance », « ».
+## Ce qu'il porte : « jarre » (sur la tête), « amphore » (sur l'épaule), « panier », « fagot », « sac », « lance », « ».
 var porte := ""
 ## Orientation pendant les pauses (degrés, 0 = nord) ; NAN = garde son sens de marche.
 var regarde := NAN
@@ -152,6 +152,14 @@ func _ajouter_charge() -> void:
 			objet.add_child(sac)
 		"lance":
 			_piece(objet, _cyl(0.015, 0.018, 1.9), bois, Vector3(0, 0.5, 0))
+		"amphore":
+			# Une amphore grecque couchée sur l'épaule (vin, huile), le col vers l'avant.
+			objet.position = Vector3(-0.02, 0.2, 0.0) * echelle
+			objet.rotation = Vector3(PI / 2 - 0.25, 0, 0)
+			_piece(objet, _cyl(0.15, 0.06, 0.42), terre, Vector3(0, 0, 0))
+			_piece(objet, _cyl(0.06, 0.15, 0.12), terre, Vector3(0, 0.27, 0))
+			_piece(objet, _cyl(0.04, 0.045, 0.14), terre, Vector3(0, 0.39, 0))
+			_piece(objet, _cyl(0.0, 0.05, 0.1), terre, Vector3(0, -0.26, 0)).rotation.x = PI
 
 
 func _ajouter_parapluie() -> void:
