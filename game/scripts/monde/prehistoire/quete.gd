@@ -180,17 +180,30 @@ func _reprendre_choix() -> void:
 
 
 ## Une étape avec « si_choix » ({"id_du_choix": "objet"}) n'existe que dans une des
-## branches d'un choix : on la saute si le joueur a choisi autre chose.
+## branches d'un choix : on la saute si le joueur a choisi autre chose. L'id peut viser
+## une autre île (« egypte:reponse_vera ») et l'objet être nié (« !repondre_noms »).
 func _hors_choix(e: Dictionary) -> bool:
 	if not e.has("si_choix"):
 		return false
 	var conditions: Dictionary = e["si_choix"]
 	for id in conditions:
 		var fait := ""
-		for autre in etapes:
-			if autre.get("id", "") == id:
-				fait = String(autre.get("choix_fait", ""))
-		if fait != String(conditions[id]):
+		if ":" in String(id):
+			# Un choix fait sur une autre île (ex. "egypte:reponse_vera").
+			var parties := String(id).split(":")
+			var cfg := ConfigFile.new()
+			if cfg.load(Profil.chemin(fichier_progression)) == OK:
+				fait = String(cfg.get_value(parties[0], "choix_" + parties[1], ""))
+		else:
+			for autre in etapes:
+				if autre.get("id", "") == id:
+					fait = String(autre.get("choix_fait", ""))
+		# « !objet » : l'étape existe si le joueur n'a PAS fait ce choix-là.
+		var voulu := String(conditions[id])
+		if voulu.begins_with("!"):
+			if fait == voulu.substr(1):
+				return true
+		elif fait != voulu:
 			return true
 	return false
 

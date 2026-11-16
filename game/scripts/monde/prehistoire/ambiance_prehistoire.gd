@@ -124,6 +124,27 @@ const CLIMATS := {
 		"nuage_lumiere": Color(1.0, 0.98, 0.94),
 		"saturation": 1.06,
 	},
+	"laurion": {
+		"etalonnage": "mediterranee",
+		# Fin d'après-midi : soleil plus bas, lumière dorée sur la poussière des fours.
+		"soleil": Vector2(-120.0, 34.0),
+		"couleur_soleil": Color(1.0, 0.88, 0.7),
+		"energie_soleil": 2.8,
+		"couverture": 0.18,
+		"brume": Color(0.74, 0.7, 0.62),
+		"densite_brume": 0.0028,
+		"brume_volume": 0.006,
+		"albedo_brume": Color(0.92, 0.86, 0.76),
+		"ambiance": 0.7,
+		"zenith": Color(0.12, 0.26, 0.52),
+		"horizon": Color(0.78, 0.74, 0.66),
+		# L'air chargé de poussière et de fumée voile l'horizon.
+		"brume_ciel": 0.35,
+		"horizon_soleil": Color(1.0, 0.82, 0.6),
+		"nuage_ombre": Color(0.6, 0.58, 0.56),
+		"nuage_lumiere": Color(1.0, 0.94, 0.86),
+		"saturation": 0.98,
+	},
 	"carrieres_toura": {
 		"etalonnage": "desert",
 		# Soleil de l'après-midi à l'ouest : il éclaire de face la falaise blanche.

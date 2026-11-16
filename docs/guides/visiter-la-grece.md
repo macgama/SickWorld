@@ -1,4 +1,4 @@
-# Visiter la Grèce : le Pirée, les Oliveraies d'Attique et Athènes
+# Visiter la Grèce : le Pirée, les Oliveraies d'Attique, Athènes et le Laurion
 
 Deux zones de l'île de Grèce sont jouables : **le Pirée** (niveaux 20 à 22) et **les Oliveraies d'Attique** (niveaux 22 à 25). Le Pirée est le port d'Athènes, pendant l'été 438 av. J.-C., au temps de Périclès. C'est là que mène le portail **Grèce antique** du QG de la Vigie (le troisième en partant de la gauche). La conception de toute l'île est dans [ILE-3-GRECE.md](../ILE-3-GRECE.md).
 
@@ -23,7 +23,7 @@ Tout est fabriqué par le code : le terrain, les bâtiments, les colonnes, les t
 1. Dans GitHub Desktop, sur la branche **main** : **Fetch origin** puis **Pull origin** (Claude le fait pour toi quand il le peut).
 2. **Ferme Godot et rouvre-le** s'il était ouvert pendant la mise à jour.
 3. **Par le jeu** : F5, **Jouer seul**, puis au QG de la Vigie, traverse le portail **Grèce antique**.
-4. **Directement** : double-clique sur `scenes/monde/grece/le_piree.tscn` (ou `oliveraies.tscn`) puis **F6**.
+4. **Directement** : double-clique sur `scenes/monde/grece/le_piree.tscn` (ou `oliveraies.tscn`, `athenes.tscn`, `laurion.tscn`) puis **F6**.
 
 Pour revenir à Hikari Bay : éloigne-toi un peu du portail, puis retraverse-le.
 
@@ -106,6 +106,29 @@ Autour : le **temple d'Héphaïstos** sur sa colline (à l'ouest), le **Céramiq
 5. Ses quatre gardes attaquent et Masque s'enfuit par une faille. Lenoir donne le **masque fendu** (relique épique) et ouvre un **portail de campagne** derrière la skènè.
 6. Au QG, la commandante Morel ouvre les **archives de la Vigie** (nouvelle salle, porte ouest de la salle des portails). L'archiviste **Odile Ferrand** montre le dossier de Damien Roche.
 
+## Les mines du Laurion
+
+Les mines d'argent d'Athènes, à une journée de marche au sud-est (niveaux 28 et 29). On y va par **la route du Laurion**, qui part du hameau de l'est des Oliveraies, vers le sud. L'air y est chargé de poussière et de fumée. On y trouve :
+
+- **l'atelier de lavage** (l'ergastérion), ses tables en pente et sa citerne ronde, où l'on lave le minerai broyé ;
+- **les cabanes** des mineurs, des esclaves venus de Thrace et de partout ;
+- **les fours** où l'on fond le minerai pour en tirer le plomb puis l'argent, avec leurs tas de scories noires ;
+- **la grande citerne**, que les hommes de Masque vident par un canal vers les puits, et leur **camp** de tentes de cuir ;
+- **la colline des puits**, avec l'entrée de la mine et, à l'est, **la vieille descenderie**.
+
+Sous la colline, **les galeries** : étroites, étayées de bois, éclairées par des lampes à huile (et par la lampe de Daos, que le joueur porte à la ceinture). Elles descendent jusqu'à deux grandes salles, puis remontent par la descenderie.
+
+## Le chapitre 6 : « L'argent du Laurion »
+
+1. Revenir en Grèce, retrouver **Markos** dans les Oliveraies, puis prendre **la route du Laurion**.
+2. Parler à **Sosias**, l'intendant de la mine : l'eau manque, les galeries sont noyées, le travail s'arrête.
+3. **Daos**, un vieux mineur, donne sa **lampe de mineur** et parle de la grande citerne.
+4. Briser le **mur de boucliers** : quatre mercenaires de Masque, déguisés en hoplites, gardent la citerne.
+5. **Refermer la vanne** (F, 2 secondes) : le canal se vide. Dans leur camp, fouiller les sacs : des centaines d'**ostraka**, des tessons gravés « PÉRIKLÈS ». Quelqu'un prépare un vote.
+6. **Descendre dans la mine** et **saboter les trois machines** de Masque (F, 2,5 secondes chacune). Un éboulement ferme le chemin de l'entrée : on ressort par la vieille descenderie.
+7. **Vera Lind** attend dehors. Si, en Égypte, on lui avait répondu en lui donnant les noms, elle vient prévenir ; sinon, elle observe et parle moins.
+8. **Embuscade** aux fours : cinq mercenaires. Sosias remercie avec une **chouette d'argent** (bijou épique). Suite au chapitre 7, « L'ostracisme ».
+
 ## Les ennemis
 
 | Ennemi | Niveau | Où | Particularité |
@@ -118,14 +141,15 @@ Autour : le **temple d'Héphaïstos** sur sa colline (à l'ouest), le **Céramiq
 | Vipère fracturée | 23 | Les rochers autour du sanctuaire | Presque invisible dans les cailloux |
 | Chien errant fracturé | 24-25 | Athènes : Céramique, Pnyx, faubourg du théâtre | En meute |
 | Pétrifié | 25 | L'Agora (quête) | On ne le tue pas : on brise sa gangue de marbre, puis on lui rend la voix |
+| Mercenaire de Masque | 28 | Le Laurion | Casque d'hoplite, lance et bouclier rond ; en groupe |
 
 Le niveau maximum passe de 20 à 30 avec cette île.
 
 ## Pour les curieux
 
-- Le code des zones : `scripts/monde/grece/le_piree.gd`, `oliveraies.gd` et `athenes.gd` (et `ile_grece.gd` pour ce qui sera commun à toute l'île : colonnes, portiques peints, maisons, amphores, trières, oliviers, cyprès).
+- Le code des zones : `scripts/monde/grece/le_piree.gd`, `oliveraies.gd`, `athenes.gd`, `laurion.gd` et `galeries_laurion.gd` (et `ile_grece.gd` pour ce qui sera commun à toute l'île : colonnes, portiques peints, maisons, amphores, trières, oliviers, cyprès).
 - La trière où l'on rame : `scripts/monde/grece/triere_cadence.gd` (le rythme de la flûte, la marge pour un coup en cadence et la distance gagnée se règlent en haut du fichier).
 - Les textes de la quête : `data/grece_quete.json` ; les personnages : `data/grece_pnj.json`.
 - Les interrogatoires à la Socrate : une étape « objet » (la bonne réponse) avec des « leurres » (les mauvaises réponses et ce qu'on répond alors), dans `data/grece_quete.json`.
 - Les Pétrifiés : leur apparence est dans `scripts/ennemis/apparence_oublie.gd` (la gangue de marbre est un petit shader, en haut du fichier).
-- Les tests automatiques : `tests/test_le_piree.gd`, `tests/test_oliveraies.gd` et `tests/test_athenes.gd`. Les images : `tests/capture_athenes.gd`.
+- Les tests automatiques : `tests/test_le_piree.gd`, `tests/test_oliveraies.gd`, `tests/test_athenes.gd` et `tests/test_laurion.gd`. Les images : `tests/capture_athenes.gd` et `tests/capture_laurion.gd`.

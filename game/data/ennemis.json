@@ -639,5 +639,19 @@
 		"distance_laisse": 40,
 		"entraide": 18,
 		"temps_reapparition": 0
+	},
+	"mercenaire_masque": {
+		"nom": "Mercenaire de Masque",
+		"niveau": 28,
+		"points_de_vie": 1150,
+		"degats": [32, 44],
+		"intervalle_attaque": 2.0,
+		"portee_attaque": 2.8,
+		"vitesse_course": 5.4,
+		"vitesse_marche": 1.3,
+		"distance_detection": 16,
+		"distance_laisse": 36,
+		"entraide": 14,
+		"temps_reapparition": 120
 	}
 }

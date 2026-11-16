@@ -89,7 +89,7 @@ func _ready() -> void:
 		return
 	# L'amulette offerte par la « prêtresse de Memphis » : un scarabée qui luit.
 	# Le garde, lui, cache sous sa ceinture une petite diode rouge (une radio moderne).
-	var garde := variante == "garde"
+	var garde := variante == "garde" or variante == "mercenaire"
 	_amulette = MeshInstance3D.new()
 	var s := SphereMesh.new()
 	s.radius = 0.015 if garde else 0.035
@@ -115,6 +115,9 @@ func _habiller() -> void:
 		return
 	if variante == "masque":
 		_habiller_masque(hasard)
+		return
+	if variante == "mercenaire":
+		_habiller_mercenaire(hasard)
 		return
 	if _corps.has_method("appliquer"):
 		_corps.appliquer({"sexe": "homme", "taille_cm": hasard.randi_range(166, 180),
@@ -173,6 +176,21 @@ func _habiller_masque(hasard: RandomNumberGenerator) -> void:
 	if _corps.has_method("equiper"):
 		_corps.equiper({"tete": {"forme": "masque_theatre", "couleur": "#d8b65a" if chef else "#ece6da"},
 				"arme_principale": {"forme": "lame", "couleur": "#a8743a"}})
+
+
+## Un mercenaire de Masque (île de Grèce) : un hoplite au casque de bronze, au grand
+## bouclier rond et à la lance. Sous la tunique, une radio moderne (la diode rouge).
+func _habiller_mercenaire(hasard: RandomNumberGenerator) -> void:
+	if _corps.has_method("appliquer"):
+		_corps.appliquer({"sexe": "homme", "taille_cm": hasard.randi_range(172, 186),
+				"peau": Color.from_string(PEAUX_GRECQUES[hasard.randi() % PEAUX_GRECQUES.size()], Color.WHITE)})
+	var teinte := Color.from_string(["#7a2a1e", "#6a2a22", "#5e3a2a"][hasard.randi() % 3], Color.WHITE)
+	if _corps.has_method("teindre_tenue"):
+		_corps.teindre_tenue(teinte)
+	if _corps.has_method("equiper"):
+		_corps.equiper({"tete": {"forme": "casque_hoplite", "couleur": "#b0813e"},
+				"arme_principale": {"forme": "lance", "couleur": "#6b5034"},
+				"arme_secondaire": {"forme": "bouclier_rond", "couleur": "#a8743a"}})
 
 
 func _preparer_gangue() -> void:

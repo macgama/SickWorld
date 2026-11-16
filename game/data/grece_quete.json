@@ -24,18 +24,64 @@
 				"sous_titre": "Grèce · la cité de Périclès",
 				"texte": "Des rues étroites, des murs blanchis, des odeurs de pain, de poisson et de poix. Au-dessus des toits, l'Acropole : un rocher immense couronné d'échafaudages et de marbre neuf. Trente mille citoyens vivent ici. On n'en entend pas un."
 			}
+		},
+		"laurion": {
+			"scene": "res://scenes/monde/grece/laurion.tscn",
+			"arrivee": {
+				"titre": "Les Mines du Laurion",
+				"sous_titre": "Grèce · le sud-est de l'Attique",
+				"texte": "Plus un arbre. Des collines grises, pelées jusqu'à l'os, et partout des tas de cailloux noirs. La fumée des fours monte droit dans le ciel blanc. On entend des pics, quelque part sous tes pieds."
+			}
+		},
+		"galeries_laurion": {
+			"scene": "res://scenes/monde/grece/galeries_laurion.tscn",
+			"arrivee": {
+				"titre": "Les galeries du Laurion",
+				"sous_titre": "Grèce · sous la colline des puits",
+				"texte": "L'air sent la suie et la roche mouillée. Le boyau est si bas que tes épaules frôlent les étais. Au loin, un ronronnement régulier qui n'a rien à faire ici."
+			}
 		}
 	},
 	"camps": {
 		"athenes": [
-			{ "type": "chien_fracture_ville", "position": [-132, -76], "nombre": 3, "rayon": 5 },
-			{ "type": "chien_fracture_ville", "position": [-96, 118], "nombre": 2, "rayon": 4 },
-			{ "type": "chien_fracture_ville", "position": [52, 96], "nombre": 2, "rayon": 4 }
+			{
+				"type": "chien_fracture_ville",
+				"position": [-132, -76],
+				"nombre": 3,
+				"rayon": 5
+			},
+			{
+				"type": "chien_fracture_ville",
+				"position": [-96, 118],
+				"nombre": 2,
+				"rayon": 4
+			},
+			{
+				"type": "chien_fracture_ville",
+				"position": [52, 96],
+				"nombre": 2,
+				"rayon": 4
+			}
 		],
 		"le_piree": [
-			{ "type": "chien_fracture", "position": [-72, 86], "nombre": 3, "rayon": 5 },
-			{ "type": "chien_fracture", "position": [-36, 70], "nombre": 2, "rayon": 4 },
-			{ "type": "chien_fracture", "position": [-110, 60], "nombre": 2, "rayon": 5 }
+			{
+				"type": "chien_fracture",
+				"position": [-72, 86],
+				"nombre": 3,
+				"rayon": 5
+			},
+			{
+				"type": "chien_fracture",
+				"position": [-36, 70],
+				"nombre": 2,
+				"rayon": 4
+			},
+			{
+				"type": "chien_fracture",
+				"position": [-110, 60],
+				"nombre": 2,
+				"rayon": 5
+			}
 		],
 		"oliveraies": [
 			{
@@ -77,6 +123,38 @@
 			{
 				"type": "vipere_fracture",
 				"position": [-54, -90],
+				"nombre": 2,
+				"rayon": 4
+			}
+		],
+		"laurion": [
+			{
+				"type": "vipere_fracture",
+				"position": [-120, 60],
+				"nombre": 2,
+				"rayon": 4
+			},
+			{
+				"type": "vipere_fracture",
+				"position": [-90, -110],
+				"nombre": 2,
+				"rayon": 4
+			},
+			{
+				"type": "vipere_fracture",
+				"position": [120, 70],
+				"nombre": 2,
+				"rayon": 4
+			},
+			{
+				"type": "mercenaire_masque",
+				"position": [126, -100],
+				"nombre": 2,
+				"rayon": 4
+			},
+			{
+				"type": "mercenaire_masque",
+				"position": [-130, -70],
 				"nombre": 2,
 				"rayon": 4
 			}
@@ -1126,12 +1204,217 @@
 					"fin_chapitre": true
 				}
 			]
+		},
+		{
+			"numero": 6,
+			"titre": "L'argent du Laurion",
+			"ou": "laurion",
+			"etapes": [
+				{
+					"id": "retour_grece",
+					"ou": "le_piree",
+					"objectif": "De retour en Grèce : remonte la route des Longs Murs, Markos t'attend dans les Oliveraies",
+					"arriver": "oliveraies"
+				},
+				{
+					"id": "markos_laurion",
+					"ou": "oliveraies",
+					"objectif": "Retrouve l'agent Markos, sur la route des Longs Murs",
+					"pnj": "markos",
+					"repliques": [
+						"Ah, te voilà ! La commandante m'a tout raconté. Damien Roche... Je l'ai croisé une fois, à l'école de la Vigie. Il donnait un cours sur les failles. Brillant.",
+						"Bon. Les mines du Laurion, au sud-est. Tu sais pourquoi c'est important ? L'argent de ces mines a payé la flotte qui a battu les Perses à Salamine. Il paie encore les rameurs.",
+						"Un rameur payé, c'est un pauvre qui peut voter, parce qu'il a le temps d'aller à l'assemblée. Sans argent, plus de flotte. Sans flotte, plus de voix pour les pauvres.",
+						"Des bergers ont vu des hommes en casque de bronze détourner l'eau d'une citerne vers les puits. Prends la route du sud-est, après le hameau de l'est. Moi, je file prévenir Périclès."
+					]
+				},
+				{
+					"id": "vers_laurion",
+					"ou": "oliveraies",
+					"objectif": "Prends la route du sud-est, après le hameau de l'est, vers les mines du Laurion",
+					"arriver": "laurion"
+				},
+				{
+					"id": "sosias",
+					"objectif": "Présente-toi à Sosias, l'entrepreneur des mines, à l'atelier de lavage",
+					"pnj": "sosias",
+					"repliques": [
+						"Un étranger qui vient de son plein gré au Laurion ? C'est bien la première fois.",
+						"Je suis Sosias, le Thrace. Je loue mille esclaves au stratège Nicias et je les fais travailler ici. Une obole par tête et par jour. Les mines sont à la cité, l'argent aussi, presque.",
+						"Mais depuis cinq jours, rien ne va. Des mercenaires campent près de la grande citerne, à l'est. Ils disent travailler pour « un sophiste ». L'eau baisse dans la citerne... et elle monte dans les puits.",
+						"Mes hommes refusent de descendre. Parle à Daos, aux cabanes, à l'ouest. C'est le plus vieux mineur d'ici. S'il y a un problème au fond, il le sait."
+					]
+				},
+				{
+					"id": "daos",
+					"objectif": "Va voir Daos, le vieux mineur, aux cabanes de l'ouest",
+					"pnj": "daos",
+					"repliques": [
+						"Le sophiste ? Jamais vu. Ses hommes, oui. Des hoplites, mais pas d'ici : ils parlent entre eux une langue que personne ne connaît, et ils ont des petites boîtes qui grésillent.",
+						"Au fond, ils ont posé trois caisses grises qui ronronnent. Elles aspirent l'eau des puisards et la recrachent dans nos galeries. Encore quelques jours et tout sera noyé.",
+						"Tu veux savoir comment on vit, ici ? Dix heures couché dans un boyau haut comme un enfant, à frapper la roche. On sort le soir, gris comme des statues. Beaucoup ne passent pas trente ans.",
+						"Mais c'est notre mine. Si elle est noyée, on nous vendra ailleurs, plus loin, chacun de son côté. Tiens, prends ma lampe. Ferme d'abord cette vanne, à la citerne de l'est. Ensuite, descends."
+					],
+					"recompense": [
+						{
+							"id": "lampe_laurion",
+							"nom": "Lampe de mineur de Daos"
+						}
+					]
+				},
+				{
+					"id": "citerne",
+					"objectif": "À la grande citerne de l'est, chasse les mercenaires de Masque",
+					"tuer": "mercenaire_masque",
+					"nombre": 4,
+					"lieu": [97, -18],
+					"apparition": {
+						"type": "mercenaire_masque",
+						"position": [96, -18],
+						"nombre": 4,
+						"rayon": 5,
+						"attaque": true
+					},
+					"recit": {
+						"titre": "Le mur de boucliers",
+						"texte": "Ils se serrent épaule contre épaule, les boucliers soudés comme des écailles. Des hoplites, oui. Mais sous les tuniques, des gilets de toile synthétique, et des oreillettes qui grésillent."
+					}
+				},
+				{
+					"id": "vanne",
+					"objectif": "Referme la vanne de la citerne (F)",
+					"objet": "vanne_citerne",
+					"duree": 2.0,
+					"action": "Tu fais redescendre la planche dans ses rainures…",
+					"apres": [
+						{
+							"masquer": "eau_canal"
+						}
+					]
+				},
+				{
+					"id": "ostraka",
+					"objectif": "Fouille le camp des mercenaires, juste au sud-ouest de la citerne (F)",
+					"objet": "sac_ostraka",
+					"recit": {
+						"titre": "Des tessons gravés",
+						"texte": "Deux sacs pleins de tessons de poterie, des centaines. Sur chacun, un nom gravé à la pointe : PÉRIKLÈS. Et toujours la même écriture, la même main. Quelqu'un prépare un vote."
+					}
+				},
+				{
+					"id": "descendre",
+					"objectif": "Descends dans la mine par l'entrée, au pied de la colline des puits, au sud",
+					"arriver": "galeries_laurion"
+				},
+				{
+					"id": "machines",
+					"ou": "galeries_laurion",
+					"objectif": "Sabote les trois machines de Masque, au fond des galeries (F)",
+					"recolter": "machine_masque",
+					"nombre": 3,
+					"duree": 2.5,
+					"action": "Tu arraches les câbles et l'éclat violet…",
+					"apres": [
+						{
+							"montrer": "eboulis_galerie"
+						}
+					],
+					"recit": {
+						"titre": "Éboulement",
+						"texte": "La dernière machine s'arrête dans un hoquet. Le silence. Puis un craquement, loin derrière toi, et un nuage de poussière qui roule dans la galerie : les étais du sud ont cédé. Le chemin de l'entrée est bouché."
+					}
+				},
+				{
+					"id": "sortir_galeries",
+					"ou": "galeries_laurion",
+					"objectif": "Le chemin de l'entrée est bouché : remonte par la vieille descenderie, à l'est de la salle de l'est",
+					"arriver": "laurion",
+					"apres": [
+						{
+							"montrer": "vera_laurion"
+						}
+					]
+				},
+				{
+					"id": "vera_prevenir",
+					"si_choix": {
+						"egypte:reponse_vera": "repondre_noms"
+					},
+					"objectif": "Quelqu'un t'attend à la sortie de la descenderie",
+					"pnj": "vera_laurion",
+					"repliques": [
+						"Bonjour, agent. Non, je ne suis pas là pour me battre. Pas aujourd'hui.",
+						"En Égypte, tu m'as parlé des noms peints sur les blocs. J'y ai repensé. Plus que je ne voudrais.",
+						"Alors écoute bien : Masque t'a vu entrer dans la mine. Ses hommes t'attendent aux fours, au nord-est, en embuscade. Ils sont plus nombreux que tu ne crois.",
+						"Ne me remercie pas. Il est pire que moi. Moi, je fais ce métier. Lui, il y croit vraiment."
+					],
+					"apres": [
+						{
+							"masquer": "vera_laurion"
+						}
+					]
+				},
+				{
+					"id": "vera_observer",
+					"si_choix": {
+						"egypte:reponse_vera": "!repondre_noms"
+					},
+					"objectif": "Quelqu'un t'observe à la sortie de la descenderie",
+					"pnj": "vera_laurion",
+					"repliques": [
+						"Tiens. Le petit agent de Gizeh. Tu as abîmé les jouets de Damien, il va être furieux.",
+						"Non, je ne t'aiderai pas. Je voulais seulement voir de quoi tu as l'air quand tu gagnes.",
+						"Pas grand-chose, finalement. Au revoir, agent."
+					],
+					"apres": [
+						{
+							"masquer": "vera_laurion"
+						}
+					]
+				},
+				{
+					"id": "embuscade",
+					"objectif": "Les mercenaires de Masque t'attendent aux fours, au nord-est : repousse-les",
+					"tuer": "mercenaire_masque",
+					"nombre": 5,
+					"lieu": [50, -76],
+					"apparition": {
+						"type": "mercenaire_masque",
+						"position": [50, -72],
+						"nombre": 5,
+						"rayon": 6,
+						"attaque": true
+					},
+					"recit": {
+						"titre": "La mine est sauvée",
+						"texte": "Le dernier mercenaire s'enfuit vers le nord, sans son bouclier. Derrière toi, les fours ronflent de nouveau. Au fond des cabanes, quelqu'un se met à chanter, doucement, dans une langue que tu ne connais pas."
+					}
+				},
+				{
+					"id": "sosias_fin",
+					"objectif": "Retourne voir Sosias, à l'atelier de lavage",
+					"pnj": "sosias",
+					"fin_chapitre": true,
+					"repliques": [
+						"Les machines arrêtées, la vanne fermée, les mercenaires en fuite... Je vais dire à Nicias que l'argent coulera encore.",
+						"Et ces tessons, tu dis ? Des centaines, au nom de Périclès ? C'est un vote d'ostracisme qu'on prépare. Chaque citoyen grave un nom, et celui qui en a le plus doit quitter Athènes pour dix ans.",
+						"Si ces tessons tombent dans les urnes de l'Agora, Périclès est fini. Retourne à Athènes, Xénos. Vite.",
+						"Tiens, une chouette d'argent. Frappée avec l'argent de cette mine. Daos et les autres ne la verront jamais. Garde-la pour eux."
+					],
+					"recompense": [
+						{
+							"id": "chouette_argent",
+							"nom": "Chouette d'argent du Laurion"
+						}
+					]
+				}
+			]
 		}
 	],
 	"fin_provisoire": {
 		"chapitre": "LA SUITE ARRIVE",
-		"objectif": "Chapitre 6, « L'argent du Laurion » : Masque veut noyer les mines d'argent.",
+		"objectif": "Chapitre 7, « L'ostracisme » : un vote truqué menace Périclès.",
 		"titre": "Que le temps n'efface pas",
-		"message": "Masque a un nom : Damien Roche. Les archives de la Vigie s'ouvrent."
+		"message": "L'argent du Laurion coule encore. Mais des centaines de tessons portent le nom de Périclès."
 	}
 }

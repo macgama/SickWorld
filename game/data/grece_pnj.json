@@ -406,5 +406,88 @@
 		"repliques": [
 			"Tu as les yeux de Lenoir quand il avait ton âge. Plein de certitudes."
 		]
+	},
+	"sosias": {
+		"nom": "Sosias le Thrace",
+		"role": "Entrepreneur des mines · affranchi",
+		"modele": "homme",
+		"taille_cm": 178,
+		"peau": "#c49a76",
+		"habits": "#5a4a3a",
+		"repliques": [
+			"Mille esclaves, Xénos. Le stratège Nicias me les loue, et je les loue aux mines. Une obole par tête et par jour. C'est comme ça que les riches s'enrichissent sans se salir les mains.",
+			"Moi aussi, j'ai été esclave. Maintenant, je compte les autres. Ne me regarde pas comme ça."
+		]
+	},
+	"daos": {
+		"nom": "Daos",
+		"role": "Mineur",
+		"modele": "homme",
+		"taille_cm": 168,
+		"peau": "#9a6e4c",
+		"habits": "#4a4238",
+		"repliques": [
+			"Vingt ans au fond. J'ai encore mes deux mains. Les dieux m'aiment, faut croire.",
+			"Là-dessous, on travaille couché sur le flanc, à la lueur d'une lampe. Quand elle s'éteint, la journée est finie."
+		]
+	},
+	"mineur_thrace": {
+		"nom": "Un mineur thrace",
+		"role": "Esclave des mines",
+		"modele": "homme",
+		"taille_cm": 175,
+		"peau": "#d0a07c",
+		"habits": "#3e3a34",
+		"repliques": [
+			"(Il tousse longtemps, puis crache une poussière grise.) Chez moi, il y avait des chevaux. Et de l'herbe.",
+			"Les gardes disent que l'eau monte dans les puits du sud. Personne ne veut plus y descendre."
+		]
+	},
+	"mineuse_laveuse": {
+		"nom": "Une laveuse de minerai",
+		"role": "Esclave de l'atelier",
+		"modele": "femme",
+		"taille_cm": 160,
+		"peau": "#a87652",
+		"habits": "#6a5a48",
+		"repliques": [
+			"L'eau d'abord, le minerai ensuite. On ne gaspille pas une goutte : ici, il ne pleut pas trois fois par an.",
+			"Les hommes au casque de bronze ont vidé la moitié de notre citerne. Pour quoi faire ? Ils ne lavent rien."
+		]
+	},
+	"vera_laurion": {
+		"nom": "Vera Lind",
+		"role": "Effaceuse · « Sablier »",
+		"modele": "femme",
+		"taille_cm": 174,
+		"peau": "#e9cdb6",
+		"habits": "#3a3a40",
+		"repliques": [
+			"Je ne suis pas là, agent. Tu ne m'as pas vue."
+		]
+	},
+	"mineur_galerie": {
+		"nom": "Un mineur",
+		"role": "Au fond du chantier",
+		"modele": "homme",
+		"taille_cm": 170,
+		"peau": "#8e6446",
+		"habits": "#3a342e",
+		"repliques": [
+			"Des hommes ont posé ces caisses grises il y a trois jours. Elles ronronnent comme des chats. La nuit, elles boivent l'eau des puisards.",
+			"Si l'eau monte, on se noiera comme des rats. Et Athènes n'aura plus d'argent pour ses navires."
+		]
+	},
+	"mineur_enfant": {
+		"nom": "Un garçon",
+		"role": "Porteur de paniers",
+		"modele": "homme",
+		"taille_cm": 142,
+		"peau": "#a47250",
+		"habits": "#4a4036",
+		"repliques": [
+			"On me prend parce que je suis petit. Je passe là où les grands ne passent pas.",
+			"Tu as une lampe ? Moi, la mienne s'est éteinte. Je connais le chemin par cœur, de toute façon."
+		]
 	}
 }
