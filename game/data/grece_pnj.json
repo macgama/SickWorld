@@ -489,5 +489,101 @@
 			"On me prend parce que je suis petit. Je passe là où les grands ne passent pas.",
 			"Tu as une lampe ? Moi, la mienne s'est éteinte. Je connais le chemin par cœur, de toute façon."
 		]
+	},
+	"pericles": {
+		"nom": "Périclès",
+		"role": "Fils de Xanthippe · stratège",
+		"modele": "homme",
+		"taille_cm": 180,
+		"peau": "#b88a62",
+		"habits": "#e8e0cc",
+		"repliques": [
+			"On se moque de ma tête, longue comme un oignon. C'est pour ça que les sculpteurs me font toujours avec un casque.",
+			"Nous ne disons pas d'un homme qui ne s'occupe pas de la cité qu'il est tranquille. Nous disons qu'il est inutile."
+		]
+	},
+	"pericles_acropole": {
+		"nom": "Périclès",
+		"role": "Au pied de l'Acropole",
+		"modele": "homme",
+		"taille_cm": 180,
+		"peau": "#b88a62",
+		"habits": "#e8e0cc",
+		"repliques": ["Ne lève pas les yeux vers le rocher. Pas encore."]
+	},
+	"canephore": {
+		"nom": "Philomèla",
+		"role": "Canéphore · porteuse de corbeille",
+		"modele": "femme",
+		"taille_cm": 158,
+		"peau": "#d0a07a",
+		"habits": "#e6dcc4",
+		"repliques": ["J'ai encore de la poussière de marbre dans les cheveux. Ma mère va me tuer."]
+	},
+	"citoyen_hesitant_1": {
+		"nom": "Lysiclès",
+		"role": "Marchand de moutons",
+		"modele": "homme",
+		"taille_cm": 174,
+		"peau": "#a87850",
+		"habits": "#6a5a40",
+		"repliques": [
+			"Périclès, Périclès... Tout le monde a un tesson à son nom. Un homme distribuait des tessons déjà gravés, ce matin. Ça fait gagner du temps, non ?"
+		]
+	},
+	"citoyen_hesitant_2": {
+		"nom": "Euphilétos",
+		"role": "Peintre de vases",
+		"modele": "homme",
+		"taille_cm": 170,
+		"peau": "#9c6e4b",
+		"habits": "#7a3a2a",
+		"repliques": [
+			"Moi, je vote pour qui me commande des vases. Périclès dépense tout pour ses temples, pas pour mes cratères."
+		]
+	},
+	"citoyen_hesitant_3": {
+		"nom": "Démos",
+		"role": "Rameur de la flotte",
+		"modele": "homme",
+		"taille_cm": 178,
+		"peau": "#8e6446",
+		"habits": "#4a5a6a",
+		"repliques": [
+			"Trois oboles par jour pour ramer, et trois oboles pour juger au tribunal. C'est Périclès qui a fait ça. Mais on dit qu'il veut devenir roi..."
+		]
+	},
+	"citoyen_hesitant_4": {
+		"nom": "Kritôn",
+		"role": "Paysan d'Acharnes",
+		"modele": "homme",
+		"taille_cm": 172,
+		"peau": "#a0704c",
+		"habits": "#5e6a52",
+		"repliques": [
+			"J'ai marché trois heures pour voter. Je ne sais même pas qui chasser. On m'a dit : grave Périclès, c'est plus simple."
+		]
+	},
+	"citoyen_hesitant_5": {
+		"nom": "Hermogène",
+		"role": "Cordonnier",
+		"modele": "homme",
+		"taille_cm": 168,
+		"peau": "#b08058",
+		"habits": "#3a3a3a",
+		"repliques": [
+			"J'ai vu des étrangers en casque de bronze au marché, hier. Ils payaient à boire à tout le monde, et ils parlaient de Périclès. Ce n'est pas d'ici, ces manières-là."
+		]
+	},
+	"citoyen_hesitant_6": {
+		"nom": "Thrasyllos",
+		"role": "Vieux soldat de Marathon",
+		"modele": "homme",
+		"taille_cm": 166,
+		"peau": "#c49a76",
+		"habits": "#6a4a3a",
+		"repliques": [
+			"J'ai combattu les Perses à Marathon. Je sais ce qu'est un tyran. Mais je sais aussi ce qu'est un mensonge. Dis-moi ce que tu sais, étranger."
+		]
 	}
 }

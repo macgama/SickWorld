@@ -270,7 +270,7 @@ func _lancer() -> void:
 	_verifier(_id_etape() == "sosias_fin", "la mine est sauvée (%s)" % _id_etape())
 	lues = await _parler("Sosias")
 	await _attendre(10)
-	_verifier(_quete.etape < 0, "fin du chapitre 6 : la suite (l'ostracisme) arrive bientôt")
+	_verifier(_id_etape() == "retour_athenes", "fin du chapitre 6 : retour à Athènes pour l'ostracisme (%s)" % _id_etape())
 
 	# --- L'autre réponse en Égypte : Vera observe, sans prévenir.
 	_sauver("sortir_galeries", "repondre_mission")

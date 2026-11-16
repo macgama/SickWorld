@@ -76,6 +76,15 @@ const LENOIR := Vector2(106, 66)
 const FAILLE_THEATRE := Vector2(100, 73.8)
 const PORTAIL_CAMPAGNE := Vector2(100, 85)
 
+## Chapitre 7 : Périclès devant l'enclos du vote (sur l'Agora), l'urne, les six citoyens
+## qui hésitent, la voie sacrée de la procession et l'escalier secret de l'Acropole.
+const PERICLES := Vector2(-21, -9)
+const ENCLOS := Vector2(-30, -8)
+const CITOYENS := [Vector2(-12, -17), Vector2(-86, -77), Vector2(-75, 61), Vector2(53, 39), Vector2(2, 100), Vector2(-30, 75)]
+const CANEPHORE := Vector2(24, 15)
+const ESCALIER := Vector2(42.0, -4)
+const PERICLES_ACROPOLE := Vector2(37, -1)
+
 ## Les trois Pétrifiés de l'Agora, une fois qu'on leur a rendu la voix.
 const NOMS_LIBERES := ["petrifie_cherephon", "petrifie_glykera", "petrifie_demochares"]
 const LIBERES := [Vector2(-4, -36), Vector2(0, -34), Vector2(4, -36)]
@@ -1074,6 +1083,7 @@ func _construire_quete() -> void:
 	_reponse(dossier, "demasquer_menon", "démasquer Ménon devant les juges", BALANCE + Vector2(6, 0), "[F] Choisir : ")
 	_reponse(dossier, "suivre_menon", "le laisser filer et le suivre", BALANCE + Vector2(9, 0), "[F] Choisir : ")
 	_construire_quete_theatre(dossier)
+	_construire_quete_ostracisme(dossier)
 	var jeton := ObjetGrece.new()
 	jeton.name = "JetonLaurion"
 	jeton.identifiant = "jeton_laurion"
@@ -1171,6 +1181,103 @@ func _construire_quete_theatre(dossier: Node3D) -> void:
 	_portail_campagne.set_meta("identifiant", "portail_campagne")
 	_portail_campagne.visible = false
 	_zone_portail.monitoring = false
+
+
+## Chapitre 7 : l'ostracisme. Périclès, l'enclos du vote et son urne, les six citoyens
+## à convaincre (le « compteur de voix »), la porteuse de corbeille et l'escalier secret.
+func _construire_quete_ostracisme(dossier: Node3D) -> void:
+	_pnj(dossier, "pericles", PERICLES, PI / 2)
+	for k in CITOYENS.size():
+		var c: Vector2 = CITOYENS[k]
+		_pnj(dossier, "citoyen_hesitant_%d" % (k + 1), c, PI * 0.35 * k)
+		# Un objet invisible juste devant lui : F pour le convaincre (pendant l'étape).
+		var voix := ObjetGrece.new()
+		voix.name = "Voix%d" % k
+		voix.identifiant = "voix_citoyen_%d" % k
+		voix.groupe = "voix_citoyen"
+		voix.invite = "[F] Le convaincre de voter lui-même"
+		voix.portee = 2.4
+		voix.position = Vector3(c.x, hauteur(c.x, c.y + 1.0), c.y + 1.0)
+		dossier.add_child(voix)
+	# L'enclos du vote : une barrière de planches, dix entrées (une par tribu), l'urne au milieu.
+	var enclos := Node3D.new()
+	enclos.name = "EnclosVote"
+	enclos.set_meta("identifiant", "enclos_vote")
+	enclos.add_to_group("decor_quete")
+	enclos.position = Vector3(ENCLOS.x, H_AGORA, ENCLOS.y)
+	enclos.visible = false
+	dossier.add_child(enclos)
+	var bois := _mat_bois()
+	var demi := 6.0
+	for cote in 4:
+		for k in 5:
+			# Chaque côté : cinq planches et des passages entre elles (les entrées des tribus).
+			var t := -demi + 1.2 + k * 2.4
+			var centre := Vector3(t, 0.55, -demi) if cote == 0 else (Vector3(t, 0.55, demi) if cote == 1 \
+					else (Vector3(-demi, 0.55, t) if cote == 2 else Vector3(demi, 0.55, t)))
+			var taille := Vector3(1.6, 1.1, 0.1) if cote < 2 else Vector3(0.1, 1.1, 1.6)
+			_boite(taille, centre, bois, enclos, false)
+	_boite(Vector3(2.4, 0.08, 1.2), Vector3(0, 0.9, 1.6), bois, enclos, false)
+	for x in [-1.0, 1.0]:
+		for z in [1.1, 2.1]:
+			_boite(Vector3(0.08, 0.86, 0.08), Vector3(x, 0.43, z), bois, enclos, false)
+	# Des tessons répandus sur la table.
+	var terre := _mat_peint(Color(0.55, 0.3, 0.2), 0.9)
+	var hasard := RandomNumberGenerator.new()
+	hasard.seed = 438
+	for k in 24:
+		var tesson := _boite(Vector3(hasard.randf_range(0.06, 0.12), 0.015, hasard.randf_range(0.05, 0.1)),
+				Vector3(hasard.randf_range(-1.0, 1.0), 0.95, 1.6 + hasard.randf_range(-0.45, 0.45)), terre, enclos, false)
+		tesson.rotation.y = hasard.randf() * TAU
+	var urne := ObjetGrece.new()
+	urne.name = "UrneOstraka"
+	urne.identifiant = "urne_ostraka"
+	urne.forme = "amphore"
+	urne.invite = "[F] Compter les tessons"
+	urne.portee = 2.2
+	urne.position = Vector3(0, 0, -0.6)
+	enclos.add_child(urne)
+	# La porteuse de corbeille (canéphore), cachée jusqu'à ce qu'on lui rende la voix.
+	var canephore := _pnj(dossier, "canephore", CANEPHORE, PI * 0.7)
+	canephore.add_to_group("decor_quete")
+	canephore.set_meta("identifiant", "canephore")
+	canephore.visible = false
+	var pericles := _pnj(dossier, "pericles_acropole", PERICLES_ACROPOLE, -PI / 2)
+	pericles.add_to_group("decor_quete")
+	pericles.set_meta("identifiant", "pericles_acropole")
+	pericles.visible = false
+	# L'escalier secret : une porte basse taillée dans le pied du rocher, côté ouest.
+	var escalier := Node3D.new()
+	escalier.name = "EscalierSecret"
+	escalier.set_meta("identifiant", "escalier_secret")
+	escalier.add_to_group("decor_quete")
+	escalier.position = Vector3(ESCALIER.x, hauteur(ESCALIER.x, ESCALIER.y), ESCALIER.y)
+	escalier.visible = false
+	dossier.add_child(escalier)
+	var pierre := _mat_pierre()
+	for z in [-1.1, 1.1]:
+		_boite(Vector3(0.6, 2.8, 0.5), Vector3(0, 1.4, z), pierre, escalier, false)
+	_boite(Vector3(0.7, 0.5, 2.8), Vector3(0, 3.0, 0), pierre, escalier, false)
+	var noir := _mat_peint(Color(0.02, 0.02, 0.025), 1.0)
+	_boite(Vector3(0.1, 2.6, 1.7), Vector3(0.35, 1.3, 0), noir, escalier, false)
+	for k in 3:
+		_boite(Vector3(0.5, 0.18, 1.8), Vector3(-0.3 - k * 0.5, 0.09 + (2 - k) * 0.0, 0), pierre, escalier, false)
+	# Deux torches de part et d'autre de la porte.
+	for z in [-1.6, 1.6]:
+		var torche := OmniLight3D.new()
+		torche.light_color = Color(1.0, 0.6, 0.3)
+		torche.light_energy = 1.4
+		torche.omni_range = 6.0
+		torche.position = Vector3(-0.4, 2.2, z)
+		escalier.add_child(torche)
+		var flamme := MeshInstance3D.new()
+		var b := SphereMesh.new()
+		b.radius = 0.08
+		b.height = 0.2
+		flamme.mesh = b
+		flamme.material_override = _lumineux(Color(1.0, 0.6, 0.25), 5.0)
+		flamme.position = torche.position
+		escalier.add_child(flamme)
 
 
 func _reponse(parent: Node3D, id: String, texte: String, p: Vector2, debut := "[F] Répondre : ") -> void:

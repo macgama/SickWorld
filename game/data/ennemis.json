@@ -653,5 +653,19 @@
 		"distance_laisse": 36,
 		"entraide": 14,
 		"temps_reapparition": 120
+	},
+	"serpent_gorgone": {
+		"nom": "Serpent de la Gorgone",
+		"niveau": 29,
+		"points_de_vie": 720,
+		"degats": [30, 40],
+		"intervalle_attaque": 1.5,
+		"portee_attaque": 2.4,
+		"vitesse_course": 5.0,
+		"vitesse_marche": 1.0,
+		"distance_detection": 18,
+		"distance_laisse": 40,
+		"entraide": 18,
+		"temps_reapparition": 0
 	}
 }
