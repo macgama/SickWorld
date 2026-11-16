@@ -127,14 +127,18 @@ func _init() -> void:
 
 func _ready() -> void:
 	if not Engine.is_editor_hint() and Reseau.get_meta("arrivee_grece", "") != "":
+		var venu := String(Reseau.get_meta("arrivee_grece"))
 		Reseau.remove_meta("arrivee_grece")
-		point_apparition = ENTREE
+		# On redescend de l'Acropole par l'escalier secret ; sinon on entre par la porte sud.
+		point_apparition = ESCALIER + Vector2(-4, 0) if venu == "acropole" else ENTREE
 	super._ready()
 
 
 func sortie_vers(zone: String) -> Vector2:
 	if zone == "athenes":
 		return Vector2.INF
+	if zone == "acropole":
+		return ESCALIER
 	return PORTE_SUD + Vector2(0, -6)
 
 
@@ -1325,3 +1329,7 @@ func _process(delta: float) -> void:
 	var p := Vector2(joueur.global_position.x, joueur.global_position.z)
 	if p.y > PORTE_SUD.y - 4.0 and absf(p.x) < 5.0:
 		quete.changer_de_zone("oliveraies")
+	# L'escalier secret (ouvert par Périclès) monte vers l'Acropole.
+	var escalier := _dossier_quete.get_node_or_null("EscalierSecret") as Node3D if _dossier_quete != null else null
+	if escalier != null and escalier.visible and p.distance_to(ESCALIER) < 1.6:
+		quete.changer_de_zone("acropole")

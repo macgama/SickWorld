@@ -233,7 +233,11 @@ func _lancer() -> void:
 	_verifier(escalier != null and escalier.visible, "l'escalier secret est ouvert")
 	lues = await _parler("PericlesAcropole")
 	await _attendre(10)
-	_verifier(_quete.etape < 0, "fin du chapitre 7 : le donjon de l'Acropole arrive bientôt")
+	_verifier(_id_etape() == "entrer_acropole", "fin du chapitre 7 : en route pour l'Acropole (%s)" % _id_etape())
+	await _placer(_sol(38, -4), -PI / 2)
+	_joueur.teleporter(_sol(42, -4), -PI / 2)
+	await _attendre(120)
+	_verifier(_quete.zone_demandee == "acropole", "l'escalier secret monte vers l'Acropole (%s)" % _quete.zone_demandee)
 
 	# --- Reprise en cours de chapitre : l'enclos et l'escalier sont remis en place.
 	_sauver("pericles_escalier")

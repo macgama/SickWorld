@@ -79,11 +79,14 @@ func _ready() -> void:
 	if not ResourceLoader.exists(SCENE_APPARENCE):
 		return
 	_corps = (load(SCENE_APPARENCE) as PackedScene).instantiate()
-	_corps.set("modele", "femme" if variante == "petrifie" and graine % 3 == 1 else "homme")
+	_corps.set("modele", "femme" if (variante == "petrifie" and graine % 3 == 1) or variante == "gorgone" else "homme")
 	add_child(_corps)
 	_habiller.call_deferred()
-	if variante == "petrifie":
+	if variante == "petrifie" or variante == "statue":
 		_preparer_gangue()
+		return
+	if variante == "gorgone":
+		_preparer_gorgone()
 		return
 	if variante == "masque":
 		return
@@ -118,6 +121,12 @@ func _habiller() -> void:
 		return
 	if variante == "mercenaire":
 		_habiller_mercenaire(hasard)
+		return
+	if variante == "statue":
+		_habiller_statue(hasard)
+		return
+	if variante == "gorgone":
+		_habiller_gorgone()
 		return
 	if _corps.has_method("appliquer"):
 		_corps.appliquer({"sexe": "homme", "taille_cm": hasard.randi_range(166, 180),
@@ -202,6 +211,117 @@ func _habiller_mercenaire(hasard: RandomNumberGenerator) -> void:
 				"arme_secondaire": {"forme": "bouclier_rond", "couleur": "#a8743a"}})
 
 
+## Une statue fracturée de l'Acropole : un hoplite de bronze et de marbre peint, que la
+## fracture fait marcher. Tout le corps est de pierre (la gangue monte jusqu'au casque).
+func _habiller_statue(hasard: RandomNumberGenerator) -> void:
+	if _corps.has_method("appliquer"):
+		_corps.appliquer({"sexe": "homme", "taille_cm": hasard.randi_range(196, 206),
+				"peau": Color("#c9c3b8")})
+	if _corps.has_method("teindre_tenue"):
+		_corps.teindre_tenue(Color("#b8b0a2"))
+	if _corps.has_method("porter_habit"):
+		_corps.porter_habit("chiton_court", {"principal": Color("#9b4a34")})
+	if _corps.has_method("equiper"):
+		_corps.equiper({"tete": {"forme": "casque_hoplite", "couleur": "#7a8a70"},
+				"arme_principale": {"forme": "lance", "couleur": "#7a8a70"},
+				"arme_secondaire": {"forme": "bouclier_rond", "couleur": "#7a8a70"}})
+	_gangue.set_shader_parameter("niveau", 3.0)
+	_poser_gangue(true)
+
+
+## Méduse, la Gorgone de l'égide : la fracture majeure a pris la forme de la tête sculptée
+## sur le bouclier d'Athéna. Une femme immense, de cristal violet et d'or, une chevelure de
+## serpents de bronze, et des yeux qui s'allument avant de pétrifier.
+var _cristal: StandardMaterial3D
+var _yeux: Array[MeshInstance3D] = []
+var _serpents: Array[Node3D] = []
+
+
+func _preparer_gorgone() -> void:
+	_cristal = StandardMaterial3D.new()
+	_cristal.albedo_color = Color(0.55, 0.32, 0.95, 0.35)
+	_cristal.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	_cristal.emission_enabled = true
+	_cristal.emission = Color(0.55, 0.28, 1.0)
+	_cristal.emission_energy_multiplier = 0.9
+	_cristal.roughness = 0.08
+	_cristal.metallic_specular = 1.0
+	var bronze := StandardMaterial3D.new()
+	bronze.albedo_color = Color(0.46, 0.37, 0.2)
+	bronze.metallic = 0.8
+	bronze.roughness = 0.35
+	var tete := Node3D.new()
+	tete.name = "Chevelure"
+	tete.position = Vector3(0, 1.68, 0.02)
+	add_child(tete)
+	var hasard := RandomNumberGenerator.new()
+	hasard.seed = 1438
+	for k in 14:
+		var serpent := Node3D.new()
+		var angle := k * TAU / 14.0
+		serpent.position = Vector3(cos(angle) * 0.12, hasard.randf_range(-0.05, 0.08), sin(angle) * 0.12 + 0.02)
+		serpent.rotation = Vector3(sin(angle) * 0.9, -angle, cos(angle) * 0.9)
+		tete.add_child(serpent)
+		for j in 4:
+			var anneau := MeshInstance3D.new()
+			anneau.mesh = _morceau_serpent(0.035 - j * 0.006)
+			anneau.material_override = bronze
+			anneau.position = Vector3(0, 0.07 + j * 0.065, j * j * 0.012)
+			serpent.add_child(anneau)
+		_serpents.append(serpent)
+	var lueur := StandardMaterial3D.new()
+	lueur.albedo_color = Color(1.0, 0.85, 0.4)
+	lueur.emission_enabled = true
+	lueur.emission = Color(1.0, 0.75, 0.3)
+	lueur.emission_energy_multiplier = 0.5
+	for cote: float in [-1.0, 1.0]:
+		var oeil := MeshInstance3D.new()
+		var s := SphereMesh.new()
+		s.radius = 0.022
+		s.height = 0.03
+		oeil.mesh = s
+		oeil.material_override = lueur
+		oeil.position = Vector3(cote * 0.032, 1.6, -0.095)
+		add_child(oeil)
+		_yeux.append(oeil)
+
+
+func _morceau_serpent(rayon: float) -> CapsuleMesh:
+	var c := CapsuleMesh.new()
+	c.radius = rayon
+	c.height = 0.11
+	c.radial_segments = 6
+	c.rings = 2
+	return c
+
+
+func _habiller_gorgone() -> void:
+	if _corps.has_method("appliquer"):
+		_corps.appliquer({"sexe": "femme", "taille_cm": 230, "peau": Color("#8d7ab8")})
+	if _corps.has_method("teindre_tenue"):
+		_corps.teindre_tenue(Color("#c9a24a"))
+	if _corps.has_method("porter_habit"):
+		_corps.porter_habit("peplos", {"principal": Color("#c9a24a")})
+	for n in _corps.find_children("*", "MeshInstance3D", true, false):
+		(n as MeshInstance3D).material_overlay = _cristal
+	# La chevelure et les yeux suivent la taille du corps (230 cm au lieu de 175).
+	var echelle := 230.0 / 175.0
+	for n in get_children():
+		if n != _corps:
+			n.position *= echelle
+			n.scale = Vector3.ONE * echelle
+
+
+## Ses yeux s'allument (le regard qui pétrifie) ou s'éteignent.
+func regard(actif: bool) -> void:
+	for oeil in _yeux:
+		var m := oeil.material_override as StandardMaterial3D
+		m.emission_energy_multiplier = 9.0 if actif else 0.5
+		oeil.scale = Vector3.ONE * (1.8 if actif else 1.0)
+	if _cristal != null:
+		_cristal.emission_energy_multiplier = 2.4 if actif else 0.9
+
+
 func _preparer_gangue() -> void:
 	var shader := Shader.new()
 	shader.code = SHADER_GANGUE
@@ -284,6 +404,8 @@ func animer(delta: float, vitesse: float, mort: bool) -> void:
 		_corps.mourir()
 		if variante == "petrifie":
 			_briser_gangue()
+		elif variante == "gorgone":
+			regard(false)
 	elif not mort and _mort:
 		_mort = false
 		_corps.revivre()
@@ -291,5 +413,7 @@ func animer(delta: float, vitesse: float, mort: bool) -> void:
 			_poser_gangue(true)
 	if mort:
 		return
-	# Un Pétrifié marche raide, à petits pas (la pierre pèse).
-	_corps.animer(delta, Vector3(0, 0, -vitesse * (0.7 if variante == "petrifie" else 1.0)), true, -1.0, Vector3.ZERO)
+	# Un Pétrifié marche raide, à petits pas (la pierre pèse). La Gorgone agite ses serpents.
+	for k in _serpents.size():
+		_serpents[k].rotation.x += sin(_temps * 2.3 + k * 1.7) * delta * 0.6
+	_corps.animer(delta, Vector3(0, 0, -vitesse * (0.7 if variante == "petrifie" or variante == "statue" else 1.0)), true, -1.0, Vector3.ZERO)

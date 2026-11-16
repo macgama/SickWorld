@@ -139,6 +139,32 @@ Sous la colline, **les galeries** : étroites, étayées de bois, éclairées pa
 6. Rendre la voix aux **quatre porteurs** changés en marbre, puis parler à **Philomèla**, la canéphore (la porteuse de corbeille), qui donne sa **bandelette**.
 7. **Périclès** a fait ouvrir un **escalier secret** au pied ouest de l'Acropole. Il donne l'**Ostracon du Masque** (relique épique) et conseille d'y monter **en groupe**. Suite au chapitre 8, le donjon.
 
+## L'Acropole (donjon, niveau 30)
+
+On y monte par l'escalier secret que Périclès a fait ouvrir, au pied ouest du rocher (une porte basse entre deux torches, à l'est de l'Agora). C'est un donjon : viens à cinq si tu peux.
+
+- **L'escalier des rois** : un long couloir de pierre qui monte dans le noir.
+- **La grotte de la fontaine** : une vieille source sous le rocher, gardée par des hoplites de marbre que la fracture a réveillés.
+- **La fissure** : un passage étroit qui débouche sur le plateau.
+- **Le plateau**, la nuit : les blocs du chantier, les braseros, l'Athéna Promachos de bronze, et le Parthénon tout neuf avec ses frises peintes.
+- **La salle du temple** : la statue d'Athéna en or et en ivoire (douze mètres), son bouclier, et la Gorgone.
+
+Pour sortir, il suffit de redescendre tout l'escalier : on revient à Athènes, devant la porte secrète.
+
+## Le chapitre 8 : « Que le temps n'efface pas »
+
+1. Monter par l'escalier secret.
+2. Briser les quatre hoplites de marbre de la grotte.
+3. Remonter par la fissure jusqu'au plateau et chasser six serpents de bronze.
+4. Parler à Phidias, caché derrière les blocs : il explique le regard de Méduse et les boucliers polis.
+5. Pousser les portes de bronze du Parthénon (F, sans bouger).
+6. **Le combat contre Méduse**, en trois temps :
+   - toutes les 15 secondes, ses yeux s'allument (un message prévient) : **tourne-lui le dos** ! Ceux qui la regardent sont changés en pierre 4 secondes (ni bouger ni frapper) ;
+   - dès les deux tiers de sa vie, ses serpents forment une cuirasse (l'égide) : les coups ne passent plus. Il faut **lever un des deux boucliers polis** de la salle (F) : elle voit son propre regard et reste sans défense 8 secondes. Chaque bouclier sert de nouveau au bout de 12 secondes ;
+   - au dernier tiers, **Masque** surgit de la faille pour emporter la tête de la Gorgone : tant qu'il est là, elle est protégée. Blesse-le (sous 30 % de sa vie) et il s'enfuit ; si on le laisse 45 secondes, il s'enfuit quand même mais Méduse reprend des forces.
+7. Refermer la fracture majeure derrière la statue (6 secondes sans bouger) : récompense, le **Gorgoneion de Phidias** (relique historique).
+8. Parler à Hérodote, le voyageur qui a tout vu depuis la porte. Fin de l'histoire de la Grèce.
+
 ## Les ennemis
 
 | Ennemi | Niveau | Où | Particularité |
@@ -152,15 +178,18 @@ Sous la colline, **les galeries** : étroites, étayées de bois, éclairées pa
 | Chien errant fracturé | 24-25 | Athènes : Céramique, Pnyx, faubourg du théâtre | En meute |
 | Pétrifié | 25 | L'Agora (quête) | On ne le tue pas : on brise sa gangue de marbre, puis on lui rend la voix |
 | Mercenaire de Masque | 28 | Le Laurion | Casque d'hoplite, lance et bouclier rond ; en groupe |
-| Serpent de la Gorgone | 29 | Athènes, la voie sacrée (quête) | Un serpent de bronze vert-de-gris tombé de la chevelure de la Gorgone |
+| Serpent de la Gorgone | 29 | Athènes, la voie sacrée (quête) ; plateau de l'Acropole | Un serpent de bronze vert-de-gris tombé de la chevelure de la Gorgone |
+| Hoplite de marbre | 29 | Acropole, la grotte | Une statue qui marche : lente, mais frappe fort (2 200 points de vie) |
+| Masque, le sophiste | 30 | Acropole, la salle du temple | Protège Méduse ; s'enfuit quand il est blessé |
+| Méduse, la Gorgone de l'égide | 30 (boss) | Acropole, la salle du temple | 22 000 points de vie ; son regard pétrifie ; l'égide ne tombe qu'avec un bouclier poli |
 
 Le niveau maximum passe de 20 à 30 avec cette île.
 
 ## Pour les curieux
 
-- Le code des zones : `scripts/monde/grece/le_piree.gd`, `oliveraies.gd`, `athenes.gd`, `laurion.gd` et `galeries_laurion.gd` (et `ile_grece.gd` pour ce qui sera commun à toute l'île : colonnes, portiques peints, maisons, amphores, trières, oliviers, cyprès).
+- Le code des zones : `scripts/monde/grece/le_piree.gd`, `oliveraies.gd`, `athenes.gd`, `laurion.gd`, `galeries_laurion.gd` et `acropole.gd` (le combat contre Méduse est en bas de ce fichier) (et `ile_grece.gd` pour ce qui sera commun à toute l'île : colonnes, portiques peints, maisons, amphores, trières, oliviers, cyprès).
 - La trière où l'on rame : `scripts/monde/grece/triere_cadence.gd` (le rythme de la flûte, la marge pour un coup en cadence et la distance gagnée se règlent en haut du fichier).
 - Les textes de la quête : `data/grece_quete.json` ; les personnages : `data/grece_pnj.json`.
 - Les interrogatoires à la Socrate : une étape « objet » (la bonne réponse) avec des « leurres » (les mauvaises réponses et ce qu'on répond alors), dans `data/grece_quete.json`.
 - Les Pétrifiés : leur apparence est dans `scripts/ennemis/apparence_oublie.gd` (la gangue de marbre est un petit shader, en haut du fichier).
-- Les tests automatiques : `tests/test_le_piree.gd`, `tests/test_oliveraies.gd`, `tests/test_athenes.gd`, `tests/test_laurion.gd` et `tests/test_ostracisme.gd`. Les images : `tests/capture_athenes.gd` et `tests/capture_laurion.gd`.
+- Les tests automatiques : `tests/test_le_piree.gd`, `tests/test_oliveraies.gd`, `tests/test_athenes.gd`, `tests/test_laurion.gd`, `tests/test_ostracisme.gd` et `tests/test_acropole.gd`. Les images : `tests/capture_athenes.gd`, `tests/capture_laurion.gd` et `tests/capture_acropole.gd`.

@@ -10,6 +10,7 @@ extends "res://scripts/monde/egypte/objet_egypte.gd"
 ## - « jeton » : un jeton de plomb des mines du Laurion ;
 ## - « ostraka » : des sacs de tessons gravés (le vote truqué) ;
 ## - « machine » : une pompe moderne de l’Effaceur, au fond des galeries.
+## - « bouclier_poli » : un bouclier de bronze poli comme un miroir, sur son support (Acropole).
 
 
 func _construire_sac_voyage() -> void:
@@ -302,3 +303,25 @@ func _construire_machine() -> void:
 	violet.emission = Color(0.6, 0.3, 1.0)
 	violet.emission_energy_multiplier = 3.0
 	_morceau(eclat, violet, Vector3(0, 1.32, 0), Vector3(0.2, 0, 0.15))
+
+
+func _construire_bouclier_poli() -> void:
+	var bois := _mat_uni(Color(0.32, 0.22, 0.14), 0.85)
+	var bronze := _mat_uni(Color(0.95, 0.74, 0.46), 0.15, 0.5)
+	var pied := BoxMesh.new()
+	pied.size = Vector3(0.12, 1.3, 0.12)
+	_morceau(pied, bois, Vector3(0, 0.65, -0.12))
+	var socle := BoxMesh.new()
+	socle.size = Vector3(0.7, 0.08, 0.5)
+	_morceau(socle, bois, Vector3(0, 0.04, 0))
+	# Le disque de bronze, légèrement incliné, poli comme un miroir.
+	var disque := CylinderMesh.new()
+	disque.top_radius = 0.48
+	disque.bottom_radius = 0.5
+	disque.height = 0.06
+	disque.radial_segments = 32
+	_morceau(disque, bronze, Vector3(0, 1.05, 0), Vector3(PI / 2 - 0.15, 0, 0))
+	var bord := TorusMesh.new()
+	bord.inner_radius = 0.47
+	bord.outer_radius = 0.53
+	_morceau(bord, _mat_uni(Color(0.55, 0.36, 0.18), 0.4, 1.0), Vector3(0, 1.05, 0.01), Vector3(PI / 2 - 0.15, 0, 0))

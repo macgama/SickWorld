@@ -19,6 +19,7 @@ const TEXTE_AIDE := """[b]Contrôles[/b]  (F1 pour cacher)
 
 const TAILLE_CASE := 70
 const NOMS_EFFETS := {
+	"regard_gorgone": "Pétrifié par le regard", "regard_renvoye": "Pétrifiée par son reflet",
 	"saignement": "Saignement", "ralenti": "Ralenti", "desynchronisation": "Désynchronisé (-10 %)",
 	"cri_du_clan": "Cri du clan (+15 % dégâts)", "peinture_de_guerre": "Peinture de guerre (-30 % dégâts subis)",
 	"mur_de_bouclier": "Mur de bouclier (-60 % dégâts subis)", "provocation": "Provoqué",
