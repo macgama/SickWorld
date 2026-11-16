@@ -24,8 +24,8 @@ const NOMS_EFFETS := {
 	"cri_du_clan": "Cri du clan (+15 % dégâts)", "peinture_de_guerre": "Peinture de guerre (-30 % dégâts subis)",
 	"mur_de_bouclier": "Mur de bouclier (-60 % dégâts subis)", "provocation": "Provoqué",
 	"protection": "Protégé par un Rempart", "etourdi": "Étourdi", "immobilise": "Immobilisé",
-	"poison": "Empoisonné", "bulle_lente": "Temps ralenti", "acceleration": "Accéléré",
-	"nom_efface": "Nom effacé (compétences d'époque bloquées)", "enfoui": "Dans les murs",
+	"poison": "Empoisonné", "bulle_lente": "Temps ralenti", "acceleration": "Accéléré", "huile": "Huile d'athlète (plus rapide, soigné)",
+	"nom_efface": "Nom effacé (compétences d'époque bloquées)", "voix_coupee": "Voix couverte (compétences bloquées)", "enfoui": "Dans les murs",
 	"blessure": "Blessure (soins reçus réduits)",
 }
 

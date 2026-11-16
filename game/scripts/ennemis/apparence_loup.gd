@@ -41,6 +41,7 @@ const ApparenceOublie := preload("res://scripts/ennemis/apparence_oublie.gd")
 const ApparenceSerpent := preload("res://scripts/ennemis/apparence_serpent.gd")
 const ApparencePoulpe := preload("res://scripts/ennemis/apparence_poulpe.gd")
 const ApparenceChien := preload("res://scripts/ennemis/apparence_chien.gd")
+const ApparenceHautParleurs := preload("res://scripts/ennemis/apparence_haut_parleurs.gd")
 ## Apparence d'une autre famille d'animaux à qui tout est confié (bêtes du Nil).
 var _delegue: Node3D
 
@@ -50,7 +51,24 @@ func _ready() -> void:
 		enfant.queue_free()
 	var parent := get_parent()
 	var type := str(parent.get("type_ennemi")) if parent != null else ""
+	# L'anomalie de la Faille de l'Agora (île de Grèce) : une tour de haut-parleurs vivante.
+	if type.begins_with("mur_haut_parleurs"):
+		espece = "oublie"
+		_delegue = ApparenceHautParleurs.new()
+		_delegue.name = "HautParleurs"
+		add_child(_delegue)
+		return
 	# Les bêtes du Nil (île d'Égypte) ont leur propre apparence, sculptée en code.
+	if type.begins_with("pirate") or type.begins_with("athlete"):
+		# Les pirates de l'Égée et les athlètes de la palestre (île de Grèce).
+		espece = "oublie"
+		_delegue = ApparenceOublie.new()
+		_delegue.name = "Oublie"
+		_delegue.graine = parent.get_instance_id() % 997
+		_delegue.variante = "pirate" if type.begins_with("pirate") else "athlete"
+		_delegue.chef = type.contains("chef") or type.contains("champion")
+		add_child(_delegue)
+		return
 	if type.begins_with("oublie") or type.begins_with("garde") or type.begins_with("petrifie") \
 			or type.begins_with("masque") or type.begins_with("mercenaire") or type.begins_with("statue") \
 			or type.begins_with("meduse"):
@@ -584,6 +602,17 @@ func mordre() -> void:
 		_anim_courante = nom
 		_anim.play(nom, 0.1)
 		_anim.speed_scale = 1.3
+
+
+## Le Mur de haut-parleurs prend son souffle, puis crie (événement de la Faille de l'Agora).
+func preparer_cri() -> void:
+	if _delegue != null and _delegue.has_method("preparer_cri"):
+		_delegue.preparer_cri()
+
+
+func crier() -> void:
+	if _delegue != null and _delegue.has_method("crier"):
+		_delegue.crier()
 
 
 func animer(delta: float, vitesse: float, mort: bool) -> void:

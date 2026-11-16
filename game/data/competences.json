@@ -299,6 +299,21 @@
 		"couleur": "#e67e22"
 	},
 
+	"huile_d_athlete": {
+		"nom": "Huile d'athlète",
+		"origine": "Grèce",
+		"description": "Tu te frottes d'huile sacrée, comme les athlètes avant l'effort : pendant 10 secondes, toi (ou l'allié ciblé) cours 25 % plus vite et regagnes 9 points de vie par seconde. Demande l'Amphore d'huile sacrée (quête « Les oliviers sacrés »).",
+		"type": "renfort_allie",
+		"portee": 30,
+		"effet": "huile",
+		"duree": 10,
+		"vitesse": 1.25,
+		"soin_par_seconde": 9,
+		"recharge": 30,
+		"animation": "sort",
+		"couleur": "#b5a642"
+	},
+
 	"lancer_au_propulseur": {
 		"nom": "Lancer au propulseur",
 		"origine": "Préhistoire",

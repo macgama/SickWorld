@@ -165,6 +165,39 @@ Pour sortir, il suffit de redescendre tout l'escalier : on revient à Athènes, 
 7. Refermer la fracture majeure derrière la statue (6 secondes sans bouger) : récompense, le **Gorgoneion de Phidias** (relique historique).
 8. Parler à Hérodote, le voyageur qui a tout vu depuis la porte. Fin de l'histoire de la Grèce.
 
+## Les quêtes secondaires
+
+Comme sur les autres îles, un **« ! » doré** au-dessus d'un personnage veut dire qu'il a une petite quête pour toi, et un **« ? »** qu'il attend ton retour. Les quêtes en cours sont listées à droite de l'écran, avec la distance ou la zone où aller. Elles ne bloquent jamais l'histoire. Trois d'entre elles ont un **petit jeu d'adresse** au lieu d'une simple barre d'action.
+
+| Quête | Qui la donne | Quand | Ce qu'il faut faire | Récompense |
+|---|---|---|---|---|
+| **La chouette de Néra** | Néra (ferme de Myrtô) | après le chapitre 3 | Chasser 3 vipères dans le sanctuaire, recueillir la petite chouette, lui attraper 3 grappes de cigales | **Glaukê, la petite chouette** : portée (bijou), elle se pose sur ton épaule et s'envole quand tu cours ou te bats |
+| **Le miel d'Hymette** | Myrtô | après le chapitre 3 | Recueillir 3 essaims au-dessus des ruches, cueillir 4 touffes de thym | Gâteaux au miel et au sésame, miel (le Chef Goro en fait d'autres gâteaux) |
+| **Le sanglier de l'Hymette** | Ktésippe (hameau de l'est) | après le chapitre 3 | Suivre 3 traces jusqu'à la montagne, abattre le grand sanglier (élite) | Chlamyde de chasseur + pétase |
+| **Les oliviers sacrés** | Théano, la prêtresse | après le chapitre 3 | Chasser 4 loups du sanctuaire, cueillir 4 paniers d'olives, les presser | **Amphore d'huile sacrée** : elle débloque la compétence d'époque **Huile d'athlète** (+25 % de vitesse et des soins pendant 10 s) |
+| **Le cheval de Lysimaque** | Lysimaque (le Pirée) | après le chapitre 2 | Dresser le poulain rétif au hameau de l'ouest des Oliveraies (**petit jeu** : F quand le curseur est dans la zone verte, 3 fois sur 5), puis revenir au Pirée | **Bride de Lysimaque** : la **monture de la Grèce** (touche V), un petit cheval bai |
+| **Les derniers de Marathon** | Hérodote (Agora d'Athènes) | après le chapitre 3 | Écouter trois anciens de Marathon : Mélanthios (Céramique), Épizélos (Oliveraies), Diphilos (Pirée), puis tout raconter à Hérodote. Sans combat. | Pointe de lance de Marathon, titre « Témoin d'Hérodote » |
+| **Le chœur de Sophocle** | Sophocle (théâtre) | après le chapitre 5 | Remplacer un choreute : **petit jeu de rythme** (la bonne direction, Z Q S D ou les flèches, quand le cercle vert touche le cercle doré ; 6 pas réussis sur 8) | Masque de choreute |
+| **Le banquet** | Aspasie | après le chapitre 4 | Gagner une partie de **kottabos** (petit jeu : F au bon moment, 2 disques sur 4 lancers) | Coupe à kottabos, et une rumeur sur Masque |
+| **La palestre** | Hippomachos (palestre, au nord du Céramique) | après le chapitre 3 | Mettre au sol 3 lutteurs, toucher 4 bornes dans toute la ville, battre le champion Autolykos | Perizoma d'athlète, titre « Athlète des Panathénées » |
+| **Les intrus modernes** | L'agent Markos | après le chapitre 3 | Retrouver un mégaphone (Pnyx), une affiche électorale (Portique de Zeus) et une caméra (théâtre) | Montre de terrain de la Vigie, et un indice : la caméra filmait… le QG |
+
+Tout est vrai, ou presque : Épizélos, devenu aveugle à Marathon sans être blessé, est raconté par Hérodote lui-même ; le kottabos était le jeu de tous les banquets ; les vainqueurs des Panathénées recevaient des amphores de l'huile des oliviers sacrés. Les textes se changent dans `game/data/grece_secondaires.json`.
+
+## Les événements publics
+
+De temps en temps, un **événement** commence tout seul dans une zone (annonce au milieu de l'écran, cadre orange à gauche avec l'objectif et le chrono). Tout le monde peut aider, sans groupe. À la fin, tu reçois une récompense selon ta **participation** (or, argent ou bronze) et la **stabilité de l'époque** monte.
+
+| Événement | Zone | Ce qu'il faut faire | Fréquence |
+|---|---|---|---|
+| **Les Jeux des Panathénées** | Athènes (la voie des Panathénées, puis l'Agora) | Une **course** : passer tout près de 5 bornes, du Dipylon à l'Agora (plus on va vite, plus ça compte) ; le **javelot** (petit jeu, 3 lancers dans la cible sur 5) ; le **pancrace** (deux vagues de lutteurs). | toutes les heures, après le chapitre 3 |
+| **Les Pirates de l'Égée** | Le Pirée (quais du grand portique) | Repousser deux vagues de pirates fracturés, **éteindre 3 incendies** pendant que d'autres pirates débarquent, puis abattre l'archipirate (élite). | toutes les 1 h 20, après le chapitre 2 |
+| **La Faille de l'Agora** | Athènes (l'Agora) | Deux vagues de chiens, puis le **Mur de haut-parleurs** : une tour de baffles vivante. Quand il prend son souffle (un message prévient), éloigne-toi à plus de 18 m, sinon son cri **couvre ta voix** : plus de compétences pendant 3 s et demie (sauf l'attaque de base). Puis refermer la faille. | toutes les 1 h 30, après le chapitre 4 |
+| **La Chasse de l'Hymette** | Oliveraies (pentes de l'Hymette) | Arrêter deux vagues de sangliers fracturés, puis le meneur de la harde (élite). | toutes les 1 h 20, après le chapitre 3 |
+| **L'Éboulement** | Laurion (la vieille descenderie) | Dégager 4 tas de blocs pour libérer les mineurs, pendant que des vipères sortent des éboulis, puis repousser les mercenaires de Masque. | toutes les 1 h 30, après le chapitre 6 |
+
+La course de chars des Jeux viendra plus tard, avec un vrai char à deux chevaux. Les réglages (durées, nombre d'ennemis, rayon du cri…) sont dans `game/data/grece_evenements.json`.
+
 ## Les ennemis
 
 | Ennemi | Niveau | Où | Particularité |
@@ -182,6 +215,10 @@ Pour sortir, il suffit de redescendre tout l'escalier : on revient à Athènes, 
 | Hoplite de marbre | 29 | Acropole, la grotte | Une statue qui marche : lente, mais frappe fort (2 200 points de vie) |
 | Masque, le sophiste | 30 | Acropole, la salle du temple | Protège Méduse ; s'enfuit quand il est blessé |
 | Méduse, la Gorgone de l'égide | 30 (boss) | Acropole, la salle du temple | 22 000 points de vie ; son regard pétrifie ; l'égide ne tombe qu'avec un bouclier poli |
+| Pirate fracturé, l'archipirate | 22-23 | Le Pirée (événement) | Tunique délavée, épée courte ; l'archipirate a 3 000 points de vie |
+| Lutteurs de la palestre, Autolykos | 25-27 | Athènes (quête, événement) | Des Athéniens qui s'entraînent : on les met au sol |
+| Le Mur de haut-parleurs | 27 (élite) | L'Agora (événement) | Ne bouge pas ; son cri coupe la voix (les compétences) des joueurs proches |
+| Grand sanglier de l'Hymette, meneur de la harde | 24-25 (élite) | Oliveraies (quête, événement) | Énormes, frappent très fort |
 
 Le niveau maximum passe de 20 à 30 avec cette île.
 
@@ -192,4 +229,5 @@ Le niveau maximum passe de 20 à 30 avec cette île.
 - Les textes de la quête : `data/grece_quete.json` ; les personnages : `data/grece_pnj.json`.
 - Les interrogatoires à la Socrate : une étape « objet » (la bonne réponse) avec des « leurres » (les mauvaises réponses et ce qu'on répond alors), dans `data/grece_quete.json`.
 - Les Pétrifiés : leur apparence est dans `scripts/ennemis/apparence_oublie.gd` (la gangue de marbre est un petit shader, en haut du fichier).
-- Les tests automatiques : `tests/test_le_piree.gd`, `tests/test_oliveraies.gd`, `tests/test_athenes.gd`, `tests/test_laurion.gd`, `tests/test_ostracisme.gd` et `tests/test_acropole.gd`. Les images : `tests/capture_athenes.gd`, `tests/capture_laurion.gd` et `tests/capture_acropole.gd`.
+- Les quêtes secondaires et les événements : `data/grece_secondaires.json` et `data/grece_evenements.json` ; les petits jeux (kottabos, javelot, chœur, poulain) : `scripts/monde/mini_jeu.gd` ; la chouette compagnon : `scripts/joueur/compagnon.gd` ; le Mur de haut-parleurs : `scripts/ennemis/apparence_haut_parleurs.gd`.
+- Les tests automatiques : `tests/test_grece_secondaires.gd`, `tests/test_grece_evenements.gd`, `tests/test_le_piree.gd`, `tests/test_oliveraies.gd`, `tests/test_athenes.gd`, `tests/test_laurion.gd`, `tests/test_ostracisme.gd` et `tests/test_acropole.gd`. Les images : `tests/capture_athenes.gd`, `tests/capture_laurion.gd` et `tests/capture_acropole.gd`.

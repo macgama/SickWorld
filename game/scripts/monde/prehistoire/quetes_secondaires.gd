@@ -10,6 +10,7 @@ extends Node
 ## d'action, les annonces, les récompenses et l'apparition des ennemis.
 
 const ObjetQuete := preload("res://scripts/monde/prehistoire/objet_quete.gd")
+const MiniJeu := preload("res://scripts/monde/mini_jeu.gd")
 const PAS_COMMENCEE := -1
 const FINIE := 999
 const OR := Color(1.0, 0.82, 0.35)
@@ -44,6 +45,8 @@ var _marques := {}
 var _cadre: PanelContainer
 var _liste: VBoxContainer
 var _minuterie := 0.0
+## Le mini-jeu ouvert (kottabos, chœur…), pour ne pas en lancer deux.
+var _mini_jeu: Node
 
 
 func _ready() -> void:
@@ -358,11 +361,32 @@ func utiliser_objet(objet: Node3D) -> void:
 			continue
 		var fin := func(o: Node3D): _objet_fini(q, o)
 		var duree := float(e.get("duree", 0.0))
+		if e.has("mini_jeu"):
+			_lancer_mini_jeu(q, e, objet, fin)
+			return
 		if duree > 0.0:
 			_quete.canaliser(objet, duree, String(e.get("action", "…")), fin)
 		else:
 			fin.call(objet)
 		return
+
+
+## Un petit jeu d'adresse (voir mini_jeu.gd) : réussi, l'étape avance ; raté, on peut
+## réessayer en appuyant de nouveau sur F.
+func _lancer_mini_jeu(q: Dictionary, e: Dictionary, objet: Node3D, fin: Callable) -> void:
+	if _mini_jeu != null and is_instance_valid(_mini_jeu):
+		return
+	_mini_jeu = MiniJeu.lancer(get_tree(), e.mini_jeu)
+	_mini_jeu.fini.connect(func(reussi: bool):
+		_mini_jeu = null
+		if etape_de(q) != e:
+			return
+		if reussi:
+			if e.mini_jeu.has("reussite"):
+				_quete.annoncer(String(q.titre), String(e.mini_jeu.reussite))
+			fin.call(objet)
+		else:
+			_quete.annoncer(String(q.titre), String(e.mini_jeu.get("echec", "Raté ! Appuie sur F pour réessayer."))))
 
 
 func _objet_fini(q: Dictionary, objet: Node3D) -> void:

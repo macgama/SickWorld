@@ -567,6 +567,8 @@ func _construire_quete() -> void:
 	_pnj(dossier, "pretresse", PRETRESSE, 1.4)
 	_pnj(dossier, "paysan_ktesippe", HAMEAU_EST + Vector2(-5, 6), 2.6)
 	_pnj(dossier, "garde_porte", PORTE_ATHENES + Vector2(4, 4), 0.0)
+	# Quête secondaire « Les derniers de Marathon » : Épizélos, devant sa ferme du hameau.
+	_pnj(dossier, "veteran_epizelos", HAMEAU_OUEST + Vector2(4, -6), PI * 0.6)
 	# Socrate revient du Pirée : il attend derrière le rempart, puis arrive à la porte.
 	_pnj(dossier, "socrate", PORTE_ATHENES + Vector2(-4, -12), 0.0)
 	# Le masque de théâtre que Néra a ramassé près des ruches.
