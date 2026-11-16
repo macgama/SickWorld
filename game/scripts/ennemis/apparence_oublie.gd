@@ -20,6 +20,8 @@ const HABITS := ["#e2d8c0", "#d8cdb2", "#ddd2b8", "#cfc3a6"]
 ## met à terre, la gangue de pierre se brise et il reste assommé, jusqu'à ce qu'on lui
 ## rende la voix (voir athenes.gd).
 @export var variante := "oublie"
+## Pour un Masqué : le chef (Masque lui-même), plus grand, au masque doré.
+var chef := false
 
 const HABITS_GRECS := ["#e9e2d0", "#c9b48a", "#9b4a34", "#5d6b7a", "#b8a98a", "#7a2a22"]
 const PEAUX_GRECQUES := ["#a87a56", "#b07f5a", "#9c6e4b", "#b58660", "#a5764f"]
@@ -161,13 +163,15 @@ func _habiller_athenien(hasard: RandomNumberGenerator) -> void:
 ## derrière un masque de théâtre blanc, une courte épée de bronze. Il ne dit jamais rien.
 func _habiller_masque(hasard: RandomNumberGenerator) -> void:
 	if _corps.has_method("appliquer"):
-		_corps.appliquer({"sexe": "homme", "taille_cm": hasard.randi_range(170, 184),
+		_corps.appliquer({"sexe": "homme", "taille_cm": 188 if chef else hasard.randi_range(170, 184),
 				"peau": Color.from_string(PEAUX_GRECQUES[hasard.randi() % PEAUX_GRECQUES.size()], Color.WHITE)})
 	var teinte := Color.from_string(["#34303a", "#2c2a2e", "#3d3530"][hasard.randi() % 3], Color.WHITE)
+	if chef:
+		teinte = Color("#4a1d24")
 	if _corps.has_method("teindre_tenue"):
 		_corps.teindre_tenue(teinte)
 	if _corps.has_method("equiper"):
-		_corps.equiper({"tete": {"forme": "masque_theatre", "couleur": "#ece6da"},
+		_corps.equiper({"tete": {"forme": "masque_theatre", "couleur": "#d8b65a" if chef else "#ece6da"},
 				"arme_principale": {"forme": "lame", "couleur": "#a8743a"}})
 
 

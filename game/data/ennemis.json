@@ -610,5 +610,34 @@
 		"distance_laisse": 40,
 		"entraide": 16,
 		"temps_reapparition": 0
+	},
+	"masque_effaceur": {
+		"nom": "Masque, le sophiste",
+		"insensible_controles": true,
+		"niveau": 27,
+		"points_de_vie": 4200,
+		"degats": [40, 54],
+		"intervalle_attaque": 1.9,
+		"portee_attaque": 2.6,
+		"vitesse_course": 5.6,
+		"vitesse_marche": 1.4,
+		"distance_detection": 18,
+		"distance_laisse": 40,
+		"entraide": 0,
+		"temps_reapparition": 0
+	},
+	"masque_garde": {
+		"nom": "Garde de Masque",
+		"niveau": 26,
+		"points_de_vie": 820,
+		"degats": [26, 36],
+		"intervalle_attaque": 1.7,
+		"portee_attaque": 2.3,
+		"vitesse_course": 6.0,
+		"vitesse_marche": 1.4,
+		"distance_detection": 18,
+		"distance_laisse": 40,
+		"entraide": 18,
+		"temps_reapparition": 0
 	}
 }

@@ -350,5 +350,61 @@
 			"Cinq cents jurés, tirés au sort ce matin. Personne ne peut les acheter tous. C'est le principe.",
 			"Chacun parle le temps que coule l'eau de la clepsydre. Pas une goutte de plus."
 		]
+	},
+	"sophocle": {
+		"nom": "Sophocle",
+		"role": "Auteur de tragédies · stratège",
+		"modele": "homme",
+		"taille_cm": 174,
+		"peau": "#a87850",
+		"habits": "#c9b48a",
+		"repliques": [
+			"Antigone dit : « Je suis née pour partager l'amour, pas la haine. » Ce soir, le chœur devait la chanter avec elle. Ce soir, le chœur se tait.",
+			"Un théâtre sans voix, c'est une tombe avec des gradins."
+		]
+	},
+	"spectatrice_muette": {
+		"nom": "Une spectatrice",
+		"role": "Muette depuis le prologue",
+		"modele": "femme",
+		"taille_cm": 162,
+		"peau": "#b58662",
+		"habits": "#8a5a4a",
+		"repliques": [
+			"(Elle ouvre la bouche. Rien ne sort. Elle montre du doigt le masque qu'elle a jeté à ses pieds.)"
+		]
+	},
+	"spectateur_muet": {
+		"nom": "Un spectateur",
+		"role": "Muet depuis le prologue",
+		"modele": "homme",
+		"taille_cm": 176,
+		"peau": "#9c6e4b",
+		"habits": "#5e6a52",
+		"repliques": [
+			"(Il se tient la gorge, les yeux pleins de larmes. Sur la scène, l'homme au masque d'or salue.)"
+		]
+	},
+	"lenoir_theatre": {
+		"nom": "Agent Lenoir",
+		"role": "Vigie · en mission",
+		"modele": "homme",
+		"taille_cm": 181,
+		"peau": "#c99a7a",
+		"repliques": [
+			"Damien... Dix ans que je fleuris une tombe vide.",
+			"Le portail de campagne est derrière la skènè. La commandante nous attend."
+		]
+	},
+	"damien_roche": {
+		"nom": "Damien Roche",
+		"role": "« Masque » · ancien agent de la Vigie",
+		"modele": "homme",
+		"taille_cm": 188,
+		"peau": "#c4987a",
+		"habits": "#4a1d24",
+		"repliques": [
+			"Tu as les yeux de Lenoir quand il avait ton âge. Plein de certitudes."
+		]
 	}
 }

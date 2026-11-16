@@ -37,6 +37,7 @@ const SOUVENIRS := {
 	"grande_roue": ["boulon", Color(0.7, 0.72, 0.75)],
 	"colis": ["badge", Color(0.25, 0.55, 0.95)],
 	"carnet": ["carnet", Color(0.32, 0.2, 0.12)],
+	"archives": ["carnet", Color(0.55, 0.12, 0.1)],
 }
 
 var _bouton_hall: Node3D

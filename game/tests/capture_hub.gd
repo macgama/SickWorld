@@ -21,6 +21,7 @@ const VUES := [
 	["hall_sakura", Vector3(-96, 1.7, 27.5), Vector3(-82, 1.4, 20)],
 	["appartement", Vector3(-95, 41.7, 27.5), Vector3(-84, 41.3, 19)],
 	["arene", Vector3(112, 2.2, 92), Vector3(136, 5, 110)],
+	["archives", Vector3(-50.5, -10.0, 128), Vector3(-58, -11.4, 121)],
 ]
 
 

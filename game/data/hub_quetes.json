@@ -894,6 +894,47 @@
 			"apres": [
 				"« E. » connaît nos codes. Je regarde chaque visage du QG différemment, maintenant. Même le mien, dans le miroir."
 			]
+		},
+		{
+			"id": "archives",
+			"titre": "Le dossier Damien Roche",
+			"donneur": "commandante",
+			"automatique": true,
+			"resume": "Au théâtre de Dionysos, l'Effaceur « Masque » a perdu son masque : c'est Damien Roche, ancien agent de la Vigie et coéquipier de Lenoir, déclaré mort il y a dix ans. La commandante Morel ouvre pour toi les archives de la Vigie.",
+			"recompense": "Accès aux archives de la Vigie",
+			"etapes": [
+				{
+					"objectif": "Fais ton rapport à la commandante Morel (Hall des opérations)",
+					"parler": "commandante",
+					"repliques": [
+						"Lenoir est rentré avant toi. Il est assis dans mon bureau, et il ne dit plus rien. Je ne l'avais jamais vu comme ça.",
+						"Damien Roche. Je signais ses ordres de mission. J'ai lu son éloge funèbre, agent. Devant sa mère.",
+						"Il y a un dossier. Un vrai, sur papier, que personne n'a ouvert depuis dix ans. Va aux archives, à côté de la salle des portails : Odile t'attend."
+					]
+				},
+				{
+					"objectif": "Consulte le dossier de Damien Roche avec l'archiviste (salle des archives, porte ouest de la salle des portails)",
+					"parler": "archiviste",
+					"repliques": [
+						"Dossier 0417. Roche, Damien. Agent de terrain, douze ans de service. Quarante-trois missions, toutes réussies. Un as.",
+						"Dernière mission : une faille instable, époque non répertoriée. Une tempête temporelle. Le portail devait rester ouvert six heures ; on l'a fermé au bout de quatre.",
+						"Ordre de fermeture signé... tiens. La signature a été grattée. Quelqu'un est passé ici avant toi.",
+						"Et ça, en dernière page, au crayon, de la main de Roche lui-même : « Si je ne reviens pas, cherchez E. » Daté de la veille de sa mort."
+					]
+				},
+				{
+					"objectif": "Retourne voir la commandante Morel (Hall des opérations)",
+					"parler": "commandante",
+					"repliques": [
+						"Une signature grattée. Dans mes propres archives. Alors « E. » était déjà parmi nous il y a dix ans.",
+						"Je vais faire vérifier chaque accès à cette salle. En silence.",
+						"Toi, retourne en Grèce. Markos a des nouvelles inquiétantes des mines d'argent du Laurion, au sud-est. Si Masque y met la main, Athènes perd sa flotte et ses rameurs perdent leur voix."
+					]
+				}
+			],
+			"apres": [
+				"Damien Roche nous a cherchés pendant dix ans. Et c'est « E. » qui l'a trouvé en premier. Je ne me le pardonnerai pas."
+			]
 		}
 	]
 }

@@ -59,6 +59,7 @@ func _ready() -> void:
 		_delegue.graine = parent.get_instance_id() % 997
 		_delegue.variante = "garde" if type.begins_with("garde") else ("petrifie" if type.begins_with("petrifie") \
 				else ("masque" if type.begins_with("masque") else "oublie"))
+		_delegue.chef = type == "masque_effaceur"
 		add_child(_delegue)
 		return
 	if type.begins_with("cobra") or type.begins_with("isfet") or type.begins_with("vipere"):
