@@ -240,7 +240,15 @@ func _lancer() -> void:
 	_verifier(_id_etape() == "rencontre_livia", "Livia veut parler (%s)" % _id_etape())
 	lues = await _parler("Livia")
 	_verifier(lues >= 4, "Livia parle des aqueducs (%d bulles)" % lues)
-	_verifier(_id_etape() == "", "chapitres 1 et 2 terminés (%s)" % _id_etape())
+	_verifier(_id_etape() == "vers_campagne", "chapitres 1 et 2 terminés : en route vers la campagne (%s)" % _id_etape())
+	await _attendre(30)
+	_verifier(_scene._nord_ouvert, "la route du nord s'ouvre")
+	var nord: Vector2 = _scene.SORTIE_NORD
+	await _placer(Vector3(nord.x, _scene.hauteur(nord.x, nord.y + 12.0) + 0.4, nord.y + 12.0), 0.0)
+	Input.action_press("avancer")
+	await _attendre(150)
+	Input.action_release("avancer")
+	_verifier(_quete.zone_demandee == "campagne", "la voie mène à la campagne et aux aqueducs (%s)" % _quete.zone_demandee)
 
 	# --- La progression est gardée.
 	var cfg := ConfigFile.new()
@@ -250,9 +258,11 @@ func _lancer() -> void:
 	_scene.queue_free()
 	await _attendre(5)
 	await _charger()
-	_verifier(_quete.etape < 0, "au retour, la quête reprend où on l'avait laissée (fin provisoire)")
+	_verifier(_id_etape() == "vers_campagne", "au retour, la quête reprend où on l'avait laissée (%s)" % _id_etape())
 	_verifier(_scene.find_child("Faille", true, false).fermee, "la faille est toujours fermée")
 	_verifier(_scene.find_child("Livia", true, false).visible, "Livia est toujours au relais")
+	var borne_rechargee: Node3D = _scene.find_child("Milliaire1", true, false)
+	_verifier(borne_rechargee.get_node_or_null("Debout") != null and borne_rechargee.get_node("Debout").visible, "les bornes restent debout")
 	var c2: Node3D = _scene.find_child("CharretteRefugies", true, false)
 	_verifier(Vector2(c2.global_position.x, c2.global_position.z).distance_to(Vector2(4, -14)) < 1.0, "la charrette est toujours devant le relais")
 

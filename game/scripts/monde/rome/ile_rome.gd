@@ -484,3 +484,239 @@ func _arches_aqueduc(parent: Node3D, depart: Vector3, arrivee: Vector3, haut := 
 		if mi is MeshInstance3D:
 			(mi as MeshInstance3D).cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	return aqueduc
+
+
+## Le cintre d'une arche : un panneau de pierre de largeur « portee » et d'épaisseur
+## « epaisseur », percé en bas d'un demi-cercle (l'arche elle-même). L'origine est au
+## milieu de la base (la naissance de l'arche) ; le panneau monte jusqu'à « haut ».
+var _arches_cache := {}
+
+
+func _maillage_arche(portee: float, epaisseur: float, haut: float, segments := 14) -> ArrayMesh:
+	var cle := "%.2f_%.2f_%.2f" % [portee, epaisseur, haut]
+	if _arches_cache.has(cle):
+		return _arches_cache[cle]
+	var r := portee * 0.5
+	var outil := SurfaceTool.new()
+	outil.begin(Mesh.PRIMITIVE_TRIANGLES)
+	var e := epaisseur * 0.5
+	var quad := func(a: Vector3, b: Vector3, c: Vector3, d: Vector3, uv_a: Vector2, uv_b: Vector2, uv_c: Vector2, uv_d: Vector2) -> void:
+		outil.set_uv(uv_a)
+		outil.add_vertex(a)
+		outil.set_uv(uv_b)
+		outil.add_vertex(b)
+		outil.set_uv(uv_c)
+		outil.add_vertex(c)
+		outil.set_uv(uv_a)
+		outil.add_vertex(a)
+		outil.set_uv(uv_c)
+		outil.add_vertex(c)
+		outil.set_uv(uv_d)
+		outil.add_vertex(d)
+	for i in segments:
+		var a0 := PI * float(i) / segments
+		var a1 := PI * float(i + 1) / segments
+		var p0 := Vector2(r * cos(a0), r * sin(a0))
+		var p1 := Vector2(r * cos(a1), r * sin(a1))
+		var h0 := Vector2(p0.x, haut)
+		var h1 := Vector2(p1.x, haut)
+		for face: float in [-1.0, 1.0]:
+			var z := e * face
+			if face > 0.0:
+				quad.call(Vector3(p0.x, p0.y, z), Vector3(h0.x, h0.y, z), Vector3(h1.x, h1.y, z), Vector3(p1.x, p1.y, z),
+						p0 / 2.0, h0 / 2.0, h1 / 2.0, p1 / 2.0)
+			else:
+				quad.call(Vector3(p0.x, p0.y, z), Vector3(p1.x, p1.y, z), Vector3(h1.x, h1.y, z), Vector3(h0.x, h0.y, z),
+						p0 / 2.0, p1 / 2.0, h1 / 2.0, h0 / 2.0)
+		# L'intrados : le dessous courbe de l'arche.
+		var l0 := float(i) / segments * PI * r / 2.0
+		var l1 := float(i + 1) / segments * PI * r / 2.0
+		quad.call(Vector3(p0.x, p0.y, -e), Vector3(p0.x, p0.y, e), Vector3(p1.x, p1.y, e), Vector3(p1.x, p1.y, -e),
+				Vector2(l0, 0), Vector2(l0, epaisseur / 2.0), Vector2(l1, epaisseur / 2.0), Vector2(l1, 0))
+	outil.generate_normals()
+	outil.generate_tangents()
+	var m := outil.commit()
+	_arches_cache[cle] = m
+	return m
+
+
+## Une pierre qui se voit des deux côtés (pour les cintres des arches).
+func _mat_deux_faces(m: StandardMaterial3D) -> StandardMaterial3D:
+	var cle := "deux_faces_%d" % m.get_instance_id()
+	if not _materiaux.has(cle):
+		var d := m.duplicate() as StandardMaterial3D
+		d.cull_mode = BaseMaterial3D.CULL_DISABLED
+		_materiaux[cle] = d
+	return _materiaux[cle]
+
+
+## Un aqueduc sur lequel on peut marcher : des piliers de tuf, des arches, et en haut le
+## canal (le « specus ») couvert d'un dallage, avec la rigole où coule l'eau. « y_canal »
+## est la hauteur du dessus du canal (on marche dessus). Les piliers ne sont pas posés
+## dans les rectangles « sans_piliers » (une porte, par exemple). Renvoie le nœud de l'eau
+## (caché : on le montre quand l'eau revient).
+func _aqueduc_praticable(parent: Node3D, points: Array, y_canal: float, sans_piliers: Array = [], travee := 7.0) -> Node3D:
+	var aqueduc := Node3D.new()
+	aqueduc.name = "Aqueduc"
+	parent.add_child(aqueduc)
+	var pierre := _mat_tuf()
+	var cintre := _mat_deux_faces(pierre)
+	var brique := _mat_brique()
+	var largeur_pilier := 2.4
+	var epaisseur := 3.0
+	var largeur_canal := 3.4
+	var haut_canal := 2.0
+	var eau := Node3D.new()
+	eau.name = "EauAqueduc"
+	eau.set_meta("identifiant", "eau_aqueduc")
+	eau.add_to_group("decor_quete")
+	eau.visible = false
+	# L'eau n'est pas dans le nœud de l'aqueduc : celui-ci est fusionné en un seul maillage.
+	parent.add_child(eau)
+	var mat_eau := StandardMaterial3D.new()
+	mat_eau.albedo_color = Color(0.16, 0.36, 0.4, 0.94)
+	mat_eau.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	mat_eau.roughness = 0.04
+	mat_eau.metallic = 0.25
+	var mat_limon := _mat_choix(["mud_cracked_dry_03", "dry_ground_01"], Color(0.5, 0.44, 0.34), 0.95, 1.5)
+	for i in points.size() - 1:
+		var a: Vector2 = points[i]
+		var b: Vector2 = points[i + 1]
+		var d := b - a
+		var longueur := d.length()
+		var angle := atan2(d.x, d.y)
+		var milieu := (a + b) * 0.5
+		# Le canal : deux banquettes de pierre et la rigole entre elles. On marche sur un
+		# dallage plat (la collision couvre toute la largeur).
+		var y_bas := y_canal - haut_canal
+		var allonge := longueur + largeur_pilier
+		var corps := _boite(Vector3(largeur_canal, haut_canal - 0.5, allonge), Vector3(milieu.x, y_bas + (haut_canal - 0.5) * 0.5, milieu.y), brique, aqueduc, false)
+		corps.rotation.y = angle
+		for cote: float in [-1.0, 1.0]:
+			var decale := Vector2(cos(angle), -sin(angle)) * cote * (largeur_canal * 0.5 - 0.6)
+			var banquette := _boite(Vector3(1.2, 0.5, allonge), Vector3(milieu.x + decale.x, y_canal - 0.25, milieu.y + decale.y), pierre, aqueduc, false)
+			banquette.rotation.y = angle
+		var fond := _boite(Vector3(1.0, 0.06, allonge), Vector3(milieu.x, y_canal - 0.47, milieu.y), mat_limon, aqueduc, false)
+		fond.rotation.y = angle
+		var nappe := _boite(Vector3(0.98, 0.04, allonge), Vector3(milieu.x, y_canal - 0.08, milieu.y), mat_eau, eau, false)
+		nappe.rotation.y = angle
+		# Le dallage où l'on marche : une collision seule (la rigole reste visible).
+		var sol := StaticBody3D.new()
+		var forme_sol := CollisionShape3D.new()
+		var boite_sol := BoxShape3D.new()
+		boite_sol.size = Vector3(largeur_canal, 0.3, allonge)
+		forme_sol.shape = boite_sol
+		sol.add_child(forme_sol)
+		sol.position = Vector3(milieu.x, y_canal - 0.15, milieu.y)
+		sol.rotation.y = angle
+		aqueduc.add_child(sol)
+		# Les piliers et les arches.
+		var n := maxi(1, roundi(longueur / travee))
+		var pas := longueur / n
+		var portee := pas - largeur_pilier
+		var r := portee * 0.5
+		var naissance := y_bas - 1.2 - r
+		for k in n + 1:
+			if k == n and i < points.size() - 2:
+				continue
+			var p := a.lerp(b, float(k) / n)
+			var libre := true
+			for rect: Rect2 in sans_piliers:
+				if rect.has_point(p):
+					libre = false
+			if libre:
+				var sol_p := hauteur(p.x, p.y)
+				var h_pilier := naissance - sol_p + 1.5
+				if h_pilier > 0.5:
+					var pilier := _boite(Vector3(epaisseur, h_pilier, largeur_pilier), Vector3(p.x, sol_p - 1.5 + h_pilier * 0.5, p.y), pierre, aqueduc)
+					pilier.rotation.y = angle
+					# Le petit ressaut de l'imposte, sous la naissance des arches.
+					var imposte := _boite(Vector3(epaisseur + 0.3, 0.35, largeur_pilier + 0.3), Vector3(p.x, naissance - 0.17, p.y), pierre, aqueduc, false)
+					imposte.rotation.y = angle
+				# Au-dessus du pilier, entre deux cintres : le plein de maçonnerie.
+				var plein := _boite(Vector3(epaisseur, y_bas - naissance, largeur_pilier), Vector3(p.x, (naissance + y_bas) * 0.5, p.y), pierre, aqueduc, false)
+				plein.rotation.y = angle
+			if k < n:
+				var c := a.lerp(b, (k + 0.5) / n)
+				var dans_porte := false
+				for rect: Rect2 in sans_piliers:
+					if rect.has_point(c):
+						dans_porte = true
+				var bande := y_bas - naissance
+				if not dans_porte:
+					var arche := MeshInstance3D.new()
+					arche.mesh = _maillage_arche(portee, epaisseur, bande)
+					arche.material_override = cintre
+					arche.position = Vector3(c.x, naissance, c.y)
+					arche.rotation.y = angle - PI / 2
+					aqueduc.add_child(arche)
+	_fusionner(aqueduc)
+	return eau
+
+
+## Un échafaudage de bois des fontainiers, collé contre un aqueduc : des rampes en
+## zigzag qui montent du sol jusqu'au canal (« y_haut »). « base » est le point de l'axe
+## de l'aqueduc où il s'appuie, « tangente » la direction de l'aqueduc et « normale » le
+## côté où il est construit. Renvoie le point (3D) du palier du haut.
+func _echafaudage(parent: Node3D, base: Vector2, tangente: Vector2, normale: Vector2, y_haut: float, nom := "Echafaudage") -> Vector3:
+	var echafaudage := Node3D.new()
+	echafaudage.name = nom
+	parent.add_child(echafaudage)
+	var bois := _mat_bois()
+	var longueur := 8.0
+	var palier := 2.0
+	var y0 := hauteur(base.x + normale.x * 3.8, base.y + normale.y * 3.8)
+	var vols := ceili((y_haut - y0) / 4.4)
+	var dh := (y_haut - y0) / vols
+	var t3 := Vector3(tangente.x, 0, tangente.y)
+	var n3 := Vector3(normale.x, 0, normale.y)
+	var origine := Vector3(base.x, 0, base.y)
+	var haut := Vector3.ZERO
+	for k in vols + 1:
+		var bout := -1.0 if k % 2 == 0 else 1.0
+		var y := y0 + k * dh
+		if k > 0:
+			var centre := origine + t3 * bout * (longueur * 0.5 + palier * 0.5) + n3 * 3.8
+			centre.y = y - 0.1
+			var planche := _boite(Vector3(4.4, 0.2, palier), centre, bois, echafaudage)
+			planche.rotation.y = atan2(t3.x, t3.z)
+			haut = Vector3(centre.x, y, centre.z)
+		if k < vols:
+			# La rampe du vol k, d'un bout à l'autre, dans le couloir extérieur ou intérieur.
+			var couloir := 4.9 if k % 2 == 0 else 2.7
+			var depart := origine + t3 * bout * longueur * 0.5 + n3 * couloir
+			depart.y = y
+			var arrivee := origine - t3 * bout * longueur * 0.5 + n3 * couloir
+			arrivee.y = y + dh
+			var dir := (arrivee - depart)
+			var rampe := _boite(Vector3(2.0, 0.2, dir.length() + 0.3), (depart + arrivee) * 0.5 - Vector3(0, 0.1, 0), bois, echafaudage)
+			var z := dir.normalized()
+			var x := n3
+			var yv := z.cross(x)
+			if yv.y < 0.0:
+				x = -x
+				yv = z.cross(x)
+			rampe.basis = Basis(x, yv, z)
+			# Des tasseaux cloués en travers, pour ne pas glisser.
+			for j in 6:
+				var q := depart.lerp(arrivee, (j + 0.5) / 6.0)
+				var tasseau := _boite(Vector3(1.9, 0.06, 0.08), q + yv * 0.02, bois, echafaudage, false)
+				tasseau.basis = Basis(x, yv, z)
+	# Les montants : de longues perches plantées dans le sol, liées par des traverses.
+	for t: float in [-(longueur * 0.5 + palier), -longueur * 0.5, longueur * 0.5, longueur * 0.5 + palier]:
+		for o: float in [1.75, 3.8, 5.95]:
+			var p := origine + t3 * t + n3 * o
+			var sol := hauteur(p.x, p.z)
+			var perche := MeshInstance3D.new()
+			perche.mesh = _cylindre(0.08, 0.1, y_haut + 1.2 - sol, 6)
+			perche.material_override = bois
+			perche.position = Vector3(p.x, (sol + y_haut + 1.2) * 0.5, p.z)
+			echafaudage.add_child(perche)
+	# Une rambarde le long du bord extérieur, pour ne pas tomber.
+	for k in vols:
+		var y := y0 + (k + 0.5) * dh + 0.9
+		var p := origine + n3 * 6.0
+		var garde := _boite(Vector3(0.08, 0.08, longueur + palier * 2.0), Vector3(p.x, y, p.z), bois, echafaudage, false)
+		garde.rotation.y = atan2(t3.x, t3.z)
+	_fusionner(echafaudage)
+	return haut
