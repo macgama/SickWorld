@@ -117,7 +117,11 @@
 			"modele": "homme",
 			"taille_cm": 172,
 			"peau": "#a8794f",
-			"habits": "#e4dac4"
+			"habits": "#e4dac4",
+			"tenue": [
+				"tunique_lin_fin",
+				"sandales_papyrus"
+			]
 		},
 		"grec_docker": {
 			"modele": "homme",
@@ -125,7 +129,9 @@
 			"peau": "#93653f",
 			"habits": "#a8916c",
 			"tenue": [
-				"bandeau_lin"
+				"bandeau_lin",
+				"tunique_compagnons",
+				"sandales_papyrus"
 			]
 		},
 		"grec_marin": {
@@ -134,44 +140,75 @@
 			"peau": "#9c6c47",
 			"habits": "#c4b08a",
 			"tenue": [
-				"bandeau_rameur"
+				"bandeau_rameur",
+				"tunique_compagnons",
+				"sandales_papyrus"
 			]
 		},
 		"grec_marchand": {
 			"modele": "homme",
 			"taille_cm": 169,
 			"peau": "#a77852",
-			"habits": "#6a3a2e"
+			"habits": "#6a3a2e",
+			"tenue": [
+				"tunique_compagnons",
+				"sandales_papyrus",
+				"manteau_nomade"
+			]
 		},
 		"grec_vieillard": {
 			"modele": "homme",
 			"taille_cm": 167,
 			"peau": "#b08560",
-			"habits": "#ece4d2"
+			"habits": "#ece4d2",
+			"tenue": [
+				"tunique_lin_fin",
+				"sandales_papyrus",
+				"manteau_nomade"
+			]
 		},
 		"grec_femme": {
 			"modele": "femme",
 			"taille_cm": 160,
 			"peau": "#b98c66",
-			"habits": "#8a4a3a"
+			"habits": "#8a4a3a",
+			"tenue": [
+				"tunique_lin_fin",
+				"manteau_nomade",
+				"sandales_papyrus"
+			]
 		},
 		"grec_femme_2": {
 			"modele": "femme",
 			"taille_cm": 158,
 			"peau": "#b38660",
-			"habits": "#4a5a7a"
+			"habits": "#4a5a7a",
+			"tenue": [
+				"tunique_lin_fin",
+				"manteau_nomade",
+				"sandales_papyrus"
+			]
 		},
 		"grec_servante": {
 			"modele": "femme",
 			"taille_cm": 157,
 			"peau": "#9c6c48",
-			"habits": "#c8b896"
+			"habits": "#c8b896",
+			"tenue": [
+				"tunique_compagnons",
+				"sandales_papyrus"
+			]
 		},
 		"grec_pretresse": {
 			"modele": "femme",
 			"taille_cm": 164,
 			"peau": "#c09470",
-			"habits": "#f2ede0"
+			"habits": "#f2ede0",
+			"tenue": [
+				"tunique_lin_fin",
+				"manteau_nomade",
+				"sandales_papyrus"
+			]
 		},
 		"archer_scythe": {
 			"modele": "homme",
@@ -3659,7 +3696,6 @@
 						-98
 					]
 				],
-				"geste": "discute",
 				"regarde": 80
 			},
 			{
@@ -3997,12 +4033,12 @@
 				"sorte": "triere",
 				"chemin": [
 					[
-						-500,
-						300
+						-380,
+						285
 					],
 					[
-						500,
-						320
+						380,
+						275
 					]
 				],
 				"vitesse": 5.5
