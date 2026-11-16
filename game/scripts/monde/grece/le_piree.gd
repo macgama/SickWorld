@@ -547,6 +547,23 @@ func _construire_lointain() -> void:
 	_construire_acropole_lointaine(Vector3(-210, 0, -1800))
 
 
+## Écrase le haut d'une bosse : des flancs raides et un sommet plat, comme l'Acropole.
+func _rocher_plateau(maillage: ArrayMesh, sommet: float) -> ArrayMesh:
+	var tableaux := maillage.surface_get_arrays(0)
+	var sommets: PackedVector3Array = tableaux[Mesh.ARRAY_VERTEX]
+	for k in sommets.size():
+		var v := sommets[k]
+		v.y = minf(v.y, sommet + absf(sin(v.x * 0.07 + v.z * 0.05)) * 1.5)
+		sommets[k] = v
+	var outil := SurfaceTool.new()
+	outil.begin(Mesh.PRIMITIVE_TRIANGLES)
+	outil.set_color(Color(0, 0.2, 0.8))
+	for v in sommets:
+		outil.add_vertex(v)
+	outil.generate_normals()
+	return outil.commit()
+
+
 func _construire_acropole_lointaine(centre: Vector3) -> void:
 	var acropole := Node3D.new()
 	acropole.name = "AcropoleLointaine"
@@ -556,13 +573,13 @@ func _construire_acropole_lointaine(centre: Vector3) -> void:
 	bruit.seed = graine + 90
 	bruit.frequency = 0.9
 	var rocher := MeshInstance3D.new()
-	rocher.mesh = _maillage_bosse(bruit, Vector3(150, 70, 70), 1.0, 0.22, 24, Color(0, 0.2, 0.8))
+	rocher.mesh = _rocher_plateau(_maillage_bosse(bruit, Vector3(300, 220, 150), 1.6, 0.18, 28, Color(0, 0.2, 0.8)), 64.0)
 	rocher.material_override = _mat_lointain()
 	rocher.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	acropole.add_child(rocher)
 	# Le Parthénon : 70 m de long, 31 m de large, ses colonnes blanches et son toit.
 	var temple := Node3D.new()
-	temple.position = Vector3(10, 66, 0)
+	temple.position = Vector3(10, 63, 0)
 	acropole.add_child(temple)
 	var marbre := _mat_marbre()
 	_boite(Vector3(72, 3, 33), Vector3(0, 1.5, 0), marbre, temple, false)

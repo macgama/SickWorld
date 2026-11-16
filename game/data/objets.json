@@ -1804,6 +1804,40 @@
 				"couleur": "#8a3a2a"
 			}
 		},
+		"soie_de_sanglier": {
+			"nom": "Soies de sanglier",
+			"type": "materiau",
+			"rarete": "commun",
+			"description": "Une poignée de poils raides et noirs. Les cordonniers d'Athènes en font des pinceaux et des alênes.",
+			"pile": 20,
+			"epoque": "Grèce antique",
+			"icone": {"forme": "croc", "couleur": "#3a2e24"}
+		},
+		"peau_de_vipere": {
+			"nom": "Peau de vipère",
+			"type": "materiau",
+			"rarete": "commun",
+			"description": "Une mue grise barrée d'un zigzag noir. Les médecins grecs en font des remèdes (qui ne marchent pas).",
+			"pile": 20,
+			"epoque": "Grèce antique",
+			"icone": {"forme": "ocre", "couleur": "#8a8070"}
+		},
+		"couronne_olivier": {
+			"nom": "Couronne d'olivier sacré",
+			"type": "equipement",
+			"rarete": "rare",
+			"description": "Tressée par Théano avec des rameaux de la Moria, l'olivier qu'Athéna a fait pousser elle-même. On en couronne les vainqueurs des Jeux.",
+			"emplacement": "tete",
+			"epoque": "Grèce antique",
+			"stats": {
+				"pv": 60,
+				"degats": 4
+			},
+			"visuel": {
+				"forme": "bandeau",
+				"couleur": "#6d7a42"
+			}
+		},
 		"croc_de_chien": {
 			"nom": "Croc de chien errant",
 			"type": "materiau",
@@ -1903,6 +1937,10 @@
 		"chien_fracture_faille": [{"objet": "eclat_de_fracture", "chance": 0.6}],
 		"chien_fracture_loges": [{"objet": "eclat_de_fracture", "chance": 0.5}, {"objet": "croc_de_chien", "chance": 0.5}],
 		"molosse_fracture": [{"objet": "eclat_de_fracture", "chance": 1.0, "quantite": [2, 3]}, {"objet": "collier_molosse", "chance": 1.0}],
+		"sanglier_fracture": [{"objet": "eclat_de_fracture", "chance": 0.45}, {"objet": "soie_de_sanglier", "chance": 0.6, "quantite": [1, 2]}],
+		"loup_fracture_oliveraie": [{"objet": "eclat_de_fracture", "chance": 0.45}, {"objet": "croc_de_chien", "chance": 0.4}],
+		"vipere_fracture": [{"objet": "eclat_de_fracture", "chance": 0.45}, {"objet": "peau_de_vipere", "chance": 0.5}],
+		"vipere_fracture_faille": [{"objet": "eclat_de_fracture", "chance": 0.6}],
 		"poulpe_fracture": [{"objet": "eclat_de_fracture", "chance": 1.0, "quantite": [2, 3]}, {"objet": "encre_de_poulpe", "chance": 1.0, "quantite": [1, 2]}],
 		"crocodile_fracture": [{"objet": "eclat_de_fracture", "chance": 0.45}, {"objet": "ecaille_crocodile", "chance": 0.6, "quantite": [1, 2]}],
 		"crocodile_fracture_faille": [{"objet": "eclat_de_fracture", "chance": 0.6}],

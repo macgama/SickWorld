@@ -147,5 +147,63 @@
 			"Du vin de Chios, de Thasos, de Lesbos ! On le coupe d'eau, bien sûr : trois parts d'eau pour une de vin.",
 			"Le marché est bizarre, ces jours-ci. Des clients qui pointent du doigt ce qu'ils veulent, sans un mot. Comme s'ils avaient perdu leur langue."
 		]
+	},
+	"myrto": {
+		"nom": "Myrtô",
+		"role": "Apicultrice · mont Hymette",
+		"modele": "femme",
+		"taille_cm": 162,
+		"peau": "#ad7d58",
+		"habits": "#8a6a3a",
+		"repliques": [
+			"Le miel de l'Hymette, c'est le thym qui le fait. Les abeilles, elles, ne font que le transporter.",
+			"Ma fille a soigné une chouette tombée du nid, l'an dernier. Depuis, elle veut tout soigner : les chèvres, les lézards, et moi quand j'ai mal au dos."
+		]
+	},
+	"nera": {
+		"nom": "Néra",
+		"role": "Fille de Myrtô",
+		"modele": "femme",
+		"taille_cm": 128,
+		"peau": "#b58660",
+		"habits": "#c9b48a",
+		"repliques": [
+			"Néra te sourit, et désigne les ruches. Les mots ne viennent pas encore.",
+			"Tu sais que les chouettes voient dans le noir ? C'est pour ça qu'Athéna les aime. Elle aussi, elle voit ce que les autres ne voient pas."
+		],
+		"repliques_blesse": ["Néra ouvre la bouche. Aucun son."]
+	},
+	"pretresse": {
+		"nom": "Théano",
+		"role": "Prêtresse d'Athéna · oliviers sacrés",
+		"modele": "femme",
+		"taille_cm": 168,
+		"peau": "#b07f5a",
+		"habits": "#e9e2d0",
+		"repliques": [
+			"Quiconque coupe un olivier sacré est jugé par l'Aréopage. Même les Spartiates, quand ils viendront, n'oseront pas les toucher. Enfin, j'espère.",
+			"L'huile de ces arbres remplit les amphores des vainqueurs des Jeux. Une amphore pleine, peinte, pour chaque victoire. Il y en a qui en gagnent cent."
+		]
+	},
+	"paysan_ktesippe": {
+		"nom": "Ktésippe",
+		"role": "Paysan d'Attique",
+		"modele": "homme",
+		"taille_cm": 171,
+		"peau": "#9d6d48",
+		"habits": "#a89470",
+		"repliques": [
+			"Olives, figues, un peu d'orge et trois chèvres. C'est pas grand-chose, mais c'est à moi. Et à l'assemblée, ma voix vaut celle d'un riche.",
+			"Les sangliers ont mangé mes figues. Tous. Si tu en croises un, dis-lui de ma part qu'il n'est plus le bienvenu."
+		]
+	},
+	"garde_porte": {
+		"nom": "Garde de la porte",
+		"role": "Gardien du rempart d'Athènes",
+		"modele": "homme",
+		"taille_cm": 176,
+		"peau": "#a07049",
+		"habits": "#5a4a3a",
+		"repliques": ["Le garde ne dit rien. Il te fixe, et serre sa lance un peu plus fort."]
 	}
 }
