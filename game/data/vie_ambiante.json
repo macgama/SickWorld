@@ -119,7 +119,7 @@
 			"peau": "#a8794f",
 			"habits": "#e4dac4",
 			"antique": {
-				"robe": 0.6
+				"robe": 0.8
 			}
 		},
 		"grec_docker": {
@@ -131,7 +131,7 @@
 				"bandeau_lin"
 			],
 			"antique": {
-				"robe": 0.42
+				"robe": 0.62
 			}
 		},
 		"grec_marin": {
@@ -143,7 +143,7 @@
 				"bandeau_rameur"
 			],
 			"antique": {
-				"robe": 0.42
+				"robe": 0.62
 			}
 		},
 		"grec_marchand": {
@@ -152,7 +152,7 @@
 			"peau": "#a77852",
 			"habits": "#6a3a2e",
 			"antique": {
-				"robe": 0.75,
+				"robe": 0.82,
 				"drape": "#3a4a6a"
 			}
 		},
@@ -162,7 +162,7 @@
 			"peau": "#b08560",
 			"habits": "#ece4d2",
 			"antique": {
-				"robe": 0.85,
+				"robe": 0.84,
 				"drape": "#9a8a6a"
 			}
 		},

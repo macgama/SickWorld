@@ -110,7 +110,7 @@ static func _catalogue() -> Dictionary:
 
 ## Habit antique (Grèce…) par-dessus la tenue moderne teinte : une robe (chiton ou péplos)
 ## qui descend des hanches, une ceinture, et un drapé sur les épaules (himation) qui cache
-## la capuche. fiche « antique » : {"robe": longueur en m sous les hanches,
+## en partie la veste. fiche « antique » : {"robe": longueur en m sous les hanches,
 ## "drape": couleur du manteau (facultatif), "ceinture": couleur (facultatif)}.
 func _ajouter_drape(reglage: Dictionary) -> void:
 	var squelette := _apparence.find_children("*", "Skeleton3D", true, false)
@@ -140,7 +140,7 @@ func _ajouter_drape(reglage: Dictionary) -> void:
 		var robe := MeshInstance3D.new()
 		var c := CylinderMesh.new()
 		c.top_radius = 0.17 if femme else 0.18
-		c.bottom_radius = 0.17 + longueur * 0.22
+		c.bottom_radius = 0.17 + longueur * 0.12
 		c.height = longueur + 0.18
 		c.cap_top = false
 		c.cap_bottom = false
@@ -176,39 +176,20 @@ func _ajouter_drape(reglage: Dictionary) -> void:
 		ceinture.material_override = _mat(Color.from_string(String(reglage.get("ceinture", "#6a4a30")), Color(0.4, 0.29, 0.19)), 0.9)
 		ceinture.scale = Vector3(1.0, 1.0, 0.78)
 		taille.add_child(ceinture)
-	# Le drapé sur les épaules (himation), qui cache la capuche de la tenue d'origine.
+	# Le pan de l'himation, en écharpe sur la poitrine.
 	var buste: Node3D = accrocher.call("mixamorig_Spine2")
 	if buste != null:
 		var drape := _mat(Color.from_string(String(reglage.get("drape", "")), couleur.darkened(0.08)), 0.95)
 		drape.cull_mode = BaseMaterial3D.CULL_DISABLED
-		var epaules := MeshInstance3D.new()
-		var sph := SphereMesh.new()
-		sph.radius = 0.2
-		sph.height = 0.4
-		epaules.mesh = sph
-		epaules.material_override = drape
-		epaules.position = Vector3(0, 0.13, -0.02)
-		epaules.scale = Vector3(1.12, 0.42, 0.82)
-		buste.add_child(epaules)
 		# Le pan qui passe en écharpe de l'épaule gauche à la hanche droite.
 		var echarpe := MeshInstance3D.new()
 		var bx := BoxMesh.new()
-		bx.size = Vector3(0.13, 0.55, 0.03)
+		bx.size = Vector3(0.16, 0.62, 0.02)
 		echarpe.mesh = bx
 		echarpe.material_override = drape
 		echarpe.position = Vector3(0.0, -0.08, 0.125)
 		echarpe.rotation.z = 0.6
 		buste.add_child(echarpe)
-		# Le col replié dans le dos, par-dessus la capuche.
-		var col := MeshInstance3D.new()
-		var sph2 := SphereMesh.new()
-		sph2.radius = 0.13
-		sph2.height = 0.26
-		col.mesh = sph2
-		col.material_override = drape
-		col.position = Vector3(0, 0.2, -0.1)
-		col.scale = Vector3(1.0, 0.75, 0.75)
-		buste.add_child(col)
 
 
 func _ajouter_charge() -> void:
