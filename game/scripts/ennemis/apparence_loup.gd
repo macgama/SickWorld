@@ -62,11 +62,15 @@ func _ready() -> void:
 		_delegue.chef = type == "masque_effaceur"
 		add_child(_delegue)
 		return
-	if type.begins_with("cobra") or type.begins_with("isfet") or type.begins_with("vipere"):
+	if type.begins_with("cobra") or type.begins_with("isfet") or type.begins_with("vipere") or type.begins_with("serpent_gorgone"):
 		espece = "serpent"
 		_delegue = ApparenceSerpent.new()
 		_delegue.name = "Serpent"
-		_delegue.espece = "isfet" if type.begins_with("isfet") else ("vipere" if type.begins_with("vipere") else "cobra")
+		_delegue.espece = "isfet" if type.begins_with("isfet") else ("vipere" if type.begins_with("vipere") \
+				else ("gorgone" if type.begins_with("serpent_gorgone") else "cobra"))
+		if type.begins_with("serpent_gorgone"):
+			# Les serpents de la Gorgone sont bien plus gros qu'une vipère.
+			_delegue.scale = Vector3.ONE * 2.2
 		add_child(_delegue)
 		return
 	if type.begins_with("crocodile") or type.begins_with("hippopotame") or type.begins_with("babouin") \

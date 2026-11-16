@@ -129,6 +129,16 @@ Sous la colline, **les galeries** : étroites, étayées de bois, éclairées pa
 7. **Vera Lind** attend dehors. Si, en Égypte, on lui avait répondu en lui donnant les noms, elle vient prévenir ; sinon, elle observe et parle moins.
 8. **Embuscade** aux fours : cinq mercenaires. Sosias remercie avec une **chouette d'argent** (bijou épique). Suite au chapitre 7, « L'ostracisme ».
 
+## Le chapitre 7 : « L'ostracisme »
+
+1. Retourner à **Athènes** et prévenir **Aspasie** : un vote d'**ostracisme** a lieu aujourd'hui. Chaque citoyen grave sur un tesson le nom de l'homme qu'il juge trop puissant ; s'il y a au moins six mille tessons, celui dont le nom sort le plus doit quitter Athènes pour dix ans.
+2. **Périclès** attend sur l'Agora, devant l'**enclos du vote** (une barrière de planches avec dix entrées, une par tribu). Il ne peut pas faire campagne pour lui-même.
+3. **Rallier des voix** : six citoyens hésitent, un peu partout dans la ville (l'Agora, le Céramique, le chemin de la Pnyx, la rue du théâtre, la grande rue). Parle-leur (F, 2 secondes) : le compteur monte jusqu'à 6.
+4. Rejoindre l'enclos et **compter les tessons** de l'urne (F, 3 secondes). Le nom qui sort : ΠΡΟΣΩΠΟΝ, « le Masque ». Il est chassé d'Athènes.
+5. La **procession des Panathénées** monte vers l'Acropole, quand la tête de **Gorgone** du bouclier d'Athéna s'éveille. Défendre la procession sur la voie sacrée, au pied du rocher, contre **huit serpents de bronze**.
+6. Rendre la voix aux **quatre porteurs** changés en marbre, puis parler à **Philomèla**, la canéphore (la porteuse de corbeille), qui donne sa **bandelette**.
+7. **Périclès** a fait ouvrir un **escalier secret** au pied ouest de l'Acropole. Il donne l'**Ostracon du Masque** (relique épique) et conseille d'y monter **en groupe**. Suite au chapitre 8, le donjon.
+
 ## Les ennemis
 
 | Ennemi | Niveau | Où | Particularité |
@@ -142,6 +152,7 @@ Sous la colline, **les galeries** : étroites, étayées de bois, éclairées pa
 | Chien errant fracturé | 24-25 | Athènes : Céramique, Pnyx, faubourg du théâtre | En meute |
 | Pétrifié | 25 | L'Agora (quête) | On ne le tue pas : on brise sa gangue de marbre, puis on lui rend la voix |
 | Mercenaire de Masque | 28 | Le Laurion | Casque d'hoplite, lance et bouclier rond ; en groupe |
+| Serpent de la Gorgone | 29 | Athènes, la voie sacrée (quête) | Un serpent de bronze vert-de-gris tombé de la chevelure de la Gorgone |
 
 Le niveau maximum passe de 20 à 30 avec cette île.
 
@@ -152,4 +163,4 @@ Le niveau maximum passe de 20 à 30 avec cette île.
 - Les textes de la quête : `data/grece_quete.json` ; les personnages : `data/grece_pnj.json`.
 - Les interrogatoires à la Socrate : une étape « objet » (la bonne réponse) avec des « leurres » (les mauvaises réponses et ce qu'on répond alors), dans `data/grece_quete.json`.
 - Les Pétrifiés : leur apparence est dans `scripts/ennemis/apparence_oublie.gd` (la gangue de marbre est un petit shader, en haut du fichier).
-- Les tests automatiques : `tests/test_le_piree.gd`, `tests/test_oliveraies.gd`, `tests/test_athenes.gd` et `tests/test_laurion.gd`. Les images : `tests/capture_athenes.gd` et `tests/capture_laurion.gd`.
+- Les tests automatiques : `tests/test_le_piree.gd`, `tests/test_oliveraies.gd`, `tests/test_athenes.gd`, `tests/test_laurion.gd` et `tests/test_ostracisme.gd`. Les images : `tests/capture_athenes.gd` et `tests/capture_laurion.gd`.
