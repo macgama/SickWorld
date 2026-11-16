@@ -59,13 +59,13 @@ func _ready() -> void:
 		add_child(_delegue)
 		return
 	# Les bêtes du Nil (île d'Égypte) ont leur propre apparence, sculptée en code.
-	if type.begins_with("pirate") or type.begins_with("athlete"):
+	if type.begins_with("pirate") or type.begins_with("athlete") or type.begins_with("pilleur"):
 		# Les pirates de l'Égée et les athlètes de la palestre (île de Grèce).
 		espece = "oublie"
 		_delegue = ApparenceOublie.new()
 		_delegue.name = "Oublie"
 		_delegue.graine = parent.get_instance_id() % 997
-		_delegue.variante = "pirate" if type.begins_with("pirate") else "athlete"
+		_delegue.variante = "athlete" if type.begins_with("athlete") else "pirate"
 		_delegue.chef = type.contains("chef") or type.contains("champion")
 		add_child(_delegue)
 		return

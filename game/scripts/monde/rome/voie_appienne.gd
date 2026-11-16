@@ -55,6 +55,8 @@ const SORTIE_NORD := Vector2(-8, -150)
 const SORTIE_SUD := Vector2(10, 150)
 
 var _mur_nord: StaticBody3D
+var _mur_sud: StaticBody3D
+var _sud_ouvert := false
 var _nord_ouvert := false
 var _attente_sortie := 0.0
 
@@ -88,14 +90,17 @@ func _init() -> void:
 
 func _ready() -> void:
 	if not Engine.is_editor_hint() and Reseau.get_meta("arrivee_rome", "") != "":
+		var venu := String(Reseau.get_meta("arrivee_rome"))
 		Reseau.remove_meta("arrivee_rome")
-		# Retour de la campagne : on arrive au nord, sur la route.
-		point_apparition = SORTIE_NORD + Vector2(2, 10)
+		# Retour de la campagne : on arrive au nord, sur la route ; de Pompéi, au sud.
+		point_apparition = SORTIE_SUD + Vector2(-2, -12) if venu == "pompei" else SORTIE_NORD + Vector2(2, 10)
 	super._ready()
 
 
 func sortie_vers(zone: String) -> Vector2:
-	return SORTIE_NORD if zone != "voie_appienne" else Vector2.INF
+	if zone == "voie_appienne":
+		return Vector2.INF
+	return SORTIE_SUD + Vector2(0, -8) if zone == "pompei" else SORTIE_NORD
 
 
 # --- Relief -----------------------------------------------------------------------------
@@ -460,7 +465,7 @@ func _construire_limites() -> void:
 	# La route du nord, vers la campagne et Rome : fermée jusqu'au chapitre 3.
 	_mur_nord = _mur_invisible(limites, Vector3(30, 14, 2), Vector3(SORTIE_NORD.x, hauteur(SORTIE_NORD.x, SORTIE_NORD.y) + 6.0, SORTIE_NORD.y + 4.0))
 	# La route du sud, vers Pompéi : fermée (chapitre 6).
-	_mur_invisible(limites, Vector3(30, 14, 2), Vector3(SORTIE_SUD.x, hauteur(SORTIE_SUD.x, SORTIE_SUD.y) + 6.0, SORTIE_SUD.y - 4.0))
+	_mur_sud = _mur_invisible(limites, Vector3(30, 14, 2), Vector3(SORTIE_SUD.x, hauteur(SORTIE_SUD.x, SORTIE_SUD.y) + 6.0, SORTIE_SUD.y - 4.0))
 
 
 # --- Personnages et objets de la quête ----------------------------------------------------------
@@ -563,3 +568,10 @@ func _process(delta: float) -> void:
 	var p := Vector2(joueur.global_position.x, joueur.global_position.z)
 	if p.distance_to(SORTIE_NORD) < 6.0 and quete.donnees.get("zones", {}).has("campagne"):
 		quete.changer_de_zone("campagne")
+	# Au sud, la route de Pompéi : ouverte au chapitre 6.
+	if not _sud_ouvert and quete.donnees.get("zones", {}).has("pompei") and quete.etape_atteinte("vers_pompei"):
+		_sud_ouvert = true
+		if _mur_sud != null and is_instance_valid(_mur_sud):
+			_mur_sud.queue_free()
+	if _sud_ouvert and p.distance_to(SORTIE_SUD) < 6.0:
+		quete.changer_de_zone("pompei")
