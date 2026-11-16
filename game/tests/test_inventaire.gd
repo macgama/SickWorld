@@ -202,6 +202,41 @@ func _en_jeu(cat: Dictionary) -> void:
 	_verifier(butin.sacs_de(1).is_empty(), "le sac a été ramassé")
 	_verifier(Objets.trouver(inv.etat, "lance_silex") >= 0, "la lance est dans les sacs")
 
+	# Sacs pleins : le butin reste au sol, mais F ne le vise plus (sinon il cachait
+	# l'objet de quête ou le PNJ d'à côté) ; il redevient ramassable dès qu'une place se libère.
+	var remplies: Array[int] = []
+	var cases: Array = inv.etat["cases"]
+	for i in cases.size():
+		if (cases[i] as Dictionary).is_empty():
+			cases[i] = {"id": "lance_silex", "n": 1}
+			remplies.append(i)
+	inv._appliquer()
+	var loup2 = scene.get_node("Partie/Loups/CampNord_Loup2")
+	cat["butin"]["loup"] = [{"objet": "venin_cobra", "chance": 1.0, "quantite": [2, 2]}]
+	loup2.get_node("Combat").subir(10000.0, moi)
+	cat["butin"]["loup"] = table_origine
+	await _attendre(2)
+	var sacs2: Array = butin.sacs_de(1)
+	_verifier(sacs2.size() == 1, "sacs pleins : le loup laisse quand même son butin")
+	joueur.placer(loup2.global_position + Vector3(1.5, 0.5, 0), 0.0)
+	await _attendre(5)
+	_verifier(butin.sac_a_portee() == sacs2[0], "on peut essayer de le ramasser")
+	butin.ramasser_le_plus_proche()
+	await _attendre(3)
+	_verifier(butin.sacs_de(1).size() == 1, "sacs pleins : le butin reste au sol")
+	_verifier(butin.sac_a_portee() < 0, "sacs pleins : F ne vise plus ce butin (il laisse la place à la quête)")
+	await _secondes(2.0)
+	cases[remplies.pop_back()] = {}
+	inv._appliquer()
+	await _attendre(3)
+	_verifier(butin.sac_a_portee() == sacs2[0], "une place libérée : le butin se ramasse de nouveau")
+	butin.ramasser_le_plus_proche()
+	await _attendre(3)
+	_verifier(butin.sacs_de(1).is_empty(), "le butin a été ramassé")
+	for i in remplies:
+		cases[i] = {}
+	inv._appliquer()
+
 	# Pas de changement d'équipement en combat
 	moi.noter_combat()
 	var avant: Dictionary = inv.etat["equipement"].duplicate()

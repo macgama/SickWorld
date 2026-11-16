@@ -129,9 +129,12 @@ func hauteur(x: float, z: float) -> float:
 	terre = maxf(terre, 1.0 - smoothstep(0.85, 1.0, d_akte))
 	# L'isthme qui relie l'Akté au reste du Pirée.
 	terre = maxf(terre, _dans_rect(Rect2(-72, 30, 58, 84), x, z, 10.0))
-	var h_terre := 1.8 + bruit * 1.4 + fin * 0.08
+	# Autour de la faille (ch. 1), le flanc rocheux est lissé : sur les bosses, le
+	# joueur glissait trop loin pour la refermer (il faut rester immobile 5 s).
+	var lisse := 1.0 - 0.9 * (1.0 - smoothstep(4.0, 8.0, Vector2(x, z).distance_to(FAILLE)))
+	var h_terre := 1.8 + bruit * 1.4 + fin * 0.08 * lisse
 	# La colline rocheuse de l'Akté.
-	h_terre += pow(maxf(0.0, 1.0 - d_akte / 0.78), 1.4) * 15.0 * (1.0 + fin * 0.25)
+	h_terre += pow(maxf(0.0, 1.0 - d_akte / 0.78), 1.4) * 15.0 * (1.0 + fin * 0.25 * lisse)
 	# La colline de Mounichia, à l'est.
 	h_terre += smoothstep(112.0, 152.0, x) * (11.0 + bruit * 6.0) * (1.0 - smoothstep(20.0, 60.0, z))
 	# La ville monte doucement vers le nord.
