@@ -345,5 +345,95 @@
 		"repliques": [
 			"Je ne suis pas là, agent. Tu ne m'as pas vue."
 		]
+	},
+	"martial_jeux": {
+		"nom": "Martial",
+		"role": "Poète",
+		"modele": "homme",
+		"habit": "chiton_himation",
+		"taille_cm": 168,
+		"peau": "#c09068",
+		"habits": "#d8ccb0",
+		"repliques": [
+			"Cent jours de jeux, et c'est moi qui écris le livre. Si tu fais quelque chose de mémorable, tâche que ce soit en vers."
+		]
+	},
+	"martial_loge": {
+		"nom": "Martial",
+		"role": "Poète, invité de l'empereur",
+		"modele": "homme",
+		"habit": "chiton_himation",
+		"taille_cm": 168,
+		"peau": "#c09068",
+		"habits": "#d8ccb0",
+		"repliques": [
+			"Je prends des notes. Tout ce qui se passe aujourd'hui finira dans « Le Livre des spectacles ».",
+			"Le peuple aime Titus. On l'appelle « les délices du genre humain ». Ne le répète pas à Domitien."
+		]
+	},
+	"titus": {
+		"nom": "Titus",
+		"role": "Empereur",
+		"modele": "homme",
+		"habit": "chiton_himation",
+		"taille_cm": 172,
+		"peau": "#c49068",
+		"habits": "#5a1030",
+		"repliques": [
+			"J'ai pris Jérusalem. J'ai vu brûler le Temple. Je n'en tire aucune gloire.",
+			"Un jour sans avoir fait de bien à personne, je l'ai perdu. Mes amis se moquent de moi. Ils ont tort."
+		]
+	},
+	"domitien": {
+		"nom": "Domitien",
+		"role": "Frère de l'empereur",
+		"modele": "homme",
+		"habit": "chiton_himation",
+		"taille_cm": 176,
+		"peau": "#c8987a",
+		"habits": "#e8dcc0",
+		"repliques": [
+			"Mon frère est trop bon. Rome a besoin d'un maître, pas d'un ami.",
+			"Tu regardes mes gardes ? Ils m'aiment beaucoup. Plus qu'ils n'aiment Titus."
+		]
+	},
+	"priscus": {
+		"nom": "Priscus",
+		"role": "Gladiateur mirmillon",
+		"modele": "homme",
+		"habit": "shendyt_court",
+		"taille_cm": 180,
+		"peau": "#b48460",
+		"habits": "#e3d8bd",
+		"tenue": [],
+		"repliques": [
+			"Libre. Je ne sais même pas ce que je vais faire demain."
+		]
+	},
+	"verus": {
+		"nom": "Verus",
+		"role": "Gladiateur thrace",
+		"modele": "homme",
+		"habit": "shendyt_court",
+		"taille_cm": 184,
+		"peau": "#a5764f",
+		"habits": "#e3d8bd",
+		"tenue": [],
+		"repliques": [
+			"Une heure contre Priscus, et je n'ai pas réussi à le toucher vraiment. Il n'a pas réussi non plus. C'est un ami."
+		]
+	},
+	"egoutier": {
+		"nom": "Faustus",
+		"role": "Égoutier de la Cloaca Maxima",
+		"modele": "homme",
+		"habit": "exomis",
+		"taille_cm": 166,
+		"peau": "#a87a56",
+		"habits": "#5a5040",
+		"repliques": [
+			"Le grand égout a sept cents ans. Tarquin l'a fait creuser. On y passe en barque, quand l'eau est haute.",
+			"L'odeur ? On ne la sent plus, au bout de vingt ans."
+		]
 	}
 }

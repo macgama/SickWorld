@@ -226,7 +226,7 @@ func _lancer() -> void:
 	if inventaire != null and inventaire.has_method("quantite"):
 		_verifier(inventaire.quantite("tablettes_pline") >= 1, "les tablettes de Pline sont dans le sac")
 		_verifier(inventaire.quantite("enregistreur_roche") >= 1, "et l'enregistreur de Roche")
-	_verifier(_quete.etape < 0, "chapitre 6 terminé (fin provisoire)")
+	_verifier(String(_quete.etape_actuelle().get("id", "")) == "martial_jeux", "chapitre 6 terminé, le 7 commence (Martial à Rome)")
 
 	# --- La progression est gardée.
 	_scene.queue_free()

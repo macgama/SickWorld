@@ -144,6 +144,26 @@ const CLIMATS := {
 		"nuage_lumiere": Color(1.0, 0.94, 0.84),
 		"saturation": 1.04,
 	},
+	# L'intérieur du Colisée : le même grand soleil d'été, moins de brume (on est dans la cuvette).
+	"colisee": {
+		"etalonnage": "mediterranee",
+		"soleil": Vector2(120.0, 48.0),
+		"couleur_soleil": Color(1.0, 0.9, 0.74),
+		"energie_soleil": 2.8,
+		"couverture": 0.12,
+		"brume": Color(0.84, 0.8, 0.72),
+		"densite_brume": 0.0008,
+		"brume_volume": 0.002,
+		"albedo_brume": Color(1.0, 0.94, 0.84),
+		"ambiance": 0.72,
+		"zenith": Color(0.13, 0.27, 0.55),
+		"horizon": Color(0.84, 0.8, 0.72),
+		"brume_ciel": 0.2,
+		"horizon_soleil": Color(1.0, 0.84, 0.6),
+		"nuage_ombre": Color(0.68, 0.64, 0.62),
+		"nuage_lumiere": Color(1.0, 0.94, 0.84),
+		"saturation": 1.04,
+	},
 	# Pompéi : un ciel bas et gris, voilé par la cendre du Vésuve ; le soleil n'est qu'une
 	# tache pâle.
 	"pompei": {

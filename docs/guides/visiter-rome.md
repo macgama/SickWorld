@@ -120,4 +120,28 @@ Au bout du sud de la voie Appienne (le passage s'ouvre au chapitre 6), on arrive
 8. **Vera** surgit à son tour et te prête sa fréquence.
 9. Retrouver Pline au Forum (récompense : **les tablettes de Pline** et **l'enregistreur de Roche**).
 
-La suite (chapitre 7, « Ave, César ») arrive bientôt.
+## L'amphithéâtre flavien (le Colisée)
+
+Au chapitre 7, la grande arche de l'ouest (côté Colosse) s'ouvre : on entre dans l'amphithéâtre, le jour de l'inauguration.
+
+- **l'arène** de sable, entourée du **podium** (un mur de 4 m) et de sa terrasse de marbre ; une **rampe de bois**, à l'ouest, descend sur le sable ;
+- **la loge de l'empereur** au sud, sous un dais pourpre, et la loge des Vestales au nord ;
+- **les gradins** sur trois étages, séparés par des paliers, jusqu'au portique du sommet : on peut y monter à pied ;
+- une **foule** immense, et le **velarium**, le grand voile de toile tendu au-dessus ;
+- on ressort par le **vomitoire** de l'ouest (le couloir sombre, derrière l'endroit où l'on arrive).
+
+## Le chapitre 7 : « Ave, César »
+
+1. Retrouver **Martial** devant la grande arche de l'ouest de l'amphithéâtre (il te donne une tessère d'entrée).
+2. Entrer dans l'amphithéâtre.
+3. Longer la terrasse jusqu'à **la loge de Titus**, au sud.
+4. Monter dans les gradins du nord, au deuxième palier, et arrêter **les quatre prétoriens** de Domitien.
+5. Trouver **les trois jarres de poix** cachées dans les escaliers des gradins, et étouffer leurs mèches (F, reste immobile).
+6. Retourner voir Titus : la porte des bêtes s'ouvre !
+7. Descendre par la rampe et combattre **les cinq lions fracturés** avec **Priscus et Verus**, les deux gladiateurs, qui se battent à tes côtés.
+8. Abattre **le champion de Domitien** (un ennemi d'élite ; à mi-vie, deux lions de plus).
+9. Parler à Priscus, puis à **Titus**, descendu dans l'arène : il libère les deux gladiateurs (histoire vraie) et te donne **la rudis de l'arène**.
+10. Ressortir par le vomitoire et rejoindre Martial **au pied du Colosse** : ses yeux brillent de violet.
+11. Retrouver **l'égoutier** à la bouche de la **Cloaca Maxima**, au bord du Forum.
+
+La suite (chapitre 8, le donjon du Colisée par les égouts) arrive bientôt.

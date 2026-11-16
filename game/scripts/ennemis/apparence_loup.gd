@@ -69,6 +69,18 @@ func _ready() -> void:
 		_delegue.chef = type.contains("chef") or type.contains("champion")
 		add_child(_delegue)
 		return
+	if type.begins_with("gladiateur"):
+		# Les gladiateurs des jeux du Colisée (île de Rome) : Priscus le mirmillon, Verus
+		# le Thrace, et le champion fracturé de Domitien.
+		espece = "oublie"
+		_delegue = ApparenceOublie.new()
+		_delegue.name = "Oublie"
+		_delegue.graine = parent.get_instance_id() % 997
+		_delegue.variante = "gladiateur"
+		_delegue.style = "thrace" if type.contains("verus") or type.contains("thrace") else "mirmillon"
+		_delegue.chef = type.contains("champion")
+		add_child(_delegue)
+		return
 	if type.begins_with("oublie") or type.begins_with("garde") or type.begins_with("petrifie") \
 			or type.begins_with("masque") or type.begins_with("mercenaire") or type.begins_with("statue") \
 			or type.begins_with("meduse") or type.begins_with("pretorien"):

@@ -211,3 +211,51 @@ func _construire_brasier() -> void:
 	fumee.mesh = boule
 	fumee.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	_visuel.add_child(fumee)
+
+
+## Une jarre de poix cachée sous les gradins du Colisée (chapitre 7) : une grosse jarre
+## noire, le col bouché d'étoupe, et une mèche qui fume. L'éclat violet des Effaceurs.
+func _construire_jarre_poix() -> void:
+	var terre := _mat_uni(Color(0.16, 0.12, 0.1), 0.8)
+	var corps := SphereMesh.new()
+	corps.radius = 0.3
+	corps.height = 0.72
+	_morceau(corps, terre, Vector3(0, 0.38, 0))
+	var col := CylinderMesh.new()
+	col.top_radius = 0.1
+	col.bottom_radius = 0.12
+	col.height = 0.16
+	_morceau(col, terre, Vector3(0, 0.78, 0))
+	var etoupe := SphereMesh.new()
+	etoupe.radius = 0.1
+	etoupe.height = 0.12
+	_morceau(etoupe, _mat_uni(Color(0.6, 0.52, 0.38), 1.0), Vector3(0, 0.88, 0))
+	var meche := CylinderMesh.new()
+	meche.top_radius = 0.008
+	meche.bottom_radius = 0.01
+	meche.height = 0.2
+	_morceau(meche, _mat_uni(Color(0.2, 0.18, 0.15), 1.0), Vector3(0.03, 0.98, 0), Vector3(0, 0, 0.3))
+	var braise := SphereMesh.new()
+	braise.radius = 0.025
+	braise.height = 0.05
+	_morceau(braise, _emissif(Color(1.0, 0.5, 0.15), 6.0), Vector3(0.06, 1.08, 0))
+	var fumee := CPUParticles3D.new()
+	fumee.amount = 10
+	fumee.lifetime = 2.5
+	fumee.position = Vector3(0.06, 1.1, 0)
+	fumee.direction = Vector3.UP
+	fumee.spread = 12.0
+	fumee.gravity = Vector3(0, 0.4, 0)
+	fumee.initial_velocity_min = 0.2
+	fumee.initial_velocity_max = 0.4
+	var boule := SphereMesh.new()
+	boule.radius = 0.06
+	boule.height = 0.12
+	var gris := StandardMaterial3D.new()
+	gris.albedo_color = Color(0.3, 0.3, 0.32, 0.5)
+	gris.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	gris.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	boule.material = gris
+	fumee.mesh = boule
+	_visuel.add_child(fumee)
+	_trace_violette()

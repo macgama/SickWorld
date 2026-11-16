@@ -93,7 +93,7 @@ func _ready() -> void:
 func sortie_vers(zone: String) -> Vector2:
 	if zone == "campagne":
 		return Vector2.INF
-	return SORTIE_NORD if zone == "rome" else SORTIE_SUD + Vector2(0, -4)
+	return SORTIE_NORD if zone in ["rome", "colisee"] else SORTIE_SUD + Vector2(0, -4)
 
 
 ## Un point de l'aqueduc : « t » va de 0 à 1 sur le tronçon « i ».

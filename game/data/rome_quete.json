@@ -32,6 +32,14 @@
 				"sous_titre": "Rome · la Campanie, un an après le Vésuve",
 				"texte": "La route s'enfonce dans un désert gris. Pas un arbre, pas un oiseau. Sous tes pieds, la cendre crisse comme de la neige sale. Puis tu comprends ce que sont ces lignes de tuiles qui affleurent partout : des toits. Une ville entière dort là-dessous. Au loin, le Vésuve fume encore."
 			}
+		},
+		"colisee": {
+			"scene": "res://scenes/monde/rome/colisee.tscn",
+			"arrivee": {
+				"titre": "L'amphithéâtre flavien",
+				"sous_titre": "Rome · le jour de l'inauguration",
+				"texte": "Le couloir sombre débouche d'un coup sur la lumière, et sur le bruit. Cinquante mille personnes, des gradins qui montent jusqu'au ciel, un grand voile de toile qui claque au vent. En bas, le sable blanc de l'arène. Personne n'a jamais rien vu de pareil. Toi non plus."
+			}
 		}
 	},
 	"camps": {
@@ -240,7 +248,8 @@
 				"nombre": 2,
 				"rayon": 4
 			}
-		]
+		],
+		"colisee": []
 	},
 	"chapitres": [
 		{
@@ -1269,15 +1278,326 @@
 							"nom": "Enregistreur de Damien Roche"
 						}
 					],
+					"fin_chapitre": true,
+					"apres": [
+						{
+							"montrer": "martial_jeux"
+						},
+						{
+							"masquer": "martial"
+						}
+					]
+				}
+			]
+		},
+		{
+			"numero": 7,
+			"titre": "Ave, César",
+			"ou": "colisee",
+			"etapes": [
+				{
+					"id": "martial_jeux",
+					"ou": "rome",
+					"objectif": "Retourne à Rome : Martial t'attend devant la grande arche de l'ouest de l'amphithéâtre, du côté du Colosse",
+					"pnj": "martial_jeux",
+					"repliques": [
+						"Te voilà enfin ! Le grand jour. Cent jours de jeux pour ouvrir l'amphithéâtre de Titus, et aujourd'hui, c'est l'inauguration. Cinquante mille personnes là-dedans.",
+						"J'écris un livre sur ces jeux : le rhinocéros, Carpophore, les bêtes d'Afrique... Il me manque une fin.",
+						"Mais écoute. Domitien, le frère de l'empereur, a changé le programme cette nuit. Ses hommes sont partout dans les gradins. Et une femme au manteau rouge l'accompagne. Ça ne te rappelle personne ?",
+						"Voilà ton jeton d'entrée, une tessère d'os. Entre par l'arche de l'ouest et va jusqu'à la loge de l'empereur, au sud. Titus veut te voir."
+					],
+					"recompense": [
+						{
+							"id": "tessere_jeux",
+							"nom": "Tessère des jeux"
+						}
+					]
+				},
+				{
+					"id": "entrer_colisee",
+					"ou": "rome",
+					"objectif": "Entre dans l'amphithéâtre par la grande arche de l'ouest",
+					"arriver": "colisee"
+				},
+				{
+					"id": "loge_titus",
+					"objectif": "Longe la terrasse du podium jusqu'à la loge de l'empereur, au sud, sous le dais pourpre",
+					"pnj": "titus",
+					"repliques": [
+						"Approche, Pérégrin. Martial m'a parlé de toi : les mots de la Subure, l'eau des aqueducs, le feu du Champ de Mars. Rome te doit beaucoup, et je n'aime pas les dettes.",
+						"Regarde-les. Cinquante mille. Ils sont venus pour le sang, et moi je voulais leur offrir une fête. Mon père a bâti cet amphithéâtre sur le lac privé de Néron, pour rendre au peuple ce que le tyran lui avait pris.",
+						"Mon frère Domitien a « arrangé » le programme. Il dit que ce sera inoubliable. Je n'aime pas sa façon de sourire.",
+						"Mes prétoriens ont vu des hommes en manteau gris monter dans les gradins du nord, avec des sacs. Va voir. Discrètement, si tu peux."
+					]
+				},
+				{
+					"id": "comploteurs_gradins",
+					"objectif": "Monte dans les gradins du nord, jusqu'au deuxième palier, et arrête les hommes en manteau gris",
+					"tuer": "pretorien_gradins",
+					"nombre": 4,
+					"lieu": [
+						6,
+						-46
+					],
+					"apparition": {
+						"type": "pretorien_gradins",
+						"position": [
+							6,
+							-46
+						],
+						"nombre": 4,
+						"rayon": 5
+					},
+					"recit": {
+						"titre": "Les hommes de Domitien",
+						"texte": "Sous les manteaux gris, des tuniques rouges : des prétoriens. Le dernier, à terre, ricane. « Trop tard. Les jarres sont en place. Quand la poix brûlera, ils s'écraseront dans les escaliers, et le peuple dira que les dieux ont maudit Titus. »"
+					}
+				},
+				{
+					"id": "jarres_poix",
+					"objectif": "Trouve les trois jarres de poix cachées dans les escaliers des gradins, et étouffe leurs mèches (F, reste immobile)",
+					"recolter": "jarre_poix",
+					"nombre": 3,
+					"duree": 2,
+					"action": "Tu étouffes la mèche…",
+					"apres": [
+						{
+							"cacher": "jarre_poix_0"
+						},
+						{
+							"cacher": "jarre_poix_1"
+						},
+						{
+							"cacher": "jarre_poix_2"
+						},
+						{
+							"masquer": "domitien"
+						}
+					],
+					"recit": {
+						"titre": "Les mèches éteintes",
+						"texte": "Trois jarres de poix, trois mèches qui fumaient déjà. Personne, autour, n'a rien remarqué : on regarde l'arène. En bas, les trompettes sonnent. Les gladiateurs entrent."
+					}
+				},
+				{
+					"id": "retour_titus",
+					"objectif": "Retourne voir Titus dans sa loge",
+					"pnj": "titus",
+					"repliques": [
+						"Des jarres de poix dans les escaliers... Cinquante mille personnes qui fuient le feu par des couloirs étroits. Je n'ose pas y penser.",
+						"Mon frère a quitté la loge pendant que tu cherchais. Il a dit qu'il gardait « une surprise » pour la dernière heure.",
+						"Regarde, en bas : Priscus et Verus. Les deux meilleurs gladiateurs de Rome, l'un contre l'autre. Ils se battent depuis une heure, et le peuple ne veut pas qu'il y ait un perdant.",
+						"Par Jupiter... La porte des bêtes s'ouvre ! Qui a donné l'ordre ? Descends par la rampe de l'ouest, vite ! Aide-les !"
+					]
+				},
+				{
+					"id": "lions_arene",
+					"objectif": "Descends dans l'arène par la rampe de bois, à l'ouest, et combats les lions fracturés aux côtés de Priscus et Verus",
+					"tuer": "lion_arene",
+					"nombre": 5,
+					"lieu": [
+						24,
+						0
+					],
+					"apparition": {
+						"type": "lion_arene",
+						"position": [
+							24,
+							0
+						],
+						"nombre": 5,
+						"rayon": 5
+					},
+					"allies": [
+						{
+							"type": "gladiateur_priscus",
+							"position": [
+								-14,
+								3
+							]
+						},
+						{
+							"type": "gladiateur_verus",
+							"position": [
+								-14,
+								-3
+							]
+						}
+					],
+					"recit": {
+						"titre": "Le sable de l'arène",
+						"texte": "Le dernier lion s'effondre. Priscus lève son glaive vers la loge, Verus son bouclier. La foule hurle, debout. Mais derrière la porte de l'est, la porte des morts, quelque chose frappe le bois. De plus en plus fort."
+					}
+				},
+				{
+					"id": "champion_domitien",
+					"objectif": "Le « champion » de Domitien sort par la porte de l'est : abats-le avant qu'il ne s'en prenne à la foule",
+					"tuer": "gladiateur_champion_fracture",
+					"nombre": 1,
+					"lieu": [
+						30,
+						0
+					],
+					"apparition": {
+						"type": "gladiateur_champion_fracture",
+						"position": [
+							34,
+							0
+						],
+						"nombre": 1,
+						"rayon": 1,
+						"attaque": true
+					},
+					"allies": [
+						{
+							"type": "gladiateur_priscus",
+							"position": [
+								-14,
+								3
+							]
+						},
+						{
+							"type": "gladiateur_verus",
+							"position": [
+								-14,
+								-3
+							]
+						}
+					],
+					"phases": [
+						{
+							"seuil": 0.5,
+							"annonce": "Domitien lâche ses dernières bêtes !",
+							"apparition": {
+								"type": "lion_arene",
+								"position": [
+									34,
+									0
+								],
+								"nombre": 2,
+								"rayon": 3,
+								"attaque": true
+							}
+						}
+					],
+					"recit": {
+						"titre": "Le champion sans visage",
+						"texte": "Le champion tombe à genoux dans le sable. Sous son casque noir, pas de visage : une fumée violette, qui s'effiloche dans le vent. Une fracture. Dans la loge, Titus s'est levé. Toute l'arène s'est tue."
+					},
+					"apres": [
+						{
+							"montrer": "priscus"
+						},
+						{
+							"montrer": "verus"
+						},
+						{
+							"pnj": "titus",
+							"aller": [
+								-8,
+								5
+							]
+						},
+						{
+							"pnj": "martial_loge",
+							"aller": [
+								-10,
+								8
+							]
+						}
+					]
+				},
+				{
+					"id": "liberte_gladiateurs",
+					"objectif": "Rejoins Priscus et Verus au milieu de l'arène",
+					"pnj": "priscus",
+					"repliques": [
+						"Pérégrin. Tu t'es battu comme un des nôtres. Verus et moi, on ne savait plus si on se battait l'un contre l'autre ou contre ces choses.",
+						"Regarde. L'empereur est descendu dans l'arène, à pied, au milieu du sable. Ça n'est jamais arrivé."
+					]
+				},
+				{
+					"id": "parole_titus",
+					"objectif": "Titus est descendu dans l'arène : va lui parler",
+					"pnj": "titus",
+					"repliques": [
+						"Priscus. Verus. Depuis une heure, le peuple réclame votre liberté, et il a raison. Recevez la palme, et le glaive de bois : vous êtes libres, tous les deux.",
+						"Martial l'écrira : deux gladiateurs ont combattu à égalité, et tous deux ont reçu la liberté. C'est la seule fin juste pour un tel combat.",
+						"Et toi, Pérégrin. Ce que tu as fait aujourd'hui, Rome ne l'oubliera pas. Prends ce glaive de bois, toi aussi. Il te va mieux qu'à moi.",
+						"Mon frère a disparu, et la femme en rouge avec lui. Mes prétoriens disent qu'ils sont sortis par les égouts. Va retrouver Martial dehors, au pied du Colosse : il a vu quelque chose."
+					],
+					"recompense": [
+						{
+							"id": "rudis_honneur",
+							"nom": "Rudis de l'arène"
+						}
+					],
+					"apres": [
+						{
+							"pnj": "martial_jeux",
+							"aller": [
+								24,
+								-48
+							]
+						}
+					]
+				},
+				{
+					"id": "colosse_regard",
+					"ou": "rome",
+					"objectif": "Sors de l'amphithéâtre par le vomitoire de l'ouest, et rejoins Martial au pied du Colosse",
+					"zone": [
+						22,
+						-48
+					],
+					"rayon": 7,
+					"recit": {
+						"titre": "Le Colosse",
+						"texte": "Martial ne dit rien. Il montre le Colosse du doigt. La statue de bronze a tourné la tête : elle ne regarde plus le Forum, elle regarde l'amphithéâtre. Dans ses yeux, une lueur violette s'allume, s'éteint, se rallume, comme un cœur qui bat. Sous les pavés, le sol tremble."
+					},
+					"apres": [
+						{
+							"montrer": "yeux_colosse"
+						}
+					]
+				},
+				{
+					"id": "martial_colosse",
+					"ou": "rome",
+					"objectif": "Parle à Martial",
+					"pnj": "martial_jeux",
+					"repliques": [
+						"Tu l'as vu ? Trente mètres de bronze, et il a tourné la tête comme un chien qui entend son maître.",
+						"La statue de Néron, devenue le dieu Soleil... Et maintenant, autre chose vit dedans. Une de tes « fractures », je suppose.",
+						"Titus a donné l'ordre : on ouvre la Cloaca Maxima, le grand égout. Les canaux qui inondent l'arène pour les batailles navales partent de là. C'est par là que Domitien et la femme en rouge se sont enfuis.",
+						"Ne descends pas seul, Pérégrin. Trouve des compagnons. L'égoutier t'attend au bord du Forum, à la bouche de l'égout."
+					]
+				},
+				{
+					"id": "bouche_egout",
+					"ou": "rome",
+					"objectif": "Rejoins l'égoutier à la bouche de la Cloaca Maxima, au bord du Forum",
+					"pnj": "egoutier",
+					"repliques": [
+						"Ordre de l'empereur, à ce qu'on m'a dit. Bon. La grille est ouverte.",
+						"Le grand égout descend sous le Forum, puis remonte vers la vallée de l'amphithéâtre. Les canaux de l'arène sont pleins d'eau. Et d'autre chose : on entend gratter, la nuit.",
+						"Voilà le chemin, gratté sur une planchette. À ta place, je ne descendrais pas sans quatre bons compagnons. Quand ton groupe sera prêt, la grille t'attend."
+					],
+					"recompense": [
+						{
+							"id": "plan_cloaca",
+							"nom": "Plan de la Cloaca Maxima"
+						}
+					],
 					"fin_chapitre": true
 				}
 			]
 		}
 	],
 	"fin_provisoire": {
-		"chapitre": "Chapitre 7 : Ave, César",
-		"objectif": "La suite arrive bientôt : les jeux d'inauguration, à Rome.",
+		"chapitre": "Chapitre 8 : Tous les chemins",
+		"objectif": "La suite arrive bientôt : le donjon du Colisée, par la Cloaca Maxima.",
 		"titre": "Tous les chemins",
-		"message": "La vérité est sortie de la cendre : c'est Janus, sur ordre de E., qui a fait abandonner Damien Roche."
+		"message": "Titus a libéré Priscus et Verus. Mais le Colosse s'est réveillé, et Domitien a fui dans les égouts avec Janus."
 	}
 }

@@ -21,6 +21,9 @@ const ACCROCHES := {
 	"bottes_fourrure": [["mixamorig_LeftLeg", Vector3(0, 0.33, 0), Vector3.ZERO],
 			["mixamorig_RightLeg", Vector3(0, 0.33, 0), Vector3.ZERO]],
 	"collier": [["mixamorig_Neck", Vector3(0, -0.02, 0.01), Vector3(-20, 0, 0)]],
+	"casque_gladiateur": [["mixamorig_Head", Vector3(0, 0.0, 0), Vector3.ZERO]],
+	"casque_thrace": [["mixamorig_Head", Vector3(0, 0.0, 0), Vector3.ZERO]],
+	"manica": [["mixamorig_RightForeArm", Vector3(0, 0.12, 0), Vector3.ZERO]],
 }
 ## Armes : tenues dans la main (l'emplacement décide de la main) :
 ## [os, position dans la main, direction de l'arme dans le repère du corps (+Z = devant)].
@@ -215,6 +218,47 @@ static func construire(forme: String, couleur: Color, cote := 1.0) -> Node3D:
 			_piece(n, _boite(Vector3(0.16, 0.025, 0.02)), fente, Vector3(0, 0.12, 0.13))
 			_piece(n, _boite(Vector3(0.03, 0.09, 0.02)), fente, Vector3(0, 0.07, 0.13))
 			_piece(n, _boite(Vector3(0.035, 0.09, 0.3)), _materiau(Color(0.55, 0.12, 0.08), 0.95), Vector3(0, 0.3, -0.02))
+		"casque_gladiateur", "casque_thrace":
+			# Le casque des gladiateurs (galea) : une calotte de bronze à large bord, la
+			# visière ronde percée d'une grille, et un haut cimier. Le mirmillon porte un
+			# cimier en crête de poisson ; le Thrace, une tête de griffon recourbée.
+			var bronze := _materiau(couleur, 0.32, 0.85)
+			_piece(n, _sphere(0.13, true), bronze, Vector3(0, 0.1, 0.0), Vector3(1.05, 1.3, 1.12))
+			_piece(n, _cylindre(0.2, 0.2, 0.012), bronze, Vector3(0, 0.03, 0.0), Vector3(1.0, 1.0, 1.1))
+			_piece(n, _sphere(0.115, true), bronze, Vector3(0, 0.08, 0.04), Vector3(1.0, 0.95, 0.95), Vector3(-90, 0, 0))
+			var grille := _materiau(Color(0.05, 0.045, 0.04))
+			for i in 4:
+				_piece(n, _boite(Vector3(0.012, 0.11, 0.012)), grille, Vector3(-0.045 + i * 0.03, 0.11, 0.155))
+			if forme == "casque_thrace":
+				_piece(n, _cylindre(0.02, 0.04, 0.22), bronze, Vector3(0, 0.3, -0.03), Vector3(1, 1, 1), Vector3(-25, 0, 0))
+				_piece(n, _sphere(0.045), bronze, Vector3(0, 0.39, 0.06), Vector3(0.8, 0.8, 1.4))
+				_piece(n, _boite(Vector3(0.02, 0.07, 0.22)), _materiau(Color(0.7, 0.1, 0.08), 0.95), Vector3(0, 0.33, -0.08))
+			else:
+				_piece(n, _boite(Vector3(0.03, 0.12, 0.34)), bronze, Vector3(0, 0.27, -0.01))
+				_piece(n, _boite(Vector3(0.024, 0.06, 0.3)), _materiau(Color(0.85, 0.75, 0.3), 0.9), Vector3(0, 0.35, -0.02))
+		"scutum":
+			# Le grand bouclier rectangulaire et bombé du mirmillon, peint en rouge.
+			var bois := _materiau(couleur, 0.7)
+			for i in 5:
+				var a := (i - 2) * 0.22
+				_piece(n, _boite(Vector3(0.13, 0.95, 0.03)), bois, Vector3(sin(a) * 0.32, 0.1, 0.06 + cos(a) * 0.32 - 0.32), Vector3.ONE, Vector3(0, rad_to_deg(a), 0))
+			_piece(n, _sphere(0.07), _materiau(Color(0.7, 0.55, 0.25), 0.35, 0.85), Vector3(0, 0.1, 0.1), Vector3(1, 1, 0.4))
+		"parmula":
+			# Le petit bouclier carré du Thrace.
+			_piece(n, _boite(Vector3(0.5, 0.55, 0.035)), _materiau(couleur, 0.6), Vector3(0, 0.1, 0.06))
+			_piece(n, _boite(Vector3(0.52, 0.04, 0.04)), _materiau(Color(0.7, 0.55, 0.25), 0.35, 0.85), Vector3(0, 0.37, 0.06))
+		"manica":
+			_piece(n, _cylindre(0.05, 0.06, 0.26), _materiau(couleur, 0.85), Vector3.ZERO)
+		"sica":
+			# L'épée courbe du Thrace.
+			var acier := _materiau(couleur, 0.3, 0.85)
+			_piece(n, _cylindre(0.016, 0.016, 0.12), _materiau(Color(0.12, 0.12, 0.13)), Vector3.ZERO)
+			_piece(n, _boite(Vector3(0.04, 0.3, 0.008)), acier, Vector3(0, 0.22, 0))
+			_piece(n, _boite(Vector3(0.035, 0.22, 0.008)), acier, Vector3(0.05, 0.44, 0), Vector3.ONE, Vector3(0, 0, -28))
+		"rudis":
+			# Le glaive de bois qu'on remet au gladiateur libéré.
+			_piece(n, _cylindre(0.017, 0.017, 0.13), _materiau(Color(0.3, 0.2, 0.12)), Vector3.ZERO)
+			_piece(n, _boite(Vector3(0.05, 0.55, 0.02)), _materiau(couleur, 0.8), Vector3(0, 0.35, 0))
 		"bouclier_rond":
 			# L'hoplon : un grand bouclier rond et creux, bois plaqué de bronze, tenu au bras.
 			var bronze := _materiau(couleur, 0.35, 0.8)
