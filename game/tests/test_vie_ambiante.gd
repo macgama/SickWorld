@@ -13,6 +13,7 @@ const ZONES := {
 	"carrieres_toura": "res://scenes/monde/egypte/carrieres_toura.tscn",
 	"village_batisseurs": "res://scenes/monde/egypte/village_batisseurs.tscn",
 	"desert_rouge": "res://scenes/monde/egypte/desert_rouge.tscn",
+	"le_piree": "res://scenes/monde/grece/le_piree.tscn",
 	"hikari_bay": "res://scenes/monde/hikari_bay.tscn",
 }
 const VieAmbiante := preload("res://scripts/monde/vie/vie_ambiante.gd")

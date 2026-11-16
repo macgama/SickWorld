@@ -4,8 +4,15 @@ extends Node3D
 ## qui clignotent dans le ciel, distributeurs de boissons, vélos garés, plots…
 ## Décrit dans data/vie_ambiante.json, section « hikari_bay » (clés bateaux, pont,
 ## avions, objets). Tout est sans collision sauf les distributeurs.
+## Sert aussi aux ports antiques (le Pirée) : bateaux « barque », « marchand » (navire
+## de commerce à voile carrée) et « triere » (galère de guerre à rames), fabriqués par
+## la zone elle-même (sans feux de navigation ni lumières électriques).
 
 const NIVEAU_EAU := -1.6
+const BATEAUX_ANTIQUES := ["barque", "marchand", "triere"]
+
+## Le niveau de la mer (« niveau_eau » dans la section, sinon celui du hub).
+var niveau_eau := NIVEAU_EAU
 
 var hub: Node3D
 var fiche: Dictionary = {}
@@ -19,6 +26,7 @@ var _materiaux := {}
 
 func _ready() -> void:
 	add_to_group("vie_ambiante")
+	niveau_eau = float(fiche.get("niveau_eau", NIVEAU_EAU))
 	for b: Dictionary in fiche.get("bateaux", []):
 		_creer_bateau(b)
 	if fiche.has("pont"):
@@ -164,9 +172,13 @@ func _maillage_coque(l: float, w: float, h: float) -> ArrayMesh:
 	return st.commit()
 
 
-## sorte : ferry, vedette, peche, cargo, voilier. chemin [[x, z], …] parcouru en boucle.
+## sorte : ferry, vedette, peche, cargo, voilier (ou barque, marchand, triere dans un
+## port antique). chemin [[x, z], …] parcouru en boucle.
 func _creer_bateau(f: Dictionary) -> void:
 	var sorte := String(f.get("sorte", "vedette"))
+	if sorte in BATEAUX_ANTIQUES:
+		_creer_bateau_antique(f, sorte)
+		return
 	var racine := Node3D.new()
 	racine.name = "Bateau_%s_%d" % [sorte, _bateaux.size()]
 	add_child(racine)
@@ -305,7 +317,74 @@ func _creer_bateau(f: Dictionary) -> void:
 	var b := {"racine": racine, "corps": corps, "chemin": points, "cible": 1 % points.size(),
 		"vitesse": float(f.get("vitesse", {"ferry": 6.0, "cargo": 4.0, "voilier": 3.0}.get(sorte, 7.0))),
 		"sillage": sillage, "phase": randf() * 10.0, "taille": l}
-	racine.position = Vector3(points[0].x, NIVEAU_EAU, points[0].y)
+	racine.position = Vector3(points[0].x, niveau_eau, points[0].y)
+	if points.size() > 1:
+		var d := points[1] - points[0]
+		racine.rotation.y = atan2(-d.x, -d.y)
+	_bateaux.append(b)
+
+
+## Un bateau antique fabriqué par la zone (_barque, _triere de ile_egypte.gd / ile_grece.gd),
+## qui suit son chemin comme les autres. Les rames de la trière battent la mesure.
+func _creer_bateau_antique(f: Dictionary, sorte: String) -> void:
+	if hub == null or not hub.has_method("_barque"):
+		push_warning("Bateau « %s » : cette zone ne sait pas fabriquer de bateau antique." % sorte)
+		return
+	var racine := Node3D.new()
+	racine.name = "Bateau_%s_%d" % [sorte, _bateaux.size()]
+	add_child(racine)
+	var corps := Node3D.new()
+	racine.add_child(corps)
+	var l := float(f.get("longueur", {"barque": 6.0, "marchand": 15.0, "triere": 37.0}[sorte]))
+	var navire: Node3D
+	if sorte == "triere" and hub.has_method("_triere"):
+		navire = hub._triere(corps, Vector3(0, -0.15, 0), 0.0, l, true)
+	else:
+		navire = hub._barque(corps, Vector3(0, -0.1, 0), 0.0, l, false, false)
+	# Pas de collision : le bateau bouge, on ne doit pas pouvoir s'y coincer.
+	for c in navire.find_children("*", "StaticBody3D", true, false):
+		c.free()
+	var bois := StandardMaterial3D.new()
+	bois.albedo_color = Color(0.42, 0.3, 0.2)
+	bois.roughness = 0.9
+	if sorte == "marchand":
+		# Le navire de commerce : un mât, une vergue et une grande voile carrée en lin.
+		var h_mat := l * 0.62
+		_cylindre(corps, 0.1, 0.15, h_mat, Vector3(0, h_mat * 0.5, -l * 0.05), bois)
+		var vergue := _cylindre(corps, 0.07, 0.07, l * 0.62, Vector3(0, h_mat - 0.6, -l * 0.05), bois)
+		vergue.rotation.z = PI / 2
+		var lin := StandardMaterial3D.new()
+		lin.albedo_color = Color.from_string(String(f.get("voile", "#e6dcc4")), Color(0.9, 0.86, 0.77))
+		lin.roughness = 0.95
+		lin.cull_mode = BaseMaterial3D.CULL_DISABLED
+		var voile := MeshInstance3D.new()
+		var q := QuadMesh.new()
+		q.size = Vector2(l * 0.58, h_mat * 0.62)
+		voile.mesh = q
+		voile.material_override = lin
+		voile.position = Vector3(0, h_mat - 0.6 - h_mat * 0.31, -l * 0.05 - 0.15)
+		corps.add_child(voile)
+		voile.set_meta("voile", true)
+		# Une petite cargaison d'amphores sur le pont.
+		if hub.has_method("_amphore"):
+			for k in 6:
+				hub._amphore(corps, Vector3(-0.7 + (k % 3) * 0.7, 0.35, l * 0.2 + (k / 3) * 0.7), 0.8, k * 1.1, true)
+	elif sorte == "barque":
+		# Deux pêcheurs assis (de simples silhouettes, on ne les voit que de loin).
+		var tunique := StandardMaterial3D.new()
+		tunique.albedo_color = Color(0.72, 0.64, 0.5)
+		tunique.roughness = 0.9
+		for k in int(f.get("pecheurs", 2)):
+			_boite(corps, Vector3(0.45, 0.7, 0.3), Vector3(0, 0.7, -l * 0.2 + k * l * 0.35), tunique)
+			_sphere(corps, 0.13, Vector3(0, 1.17, -l * 0.2 + k * l * 0.35), _mat_simple(Color(0.6, 0.42, 0.3)))
+	var points := PackedVector2Array()
+	for xz: Array in f.get("chemin", [[0, 200], [100, 200]]):
+		points.append(Vector2(float(xz[0]), float(xz[1])))
+	var b := {"racine": racine, "corps": corps, "chemin": points, "cible": 1 % points.size(),
+		"vitesse": float(f.get("vitesse", {"barque": 1.6, "marchand": 3.0, "triere": 5.0}[sorte])),
+		"sillage": null, "phase": randf() * 10.0, "taille": l,
+		"rames": navire.get_meta("rames", []) if sorte == "triere" else []}
+	racine.position = Vector3(points[0].x, niveau_eau, points[0].y)
 	if points.size() > 1:
 		var d := points[1] - points[0]
 		racine.rotation.y = atan2(-d.x, -d.y)
@@ -326,8 +405,17 @@ func _avancer_bateau(b: Dictionary, delta: float) -> void:
 	corps.position.y = sin(t * 0.9) * 0.15 * calme
 	corps.rotation.x = sin(t * 0.7) * 0.025 * calme
 	corps.rotation.z = sin(t * 0.55 + 1.0) * 0.04 * calme
+	# Les rames d'une trière en route se lèvent et plongent ensemble.
+	var rames: Array = b.get("rames", [])
+	if not rames.is_empty() and racine.visible:
+		var coup := maxf(0.0, sin(t * 2.4)) if chemin.size() >= 2 else 0.0
+		for pivot: Node3D in rames:
+			var cote := float(pivot.get_meta("cote", 1.0))
+			pivot.rotation.y = -cote * (coup * 0.5 - 0.15)
+			pivot.rotation.x = coup * 0.12
 	if chemin.size() < 2:
-		(b["sillage"] as GPUParticles3D).emitting = false
+		if b["sillage"] != null:
+			(b["sillage"] as GPUParticles3D).emitting = false
 		return
 	var ici := Vector2(racine.position.x, racine.position.z)
 	var vers: Vector2 = chemin[b["cible"]] - ici
@@ -339,7 +427,7 @@ func _avancer_bateau(b: Dictionary, delta: float) -> void:
 	racine.rotation.y = lerp_angle(racine.rotation.y, cap, clampf(delta * 0.35, 0.0, 1.0))
 	var avant := Vector2(-sin(racine.rotation.y), -cos(racine.rotation.y))
 	ici += avant * pas
-	racine.position = Vector3(ici.x, NIVEAU_EAU, ici.y)
+	racine.position = Vector3(ici.x, niveau_eau, ici.y)
 
 
 # --- Le pont suspendu et ses voitures ----------------------------------------------
