@@ -476,5 +476,17 @@
 			"Mesdames et messieurs, bienvenue à l'Arène de la baie ! Cette fois, c'est pour de vrai : les combats ont repris !",
 			"Ma voix porte jusqu'à la grande roue. Chaque combat, je l'annonce à toute la ville. Le classement est à la borne de l'entrée."
 		]
+	},
+	"janus_cellule": {
+		"nom": "Livia Conti (« Janus »)",
+		"role": "Détenue de la Vigie",
+		"modele": "femme",
+		"taille_cm": 170,
+		"peau": "#d2a682",
+		"habits": "#5a5a60",
+		"repliques": [
+			"Je n'ai rien à dire à personne d'autre que toi.",
+			"Damien est passé, cette nuit. Il n'est pas entré. Il est resté devant la porte un long moment, puis il est reparti."
+		]
 	}
 }

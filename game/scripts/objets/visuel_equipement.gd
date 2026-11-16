@@ -255,6 +255,11 @@ static func construire(forme: String, couleur: Color, cote := 1.0) -> Node3D:
 			_piece(n, _cylindre(0.016, 0.016, 0.12), _materiau(Color(0.12, 0.12, 0.13)), Vector3.ZERO)
 			_piece(n, _boite(Vector3(0.04, 0.3, 0.008)), acier, Vector3(0, 0.22, 0))
 			_piece(n, _boite(Vector3(0.035, 0.22, 0.008)), acier, Vector3(0.05, 0.44, 0), Vector3.ONE, Vector3(0, 0, -28))
+		"filet":
+			# Le filet du rétiaire, roulé dans la main, avec ses plombs.
+			_piece(n, _sphere(0.16), _materiau(couleur, 0.95), Vector3(0, 0.05, 0.05), Vector3(1.0, 1.4, 0.8))
+			for i in 4:
+				_piece(n, _sphere(0.025), _materiau(Color(0.3, 0.3, 0.32), 0.4, 0.8), Vector3(cos(i * 1.6) * 0.15, -0.15, sin(i * 1.6) * 0.1))
 		"rudis":
 			# Le glaive de bois qu'on remet au gladiateur libéré.
 			_piece(n, _cylindre(0.017, 0.017, 0.13), _materiau(Color(0.3, 0.2, 0.12)), Vector3.ZERO)

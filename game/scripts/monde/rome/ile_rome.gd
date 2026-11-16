@@ -720,3 +720,158 @@ func _echafaudage(parent: Node3D, base: Vector2, tangente: Vector2, normale: Vec
 		garde.rotation.y = atan2(t3.x, t3.z)
 	_fusionner(echafaudage)
 	return haut
+
+
+# --- Le Colosse de Néron ------------------------------------------------------------------------
+
+## Le corps de bronze du Colosse, debout, les pieds à y = 0, le visage vers -Z : environ
+## 21 m de haut (sans la couronne) pour une échelle de 1. Néron l'avait fait à son image ;
+## Vespasien lui a mis une couronne de sept rayons et en a fait le dieu Soleil. La main
+## droite tient un gouvernail, la gauche est tendue, paume ouverte ; un manteau tombe de
+## l'épaule gauche. Rend {"tete": Node3D, "rayons": [7 Node3D]} : la tête (avec sa
+## couronne) est un nœud à part, pour pouvoir la tourner.
+func _corps_colosse(parent: Node3D, e := 1.0, bronze: Material = null) -> Dictionary:
+	if bronze == null:
+		bronze = _mat_bronze()
+	var piece := func(maillage: Mesh, pos: Vector3, rot := Vector3.ZERO, echelle := Vector3.ONE, dans: Node3D = parent) -> MeshInstance3D:
+		var m := MeshInstance3D.new()
+		m.mesh = maillage
+		m.material_override = bronze
+		m.position = pos * e
+		m.rotation = rot
+		m.scale = echelle
+		dans.add_child(m)
+		return m
+	var boule := func(r: float) -> SphereMesh:
+		var s := SphereMesh.new()
+		s.radius = r * e
+		s.height = r * 2.0 * e
+		s.radial_segments = 20
+		s.rings = 10
+		return s
+	var tige := func(haut: float, bas: float, longueur: float) -> CylinderMesh:
+		return _cylindre(haut * e, bas * e, longueur * e, 18)
+	# Les pieds dans leurs sandales, les chevilles, les mollets, les genoux, les cuisses.
+	for c: Array in [[-1.25, -0.5, 0.0], [1.25, 0.3, -0.06]]:
+		var x: float = c[0]
+		var avance: float = c[1]
+		var pied := MeshInstance3D.new()
+		var semelle := BoxMesh.new()
+		semelle.size = Vector3(1.15, 0.5, 2.6) * e
+		pied.mesh = semelle
+		pied.material_override = bronze
+		pied.position = Vector3(x, 0.25, avance - 0.55) * e
+		parent.add_child(pied)
+		piece.call(boule.call(0.62), Vector3(x, 0.55, avance - 1.45), Vector3.ZERO, Vector3(1.0, 0.5, 0.9))
+		var incline: float = c[2]
+		piece.call(boule.call(0.62), Vector3(x, 0.9, avance), Vector3.ZERO, Vector3(1.0, 1.0, 1.1))
+		piece.call(tige.call(0.92, 0.6, 4.8), Vector3(x, 3.3, avance - 0.05), Vector3(incline, 0, 0))
+		piece.call(boule.call(0.78), Vector3(x, 3.7, avance + 0.3), Vector3.ZERO, Vector3(1.0, 1.3, 0.9))
+		piece.call(boule.call(0.88), Vector3(x, 5.85, avance - 0.2))
+		piece.call(tige.call(1.32, 0.9, 5.0), Vector3(x * 0.92, 8.4, avance * 0.6), Vector3(incline * 0.5, 0, x * -0.03))
+	# Le bassin, le ventre, la poitrine, le dos.
+	piece.call(boule.call(1.9), Vector3(0, 11.0, 0), Vector3.ZERO, Vector3(1.45, 0.85, 0.95))
+	var torse := MeshInstance3D.new()
+	var capsule := CapsuleMesh.new()
+	capsule.radius = 2.05 * e
+	capsule.height = 7.4 * e
+	capsule.radial_segments = 24
+	torse.mesh = capsule
+	torse.material_override = bronze
+	torse.position = Vector3(0, 14.3, 0) * e
+	torse.scale = Vector3(1.22, 1.0, 0.72)
+	parent.add_child(torse)
+	for x: float in [-0.98, 0.98]:
+		piece.call(boule.call(1.15), Vector3(x, 15.7, -0.78), Vector3(0, 0, x * 0.2), Vector3(1.05, 0.72, 0.55))
+	for k in 3:
+		for x: float in [-0.45, 0.45]:
+			piece.call(boule.call(0.5), Vector3(x, 13.7 - k * 0.95, -1.2), Vector3.ZERO, Vector3(1.0, 0.8, 0.45))
+	# Les épaules, le cou.
+	for x: float in [-2.65, 2.65]:
+		piece.call(boule.call(1.12), Vector3(x, 16.9, 0))
+	piece.call(tige.call(0.82, 0.95, 1.6), Vector3(0, 18.5, 0.05))
+	# Le bras droit (côté -X... vu de face, à gauche) le long du corps, sur le gouvernail.
+	piece.call(tige.call(0.78, 0.62, 4.3), Vector3(-3.05, 14.8, 0.05), Vector3(0, 0, -0.1))
+	piece.call(boule.call(0.62), Vector3(-3.3, 12.6, 0.05))
+	piece.call(tige.call(0.6, 0.45, 3.9), Vector3(-3.5, 10.7, -0.35), Vector3(-0.2, 0, -0.04))
+	piece.call(boule.call(0.55), Vector3(-3.55, 8.75, -0.75), Vector3.ZERO, Vector3(0.9, 1.1, 1.0))
+	var gouvernail := piece.call(tige.call(0.24, 0.24, 12.0), Vector3(-3.6, 6.0, -0.8)) as MeshInstance3D
+	gouvernail.rotation.z = 0.02
+	var pale := MeshInstance3D.new()
+	var lame := BoxMesh.new()
+	lame.size = Vector3(0.3, 3.4, 2.0) * e
+	pale.mesh = lame
+	pale.material_override = bronze
+	pale.position = Vector3(-3.6, 1.7, -0.3) * e
+	parent.add_child(pale)
+	# Le bras gauche plié, l'avant-bras tendu vers l'avant, la paume ouverte.
+	piece.call(tige.call(0.78, 0.62, 4.2), Vector3(3.15, 14.9, 0.1), Vector3(0, 0, 0.14))
+	piece.call(boule.call(0.62), Vector3(3.45, 12.8, 0.1))
+	piece.call(tige.call(0.6, 0.45, 3.8), Vector3(3.55, 12.4, -1.75), Vector3(PI * 0.5 - 0.15, 0, 0))
+	piece.call(boule.call(0.58), Vector3(3.6, 12.1, -3.7), Vector3.ZERO, Vector3(1.0, 0.45, 1.3))
+	# Le manteau (la chlamyde) jeté sur l'épaule gauche, qui tombe dans le dos.
+	var manteau := MeshInstance3D.new()
+	var drap := BoxMesh.new()
+	drap.size = Vector3(2.4, 9.0, 0.5) * e
+	manteau.mesh = drap
+	manteau.material_override = bronze
+	manteau.position = Vector3(2.2, 13.0, 1.55) * e
+	manteau.rotation = Vector3(-0.08, 0.25, 0.1)
+	parent.add_child(manteau)
+	for k in 4:
+		piece.call(tige.call(0.22, 0.32, 8.5), Vector3(1.5 + k * 0.45, 12.6, 1.85 - k * 0.05), Vector3(-0.08, 0, 0.06))
+	# La tête : un nœud à part (on la tourne), avec la couronne de sept rayons.
+	var tete := Node3D.new()
+	tete.name = "Tete"
+	tete.position = Vector3(0, 20.4, 0) * e
+	parent.add_child(tete)
+	piece.call(boule.call(1.45), Vector3(0, 0, 0), Vector3.ZERO, Vector3(0.92, 1.12, 1.0), tete)
+	var visage := _visage_colosse(tete, e, bronze, -1.0)
+	visage.name = "Visage"
+	# Les cheveux bouclés, sous la couronne.
+	for k in 9:
+		var a := lerpf(-PI * 0.85, PI * 0.85, k / 8.0)
+		piece.call(boule.call(0.42), Vector3(sin(a) * 1.25, 0.95 - absf(a) * 0.12, cos(a) * 1.15 * 0.95 + 0.1), Vector3.ZERO, Vector3.ONE, tete)
+	var bandeau := MeshInstance3D.new()
+	var tore := TorusMesh.new()
+	tore.inner_radius = 1.32 * e
+	tore.outer_radius = 1.52 * e
+	bandeau.mesh = tore
+	bandeau.material_override = bronze
+	bandeau.position = Vector3(0, 0.85, 0) * e
+	tete.add_child(bandeau)
+	var rayons: Array = []
+	for k in 7:
+		var a := lerpf(-1.25, 1.25, k / 6.0)
+		var rayon := MeshInstance3D.new()
+		rayon.name = "Rayon%d" % k
+		rayon.mesh = _cylindre(0.02 * e, 0.3 * e, 3.6 * e, 6)
+		rayon.material_override = bronze
+		rayon.position = Vector3(sin(a) * 1.7, 0.95 + cos(a) * 1.7, -0.2) * e
+		rayon.rotation.z = -a
+		tete.add_child(rayon)
+		rayons.append(rayon)
+	return {"tete": tete, "rayons": rayons}
+
+
+## Un visage de bronze sur la tête du Colosse : le nez, les arcades, les lèvres, le menton.
+## « cote » vaut -1 (devant, vers -Z) ou +1 (derrière : le second visage du boss).
+func _visage_colosse(tete: Node3D, e: float, bronze: Material, cote: float) -> Node3D:
+	var visage := Node3D.new()
+	tete.add_child(visage)
+	var bloc := func(taille: Vector3, pos: Vector3, rot := Vector3.ZERO) -> void:
+		var m := MeshInstance3D.new()
+		var b := BoxMesh.new()
+		b.size = taille * e
+		m.mesh = b
+		m.material_override = bronze
+		m.position = Vector3(pos.x, pos.y, pos.z * -cote) * e
+		m.rotation = rot
+		visage.add_child(m)
+	bloc.call(Vector3(0.32, 0.75, 0.42), Vector3(0, -0.05, -1.38), Vector3(0.25 * -cote, 0, 0))
+	bloc.call(Vector3(1.5, 0.18, 0.3), Vector3(0, 0.38, -1.3))
+	bloc.call(Vector3(0.62, 0.12, 0.2), Vector3(0, -0.6, -1.33))
+	bloc.call(Vector3(0.7, 0.5, 0.5), Vector3(0, -1.12, -1.05))
+	for x: float in [-0.5, 0.5]:
+		bloc.call(Vector3(0.38, 0.14, 0.12), Vector3(x, 0.16, -1.36))
+	return visage

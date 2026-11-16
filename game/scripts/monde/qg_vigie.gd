@@ -391,6 +391,40 @@ static func _amenager_archives(hub: HikariBay, metal: Material) -> void:
 	fiche.rotation.x = -PI / 2
 	_pnj(hub, "archiviste", c + Vector3(-2.2, 0, 0), PI / 2)
 	hub._texte("Archives de la Vigie", Vector3(r.end.x - 0.7, SOL + 3.2, r.position.y + 4.0), Color(1.0, 0.85, 0.5), 56, -PI / 2, 2.0)
+	_amenager_cellule(hub, metal)
+
+
+## La cellule de détention, dans le coin sud-est des archives : des barreaux, un lit de camp,
+## une chaise. Vide jusqu'au chapitre 8 de Rome (Janus y est enfermée, voir la mission
+## « cellule_janus », qui y fait apparaître Livia Conti).
+static func _amenager_cellule(hub: HikariBay, metal: Material) -> void:
+	var r := ARCHIVES
+	var x0 := r.end.x - 5.0
+	var z0 := r.end.y - 5.2
+	var x1 := r.end.x - 0.3
+	var z1 := r.end.y - 0.3
+	# Les barreaux : côté ouest et côté nord (les deux autres sont les murs de la salle).
+	var n := 0
+	var z := z0
+	while z <= z1:
+		hub._cylindre(0.03, 0.03, 3.4, Vector3(x0, SOL + 1.7, z), metal, false)
+		z += 0.22
+		n += 1
+	var x := x0
+	while x <= x1:
+		hub._cylindre(0.03, 0.03, 3.4, Vector3(x, SOL + 1.7, z0), metal, false)
+		x += 0.22
+	for y: float in [0.1, 1.7, 3.35]:
+		hub._boite(Vector3(0.08, 0.08, z1 - z0), Vector3(x0, SOL + y, (z0 + z1) * 0.5), metal, false)
+		hub._boite(Vector3(x1 - x0, 0.08, 0.08), Vector3((x0 + x1) * 0.5, SOL + y, z0), metal, false)
+	hub._bloc(x0 - 0.06, z0, x0 + 0.06, z1, SOL, SOL + 3.4, metal, true).visible = false
+	hub._bloc(x0, z0 - 0.06, x1, z0 + 0.06, SOL, SOL + 3.4, metal, true).visible = false
+	# Le lit de camp et la chaise.
+	hub._boite(Vector3(0.8, 0.45, 2.0), Vector3(x1 - 0.6, SOL + 0.22, z1 - 1.4), _mat_uni(Color(0.3, 0.32, 0.3), 0.9), false)
+	hub._boite(Vector3(0.45, 0.06, 0.45), Vector3(x0 + 1.6, SOL + 0.46, z1 - 1.2), metal, false)
+	hub._boite(Vector3(0.45, 0.5, 0.05), Vector3(x0 + 1.6, SOL + 0.72, z1 - 0.98), metal, false)
+	hub._lumiere(Vector3((x0 + x1) * 0.5, SOL + 3.2, (z0 + z1) * 0.5), Color(0.8, 0.88, 1.0), 1.2, 5.0)
+	hub._texte("Détention", Vector3(x0 - 0.1, SOL + 3.0, (z0 + z1) * 0.5), Color(0.75, 0.82, 0.9), 40, -PI / 2, 1.2)
 
 
 static func _mat_uni(couleur: Color, rugosite: float) -> StandardMaterial3D:

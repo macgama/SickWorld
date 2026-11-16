@@ -38,6 +38,8 @@ const SOUVENIRS := {
 	"colis": ["badge", Color(0.25, 0.55, 0.95)],
 	"carnet": ["carnet", Color(0.32, 0.2, 0.12)],
 	"archives": ["carnet", Color(0.55, 0.12, 0.1)],
+	"bureau_livia": ["carnet", Color(0.62, 0.14, 0.12)],
+	"cellule_janus": ["cle", Color(0.6, 0.62, 0.66)],
 }
 
 var _bouton_hall: Node3D

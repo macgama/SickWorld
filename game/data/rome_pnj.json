@@ -435,5 +435,27 @@
 			"Le grand égout a sept cents ans. Tarquin l'a fait creuser. On y passe en barque, quand l'eau est haute.",
 			"L'odeur ? On ne la sent plus, au bout de vingt ans."
 		]
+	},
+	"janus_arene": {
+		"nom": "Janus (Livia Conti)",
+		"role": "Effaceuse · arrêtée",
+		"modele": "femme",
+		"taille_cm": 170,
+		"peau": "#d2a682",
+		"habits": "#7a1414",
+		"repliques": [
+			"Je ne vais nulle part. Je t'attends."
+		]
+	},
+	"masque_arene": {
+		"nom": "Damien Roche",
+		"role": "« Masque » · ancien agent de la Vigie",
+		"modele": "homme",
+		"taille_cm": 188,
+		"peau": "#c4987a",
+		"habits": "#4a1d24",
+		"repliques": [
+			"..."
+		]
 	}
 }

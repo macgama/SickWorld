@@ -976,6 +976,58 @@
 			"apres": [
 				"Quinze ans. Je l'invitais à dîner, Livia. Elle apportait du vin de Campanie. Je ne boirai plus jamais de vin de Campanie."
 			]
+		},
+		{
+			"id": "cellule_janus",
+			"titre": "La cellule de Janus",
+			"donneur": "commandante",
+			"automatique": true,
+			"resume": "Au Colisée, Janus a été arrêtée. Lenoir l'a ramenée par le portail de campagne : une cellule l'attend au QG, à côté des archives.",
+			"recompense": "La fin de l'histoire de Rome",
+			"etapes": [
+				{
+					"objectif": "Fais ton rapport à la commandante Morel (Hall des opérations)",
+					"parler": "commandante",
+					"repliques": [
+						"Lenoir l'a descendue en cellule. Elle n'a pas dit un mot de tout le trajet. Elle a seulement demandé si Damien était vivant.",
+						"Il l'est. Masque l'a retenue au lieu de la laisser se noyer. Après tout ce qu'elle lui a fait. Je ne sais pas quoi en penser.",
+						"Va la voir, dans la cellule près des archives. Elle a dit qu'elle ne parlerait qu'à toi."
+					]
+				},
+				{
+					"objectif": "Va voir Janus dans sa cellule (à côté des archives, à l'ouest de la salle des portails)",
+					"parler": "janus_cellule",
+					"repliques": [
+						"Tu es venu. Assieds-toi, si tu veux. Il n'y a qu'une chaise, et c'est la mienne.",
+						"Je ne te demande pas pardon. Je te donne un nom, c'est tout. Celui qui m'a recrutée, à Naples, il y a quinze ans, ne s'appelle pas « E. ». Il signe E., mais c'est un titre : l'Éditeur.",
+						"Il ne travaille pas dans une époque. Il travaille entre elles. Chaque île que tu répares, il la regarde. Il prend des notes.",
+						"La prochaine fois que tu ouvres un portail, regarde bien qui est déjà de l'autre côté."
+					]
+				},
+				{
+					"objectif": "Retourne voir la commandante Morel (Hall des opérations)",
+					"parler": "commandante",
+					"repliques": [
+						"L'Éditeur. Odile va fouiller toutes les archives pour ce nom. Tous les dossiers, même ceux à bande rouge.",
+						"En attendant, regarde la Salle des portails : l'anneau de Rome est stable, et dans la ville, les enseignes sont de nouveau lisibles. Les fontaines coulent.",
+						"Repose-toi, agent. Tu l'as mérité. Et merci. Pour Rome, et pour Damien."
+					]
+				}
+			],
+			"apres": [
+				"Le Musée a demandé à exposer le rayon du Colosse. J'ai dit oui, bien sûr. Il paraît qu'il est encore tiède."
+			],
+			"personnages": [
+				{
+					"id": "janus_cellule",
+					"position": [
+						-51.4,
+						-12.0,
+						129.7,
+						0.0
+					]
+				}
+			]
 		}
 	]
 }

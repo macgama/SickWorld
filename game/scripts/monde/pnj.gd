@@ -86,7 +86,9 @@ func _joueur_proche() -> bool:
 	if distance >= PORTEE:
 		return false
 	for autre in get_tree().get_nodes_in_group("pnj"):
-		if autre != self and (autre as Node3D).global_position.distance_to(joueur.global_position) < distance:
+		# Un personnage caché (parti, ou pas encore arrivé) ne répond pas à la place d'un autre.
+		if autre != self and (autre as Node3D).is_visible_in_tree() \
+				and (autre as Node3D).global_position.distance_to(joueur.global_position) < distance:
 			return false
 	return true
 

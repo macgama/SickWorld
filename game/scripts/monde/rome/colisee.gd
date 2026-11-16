@@ -1,7 +1,10 @@
 @tool
 extends "res://scripts/monde/rome/ile_rome.gd"
 ## Île de Rome : l'intérieur de l'amphithéâtre flavien (le Colisée), le jour des jeux
-## d'inauguration de Titus (chapitre 7). Plus tard, la fin du donjon (chapitre 8).
+## d'inauguration de Titus (chapitre 7), puis la fin du donjon (chapitre 8) : on remonte de la
+## Cloaca Maxima par la herse de l'ouest, et le Colosse de Néron, animé par la fracture, est
+## entré dans l'amphithéâtre. Il se dresse sur la terrasse de l'est, devant la porte des morts ;
+## son cœur de cristal a fendu le sable à ses pieds.
 ##
 ## Une immense cuvette ovale : au fond, l'arène de sable (80 m sur 48), entourée du
 ## podium, un mur de 4 m couronné d'une terrasse de marbre où s'assoient les sénateurs.
@@ -19,6 +22,7 @@ extends "res://scripts/monde/rome/ile_rome.gd"
 
 const MarqueurCarte := preload("res://scripts/carte/marqueur_carte.gd")
 const ObjetRome := preload("res://scripts/monde/rome/objet_rome.gd")
+const Faille := preload("res://scripts/monde/prehistoire/faille.gd")
 
 ## Les demi-axes de l'arène (le grand axe est est-ouest, le long de X).
 const ARENE := Vector2(40, 24)
@@ -50,11 +54,61 @@ const COMPLOTEURS := Vector2(6, -46)
 const JARRES := [[0.55, 11.0], [-1.65, 24.0], [2.6, 35.0]]
 const GLADIATEURS := Vector2(-12, 2)
 const TITUS_ARENE := Vector2(-8, 4)
+## Le chapitre 8 : le Colosse sur la terrasse de l'est, son cœur (le boss) dans le sable, les
+## rayons de sa couronne qui tombent (angles sur l'ellipse : ils font des passerelles jusqu'à
+## la terrasse), Janus sur la terrasse, et la herse de l'ouest par où l'on arrive des égouts.
+const COLOSSE_ARENE := Vector2(43.6, 0)
+const COEUR := Vector2(30, 0)
+const RAYONS_TOMBES := [0.3, 0.62, -0.36]
+const JANUS_A := 0.47
+const HERSE_OUEST := Vector2(-34, 0)
+const PORTAIL := Vector2(-20, 9)
+## Phase 1 : un faisceau toutes les 6 s, annoncé 2,2 s avant, large de 3,6 m (30 % des PV).
+const INTERVALLE_FAISCEAU := 6.0
+const PREAVIS_FAISCEAU := 2.2
+const LARGEUR_FAISCEAU := 3.6
+## Phase 2 : la tête tourne (rad/s) ; chaque visage couvre ±0,8 rad devant ou derrière.
+const VITESSE_TETE := 0.6
+const OUVERTURE_VISAGE := 0.8
+## Phase 3 : l'eau monte jusqu'à 2,6 m en 40 s ; sous l'eau, on se noie (5 % des PV par s).
+const EAU_BAS := -0.6
+const EAU_HAUT := 2.6
+const DUREE_CRUE := 40.0
 
 var _attente_sortie := 0.0
 var _hasard := RandomNumberGenerator.new()
 ## Les rangs de gradins : [d, hauteur de la marche] (pour la foule).
 var _rangs: Array = []
+
+# Le combat du Colosse (le serveur décide ; chacun voit l'état reçu par _etat_colosse).
+var _boss: Node3D
+var _phase := 0
+var _tirs := 0
+var _prochain_faisceau := 0.0
+var _faisceau_a := 0.0
+var _faisceau_z := 0.0
+var _prochain_tic := 0.0
+var _debut_crue := 0.0
+var _eau_niveau := EAU_BAS
+var _masque_la := false
+var _janus_la := false
+var _lacet_tete := PI * 0.5
+var _prochain_envoi := 0.0
+# Les pièces du décor du boss.
+var _statue: Node3D
+var _tete_colosse: Node3D
+var _rayons_couronne: Array = []
+var _second_visage: Node3D
+var _rampes: Array[Node3D] = []
+var _eau_arene: MeshInstance3D
+var _bande_faisceau: MeshInstance3D
+var _rayon_lumineux: MeshInstance3D
+var _visages_sol: Node3D
+var _janus: Node3D
+var _masque: Node3D
+var _objet_janus: Node3D
+var _portail_qg: Node3D
+var _fin_eclair := 0.0
 
 
 func _init() -> void:
@@ -81,13 +135,16 @@ func _init() -> void:
 
 func _ready() -> void:
 	if not Engine.is_editor_hint() and Reseau.get_meta("arrivee_rome", "") != "":
+		var venu_de := String(Reseau.get_meta("arrivee_rome"))
 		Reseau.remove_meta("arrivee_rome")
-		point_apparition = ENTREE
+		point_apparition = HERSE_OUEST if venu_de == "cloaca" else ENTREE
 	super._ready()
 
 
 func sortie_vers(zone: String) -> Vector2:
-	return Vector2.INF if zone == "colisee" else VOMITOIRE + Vector2(2.0, 0)
+	if zone == "colisee":
+		return Vector2.INF
+	return HERSE_OUEST + Vector2(-4.0, 0) if zone == "cloaca" else VOMITOIRE + Vector2(2.0, 0)
 
 
 # --- La forme de la cuvette ---------------------------------------------------------------
@@ -170,6 +227,7 @@ func reconstruire() -> void:
 	_construire_velarium()
 	_construire_limites()
 	_construire_quete()
+	_construire_colosse()
 
 
 ## Le mur du podium, plaqué de marbre, ses deux portes, la balustrade de bronze et la
@@ -207,7 +265,10 @@ func _construire_podium() -> void:
 		var corniche := _boite(Vector3(1.2, 0.3, d.length() + 0.05), Vector3(c.x + dehors.x * 0.3, PODIUM + 0.05, c.y + dehors.y * 0.3), _mat_travertin(), podium, false)
 		corniche.rotation.y = angle
 		var dans_rampe := absf(angle_difference((a0 + a1) * 0.5, ANGLE_RAMPE)) < 0.05
-		if not dans_rampe:
+		var sous_rayon := false
+		for r: float in RAYONS_TOMBES:
+			sous_rayon = sous_rayon or absf(angle_difference((a0 + a1) * 0.5, r)) < 0.06
+		if not dans_rampe and not sous_rayon:
 			var rambarde := _boite(Vector3(0.08, 0.08, d.length() + 0.05), Vector3(c.x + dehors.x * 0.35, PODIUM + 1.05, c.y + dehors.y * 0.35), _mat_bronze(), podium, false)
 			rambarde.rotation.y = angle
 			var poteau := MeshInstance3D.new()
@@ -217,7 +278,10 @@ func _construire_podium() -> void:
 			podium.add_child(poteau)
 			_mur_invisible(podium, Vector3(0.3, 2.2, d.length() + 0.1), Vector3(c.x + dehors.x * 0.35, PODIUM + 1.1, c.y + dehors.y * 0.35), angle)
 		# Le mur du podium arrête aussi les bêtes qui voudraient grimper.
-		if not dans_rampe:
+		if sous_rayon:
+			# Là où tombe un rayon du Colosse (chapitre 8) : un mur plus bas, que la passerelle enjambe.
+			_mur_invisible(podium, Vector3(0.4, PODIUM - 0.8, d.length() + 0.1), Vector3(c.x - dehors.x * 0.1, (PODIUM - 0.8) * 0.5, c.y - dehors.y * 0.1), angle)
+		elif not dans_rampe:
 			_mur_invisible(podium, Vector3(0.4, PODIUM, d.length() + 0.1), Vector3(c.x - dehors.x * 0.1, PODIUM * 0.5, c.y - dehors.y * 0.1), angle)
 	# La terrasse de marbre (les sièges des sénateurs y sont des bancs de pierre).
 	var outil := SurfaceTool.new()
@@ -658,12 +722,245 @@ func _construire_quete() -> void:
 	repere.call(MarqueurCarte.Type.LIEU, "Sortie vers Rome", VOMITOIRE)
 
 
-# --- La sortie : le vomitoire de l'ouest ----------------------------------------------------
+# --- Chapitre 8 : le Colosse dans l'arène --------------------------------------------------------
+
+func _lumineux_violet(energie: float, alpha := 1.0) -> StandardMaterial3D:
+	var m := StandardMaterial3D.new()
+	m.albedo_color = Color(0.62, 0.3, 1.0, alpha)
+	m.emission_enabled = true
+	m.emission = Color(0.65, 0.3, 1.0)
+	m.emission_energy_multiplier = energie
+	if alpha < 1.0:
+		m.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+		m.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+		m.cull_mode = BaseMaterial3D.CULL_DISABLED
+	return m
+
+
+## Le décor du boss, caché jusqu'au chapitre 8 : la statue (« colosse_arene »), les rayons qui
+## tombent, l'eau de la naumachie, les faisceaux, les deux visages au sol, Janus et Masque,
+## la fracture à refermer et le portail de campagne.
+func _construire_colosse() -> void:
+	_rampes.clear()
+	_rayons_couronne.clear()
+	var dossier := _dossier_quete
+	_statue = Node3D.new()
+	_statue.name = "ColosseArene"
+	_statue.add_to_group("decor_quete")
+	_statue.set_meta("identifiant", "colosse_arene")
+	_statue.visible = false
+	_statue.position = Vector3(COLOSSE_ARENE.x, PODIUM, COLOSSE_ARENE.y)
+	# Il regarde l'arène, vers l'ouest (son -Z local vers -X).
+	_statue.rotation.y = PI * 0.5
+	dossier.add_child(_statue)
+	var bronze := _mat_bronze()
+	var pieces: Dictionary = _corps_colosse(_statue, 1.0, bronze)
+	_tete_colosse = pieces["tete"]
+	_rayons_couronne = pieces["rayons"]
+	# La fracture a fendu le bronze : des veines de cristal sur le torse et les jambes.
+	var veine := _lumineux_violet(3.5)
+	for v: Array in [[Vector3(0.6, 14.0, -1.45), Vector3(0.12, 5.0, 0.1), 0.25], [Vector3(-0.9, 12.2, -1.35), Vector3(0.1, 3.2, 0.1), -0.4],
+			[Vector3(1.2, 8.0, -0.95), Vector3(0.1, 4.0, 0.1), 0.1], [Vector3(-1.3, 3.5, -0.85), Vector3(0.1, 2.6, 0.1), -0.2]]:
+		var fente := _boite(v[1], v[0], veine, _statue, false)
+		fente.rotation.z = v[2]
+	# Les yeux violets du premier visage, et le second visage (caché jusqu'à la phase 2).
+	for z: float in [-1.0, 1.0]:
+		for x: float in [-0.5, 0.5]:
+			var oeil := MeshInstance3D.new()
+			var boule := SphereMesh.new()
+			boule.radius = 0.2
+			boule.height = 0.3
+			oeil.mesh = boule
+			oeil.material_override = _lumineux_violet(9.0)
+			oeil.position = Vector3(x, 0.16, 1.32 * z)
+			if z < 0.0:
+				_tete_colosse.add_child(oeil)
+			else:
+				oeil.name = "OeilArriere"
+				oeil.set_meta("second", true)
+				oeil.visible = false
+				_tete_colosse.add_child(oeil)
+	_second_visage = _visage_colosse(_tete_colosse, 1.0, bronze, 1.0)
+	_second_visage.name = "SecondVisage"
+	var fissure := _boite(Vector3(0.08, 3.2, 3.0), Vector3(0, 0.2, 0), veine, _second_visage, false)
+	fissure.rotation.y = PI * 0.5
+	_second_visage.visible = false
+	var lueur := OmniLight3D.new()
+	lueur.light_color = Color(0.65, 0.3, 1.0)
+	lueur.light_energy = 5.0
+	lueur.omni_range = 18.0
+	lueur.position = Vector3(0, 0, -3.0)
+	_tete_colosse.add_child(lueur)
+	# Le socle fendu à ses pieds, et la fracture (à refermer après le combat).
+	var fracture_lieu := Node3D.new()
+	fracture_lieu.name = "LieuFracture"
+	fracture_lieu.add_to_group("decor_quete")
+	fracture_lieu.set_meta("identifiant", "fracture_colosse_lieu")
+	fracture_lieu.visible = false
+	dossier.add_child(fracture_lieu)
+	for k in 6:
+		var a := k * 1.05
+		var dalle := _boite(Vector3(1.6, 0.35, 1.1), Vector3(COEUR.x + cos(a) * 2.6, 0.12, COEUR.y + sin(a) * 2.6), _mat_marbre(), fracture_lieu, false)
+		dalle.rotation = Vector3(0.25 * sin(a * 3.0), a, 0.2)
+	var faille := Faille.new()
+	faille.name = "FractureColosse"
+	faille.identifiant = "fracture_colosse"
+	faille.position = Vector3(COEUR.x + 4.5, 0.5, COEUR.y)
+	fracture_lieu.add_child(faille)
+	# Les trois rayons tombés : des passerelles de bronze du sable jusqu'à la terrasse.
+	for k in RAYONS_TOMBES.size():
+		var a: float = RAYONS_TOMBES[k]
+		var bas2 := point_ellipse(a, -9.5)
+		var haut2 := point_ellipse(a, 0.9)
+		var bas := Vector3(bas2.x, 0.0, bas2.y)
+		var haut := Vector3(haut2.x, PODIUM + 0.06, haut2.y)
+		var dir := (haut - bas).normalized()
+		var cote := Vector3.UP.cross(dir).normalized()
+		var normale := dir.cross(cote).normalized()
+		if normale.y < 0.0:
+			cote = -cote
+			normale = -normale
+		var rampe := Node3D.new()
+		rampe.name = "RayonTombe%d" % k
+		rampe.visible = false
+		dossier.add_child(rampe)
+		var lame := MeshInstance3D.new()
+		lame.mesh = _cylindre(0.14, 1.05, bas.distance_to(haut) + 0.6, 10)
+		lame.material_override = bronze
+		lame.basis = Basis(cote, dir, normale * 0.28)
+		lame.position = (bas + haut) * 0.5 - normale * 0.05
+		rampe.add_child(lame)
+		var corps := StaticBody3D.new()
+		var forme := CollisionShape3D.new()
+		var boite := BoxShape3D.new()
+		boite.size = Vector3(1.8, 0.3, bas.distance_to(haut) + 0.4)
+		forme.shape = boite
+		forme.disabled = true
+		corps.basis = Basis(cote, normale, dir)
+		corps.position = (bas + haut) * 0.5 - normale * 0.15
+		corps.add_child(forme)
+		rampe.add_child(corps)
+		rampe.visibility_changed.connect(func(): forme.set_deferred("disabled", not rampe.is_visible_in_tree()))
+		_rampes.append(rampe)
+	# L'eau de la naumachie : une nappe qui couvre toute l'arène et qui monte.
+	_eau_arene = MeshInstance3D.new()
+	_eau_arene.name = "EauArene"
+	var disque := CylinderMesh.new()
+	disque.top_radius = 1.0
+	disque.bottom_radius = 1.0
+	disque.height = 0.04
+	disque.radial_segments = 64
+	_eau_arene.mesh = disque
+	_eau_arene.scale = Vector3(ARENE.x + 0.4, 1.0, ARENE.y + 0.4)
+	var eau := StandardMaterial3D.new()
+	eau.albedo_color = Color(0.14, 0.22, 0.24, 0.82)
+	eau.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	eau.roughness = 0.06
+	eau.metallic = 0.3
+	_eau_arene.material_override = eau
+	_eau_arene.position.y = EAU_BAS
+	_eau_arene.visible = false
+	dossier.add_child(_eau_arene)
+	# Le faisceau : une bande au sol (l'annonce), puis un trait de lumière.
+	_bande_faisceau = MeshInstance3D.new()
+	_bande_faisceau.name = "BandeFaisceau"
+	var bande := BoxMesh.new()
+	bande.size = Vector3(ARENE.x * 2.0, 0.05, LARGEUR_FAISCEAU)
+	_bande_faisceau.mesh = bande
+	_bande_faisceau.material_override = _lumineux_violet(2.0, 0.35)
+	_bande_faisceau.position.y = 0.06
+	_bande_faisceau.visible = false
+	dossier.add_child(_bande_faisceau)
+	_rayon_lumineux = MeshInstance3D.new()
+	_rayon_lumineux.name = "Faisceau"
+	var barre := BoxMesh.new()
+	barre.size = Vector3(ARENE.x * 2.0, 1.4, 0.9)
+	_rayon_lumineux.mesh = barre
+	_rayon_lumineux.material_override = _lumineux_violet(14.0, 0.85)
+	_rayon_lumineux.position.y = 0.8
+	_rayon_lumineux.visible = false
+	dossier.add_child(_rayon_lumineux)
+	# Les deux visages, au sol : le passé (bleu, ralentit) devant, l'avenir (orange, brûle) derrière.
+	_visages_sol = Node3D.new()
+	_visages_sol.name = "VisagesSol"
+	_visages_sol.position = Vector3(COEUR.x, 0.08, COEUR.y)
+	_visages_sol.visible = false
+	dossier.add_child(_visages_sol)
+	for v: Array in [[-1.0, Color(0.35, 0.6, 1.0)], [1.0, Color(1.0, 0.5, 0.15)]]:
+		var eventail := MeshInstance3D.new()
+		eventail.mesh = _eventail(70.0, OUVERTURE_VISAGE, float(v[0]))
+		var m := StandardMaterial3D.new()
+		var c: Color = v[1]
+		m.albedo_color = Color(c.r, c.g, c.b, 0.34)
+		m.emission_enabled = true
+		m.emission = c
+		m.emission_energy_multiplier = 1.2
+		m.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+		m.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+		m.cull_mode = BaseMaterial3D.CULL_DISABLED
+		eventail.material_override = m
+		_visages_sol.add_child(eventail)
+	# Janus, sur la terrasse de l'est, à côté du Colosse ; Masque, qui la retiendra.
+	var pj := point_ellipse(JANUS_A, 2.6)
+	_janus = _pnj(dossier, "janus_arene", pj, atan2(pj.x, pj.y))
+	_janus.add_to_group("decor_quete")
+	_janus.set_meta("identifiant", "janus_arene")
+	_janus.visible = false
+	var pm := point_ellipse(JANUS_A + 0.05, 3.6)
+	_masque = _pnj(dossier, "masque_arene", pm, atan2(pm.x, pm.y) + PI)
+	_masque.add_to_group("decor_quete")
+	_masque.set_meta("identifiant", "masque_arene")
+	_masque.visible = false
+	_objet_janus = ObjetRome.new()
+	_objet_janus.name = "ArreterJanusArene"
+	_objet_janus.identifiant = "arreter_janus_arene"
+	_objet_janus.invite = "[F] Saisir Janus et fermer l'arrivée d'eau"
+	_objet_janus.portee = 3.0
+	_objet_janus.set_meta("donjon", true)
+	var po := point_ellipse(JANUS_A - 0.03, 1.4)
+	_objet_janus.position = Vector3(po.x, PODIUM, po.y)
+	dossier.add_child(_objet_janus)
+	_objet_janus.set_deferred("actif", false)
+	# Le portail de campagne de Lenoir (après la victoire).
+	_construire_portail(dossier, PORTAIL, PI * 0.5)
+	_portail_qg = dossier.get_node("Portail") as Node3D
+	_portail_qg.name = "PortailCampagne"
+	_portail_qg.add_to_group("decor_quete")
+	_portail_qg.set_meta("identifiant", "portail_qg")
+	_portail_qg.visible = false
+	_zone_portail.monitoring = false
+	var repere := func(type: int, texte: String, p: Vector2) -> void:
+		MarqueurCarte.creer(dossier, type, texte, Vector3(p.x, hauteur(p.x, p.y), p.y))
+	repere.call(MarqueurCarte.Type.DANGER, "Le Colosse", COLOSSE_ARENE)
+	repere.call(MarqueurCarte.Type.LIEU, "Herse (vers les égouts)", HERSE_OUEST)
+
+
+## Un éventail plat (un secteur de disque) de rayon r, d'ouverture ±o, vers -Z (sens -1) ou +Z (+1).
+func _eventail(r: float, o: float, sens: float) -> ArrayMesh:
+	var outil := SurfaceTool.new()
+	outil.begin(Mesh.PRIMITIVE_TRIANGLES)
+	var n := 16
+	for i in n:
+		var a0 := lerpf(-o, o, float(i) / n)
+		var a1 := lerpf(-o, o, float(i + 1) / n)
+		outil.set_normal(Vector3.UP)
+		outil.add_vertex(Vector3.ZERO)
+		outil.add_vertex(Vector3(sin(a0) * r, 0, sens * cos(a0) * r))
+		outil.add_vertex(Vector3(sin(a1) * r, 0, sens * cos(a1) * r))
+	return outil.commit()
+
+
+# --- Chaque image -------------------------------------------------------------------------------
 
 func _process(delta: float) -> void:
 	super._process(delta)
 	if Engine.is_editor_hint():
 		return
+	if _portail_qg != null and _zone_portail != null and _zone_portail.monitoring != _portail_qg.visible:
+		_zone_portail.monitoring = _portail_qg.visible
+	if multiplayer.is_server():
+		_diriger_colosse()
+	_animer_colosse(delta)
 	_attente_sortie -= delta
 	if _attente_sortie > 0.0:
 		return
@@ -675,3 +972,229 @@ func _process(delta: float) -> void:
 	var p := Vector2(joueur.global_position.x, joueur.global_position.z)
 	if p.distance_to(VOMITOIRE) < 1.6 and joueur.global_position.y < PODIUM + 3.0:
 		quete.changer_de_zone("rome")
+	elif p.x < -38.6 and absf(p.y) < 2.6 and joueur.global_position.y < 2.0 and quete.etape_atteinte("vers_arene"):
+		# La herse de l'ouest : on redescend dans les égouts.
+		quete.changer_de_zone("cloaca")
+
+
+## Ce que tout le monde voit : la tête qui tourne, l'eau, les rayons tombés, l'éclair du faisceau.
+func _animer_colosse(delta: float) -> void:
+	if _statue == null or not _statue.visible:
+		return
+	if _tete_colosse != null:
+		_tete_colosse.rotation.y = lerp_angle(_tete_colosse.rotation.y, _lacet_tete - PI * 0.5, minf(1.0, delta * 8.0))
+	if _visages_sol != null:
+		_visages_sol.rotation.y = _tete_colosse.rotation.y + PI * 0.5
+	if _eau_arene != null:
+		_eau_arene.position.y = lerpf(_eau_arene.position.y, _eau_niveau, minf(1.0, delta * 4.0))
+		_eau_arene.visible = _eau_niveau > EAU_BAS + 0.05 or _eau_arene.position.y > EAU_BAS + 0.05
+	if _rayon_lumineux != null and _rayon_lumineux.visible and _temps > _fin_eclair:
+		_rayon_lumineux.visible = false
+
+
+# --- Le combat (serveur) ----------------------------------------------------------------------
+
+func _trouver_boss() -> Node3D:
+	if _boss != null and is_instance_valid(_boss):
+		return _boss
+	_boss = null
+	for bete in get_tree().get_nodes_in_group("loups"):
+		if String(bete.get("type_ennemi")).begins_with("colosse"):
+			_boss = bete
+	return _boss
+
+
+## Les joueurs vivants dans l'arène ou sur la terrasse du podium.
+func joueurs_arene() -> Array:
+	var liste: Array = []
+	for j in get_tree().get_nodes_in_group("joueur"):
+		var c = j.get_node_or_null("Combat")
+		if c != null and c.est_vivant() and decalage(j.global_position.x, j.global_position.z) < TERRASSE + 1.0:
+			liste.append(j)
+	return liste
+
+
+## Le lacet (angle autour de Y) de la tête : son visage avant regarde vers (-sin, -cos).
+func lacet_tete() -> float:
+	return _lacet_tete
+
+
+## « avant » si le joueur est devant le visage du passé, « arriere » s'il est devant celui
+## de l'avenir, sinon « ».
+func visage_vers(j: Node3D) -> String:
+	var v := Vector2(j.global_position.x - COEUR.x, j.global_position.z - COEUR.y)
+	if v.length() < 0.5:
+		return ""
+	var avant := Vector2(-sin(_lacet_tete), -cos(_lacet_tete))
+	var ecart := absf(v.angle_to(avant))
+	if ecart < OUVERTURE_VISAGE:
+		return "avant"
+	if PI - ecart < OUVERTURE_VISAGE:
+		return "arriere"
+	return ""
+
+
+func _diriger_colosse() -> void:
+	var boss := _trouver_boss()
+	if boss == null or not boss.combat.est_vivant():
+		if _phase != 0:
+			_finir(true)
+		return
+	var combat = boss.combat
+	var t := Regles.maintenant()
+	var joueurs := joueurs_arene()
+	if int(boss.get("etat")) != 1 or joueurs.is_empty():
+		if _phase != 0 and (joueurs.is_empty() or combat.pv >= combat.pv_max * 0.99):
+			_finir(false)
+		return
+	var part: float = combat.pv / combat.pv_max
+	var phase := 1 if part > 0.66 else (2 if part > 0.33 else 3)
+	if _phase == 3:
+		phase = 3
+	if phase > _phase:
+		_entrer_phase(phase, t)
+	# Phase 1 : les faisceaux de la couronne, qui balayent l'arène en lignes.
+	if _phase == 1:
+		if _faisceau_a <= 0.0 and t >= _prochain_faisceau:
+			var cible: Node3D = joueurs[Regles.aleatoire.randi() % joueurs.size()]
+			_faisceau_z = clampf(cible.global_position.z + Regles.aleatoire.randf_range(-1.5, 1.5), -ARENE.y + 2.0, ARENE.y - 2.0)
+			_faisceau_a = t + PREAVIS_FAISCEAU
+			_annoncer_faisceau.rpc(_faisceau_z)
+		elif _faisceau_a > 0.0 and t >= _faisceau_a:
+			_faisceau_a = 0.0
+			_prochain_faisceau = t + INTERVALLE_FAISCEAU
+			for j in joueurs:
+				if absf(j.global_position.z - _faisceau_z) < LARGEUR_FAISCEAU * 0.5 and j.global_position.y < PODIUM - 1.0:
+					var c = j.get_node("Combat")
+					Regles.infliger(combat, c, c.pv_max * 0.3, "periodique")
+			_tirs += 1
+			_tirer_faisceau.rpc(_faisceau_z)
+	# Phase 2 (et 3) : la tête tourne ; le passé ralentit, l'avenir brûle.
+	if _phase >= 2:
+		_lacet_tete = fposmod(_lacet_tete + VITESSE_TETE * (0.5 if _phase == 3 else 1.0) * get_process_delta_time(), TAU)
+	if t >= _prochain_tic:
+		_prochain_tic = t + 1.0
+		for j in joueurs:
+			var c = j.get_node("Combat")
+			if _phase >= 2 and j.global_position.y < PODIUM - 1.0:
+				match visage_vers(j):
+					"avant":
+						c.ajouter_effet("visage_passe", 1.3, {"vitesse": 0.5})
+					"arriere":
+						Regles.infliger(combat, c, c.pv_max * 0.06, "periodique")
+			if _phase == 3 and j.global_position.y < _eau_niveau - 0.4 and decalage(j.global_position.x, j.global_position.z) < 0.0:
+				Regles.infliger(combat, c, c.pv_max * 0.05, "periodique")
+	# Phase 3 : l'arène se remplit, et le Colosse ne craint rien tant que Janus tient la vanne.
+	if _phase == 3:
+		if _masque_la:
+			_eau_niveau = maxf(EAU_BAS, _eau_niveau - get_process_delta_time() * 0.5)
+			if combat.effets.has("evite"):
+				combat.retirer_effet("evite")
+		else:
+			_eau_niveau = lerpf(EAU_BAS, EAU_HAUT, clampf((t - _debut_crue) / DUREE_CRUE, 0.0, 1.0))
+			combat.ajouter_effet("evite", 1.0)
+	if t >= _prochain_envoi:
+		_prochain_envoi = t + 0.2
+		_etat_colosse.rpc(_phase, _lacet_tete, _eau_niveau, _tirs, _janus_la, _masque_la)
+
+
+func _entrer_phase(phase: int, t: float) -> void:
+	_phase = phase
+	if phase == 1:
+		_prochain_faisceau = t + 4.0
+		_annonce.rpc("La couronne du Soleil", "Les rayons de sa couronne s'allument. Quand une bande violette s'éclaire sur le sable, sors-en vite !")
+	elif phase == 2:
+		_faisceau_a = 0.0
+		_annonce.rpc("Les deux visages", "Sa tête se fend : un visage devant, un autre derrière, et ils tournent. Le passé (bleu) ralentit, l'avenir (orange) brûle. Restez sur les côtés !")
+	elif phase == 3:
+		_tirs = maxi(_tirs, RAYONS_TOMBES.size())
+		_debut_crue = t
+		_janus_la = true
+		_annonce.rpc("Janus !", "Sur la terrasse de l'est, Janus a ouvert l'arrivée d'eau : l'arène se remplit ! Monte par les rayons tombés et arrête-la (F) avant d'être noyé.")
+
+
+## Fin du combat : victoire (le cœur est brisé) ou défaite (tout le monde est tombé).
+func _finir(victoire: bool) -> void:
+	_phase = 0
+	_faisceau_a = 0.0
+	_eau_niveau = EAU_BAS
+	if not victoire:
+		_tirs = 0
+		_janus_la = false
+		_masque_la = false
+		_lacet_tete = PI * 0.5
+		var boss := _trouver_boss()
+		if boss != null and boss.combat.effets.has("evite"):
+			boss.combat.retirer_effet("evite")
+	_etat_colosse.rpc(0, _lacet_tete, _eau_niveau, _tirs, _janus_la and victoire, false)
+
+
+## Appelé par l'objet de Janus (F) : on la saisit, Masque surgit et la retient.
+func utiliser_objet(objet: Node3D) -> void:
+	Regles.au_serveur(self, "_saisir_janus", [String(objet.name)])
+
+
+@rpc("any_peer", "call_remote", "reliable")
+func _saisir_janus(_nom: String) -> void:
+	if not multiplayer.is_server() or _phase != 3 or _masque_la:
+		return
+	_masque_la = true
+	var boss := _trouver_boss()
+	if boss != null and boss.combat.effets.has("evite"):
+		boss.combat.retirer_effet("evite")
+	_annonce.rpc("Masque", "« Tu m'as laissé brûler à Pompéi. Pas cette fois. » Masque a surgi de la faille et tient Janus. L'eau redescend : achevez le Colosse !")
+	_etat_colosse.rpc(_phase, _lacet_tete, _eau_niveau, _tirs, true, true)
+
+
+@rpc("authority", "call_local", "unreliable_ordered")
+func _etat_colosse(phase: int, lacet: float, eau: float, tirs: int, janus: bool, masque: bool) -> void:
+	_lacet_tete = lacet
+	_eau_niveau = eau
+	if not multiplayer.is_server():
+		_phase = phase
+		_tirs = tirs
+	for k in _rampes.size():
+		_rampes[k].visible = k < tirs
+	for k in _rayons_couronne.size():
+		(_rayons_couronne[k] as Node3D).visible = k >= tirs
+	if _second_visage != null:
+		_second_visage.visible = phase >= 2 or (phase == 0 and _second_visage.visible and tirs > 0)
+		for oeil in _tete_colosse.get_children():
+			if oeil.has_meta("second"):
+				oeil.visible = _second_visage.visible
+	if _visages_sol != null:
+		_visages_sol.visible = phase >= 2
+	if _objet_janus != null:
+		_objet_janus.actif = phase == 3 and not masque
+	if phase != 0 or not janus:
+		if _janus != null and (phase != 0 or tirs == 0):
+			_janus.visible = janus
+		if _masque != null:
+			_masque.visible = masque
+	if _bande_faisceau != null and phase != 1:
+		_bande_faisceau.visible = false
+
+
+@rpc("authority", "call_local", "reliable")
+func _annoncer_faisceau(z: float) -> void:
+	if _bande_faisceau == null:
+		return
+	_bande_faisceau.position = Vector3(0, 0.06, z)
+	_bande_faisceau.visible = true
+
+
+@rpc("authority", "call_local", "reliable")
+func _tirer_faisceau(z: float) -> void:
+	if _bande_faisceau != null:
+		_bande_faisceau.visible = false
+	if _rayon_lumineux != null:
+		_rayon_lumineux.position = Vector3(0, 0.8, z)
+		_rayon_lumineux.visible = true
+		_fin_eclair = _temps + 0.5
+
+
+@rpc("authority", "call_local", "reliable")
+func _annonce(titre: String, texte: String) -> void:
+	var quete := get_tree().get_first_node_in_group("quete")
+	if quete != null:
+		quete.annoncer(titre, texte)

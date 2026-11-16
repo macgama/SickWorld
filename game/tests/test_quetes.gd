@@ -345,6 +345,21 @@ func _lancer() -> void:
 	for pnj in ["commandante", "archiviste", "commandante"]:
 		await _parler_a(pnj)
 	_verifier(_quetes.etat("archives") == "terminee", "mission « Le dossier Damien Roche » accomplie")
+
+	# 20. Le bureau de Livia Conti (Rome, chapitre 5) : Morel -> Odile -> Morel.
+	_quetes.accepter("bureau_livia")
+	for pnj in ["commandante", "archiviste", "commandante"]:
+		await _parler_a(pnj)
+	_verifier(_quetes.etat("bureau_livia") == "terminee", "mission « Le bureau de Livia Conti » accomplie")
+
+	# 21. La cellule de Janus (Rome, chapitre 8) : Janus apparaît dans sa cellule, près des archives.
+	_verifier(_trouver_pnj("janus_cellule") == null, "avant la fin de Rome, la cellule est vide")
+	_quetes.accepter("cellule_janus")
+	await _attendre(5)
+	_verifier(_trouver_pnj("janus_cellule") != null, "Janus est enfermée dans la cellule")
+	for pnj in ["commandante", "janus_cellule", "commandante"]:
+		await _parler_a(pnj)
+	_verifier(_quetes.etat("cellule_janus") == "terminee", "mission « La cellule de Janus » accomplie")
 	souvenirs = _appart.get_node("Souvenirs").get_child_count()
 	_verifier(souvenirs == _quetes.quetes.size(), "toutes les missions ont leur souvenir (%d)" % souvenirs)
 
