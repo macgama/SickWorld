@@ -107,7 +107,8 @@ func _ready() -> void:
 func sortie_vers(zone: String) -> Vector2:
 	if zone == "carrieres_toura":
 		return PASSEUR
-	return RAMPE + Vector2(4, 6) if zone != "port_des_marais" else Vector2.INF
+	# Le haut de la rampe, là où l'on passe au Village (le repère de quête y mène).
+	return RAMPE + Vector2(-9, -9) if zone != "port_des_marais" else Vector2.INF
 
 
 # --- Relief -----------------------------------------------------------------------------

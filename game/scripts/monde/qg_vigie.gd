@@ -29,6 +29,8 @@ const PORTAILS := Rect2(-48.0, 110.0, 50.0, 26.0)
 ## Les archives : à l'ouest de la salle des portails (ouvertes au chapitre 5 de la Grèce).
 const ARCHIVES := Rect2(-72.0, 112.0, 23.5, 22.0)
 ## Les époques, dans l'ordre ; les trois premières (Préhistoire, Égypte, Grèce) ont un portail actif.
+## Nombre de portails allumés (dans l'ordre d'EPOQUES) : Préhistoire, Égypte, Grèce.
+const PORTAILS_OUVERTS := 3
 const EPOQUES := ["Préhistoire", "Égypte antique", "Grèce antique", "Moyen Âge", "Renaissance"]
 
 const VIOLET := Color(0.62, 0.48, 1.0)
@@ -281,7 +283,7 @@ static func _amenager_portails(hub: HikariBay, metal: Material) -> void:
 	for i in EPOQUES.size():
 		var x := r.position.x + 5.0 + i * (r.size.x - 10.0) / (EPOQUES.size() - 1)
 		var z := r.end.y - 4.0
-		var actif := i <= 2
+		var actif := i < PORTAILS_OUVERTS
 		var anneau := MeshInstance3D.new()
 		var tore := TorusMesh.new()
 		tore.inner_radius = 2.6
@@ -342,8 +344,13 @@ static func _amenager_portails(hub: HikariBay, metal: Material) -> void:
 			# Portails pas encore stables : bâche et ruban.
 			hub._boite(Vector3(5.4, 5.4, 0.1), Vector3(x, SOL + 3.2, z - 0.4), hub._mat_pbr("painted_metal_shutter", 2.0, "metal", Color(0.3, 0.32, 0.35)), false)
 		hub._texte(EPOQUES[i] + ("" if actif else "\n(instable)"), Vector3(x, SOL + 7.0, z - 0.6), CYAN if actif else Color(0.6, 0.6, 0.65), 56, PI, 2.0 if actif else 1.0)
-	# Barrière invisible devant les portails fermés.
-	hub._collision_boite(Vector3(r.size.x - 14.0, 4.0, 0.3), Transform3D(Basis(), Vector3(r.get_center().x + 5.0, SOL + 2.0, r.end.y - 6.0)))
+	# Barrière invisible devant les portails fermés seulement (elle couvrait aussi ceux
+	# de l'Égypte et de la Grèce, qu'on ne pouvait donc pas traverser à pied).
+	if PORTAILS_OUVERTS < EPOQUES.size():
+		var pas := (r.size.x - 10.0) / (EPOQUES.size() - 1)
+		var debut := r.position.x + 5.0 + PORTAILS_OUVERTS * pas - pas * 0.5
+		var fin := r.end.x - 2.0
+		hub._collision_boite(Vector3(fin - debut, 4.0, 0.3), Transform3D(Basis(), Vector3((debut + fin) * 0.5, SOL + 2.0, r.end.y - 6.0)))
 	_pnj(hub, "technicienne", Vector3(r.position.x + 5.0 + 4.5, SOL, r.end.y - 9.0), PI * 0.8)
 
 
