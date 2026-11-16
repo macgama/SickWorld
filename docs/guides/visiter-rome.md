@@ -84,4 +84,17 @@ Passé la Porta Maggiore, on arrive sur la colline de l'Esquilin. On y trouve :
 4. **Le choix** : organiser toi-même la distribution (à la table des listes, puis donner les quatre sacs de blé), **ou** suivre l'agitateur au manteau gris dans les ruelles (plus long, et il laisse tomber un objet très intéressant…). Les deux permettent de continuer.
 5. Rejoindre **Carpophore**, le chasseur de l'arène, au vivarium (à l'est de l'amphithéâtre), et **examiner la cage** du rhinocéros.
 6. Abattre **le rhinocéros fracturé** dans les jardins (un ennemi d'élite).
-7. Retrouver Martial pour ta récompense. La suite (chapitre 5, l'incendie) arrive bientôt.
+7. Retrouver Martial pour ta récompense.
+
+## Le chapitre 5 : « Les deux visages »
+
+1. De la fumée monte du Champ de Mars : rejoindre **Lucretius**, le centurion des vigiles (les pompiers de Rome), au bord du quartier.
+2. **Faire la chaîne des seaux** devant les quatre foyers de l'incendie (appuie sur F et reste immobile).
+3. Monter au **Capitole** par la rampe du Forum et **ouvrir l'enclos des oies sacrées**.
+4. Retourner voir Lucretius (récompense : la **couronne civique**). Son guetteur a vu une femme près du Panthéon…
+5. S'approcher du **Panthéon** : Livia Conti est là, et elle attise le feu. **Elle est Janus.**
+6. Lui parler, puis **choisir** : tenter de l'arrêter, ou la laisser s'expliquer.
+7. Repousser ses quatre **prétoriens**. Janus s'enfuit par une faille, et Lenoir ouvre un portail de campagne près du portique.
+8. Traverser le portail : au QG, la commandante Morel fait fouiller **le bureau de Livia** (mission du hub : Morel, puis Odile aux archives, puis Morel).
+
+La suite (chapitre 6, Pompéi sous la cendre) arrive bientôt.

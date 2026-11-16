@@ -935,6 +935,47 @@
 			"apres": [
 				"Damien Roche nous a cherchés pendant dix ans. Et c'est « E. » qui l'a trouvé en premier. Je ne me le pardonnerai pas."
 			]
+		},
+		{
+			"id": "bureau_livia",
+			"titre": "Le bureau de Livia Conti",
+			"donneur": "commandante",
+			"automatique": true,
+			"resume": "À Rome, devant le Panthéon en flammes, l'agent Livia Conti s'est démasquée : elle est l'Effaceuse « Janus ». La commandante Morel fait fouiller son bureau et ses accès.",
+			"recompense": "La vérité sur la signature grattée",
+			"etapes": [
+				{
+					"objectif": "Fais ton rapport à la commandante Morel (Hall des opérations)",
+					"parler": "commandante",
+					"repliques": [
+						"Livia. Quinze ans dans cette maison. C'est moi qui l'ai recrutée, à Naples, sur un chantier de fouilles. Elle parlait des Flaviens comme d'une famille.",
+						"Lenoir a fait couper ses accès il y a vingt minutes. Trop tard, sans doute : elle a eu dix ans pour tout copier.",
+						"Odile a sorti le registre des archives. Va la voir. Je veux savoir si c'est elle, pour la signature."
+					]
+				},
+				{
+					"objectif": "Consulte le registre des accès avec l'archiviste (salle des archives, porte ouest de la salle des portails)",
+					"parler": "archiviste",
+					"repliques": [
+						"Registre des accès, il y a dix ans, la nuit où le portail de Damien Roche a été fermé. Un seul badge est entré ici après minuit.",
+						"Conti, Livia. Elle est restée quarante minutes. Le lendemain matin, la signature de l'ordre de fermeture était grattée.",
+						"Et regarde ça, trouvé dans son bureau, sous le tiroir : une liste de missions. La sienne, à Rome, en haut. En dessous, une seule ligne : « Pompéi, 79. R. ». R, comme Roche.",
+						"Elle n'a pas seulement effacé une signature. Elle a envoyé Damien Roche se perdre sous le Vésuve."
+					]
+				},
+				{
+					"objectif": "Retourne voir la commandante Morel (Hall des opérations)",
+					"parler": "commandante",
+					"repliques": [
+						"Pompéi. Alors c'est là que tout a commencé, et c'est là qu'elle est partie.",
+						"Si le matériel de Roche est encore sous la cendre, il y a peut-être une trace. Un enregistrement. Quelque chose qui prouve qui a donné l'ordre.",
+						"Retourne à Rome, agent. Descends la voie Appienne vers le sud, jusqu'à Pompéi. Et cette fois, personne ne te guidera à la radio. Méfie-toi de tout le monde. Même de nous."
+					]
+				}
+			],
+			"apres": [
+				"Quinze ans. Je l'invitais à dîner, Livia. Elle apportait du vin de Campanie. Je ne boirai plus jamais de vin de Campanie."
+			]
 		}
 	]
 }
