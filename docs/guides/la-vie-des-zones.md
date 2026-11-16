@@ -32,7 +32,7 @@ Ouvre `game/data/vie_ambiante.json`, trouve la section de la zone (par exemple
 - **Un habitant** : `{"comme": "egy_femme", "porte": "jarre", "chemin": [[30, 60], [14, 48]]}`
   - `comme` : un modèle de `modeles_figurants` (en haut du fichier)
   - `porte` : jarre, panier, fagot, sac, lance
-  - `geste` (pendant ses pauses) : travail, priere, discute, lancer
+  - `geste` (pendant ses pauses, vraies animations Mixamo) : assis, a_genoux, telephone, regarder, discute, travail (creuser), priere, lancer (pêcher), ramasser
   - un seul point dans `chemin` = il reste sur place ; `regarde` = son orientation (0 = nord, 90 = est)
 - **Des insectes** : `{"sorte": "moucherons", "position": [24, -9, 1.0]}` — sortes : moucherons, mouches, papillons, libellules, poussiere, sable, duvet, lucioles, cendres
 - **Des objets au sol** : `{"modele": "stone_01", "nombre": 900, "echelle": [0.25, 0.8]}` — on ne pose jamais rien sur un toit ou dans une maison.
