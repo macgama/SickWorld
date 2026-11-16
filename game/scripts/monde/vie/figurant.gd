@@ -12,6 +12,11 @@ extends Node3D
 const SCENE_APPARENCE := "res://scenes/joueur/apparence_agent.tscn"
 const DISTANCE_VISIBLE := 85.0
 const DISTANCE_ANIMATION := 35.0
+## Geste demandé → animation Mixamo jouée en boucle pendant les pauses (si le fichier
+## existe ; sinon on garde un geste de secours tiré des gestes de combat).
+const POSES := {"travail": "creuser", "creuser": "creuser", "priere": "prier", "prier": "prier",
+	"discute": "discuter", "discuter": "discuter", "lancer": "pecher", "pecher": "pecher",
+	"assis": "assis", "a_genoux": "a_genoux", "telephone": "telephone", "regarder": "regarder"}
 
 var fiche: Dictionary = {}
 ## Points [x, z] du chemin. Un seul point : il reste sur place.
@@ -23,8 +28,8 @@ var vitesse := 1.3
 var pause := Vector2(3.0, 9.0)
 ## Indices des points du chemin où il s'arrête (vide = seulement aux deux bouts).
 var arrets: Array = []
-## Geste pendant les pauses : « travail » (frappe lente, comme on taille la pierre),
-## « priere », « discute » (se tourne vers « regarde »), « assis » (allongé au repos), « » = rien.
+## Geste pendant les pauses : « travail » (creuser), « priere », « discute », « lancer »
+## (pêcher), « assis », « a_genoux », « telephone », « regarder », « ramasser », « » = rien.
 var geste := ""
 ## Ce qu'il porte : « jarre » (sur la tête), « amphore » (sur l'épaule), « panier », « fagot », « sac », « lance », « ».
 var porte := ""
@@ -340,6 +345,11 @@ func _geste_en_pause(delta: float) -> void:
 		rotation.y = lerp_angle(rotation.y, -deg_to_rad(regarde), clampf(3.0 * delta, 0.0, 1.0))
 	if geste == "" or not _pret:
 		return
+	# Vraie animation Mixamo en boucle (assis, creuser, prier…) si elle existe.
+	var pose: String = POSES.get(geste, "")
+	if pose != "" and _apparence.has_method("a_animation") and _apparence.a_animation(pose):
+		_apparence.pose_repos = pose
+		return
 	_prochain_geste -= delta
 	if _prochain_geste > 0.0:
 		return
@@ -353,6 +363,9 @@ func _geste_en_pause(delta: float) -> void:
 		"lancer":
 			_apparence.attaquer("lancer", 1.2)
 			_prochain_geste = randf_range(3.0, 6.0)
+		"ramasser":
+			_apparence.attaquer("ramasser", 0.0)
+			_prochain_geste = randf_range(5.0, 9.0)
 		"discute":
 			# Un petit geste de la main de temps en temps.
 			_apparence.attaquer("sort", 1.4)

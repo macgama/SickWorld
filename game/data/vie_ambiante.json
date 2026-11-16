@@ -353,7 +353,7 @@
 						-63
 					]
 				],
-				"geste": "travail",
+				"geste": "a_genoux",
 				"regarde": 120
 			},
 			{
@@ -603,8 +603,8 @@
 				"comme": "citadin_5",
 				"chemin": [
 					[
-						-12,
-						72.2
+						0,
+						72.4
 					]
 				],
 				"regarde": 180,
@@ -614,8 +614,8 @@
 				"comme": "citadin_6",
 				"chemin": [
 					[
-						-10.8,
-						72.4
+						1.2,
+						72.5
 					]
 				],
 				"regarde": 200,
@@ -630,17 +630,19 @@
 					]
 				],
 				"regarde": 170,
-				"parapluie": "#f2c230"
+				"parapluie": "#f2c230",
+				"geste": "regarder"
 			},
 			{
 				"comme": "citadin_1",
 				"chemin": [
 					[
-						-60,
-						72
+						-50,
+						72.4
 					]
 				],
-				"regarde": 180
+				"regarde": 180,
+				"geste": "telephone"
 			},
 			{
 				"comme": "citadin_4",
@@ -717,7 +719,8 @@
 					]
 				],
 				"regarde": 0,
-				"parapluie": "#e8e4dc"
+				"parapluie": "#e8e4dc",
+				"geste": "telephone"
 			},
 			{
 				"comme": "citadin_3",
@@ -921,7 +924,85 @@
 					]
 				],
 				"regarde": 180,
-				"parapluie": "#f2c230"
+				"parapluie": "#f2c230",
+				"geste": "telephone"
+			},
+			{
+				"comme": "citadin_5",
+				"chemin": [
+					[
+						24,
+						-17.4
+					]
+				],
+				"regarde": 270,
+				"geste": "assis"
+			},
+			{
+				"comme": "citadin_2",
+				"chemin": [
+					[
+						24,
+						-16.3
+					]
+				],
+				"regarde": 270,
+				"geste": "assis"
+			},
+			{
+				"comme": "citadin_4",
+				"chemin": [
+					[
+						24,
+						16.6
+					]
+				],
+				"regarde": 270,
+				"geste": "assis"
+			},
+			{
+				"comme": "citadin_3",
+				"chemin": [
+					[
+						-10.4,
+						71.9
+					]
+				],
+				"regarde": 180,
+				"geste": "assis"
+			},
+			{
+				"comme": "citadin_6",
+				"chemin": [
+					[
+						-9.6,
+						71.9
+					]
+				],
+				"regarde": 180,
+				"geste": "assis"
+			},
+			{
+				"comme": "citadin_1",
+				"chemin": [
+					[
+						32.3,
+						71.9
+					]
+				],
+				"regarde": 180,
+				"geste": "assis"
+			},
+			{
+				"comme": "citadin_6",
+				"chemin": [
+					[
+						-100.3,
+						-7.5
+					]
+				],
+				"regarde": 0,
+				"geste": "assis"
 			}
 		],
 		"bateaux": [
@@ -1432,7 +1513,7 @@
 					1,
 					3
 				],
-				"geste": "travail",
+				"geste": "ramasser",
 				"vitesse": 1.0,
 				"pause": [
 					5,
@@ -1689,7 +1770,7 @@
 						-46
 					]
 				],
-				"geste": "travail",
+				"geste": "a_genoux",
 				"regarde": 250
 			},
 			{
@@ -2035,6 +2116,17 @@
 					5,
 					12
 				]
+			},
+			{
+				"comme": "egy_femme",
+				"chemin": [
+					[
+						-8,
+						-60
+					]
+				],
+				"geste": "a_genoux",
+				"regarde": 90
 			}
 		],
 		"disperser": [
@@ -2443,6 +2535,17 @@
 				],
 				"geste": "travail",
 				"regarde": 0
+			},
+			{
+				"comme": "egy_femme",
+				"chemin": [
+					[
+						-13,
+						60
+					]
+				],
+				"geste": "a_genoux",
+				"regarde": 90
 			}
 		],
 		"disperser": [
@@ -3046,7 +3149,7 @@
 						-70
 					]
 				],
-				"geste": "travail",
+				"geste": "prier",
 				"regarde": 0
 			}
 		],

@@ -14,14 +14,17 @@ extends Node3D
 ##   textures/     textures MakeHuman (réappliquées ici : Mixamo ne les garde pas)
 
 ## Animations qui tournent en boucle.
-const EN_BOUCLE := ["immobile", "marcher", "courir", "reculer", "pas_gauche", "pas_droite", "chute"]
+const EN_BOUCLE := ["immobile", "marcher", "courir", "reculer", "pas_gauche", "pas_droite", "chute",
+	"assis", "discuter", "creuser", "prier", "a_genoux", "pecher", "telephone", "regarder"]
 const ANIMATIONS := ["immobile", "marcher", "courir", "reculer", "pas_gauche", "pas_droite", "saut", "chute",
 	"roulade", "attaque", "touche", "mort",
 	# Gestes de combat propres aux classes (Mixamo, facultatifs : sinon « attaque »).
 	"attaque_lame", "attaque_bouclier", "bouclier_leve", "provocation", "tir_arc", "lancer",
 	"incantation", "sort", "esquive_arriere",
 	# Dégainer / ranger l'arme (Mixamo, facultatifs : sinon geste calculé), joués sur le haut du corps.
-	"sortir_arme_dos", "ranger_arme_dos", "sortir_arme_hanche", "ranger_arme_hanche"]
+	"sortir_arme_dos", "ranger_arme_dos", "sortir_arme_hanche", "ranger_arme_hanche",
+	# Poses des habitants (vie ambiante, Mixamo, facultatives) : jouées à l'arrêt, voir pose_repos.
+	"assis", "discuter", "creuser", "prier", "ramasser", "a_genoux", "pecher", "telephone", "regarder"]
 ## Vitesse (m/s) des pieds au sol dans chaque animation de déplacement, mesurée sur les
 ## animations Mixamo (pied d'appui). En jouant l'animation à vitesse × (vitesse réelle /
 ## vitesse naturelle), les pieds ne glissent pas sur le sol.
@@ -119,6 +122,16 @@ var _temps_en_l_air := 0.0
 var _mort := false
 var _pv_precedents := -1.0
 var _combat: Node
+
+
+## Pose jouée à l'arrêt à la place de « immobile » (habitants : « assis », « telephone »,
+## « creuser »…). Vide, ou animation absente : on reste immobile.
+var pose_repos := ""
+
+
+## true si l'animation existe pour ce modèle (fichier .fbx présent).
+func a_animation(nom: String) -> bool:
+	return _lecteur != null and _lecteur.has_animation("agent/" + nom)
 
 
 func _ready() -> void:
@@ -603,7 +616,7 @@ func animer(delta: float, vitesse_locale: Vector3, au_sol: bool, progression_esq
 	var horizontale := Vector2(vitesse_locale.x, vitesse_locale.z)
 	var vitesse := horizontale.length()
 	if vitesse < 0.4:
-		_jouer("immobile", 0.25)
+		_jouer(pose_repos if pose_repos != "" and a_animation(pose_repos) else "immobile", 0.35)
 		return
 	var nom := "courir"
 	if absf(vitesse_locale.x) > absf(vitesse_locale.z) * 1.2:
