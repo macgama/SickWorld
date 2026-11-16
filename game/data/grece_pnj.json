@@ -205,5 +205,102 @@
 		"peau": "#a07049",
 		"habits": "#5a4a3a",
 		"repliques": ["Le garde ne dit rien. Il te fixe, et serre sa lance un peu plus fort."]
+	},
+	"socrate": {
+		"nom": "Socrate",
+		"role": "Fils de Sophronisque · tailleur de pierre",
+		"modele": "homme",
+		"taille_cm": 168,
+		"peau": "#a5764f",
+		"habits": "#7d7262",
+		"repliques": [
+			"On dit que je suis le plus sage des Athéniens. C'est faux : je sais seulement que je ne sais rien. Les autres croient savoir. C'est toute la différence.",
+			"Mon père taillait la pierre, ma mère aidait les femmes à accoucher. Moi, j'aide les idées à naître. C'est un métier qui ne paie pas, mais on rencontre du monde.",
+			"Tu marches beaucoup, Xénos. Moi aussi. Pieds nus, été comme hiver : les pierres de l'Agora sont de vieilles amies."
+		]
+	},
+	"kallias": {
+		"nom": "Kallias",
+		"role": "Marchand de poisson de l'Agora",
+		"modele": "homme",
+		"taille_cm": 172,
+		"peau": "#9f6f4a",
+		"habits": "#a8946e",
+		"repliques": [
+			"Du thon du Bosphore, des anchois de Phalère, des seiches toutes fraîches ! Enfin... il faudrait que quelqu'un achète.",
+			"Un marchand de poisson qui ne crie pas, c'est un marchand qui ne vend rien. Et ici, ces jours-ci, personne n'ose crier."
+		]
+	},
+	"lydos": {
+		"nom": "Lydos",
+		"role": "Potier du Céramique",
+		"modele": "homme",
+		"taille_cm": 169,
+		"peau": "#94643f",
+		"habits": "#8a6a4a",
+		"repliques": [
+			"Figures rouges sur fond noir : on peint en réserve, et le four fait le reste. Trois cuissons, une seule chance. Si l'air entre au mauvais moment, tout est gâché.",
+			"Mes vases partent jusqu'en Étrurie. Un jour, des gens qui ne parlent même pas grec boiront leur vin dans une coupe de Lydos."
+		]
+	},
+	"petrifie_cherephon": {
+		"nom": "Chéréphon",
+		"role": "Ami de Socrate",
+		"modele": "homme",
+		"taille_cm": 165,
+		"peau": "#a87a56",
+		"habits": "#9b4a34",
+		"repliques": [
+			"J'avais la langue en pierre et les pieds en pierre, et dans ma tête quelqu'un répétait : « Tais-toi, tais-toi, tu n'as rien à dire. »",
+			"Socrate ! Tu es là. Tu sais ce que m'a dit la Pythie, à Delphes ? Que personne n'est plus sage que toi. Ne ris pas, c'est vrai !"
+		]
+	},
+	"petrifie_glykera": {
+		"nom": "Glykéra",
+		"role": "Vendeuse de couronnes de fleurs",
+		"modele": "femme",
+		"taille_cm": 160,
+		"peau": "#b58660",
+		"habits": "#5d6b7a",
+		"repliques": [
+			"Merci, l'étranger. Je n'ai pas le droit de voter, moi. Mais j'ai le droit de crier mes prix, et je compte bien m'en servir !",
+			"Des couronnes de myrte, de violettes, de lierre ! Pour les banquets, pour les dieux, pour les morts. Tout le monde a besoin de fleurs."
+		]
+	},
+	"petrifie_demochares": {
+		"nom": "Démocharès",
+		"role": "Cordonnier, citoyen du dème de Kollytos",
+		"modele": "homme",
+		"taille_cm": 174,
+		"peau": "#9c6e4b",
+		"habits": "#c9b48a",
+		"repliques": [
+			"Je suis allé à la leçon du sophiste. Il disait qu'il m'apprendrait à parler à l'assemblée. Il m'a donné un masque pour m'entraîner... Et après, plus rien. Le froid.",
+			"Un cordonnier, ça a des choses à dire, figure-toi. À l'assemblée, je parle des impôts. Personne n'écoute, mais je parle."
+		]
+	},
+	"archer_agora": {
+		"nom": "Skylax",
+		"role": "Archer scythe · police de l'Agora",
+		"modele": "homme",
+		"taille_cm": 179,
+		"peau": "#c59c7c",
+		"habits": "#6e5a3c",
+		"repliques": [
+			"D'habitude, je passe mes journées à pousser les flâneurs vers l'assemblée avec une corde teinte en rouge. Celui qui a du rouge sur son manteau paie une amende.",
+			"Les Athéniens sont tous orateurs. Moi, je suis scythe : je me tais et je tire à l'arc. Mais là, c'est eux qui se taisent, et ça me fait peur."
+		]
+	},
+	"marchande_figues": {
+		"nom": "Thratta",
+		"role": "Marchande de figues",
+		"modele": "femme",
+		"taille_cm": 158,
+		"peau": "#a87a56",
+		"habits": "#b8a98a",
+		"repliques": [
+			"Des figues d'Attique, les meilleures du monde ! Les Athéniens en sont si fiers qu'il est interdit de les vendre à l'étranger.",
+			"Tu as vu le cordonnier, là-bas ? Hier encore, il me racontait sa vie. Ce matin, il est dur comme une borne."
+		]
 	}
 }

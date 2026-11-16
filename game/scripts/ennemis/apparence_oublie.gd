@@ -15,7 +15,54 @@ const HABITS := ["#e2d8c0", "#d8cdb2", "#ddd2b8", "#cfc3a6"]
 @export var graine := 0
 ## « oublie » (un ouvrier sans nom) ou « garde » (un mercenaire de l'Effaceuse :
 ## lin brun, coiffe sombre, masse de cuivre, et une diode rouge cachée à la ceinture).
+## « petrifie » (île de Grèce) : un Athénien à moitié changé en marbre. Quand on le
+## met à terre, la gangue de pierre se brise et il reste assommé, jusqu'à ce qu'on lui
+## rende la voix (voir athenes.gd).
 @export var variante := "oublie"
+
+const HABITS_GRECS := ["#e9e2d0", "#c9b48a", "#9b4a34", "#5d6b7a", "#b8a98a", "#7a2a22"]
+const PEAUX_GRECQUES := ["#a87a56", "#b07f5a", "#9c6e4b", "#b58660", "#a5764f"]
+## La gangue de marbre : un voile de pierre qui monte des pieds jusqu'à la poitrine,
+## avec une lisière violette qui grésille (là où la fracture gagne encore).
+const SHADER_GANGUE := """
+shader_type spatial;
+render_mode blend_mix, depth_draw_opaque, cull_back;
+uniform float niveau = 1.25;
+varying vec3 monde;
+void vertex() {
+	monde = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
+}
+void fragment() {
+	float h = monde.y - NODE_POSITION_WORLD.y;
+	float bord = niveau + sin(monde.x * 9.0) * 0.06 + sin(monde.z * 11.0 + monde.x * 5.0) * 0.05;
+	if (h > bord) {
+		discard;
+	}
+	// Le grain de la pierre (un bruit de valeurs) et des veines grises qui serpentent.
+	vec3 q = monde * 18.0;
+	vec3 i = floor(q);
+	vec3 f = fract(q);
+	f = f * f * (3.0 - 2.0 * f);
+	float a = fract(sin(dot(i, vec3(12.9898, 78.233, 37.719))) * 43758.5453);
+	float b = fract(sin(dot(i + vec3(1.0, 0.0, 0.0), vec3(12.9898, 78.233, 37.719))) * 43758.5453);
+	float c = fract(sin(dot(i + vec3(0.0, 1.0, 0.0), vec3(12.9898, 78.233, 37.719))) * 43758.5453);
+	float d = fract(sin(dot(i + vec3(0.0, 0.0, 1.0), vec3(12.9898, 78.233, 37.719))) * 43758.5453);
+	float grain = mix(mix(a, b, f.x), mix(c, d, f.x), f.y * 0.5 + f.z * 0.5);
+	float veine = smoothstep(0.78, 1.0, sin(monde.x * 11.0 + sin(monde.y * 7.0 + monde.z * 5.0) * 3.0 + grain * 2.0) * 0.5 + 0.5);
+	vec3 marbre = mix(vec3(0.72, 0.71, 0.69), vec3(0.88, 0.87, 0.84), grain);
+	ALBEDO = mix(marbre, vec3(0.42, 0.4, 0.44), veine * 0.75);
+	// Des fissures sombres, plus nombreuses près de la lisière (la pierre craque).
+	float fissure = smoothstep(0.97, 1.0, sin(monde.y * 40.0 + grain * 6.0 + monde.x * 9.0) * 0.5 + 0.5);
+	ALBEDO *= 1.0 - fissure * 0.45;
+	float lisiere = smoothstep(0.09, 0.0, bord - h);
+	EMISSION = vec3(0.6, 0.3, 1.0) * lisiere * 2.0;
+	ROUGHNESS = 0.42 + grain * 0.2;
+	SPECULAR = 0.6;
+}
+"""
+
+var _gangue: ShaderMaterial
+var _eclats: Array[Node3D] = []
 
 var _corps: Node3D
 var _amulette: MeshInstance3D
@@ -29,9 +76,12 @@ func _ready() -> void:
 	if not ResourceLoader.exists(SCENE_APPARENCE):
 		return
 	_corps = (load(SCENE_APPARENCE) as PackedScene).instantiate()
-	_corps.set("modele", "homme")
+	_corps.set("modele", "femme" if variante == "petrifie" and graine % 3 == 1 else "homme")
 	add_child(_corps)
 	_habiller.call_deferred()
+	if variante == "petrifie":
+		_preparer_gangue()
+		return
 	# L'amulette offerte par la « prêtresse de Memphis » : un scarabée qui luit.
 	# Le garde, lui, cache sous sa ceinture une petite diode rouge (une radio moderne).
 	var garde := variante == "garde"
@@ -55,6 +105,9 @@ func _habiller() -> void:
 		return
 	var hasard := RandomNumberGenerator.new()
 	hasard.seed = graine * 7 + 3
+	if variante == "petrifie":
+		_habiller_athenien(hasard)
+		return
 	if _corps.has_method("appliquer"):
 		_corps.appliquer({"sexe": "homme", "taille_cm": hasard.randi_range(166, 180),
 				"peau": Color.from_string(PEAUX[hasard.randi() % PEAUX.size()], Color.WHITE)})
@@ -84,6 +137,80 @@ func _habiller() -> void:
 			_corps.equiper({"tete": {"forme": "bandeau", "couleur": "#d8cdb2"}})
 
 
+## Un Athénien ordinaire : chiton de laine teinte, puis la gangue de marbre par-dessus.
+func _habiller_athenien(hasard: RandomNumberGenerator) -> void:
+	var femme := graine % 3 == 1
+	if _corps.has_method("appliquer"):
+		_corps.appliquer({"sexe": "femme" if femme else "homme",
+				"taille_cm": hasard.randi_range(158, 168) if femme else hasard.randi_range(166, 180),
+				"peau": Color.from_string(PEAUX_GRECQUES[hasard.randi() % PEAUX_GRECQUES.size()], Color.WHITE)})
+	var teinte := Color.from_string(HABITS_GRECS[hasard.randi() % HABITS_GRECS.size()], Color.WHITE)
+	if _corps.has_method("teindre_tenue"):
+		_corps.teindre_tenue(teinte * Color(0.92, 0.9, 0.88))
+	_gangue.set_shader_parameter("niveau", hasard.randf_range(1.05, 1.4) * (0.94 if femme else 1.0))
+	_poser_gangue(true)
+
+
+func _preparer_gangue() -> void:
+	var shader := Shader.new()
+	shader.code = SHADER_GANGUE
+	_gangue = ShaderMaterial.new()
+	_gangue.shader = shader
+	# Des éclats de cristal violet plantés dans l'épaule et le dos.
+	var cristal := StandardMaterial3D.new()
+	cristal.albedo_color = Color(0.5, 0.3, 0.9, 0.85)
+	cristal.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	cristal.emission_enabled = true
+	cristal.emission = Color(0.55, 0.3, 1.0)
+	cristal.emission_energy_multiplier = 2.2
+	cristal.roughness = 0.1
+	for k in 3:
+		var e := MeshInstance3D.new()
+		var prisme := CylinderMesh.new()
+		prisme.top_radius = 0.0
+		prisme.bottom_radius = 0.03 + k * 0.008
+		prisme.height = 0.16 + k * 0.05
+		prisme.radial_segments = 5
+		e.mesh = prisme
+		e.material_override = cristal
+		e.position = [Vector3(0.17, 1.38, -0.04), Vector3(-0.08, 1.2, -0.14), Vector3(0.05, 0.85, 0.12)][k]
+		e.rotation = Vector3(0.5 - k * 0.4, k * 1.3, 0.6 - k * 0.5)
+		add_child(e)
+		_eclats.append(e)
+
+
+## Met (ou retire) la gangue de marbre sur tout le corps.
+func _poser_gangue(oui: bool) -> void:
+	if _corps == null or _gangue == null:
+		return
+	for n in _corps.find_children("*", "MeshInstance3D", true, false):
+		(n as MeshInstance3D).material_overlay = _gangue if oui else null
+	for e in _eclats:
+		e.visible = oui
+
+
+## La gangue se brise : des morceaux de marbre tombent autour de lui.
+func _briser_gangue() -> void:
+	_poser_gangue(false)
+	var marbre := StandardMaterial3D.new()
+	marbre.albedo_color = Color(0.86, 0.85, 0.82)
+	marbre.roughness = 0.4
+	var hasard := RandomNumberGenerator.new()
+	hasard.seed = graine + 91
+	for k in 9:
+		var morceau := MeshInstance3D.new()
+		var b := BoxMesh.new()
+		b.size = Vector3(hasard.randf_range(0.06, 0.16), hasard.randf_range(0.04, 0.1), hasard.randf_range(0.06, 0.14))
+		morceau.mesh = b
+		morceau.material_override = marbre
+		morceau.position = Vector3(hasard.randf_range(-0.25, 0.25), hasard.randf_range(0.4, 1.3), hasard.randf_range(-0.25, 0.25))
+		morceau.rotation = Vector3(hasard.randf() * TAU, hasard.randf() * TAU, 0)
+		add_child(morceau)
+		var sol := Vector3(morceau.position.x * 3.0, 0.03, morceau.position.z * 3.0)
+		var chute := morceau.create_tween()
+		chute.tween_property(morceau, "position", sol, 0.45).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_QUAD)
+
+
 func colorer(_allie: bool) -> void:
 	pass
 
@@ -104,9 +231,14 @@ func animer(delta: float, vitesse: float, mort: bool) -> void:
 	if mort and not _mort:
 		_mort = true
 		_corps.mourir()
+		if variante == "petrifie":
+			_briser_gangue()
 	elif not mort and _mort:
 		_mort = false
 		_corps.revivre()
+		if variante == "petrifie":
+			_poser_gangue(true)
 	if mort:
 		return
-	_corps.animer(delta, Vector3(0, 0, -vitesse), true, -1.0, Vector3.ZERO)
+	# Un Pétrifié marche raide, à petits pas (la pierre pèse).
+	_corps.animer(delta, Vector3(0, 0, -vitesse * (0.7 if variante == "petrifie" else 1.0)), true, -1.0, Vector3.ZERO)

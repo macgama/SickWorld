@@ -4136,5 +4136,235 @@
 				"vitesse": 5.5
 			}
 		]
+	},
+	"athenes": {
+		"niveau_eau": -50.0,
+		"oiseaux": [
+			{
+				"espece": "pigeon",
+				"comportement": "nuee",
+				"centre": [-10, -10],
+				"altitude": 8,
+				"rayon": 18,
+				"nombre": 16
+			},
+			{
+				"espece": "choucas",
+				"centre": [100, -4],
+				"altitude": 52,
+				"rayon": 40,
+				"nombre": 10
+			},
+			{
+				"espece": "hirondelle",
+				"comportement": "nuee",
+				"centre": [-112, -104],
+				"altitude": 7,
+				"rayon": 20,
+				"nombre": 22
+			},
+			{
+				"espece": "milan",
+				"centre": [-92, 92],
+				"altitude": 45,
+				"rayon": 45,
+				"nombre": 2
+			},
+			{
+				"espece": "pigeon",
+				"comportement": "nuee",
+				"centre": [100, 60],
+				"altitude": 10,
+				"rayon": 16,
+				"nombre": 12
+			}
+		],
+		"insectes": [
+			{
+				"sorte": "poussiere",
+				"autour": true,
+				"nombre": 140
+			},
+			{
+				"sorte": "mouches",
+				"position": [14, -13, 1.0]
+			},
+			{
+				"sorte": "mouches",
+				"position": [-26, -16, 1.0]
+			},
+			{
+				"sorte": "cendres",
+				"position": [-113, -109, 2.8],
+				"nombre": 20,
+				"rayon": 0.5
+			},
+			{
+				"sorte": "papillons",
+				"position": [-98, -30, 6.0],
+				"rayon": 18
+			},
+			{
+				"sorte": "poussiere",
+				"position": [-10, -10, 1.0],
+				"rayon": 10,
+				"nombre": 60
+			}
+		],
+		"figurants": [
+			{
+				"comme": "grec_homme",
+				"chemin": [
+					[0, 120],
+					[0, 60],
+					[2, 30],
+					[-10, 0]
+				],
+				"vitesse": 0.9,
+				"pause": [3, 8]
+			},
+			{
+				"comme": "grec_femme",
+				"chemin": [
+					[-30, -16],
+					[-12, -20],
+					[20, 18],
+					[26, -26]
+				],
+				"porte": "amphore",
+				"vitesse": 0.8,
+				"pause": [4, 9]
+			},
+			{
+				"comme": "grec_marchand",
+				"chemin": [
+					[-36, 0],
+					[-20, -24],
+					[-30, -16]
+				],
+				"vitesse": 0.8,
+				"pause": [5, 10]
+			},
+			{
+				"comme": "grec_vieillard",
+				"chemin": [
+					[-40, -36],
+					[10, -38],
+					[30, -30]
+				],
+				"vitesse": 0.6,
+				"pause": [6, 12]
+			},
+			{
+				"comme": "grec_servante",
+				"chemin": [
+					[30, 40],
+					[30, 30],
+					[10, 60],
+					[0, 90]
+				],
+				"porte": "amphore",
+				"vitesse": 0.9,
+				"pause": [3, 7]
+			},
+			{
+				"comme": "grec_homme",
+				"chemin": [
+					[-60, -50],
+					[-100, -90],
+					[-120, -112]
+				],
+				"porte": "sac",
+				"vitesse": 1.0,
+				"pause": [3, 6]
+			},
+			{
+				"comme": "grec_docker",
+				"chemin": [
+					[-118, -100],
+					[-106, -104],
+					[-110, -92]
+				],
+				"porte": "amphore",
+				"vitesse": 0.9,
+				"pause": [4, 8]
+			},
+			{
+				"comme": "archer_scythe",
+				"chemin": [
+					[-50, 24],
+					[30, 24],
+					[30, -40],
+					[-50, -40]
+				],
+				"vitesse": 0.9,
+				"pause": [6, 10]
+			},
+			{
+				"comme": "grec_femme_2",
+				"chemin": [
+					[-56, 26],
+					[-80, 70],
+					[-70, 100]
+				],
+				"vitesse": 0.8,
+				"pause": [4, 8]
+			},
+			{
+				"comme": "grec_marin",
+				"chemin": [
+					[36, 26],
+					[70, 52],
+					[86, 66]
+				],
+				"vitesse": 1.0,
+				"pause": [3, 6]
+			}
+		],
+		"disperser": [
+			{
+				"modele": "sand_rocks_small_01",
+				"nombre": 220,
+				"echelle": [0.1, 0.25],
+				"hors_piste": 2.0,
+				"sol_min": 0.3
+			},
+			{
+				"modele": "shrub_01",
+				"nombre": 140,
+				"echelle": [0.5, 1.0],
+				"hors_piste": 2.5,
+				"grappes": [30, 7],
+				"distance": 150,
+				"sol_min": 0.6
+			},
+			{
+				"modele": "searsia_lucida",
+				"nombre": 60,
+				"echelle": [0.6, 1.1],
+				"hors_piste": 3.0,
+				"grappes": [16, 8],
+				"distance": 140,
+				"sol_min": 1.0
+			},
+			{
+				"modele": "wicker_basket_01",
+				"nombre": 14,
+				"echelle": [0.8, 1.1],
+				"pres_de": [
+					[-10, -10, 30]
+				],
+				"hors_piste": 1.5
+			},
+			{
+				"modele": "antique_ceramic_vase_01",
+				"nombre": 14,
+				"echelle": [0.9, 1.2],
+				"pres_de": [
+					[-112, -102, 12]
+				],
+				"hors_piste": 1.0
+			}
+		]
 	}
 }

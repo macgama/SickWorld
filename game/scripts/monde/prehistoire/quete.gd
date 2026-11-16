@@ -296,6 +296,10 @@ func _aller_a(numero: int) -> void:
 			var objet_choix := _trouver_objet(option.get("objet", ""))
 			if objet_choix != null:
 				objet_choix.actif = true
+		for leurre in e.get("leurres", []):
+			var objet_leurre := _trouver_objet(leurre.get("objet", ""))
+			if objet_leurre != null:
+				objet_leurre.actif = true
 		if e.has("recolter"):
 			for objet in get_tree().get_nodes_in_group("objet_quete"):
 				if objet.get("groupe") == e["recolter"] and objet.visible and not objet.get("ramasse") \
@@ -520,6 +524,10 @@ func utiliser_objet(objet: Node3D) -> void:
 			_choisir(option)
 			e = etape_actuelle()
 			break
+	for leurre in e.get("leurres", []):
+		if leurre.get("objet", "") == objet.get("identifiant"):
+			_repondre_a_cote(e, leurre)
+			return
 	if e.get("objet", "") != objet.get("identifiant"):
 		return
 	var duree := float(e.get("duree", 0.0))
@@ -617,6 +625,18 @@ func annoncer(titre: String, sous_titre: String) -> void:
 func _sur_degats_joueur(_montant: float, _source) -> void:
 	if _canalisation != null:
 		_interrompre("Interrompu !")
+
+
+## Interrogatoire (ex. Socrate) : une mauvaise réponse ne fait pas avancer. Le témoin
+## (ou celui qui aide) répond quelques répliques, et on peut essayer une autre réponse.
+## Étape : {"objet": "bonne_reponse", "leurres": [{"objet": "autre", "repliques": [...]}]}.
+func _repondre_a_cote(e: Dictionary, leurre: Dictionary) -> void:
+	var dialogue := get_tree().get_first_node_in_group("dialogue")
+	if dialogue == null or dialogue.est_ouvert():
+		return
+	var qui := _trouver_pnj(String(leurre.get("pnj", e.get("pnj", ""))))
+	var nom := String(qui.get("nom")) if qui != null else ""
+	dialogue.ouvrir("leurre", nom, PackedStringArray(leurre.get("repliques", [])))
 
 
 func _interrompre(raison: String) -> void:

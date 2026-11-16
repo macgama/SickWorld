@@ -104,6 +104,26 @@ const CLIMATS := {
 		"nuage_lumiere": Color(1.0, 0.98, 0.94),
 		"saturation": 1.06,
 	},
+	"athenes": {
+		"etalonnage": "mediterranee",
+		"soleil": Vector2(140.0, 52.0),
+		"couleur_soleil": Color(1.0, 0.95, 0.86),
+		"energie_soleil": 3.0,
+		"couverture": 0.12,
+		"brume": Color(0.68, 0.79, 0.92),
+		"densite_brume": 0.0009,
+		"brume_volume": 0.002,
+		"albedo_brume": Color(0.95, 0.97, 1.0),
+		"ambiance": 0.75,
+		"zenith": Color(0.05, 0.2, 0.56),
+		"horizon": Color(0.6, 0.74, 0.88),
+		# Air limpide : la brume ne voile presque pas le ciel.
+		"brume_ciel": 0.12,
+		"horizon_soleil": Color(1.0, 0.93, 0.78),
+		"nuage_ombre": Color(0.66, 0.68, 0.72),
+		"nuage_lumiere": Color(1.0, 0.98, 0.94),
+		"saturation": 1.06,
+	},
 	"carrieres_toura": {
 		"etalonnage": "desert",
 		# Soleil de l'après-midi à l'ouest : il éclaire de face la falaise blanche.

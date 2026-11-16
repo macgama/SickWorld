@@ -34,6 +34,11 @@ var _dossier_quete: Node3D
 var _a_liberer: Array = []
 var _liberes := 0
 var _attente_liberes := 0.0
+## Les ennemis qu'on sauve au lieu de les tuer : leur type commence par ce mot. En
+## Grèce, ce sont les Pétrifiés, à qui l'on rend la voix (voir ile_grece.gd).
+var prefixe_liberables := "oublie"
+var invite_liberer := "[F] Rendre son nom"
+var groupe_liberer := "nom_rendu"
 
 
 func _ready() -> void:
@@ -904,19 +909,19 @@ func _surveiller_oublies(delta: float) -> void:
 	var etape: Dictionary = quete.etape_actuelle() if quete != null else {}
 	# Un oublié vient d'être mis à terre : on peut lui rendre son nom (F).
 	for bete in get_tree().get_nodes_in_group("loups"):
-		if not String(bete.get("type_ennemi")).begins_with("oublie") or bete.has_meta("objet_nom"):
+		if not String(bete.get("type_ennemi")).begins_with(prefixe_liberables) or bete.has_meta("objet_nom"):
 			continue
 		if bete.combat.est_vivant():
 			continue
 		var objet := ObjetEgypte.new()
 		objet.name = "RendreNom%d" % _a_liberer.size()
-		objet.identifiant = "nom_rendu_%d" % _a_liberer.size()
-		objet.groupe = "nom_rendu"
-		objet.invite = "[F] Rendre son nom"
+		objet.identifiant = "%s_%d" % [groupe_liberer, _a_liberer.size()]
+		objet.groupe = groupe_liberer
+		objet.invite = invite_liberer
 		objet.portee = 2.6
 		_dossier_quete.add_child(objet)
 		objet.global_position = bete.global_position
-		objet.actif = etape.get("recolter", "") == "nom_rendu"
+		objet.actif = etape.get("recolter", "") == groupe_liberer
 		bete.set_meta("objet_nom", objet)
 		_a_liberer.append([objet, bete])
 	# Un nom rendu : l'oublié se relève, guéri, et rejoint ses camarades.
