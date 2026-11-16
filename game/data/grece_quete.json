@@ -1409,12 +1409,170 @@
 					]
 				}
 			]
+		},
+		{
+			"numero": 7,
+			"titre": "L'ostracisme",
+			"ou": "athenes",
+			"etapes": [
+				{
+					"id": "retour_athenes",
+					"objectif": "Retourne à Athènes, avant que les tessons ne tombent dans les urnes",
+					"arriver": "athenes"
+				},
+				{
+					"id": "aspasie_vote",
+					"objectif": "Préviens Aspasie, dans sa maison au sud-est de l'Agora",
+					"pnj": "aspasie",
+					"repliques": [
+						"Des centaines de tessons, gravés de la même main ? Alors c'est bien ça. On a proposé un ostracisme à l'assemblée, il y a dix jours. Le vote a lieu aujourd'hui.",
+						"Tu ne connais pas l'ostracisme ? Une fois par an, chaque citoyen peut graver sur un tesson le nom de l'homme qu'il juge trop puissant. S'il y a au moins six mille tessons, celui dont le nom sort le plus doit quitter Athènes. Dix ans.",
+						"On ne lui prend ni ses biens ni ses droits. On l'éloigne, c'est tout. C'est fait pour empêcher un seul homme de devenir tyran.",
+						"Et voilà qu'on s'en sert pour chasser Périclès. Si les tessons du Laurion tombent dans les urnes, il est perdu. Va le voir sur l'Agora, près de l'enclos du vote. Moi, je ne vote pas : je suis une femme, et une étrangère."
+					]
+				},
+				{
+					"id": "pericles",
+					"objectif": "Parle à Périclès, sur l'Agora, devant l'enclos du vote",
+					"pnj": "pericles",
+					"repliques": [
+						"Aspasie t'envoie ? Alors tu es l'étranger qui a rendu la voix à l'Agora, et l'argent au Laurion. Athènes te doit beaucoup, Xénos.",
+						"Je ne vais pas te mentir : je suis fatigué. Quinze ans que je suis élu stratège, chaque année. Mes ennemis disent que je suis un tyran sans couronne. Peut-être qu'ils ont un peu raison.",
+						"Mais un vote truqué n'est pas un vote. Si on me chasse avec des tessons gravés par une seule main, ce n'est plus le peuple qui décide. C'est l'homme qui tient le burin.",
+						"Je ne peux pas faire campagne pour moi-même : ce serait indigne. Toi, tu peux parler aux gens. Raconte-leur ce que tu as vu. Qu'ils votent, mais qu'ils votent eux-mêmes."
+					],
+					"apres": [
+						{
+							"montrer": "enclos_vote"
+						}
+					]
+				},
+				{
+					"id": "rallier",
+					"objectif": "Rallie des voix dans toute la ville : parle aux citoyens qui hésitent (F)",
+					"recolter": "voix_citoyen",
+					"nombre": 6,
+					"duree": 2.0,
+					"action": "Tu lui racontes les tessons gravés de la même main, au Laurion…",
+					"recit": {
+						"titre": "Six voix, puis six cents",
+						"texte": "Chaque citoyen convaincu en parle à son voisin, au marché, au puits, à la palestre. Quand tu reviens vers l'Agora, une foule t'attend devant l'enclos. Ils ont tous un tesson à la main, et chacun l'a gravé lui-même."
+					}
+				},
+				{
+					"id": "enclos",
+					"objectif": "Rejoins l'enclos du vote, sur l'Agora",
+					"zone": [-30, -8],
+					"rayon": 7
+				},
+				{
+					"id": "decompte",
+					"objectif": "Aide les magistrats à compter les tessons de l'urne (F)",
+					"objet": "urne_ostraka",
+					"duree": 3.0,
+					"action": "On renverse l'urne sur la table, et l'on trie les tessons nom par nom…",
+					"recit": {
+						"titre": "ΠΡΟΣΩΠΟΝ",
+						"texte": "Six mille deux cents tessons. Quelques-uns pour Périclès, beaucoup pour Thucydide, des dizaines de noms isolés. Mais un nom sort plus que tous les autres, gravé par des milliers de mains différentes : ΠΡΟΣΩΠΟΝ. « Le Masque »."
+					}
+				},
+				{
+					"id": "verdict",
+					"objectif": "Écoute le verdict de Périclès",
+					"pnj": "pericles",
+					"repliques": [
+						"« Le Masque ». Ce n'est même pas un nom. Le peuple a chassé un homme qu'il n'a jamais vu en face. Je crois que c'est la première fois.",
+						"C'est valable, pourtant. Le peuple a voté, et le peuple a dit : celui-là, qu'il parte. Qu'on le crie à toutes les portes. Masque n'a plus le droit de poser le pied à Athènes pendant dix ans.",
+						"Tu entends ? La musique. La procession des Panathénées part du Dipylon. Aujourd'hui, on offre son voile à la nouvelle Athéna de Phidias, tout en or et en ivoire, dans le Parthénon.",
+						"... Pourquoi les flûtes se sont-elles arrêtées ?"
+					]
+				},
+				{
+					"id": "procession",
+					"objectif": "Défends la procession des Panathénées, sur la voie sacrée, au pied de l'Acropole",
+					"tuer": "serpent_gorgone",
+					"nombre": 8,
+					"lieu": [34, 8],
+					"apparition": {
+						"type": "serpent_gorgone",
+						"position": [40, 4],
+						"nombre": 8,
+						"rayon": 7,
+						"attaque": true
+					},
+					"recit": {
+						"titre": "La Gorgone s'éveille",
+						"texte": "Là-haut, sur le bouclier de la grande Athéna, la tête de Gorgone a ouvert les yeux. Un éclair violet a balayé la voie sacrée. Les serpents de bronze de sa chevelure sont tombés du rocher, et ceux qui ont croisé leur regard ne bougent plus."
+					}
+				},
+				{
+					"id": "procession_voix",
+					"objectif": "Rends la voix aux porteurs de la procession, changés en marbre (F)",
+					"recolter": "voix_rendue",
+					"nombre": 4,
+					"duree": 2.5,
+					"action": "Tu poses la main sur la pierre froide, et tu parles jusqu'à ce qu'elle se réchauffe…",
+					"apparition": {
+						"type": "petrifie",
+						"position": [26, 12],
+						"nombre": 4,
+						"rayon": 4
+					},
+					"apres": [
+						{
+							"montrer": "canephore"
+						}
+					]
+				},
+				{
+					"id": "canephore",
+					"objectif": "Parle à la jeune porteuse de corbeille de la procession",
+					"pnj": "canephore",
+					"repliques": [
+						"Je portais la corbeille sacrée, en tête du cortège. J'ai levé les yeux vers le Parthénon, et la déesse... la déesse m'a regardée. Son bouclier avait des yeux.",
+						"Après, je n'ai plus rien senti. Juste le froid. J'entendais tout, mais je ne pouvais pas crier.",
+						"Tiens, c'est la bandelette de la procession. Garde-la. Et ne regarde pas son bouclier, surtout. Promets-le."
+					],
+					"recompense": [
+						{
+							"id": "bandelette_panathenees",
+							"nom": "Bandelette des Panathénées"
+						}
+					],
+					"apres": [
+						{
+							"montrer": "pericles_acropole"
+						},
+						{
+							"montrer": "escalier_secret"
+						}
+					]
+				},
+				{
+					"id": "pericles_escalier",
+					"objectif": "Rejoins Périclès au pied de l'Acropole, côté ouest",
+					"pnj": "pericles_acropole",
+					"fin_chapitre": true,
+					"repliques": [
+						"Phidias est là-haut, avec les prêtresses. Personne ne peut plus monter par les Propylées : les marches sont couvertes de serpents, et quiconque lève la tête est changé en pierre.",
+						"Il reste un chemin. Un escalier taillé dans le rocher, au temps des rois. Les Athéniens l'ont oublié. Pas moi : j'y jouais, enfant.",
+						"Je viens de le faire ouvrir. Mais n'y monte pas seul, Xénos. Ce qui t'attend là-haut a vaincu des héros. Prends des compagnons, des bons.",
+						"Et prends ça. Un tesson de l'urne, avec son nom. Que Masque sache qu'Athènes l'a chassé."
+					],
+					"recompense": [
+						{
+							"id": "ostracon_prosopon",
+							"nom": "Ostracon du Masque"
+						}
+					]
+				}
+			]
 		}
 	],
 	"fin_provisoire": {
 		"chapitre": "LA SUITE ARRIVE",
-		"objectif": "Chapitre 7, « L'ostracisme » : un vote truqué menace Périclès.",
+		"objectif": "Chapitre 8, « La Gorgone de l'Acropole » : le donjon, à faire en groupe.",
 		"titre": "Que le temps n'efface pas",
-		"message": "L'argent du Laurion coule encore. Mais des centaines de tessons portent le nom de Périclès."
+		"message": "Masque est chassé d'Athènes. Mais là-haut, sur le bouclier d'Athéna, la Gorgone a ouvert les yeux."
 	}
 }

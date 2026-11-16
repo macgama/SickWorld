@@ -23,6 +23,10 @@ const VUES := [
 	["masque", Vector3(0, 0, 0), Vector3(0, 0, 0)],
 	["scene_theatre", Vector3(100, 3.0, 50), Vector3(100, 1.6, 72)],
 	["chef", Vector3(0, 0, 0), Vector3(0, 0, 0)],
+	["enclos", Vector3(-20, 3.5, -22), Vector3(-30, 0.8, -8)],
+	["pericles", Vector3(-24.5, 1.7, -8), Vector3(-21, 1.6, -9)],
+	["escalier", Vector3(32, 2.5, -9), Vector3(42, 2.0, -4)],
+	["serpent", Vector3(0, 0, 0), Vector3(0, 0, 0)],
 ]
 
 
@@ -65,6 +69,15 @@ func _lancer() -> void:
 	chef.position = Vector3(100, scene.hauteur(100, 70), 70)
 	chef.rotation.y = PI
 	scene.add_child(chef)
+	var serpent: Node3D = load("res://scenes/ennemis/loup.tscn").instantiate()
+	serpent.set("type_ennemi", "serpent_gorgone")
+	serpent.position = Vector3(34, scene.hauteur(34, 8), 8)
+	scene.add_child(serpent)
+	# Le décor du chapitre 7, montré pour la photo.
+	for nom in ["EnclosVote", "EscalierSecret", "PericlesAcropole", "Canephore"]:
+		var n := scene.find_child(nom, true, false) as Node3D
+		if n != null:
+			n.visible = true
 	await _attendre(10)
 	var camera := Camera3D.new()
 	camera.fov = 65.0
@@ -77,8 +90,8 @@ func _lancer() -> void:
 			continue
 		var pos: Vector3 = vue[1]
 		var cible: Vector3 = vue[2]
-		if vue[0] in ["petrifie", "masque", "chef"]:
-			var sujet: Node3D = bete if vue[0] == "petrifie" else (masque if vue[0] == "masque" else chef)
+		if vue[0] in ["petrifie", "masque", "chef", "serpent"]:
+			var sujet: Node3D = bete if vue[0] == "petrifie" else (masque if vue[0] == "masque" else (chef if vue[0] == "chef" else serpent))
 			sujet.set_physics_process(false)
 			cible = sujet.global_position + Vector3(0, 1.1, 0)
 			pos = cible + Vector3(1.6, 0.3, 2.0)

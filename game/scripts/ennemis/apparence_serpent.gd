@@ -51,6 +51,11 @@ func _geant() -> bool:
 	return espece == "isfet"
 
 
+## La vipère d'Attique et les serpents de la Gorgone ont la même forme (tête triangulaire, sans coiffe).
+func _vipere() -> bool:
+	return espece == "vipere" or espece == "gorgone"
+
+
 # --- Construction --------------------------------------------------------------------------
 
 func _construire() -> void:
@@ -60,6 +65,12 @@ func _construire() -> void:
 		# Du sable compact, ocre, veiné de violet : le désordre a pris forme.
 		ecailles.albedo_color = Color(0.74, 0.58, 0.38)
 		dos.albedo_color = Color(0.55, 0.4, 0.26)
+	elif espece == "gorgone":
+		# Les serpents de la chevelure de la Gorgone : du bronze vert-de-gris, comme le bouclier d'Athéna.
+		ecailles.albedo_color = Color(0.46, 0.37, 0.2)
+		dos.albedo_color = Color(0.3, 0.36, 0.26)
+		ecailles.metallic = 0.75
+		dos.metallic = 0.6
 	elif espece == "vipere":
 		# La vipère d'Attique : gris-beige, le dos barré d'un zigzag sombre.
 		ecailles.albedo_color = Color(0.62, 0.56, 0.46)
@@ -98,7 +109,7 @@ func _construire() -> void:
 		var r := _rayon(s)
 		var mi := MeshInstance3D.new()
 		mi.mesh = sphere
-		mi.material_override = dos if i % (2 if espece == "vipere" else 4) == 1 else ecailles
+		mi.material_override = dos if i % (2 if _vipere() else 4) == 1 else ecailles
 		add_child(mi)
 		_anneaux.append(mi)
 		_rayons.append(r)
@@ -181,7 +192,7 @@ func _construire_tete(ecailles: Material, dos: Material) -> void:
 	# La coiffe déployée derrière la tête (le cobra, et Isfet qui l'imite).
 	# La vipère n'en a pas : sa tête est triangulaire, plus large à l'arrière.
 	_coiffe = MeshInstance3D.new()
-	if espece == "vipere":
+	if _vipere():
 		crane.scale = Vector3(1.35, 0.55, 1.3) * t
 	var disque := SphereMesh.new()
 	disque.radius = 0.5
@@ -192,7 +203,7 @@ func _construire_tete(ecailles: Material, dos: Material) -> void:
 	_coiffe.position = Vector3(0, -0.55, 0.5) * t
 	_coiffe.rotation.x = -0.25
 	_tete.add_child(_coiffe)
-	_coiffe.visible = espece != "vipere"
+	_coiffe.visible = not _vipere()
 	if _geant():
 		# Une couronne d'éclats sur la coiffe.
 		for k in 7:
@@ -238,7 +249,7 @@ func _point(s: float, t: float) -> Vector3:
 		var x := sin(s * 7.5 - t * 1.6) * 0.14 * (1.0 - cou)
 		var z := lerpf(0.9, -0.15, s) + cou * 0.15 - _morsure * 0.35 * cou
 		# La vipère reste presque à plat, la tête à peine levée.
-		var y := 0.06 + cou * (0.18 if espece == "vipere" else 0.55) * (1.0 - _mort)
+		var y := 0.06 + cou * (0.18 if _vipere() else 0.55) * (1.0 - _mort)
 		p = Vector3(x, y, z)
 	return p
 
