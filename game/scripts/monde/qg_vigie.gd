@@ -26,6 +26,8 @@ const HALL := Rect2(-50.0, 70.0, 54.0, 40.0)
 const COFFRE := Rect2(-74.0, 76.0, 24.0, 28.0)
 const ENTRAINEMENT := Rect2(4.0, 74.0, 28.0, 32.0)
 const PORTAILS := Rect2(-48.0, 110.0, 50.0, 26.0)
+## Les archives : à l'ouest de la salle des portails (ouvertes au chapitre 5 de la Grèce).
+const ARCHIVES := Rect2(-72.0, 112.0, 23.5, 22.0)
 ## Les époques, dans l'ordre ; les trois premières (Préhistoire, Égypte, Grèce) ont un portail actif.
 const EPOQUES := ["Préhistoire", "Égypte antique", "Grèce antique", "Moyen Âge", "Renaissance"]
 
@@ -44,11 +46,13 @@ static func construire(hub: HikariBay) -> void:
 		["nord", X1, X2], ["ouest", 84.0, 92.0], ["est", 84.0, 92.0], ["sud", -30.0, -16.0]])
 	_construire_salle(hub, COFFRE, mur, sol, plafond, [["est", 84.0, 92.0]])
 	_construire_salle(hub, ENTRAINEMENT, mur, sol, plafond, [["ouest", 84.0, 92.0]])
-	_construire_salle(hub, PORTAILS, mur, sol, plafond, [["nord", -30.0, -16.0]])
+	_construire_salle(hub, PORTAILS, mur, sol, plafond, [["nord", -30.0, -16.0], ["ouest", 120.0, 125.0]])
+	_construire_salle(hub, ARCHIVES, mur, sol, plafond, [["est", 120.0, 125.0]])
 	_amenager_hall(hub, metal)
 	_amenager_coffre(hub, metal)
 	_amenager_entrainement(hub, metal)
 	_amenager_portails(hub, metal)
+	_amenager_archives(hub, metal)
 
 
 ## Petites animations (globe de la table, tourbillon des portails).
@@ -341,3 +345,49 @@ static func _amenager_portails(hub: HikariBay, metal: Material) -> void:
 	# Barrière invisible devant les portails fermés.
 	hub._collision_boite(Vector3(r.size.x - 14.0, 4.0, 0.3), Transform3D(Basis(), Vector3(r.get_center().x + 5.0, SOL + 2.0, r.end.y - 6.0)))
 	_pnj(hub, "technicienne", Vector3(r.position.x + 5.0 + 4.5, SOL, r.end.y - 9.0), PI * 0.8)
+
+
+# --- Archives ----------------------------------------------------------------
+
+## Des rayonnages de dossiers papier, une table de lecture sous une lampe, et le
+## dossier 0417 (Damien Roche) ouvert dessus. L'archiviste Odile Ferrand veille.
+static func _amenager_archives(hub: HikariBay, metal: Material) -> void:
+	var r := ARCHIVES
+	var carton := _mat_uni(Color(0.42, 0.31, 0.19), 0.9)
+	var rouge := _mat_uni(Color(0.55, 0.12, 0.1), 0.85)
+	# Trois rangées de rayonnages, du nord au sud, côté ouest.
+	for i in 3:
+		var x := r.position.x + 3.0 + i * 4.2
+		hub._bloc(x - 0.4, r.position.y + 2.0, x + 0.4, r.end.y - 2.0, SOL, SOL + 3.6, metal, true).visible = false
+		for k in 4:
+			var y := SOL + 0.4 + k * 0.85
+			hub._boite(Vector3(0.8, 0.04, r.size.y - 4.0), Vector3(x, y, r.get_center().y), metal, false)
+			var z := r.position.y + 2.4
+			while z < r.end.y - 2.4:
+				var boite := hub._boite(Vector3(0.6, 0.55, 0.9), Vector3(x, y + 0.3, z), rouge if (i * 7 + k * 3 + int(z)) % 11 == 0 else carton, false)
+				boite.rotation.y = 0.02 * sin(z * 3.1 + k)
+				z += 1.05
+	# La table de lecture, la lampe verte de banquier et le dossier ouvert.
+	var c := Vector3(r.end.x - 6.0, SOL, r.get_center().y)
+	hub._boite(Vector3(2.6, 0.08, 1.4), c + Vector3(0, 0.82, 0), hub._mat("bois"))
+	for dx in [-1.15, 1.15]:
+		for dz in [-0.55, 0.55]:
+			hub._boite(Vector3(0.08, 0.8, 0.08), c + Vector3(dx, 0.4, dz), metal, false)
+	hub._bloc(c.x - 1.3, c.z - 0.7, c.x + 1.3, c.z + 0.7, SOL, SOL + 0.86, metal, true).visible = false
+	hub._boite(Vector3(0.9, 0.02, 0.6), c + Vector3(-0.2, 0.87, 0), _mat_uni(Color(0.9, 0.87, 0.78), 0.95), false)
+	hub._boite(Vector3(0.44, 0.025, 0.6), c + Vector3(-0.42, 0.89, 0), rouge, false)
+	hub._cylindre(0.05, 0.12, 0.05, c + Vector3(0.8, 0.88, -0.3), metal, false)
+	hub._boite(Vector3(0.5, 0.12, 0.16), c + Vector3(0.8, 1.25, -0.2), hub._neon(Color(0.2, 0.7, 0.35), 1.2), false)
+	hub._lumiere(c + Vector3(0.6, 1.6, 0), Color(1.0, 0.85, 0.6), 2.4, 7.0)
+	var fiche := hub._texte("DOSSIER 0417\nROCHE, Damien\nStatut : DÉCÉDÉ ?", c + Vector3(0.0, 0.885, 0), Color(0.15, 0.1, 0.08), 32, 0.0, 1.0)
+	fiche.pixel_size = 0.004
+	fiche.rotation.x = -PI / 2
+	_pnj(hub, "archiviste", c + Vector3(-2.2, 0, 0), PI / 2)
+	hub._texte("Archives de la Vigie", Vector3(r.end.x - 0.7, SOL + 3.2, r.position.y + 4.0), Color(1.0, 0.85, 0.5), 56, -PI / 2, 2.0)
+
+
+static func _mat_uni(couleur: Color, rugosite: float) -> StandardMaterial3D:
+	var m := StandardMaterial3D.new()
+	m.albedo_color = couleur
+	m.roughness = rugosite
+	return m

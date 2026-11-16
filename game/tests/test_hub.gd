@@ -95,6 +95,12 @@ func _lancer() -> void:
 		Input.parse_input_event(appui)
 		await _attendre(3)
 	_verifier(not dialogue.est_ouvert(), "F fait défiler puis ferme le dialogue")
+	# La salle des archives, à l'ouest de la salle des portails (chapitre 5 de la Grèce).
+	var archiviste = scene.find_child("Pnj_archiviste", true, false)
+	_verifier(archiviste != null and archiviste.global_position.x < -48.5 and archiviste.global_position.z > 112.0,
+			"l'archiviste veille dans la salle des archives")
+	await _placer(joueur, Vector3(-46.0, -11.6, 122.5), -PI / 2)
+	_verifier(joueur.is_on_floor() and joueur.global_position.y > -12.5, "on tient debout devant la porte des archives")
 	# Le portail de la Préhistoire réagit quand on le traverse.
 	var franchi := [""]
 	scene.portail_franchi.connect(func(e): franchi[0] = e)

@@ -338,13 +338,23 @@ func _lancer() -> void:
 	for pnj in ["commandante", "technicienne", "commandante"]:
 		await _parler_a(pnj)
 	_verifier(_quetes.etat("carnet") == "terminee", "mission « Le carnet de Sablier » accomplie")
+
+	# 19. Le dossier Damien Roche (au retour de Grèce) : Morel -> Odile (archives) -> Morel.
+	_quetes.accepter("archives")
+	_verifier(_quetes.etat("archives") == "active", "au retour de Grèce, le dossier Damien Roche s'ouvre")
+	for pnj in ["commandante", "archiviste", "commandante"]:
+		await _parler_a(pnj)
+	_verifier(_quetes.etat("archives") == "terminee", "mission « Le dossier Damien Roche » accomplie")
 	souvenirs = _appart.get_node("Souvenirs").get_child_count()
 	_verifier(souvenirs == _quetes.quetes.size(), "toutes les missions ont leur souvenir (%d)" % souvenirs)
 
 	# Après coup : plus de marques, des répliques de remerciement, le journal.
+	await _attendre(10)
 	var visibles := 0
-	for m in _quetes._marques.values():
-		visibles += 1 if m.visible else 0
+	for id in _quetes._marques:
+		if _quetes._marques[id].visible:
+			visibles += 1
+			print("  (marque encore visible : %s « %s »)" % [id, _quetes._marques[id].text])
 	_verifier(visibles == 0, "plus aucun « ! » ni « ? » une fois tout accompli")
 	var appui := InputEventAction.new()
 	appui.action = "journal"

@@ -92,6 +92,15 @@
 			"Avance dans l'anneau bleu quand tu es prêt. Ne t'inquiète pas pour le picotement, c'est normal."
 		]
 	},
+	"archiviste": {
+		"nom": "Odile Ferrand",
+		"role": "Archiviste de la Vigie",
+		"modele": "femme",
+		"repliques": [
+			"Les archives de la Vigie. Chaque mission, chaque agent, chaque époque visitée depuis la fondation. Sur papier : un pirate ne lit pas le papier.",
+			"Ne touche à rien sans gants. Et ne demande pas les dossiers à bande rouge : même moi, je n'ai pas toutes les clés."
+		]
+	},
 	"chef_goro": {
 		"nom": "Chef Goro Tanaka",
 		"role": "Ramen Kaminari",

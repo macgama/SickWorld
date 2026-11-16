@@ -67,6 +67,14 @@ const BALANCE := Vector2(-24, 41)
 const MENON := Vector2(-26, 49)
 const ARCHONTE := Vector2(-24, 52)
 const JETON := Vector2(-127, -121)
+# Chapitre 5 : le théâtre de Dionysos.
+const SOPHOCLE := Vector2(93, 70)
+const SPECTATEURS := [Vector2(92, 57), Vector2(104, 53), Vector2(108, 57)]
+const ANGLES_MASQUES := [-2.5, -1.95, -1.2, -0.65]
+const DAMIEN := Vector2(100, 71)
+const LENOIR := Vector2(106, 66)
+const FAILLE_THEATRE := Vector2(100, 73.8)
+const PORTAIL_CAMPAGNE := Vector2(100, 85)
 
 ## Les trois Pétrifiés de l'Agora, une fois qu'on leur a rendu la voix.
 const NOMS_LIBERES := ["petrifie_cherephon", "petrifie_glykera", "petrifie_demochares"]
@@ -74,6 +82,7 @@ const LIBERES := [Vector2(-4, -36), Vector2(0, -34), Vector2(4, -36)]
 
 var _attente_sortie := 0.0
 var _etat_repris := false
+var _portail_campagne: Node3D
 
 
 func _init() -> void:
@@ -1126,6 +1135,7 @@ func _construire_quete() -> void:
 	_reponse(dossier, "peser_tresor", "comparer les poids de Ménon à ceux du Trésor", BALANCE + Vector2(-5, 0))
 	_reponse(dossier, "demasquer_menon", "démasquer Ménon devant les juges", BALANCE + Vector2(6, 0), "[F] Choisir : ")
 	_reponse(dossier, "suivre_menon", "le laisser filer et le suivre", BALANCE + Vector2(9, 0), "[F] Choisir : ")
+	_construire_quete_theatre(dossier)
 	var jeton := ObjetGrece.new()
 	jeton.name = "JetonLaurion"
 	jeton.identifiant = "jeton_laurion"
@@ -1184,6 +1194,47 @@ func _construire_quete() -> void:
 	repere.call(MarqueurCarte.Type.LIEU, "Maison d'Aspasie", MAISON_ASPASIE)
 
 
+## Chapitre 5 : Sophocle, les spectateurs muets, les masques truqués sur les gradins,
+## Damien Roche et Lenoir (cachés jusqu'au combat), la faille et le portail de campagne.
+func _construire_quete_theatre(dossier: Node3D) -> void:
+	_pnj(dossier, "sophocle", SOPHOCLE, PI * 0.8)
+	for k in SPECTATEURS.size():
+		var sp := _pnj(dossier, "spectatrice_muette" if k == 1 else "spectateur_muet", SPECTATEURS[k], PI + (k - 1) * 0.5)
+		sp.name = "Spectateur%d" % k
+	for k in ANGLES_MASQUES.size():
+		var a: float = ANGLES_MASQUES[k]
+		var pm := ORCHESTRE + Vector2(cos(a), sin(a)) * 13.9
+		var masque := ObjetGrece.new()
+		masque.name = "MasqueTruque%d" % k
+		masque.identifiant = "masque_truque_%d" % k
+		masque.groupe = "masque_truque"
+		masque.forme = "masque"
+		masque.invite = "[F] Ramasser le masque truqué"
+		masque.portee = 1.6
+		masque.position = Vector3(pm.x, hauteur(pm.x, pm.y), pm.y)
+		dossier.add_child(masque)
+	for id in ["damien_roche", "lenoir_theatre"]:
+		var pnj := _pnj(dossier, id, DAMIEN if id == "damien_roche" else LENOIR, PI if id == "damien_roche" else -PI * 0.75)
+		pnj.add_to_group("decor_quete")
+		pnj.set_meta("identifiant", id)
+		pnj.visible = false
+	_reponse(dossier, "repondre_grandir", "« Une idée qu'on efface ne grandit jamais »", DAMIEN + Vector2(-3, -2.5))
+	_reponse(dossier, "repondre_revenir", "« Tu étais des nôtres : rentre avec nous »", DAMIEN + Vector2(3, -2.5))
+	var faille := Faille.new()
+	faille.name = "FailleTheatre"
+	faille.identifiant = "faille_theatre"
+	faille.position = Vector3(FAILLE_THEATRE.x, hauteur(FAILLE_THEATRE.x, FAILLE_THEATRE.y), FAILLE_THEATRE.y)
+	dossier.add_child(faille)
+	# Le portail de campagne de Lenoir, derrière la skènè : caché jusqu'à la fin du combat.
+	_construire_portail(dossier, PORTAIL_CAMPAGNE, 0.0)
+	_portail_campagne = dossier.get_node("Portail") as Node3D
+	_portail_campagne.name = "PortailCampagne"
+	_portail_campagne.add_to_group("decor_quete")
+	_portail_campagne.set_meta("identifiant", "portail_campagne")
+	_portail_campagne.visible = false
+	_zone_portail.monitoring = false
+
+
 func _reponse(parent: Node3D, id: String, texte: String, p: Vector2, debut := "[F] Répondre : ") -> void:
 	var o := ObjetGrece.new()
 	o.name = id.capitalize().replace(" ", "")
@@ -1216,6 +1267,9 @@ func _process(delta: float) -> void:
 	if not _etat_repris and quete != null and quete.get("etapes") != null and not quete.etapes.is_empty():
 		_etat_repris = true
 		_reprendre_etat.call_deferred()
+	# Le portail de campagne ne ramène au QG qu'une fois que Lenoir l'a ouvert.
+	if _portail_campagne != null and _zone_portail != null and _zone_portail.monitoring != _portail_campagne.visible:
+		_zone_portail.monitoring = _portail_campagne.visible
 	_attente_sortie -= delta
 	if _attente_sortie > 0.0:
 		return

@@ -1838,6 +1838,7 @@
 				"couleur": "#6d7a42"
 			}
 		},
+		"masque_fendu": {"nom": "Masque fendu de Damien Roche", "type": "equipement", "rarete": "epique", "description": "Un masque de tragédie doré, fendu du front au menton. Derrière, un petit circuit gravé aux armes de la Vigie, il y a dix ans. Lenoir n'a pas voulu le garder.", "emplacement": "relique", "epoque": "Grèce antique", "stats": {"pv": 70, "critique_pourcent": 3, "degats_pourcent": 4}, "icone": {"forme": "eclat", "couleur": "#d8b65a"}},
 		"tribon_socrate": {
 			"nom": "Tribôn de Socrate",
 			"type": "equipement",
@@ -1976,6 +1977,8 @@
 		"vipere_fracture_faille": [{"objet": "eclat_de_fracture", "chance": 0.6}],
 		"chien_fracture_agora": [{"objet": "eclat_de_fracture", "chance": 0.6}],
 		"masque_tribunal": [{"objet": "eclat_de_fracture", "chance": 0.7}],
+		"masque_garde": [{"objet": "eclat_de_fracture", "chance": 0.7}],
+		"masque_effaceur": [{"objet": "eclat_de_fracture", "chance": 1.0, "quantite": [3, 4]}],
 		"chien_fracture_ville": [{"objet": "eclat_de_fracture", "chance": 0.45}, {"objet": "croc_de_chien", "chance": 0.4}],
 		"poulpe_fracture": [{"objet": "eclat_de_fracture", "chance": 1.0, "quantite": [2, 3]}, {"objet": "encre_de_poulpe", "chance": 1.0, "quantite": [1, 2]}],
 		"crocodile_fracture": [{"objet": "eclat_de_fracture", "chance": 0.45}, {"objet": "ecaille_crocodile", "chance": 0.6, "quantite": [1, 2]}],

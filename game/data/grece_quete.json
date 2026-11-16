@@ -950,12 +950,188 @@
 					]
 				}
 			]
+		},
+		{
+			"numero": 5,
+			"titre": "Le sophiste au masque",
+			"ou": "athenes",
+			"etapes": [
+				{
+					"id": "aspasie_antigone",
+					"objectif": "Aspasie te fait appeler : retourne chez elle",
+					"pnj": "aspasie",
+					"repliques": [
+						"Phidias est libre, et Périclès te doit une fière chandelle. Il ne le dira pas : il ne dit jamais merci en public.",
+						"Mais écoute. Ce soir, au théâtre de Dionysos, on rejoue l'Antigone de Sophocle. Toute la ville y sera. Périclès aussi.",
+						"Et ce matin, des inconnus ont distribué des masques de théâtre aux portes de la ville, « un cadeau du sophiste ». Gratuits. Un sophiste qui ne fait pas payer, Xénos, ça n'existe pas.",
+						"Va au théâtre, sous le flanc sud de l'Acropole. Je te rejoins dès que je peux."
+					]
+				},
+				{
+					"id": "theatre",
+					"objectif": "Rejoins le théâtre de Dionysos, au pied de l'Acropole",
+					"zone": [100, 62],
+					"rayon": 14,
+					"recit": {
+						"titre": "Antigone",
+						"texte": "Des milliers de spectateurs sur les gradins de bois. Dans l'orchestre, le chœur ouvre la bouche pour chanter... et rien ne sort. Puis un spectateur se lève, porte la main à sa gorge, et son masque blanc tombe dans la poussière."
+					}
+				},
+				{
+					"id": "sophocle",
+					"objectif": "Parle à Sophocle, près de la scène",
+					"pnj": "sophocle",
+					"repliques": [
+						"Toi, l'étranger ! Tu as l'air de quelqu'un qui sait se battre. Moi, je sais seulement écrire.",
+						"Ce ne sont pas mes masques. Les nôtres sont en lin et en plâtre, peints par mes acteurs. Ceux-là brillent dans le noir, comme des braises violettes.",
+						"Ceux qui les mettent perdent la voix. Il en reste sur les gradins : ramasse-les avant que d'autres ne les essaient !"
+					]
+				},
+				{
+					"id": "masques_gradins",
+					"objectif": "Ramasse les masques truqués sur les premiers gradins (F)",
+					"recolter": "masque_truque",
+					"nombre": 4,
+					"duree": 1.0,
+					"action": "Tu arraches l'éclat violet du masque…"
+				},
+				{
+					"id": "masque_scene",
+					"objectif": "Sur la scène, l'homme au masque d'or applaudit lentement : affronte-le",
+					"tuer": "masque_effaceur",
+					"nombre": 1,
+					"lieu": [100, 71],
+					"apparition": {
+						"type": "masque_effaceur",
+						"position": [100, 72],
+						"nombre": 1,
+						"rayon": 0,
+						"attaque": true
+					},
+					"apres": [
+						{
+							"montrer": "damien_roche"
+						},
+						{
+							"montrer": "lenoir_theatre"
+						}
+					],
+					"recit": {
+						"titre": "Le masque tombe",
+						"texte": "Ton dernier coup fend le masque d'or du front au menton. L'homme tombe à genoux et l'ôte lui-même : des cheveux gris coupés court, une cicatrice de brûlure au cou, et un sourire las. Derrière toi, quelqu'un dévale les gradins en criant ton nom."
+					}
+				},
+				{
+					"id": "lenoir_damien",
+					"objectif": "L'agent Lenoir vient d'arriver par un portail : parle-lui",
+					"pnj": "lenoir_theatre",
+					"repliques": [
+						"Yuki a capté un portail sauvage sous l'Acropole, j'ai sauté dans le premier anneau...",
+						"...",
+						"Damien ? Damien Roche ? Tu es mort il y a dix ans. J'étais là. J'ai vu la faille se refermer sur toi.",
+						"Agent, cet homme était mon coéquipier. Le meilleur de la Vigie. Je l'ai pleuré."
+					]
+				},
+				{
+					"id": "damien",
+					"objectif": "Écoute ce que Damien Roche a à dire",
+					"pnj": "damien_roche",
+					"repliques": [
+						"Bonjour, Marc. Tu as vieilli. Moi aussi, remarque : les failles, ça use.",
+						"La Vigie m'a laissé là-bas. Dix ans. Vous avez fermé le portail parce que « le risque était trop grand ». Quelqu'un d'autre est venu me chercher. Quelqu'un qui, lui, n'abandonne personne.",
+						"Son nom ? Tu l'as déjà vu, gravé sur une montre et dans un carnet. Tu n'en sauras pas plus.",
+						"Et toi, le nouveau, regarde-les, tes Athéniens. Ils appellent ça le pouvoir du peuple. Les femmes ne votent pas. Les étrangers ne votent pas. Les esclaves meurent au fond des mines du Laurion pour payer leur flotte.",
+						"Je ne fais que rendre le silence à ceux qui n'ont jamais eu la parole. Dis-moi que j'ai tort."
+					]
+				},
+				{
+					"id": "choix_damien",
+					"objectif": "Damien Roche attend ta réponse : que lui dis-tu ?",
+					"choix": [
+						{
+							"objet": "repondre_grandir",
+							"objectif": "Réponds à Damien Roche",
+							"pnj": "damien_roche",
+							"repliques": [
+								"« Tu as raison, elle est imparfaite. Mais une idée qu'on efface ne grandit jamais. Aspasie ne vote pas, et c'est elle qui la défend le mieux. »",
+								"... Aspasie. Oui. Elle me l'a dit aussi, l'autre soir, chez elle, sans savoir qui j'étais.",
+								"Belle réponse. Elle ne change rien. Gardes !"
+							]
+						},
+						{
+							"objet": "repondre_revenir",
+							"objectif": "Réponds à Damien Roche",
+							"pnj": "damien_roche",
+							"repliques": [
+								"« Tu as été l'un des nôtres. Il n'est pas trop tard : rentre avec nous, et raconte à la commandante ce qui s'est passé. »",
+								"Rentrer ? Pour qu'on m'interroge dans une salle sans fenêtre, sous la station Asahi ? Je connais vos méthodes, petit. Je les ai écrites.",
+								"Tu es gentil. C'est dangereux, chez nous. Gardes !"
+							]
+						}
+					]
+				},
+				{
+					"id": "gardes_masque",
+					"objectif": "Les gardes de Masque sautent dans l'orchestre : repousse-les",
+					"tuer": "masque_garde",
+					"nombre": 4,
+					"lieu": [100, 64],
+					"apparition": {
+						"type": "masque_garde",
+						"position": [100, 64],
+						"nombre": 4,
+						"rayon": 5,
+						"attaque": true
+					},
+					"apres": [
+						{
+							"masquer": "damien_roche"
+						},
+						{
+							"cacher": "faille_theatre"
+						}
+					],
+					"recit": {
+						"titre": "Masque s'échappe",
+						"texte": "Quand le dernier garde tombe, Damien Roche est déjà dans la faille, derrière la skènè. « Marc ! Dis à la commandante que je lui garde une place. » La lumière violette se referme. Sur les gradins, les gens se mettent à tousser, puis à parler, puis à crier."
+					}
+				},
+				{
+					"id": "lenoir_portail",
+					"objectif": "Retrouve l'agent Lenoir dans l'orchestre",
+					"pnj": "lenoir_theatre",
+					"repliques": [
+						"Il s'est enfui. Encore.",
+						"Tiens, son masque. Fendu en deux. Regarde à l'intérieur : un circuit de la Vigie. Un vieux modèle, de mon époque. Garde-le, moi je ne peux pas.",
+						"La commandante doit savoir. Et elle va devoir ouvrir les archives, celles qu'on ne montre à personne.",
+						"J'ai posé un portail de campagne derrière la skènè. On rentre."
+					],
+					"apres": [
+						{
+							"montrer": "portail_campagne"
+						}
+					],
+					"recompense": [
+						{
+							"id": "masque_fendu",
+							"nom": "Masque fendu de Damien Roche"
+						}
+					]
+				},
+				{
+					"id": "qg_archives",
+					"objectif": "Traverse le portail de campagne, derrière la skènè, pour rentrer au QG de la Vigie",
+					"portail": true,
+					"mission_hub": "archives",
+					"fin_chapitre": true
+				}
+			]
 		}
 	],
 	"fin_provisoire": {
 		"chapitre": "LA SUITE ARRIVE",
-		"objectif": "Chapitre 5, « Le sophiste au masque » : on joue Antigone au théâtre de Dionysos.",
+		"objectif": "Chapitre 6, « L'argent du Laurion » : Masque veut noyer les mines d'argent.",
 		"titre": "Que le temps n'efface pas",
-		"message": "Phidias est acquitté. Mais l'homme au masque prépare quelque chose pour la fête."
+		"message": "Masque a un nom : Damien Roche. Les archives de la Vigie s'ouvrent."
 	}
 }

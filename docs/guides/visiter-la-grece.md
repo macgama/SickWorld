@@ -97,6 +97,15 @@ Autour : le **temple d'Héphaïstos** sur sa colline (à l'ouest), le **Céramiq
 4. Les poids du greffier **Ménon** sont truqués. **Choix** : le *démasquer* devant les juges (combat contre trois Masqués) ou le *laisser filer et le suivre* (filature par la Pnyx jusqu'au Céramique).
 5. Dans les deux cas, on trouve un **jeton de plomb des mines du Laurion** ; Phidias offre son **ciseau** (arme secondaire épique).
 
+## Le chapitre 5 : « Le sophiste au masque »
+
+1. **Aspasie** envoie le joueur au **théâtre de Dionysos**, où l'on joue *Antigone* de Sophocle.
+2. Le chœur est muet. **Sophocle** demande de ramasser les **quatre masques truqués** sur les premiers gradins (F).
+3. Sur la scène, **Masque** (masque d'or, manteau rouge sombre) attaque. Vaincu, il ôte son masque : c'est **Damien Roche**.
+4. L'agent **Lenoir** arrive et reconnaît son ancien coéquipier, déclaré mort il y a dix ans. Damien explique pourquoi il efface. Le joueur choisit sa réponse (deux tablettes).
+5. Ses quatre gardes attaquent et Masque s'enfuit par une faille. Lenoir donne le **masque fendu** (relique épique) et ouvre un **portail de campagne** derrière la skènè.
+6. Au QG, la commandante Morel ouvre les **archives de la Vigie** (nouvelle salle, porte ouest de la salle des portails). L'archiviste **Odile Ferrand** montre le dossier de Damien Roche.
+
 ## Les ennemis
 
 | Ennemi | Niveau | Où | Particularité |

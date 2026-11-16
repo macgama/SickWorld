@@ -3,7 +3,8 @@ extends SceneTree
 ## la porte du sud, l'Agora muette, Socrate, l'interrogatoire de Kallias (une mauvaise
 ## réponse, puis la bonne), les Pétrifiés à qui l'on rend la voix, le potier Lydos au
 ## Céramique, les chiens et la faille du Portique peint, le manteau de Socrate ; puis le
-## chapitre 4 (l'or de Phidias, la pesée au tribunal, et les deux choix pour Ménon).
+## chapitre 4 (l'or de Phidias, la pesée au tribunal, et les deux choix pour Ménon) et le
+## chapitre 5 (Antigone au théâtre, Masque démasqué, le portail de campagne de Lenoir).
 ## Lancement : godot --headless --path game -s res://tests/test_athenes.gd
 
 const FICHIER := "user://test_grece_athenes.cfg"
@@ -291,7 +292,59 @@ func _lancer() -> void:
 	_verifier(_id_etape() == "phidias_merci", "le tribunal est sauvé (%s)" % _id_etape())
 	lues = await _parler("Phidias")
 	_verifier(lues >= 3, "Phidias est acquitté (%d bulles)" % lues)
-	_verifier(_quete.etape < 0, "la suite (chapitre 5) arrive bientôt")
+	await _attendre(30)
+	_verifier(_id_etape() == "aspasie_antigone", "le chapitre 5 commence (%s)" % _id_etape())
+
+	# --- Chapitre 5 : « Le sophiste au masque ».
+	print("Chapitre 5")
+	lues = await _parler("Aspasie")
+	_verifier(lues >= 4 and _id_etape() == "theatre", "Aspasie envoie au théâtre (%s)" % _id_etape())
+	await _placer(Vector3(100, _scene.hauteur(100, 64) + 0.4, 64), 0.0)
+	await _attendre(20)
+	_verifier(_id_etape() == "sophocle", "au théâtre de Dionysos, le chœur est muet (%s)" % _id_etape())
+	_verifier(_scene.find_child("Spectateur1", true, false) != null, "des spectateurs muets dans l'orchestre")
+	lues = await _parler("Sophocle")
+	_verifier(lues >= 3 and _id_etape() == "masques_gradins", "Sophocle demande de ramasser les masques (%s)" % _id_etape())
+	for k in 4:
+		await _aller_cote(_scene.find_child("MasqueTruque%d" % k, true, false), 0.0, 1.0)
+		await _appuyer_f()
+		await _attendre(100)
+	_verifier(_id_etape() == "masque_scene", "les quatre masques truqués sont ramassés (%s)" % _id_etape())
+	await _placer(Vector3(100, _scene.hauteur(100, 66) + 0.4, 66), 0.0)
+	await _attendre(30)
+	var chef := _vivants("masque_effaceur")
+	_verifier(chef.size() == 1, "Masque monte sur la scène (%d)" % chef.size())
+	if not chef.is_empty():
+		var app = chef[0].get_node("Apparence").get("_delegue")
+		_verifier(app != null and app.get("chef") == true, "Masque porte le masque d'or du chef")
+	await _tuer_tous("masque_effaceur", "masque_scene")
+	await _attendre(5)
+	_verifier(_id_etape() == "lenoir_damien", "le masque tombe (%s)" % _id_etape())
+	var damien: Node3D = _scene.find_child("DamienRoche", true, false)
+	_verifier(damien != null and damien.visible, "Damien Roche apparaît, démasqué")
+	lues = await _parler("LenoirTheatre")
+	_verifier(lues >= 4 and _id_etape() == "damien", "Lenoir reconnaît son ancien coéquipier (%s)" % _id_etape())
+	lues = await _parler("DamienRoche")
+	_verifier(lues >= 5 and _id_etape() == "choix_damien", "Damien Roche s'explique (%s)" % _id_etape())
+	lues = await _repondre("RepondreGrandir", 0.0, 1.0)
+	_verifier(_id_etape() == "gardes_masque", "on répond, ses gardes attaquent (%s)" % _id_etape())
+	await _attendre(30)
+	_verifier(_vivants("masque_garde").size() == 4, "quatre gardes de Masque (%d)" % _vivants("masque_garde").size())
+	await _tuer_tous("masque_garde", "gardes_masque")
+	await _attendre(5)
+	_verifier(_id_etape() == "lenoir_portail", "Masque s'échappe par la faille (%s)" % _id_etape())
+	_verifier(not damien.visible, "Damien Roche a disparu")
+	var portail: Node3D = _scene.find_child("PortailCampagne", true, false)
+	_verifier(portail != null and not portail.visible, "le portail de campagne n'est pas encore là")
+	lues = await _parler("LenoirTheatre")
+	_verifier(_id_etape() == "qg_archives", "Lenoir ouvre un portail de campagne (%s)" % _id_etape())
+	await _attendre(5)
+	_verifier(portail != null and portail.visible, "le portail de campagne apparaît derrière la skènè")
+	await _placer(Vector3(100, _scene.hauteur(100, 92) + 0.4, 92), PI)
+	await _placer(Vector3(100, _scene.hauteur(100, 85) + 0.4, 85), PI)
+	await _attendre(20)
+	_verifier(_quete.etape < 0, "retour au QG : la suite (chapitre 6) arrive bientôt")
+	_verifier(String(root.get_node("Reseau").get_meta("mission_hub_auto", "")) == "archives", "la mission des archives se lance au QG")
 
 	# --- L'autre choix : laisser filer Ménon et le suivre.
 	var cfg2 := ConfigFile.new()
