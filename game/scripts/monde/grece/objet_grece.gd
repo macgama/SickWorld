@@ -6,6 +6,8 @@ extends "res://scripts/monde/egypte/objet_egypte.gd"
 ## - « amphore » : une amphore de terre cuite, debout ;
 ## - « masque » : un masque de théâtre blanc, posé dans l'herbe, avec un éclat violet.
 ## - « tablette » : une tablette de cire sur une borne (les réponses d’un interrogatoire).
+## - « plaque_or » : des plaques d’or de la statue d’Athéna, sur un tréteau ;
+## - « jeton » : un jeton de plomb des mines du Laurion.
 
 
 func _construire_sac_voyage() -> void:
@@ -178,3 +180,48 @@ func _construire_tablette() -> void:
 		creux.material_override = cire
 		creux.position = Vector3(0, 0.014, 0)
 		planche.add_child(creux)
+
+
+## Une plaque d'or de la robe d'Athéna, posée sur un tréteau (on les démonte pour les peser).
+func _construire_plaque_or() -> void:
+	var bois := StandardMaterial3D.new()
+	bois.albedo_color = Color(0.45, 0.32, 0.2)
+	bois.roughness = 0.85
+	var or_m := StandardMaterial3D.new()
+	or_m.albedo_color = Color(1.0, 0.78, 0.32)
+	or_m.metallic = 1.0
+	or_m.roughness = 0.22
+	var treteau := MeshInstance3D.new()
+	var b := BoxMesh.new()
+	b.size = Vector3(0.9, 0.7, 0.6)
+	treteau.mesh = b
+	treteau.material_override = bois
+	treteau.position.y = 0.35
+	_visuel.add_child(treteau)
+	for k in 3:
+		var plaque := MeshInstance3D.new()
+		var p := BoxMesh.new()
+		p.size = Vector3(0.62, 0.025, 0.4)
+		plaque.mesh = p
+		plaque.material_override = or_m
+		plaque.position = Vector3(0.03 * k, 0.715 + k * 0.026, -0.02 * k)
+		plaque.rotation.y = 0.08 * k
+		_visuel.add_child(plaque)
+
+
+## Un petit jeton de plomb gris, tombé au pied d'une stèle.
+func _construire_jeton() -> void:
+	var plomb := StandardMaterial3D.new()
+	plomb.albedo_color = Color(0.42, 0.43, 0.45)
+	plomb.metallic = 0.6
+	plomb.roughness = 0.5
+	var jeton := MeshInstance3D.new()
+	var c := CylinderMesh.new()
+	c.top_radius = 0.06
+	c.bottom_radius = 0.06
+	c.height = 0.012
+	c.radial_segments = 16
+	jeton.mesh = c
+	jeton.material_override = plomb
+	jeton.position.y = 0.01
+	_visuel.add_child(jeton)

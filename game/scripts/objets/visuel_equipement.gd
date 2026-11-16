@@ -12,6 +12,7 @@ extends RefCounted
 const ACCROCHES := {
 	"capuche_loup": [["mixamorig_Head", Vector3(0, 0.0, 0), Vector3.ZERO]],
 	"bandeau": [["mixamorig_Head", Vector3(0, 0.0, 0), Vector3.ZERO]],
+	"masque_theatre": [["mixamorig_Head", Vector3(0, 0.0, 0), Vector3.ZERO]],
 	"cape_fourrure": [["mixamorig_Spine2", Vector3(0, 0, 0), Vector3.ZERO]],
 	"brassards": [["mixamorig_LeftForeArm", Vector3(0, 0.15, 0), Vector3.ZERO],
 			["mixamorig_RightForeArm", Vector3(0, 0.15, 0), Vector3.ZERO]],
@@ -191,6 +192,19 @@ static func construire(forme: String, couleur: Color, cote := 1.0) -> Node3D:
 			braise.emission_energy_multiplier = 1.5
 			for i in 3:
 				_piece(n, _sphere(0.012), braise, Vector3((i - 1) * 0.035, 0.16, 0.135))
+		"masque_theatre":
+			# Un masque de théâtre blanc (lin et stuc) : yeux et bouche percés, et un
+			# éclat de faille violet planté dans le front (les masques de l'Effaceur).
+			_piece(n, _sphere(0.11, true), mat, Vector3(0, 0.1, 0.085), Vector3(0.95, 1.25, 0.55), Vector3(90, 0, 0))
+			var trou := _materiau(Color(0.03, 0.025, 0.025))
+			for i: float in [-1.0, 1.0]:
+				_piece(n, _sphere(0.02), trou, Vector3(i * 0.04, 0.125, 0.145), Vector3(1.3, 0.6, 0.5))
+			_piece(n, _sphere(0.025), trou, Vector3(0, 0.045, 0.14), Vector3(1.4, 0.9, 0.5))
+			var eclat := _materiau(Color(0.6, 0.3, 1.0))
+			eclat.emission_enabled = true
+			eclat.emission = Color(0.6, 0.3, 1.0)
+			eclat.emission_energy_multiplier = 2.5
+			_piece(n, _cylindre(0.0, 0.018, 0.08), eclat, Vector3(0, 0.19, 0.14), Vector3.ONE, Vector3(30, 0, 0))
 		"cape_fourrure":
 			# Mantelet sur les épaules + pan de fourrure dans le dos.
 			var fourrure := _fourrure(couleur)

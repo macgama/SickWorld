@@ -89,6 +89,14 @@ Autour : le **temple d'Héphaïstos** sur sa colline (à l'ouest), le **Céramiq
 7. Retourner au **Portique peint** : chasser trois chiens fracturés, puis **refermer la faille** (5 secondes).
 8. Socrate parle d'**Aspasie**, qui attendra le joueur au chapitre 4, et lui donne son vieux manteau, le **tribôn de Socrate**.
 
+## Le chapitre 4 : « L'or de Phidias »
+
+1. **Aspasie** reçoit le joueur dans sa maison, au sud-est de l'Agora : Phidias est accusé d'avoir volé l'or de la statue d'Athéna.
+2. Dans son **atelier** (sous l'Acropole), **Phidias** demande de démonter les **quatre plaques d'or** de la maquette (touche F sur chaque caisse).
+3. Au **tribunal** (l'Héliée, au sud de l'Agora), on pèse l'or. Trois réponses sont posées près de la balance : seule « comparer les poids de Ménon à ceux du Trésor » est la bonne, les autres donnent un indice.
+4. Les poids du greffier **Ménon** sont truqués. **Choix** : le *démasquer* devant les juges (combat contre trois Masqués) ou le *laisser filer et le suivre* (filature par la Pnyx jusqu'au Céramique).
+5. Dans les deux cas, on trouve un **jeton de plomb des mines du Laurion** ; Phidias offre son **ciseau** (arme secondaire épique).
+
 ## Les ennemis
 
 | Ennemi | Niveau | Où | Particularité |

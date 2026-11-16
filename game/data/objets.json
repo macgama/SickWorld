@@ -1831,7 +1831,7 @@
 			"epoque": "Grèce antique",
 			"stats": {
 				"pv": 60,
-				"degats": 4
+				"degats_pourcent": 4
 			},
 			"visuel": {
 				"forme": "bandeau",
@@ -1847,11 +1847,28 @@
 			"epoque": "Grèce antique",
 			"stats": {
 				"pv": 110,
-				"degats": 3
+				"reduction_pourcent": 4
 			},
 			"visuel": {
 				"forme": "veste",
 				"couleur": "#7d7262"
+			}
+		},
+		"ciseau_phidias": {
+			"nom": "Ciseau de Phidias",
+			"type": "equipement",
+			"rarete": "epique",
+			"description": "Le ciseau de bronze avec lequel Phidias a taillé les plis de la robe d'Athéna. « Tiens. Tu as sauvé mon honneur ; prends un peu de mon métier. »",
+			"emplacement": "arme_secondaire",
+			"epoque": "Grèce antique",
+			"stats": {
+				"degats_pourcent": 7,
+				"critique_pourcent": 4,
+				"pv": 40
+			},
+			"visuel": {
+				"forme": "couteau",
+				"couleur": "#b08a4a"
 			}
 		},
 		"croc_de_chien": {
@@ -1958,6 +1975,7 @@
 		"vipere_fracture": [{"objet": "eclat_de_fracture", "chance": 0.45}, {"objet": "peau_de_vipere", "chance": 0.5}],
 		"vipere_fracture_faille": [{"objet": "eclat_de_fracture", "chance": 0.6}],
 		"chien_fracture_agora": [{"objet": "eclat_de_fracture", "chance": 0.6}],
+		"masque_tribunal": [{"objet": "eclat_de_fracture", "chance": 0.7}],
 		"chien_fracture_ville": [{"objet": "eclat_de_fracture", "chance": 0.45}, {"objet": "croc_de_chien", "chance": 0.4}],
 		"poulpe_fracture": [{"objet": "eclat_de_fracture", "chance": 1.0, "quantite": [2, 3]}, {"objet": "encre_de_poulpe", "chance": 1.0, "quantite": [1, 2]}],
 		"crocodile_fracture": [{"objet": "eclat_de_fracture", "chance": 0.45}, {"objet": "ecaille_crocodile", "chance": 0.6, "quantite": [1, 2]}],

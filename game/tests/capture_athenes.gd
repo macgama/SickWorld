@@ -17,6 +17,10 @@ const VUES := [
 	["theatre", Vector3(72, 9.0, 76), Vector3(100, 4.0, 48)],
 	["toits", Vector3(-40, 30.0, 120), Vector3(40, 4.0, 0)],
 	["petrifie", Vector3(0, 0, 0), Vector3(0, 0, 0)],
+	["tribunal", Vector3(-12, 4.0, 58), Vector3(-24, 1.5, 44)],
+	["atelier", Vector3(58, 2.4, 56), Vector3(48, 1.2, 50)],
+	["aspasie", Vector3(64, 4.0, 114), Vector3(52, 2.0, 100)],
+	["masque", Vector3(0, 0, 0), Vector3(0, 0, 0)],
 ]
 
 
@@ -50,6 +54,10 @@ func _lancer() -> void:
 	bete.set("type_ennemi", "petrifie")
 	bete.position = Vector3(-26, scene.hauteur(-26, 6), 6)
 	scene.add_child(bete)
+	var masque: Node3D = load("res://scenes/ennemis/loup.tscn").instantiate()
+	masque.set("type_ennemi", "masque_tribunal")
+	masque.position = Vector3(-18, scene.hauteur(-18, 6), 6)
+	scene.add_child(masque)
 	await _attendre(10)
 	var camera := Camera3D.new()
 	camera.fov = 65.0
@@ -62,9 +70,10 @@ func _lancer() -> void:
 			continue
 		var pos: Vector3 = vue[1]
 		var cible: Vector3 = vue[2]
-		if vue[0] == "petrifie":
-			bete.set_physics_process(false)
-			cible = bete.global_position + Vector3(0, 1.1, 0)
+		if vue[0] == "petrifie" or vue[0] == "masque":
+			var sujet: Node3D = bete if vue[0] == "petrifie" else masque
+			sujet.set_physics_process(false)
+			cible = sujet.global_position + Vector3(0, 1.1, 0)
 			pos = cible + Vector3(1.6, 0.3, 2.0)
 		else:
 			pos.y += scene.hauteur(pos.x, pos.z)
