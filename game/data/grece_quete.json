@@ -40,6 +40,14 @@
 				"sous_titre": "Grèce · sous la colline des puits",
 				"texte": "L'air sent la suie et la roche mouillée. Le boyau est si bas que tes épaules frôlent les étais. Au loin, un ronronnement régulier qui n'a rien à faire ici."
 			}
+		},
+		"acropole": {
+			"scene": "res://scenes/monde/grece/acropole.tscn",
+			"arrivee": {
+				"titre": "L'Acropole",
+				"sous_titre": "Grèce · l'escalier oublié des rois",
+				"texte": "Les marches sont usées en creux par des pieds morts depuis mille ans. Plus haut, quelque chose de lourd racle la pierre. Et personne, ici, ne lève les yeux."
+			}
 		}
 	},
 	"camps": {
@@ -1567,12 +1575,170 @@
 					]
 				}
 			]
+		},
+		{
+			"numero": 8,
+			"titre": "Que le temps n'efface pas",
+			"ou": "acropole",
+			"etapes": [
+				{
+					"id": "entrer_acropole",
+					"ou": "athenes",
+					"objectif": "Monte par l'escalier secret, au pied ouest de l'Acropole (donjon : viens en groupe)",
+					"arriver": "acropole"
+				},
+				{
+					"id": "statues",
+					"objectif": "Les statues de la grotte se sont réveillées : brise les quatre hoplites de marbre",
+					"tuer": "statue_fracturee",
+					"nombre": 4,
+					"lieu": [
+						0,
+						-54
+					],
+					"apparition": {
+						"type": "statue_fracturee",
+						"position": [
+							0,
+							-54
+						],
+						"nombre": 4,
+						"rayon": 6,
+						"attaque": false
+					},
+					"recit": {
+						"titre": "Des statues qui marchent",
+						"texte": "Sous le marbre brisé, il n'y a pas de pierre : il y a un homme, gris de poussière, qui tousse et qui pleure. Un garde. Il était monté voir pourquoi les lampes s'étaient éteintes."
+					}
+				},
+				{
+					"id": "plateau",
+					"objectif": "Remonte la fissure jusqu'au plateau de l'Acropole",
+					"zone": [
+						0,
+						-8
+					],
+					"rayon": 8
+				},
+				{
+					"id": "serpents_plateau",
+					"objectif": "Chasse les serpents de bronze qui gardent le chantier",
+					"tuer": "serpent_gorgone",
+					"nombre": 6,
+					"lieu": [
+						0,
+						10
+					],
+					"apparition": {
+						"type": "serpent_gorgone",
+						"position": [
+							0,
+							10
+						],
+						"nombre": 6,
+						"rayon": 8,
+						"attaque": false
+					}
+				},
+				{
+					"id": "phidias",
+					"objectif": "Phidias se cache derrière les blocs du chantier, à l'ouest du temple",
+					"pnj": "phidias_acropole",
+					"repliques": [
+						"Xénos ! Ne regarde pas le temple. Regarde-moi. Là. Bien.",
+						"Elle est dans la statue. Dans la tête de Gorgone que j'ai ciselée sur le bouclier d'Athéna. Cette nuit, la tête a ouvert les yeux, puis elle est sortie de l'or comme on sort de l'eau.",
+						"Ceux qui croisent son regard deviennent pierre. Quand ses yeux s'allument, tourne-lui le dos. Vite.",
+						"Écoute-moi bien. Ses serpents la couvrent comme une égide : là-dedans, aucune lame ne la touche. Mais il y a dans la salle deux boucliers de bronze, des offrandes, polis comme des miroirs.",
+						"Lève l'un d'eux vers elle (F) : elle verra son propre regard. Persée a fait ça, dit-on. Moi je dis que c'est de la bonne physique."
+					]
+				},
+				{
+					"id": "porte",
+					"objectif": "Pousse les portes de bronze du Parthénon (reste immobile)",
+					"objet": "porte_parthenon",
+					"duree": 4,
+					"action": "Les gonds de bronze grincent…",
+					"apres": [
+						{
+							"masquer": "portes_parthenon"
+						}
+					]
+				},
+				{
+					"id": "meduse",
+					"objectif": "Affronte Méduse au pied de l'Athéna Parthénos. Quand ses yeux s'allument, tourne-lui le dos !",
+					"tuer": "meduse",
+					"nombre": 1,
+					"lieu": [
+						0,
+						60
+					],
+					"apparition": {
+						"type": "meduse",
+						"position": [
+							3.2,
+							63.5
+						],
+						"nombre": 1,
+						"rayon": 0.01,
+						"attaque": false
+					},
+					"phases": [
+						{
+							"seuil": 0.66,
+							"annonce": "L'égide se referme",
+							"texte": "Ses serpents se tressent en cuirasse : vos coups glissent. Levez un bouclier poli vers elle (F) pour lui renvoyer son regard !"
+						}
+					],
+					"recit": {
+						"titre": "La Gorgone se fige",
+						"texte": "Méduse se voit, une dernière fois, dans le bronze. Elle se fige, se fend, et tombe en éclats violets au pied de la déesse. Sur le bouclier d'or, la tête de Gorgone a de nouveau les yeux clos."
+					}
+				},
+				{
+					"id": "fermer_fracture",
+					"objectif": "Referme la fracture majeure, derrière la statue d'Athéna (reste immobile)",
+					"objet": "fracture_meduse",
+					"duree": 6,
+					"action": "La fracture majeure se referme…",
+					"apres": [
+						{
+							"cacher": "fracture_meduse"
+						},
+						{
+							"montrer": "herodote_acropole"
+						}
+					],
+					"recompense": [
+						{
+							"id": "gorgoneion_phidias",
+							"nom": "Gorgoneion de Phidias"
+						}
+					]
+				},
+				{
+					"id": "herodote",
+					"objectif": "Un voyageur est entré dans le temple derrière toi. Parle-lui",
+					"pnj": "herodote_acropole",
+					"repliques": [
+						"N'aie pas peur, je ne suis qu'un voyageur. Hérodote, d'Halicarnasse. J'ai suivi la lumière de ta lampe dans l'escalier.",
+						"J'ai tout vu, de la porte. La Gorgone, les boucliers, l'homme au masque blanc qui a fui dans la faille. Personne ne me croira. Ça ne m'a jamais empêché d'écrire.",
+						"Je fais une enquête, tu comprends. Je parcours le monde et je note ce que les hommes ont fait, les Grecs et les autres. Pour que le temps ne l'efface pas.",
+						"Tu ne veux pas que j'écrive ton nom ? Soit. J'écrirai qu'un étranger est monté sur l'Acropole la nuit d'avant les Panathénées. Et que le lendemain, la déesse avait les yeux ouverts, comme il faut."
+					],
+					"fin_chapitre": true,
+					"recit": {
+						"titre": "Que le temps n'efface pas",
+						"texte": "« Hérodote d'Halicarnasse présente ici son enquête, afin que le temps n'efface pas les actions des hommes. » Les premiers mots du premier livre d'histoire. Ce soir, l'histoire d'Athènes est réparée."
+					}
+				}
+			]
 		}
 	],
 	"fin_provisoire": {
-		"chapitre": "LA SUITE ARRIVE",
-		"objectif": "Chapitre 8, « La Gorgone de l'Acropole » : le donjon, à faire en groupe.",
+		"chapitre": "LA GRÈCE EST SAUVÉE",
+		"objectif": "L'histoire de la Grèce est réparée. La suite du voyage arrive bientôt.",
 		"titre": "Que le temps n'efface pas",
-		"message": "Masque est chassé d'Athènes. Mais là-haut, sur le bouclier d'Athéna, la Gorgone a ouvert les yeux."
+		"message": "Sur l'Acropole, Athéna garde les yeux ouverts, et Hérodote a commencé son enquête."
 	}
 }

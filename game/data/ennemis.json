@@ -667,5 +667,50 @@
 		"distance_laisse": 40,
 		"entraide": 18,
 		"temps_reapparition": 0
+	},
+	"statue_fracturee": {
+		"nom": "Hoplite de marbre",
+		"niveau": 29,
+		"points_de_vie": 2200,
+		"degats": [44, 58],
+		"intervalle_attaque": 2.4,
+		"portee_attaque": 2.6,
+		"vitesse_course": 3.2,
+		"vitesse_marche": 0.8,
+		"distance_detection": 14,
+		"distance_laisse": 40,
+		"entraide": 14,
+		"temps_reapparition": 0
+	},
+	"meduse": {
+		"nom": "Méduse, la Gorgone de l'égide",
+		"insensible_controles": true,
+		"immobile": true,
+		"niveau": 30,
+		"points_de_vie": 22000,
+		"degats": [58, 76],
+		"intervalle_attaque": 2.4,
+		"portee_attaque": 7.0,
+		"vitesse_course": 0.0,
+		"vitesse_marche": 0.0,
+		"distance_detection": 16,
+		"distance_laisse": 200,
+		"entraide": 0,
+		"temps_reapparition": 0
+	},
+	"masque_acropole": {
+		"nom": "Masque, le sophiste",
+		"insensible_controles": true,
+		"niveau": 30,
+		"points_de_vie": 4500,
+		"degats": [44, 60],
+		"intervalle_attaque": 1.9,
+		"portee_attaque": 2.6,
+		"vitesse_course": 5.6,
+		"vitesse_marche": 1.4,
+		"distance_detection": 24,
+		"distance_laisse": 40,
+		"entraide": 0,
+		"temps_reapparition": 0
 	}
 }

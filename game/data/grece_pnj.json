@@ -550,6 +550,26 @@
 		"habits": "#e8e0cc",
 		"repliques": ["Ne lève pas les yeux vers le rocher. Pas encore."]
 	},
+	"phidias_acropole": {
+		"nom": "Phidias",
+		"role": "Caché derrière les blocs du chantier",
+		"modele": "homme",
+		"habit": "chiton_himation",
+		"taille_cm": 171,
+		"peau": "#a07049",
+		"habits": "#8a7a62",
+		"repliques": ["Ne regarde pas le temple en face. Regarde ses pieds, regarde le sol, regarde-moi."]
+	},
+	"herodote_acropole": {
+		"nom": "Hérodote",
+		"role": "Voyageur d'Halicarnasse, raconteur d'histoires",
+		"modele": "homme",
+		"habit": "chiton_himation",
+		"taille_cm": 174,
+		"peau": "#b48660",
+		"habits": "#5a4a6a",
+		"repliques": ["J'écris pour que le temps n'efface pas ce que les hommes ont fait. Toi aussi, je t'écrirai. Sans ton nom : tu n'en as pas voulu."]
+	},
 	"canephore": {
 		"nom": "Philomèla",
 		"role": "Canéphore · porteuse de corbeille",
