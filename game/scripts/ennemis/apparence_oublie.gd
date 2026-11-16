@@ -258,7 +258,13 @@ func _habiller_gladiateur(hasard: RandomNumberGenerator) -> void:
 		_corps.porter_habit("shendyt_court", {"principal": teinte})
 	if _corps.has_method("equiper"):
 		var bronze := "#3a2a3e" if chef else "#b8893e"
-		if thrace:
+		if style == "retiaire":
+			# Le rétiaire : pas de casque, un filet et un trident, l'épaulière de bronze.
+			_corps.equiper({"tete": {"forme": "bandeau", "couleur": "#3a1a3e"},
+					"bras": {"forme": "manica", "couleur": "#d8cfb8"},
+					"arme_principale": {"forme": "lance", "couleur": "#5a4a3a"},
+					"arme_secondaire": {"forme": "filet", "couleur": "#8a7a5a"}})
+		elif thrace:
 			_corps.equiper({"tete": {"forme": "casque_thrace", "couleur": bronze},
 					"bras": {"forme": "manica", "couleur": "#d8cfb8"},
 					"arme_principale": {"forme": "sica", "couleur": "#b8b8b8"},

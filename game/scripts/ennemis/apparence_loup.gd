@@ -69,6 +69,13 @@ func _ready() -> void:
 		_delegue.chef = type.contains("chef") or type.contains("champion")
 		add_child(_delegue)
 		return
+	if type.begins_with("colosse"):
+		# Le cœur de cristal du Colosse (boss du donjon du Colisée, île de Rome).
+		espece = "colosse"
+		_delegue = preload("res://scripts/ennemis/apparence_coeur_colosse.gd").new()
+		_delegue.name = "CoeurColosse"
+		add_child(_delegue)
+		return
 	if type.begins_with("gladiateur"):
 		# Les gladiateurs des jeux du Colisée (île de Rome) : Priscus le mirmillon, Verus
 		# le Thrace, et le champion fracturé de Domitien.
@@ -77,7 +84,8 @@ func _ready() -> void:
 		_delegue.name = "Oublie"
 		_delegue.graine = parent.get_instance_id() % 997
 		_delegue.variante = "gladiateur"
-		_delegue.style = "thrace" if type.contains("verus") or type.contains("thrace") else "mirmillon"
+		_delegue.style = "thrace" if type.contains("verus") or type.contains("thrace") \
+				else ("retiaire" if type.contains("retiaire") else "mirmillon")
 		_delegue.chef = type.contains("champion")
 		add_child(_delegue)
 		return

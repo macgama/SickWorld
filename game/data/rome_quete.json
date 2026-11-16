@@ -40,6 +40,14 @@
 				"sous_titre": "Rome · le jour de l'inauguration",
 				"texte": "Le couloir sombre débouche d'un coup sur la lumière, et sur le bruit. Cinquante mille personnes, des gradins qui montent jusqu'au ciel, un grand voile de toile qui claque au vent. En bas, le sable blanc de l'arène. Personne n'a jamais rien vu de pareil. Toi non plus."
 			}
+		},
+		"cloaca": {
+			"scene": "res://scenes/monde/rome/cloaca.tscn",
+			"arrivee": {
+				"titre": "La Cloaca Maxima",
+				"sous_titre": "Rome · sous le Forum",
+				"texte": "La grille se referme derrière toi. Il fait noir, et froid, et l'eau coule quelque part, très loin. L'odeur te prend à la gorge. Sept cents ans de pierres, et toute la ville au-dessus de ta tête."
+			}
 		}
 	},
 	"camps": {
@@ -249,7 +257,8 @@
 				"rayon": 4
 			}
 		],
-		"colisee": []
+		"colisee": [],
+		"cloaca": []
 	},
 	"chapitres": [
 		{
@@ -1592,12 +1601,276 @@
 					"fin_chapitre": true
 				}
 			]
+		},
+		{
+			"numero": 8,
+			"titre": "Tous les chemins",
+			"ou": "colisee",
+			"etapes": [
+				{
+					"id": "entrer_cloaca",
+					"ou": "rome",
+					"objectif": "Descends dans la Cloaca Maxima par la grille de l'égoutier, au bord du Forum (donjon : viens en groupe)",
+					"arriver": "cloaca"
+				},
+				{
+					"id": "viperes_egout",
+					"ou": "cloaca",
+					"objectif": "Avance dans le grand égout : des vipères fracturées nagent dans le canal",
+					"tuer": "vipere_egout",
+					"nombre": 6,
+					"lieu": [
+						0,
+						-40
+					],
+					"apparition": {
+						"type": "vipere_egout",
+						"position": [
+							0,
+							-40
+						],
+						"nombre": 6,
+						"rayon": 6,
+						"attaque": false
+					},
+					"recit": {
+						"titre": "Le grand égout",
+						"texte": "Sur une marche, au bord du canal, des traces de pas toutes fraîches : des sandales cloutées de prétoriens, et une seule paire de bottes à semelle de caoutchouc. Personne, à Rome, ne porte de caoutchouc."
+					}
+				},
+				{
+					"id": "pretoriens_citerne",
+					"ou": "cloaca",
+					"objectif": "Dans la grande citerne, les prétoriens de Janus gardent les vannes : mets-les hors d'état de nuire",
+					"tuer": "pretorien_cloaca",
+					"nombre": 4,
+					"lieu": [
+						0,
+						6
+					],
+					"apparition": {
+						"type": "pretorien_cloaca",
+						"position": [
+							0,
+							6
+						],
+						"nombre": 4,
+						"rayon": 6,
+						"attaque": false
+					},
+					"recit": {
+						"titre": "Le dernier prétorien",
+						"texte": "« Domitien ? Il est remonté au Palatin dès qu'il a vu la statue bouger. Il a eu peur. Elle, non. Elle est partie vers l'arène, par le canal. Elle a dit qu'elle allait noyer le Colosse et tout le monde avec. »"
+					}
+				},
+				{
+					"id": "vannes",
+					"ou": "cloaca",
+					"objectif": "Ferme les trois vannes de la citerne pour vider le canal de l'arène (F, reste immobile)",
+					"recolter": "vanne",
+					"nombre": 3,
+					"duree": 3,
+					"action": "Tu tournes la roue de bronze…",
+					"apres": [
+						{
+							"masquer": "eau_canal"
+						},
+						{
+							"masquer": "grille_canal"
+						}
+					],
+					"recit": {
+						"titre": "Le canal se vide",
+						"texte": "La dernière roue grince, bloquée. Un grondement, puis l'eau noire du canal s'écoule d'un coup vers le Tibre. La grille du canal, qui flottait sur ses chaînes, retombe au fond. Le chemin de l'arène est ouvert. Et quelque chose bouge dans la boue."
+					}
+				},
+				{
+					"id": "retiaire_canal",
+					"ou": "cloaca",
+					"objectif": "Un gladiateur fracturé barre le canal, son filet à la main : abats-le",
+					"tuer": "gladiateur_retiaire_fracture",
+					"nombre": 1,
+					"lieu": [
+						0,
+						34
+					],
+					"apparition": {
+						"type": "gladiateur_retiaire_fracture",
+						"position": [
+							0,
+							34
+						],
+						"nombre": 1,
+						"rayon": 0.01,
+						"attaque": false
+					},
+					"recit": {
+						"titre": "Le filet vide",
+						"texte": "Le rétiaire tombe dans la boue. Son filet est plein d'éclats violets, et de bouts de phrases : « ...tous les chemins... ...à Rome... ». Au bout du canal, la lumière du jour passe sous une herse levée. Au-dessus, cinquante mille personnes hurlent."
+					}
+				},
+				{
+					"id": "vers_arene",
+					"ou": "cloaca",
+					"objectif": "Remonte le canal jusqu'à la herse, au bout : elle débouche dans l'arène",
+					"arriver": "colisee",
+					"apres": [
+						{
+							"montrer": "colosse_arene"
+						},
+						{
+							"montrer": "fracture_colosse_lieu"
+						},
+						{
+							"masquer": "priscus"
+						},
+						{
+							"masquer": "verus"
+						},
+						{
+							"pnj": "titus",
+							"aller": [
+								-1.6,
+								27.4
+							]
+						},
+						{
+							"pnj": "martial_loge",
+							"aller": [
+								-6.5,
+								27
+							]
+						}
+					]
+				},
+				{
+					"id": "colosse",
+					"objectif": "Le Colosse s'est dressé sur la terrasse de l'est. Brise son cœur de cristal, dans le sable, à ses pieds !",
+					"tuer": "colosse",
+					"nombre": 1,
+					"lieu": [
+						30,
+						0
+					],
+					"apparition": {
+						"type": "colosse",
+						"position": [
+							30,
+							0
+						],
+						"nombre": 1,
+						"rayon": 0.01,
+						"attaque": false
+					},
+					"apres": [
+						{
+							"montrer": "janus_arene"
+						},
+						{
+							"masquer": "masque_arene"
+						}
+					],
+					"recit": {
+						"titre": "Le Colosse se tait",
+						"texte": "Le cœur de cristal éclate. Dans un long gémissement de métal, le Colosse s'immobilise, la tête tournée vers le ciel, et ne bouge plus. Sur la terrasse, Masque a lâché Janus. Il te regarde une seconde, puis il recule dans la faille, et la faille se referme sur lui. Janus, elle, est restée. À genoux. Elle n'essaie même plus de fuir."
+					}
+				},
+				{
+					"id": "fermer_fracture",
+					"objectif": "Referme la fracture majeure, dans le sable fendu, aux pieds du Colosse (reste immobile)",
+					"objet": "fracture_colosse",
+					"duree": 6,
+					"action": "La fracture majeure se referme…",
+					"apres": [
+						{
+							"cacher": "fracture_colosse"
+						}
+					],
+					"recompense": [
+						{
+							"id": "rayon_colosse",
+							"nom": "Rayon du Colosse"
+						}
+					]
+				},
+				{
+					"id": "janus_arretee",
+					"objectif": "Monte sur la terrasse de l'est par les rayons tombés : Janus t'attend",
+					"pnj": "janus_arene",
+					"repliques": [
+						"Tu as gagné. Ne fais pas cette tête, je sais perdre. Quinze ans à la Vigie, ça apprend.",
+						"Tu veux savoir pourquoi ? Les Effaceurs m'ont montré ce que devient le monde. Toutes ces routes, tous ces mots, toutes ces lois romaines... Il en sortira des empires, des guerres, des siècles de sang. J'ai cru qu'on pouvait recommencer plus proprement.",
+						"Damien, lui, je l'ai envoyé à Pompéi pour qu'il ne trouve pas ce que j'avais trouvé. Je ne voulais pas qu'il meure. Je voulais qu'il se perde. C'est pire, je sais.",
+						"Il m'a retenue, tout à l'heure. Il aurait pu me laisser me noyer. Dis-le à Morel, quand tu me ramèneras : qu'il m'a retenue."
+					],
+					"apres": [
+						{
+							"pnj": "titus",
+							"aller": [
+								-6,
+								4
+							]
+						},
+						{
+							"pnj": "martial_loge",
+							"aller": [
+								-3,
+								6
+							]
+						}
+					]
+				},
+				{
+					"id": "citoyennete",
+					"objectif": "Titus est descendu dans l'arène : va le voir",
+					"pnj": "titus",
+					"repliques": [
+						"Pérégrin. Je t'ai vu monter sur un rayon de bronze au-dessus de l'eau, pendant que tout Rome retenait son souffle. Je ne savais pas qu'on pouvait faire ça.",
+						"La femme en rouge sera jugée par les tiens, m'a-t-on dit. Soit. Mon frère, lui, je m'en occupe. Il est de mon sang, et je ne verserai pas le sang de mon sang.",
+						"Un étranger qui a sauvé Rome deux fois ne peut pas rester un étranger. Voici ton diplôme, gravé dans le bronze : à partir d'aujourd'hui, tu es citoyen romain. Tu peux porter la toge.",
+						"Regarde les fontaines, au-dehors : l'eau coule de nouveau, et les gens se comprennent. Martial voulait te lire quelque chose. Il est là, il trépigne."
+					],
+					"recompense": [
+						{
+							"id": "diplome_citoyen",
+							"nom": "Diplôme de citoyen romain"
+						}
+					]
+				},
+				{
+					"id": "poeme_martial",
+					"objectif": "Martial veut te lire le poème qu'il a écrit pour les jeux",
+					"pnj": "martial_loge",
+					"repliques": [
+						"Écoute. C'est le premier poème du livre. Je l'ai fini cette nuit, en t'attendant.",
+						"« Que la barbare Memphis cesse de vanter ses pyramides... Tous les ouvrages de l'homme le cèdent à l'amphithéâtre de César : c'est lui seul que la renommée chantera, à la place de tous. »",
+						"Tu ne trouves pas ça un peu flatteur ? Moi si. C'est le métier. Mais j'ai ajouté une ligne pour toi, à la fin, une seule. Personne ne saura de qui je parle.",
+						"« Il est venu d'un pays sans nom, par tous les chemins, et il est reparti citoyen. » Va, Pérégrin. Ton amie aux ronds de métal t'a ouvert une porte, là-bas, près de la herse."
+					],
+					"apres": [
+						{
+							"montrer": "portail_qg"
+						}
+					]
+				},
+				{
+					"id": "qg_cellule_janus",
+					"objectif": "Traverse le portail de campagne de Lenoir, près de la herse de l'ouest, pour ramener Janus au QG de la Vigie",
+					"portail": true,
+					"mission_hub": "cellule_janus",
+					"fin_chapitre": true,
+					"recit": {
+						"titre": "Tous les chemins",
+						"texte": "« Tous les chemins mènent à Rome », dira-t-on un jour. Ce soir, ils mènent aussi au QG de la Vigie, où une cellule attend Livia Conti. L'histoire de Rome est réparée."
+					}
+				}
+			]
 		}
 	],
 	"fin_provisoire": {
-		"chapitre": "Chapitre 8 : Tous les chemins",
-		"objectif": "La suite arrive bientôt : le donjon du Colisée, par la Cloaca Maxima.",
+		"chapitre": "ROME EST SAUVÉE",
+		"objectif": "L'histoire de Rome est réparée. La suite du voyage arrive bientôt.",
 		"titre": "Tous les chemins",
-		"message": "Titus a libéré Priscus et Verus. Mais le Colosse s'est réveillé, et Domitien a fui dans les égouts avec Janus."
+		"message": "Dans les fontaines de Rome, l'eau coule de nouveau, et Martial a fini son livre."
 	}
 }

@@ -110,13 +110,20 @@ func _ready() -> void:
 		# En sortant de l'amphithéâtre, on se retrouve devant sa grande arche.
 		var depuis := String(Reseau.get_meta("arrivee_rome", ""))
 		Reseau.remove_meta("arrivee_rome")
-		point_apparition = PORTE_COLISEE + Vector2(-5, -2) if depuis == "colisee" else ENTREE + Vector2(0, -4)
+		if depuis == "colisee":
+			point_apparition = PORTE_COLISEE + Vector2(-5, -2)
+		elif depuis == "cloaca":
+			point_apparition = EGOUT + Vector2(0, 5)
+		else:
+			point_apparition = ENTREE + Vector2(0, -4)
 	super._ready()
 
 
 func sortie_vers(zone: String) -> Vector2:
 	if zone == "colisee":
 		return PORTE_COLISEE + Vector2(-2, 0)
+	if zone == "cloaca":
+		return EGOUT + Vector2(0, 2)
 	return Vector2.INF if zone == "rome" else SORTIE_SUD + Vector2(0, -6)
 
 
@@ -422,59 +429,11 @@ func _construire_colosse() -> void:
 	# Le socle de brique revêtu de marbre.
 	_boite(Vector3(11, 7.0, 11), Vector3(0, 3.5, 0), _mat_marbre(), colosse)
 	_boite(Vector3(12, 0.8, 12), Vector3(0, 7.2, 0), _mat_marbre(), colosse, false)
-	var base := 7.6
-	var e := 1.0
-	var membre := func(haut: float, bas: float, longueur: float, pos: Vector3, rot := Vector3.ZERO) -> void:
-		var m := MeshInstance3D.new()
-		m.mesh = _cylindre(haut * e, bas * e, longueur * e, 16)
-		m.material_override = bronze
-		m.position = pos * e + Vector3(0, base, 0)
-		m.rotation = rot
-		colosse.add_child(m)
-	# Les jambes (la gauche un peu en avant), les pieds.
-	membre.call(1.2, 0.9, 7.0, Vector3(-1.3, 9.0, 0.0))
-	membre.call(1.5, 1.15, 6.0, Vector3(-1.4, 3.0, 0.0))
-	membre.call(1.2, 0.9, 7.0, Vector3(1.3, 9.0, -0.6), Vector3(-0.08, 0, 0))
-	membre.call(1.5, 1.15, 6.0, Vector3(1.4, 3.0, -0.4), Vector3(-0.04, 0, 0))
-	for x: float in [-1.4, 1.4]:
-		_boite(Vector3(1.6, 0.8, 3.0), Vector3(x, base + 0.4, -0.6), bronze, colosse, false)
-	# Le torse et les épaules.
-	var torse := MeshInstance3D.new()
-	var capsule := CapsuleMesh.new()
-	capsule.radius = 2.5
-	capsule.height = 9.0
-	torse.mesh = capsule
-	torse.material_override = bronze
-	torse.scale = Vector3(1.15, 1.0, 0.75)
-	torse.position = Vector3(0, base + 16.0, 0)
-	colosse.add_child(torse)
-	# Le manteau (chlamyde) jeté sur l'épaule gauche.
-	var manteau := _boite(Vector3(1.6, 8.0, 2.4), Vector3(-3.2, base + 16.0, 0.3), bronze, colosse, false)
-	manteau.rotation.z = 0.12
-	# Les bras : le droit le long du corps, la main sur le gouvernail ; le gauche plié.
-	membre.call(0.8, 0.65, 7.5, Vector3(3.4, 15.5, 0.0), Vector3(0, 0, 0.15))
-	membre.call(0.8, 0.65, 6.0, Vector3(-3.3, 16.0, -1.0), Vector3(-0.6, 0, -0.1))
-	var gouvernail := _boite(Vector3(0.5, 12.0, 0.5), Vector3(4.6, base + 6.0, 0.0), bronze, colosse, false)
-	gouvernail.rotation.z = -0.05
-	_boite(Vector3(0.4, 3.0, 2.2), Vector3(4.6, base + 1.5, 0.6), bronze, colosse, false)
-	# La tête et sa couronne de sept rayons.
-	var tete := MeshInstance3D.new()
-	var sphere := SphereMesh.new()
-	sphere.radius = 1.8
-	sphere.height = 4.2
-	tete.mesh = sphere
-	tete.material_override = bronze
-	tete.position = Vector3(0, base + 23.6, 0)
-	colosse.add_child(tete)
-	membre.call(0.9, 1.0, 1.5, Vector3(0, 21.6, 0))
-	for k in 7:
-		var a := lerpf(-1.2, 1.2, k / 6.0)
-		var rayon := MeshInstance3D.new()
-		rayon.mesh = _cylindre(0.02, 0.28, 4.0, 6)
-		rayon.material_override = bronze
-		rayon.position = Vector3(sin(a) * 1.6, base + 24.4 + cos(a) * 1.6, -0.3)
-		rayon.rotation.z = -a
-		colosse.add_child(rayon)
+	# Le corps de bronze (voir ile_rome.gd), posé sur le socle : trente mètres en tout.
+	var corps := Node3D.new()
+	corps.position.y = 7.6
+	colosse.add_child(corps)
+	_corps_colosse(corps, 1.08, bronze)
 	_fusionner(colosse)
 
 
@@ -1113,13 +1072,13 @@ func _construire_quete_jeux(dossier: Node3D) -> void:
 		boule.height = 0.4
 		oeil.mesh = boule
 		oeil.material_override = lueur
-		oeil.position = Vector3(x, 7.6 + 24.0, -1.55)
+		oeil.position = Vector3(x * 0.9, 7.6 + 20.4 * 1.08 + 0.17, -1.55)
 		yeux.add_child(oeil)
 	var lumiere := OmniLight3D.new()
 	lumiere.light_color = Color(0.65, 0.3, 1.0)
 	lumiere.light_energy = 6.0
 	lumiere.omni_range = 14.0
-	lumiere.position = Vector3(0, 7.6 + 24.0, -3.0)
+	lumiere.position = Vector3(0, 7.6 + 20.4 * 1.08, -3.0)
 	yeux.add_child(lumiere)
 
 
@@ -1194,3 +1153,6 @@ func _process(delta: float) -> void:
 	# La grande arche de l'ouest de l'amphithéâtre s'ouvre le jour des jeux.
 	elif p.distance_to(PORTE_COLISEE) < 4.5 and quete.etape_atteinte("entrer_colisee"):
 		quete.changer_de_zone("colisee")
+	# La bouche de la Cloaca Maxima, ouverte par l'égoutier (chapitre 8, donjon).
+	elif p.distance_to(EGOUT) < 3.2 and quete.etape_atteinte("entrer_cloaca"):
+		quete.changer_de_zone("cloaca")

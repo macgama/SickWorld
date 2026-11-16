@@ -128,6 +128,7 @@ func _avancer(id: String) -> void:
 
 
 func _apres_changement() -> void:
+	_placer_donneurs()
 	_mettre_a_jour_objets()
 	_mettre_a_jour_suivi()
 	if _journal.visible:
@@ -292,9 +293,21 @@ func _creer_marque() -> Label3D:
 
 # --- Personnages et objets placés par les missions ---------------------------
 
-## Crée les donneurs qui n'existent pas déjà dans la ville (champ « position_donneur »).
+## Crée les donneurs qui n'existent pas déjà dans la ville (champ « position_donneur »),
+## et les personnages qui n'arrivent qu'avec la mission (champ « personnages » : ils
+## apparaissent quand la mission commence, ex. Janus dans sa cellule).
 func _placer_donneurs() -> void:
 	for q in quetes:
+		if etat(q["id"]) != "disponible":
+			for perso: Dictionary in q.get("personnages", []):
+				if _trouver_pnj(perso["id"]) == null:
+					var pp: Array = perso["position"]
+					var venu := Pnj.new()
+					venu.identifiant = perso["id"]
+					venu.name = "Pnj_" + String(perso["id"])
+					venu.position = Vector3(pp[0], pp[1], pp[2])
+					venu.rotation.y = pp[3] if pp.size() > 3 else 0.0
+					add_child(venu)
 		if not q.has("position_donneur") or _trouver_pnj(q["donneur"]) != null:
 			continue
 		var p: Array = q["position_donneur"]

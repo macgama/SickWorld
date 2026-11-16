@@ -31,9 +31,10 @@ const ASCENSEUR_HALL := Vector3(-92.0, 0.0, 28.4)
 const ARRIVEE_HALL := Vector3(-92.0, 0.1, 26.4)
 const ASCENSEUR_APPART := Vector3(-87.0, SOL_APPART, 27.6)
 const ARRIVEE_APPART := Vector3(-87.0, SOL_APPART + 0.1, 25.6)
-## Étagère des souvenirs (mur ouest de l'appartement) : 4 rangées de 5.
+## Étagère des souvenirs (mur ouest de l'appartement) : 5 rangées de 5, espacées de 48 cm.
 const SOUVENIRS_COLONNES := 5
-const SOUVENIRS_RANGEES := 4
+const SOUVENIRS_RANGEES := 5
+const SOUVENIRS_ECART := 0.48
 ## Bannière de la guilde du joueur : dans la Maison des guildes et chez lui.
 const BANNIERE_MAISON := Vector3(-111.6, 5.5, -13.88)
 const BANNIERE_APPART := Vector3(-82.04, SOL_APPART + 1.95, 25.6)
@@ -73,7 +74,7 @@ static func construire(hub: HikariBay) -> void:
 static func emplacement_souvenir(i: int) -> Vector3:
 	var colonne := i % SOUVENIRS_COLONNES
 	var rangee := int(i / SOUVENIRS_COLONNES)
-	return Vector3(APPART.position.x + 0.22, SOL_APPART + 2.32 - rangee * 0.6, APPART.position.y + 1.55 + colonne * 1.3)
+	return Vector3(APPART.position.x + 0.22, SOL_APPART + 2.32 - rangee * SOUVENIRS_ECART, APPART.position.y + 1.55 + colonne * 1.3)
 
 
 # --- Entrée du quartier --------------------------------------------------------------
@@ -274,7 +275,7 @@ static func _construire_appartement(hub: HikariBay) -> void:
 	hub._lumiere(Vector3(-93.0, s + 1.4, 27.4), CHAUD, 0.4, 3.0)
 	# Étagère des souvenirs (mur ouest) : appartement.gd y pose un objet par mission accomplie.
 	for k in SOUVENIRS_RANGEES:
-		var y := SOL_APPART + 2.3 - k * 0.6
+		var y := SOL_APPART + 2.3 - k * SOUVENIRS_ECART
 		hub._bloc(x1, z1 + 0.9, x1 + 0.42, z1 + 7.5, y - 0.04, y, bois, false)
 	for z in [z1 + 0.9, z1 + 7.46]:
 		hub._bloc(x1, z - 0.04, x1 + 0.42, z, s, s + 2.4, bois, false)

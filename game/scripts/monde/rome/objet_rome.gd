@@ -259,3 +259,39 @@ func _construire_jarre_poix() -> void:
 	fumee.mesh = boule
 	_visuel.add_child(fumee)
 	_trace_violette()
+
+
+## Une vanne de la citerne (chapitre 8) : une porte de bois épais qui glisse dans deux
+## rainures de pierre, et la grande roue de fer qui la lève.
+func _construire_vanne() -> void:
+	var bois := _mat_uni(Color(0.32, 0.22, 0.13), 0.85)
+	var pierre := _mat_uni(Color(0.6, 0.56, 0.46), 0.95)
+	var fer := _mat_uni(Color(0.16, 0.13, 0.11), 0.5, 0.6)
+	for x: float in [-1.1, 1.1]:
+		var montant := BoxMesh.new()
+		montant.size = Vector3(0.3, 3.0, 0.4)
+		_morceau(montant, pierre, Vector3(x, 1.5, -0.3))
+	var porte := BoxMesh.new()
+	porte.size = Vector3(1.9, 2.2, 0.16)
+	_morceau(porte, bois, Vector3(0, 1.1, -0.3))
+	var roue := TorusMesh.new()
+	roue.inner_radius = 0.42
+	roue.outer_radius = 0.5
+	_morceau(roue, fer, Vector3(0, 1.2, 0.15), Vector3(PI * 0.5, 0, 0))
+	for k in 4:
+		var rayon := BoxMesh.new()
+		rayon.size = Vector3(0.9, 0.05, 0.05)
+		_morceau(rayon, fer, Vector3(0, 1.2, 0.15), Vector3(0, 0, k * PI * 0.25))
+	var axe := CylinderMesh.new()
+	axe.top_radius = 0.06
+	axe.bottom_radius = 0.06
+	axe.height = 0.5
+	_morceau(axe, fer, Vector3(0, 1.2, -0.05), Vector3(PI * 0.5, 0, 0))
+	# Une fois la vanne fermée, la porte et la roue restent là (sans l'invite ni le halo).
+	_debout = Node3D.new()
+	_debout.name = "Fermee"
+	_debout.visible = false
+	add_child(_debout)
+	for morceau in _visuel.get_children():
+		if morceau is MeshInstance3D:
+			_debout.add_child(morceau.duplicate())

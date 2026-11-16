@@ -320,7 +320,7 @@ func _lancer() -> void:
 	inventaire = _joueur.get_node_or_null("Inventaire")
 	if inventaire != null and inventaire.has_method("quantite"):
 		_verifier(inventaire.quantite("plan_cloaca") >= 1, "le plan des égouts est dans le sac")
-	_verifier(_quete.etape < 0, "chapitre 7 terminé (fin provisoire)")
+	_verifier(_id_etape() == "entrer_cloaca", "chapitre 7 terminé, le 8 commence (la Cloaca Maxima)")
 
 	# --- La progression est gardée.
 	_scene.queue_free()
@@ -328,6 +328,14 @@ func _lancer() -> void:
 	await _charger()
 	_verifier(_scene.find_child("YeuxColosse", true, false).visible, "au retour, les yeux du Colosse brillent toujours")
 	_verifier(not _scene.find_child("Martial", true, false).visible, "Martial n'est pas revenu sur la place du blé")
+	# La grille de l'égout, au bord du Forum : on descend dans la Cloaca Maxima.
+	var egout: Vector2 = _scene.EGOUT
+	await _placer(Vector3(egout.x, _scene.hauteur(egout.x, egout.y + 4.0) + 0.4, egout.y + 4.0), _angle_vers(Vector2(0, -1)))
+	Input.action_press("avancer")
+	await _attendre(60)
+	Input.action_release("avancer")
+	await _attendre(80)
+	_verifier(_quete.zone_demandee == "cloaca", "la grille de l'égout mène à la Cloaca Maxima (%s)" % _quete.zone_demandee)
 
 	print("")
 	if _echecs == 0:

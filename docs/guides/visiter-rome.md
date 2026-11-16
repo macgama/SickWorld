@@ -144,4 +144,35 @@ Au chapitre 7, la grande arche de l'ouest (côté Colosse) s'ouvre : on entre da
 10. Ressortir par le vomitoire et rejoindre Martial **au pied du Colosse** : ses yeux brillent de violet.
 11. Retrouver **l'égoutier** à la bouche de la **Cloaca Maxima**, au bord du Forum.
 
-La suite (chapitre 8, le donjon du Colisée par les égouts) arrive bientôt.
+## Le donjon : la Cloaca Maxima et le Colisée (chapitre 8)
+
+Un donjon pour un groupe (jusqu'à 5). On descend par la grille de l'égoutier, au bord du Forum.
+
+- **le grand égout** : un long couloir voûté, éclairé de torches, avec un canal d'eau noire au milieu (un mètre plus bas que les trottoirs) ;
+- **la citerne des vannes** : une grande salle à piliers, avec trois vannes à roue (ouest, est, sud-ouest) ;
+- **le canal de l'arène** : il remonte en pente douce, fermé par une grille tant que les vannes sont ouvertes ;
+- **la herse** : au bout, la lumière du jour. On débouche dans l'arène, par la porte de l'ouest. (Revenir vers cette porte ramène aux égouts.)
+- dans l'arène, **le Colosse** se dresse sur la terrasse de l'est, devant la porte des morts. Son **cœur de cristal** a fendu le sable à ses pieds : c'est lui qu'on frappe.
+
+### Le combat du Colosse
+
+- **Phase 1, la couronne du Soleil** : une bande violette s'allume en travers de l'arène. Deux secondes plus tard, un faisceau la balaie (30 % des points de vie) : sors de la bande ! À chaque faisceau, un rayon de la couronne tombe dans l'arène.
+- **Phase 2, les deux visages** (sous 66 %) : sa tête se fend en deux visages qui tournent. Devant le visage du passé (zone bleue au sol), on est ralenti ; devant celui de l'avenir (zone orange), on brûle. Restez sur les côtés.
+- **Phase 3, Janus** (sous 33 %) : Janus apparaît sur la terrasse de l'est et ouvre l'arrivée d'eau. L'arène se remplit, on se noie sous l'eau, et le Colosse ne craint plus rien. Monte sur la terrasse **par les rayons tombés** (ils font des passerelles) et saisis Janus (F). **Masque** surgit et la retient ; l'eau redescend : achevez le cœur.
+
+## Le chapitre 8 : « Tous les chemins »
+
+1. Descendre dans **la Cloaca Maxima** par la grille de l'égoutier.
+2. Tuer **les six vipères** du grand égout.
+3. Mettre hors de combat **les quatre prétoriens** de Janus dans la citerne.
+4. Fermer **les trois vannes** (F, reste immobile) : le canal se vide et la grille tombe.
+5. Abattre **le rétiaire fracturé** (filet et trident) dans le canal.
+6. Remonter le canal jusqu'à la herse : on arrive dans l'arène.
+7. Vaincre **le Colosse** (voir plus haut).
+8. Refermer **la fracture majeure** dans le sable fendu (récompense : **le rayon du Colosse**).
+9. Monter sur la terrasse par les rayons et parler à **Janus**, arrêtée.
+10. Parler à **Titus**, descendu dans l'arène : tu deviens **citoyen romain** (récompense : **le diplôme de citoyen**).
+11. Écouter **le poème de Martial**.
+12. Traverser le **portail de campagne** de Lenoir, près de la herse : au QG, la mission **« La cellule de Janus »** commence (la commandante, puis Janus dans sa cellule, à côté des archives).
+
+L'histoire de Rome est terminée. Les quêtes secondaires et les événements de l'île arrivent bientôt.
