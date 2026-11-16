@@ -118,10 +118,9 @@
 			"taille_cm": 172,
 			"peau": "#a8794f",
 			"habits": "#e4dac4",
-			"tenue": [
-				"tunique_lin_fin",
-				"sandales_papyrus"
-			]
+			"antique": {
+				"robe": 0.6
+			}
 		},
 		"grec_docker": {
 			"modele": "homme",
@@ -129,10 +128,11 @@
 			"peau": "#93653f",
 			"habits": "#a8916c",
 			"tenue": [
-				"bandeau_lin",
-				"tunique_compagnons",
-				"sandales_papyrus"
-			]
+				"bandeau_lin"
+			],
+			"antique": {
+				"robe": 0.42
+			}
 		},
 		"grec_marin": {
 			"modele": "homme",
@@ -140,75 +140,70 @@
 			"peau": "#9c6c47",
 			"habits": "#c4b08a",
 			"tenue": [
-				"bandeau_rameur",
-				"tunique_compagnons",
-				"sandales_papyrus"
-			]
+				"bandeau_rameur"
+			],
+			"antique": {
+				"robe": 0.42
+			}
 		},
 		"grec_marchand": {
 			"modele": "homme",
 			"taille_cm": 169,
 			"peau": "#a77852",
 			"habits": "#6a3a2e",
-			"tenue": [
-				"tunique_compagnons",
-				"sandales_papyrus",
-				"manteau_nomade"
-			]
+			"antique": {
+				"robe": 0.75,
+				"drape": "#3a4a6a"
+			}
 		},
 		"grec_vieillard": {
 			"modele": "homme",
 			"taille_cm": 167,
 			"peau": "#b08560",
 			"habits": "#ece4d2",
-			"tenue": [
-				"tunique_lin_fin",
-				"sandales_papyrus",
-				"manteau_nomade"
-			]
+			"antique": {
+				"robe": 0.85,
+				"drape": "#9a8a6a"
+			}
 		},
 		"grec_femme": {
 			"modele": "femme",
 			"taille_cm": 160,
 			"peau": "#b98c66",
 			"habits": "#8a4a3a",
-			"tenue": [
-				"tunique_lin_fin",
-				"manteau_nomade",
-				"sandales_papyrus"
-			]
+			"antique": {
+				"robe": 0.84,
+				"drape": "#d8ccb0"
+			}
 		},
 		"grec_femme_2": {
 			"modele": "femme",
 			"taille_cm": 158,
 			"peau": "#b38660",
 			"habits": "#4a5a7a",
-			"tenue": [
-				"tunique_lin_fin",
-				"manteau_nomade",
-				"sandales_papyrus"
-			]
+			"antique": {
+				"robe": 0.84,
+				"drape": "#a83a2e"
+			}
 		},
 		"grec_servante": {
 			"modele": "femme",
 			"taille_cm": 157,
 			"peau": "#9c6c48",
 			"habits": "#c8b896",
-			"tenue": [
-				"tunique_compagnons",
-				"sandales_papyrus"
-			]
+			"antique": {
+				"robe": 0.8
+			}
 		},
 		"grec_pretresse": {
 			"modele": "femme",
 			"taille_cm": 164,
 			"peau": "#c09470",
 			"habits": "#f2ede0",
-			"tenue": [
-				"tunique_lin_fin",
-				"manteau_nomade",
-				"sandales_papyrus"
-			]
+			"antique": {
+				"robe": 0.86,
+				"drape": "#e8d080"
+			}
 		},
 		"archer_scythe": {
 			"modele": "homme",
@@ -4033,12 +4028,16 @@
 				"sorte": "triere",
 				"chemin": [
 					[
-						-380,
-						285
+						-120,
+						280
 					],
 					[
 						380,
-						275
+						270
+					],
+					[
+						-380,
+						290
 					]
 				],
 				"vitesse": 5.5
