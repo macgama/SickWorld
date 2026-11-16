@@ -1,0 +1,151 @@
+{
+	"_aide": "Personnages de l'île de Rome (l'empire de Titus, été 80 apr. J.-C.). Pour changer ce qu'ils disent, modifie le texte entre guillemets (une ligne = une bulle de dialogue). Garde les virgules entre les lignes. « tenue » = objets de data/objets.json portés par le personnage, « peau » = couleur de peau, « habits » = couleur de la tunique (ou de la robe).",
+	"petronius": {
+		"nom": "Caius Petronius",
+		"role": "Maître du relais de poste",
+		"modele": "homme",
+		"habit": "chiton_court",
+		"taille_cm": 178,
+		"peau": "#b48460",
+		"habits": "#8a3a2a",
+		"repliques": [
+			"Vingt-cinq ans de légion. Des marches de trente milles par jour, avec quarante livres sur le dos. Alors une route droite et pavée, crois-moi, c'est le paradis.",
+			"Un relais tous les vingt milles, et un courrier de l'empereur peut aller de Rome à Capoue en deux jours. Voilà ce qu'est Rome, l'étranger : des routes, et des gens pour les tenir."
+		]
+	},
+	"caecilia": {
+		"nom": "Caecilia",
+		"role": "Réfugiée de Pompéi",
+		"modele": "femme",
+		"habit": "peplos",
+		"taille_cm": 164,
+		"peau": "#c49470",
+		"habits": "#7a4a3a",
+		"repliques": [
+			"J'avais une boutique de vin près du forum de Pompéi. Deux comptoirs, une enseigne peinte, un perroquet qui disait « salut ». Il ne reste qu'un toit qui dépasse de la cendre.",
+			"Fausta ne parle presque plus depuis la montagne. Elle a sauvé le chien du voisin, pourtant. Elle l'a tiré par le collier, à travers la cendre chaude."
+		]
+	},
+	"fausta": {
+		"nom": "Fausta",
+		"role": "Fille de Caecilia",
+		"modele": "femme",
+		"habit": "peplos",
+		"taille_cm": 128,
+		"peau": "#c8987a",
+		"habits": "#b8a07a",
+		"repliques": [
+			"Fausta te regarde sans rien dire, puis montre la route, vers le sud. Là-bas, il y avait sa maison.",
+			"Il s'appelle Celer. Le chien. Ça veut dire « rapide ». Il s'est sauvé, à la sortie de Pompéi."
+		]
+	},
+	"refugie_1": {
+		"nom": "Marcus",
+		"role": "Réfugié d'Herculanum",
+		"modele": "homme",
+		"habit": "chiton_court",
+		"taille_cm": 172,
+		"peau": "#b07e58",
+		"habits": "#6a5a4a",
+		"repliques": [
+			"J'étais pêcheur, à Herculanum. La mer s'est retirée d'un coup, comme si elle avait peur. Puis la nuée est descendue de la montagne."
+		]
+	},
+	"refugie_2": {
+		"nom": "Pomponia",
+		"role": "Réfugiée de Pompéi",
+		"modele": "femme",
+		"habit": "peplos",
+		"taille_cm": 160,
+		"peau": "#bf9068",
+		"habits": "#5a6a7a",
+		"repliques": [
+			"On dit que l'empereur est venu lui-même en Campanie, l'hiver dernier. Il a donné l'argent de ceux qui sont morts sans héritiers pour reconstruire. C'est un homme bon, Titus."
+		]
+	},
+	"refugie_3": {
+		"nom": "Felix",
+		"role": "Ancien esclave, affranchi",
+		"modele": "homme",
+		"habit": "exomis",
+		"taille_cm": 170,
+		"peau": "#7a5038",
+		"habits": "#8a7a5a",
+		"repliques": [
+			"Je suis né en Syrie, esclave. Mon maître de Pompéi m'a affranchi par testament, et la montagne l'a emporté le lendemain. Maintenant, je suis libre, citoyen, et je n'ai plus rien.",
+			"À Rome, un affranchi peut ouvrir une boutique. Et ses enfants seront citoyens, comme tout le monde. Alors je recommencerai."
+		]
+	},
+	"livia": {
+		"nom": "Agent Livia Conti",
+		"role": "Vigie · Rome",
+		"modele": "femme",
+		"taille_cm": 170,
+		"peau": "#d2a682",
+		"repliques": [
+			"Tu as vu ces dalles ? Du basalte, taillé en polygones, posé sur quatre couches de pierre et de gravier. Certaines tiennent encore à mon époque. Tu marches sur une route de deux mille ans... qui en a trois cents.",
+			"Petit conseil : ne dis jamais « Colisée ». Ici, c'est « l'amphithéâtre ». Le mot Colisée n'existera pas avant des siècles."
+		]
+	},
+	"aubergiste": {
+		"nom": "Vibia",
+		"role": "Aubergiste",
+		"modele": "femme",
+		"habit": "peplos",
+		"taille_cm": 166,
+		"peau": "#c08e68",
+		"habits": "#8a5a2a",
+		"repliques": [
+			"Du vin coupé d'eau chaude, des lentilles, du pain d'hier. C'est tout ce que j'ai, avec tous ces réfugiés. Mais personne ne repart d'ici le ventre vide.",
+			"Les courriers de la poste ne s'arrêtent jamais longtemps. Ils boivent debout, changent de cheval et repartent. Ils disent que le vent de Rome sent la fumée, depuis l'incendie du printemps."
+		]
+	},
+	"egare_muletier": {
+		"nom": "Le muletier",
+		"role": "Égaré",
+		"modele": "homme",
+		"habit": "exomis",
+		"taille_cm": 174,
+		"peau": "#a87850",
+		"habits": "#7a6a4a",
+		"repliques": [
+			"« Soif... matin mules les... depuis ont ! » Il tape du pied, furieux qu'on ne le comprenne pas."
+		]
+	},
+	"egare_refugie": {
+		"nom": "Un réfugié",
+		"role": "Égaré",
+		"modele": "homme",
+		"habit": "chiton_court",
+		"taille_cm": 170,
+		"peau": "#b88a64",
+		"habits": "#5a5048",
+		"repliques": [
+			"« Cendre... venons la de nous sous... Pompéi ! » Il montre le sud, les yeux pleins de larmes."
+		]
+	},
+	"egare_servante": {
+		"nom": "La servante",
+		"role": "Égarée",
+		"modele": "femme",
+		"habit": "peplos",
+		"taille_cm": 158,
+		"peau": "#9a6a48",
+		"habits": "#7a7a6a",
+		"repliques": [
+			"« Sœur... la cherche foule je ma... dans ! » Elle tire sur ta manche, désespérée."
+		]
+	},
+	"egare_marchand": {
+		"nom": "Le marchand",
+		"role": "Égaré",
+		"modele": "homme",
+		"habit": "chiton_himation",
+		"taille_cm": 176,
+		"peau": "#c49a76",
+		"habits": "#4a5a7a",
+		"repliques": [
+			"« Voler... ne pas je vous... voulais ! » Il tient sa bourse contre lui et recule."
+		]
+	}
+}

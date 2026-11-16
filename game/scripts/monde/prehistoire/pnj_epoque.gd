@@ -8,7 +8,7 @@ extends "res://scripts/monde/pnj.gd"
 const HabitEpoque := preload("res://scripts/personnage/habit_epoque.gd")
 const DONNEES_EPOQUE := "res://data/prehistoire_pnj.json"
 ## Les personnages des autres îles (lus en plus de ceux de la Préhistoire).
-const AUTRES_EPOQUES := ["res://data/egypte_pnj.json", "res://data/grece_pnj.json"]
+const AUTRES_EPOQUES := ["res://data/egypte_pnj.json", "res://data/grece_pnj.json", "res://data/rome_pnj.json"]
 
 ## Allongé au sol (blessé) ou debout.
 @export var blesse := false:

@@ -75,6 +75,11 @@
 			"scene": "res://scenes/monde/grece/le_piree.tscn",
 			"titre": "Grèce antique",
 			"sous_titre": "Athènes au temps de Périclès, été 438 av. J.-C."
+		},
+		"Rome antique": {
+			"scene": "res://scenes/monde/rome/voie_appienne.tscn",
+			"titre": "Rome antique",
+			"sous_titre": "La Rome de Titus, été 80 apr. J.-C."
 		}
 	}
 }

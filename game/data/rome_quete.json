@@ -1,0 +1,379 @@
+{
+	"_aide": "Quête principale de Rome : « Tous les chemins ». Mêmes règles que data/prehistoire_quete.json, data/egypte_quete.json et data/grece_quete.json (voir leur « _aide »). En plus : « mots » = renouer un Égaré : avant de compter l'objet, le joueur remet une phrase dans l'ordre (une phrase, ou une liste : une phrase par objet, dans l'ordre où on les fait) ; « titre_mots » = le titre de la petite fenêtre. Pour changer un texte, modifie ce qui est entre guillemets. Garde les virgules.",
+	"zones": {
+		"voie_appienne": {
+			"scene": "res://scenes/monde/rome/voie_appienne.tscn",
+			"arrivee": {
+				"titre": "La Voie Appienne",
+				"sous_titre": "Rome · sous l'empereur Titus, été 80 apr. J.-C.",
+				"texte": "Le portail se referme dans un souffle. Autour de toi, des tombeaux de pierre, des pins aux têtes plates, et une route de grosses dalles noires qui file tout droit jusqu'à l'horizon. Quelque part, une cigale. Puis plus rien."
+			}
+		}
+	},
+	"camps": {
+		"voie_appienne": [
+			{
+				"type": "loup_fracture_appia",
+				"position": [
+					-40,
+					40
+				],
+				"nombre": 3,
+				"rayon": 5
+			},
+			{
+				"type": "loup_fracture_appia",
+				"position": [
+					36,
+					96
+				],
+				"nombre": 2,
+				"rayon": 5
+			},
+			{
+				"type": "loup_fracture_appia",
+				"position": [
+					-26,
+					-96
+				],
+				"nombre": 3,
+				"rayon": 5
+			},
+			{
+				"type": "loup_fracture_appia",
+				"position": [
+					22,
+					-110
+				],
+				"nombre": 2,
+				"rayon": 4
+			},
+			{
+				"type": "loup_fracture_appia",
+				"position": [
+					-60,
+					-20
+				],
+				"nombre": 2,
+				"rayon": 5
+			}
+		]
+	},
+	"chapitres": [
+		{
+			"numero": 1,
+			"titre": "La voie des tombeaux",
+			"ou": "voie_appienne",
+			"etapes": [
+				{
+					"id": "radio_livia",
+					"objectif": "Une radio de la Vigie grésille sur les marches du tombeau : prends-la",
+					"objet": "radio_livia",
+					"duree": 1.5,
+					"action": "Tu règles la radio…",
+					"consomme": true,
+					"recit": {
+						"titre": "L'agent Livia Conti",
+						"texte": "« ...ici l'agent Livia Conti, Vigie. Si tu m'entends, tu es sur la voie Appienne, en l'an 80, à six milles de Rome. Je suis en ville, je te rejoins dès que je peux. Une colonne de réfugiés de Pompéi remonte la route vers le nord. Va vers eux. Et fais attention aux bêtes : les lions du vivarium se sont échappés. »"
+					}
+				},
+				{
+					"id": "vers_voie",
+					"objectif": "Suis le sentier jusqu'à la voie Appienne, à l'est du tombeau",
+					"zone": [
+						5,
+						93
+					],
+					"rayon": 8
+				},
+				{
+					"id": "loups_convoi",
+					"objectif": "Des cris sur la route ! Chasse les loups fracturés qui encerclent la charrette des réfugiés",
+					"tuer": "loup_fracture_convoi",
+					"nombre": 3,
+					"lieu": [
+						16,
+						62
+					],
+					"apparition": {
+						"type": "loup_fracture_convoi",
+						"position": [
+							17,
+							60
+						],
+						"nombre": 3,
+						"rayon": 3,
+						"attaque": true
+					}
+				},
+				{
+					"id": "lion",
+					"objectif": "Un lion surgit d'entre les tombeaux ! Abats le lion fracturé avant qu'il n'atteigne la charrette",
+					"tuer": "lion_fracture",
+					"nombre": 1,
+					"lieu": [
+						-6,
+						56
+					],
+					"apparition": {
+						"type": "lion_fracture",
+						"position": [
+							-6,
+							56
+						],
+						"nombre": 1,
+						"rayon": 1,
+						"attaque": true
+					},
+					"recit": {
+						"titre": "Le lion du vivarium",
+						"texte": "Le grand fauve s'abat sur les dalles. Autour de son cou, un collier de cuivre : VIVARIVM. Il venait des enclos où l'on garde les bêtes des jeux, près de Rome. Quelqu'un a ouvert les cages."
+					}
+				},
+				{
+					"id": "rencontre_caecilia",
+					"objectif": "Parle à la femme qui serre sa fille contre elle, près de la charrette",
+					"pnj": "caecilia",
+					"repliques": [
+						"Les dieux soient loués... Tu sais te servir d'une épée, toi. Moi, je ne sais que vendre du vin et tenir des comptes.",
+						"Je m'appelle Caecilia. Nous venons de Pompéi. Enfin, de ce qu'il en reste. L'an dernier, la montagne s'est ouverte et le ciel est tombé sur nous. Huit jours de cendre.",
+						"L'empereur Titus a promis d'aider ceux de Campanie. Alors nous montons à Rome, à pied, avec ce qu'on a pu sauver.",
+						"Mais depuis deux jours, c'est étrange. Dans les villages, les gens ne nous comprennent plus. Ils entendent nos mots, mais dans le désordre. Ils nous chassent comme des barbares.",
+						"Le relais de poste de Petronius est un peu plus au nord, à droite de la route. Escorte-nous jusque-là, je t'en prie. Fausta est trop fatiguée pour courir, s'il revient d'autres bêtes."
+					]
+				},
+				{
+					"id": "escorte_refugies",
+					"objectif": "Escorte la charrette des réfugiés jusqu'au relais de poste, au nord (reste près d'elle)",
+					"escorte": [
+						"caecilia",
+						"fausta",
+						"refugie_1",
+						"refugie_2",
+						"refugie_3"
+					],
+					"charge": "charrette_refugies",
+					"distance_joueur": 10,
+					"chemin": [
+						[
+							6,
+							70
+						],
+						[
+							4,
+							44
+						],
+						[
+							2,
+							16
+						],
+						[
+							1,
+							-8
+						],
+						[
+							4,
+							-18
+						]
+					],
+					"vitesse": 1.6,
+					"vagues": [
+						{
+							"a": 0.45,
+							"annonce": "Des loups sortent d'entre les tombeaux !",
+							"apparition": {
+								"type": "loup_fracture_convoi",
+								"position": [
+									-12,
+									28
+								],
+								"nombre": 2,
+								"rayon": 3,
+								"attaque": true
+							}
+						}
+					],
+					"apres": [
+						{
+							"decor": "charrette_refugies",
+							"aller": [
+								4,
+								-14
+							],
+							"angle": 0.1
+						},
+						{
+							"pnj": "caecilia",
+							"aller": [
+								7,
+								-20
+							]
+						},
+						{
+							"pnj": "fausta",
+							"aller": [
+								8.5,
+								-19
+							]
+						},
+						{
+							"pnj": "refugie_1",
+							"aller": [
+								5,
+								-12
+							]
+						},
+						{
+							"pnj": "refugie_2",
+							"aller": [
+								8,
+								-11
+							]
+						},
+						{
+							"pnj": "refugie_3",
+							"aller": [
+								2,
+								-16
+							]
+						}
+					]
+				},
+				{
+					"id": "rencontre_petronius",
+					"objectif": "Présente-toi à Petronius, le maître du relais, devant la grande porte",
+					"pnj": "petronius",
+					"repliques": [
+						"Halte. Qui conduit cette... ah. Des femmes, des enfants, une charrette. Et un étranger avec une arme. Tu les as menés jusqu'ici ?",
+						"Caius Petronius. Vingt-cinq ans dans la légion, sur le Rhin, puis on m'a donné ce relais de la poste impériale. Ici, les courriers de l'empereur changent de cheval, et les voyageurs dorment à l'abri.",
+						"Les réfugiés de Campanie, je les reçois depuis un an. Un lit de paille, du pain, de l'eau. Rome n'abandonne pas les siens. C'est du moins ce qu'on dit au Sénat.",
+						"Entrez. Mais je te préviens, l'étranger : dans ma cour, il se passe des choses que je ne comprends pas. Et je n'aime pas ce que je ne comprends pas."
+					],
+					"fin_chapitre": true
+				}
+			]
+		},
+		{
+			"numero": 2,
+			"titre": "Les mots brisés",
+			"ou": "voie_appienne",
+			"etapes": [
+				{
+					"id": "petronius_dispute",
+					"objectif": "Écoute ce que Petronius a à te dire, devant la porte du relais",
+					"pnj": "petronius",
+					"repliques": [
+						"Écoute-les. Là, dans la cour. Mon muletier crie depuis l'aube. Il est né à deux pas d'ici, il parle latin depuis quarante ans. Et ce matin, ses mots sortent dans le désordre.",
+						"Une réfugiée cherche sa sœur, un marchand jure qu'on l'accuse, la servante pleure. Ils se parlent tous en même temps et personne ne comprend personne. Bientôt, ils vont se battre.",
+						"Toi, tu les écoutes autrement. Je l'ai vu sur la route, avec Caecilia. Va dans la cour et aide-les à retrouver leurs mots. Un mot après l'autre, comme on refait une route, pavé après pavé."
+					]
+				},
+				{
+					"id": "renouer",
+					"objectif": "Renoue les quatre Égarés de la cour : approche-toi de chacun et remets ses mots dans l'ordre (F)",
+					"recolter": "egare_relais",
+					"nombre": 4,
+					"titre_mots": "Renouer : remets ses mots dans l'ordre",
+					"mots": [
+						"Mes mules ont soif depuis ce matin",
+						"Nous venons de Pompéi sous la cendre",
+						"Je cherche ma sœur dans la foule",
+						"Je ne voulais pas vous voler"
+					],
+					"recit": {
+						"titre": "Les mots retrouvés",
+						"texte": "Le dernier Égaré se tait, cligne des yeux, puis dit une phrase entière, toute simple. Le muletier lui répond. Quelqu'un rit, nerveusement. Dans la cour du relais, les gens se comprennent de nouveau."
+					}
+				},
+				{
+					"id": "petronius_bornes",
+					"objectif": "Retourne voir Petronius, devant la porte du relais",
+					"pnj": "petronius",
+					"repliques": [
+						"Par Jupiter. Tu as fait ça avec quoi, des mots ? Dans la légion, on avait un centurion qui calmait les bagarres. Avec un bâton de vigne.",
+						"Mais ce n'est pas fini. Un courrier de la poste est arrivé ce matin à pied : son cheval s'est cassé une jambe dans le fossé. Il s'était perdu. Sur la voie Appienne ! C'est une ligne droite !",
+						"Il dit que les bornes milliaires, au nord, sont couchées dans l'herbe, et que la dernière qu'il a vue indiquait Rome dans le mauvais sens. Les bornes ne mentent pas, l'étranger. Pas les miennes.",
+						"Va les redresser. Il y en a trois, au bord de la route, entre ici et le grand tombeau rond. Et méfie-toi des loups, ils rôdent en meute là-haut."
+					]
+				},
+				{
+					"id": "bornes",
+					"objectif": "Redresse les trois bornes milliaires renversées au bord de la route, au nord du relais",
+					"recolter": "milliaire",
+					"nombre": 3,
+					"duree": 3,
+					"action": "Tu redresses la borne…"
+				},
+				{
+					"id": "faille",
+					"objectif": "Une lueur violette brille entre les tombeaux, à l'ouest des bornes : referme la faille (reste immobile)",
+					"objet": "faille_voie",
+					"duree": 5,
+					"action": "Fermeture de la faille…",
+					"apparition": {
+						"type": "loup_fracture_faille_appia",
+						"position": [
+							-20,
+							-100
+						],
+						"nombre": 2,
+						"rayon": 3,
+						"attaque": false
+					},
+					"apres": [
+						{
+							"cacher": "faille_voie"
+						},
+						{
+							"montrer": "livia"
+						}
+					],
+					"recit": {
+						"titre": "La route se tait",
+						"texte": "La faille se resserre comme une blessure qui cicatrise. Sur la borne la plus proche, les lettres gravées cessent de trembler : ROMA · M · P · VI. Rome, six milles. Dans le bon sens."
+					}
+				},
+				{
+					"id": "recompense_petronius",
+					"objectif": "Retourne voir Petronius, devant la porte du relais",
+					"pnj": "petronius",
+					"repliques": [
+						"Le courrier est reparti vers Rome sur un cheval frais. Il dit que les bornes sont droites et qu'elles disent la vérité. Bien.",
+						"Tiens. Mon glaive de la légion. Je ne m'en sers plus que pour couper le pain, et c'est un crime pour une lame pareille.",
+						"Et ça : mes vieilles sandales cloutées. Sur les pavés de la voie, elles font un bruit que tous les légionnaires reconnaissent.",
+						"Ah, et il y a quelqu'un pour toi, dans la cour. Une femme. Elle est arrivée pendant que tu étais sur la route. Elle dit qu'elle te connaît."
+					],
+					"recompense": [
+						{
+							"id": "glaive_petronius",
+							"nom": "Glaive de Petronius"
+						},
+						{
+							"id": "caligae_petronius",
+							"nom": "Sandales cloutées de Petronius"
+						}
+					]
+				},
+				{
+					"id": "rencontre_livia",
+					"objectif": "Retrouve la femme qui t'attend dans la cour du relais",
+					"pnj": "livia",
+					"repliques": [
+						"Te voilà enfin ! Livia Conti, Vigie. Archéologue, spécialiste de la Rome des Flaviens. Pardon pour la radio, j'ai fait aussi vite que j'ai pu.",
+						"J'ai tout entendu en arrivant. Les mots dans le désordre, les bornes qui mentent... Ce n'est pas une maladie. C'est une fracture, et elle s'attaque à ce qui relie les gens.",
+						"Une route, ça relie. Une langue commune aussi. L'eau des aqueducs, qui coule pour tout le monde. Rome tient debout grâce à ça : un million de gens venus de partout, qui se comprennent.",
+						"Bon, la suite. Rome a soif : depuis trois jours, les aqueducs ne donnent presque plus d'eau. Il faut monter dans la campagne, au nord, voir ce qui les bloque.",
+						"Je pars devant prévenir nos contacts. Petronius t'a bien donné son glaive ? Bien. Garde-le près de toi. On se retrouve là-haut, au pied des grandes arches."
+					],
+					"fin_chapitre": true
+				}
+			]
+		}
+	],
+	"fin_provisoire": {
+		"chapitre": "Chapitre 3 : L'eau qui ne vient plus",
+		"objectif": "La suite arrive bientôt : la campagne et les aqueducs, au nord de la voie Appienne.",
+		"titre": "Tous les chemins",
+		"message": "Au relais de Petronius, les gens se comprennent de nouveau. Mais au nord, les aqueducs se taisent."
+	}
+}

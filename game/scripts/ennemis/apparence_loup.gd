@@ -143,6 +143,11 @@ func _ready() -> void:
 			# Le chacal doré d'Égypte : un petit loup fin, au pelage fauve.
 			scale = Vector3(0.72, 0.74, 0.7)
 			_en_chacal()
+		elif type.begins_with("lion"):
+			# Le lion évadé du vivarium (île de Rome) : un grand félin fauve à crinière
+			# sombre (sur la silhouette du loup, en attendant un vrai modèle de lion).
+			scale = Vector3(1.3, 1.25, 1.35)
+			_en_lion()
 		elif type.contains("alpha"):
 			scale = Vector3.ONE * 1.5
 		return
@@ -206,6 +211,51 @@ func _en_chacal() -> void:
 		var fauve := m.duplicate() as StandardMaterial3D
 		fauve.albedo_color = Color(1.35, 1.02, 0.66)
 		(mi as MeshInstance3D).material_override = fauve
+
+
+## Pelage fauve du lion, et sa crinière : une grosse touffe brun sombre autour du cou,
+## accrochée à l'os de la tête (elle suit ses mouvements).
+func _en_lion() -> void:
+	if _pivot == null:
+		return
+	for mi in _pivot.find_children("*", "MeshInstance3D", true, false):
+		var m := (mi as MeshInstance3D).get_active_material(0) as StandardMaterial3D
+		if m == null:
+			continue
+		var fauve := m.duplicate() as StandardMaterial3D
+		fauve.albedo_color = Color(1.45, 1.08, 0.62)
+		(mi as MeshInstance3D).material_override = fauve
+	var squelette := _pivot.find_child("Squelette", true, false) as Skeleton3D
+	if squelette == null or squelette.find_bone("tete") < 0:
+		return
+	var attache := BoneAttachment3D.new()
+	attache.name = "Criniere"
+	attache.bone_name = "tete"
+	squelette.add_child(attache)
+	var crins := StandardMaterial3D.new()
+	crins.albedo_color = Color(0.32, 0.2, 0.1)
+	crins.roughness = 1.0
+	var bruit := NoiseTexture2D.new()
+	bruit.width = 64
+	bruit.height = 64
+	bruit.seamless = true
+	bruit.as_normal_map = true
+	bruit.bump_strength = 10.0
+	var n := FastNoiseLite.new()
+	n.frequency = 0.35
+	bruit.noise = n
+	crins.normal_enabled = true
+	crins.normal_texture = bruit
+	for k in 3:
+		var touffe := MeshInstance3D.new()
+		var sphere := SphereMesh.new()
+		sphere.radius = 0.75 - k * 0.12
+		sphere.height = 1.25 - k * 0.15
+		touffe.mesh = sphere
+		touffe.material_override = crins
+		# Dans le repère de l'os : la tête regarde vers -x ; la crinière part vers le cou (+x).
+		touffe.position = Vector3(0.35 + k * 0.45, -0.05 - k * 0.12, 0)
+		attache.add_child(touffe)
 
 
 ## Les animations font avancer l'os racine (« root motion ») : c'est le jeu qui
