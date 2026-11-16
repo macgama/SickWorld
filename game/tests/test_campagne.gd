@@ -240,19 +240,20 @@ func _lancer() -> void:
 	await _attendre(60)
 	Input.action_release("avancer")
 	await _attendre(10)
-	_verifier(_id_etape() == "", "chapitre 3 terminé (fin provisoire : %s)" % _id_etape())
-	# La porte reste fermée tant que Rome n'est pas construite.
+	_verifier(_id_etape() == "entrer_rome", "chapitre 3 terminé, le chapitre 4 commence (%s)" % _id_etape())
+	# La porte s'ouvre sur Rome.
 	await _placer(Vector3(3, _scene.hauteur(3, -126) + 0.4, -126), 0.0)
 	Input.action_press("avancer")
-	await _attendre(120)
+	await _attendre(240)
 	Input.action_release("avancer")
-	_verifier(_joueur.global_position.z > porte.y - 9.0, "la ville n'est pas encore ouverte (z = %.0f)" % _joueur.global_position.z)
+	_verifier(_quete.zone_demandee == "rome", "la Porta Maggiore mène à Rome (%s)" % _quete.zone_demandee)
+	_quete.zone_demandee = ""
 
 	# --- La progression est gardée.
 	_scene.queue_free()
 	await _attendre(5)
 	await _charger()
-	_verifier(_quete.etape < 0, "au retour, la quête reprend où on l'avait laissée")
+	_verifier(_id_etape() == "entrer_rome", "au retour, la quête reprend où on l'avait laissée")
 	_verifier(_scene.find_child("EauAqueduc", true, false).visible, "l'eau coule toujours")
 	_verifier(_scene.find_child("FailleCanal0", true, false).fermee, "les failles restent fermées")
 	_verifier(_scene.find_child("Aquarius2", true, false).visible, "les fontainiers sont toujours là")

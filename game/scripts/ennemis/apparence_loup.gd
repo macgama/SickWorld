@@ -95,9 +95,9 @@ func _ready() -> void:
 		add_child(_delegue)
 		return
 	if type.begins_with("crocodile") or type.begins_with("hippopotame") or type.begins_with("babouin") \
-			or type.begins_with("sanglier"):
+			or type.begins_with("sanglier") or type.begins_with("rhinoceros"):
 		espece = "hippopotame" if type.begins_with("hippopotame") else ("babouin" if type.begins_with("babouin") \
-				else "sanglier" if type.begins_with("sanglier") else "crocodile")
+				else "sanglier" if type.begins_with("sanglier") else "rhinoceros" if type.begins_with("rhinoceros") else "crocodile")
 		_delegue = ApparenceNil.new()
 		_delegue.name = "Nil"
 		_delegue.espece = espece

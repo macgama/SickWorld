@@ -1,6 +1,6 @@
-# Visiter Rome : la Voie Appienne, la Campagne et les aqueducs
+# Visiter Rome : la Voie Appienne, la Campagne, les aqueducs et la Ville
 
-Deux zones de l'île de Rome sont jouables : **la Voie Appienne** (niveaux 30 à 32) et **la Campagne et les aqueducs** (niveaux 32 à 35). Nous sommes à l'été de l'an 80 après J.-C., sous l'empereur Titus, un an après l'éruption du Vésuve. C'est là que mène le portail **Rome antique** du QG de la Vigie (le quatrième en partant de la gauche). La conception de toute l'île est dans [ILE-4-ROME.md](../ILE-4-ROME.md).
+Trois zones de l'île de Rome sont jouables : **la Voie Appienne** (niveaux 30 à 32), **la Campagne et les aqueducs** (niveaux 32 à 35) et **Rome** elle-même (niveaux 34 à 38). Nous sommes à l'été de l'an 80 après J.-C., sous l'empereur Titus, un an après l'éruption du Vésuve. C'est là que mène le portail **Rome antique** du QG de la Vigie (le quatrième en partant de la gauche). La conception de toute l'île est dans [ILE-4-ROME.md](../ILE-4-ROME.md).
 
 On y trouve :
 
@@ -19,7 +19,7 @@ Tout est fabriqué par le code. Le lion n'a pas encore de vrai modèle 3D : c'es
 1. Dans GitHub Desktop, sur la branche **main** : **Fetch origin** puis **Pull origin** (Claude le fait pour toi quand il le peut).
 2. **Ferme Godot et rouvre-le** s'il était ouvert pendant la mise à jour.
 3. **Par le jeu** : F5, **Jouer seul**, puis au QG de la Vigie, traverse le portail **Rome antique**.
-4. **Directement** : double-clique sur `scenes/monde/rome/voie_appienne.tscn` (ou `campagne.tscn`) puis **F6**.
+4. **Directement** : double-clique sur `scenes/monde/rome/voie_appienne.tscn` (ou `campagne.tscn`, ou `rome.tscn`) puis **F6**.
 
 Pour revenir à Hikari Bay : éloigne-toi un peu du portail, puis retraverse-le.
 
@@ -60,4 +60,28 @@ Au nord du relais, la route sort des tombeaux et la campagne s'ouvre. On y trouv
 4. **Monter sur l'aqueduc** par l'échafaudage et ouvrir le regard du canal (touche **F**).
 5. Marcher sur le canal vers la ville et **refermer les trois failles** qui boivent l'eau (reste immobile). L'eau revient !
 6. Redescendre par l'échafaudage de l'ouest et retrouver Sextus à la porte, pour ta récompense.
-7. Passer sous **la Porta Maggiore**. La suite (Rome, chapitre 4) arrive bientôt.
+7. Passer sous **la Porta Maggiore** : on entre dans Rome.
+
+## Rome
+
+Passé la Porta Maggiore, on arrive sur la colline de l'Esquilin. On y trouve :
+
+- **l'amphithéâtre de Titus** (on ne dit pas encore « Colisée »), tout neuf : trois étages d'arcades et l'attique, les grilles fermées (on y entrera par les égouts, au chapitre 8) ;
+- **le Colosse de Néron**, une statue de bronze de 30 mètres, couronnée de rayons ;
+- **le Forum** : les deux basiliques, les temples (Saturne, César, Castor et Pollux), le temple rond de Vesta, les Rostres et la Curie ;
+- **le Capitole** et le grand temple de Jupiter, au sommet d'une colline à pic (on y monte par la rampe, depuis le Forum), avec l'enclos des oies sacrées ;
+- **le Palatin**, les palais sur leurs grands murs d'arches ;
+- **la Subure**, le quartier populaire : des immeubles de brique de 4 à 5 étages, des boutiques, et **la place du blé** ;
+- **le Champ de Mars** et le Panthéon d'Agrippa ;
+- **le vivarium**, où l'on garde les bêtes des jeux (les cages sont ouvertes…) ;
+- et, partout, des maisons et des immeubles, avec des chiens errants fracturés.
+
+## Le chapitre 4 : « Du pain et des jeux »
+
+1. Retrouver **Livia** près de la porte : c'est jour de distribution du blé dans la Subure, et personne ne se comprend.
+2. Descendre dans la Subure et trouver **Martial**, le poète, sur la place du blé.
+3. **Renouer les trois Égarés** de la foule (puzzle de mots, comme au relais).
+4. **Le choix** : organiser toi-même la distribution (à la table des listes, puis donner les quatre sacs de blé), **ou** suivre l'agitateur au manteau gris dans les ruelles (plus long, et il laisse tomber un objet très intéressant…). Les deux permettent de continuer.
+5. Rejoindre **Carpophore**, le chasseur de l'arène, au vivarium (à l'est de l'amphithéâtre), et **examiner la cage** du rhinocéros.
+6. Abattre **le rhinocéros fracturé** dans les jardins (un ennemi d'élite).
+7. Retrouver Martial pour ta récompense. La suite (chapitre 5, l'incendie) arrive bientôt.
