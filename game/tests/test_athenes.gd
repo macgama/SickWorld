@@ -2,7 +2,8 @@ extends SceneTree
 ## Test automatique d'Athènes (Grèce, zone 3) et de la fin du chapitre 3 : l'arrivée par
 ## la porte du sud, l'Agora muette, Socrate, l'interrogatoire de Kallias (une mauvaise
 ## réponse, puis la bonne), les Pétrifiés à qui l'on rend la voix, le potier Lydos au
-## Céramique, les chiens et la faille du Portique peint, le manteau de Socrate.
+## Céramique, les chiens et la faille du Portique peint, le manteau de Socrate ; puis le
+## chapitre 4 (l'or de Phidias, la pesée au tribunal, et les deux choix pour Ménon).
 ## Lancement : godot --headless --path game -s res://tests/test_athenes.gd
 
 const FICHIER := "user://test_grece_athenes.cfg"
@@ -118,18 +119,18 @@ func _tuer_tous(type: String, etape: String) -> void:
 
 
 ## Se placer à côté d'un objet, décalé en x (pour choisir une tablette parmi trois).
-func _aller_cote(cible: Node3D, dx: float) -> void:
-	var p: Vector3 = cible.global_position + Vector3(dx, 0, 0)
+func _aller_cote(cible: Node3D, dx: float, dz := 0.0) -> void:
+	var p: Vector3 = cible.global_position + Vector3(dx, 0, dz)
 	p.y = maxf(_scene.hauteur(p.x, p.z), cible.global_position.y) + 0.3
 	await _placer(p, 0.0)
 
 
-func _repondre(id_noeud: String, dx: float) -> int:
+func _repondre(id_noeud: String, dx: float, dz := 0.0) -> int:
 	var o = _scene.find_child(id_noeud, true, false)
 	if o == null:
 		print("  (objet introuvable : %s)" % id_noeud)
 		return 0
-	await _aller_cote(o, dx)
+	await _aller_cote(o, dx, dz)
 	await _appuyer_f()
 	await _attendre(5)
 	return await _lire_dialogue()
@@ -237,12 +238,12 @@ func _lancer() -> void:
 	var inventaire = _joueur.get_node_or_null("Inventaire")
 	if inventaire != null and inventaire.has_method("quantite"):
 		_verifier(inventaire.quantite("tribon_socrate") >= 1, "le tribôn de Socrate est dans le sac")
-	_verifier(_quete.etape < 0, "la suite (chapitre 4) arrive bientôt")
+	_verifier(_id_etape() == "aspasie", "chapitre 4 : Aspasie attend le joueur (%s)" % _id_etape())
 
 	# --- La progression est gardée, et la porte du sud ramène aux Oliveraies.
 	await _charger(ATHENES)
 	await _attendre(20)
-	_verifier(_quete.etape < 0, "au retour, la quête reprend où on l'avait laissée")
+	_verifier(_id_etape() == "aspasie", "au retour, la quête reprend où on l'avait laissée (%s)" % _id_etape())
 	_verifier(_scene.find_child("PetrifieCherephon", true, false) != null, "Chéréphon est toujours là")
 	_verifier(not _scene.find_child("MasquesPoikile", true, false).visible, "les masques ne reviennent pas")
 	await _placer(Vector3(0, _scene.hauteur(0, 142) + 0.4, 142), PI)
@@ -251,6 +252,66 @@ func _lancer() -> void:
 	Input.action_release("avancer")
 	await _attendre(60)
 	_verifier(_quete.zone_demandee == "oliveraies", "la porte du sud ramène aux Oliveraies (%s)" % _quete.zone_demandee)
+
+	# --- Chapitre 4 : « L'or de Phidias ».
+	await _charger(ATHENES)
+	print("Chapitre 4")
+	for nom in ["Heliee", "AtelierPhidias", "MaisonAspasie"]:
+		_verifier(_scene.find_child(nom, true, false) != null, "Athènes a son %s" % nom)
+	lues = await _parler("Aspasie")
+	_verifier(lues >= 5, "Aspasie raconte l'accusation de Ménon (%d bulles)" % lues)
+	_verifier(_id_etape() == "phidias", "direction l'atelier de Phidias (%s)" % _id_etape())
+	lues = await _parler("Phidias")
+	_verifier(_id_etape() == "plaques", "il faut rassembler les plaques d'or (%s)" % _id_etape())
+	for k in 4:
+		await _aller_cote(_scene.find_child("Plaque%d" % k, true, false), 1.0)
+		await _appuyer_f()
+		await _attendre(130)
+	_verifier(_id_etape() == "tribunal", "les quatre plaques sont rassemblées (%s)" % _id_etape())
+	var phidias: Node3D = _scene.find_child("Phidias", true, false)
+	_verifier(phidias != null and Vector2(phidias.global_position.x, phidias.global_position.z).distance_to(Vector2(-22, 46)) < 2.0, "Phidias part au tribunal")
+	await _placer(Vector3(-24, _scene.hauteur(-24, 40) + 0.4, 40), 0.0)
+	await _attendre(20)
+	_verifier(_id_etape() == "pesee", "au tribunal (%s)" % _id_etape())
+	lues = await _repondre("PeserMenonSeul", 0.0, 1.0)
+	_verifier(lues >= 3 and _id_etape() == "pesee", "les poids de Ménon seuls : il manque de l'or ?! (%s)" % _id_etape())
+	lues = await _repondre("PeserTresor", 0.0, 1.0)
+	_verifier(lues >= 5, "les poids de Ménon sont truqués (%d bulles)" % lues)
+	_verifier(_id_etape() == "choix_menon", "que faire de Ménon ? (%s)" % _id_etape())
+	lues = await _repondre("DemasquerMenon", 0.0, 1.0)
+	_verifier(_id_etape() == "bagarre_tribunal", "on démasque Ménon : les Masqués attaquent (%s)" % _id_etape())
+	await _attendre(30)
+	var masques := _vivants("masque_tribunal")
+	_verifier(masques.size() == 3, "trois Masqués dans le tribunal (%d)" % masques.size())
+	if not masques.is_empty():
+		var apparence = masques[0].get_node("Apparence").get("_delegue")
+		_verifier(apparence != null and apparence.get("variante") == "masque", "un Masqué porte un masque de théâtre")
+	await _tuer_tous("masque_tribunal", "bagarre_tribunal")
+	await _attendre(5)
+	_verifier(_id_etape() == "phidias_merci", "le tribunal est sauvé (%s)" % _id_etape())
+	lues = await _parler("Phidias")
+	_verifier(lues >= 3, "Phidias est acquitté (%d bulles)" % lues)
+	_verifier(_quete.etape < 0, "la suite (chapitre 5) arrive bientôt")
+
+	# --- L'autre choix : laisser filer Ménon et le suivre.
+	var cfg2 := ConfigFile.new()
+	cfg2.set_value("grece", "etape", "choix_menon")
+	cfg2.save(FICHIER)
+	await _charger(ATHENES)
+	print("Chapitre 4, l'autre choix")
+	_verifier(_id_etape() == "choix_menon", "on reprend au choix (%s)" % _id_etape())
+	await _repondre("SuivreMenon", 0.0, 1.0)
+	_verifier(_id_etape() == "filature_pnyx", "on suit Ménon vers la Pnyx (%s)" % _id_etape())
+	await _placer(Vector3(-74, _scene.hauteur(-74, 62) + 0.4, 62), 0.0)
+	await _attendre(20)
+	_verifier(_id_etape() == "filature_ceramique", "puis vers le Céramique (%s)" % _id_etape())
+	await _placer(Vector3(-128, _scene.hauteur(-128, -118) + 0.4, -118), 0.0)
+	await _attendre(20)
+	_verifier(_id_etape() == "jeton", "Ménon a rencontré un masqué (%s)" % _id_etape())
+	await _repondre("JetonLaurion", 1.0, 0.0)
+	await _attendre(10)
+	_verifier(_id_etape() == "phidias_merci", "un jeton des mines du Laurion (%s)" % _id_etape())
+	_verifier(_vivants("masque_tribunal").is_empty(), "pas de bagarre dans ce choix-là")
 
 	DirAccess.remove_absolute(ProjectSettings.globalize_path(FICHIER))
 	print("Résultat : %s" % ("TOUT EST BON" if _echecs == 0 else "%d échec(s)" % _echecs))

@@ -15,6 +15,7 @@ const HABITS := ["#e2d8c0", "#d8cdb2", "#ddd2b8", "#cfc3a6"]
 @export var graine := 0
 ## « oublie » (un ouvrier sans nom) ou « garde » (un mercenaire de l'Effaceuse :
 ## lin brun, coiffe sombre, masse de cuivre, et une diode rouge cachée à la ceinture).
+## « masque » (île de Grèce) : un Masqué, partisan muet de l'Effaceur.
 ## « petrifie » (île de Grèce) : un Athénien à moitié changé en marbre. Quand on le
 ## met à terre, la gangue de pierre se brise et il reste assommé, jusqu'à ce qu'on lui
 ## rende la voix (voir athenes.gd).
@@ -82,6 +83,8 @@ func _ready() -> void:
 	if variante == "petrifie":
 		_preparer_gangue()
 		return
+	if variante == "masque":
+		return
 	# L'amulette offerte par la « prêtresse de Memphis » : un scarabée qui luit.
 	# Le garde, lui, cache sous sa ceinture une petite diode rouge (une radio moderne).
 	var garde := variante == "garde"
@@ -107,6 +110,9 @@ func _habiller() -> void:
 	hasard.seed = graine * 7 + 3
 	if variante == "petrifie":
 		_habiller_athenien(hasard)
+		return
+	if variante == "masque":
+		_habiller_masque(hasard)
 		return
 	if _corps.has_method("appliquer"):
 		_corps.appliquer({"sexe": "homme", "taille_cm": hasard.randi_range(166, 180),
@@ -149,6 +155,20 @@ func _habiller_athenien(hasard: RandomNumberGenerator) -> void:
 		_corps.teindre_tenue(teinte * Color(0.92, 0.9, 0.88))
 	_gangue.set_shader_parameter("niveau", hasard.randf_range(1.05, 1.4) * (0.94 if femme else 1.0))
 	_poser_gangue(true)
+
+
+## Un Masqué (partisan de l'Effaceur, île de Grèce) : manteau sombre, visage caché
+## derrière un masque de théâtre blanc, une courte épée de bronze. Il ne dit jamais rien.
+func _habiller_masque(hasard: RandomNumberGenerator) -> void:
+	if _corps.has_method("appliquer"):
+		_corps.appliquer({"sexe": "homme", "taille_cm": hasard.randi_range(170, 184),
+				"peau": Color.from_string(PEAUX_GRECQUES[hasard.randi() % PEAUX_GRECQUES.size()], Color.WHITE)})
+	var teinte := Color.from_string(["#34303a", "#2c2a2e", "#3d3530"][hasard.randi() % 3], Color.WHITE)
+	if _corps.has_method("teindre_tenue"):
+		_corps.teindre_tenue(teinte)
+	if _corps.has_method("equiper"):
+		_corps.equiper({"tete": {"forme": "masque_theatre", "couleur": "#ece6da"},
+				"arme_principale": {"forme": "lame", "couleur": "#a8743a"}})
 
 
 func _preparer_gangue() -> void:

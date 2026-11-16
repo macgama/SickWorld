@@ -302,5 +302,53 @@
 			"Des figues d'Attique, les meilleures du monde ! Les Athéniens en sont si fiers qu'il est interdit de les vendre à l'étranger.",
 			"Tu as vu le cordonnier, là-bas ? Hier encore, il me racontait sa vie. Ce matin, il est dur comme une borne."
 		]
+	},
+	"aspasie": {
+		"nom": "Aspasie",
+		"role": "De Milet · l'amie de Périclès",
+		"modele": "femme",
+		"taille_cm": 166,
+		"peau": "#c09070",
+		"habits": "#2f5d6e",
+		"repliques": [
+			"Je suis née à Milet. Ici, je suis une étrangère, comme toi : je n'ai pas le droit de voter. Mais chez moi, les hommes qui votent viennent apprendre à parler.",
+			"Périclès dit que le bonheur, c'est la liberté, et que la liberté, c'est le courage. Moi, j'ajoute : et un peu de conversation."
+		]
+	},
+	"phidias": {
+		"nom": "Phidias",
+		"role": "Sculpteur · maître du chantier de l'Acropole",
+		"modele": "homme",
+		"taille_cm": 171,
+		"peau": "#a07049",
+		"habits": "#8a7a62",
+		"repliques": [
+			"Douze mètres d'ivoire et d'or, Xénos. Le visage et les bras en ivoire, la robe et les armes en or. Quand les lampes s'allumeront dans le temple, on croira qu'elle respire.",
+			"Mes ouvriers taillent, polissent, transportent. Moi, je regarde, je corrige et je m'inquiète. C'est ça, être maître d'œuvre."
+		]
+	},
+	"menon": {
+		"nom": "Ménon",
+		"role": "Ancien aide de Phidias",
+		"modele": "homme",
+		"taille_cm": 173,
+		"peau": "#a87a56",
+		"habits": "#6b5a4a",
+		"repliques": [
+			"J'ai travaillé six ans pour lui. Je sais ce que je dis. Il a gardé de l'or pour lui, j'en suis sûr.",
+			"Ne me regarde pas comme ça, étranger. Je fais mon devoir de citoyen."
+		]
+	},
+	"archonte": {
+		"nom": "Théodoros",
+		"role": "Archonte · président du tribunal",
+		"modele": "homme",
+		"taille_cm": 170,
+		"peau": "#9c6e4b",
+		"habits": "#e9e2d0",
+		"repliques": [
+			"Cinq cents jurés, tirés au sort ce matin. Personne ne peut les acheter tous. C'est le principe.",
+			"Chacun parle le temps que coule l'eau de la clepsydre. Pas une goutte de plus."
+		]
 	}
 }

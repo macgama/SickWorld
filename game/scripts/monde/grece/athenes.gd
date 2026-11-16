@@ -57,6 +57,17 @@ const ACROPOLE_HAUT := 36.0
 const ORCHESTRE := Vector2(100, 62)
 const H_ORCHESTRE := 7.0
 
+## Chapitre 4 : la maison d'Aspasie, l'atelier de Phidias, le tribunal de l'Héliée.
+const MAISON_ASPASIE := Vector2(52, 102)
+const ASPASIE := Vector2(52, 94)
+const ATELIER_PHIDIAS := Vector2(50, 50)
+const PHIDIAS := Vector2(44, 44)
+const TRIBUNAL := Vector2(-24, 44)
+const BALANCE := Vector2(-24, 41)
+const MENON := Vector2(-26, 49)
+const ARCHONTE := Vector2(-24, 52)
+const JETON := Vector2(-127, -121)
+
 ## Les trois Pétrifiés de l'Agora, une fois qu'on leur a rendu la voix.
 const NOMS_LIBERES := ["petrifie_cherephon", "petrifie_glykera", "petrifie_demochares"]
 const LIBERES := [Vector2(-4, -36), Vector2(0, -34), Vector2(4, -36)]
@@ -199,6 +210,9 @@ func reconstruire() -> void:
 	_construire_pnyx()
 	_construire_acropole()
 	_construire_theatre()
+	_construire_tribunal()
+	_construire_atelier_phidias()
+	_construire_maison_aspasie()
 	_construire_quartiers()
 	_construire_arbres()
 	_construire_touffes()
@@ -811,6 +825,139 @@ func _construire_theatre() -> void:
 	_fusionner(theatre)
 
 
+# --- Chapitre 4 : le tribunal, l'atelier de Phidias, la maison d'Aspasie ---------------------------
+
+## Le tribunal de l'Héliée : un grand enclos à ciel ouvert, des bancs pour les jurés,
+## la tribune, la clepsydre (l'horloge à eau) et la balance de bronze.
+func _construire_tribunal() -> void:
+	var tribunal := Node3D.new()
+	tribunal.name = "Heliee"
+	_contenu.add_child(tribunal)
+	var y := hauteur(TRIBUNAL.x, TRIBUNAL.y)
+	var pierre := _mat_pierre()
+	var bois := _mat_bois()
+	# Le mur d'enceinte, ouvert au nord (côté Agora).
+	for cote in 4:
+		var horizontal := cote < 2
+		var longueur := 34.0 if horizontal else 26.0
+		var c := TRIBUNAL + (Vector2(0, -13.0 if cote == 0 else 13.0) if horizontal else Vector2(-17.0 if cote == 2 else 17.0, 0))
+		if cote == 0:
+			for bout: float in [-1.0, 1.0]:
+				_boite(Vector3(12.0, 3.2, 0.8), Vector3(c.x + bout * 11.0, hauteur(c.x + bout * 11.0, c.y) + 1.6, c.y), _mat_chaux(), tribunal)
+			continue
+		_boite(Vector3(longueur, 3.2, 0.8) if horizontal else Vector3(0.8, 3.2, longueur), Vector3(c.x, hauteur(c.x, c.y) + 1.6, c.y), _mat_chaux(), tribunal)
+	# Les bancs des jurés, en rangées face à la tribune.
+	for rang in 5:
+		for cote: float in [-1.0, 1.0]:
+			var p := TRIBUNAL + Vector2(cote * 9.0, 2.0 + rang * 1.8)
+			_boite(Vector3(10.0, 0.45, 0.5), Vector3(p.x, hauteur(p.x, p.y) + 0.22, p.y), bois, tribunal)
+	# La tribune de l'orateur, et la clepsydre : un vase percé qui se vide dans un autre.
+	_boite(Vector3(2.2, 0.6, 1.6), Vector3(TRIBUNAL.x, y + 0.3, TRIBUNAL.y - 9.0), pierre, tribunal)
+	_vase(tribunal, Vector3(TRIBUNAL.x + 5.0, y + 1.1, TRIBUNAL.y - 9.0), 1.1, false)
+	_boite(Vector3(0.8, 1.1, 0.8), Vector3(TRIBUNAL.x + 5.0, y + 0.55, TRIBUNAL.y - 9.0), pierre, tribunal)
+	_vase(tribunal, Vector3(TRIBUNAL.x + 5.0, y, TRIBUNAL.y - 8.0), 0.8, false)
+	# La balance : un poteau, un fléau, deux plateaux suspendus.
+	var bronze := _mat_bronze()
+	var yb := hauteur(BALANCE.x, BALANCE.y)
+	_boite(Vector3(0.25, 2.6, 0.25), Vector3(BALANCE.x, yb + 1.3, BALANCE.y), bois, tribunal)
+	_boite(Vector3(3.2, 0.12, 0.12), Vector3(BALANCE.x, yb + 2.55, BALANCE.y), bronze, tribunal, false)
+	for cote: float in [-1.0, 1.0]:
+		for k in 3:
+			var a := TAU * k / 3.0
+			var corde := _boite(Vector3(0.02, 1.3, 0.02), Vector3(BALANCE.x + cote * 1.5 + cos(a) * 0.18, yb + 1.9, BALANCE.y + sin(a) * 0.18), bronze, tribunal, false)
+			corde.rotation.z = cos(a) * 0.12
+		var plateau := MeshInstance3D.new()
+		plateau.mesh = _cylindre(0.38, 0.3, 0.08, 18)
+		plateau.material_override = bronze
+		plateau.position = Vector3(BALANCE.x + cote * 1.5, yb + 1.25, BALANCE.y)
+		tribunal.add_child(plateau)
+	# Les urnes de vote (une de bronze pour « coupable », une de bois pour « innocent »).
+	for cote: float in [-1.0, 1.0]:
+		var urne := MeshInstance3D.new()
+		urne.mesh = _cylindre(0.3, 0.38, 0.9, 14)
+		urne.material_override = bronze if cote < 0.0 else bois
+		urne.position = Vector3(TRIBUNAL.x + cote * 3.0, y + 0.45, TRIBUNAL.y - 6.0)
+		tribunal.add_child(urne)
+
+
+## L'atelier de Phidias, au pied de l'Acropole : une grande halle ouverte, des blocs de
+## marbre, une maquette de la statue d'Athéna et ses plaques d'or démontables.
+func _construire_atelier_phidias() -> void:
+	var atelier := Node3D.new()
+	atelier.name = "AtelierPhidias"
+	_contenu.add_child(atelier)
+	var y := hauteur(ATELIER_PHIDIAS.x, ATELIER_PHIDIAS.y)
+	var bois := _mat_bois()
+	# La halle : quatre murs bas sur trois côtés, des poteaux, un toit de tuiles.
+	_boite(Vector3(16.0, 5.0, 0.6), Vector3(ATELIER_PHIDIAS.x, y + 2.5, ATELIER_PHIDIAS.y + 6.0), _mat_chaux(), atelier)
+	for cote: float in [-1.0, 1.0]:
+		_boite(Vector3(0.6, 5.0, 12.0), Vector3(ATELIER_PHIDIAS.x + cote * 8.0, y + 2.5, ATELIER_PHIDIAS.y), _mat_chaux(), atelier)
+	for k in 4:
+		_boite(Vector3(0.35, 5.0, 0.35), Vector3(ATELIER_PHIDIAS.x - 6.0 + k * 4.0, y + 2.5, ATELIER_PHIDIAS.y - 6.0), bois, atelier)
+	var toit := Node3D.new()
+	toit.position = Vector3(ATELIER_PHIDIAS.x, y + 5.0, ATELIER_PHIDIAS.y)
+	toit.rotation.y = PI / 2
+	atelier.add_child(toit)
+	_toit(toit, Vector3.ZERO, 12.0, 16.0, 0.28)
+	# La maquette d'Athéna Parthénos (deux mètres) : robe d'or, visage d'ivoire, bouclier.
+	var or_m := StandardMaterial3D.new()
+	or_m.albedo_color = Color(1.0, 0.78, 0.32)
+	or_m.metallic = 1.0
+	or_m.roughness = 0.25
+	var ivoire := _mat_peint(Color(0.93, 0.88, 0.76), 0.5)
+	var statue := Vector3(ATELIER_PHIDIAS.x + 3.0, y, ATELIER_PHIDIAS.y + 3.0)
+	_boite(Vector3(1.2, 0.5, 1.2), statue + Vector3(0, 0.25, 0), _mat_marbre(), atelier)
+	var robe := MeshInstance3D.new()
+	robe.mesh = _cylindre(0.22, 0.42, 1.5, 16)
+	robe.material_override = or_m
+	robe.position = statue + Vector3(0, 1.25, 0)
+	atelier.add_child(robe)
+	var tete := MeshInstance3D.new()
+	var s := SphereMesh.new()
+	s.radius = 0.13
+	s.height = 0.3
+	tete.mesh = s
+	tete.material_override = ivoire
+	tete.position = statue + Vector3(0, 2.15, 0)
+	atelier.add_child(tete)
+	var casque := MeshInstance3D.new()
+	casque.mesh = _cylindre(0.02, 0.15, 0.25, 12)
+	casque.material_override = or_m
+	casque.position = statue + Vector3(0, 2.35, 0)
+	atelier.add_child(casque)
+	var bouclier := MeshInstance3D.new()
+	bouclier.mesh = _cylindre(0.4, 0.4, 0.05, 20)
+	bouclier.material_override = or_m
+	bouclier.rotation.x = PI / 2
+	bouclier.rotation.y = 0.6
+	bouclier.position = statue + Vector3(0.45, 0.9, 0.1)
+	atelier.add_child(bouclier)
+	# Des blocs de marbre, des outils, des copeaux d'ivoire.
+	for k in 5:
+		_boite(Vector3(1.4, 1.0, 1.0), Vector3(ATELIER_PHIDIAS.x - 12.0 + (k % 3) * 1.6, y + 0.5 + (k / 3) * 1.0, ATELIER_PHIDIAS.y - 2.0), _mat_marbre(), atelier)
+
+
+## La maison d'Aspasie : une belle maison à cour intérieure, avec un petit portique.
+func _construire_maison_aspasie() -> void:
+	var maison := Node3D.new()
+	maison.name = "MaisonAspasie"
+	_contenu.add_child(maison)
+	var y := hauteur(MAISON_ASPASIE.x, MAISON_ASPASIE.y)
+	var chaux := _mat_chaux()
+	# Trois ailes autour d'une cour, ouverte au nord (vers la rue).
+	_maison_grecque(maison, MAISON_ASPASIE + Vector2(0, 7), Vector3(18, 5.0, 6), 0.0)
+	_maison_grecque(maison, MAISON_ASPASIE + Vector2(-8, -1), Vector3(5, 4.6, 10), PI / 2)
+	_maison_grecque(maison, MAISON_ASPASIE + Vector2(8, -1), Vector3(5, 4.6, 10), -PI / 2)
+	for k in 4:
+		_colonne(maison, Vector3(MAISON_ASPASIE.x - 4.5 + k * 3.0, y, MAISON_ASPASIE.y + 3.0), 3.4, 0.22, _mat_marbre())
+	_boite(Vector3(11.0, 0.3, 1.0), Vector3(MAISON_ASPASIE.x, y + 3.5, MAISON_ASPASIE.y + 3.0), chaux, maison, false)
+	# La cour : un autel familial, des pots de basilic, des banquettes pour les invités.
+	_boite(Vector3(0.8, 0.9, 0.8), Vector3(MAISON_ASPASIE.x, y + 0.45, MAISON_ASPASIE.y - 1.0), _mat_marbre(), maison)
+	for cote: float in [-1.0, 1.0]:
+		_boite(Vector3(2.2, 0.5, 0.8), Vector3(MAISON_ASPASIE.x + cote * 3.5, y + 0.25, MAISON_ASPASIE.y + 1.5), _mat_bois(), maison)
+		_vase(maison, Vector3(MAISON_ASPASIE.x + cote * 2.0, y, MAISON_ASPASIE.y - 3.0), 0.7, cote > 0.0)
+
+
 # --- Les quartiers d'habitation -------------------------------------------------------------------
 
 func _hors_quartiers(p: Vector2) -> bool:
@@ -823,6 +970,8 @@ func _hors_quartiers(p: Vector2) -> bool:
 	if p.distance_to(LYDOS) < 20.0 or p.distance_to(ATELIER) < 26.0 or p.distance_to(DIPYLON) < 22.0:
 		return true
 	if p.distance_to(BOULEUTERION) < 16.0 or p.distance_to(ENTREE) < 12.0 or p.y > 144.0 or p.x < -150.0:
+		return true
+	if p.distance_to(TRIBUNAL) < 22.0 or p.distance_to(ATELIER_PHIDIAS) < 15.0 or p.distance_to(MAISON_ASPASIE) < 17.0:
 		return true
 	return false
 
@@ -956,6 +1105,34 @@ func _construire_quete() -> void:
 	_pnj(dossier, "lydos", LYDOS, PI / 2)
 	_pnj(dossier, "archer_agora", ARCHER, PI)
 	_pnj(dossier, "marchande_figues", FIGUES, -PI / 2)
+	# Chapitre 4.
+	_pnj(dossier, "aspasie", ASPASIE, 0.0)
+	_pnj(dossier, "phidias", PHIDIAS, PI)
+	_pnj(dossier, "menon", MENON, PI)
+	_pnj(dossier, "archonte", ARCHONTE, PI)
+	for k in 4:
+		var plaque := ObjetGrece.new()
+		plaque.name = "Plaque%d" % k
+		plaque.identifiant = "plaque_%d" % k
+		plaque.groupe = "plaque_or"
+		plaque.forme = "plaque_or"
+		plaque.invite = "[F] Démonter les plaques d'or"
+		plaque.portee = 1.6
+		var pp := ATELIER_PHIDIAS + Vector2(-6.0 + k * 4.0, 1.0 + (k % 2) * 1.5)
+		plaque.position = Vector3(pp.x, hauteur(pp.x, pp.y), pp.y)
+		dossier.add_child(plaque)
+	_reponse(dossier, "peser_menon_seul", "peser l'or avec les poids de Ménon", BALANCE + Vector2(-11, 0))
+	_reponse(dossier, "recompter_plaques", "recompter les plaques une à une", BALANCE + Vector2(-8, 0))
+	_reponse(dossier, "peser_tresor", "comparer les poids de Ménon à ceux du Trésor", BALANCE + Vector2(-5, 0))
+	_reponse(dossier, "demasquer_menon", "démasquer Ménon devant les juges", BALANCE + Vector2(6, 0), "[F] Choisir : ")
+	_reponse(dossier, "suivre_menon", "le laisser filer et le suivre", BALANCE + Vector2(9, 0), "[F] Choisir : ")
+	var jeton := ObjetGrece.new()
+	jeton.name = "JetonLaurion"
+	jeton.identifiant = "jeton_laurion"
+	jeton.forme = "jeton"
+	jeton.invite = "[F] Fouiller"
+	jeton.position = Vector3(JETON.x, hauteur(JETON.x, JETON.y), JETON.y)
+	dossier.add_child(jeton)
 	# Les réponses des interrogatoires : des tablettes de cire, une par réponse.
 	_reponse(dossier, "reponse_kallias_parle", "« Tu ne l'as jamais vu, mais tu sais qu'il parle bien ? »", KALLIAS + Vector2(-4, -3))
 	_reponse(dossier, "reponse_kallias_fievre", "« Une fièvre ne change pas les gens en statue ! »", KALLIAS + Vector2(-4, 0))
@@ -1002,14 +1179,17 @@ func _construire_quete() -> void:
 	repere.call(MarqueurCarte.Type.LIEU, "Acropole", ACROPOLE + Vector2(0, -40))
 	repere.call(MarqueurCarte.Type.LIEU, "Théâtre de Dionysos", ORCHESTRE)
 	repere.call(MarqueurCarte.Type.DANGER, "Chiens errants", Vector2(-132, -76))
+	repere.call(MarqueurCarte.Type.LIEU, "Tribunal de l'Héliée", TRIBUNAL)
+	repere.call(MarqueurCarte.Type.LIEU, "Atelier de Phidias", ATELIER_PHIDIAS)
+	repere.call(MarqueurCarte.Type.LIEU, "Maison d'Aspasie", MAISON_ASPASIE)
 
 
-func _reponse(parent: Node3D, id: String, texte: String, p: Vector2) -> void:
+func _reponse(parent: Node3D, id: String, texte: String, p: Vector2, debut := "[F] Répondre : ") -> void:
 	var o := ObjetGrece.new()
 	o.name = id.capitalize().replace(" ", "")
 	o.identifiant = id
 	o.forme = "tablette"
-	o.invite = "[F] Répondre : " + texte
+	o.invite = debut + texte
 	o.portee = 1.6
 	o.position = Vector3(p.x, hauteur(p.x, p.y), p.y)
 	parent.add_child(o)

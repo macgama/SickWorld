@@ -596,5 +596,19 @@
 		"distance_laisse": 30,
 		"entraide": 10,
 		"temps_reapparition": 0
+	},
+	"masque_tribunal": {
+		"nom": "Masqué",
+		"niveau": 26,
+		"points_de_vie": 880,
+		"degats": [28, 38],
+		"intervalle_attaque": 1.6,
+		"portee_attaque": 2.3,
+		"vitesse_course": 6.2,
+		"vitesse_marche": 1.4,
+		"distance_detection": 16,
+		"distance_laisse": 40,
+		"entraide": 16,
+		"temps_reapparition": 0
 	}
 }

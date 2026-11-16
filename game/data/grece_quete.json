@@ -758,12 +758,204 @@
 					]
 				}
 			]
+		},
+		{
+			"numero": 4,
+			"titre": "L'or de Phidias",
+			"ou": "athenes",
+			"etapes": [
+				{
+					"id": "aspasie",
+					"objectif": "Rends visite à Aspasie, dans sa maison au sud-est de la ville",
+					"pnj": "aspasie",
+					"repliques": [
+						"Entre, Xénos. Socrate m'a parlé de toi : un étranger qui pose de bonnes questions. C'est plus rare qu'un étranger qui a de l'or.",
+						"Justement, parlons d'or. Ce matin, Ménon, l'ancien aide de Phidias, l'a accusé devant le tribunal d'avoir volé l'or de la statue d'Athéna. Quarante talents d'or. Une fortune.",
+						"Phidias est l'ami de Périclès. Si Phidias tombe, on dira que Périclès protège les voleurs. Et la fête qui doit consacrer la statue sera souillée.",
+						"Ménon n'a jamais eu un sou. Depuis dix jours, il porte des sandales neuves et il suit les leçons d'un sophiste qui cache son visage. Tu vois où je veux en venir ?",
+						"Va voir Phidias, dans son atelier au pied de l'Acropole. Il aura besoin de quelqu'un qui réfléchit vite."
+					]
+				},
+				{
+					"id": "phidias",
+					"objectif": "Va voir Phidias, dans son atelier au pied de l'Acropole",
+					"pnj": "phidias",
+					"repliques": [
+						"Voler l'or d'Athéna ? Moi ? J'ai passé neuf ans de ma vie sur cette statue !",
+						"Mais j'ai été prudent, Xénos. Périclès m'avait prévenu : « Ils te jalouseront. » Alors j'ai fait fixer l'or par des chevilles, en plaques qu'on peut démonter.",
+						"Les plaques de rechange et celles de la robe sont ici, dans l'atelier. Aide-moi à les rassembler : on va les porter au tribunal et les peser devant tout le monde."
+					]
+				},
+				{
+					"id": "plaques",
+					"objectif": "Rassemble les plaques d'or de la statue, dans l'atelier (F)",
+					"recolter": "plaque_or",
+					"nombre": 4,
+					"duree": 1.5,
+					"action": "Tu fais sauter les chevilles de bronze…",
+					"apres": [
+						{
+							"pnj": "phidias",
+							"aller": [-22, 46]
+						},
+						{
+							"pnj": "socrate",
+							"aller": [-12, 33]
+						}
+					]
+				},
+				{
+					"id": "tribunal",
+					"objectif": "Porte les plaques au tribunal de l'Héliée, au sud-ouest de l'Agora",
+					"zone": [-24, 42],
+					"rayon": 9,
+					"recit": {
+						"titre": "Le tribunal de l'Héliée",
+						"texte": "Cinq cents jurés sur des bancs de bois, tirés au sort le matin même. Une clepsydre goutte dans un coin : chacun parle le temps que l'eau met à couler. Au centre, une grande balance de bronze."
+					}
+				},
+				{
+					"id": "pesee",
+					"objectif": "Fais peser l'or devant les juges : choisis comment (F)",
+					"objet": "peser_tresor",
+					"pnj": "phidias",
+					"leurres": [
+						{
+							"objet": "peser_menon_seul",
+							"pnj": "menon",
+							"repliques": [
+								"On pose les plaques d'un côté, les poids apportés par Ménon de l'autre.",
+								"Ménon : Trente-six talents ! Il en manque quatre ! Vous voyez bien qu'il a volé !",
+								"(Les jurés grondent. Socrate, assis au premier rang, se gratte le menton : « Avec quels poids pèse-t-on, au juste ? »)"
+							]
+						},
+						{
+							"objet": "recompter_plaques",
+							"pnj": "socrate",
+							"repliques": [
+								"Tu comptes les plaques une à une. Quarante-quatre, toutes là, avec leurs numéros gravés.",
+								"Ménon : Et alors ? Il a pu les amincir, les limer, mélanger du cuivre ! Compter ne prouve rien !",
+								"Socrate : Il n'a pas tort. Ce n'est pas le nombre qui compte, c'est le poids. Et le poids dépend de la balance... et des poids."
+							]
+						}
+					],
+					"repliques": [
+						"Tu poses les poids de Ménon d'un côté, et de l'autre les poids officiels du Trésor d'Athéna, scellés par les trésoriers.",
+						"La balance penche d'un coup. Les poids de Ménon sont plus lourds qu'ils ne devraient : quelqu'un les a fourrés de plomb.",
+						"On repèse l'or avec les poids du Trésor : quarante talents, au grain près. Pas une miette ne manque.",
+						"Phidias : Ménon... Qui t'a donné ces poids ?",
+						"(Ménon recule. Dans la foule, trois hommes au manteau sombre se lèvent en même temps. Ils portent des masques de théâtre.)"
+					]
+				},
+				{
+					"id": "choix_menon",
+					"objectif": "Ménon recule vers la sortie : que fais-tu ?",
+					"choix": [
+						{
+							"objet": "demasquer_menon",
+							"objectif": "Démasque Ménon devant les juges",
+							"pnj": "menon",
+							"repliques": [
+								"« Ménon ! Ces poids viennent du sophiste au masque. Et ces trois-là aussi ! »",
+								"Ménon pâlit. Les trois masqués tirent des lames de sous leurs manteaux. Les jurés hurlent."
+							]
+						},
+						{
+							"objet": "suivre_menon",
+							"objectif": "Laisse filer Ménon et suis-le discrètement",
+							"pnj": "socrate",
+							"repliques": [
+								"Tu ne dis rien. Ménon se glisse dehors, et les masqués s'en vont à leur tour, sans un bruit.",
+								"Socrate : Bien vu, Xénos. Un renard qu'on effraie se terre. Un renard qu'on laisse filer rentre chez lui. Suis-le, je m'occupe de Phidias."
+							]
+						}
+					]
+				},
+				{
+					"id": "bagarre_tribunal",
+					"si_choix": {
+						"choix_menon": "demasquer_menon"
+					},
+					"objectif": "Repousse les Masqués dans le tribunal",
+					"tuer": "masque_tribunal",
+					"nombre": 3,
+					"lieu": [-24, 42],
+					"apparition": {
+						"type": "masque_tribunal",
+						"position": [-24, 46],
+						"nombre": 3,
+						"rayon": 4,
+						"attaque": true
+					},
+					"apres": [
+						{
+							"masquer": "menon"
+						}
+					],
+					"recit": {
+						"titre": "Le silence des masqués",
+						"texte": "Ils se battent sans un cri, sans un souffle. Le dernier tombe, et son masque se fend en deux : dessous, un visage ordinaire, terrifié, qui ne se souvient plus de rien."
+					}
+				},
+				{
+					"id": "filature_pnyx",
+					"si_choix": {
+						"choix_menon": "suivre_menon"
+					},
+					"objectif": "Suis Ménon de loin : il monte vers la Pnyx",
+					"zone": [-74, 62],
+					"rayon": 8,
+					"apres": [
+						{
+							"masquer": "menon"
+						}
+					]
+				},
+				{
+					"id": "filature_ceramique",
+					"si_choix": {
+						"choix_menon": "suivre_menon"
+					},
+					"objectif": "Ménon file vers les tombes du Céramique",
+					"zone": [-128, -120],
+					"rayon": 8
+				},
+				{
+					"id": "jeton",
+					"si_choix": {
+						"choix_menon": "suivre_menon"
+					},
+					"objectif": "Ménon a retrouvé un masqué derrière une tombe. Il est parti : fouille l'endroit (F)",
+					"objet": "jeton_laurion",
+					"recit": {
+						"titre": "Un jeton de plomb",
+						"texte": "Un petit disque de plomb, frappé d'une chouette et d'une lampe de mineur. On en donne aux esclaves des mines du Laurion en échange de leur ration. Le sophiste au masque a des amis sous la terre."
+					}
+				},
+				{
+					"id": "phidias_merci",
+					"objectif": "Retourne voir Phidias, au tribunal",
+					"pnj": "phidias",
+					"fin_chapitre": true,
+					"repliques": [
+						"Acquitté ! Quatre cent quatre-vingt-dix voix contre dix. Les dix, je les connais : ils me doivent de l'argent.",
+						"Mais ceux qui ont payé Ménon courent toujours. Aspasie a raison : quelqu'un veut salir Périclès avant la fête, et faire taire la ville en même temps.",
+						"Tiens, prends mon ciseau. Celui des plis de la robe. Tu as sauvé mon honneur ; prends un peu de mon métier."
+					],
+					"recompense": [
+						{
+							"id": "ciseau_phidias",
+							"nom": "Ciseau de Phidias"
+						}
+					]
+				}
+			]
 		}
 	],
 	"fin_provisoire": {
 		"chapitre": "LA SUITE ARRIVE",
-		"objectif": "Chapitre 4, « L'or de Phidias » : Aspasie t'attendra bientôt chez elle.",
+		"objectif": "Chapitre 5, « Le sophiste au masque » : on joue Antigone au théâtre de Dionysos.",
 		"titre": "Que le temps n'efface pas",
-		"message": "L'Agora a retrouvé sa voix. Mais l'homme au masque court toujours."
+		"message": "Phidias est acquitté. Mais l'homme au masque prépare quelque chose pour la fête."
 	}
 }
