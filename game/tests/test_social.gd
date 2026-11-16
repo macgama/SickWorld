@@ -174,7 +174,7 @@ func _membre(reseau, social, port_ville: int) -> void:
 	await _attendre(func(): return _progression() != null and _progression().etat.has("xp") and _eclats() >= 0, 20.0)
 	var prog := _progression()
 	_verifier(prog != null and int(prog.etat.get("xp", -2)) == xp_ville and _eclats() == eclats_ville,
-			"donjon : on a gardé notre XP et nos sacs de la ville (%d XP, %d éclats)" % [xp_ville, eclats_ville])
+			"donjon : on a gardé notre XP et nos sacs de la ville (ville : %d XP, %d éclats ; donjon : %d XP, %d éclats)" % [xp_ville, eclats_ville, int(prog.etat.get("xp", -2)) if prog != null else -3, _eclats()])
 	if prog != null:
 		prog.evenement_fait("prehistoire", "faille_s_ouvre", "or", true)
 	_verifier(await _attendre(func(): return _eclats() == eclats_ville + 4, 10.0),

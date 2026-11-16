@@ -13,6 +13,7 @@ var _compteur := 0
 var _hasard := RandomNumberGenerator.new()
 ## Chez le joueur : numéro du sac -> nœud affiché.
 var _visibles := {}
+var _inventaire_suivi: Node
 
 
 func _ready() -> void:
@@ -146,8 +147,13 @@ func _resume(objets: Array) -> String:
 @rpc("authority", "call_remote", "reliable")
 func _montrer(numero: int, position_monde: Vector3, texte: String) -> void:
 	if _visibles.has(numero):
-		(_visibles[numero]["etiquette"] as Label3D).text = "Butin (F)\n" + texte
+		# Le sac est renvoyé après une tentative : il reste des objets, nos sacs sont
+		# pleins. F ne le vise plus (sinon il cachait tout objet de quête ou PNJ à côté),
+		# jusqu'à ce que l'inventaire change (une place libérée).
+		(_visibles[numero]["etiquette"] as Label3D).text = "Butin (sacs pleins)\n" + texte
 		_visibles[numero]["texte"] = texte
+		_visibles[numero]["plein"] = Time.get_ticks_msec()
+		_suivre_inventaire()
 		return
 	var noeud := Node3D.new()
 	noeud.name = "SacDeButin%d" % numero
@@ -176,6 +182,24 @@ func _cacher(numero: int) -> void:
 		_visibles.erase(numero)
 
 
+## Quand l'inventaire du joueur local change (objet vendu, jeté…), les sacs
+## « pleins » redeviennent ramassables avec F.
+func _suivre_inventaire() -> void:
+	if _inventaire_suivi != null and is_instance_valid(_inventaire_suivi):
+		return
+	var joueur := get_tree().get_first_node_in_group("joueur_local")
+	var inventaire := joueur.get_node_or_null("Inventaire") if joueur != null else null
+	if inventaire == null:
+		return
+	_inventaire_suivi = inventaire
+	inventaire.change.connect(func():
+		for numero in _visibles:
+			# La mise à jour qui suit la tentative de ramassage elle-même ne compte pas.
+			if _visibles[numero].has("plein") and Time.get_ticks_msec() - int(_visibles[numero]["plein"]) > 1500:
+				_visibles[numero].erase("plein")
+				(_visibles[numero]["etiquette"] as Label3D).text = "Butin (F)\n" + String(_visibles[numero]["texte"]))
+
+
 ## Le sac de butin le plus proche du joueur local, à portée de main (-1 si aucun).
 func sac_a_portee() -> int:
 	var joueur := get_tree().get_first_node_in_group("joueur_local") as Node3D
@@ -184,6 +208,8 @@ func sac_a_portee() -> int:
 	var meilleur := -1
 	var distance_min := float(Objets.reglage(_cat(), "distance_ramassage", 3.5))
 	for numero in _visibles:
+		if _visibles[numero].has("plein"):
+			continue
 		var p: Vector3 = _visibles[numero]["position"]
 		var d := Vector2(joueur.global_position.x - p.x, joueur.global_position.z - p.z).length()
 		if d <= distance_min:
