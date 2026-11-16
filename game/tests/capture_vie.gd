@@ -25,6 +25,7 @@ func _lancer() -> void:
 	var args := Array(OS.get_cmdline_user_args()).filter(func(a): return a != "--sans-vie")
 	var chemin_scene: String = args[0]
 	var dossier: String = args[1]
+	DirAccess.make_dir_recursive_absolute(dossier)
 	var prefixe: String = args[2]
 	root.size = Vector2i(1280, 720)
 	var fichier := "user://capture_vie_%d.cfg" % OS.get_process_id()

@@ -31,7 +31,7 @@ var arrets: Array = []
 ## Geste pendant les pauses : « travail » (creuser), « priere », « discute », « lancer »
 ## (pêcher), « assis », « a_genoux », « telephone », « regarder », « ramasser », « » = rien.
 var geste := ""
-## Ce qu'il porte : « jarre » (sur la tête), « panier », « fagot », « sac », « lance », « ».
+## Ce qu'il porte : « jarre » (sur la tête), « amphore » (sur l'épaule), « panier », « fagot », « sac », « lance », « ».
 var porte := ""
 ## Orientation pendant les pauses (degrés, 0 = nord) ; NAN = garde son sens de marche.
 var regarde := NAN
@@ -93,6 +93,8 @@ func _habiller() -> void:
 			if o.has("visuel") and o.has("emplacement"):
 				visuels[o["emplacement"]] = o["visuel"]
 		_apparence.equiper(visuels)
+	if fiche.has("antique"):
+		_ajouter_drape(fiche["antique"])
 	if porte != "":
 		_ajouter_charge()
 	if parapluie.a > 0.0:
@@ -109,6 +111,90 @@ static func _catalogue() -> Dictionary:
 		if lu is Dictionary:
 			_objets = lu
 	return _objets
+
+
+## Habit antique (Grèce…) par-dessus la tenue moderne teinte : une robe (chiton ou péplos)
+## qui descend des hanches, une ceinture, et un drapé sur les épaules (himation) qui cache
+## en partie la veste. fiche « antique » : {"robe": longueur en m sous les hanches,
+## "drape": couleur du manteau (facultatif), "ceinture": couleur (facultatif)}.
+func _ajouter_drape(reglage: Dictionary) -> void:
+	var squelette := _apparence.find_children("*", "Skeleton3D", true, false)
+	if squelette.is_empty():
+		return
+	var s := squelette[0] as Skeleton3D
+	var couleur := Color.from_string(String(fiche.get("habits", "#e4dac4")), Color(0.88, 0.85, 0.77))
+	var tissu := _mat(couleur.lightened(0.05), 0.95)
+	tissu.cull_mode = BaseMaterial3D.CULL_DISABLED
+	var echelle := 1.0
+	var femme := String(fiche.get("modele", "homme")) == "femme"
+	var accrocher := func(os: String) -> Node3D:
+		if s.find_bone(os) < 0:
+			return null
+		var a := BoneAttachment3D.new()
+		a.bone_name = os
+		s.add_child(a)
+		var n := Node3D.new()
+		a.add_child(n)
+		echelle = 1.0 / maxf(0.001, s.global_transform.basis.get_scale().x / _apparence.global_transform.basis.get_scale().x)
+		n.scale = Vector3.ONE * echelle
+		return n
+	# La robe : un tube de tissu évasé, des hanches jusqu'aux genoux ou aux chevilles.
+	var bassin: Node3D = accrocher.call("mixamorig_Hips")
+	if bassin != null:
+		var longueur := float(reglage.get("robe", 0.75 if femme else 0.55))
+		var robe := MeshInstance3D.new()
+		var c := CylinderMesh.new()
+		c.top_radius = 0.17 if femme else 0.18
+		c.bottom_radius = 0.17 + longueur * 0.12
+		c.height = longueur + 0.18
+		c.cap_top = false
+		c.cap_bottom = false
+		c.radial_segments = 14
+		robe.mesh = c
+		robe.material_override = tissu
+		robe.position = Vector3(0, 0.12 - c.height * 0.5, 0.0)
+		robe.scale = Vector3(1.0, 1.0, 0.8)
+		bassin.add_child(robe)
+		# Les plis : quelques bandes verticales un peu plus sombres.
+		var pli := _mat(couleur.darkened(0.12), 0.95)
+		for k in 6:
+			var a := TAU * (k + 0.5) / 6.0
+			var bande := MeshInstance3D.new()
+			var b := BoxMesh.new()
+			b.size = Vector3(0.03, c.height * 0.9, 0.012)
+			bande.mesh = b
+			bande.material_override = pli
+			var r := (c.top_radius + c.bottom_radius) * 0.5 + 0.004
+			bande.position = Vector3(sin(a) * r, robe.position.y, cos(a) * r * 0.8)
+			bande.rotation.y = a
+			bande.rotation.x = -atan((c.bottom_radius - c.top_radius) / c.height) * cos(a)
+			bande.rotation.z = atan((c.bottom_radius - c.top_radius) / c.height) * sin(a)
+			bassin.add_child(bande)
+	# La ceinture, à la taille.
+	var taille: Node3D = accrocher.call("mixamorig_Spine")
+	if taille != null:
+		var t := TorusMesh.new()
+		t.inner_radius = 0.15
+		t.outer_radius = 0.175
+		var ceinture := MeshInstance3D.new()
+		ceinture.mesh = t
+		ceinture.material_override = _mat(Color.from_string(String(reglage.get("ceinture", "#6a4a30")), Color(0.4, 0.29, 0.19)), 0.9)
+		ceinture.scale = Vector3(1.0, 1.0, 0.78)
+		taille.add_child(ceinture)
+	# Le pan de l'himation, en écharpe sur la poitrine.
+	var buste: Node3D = accrocher.call("mixamorig_Spine2")
+	if buste != null:
+		var drape := _mat(Color.from_string(String(reglage.get("drape", "")), couleur.darkened(0.08)), 0.95)
+		drape.cull_mode = BaseMaterial3D.CULL_DISABLED
+		# Le pan qui passe en écharpe de l'épaule gauche à la hanche droite.
+		var echarpe := MeshInstance3D.new()
+		var bx := BoxMesh.new()
+		bx.size = Vector3(0.16, 0.62, 0.02)
+		echarpe.mesh = bx
+		echarpe.material_override = drape
+		echarpe.position = Vector3(0.0, -0.08, 0.125)
+		echarpe.rotation.z = 0.6
+		buste.add_child(echarpe)
 
 
 func _ajouter_charge() -> void:
@@ -157,6 +243,14 @@ func _ajouter_charge() -> void:
 			objet.add_child(sac)
 		"lance":
 			_piece(objet, _cyl(0.015, 0.018, 1.9), bois, Vector3(0, 0.5, 0))
+		"amphore":
+			# Une amphore grecque couchée sur l'épaule (vin, huile), le col vers l'avant.
+			objet.position = Vector3(-0.02, 0.2, 0.0) * echelle
+			objet.rotation = Vector3(PI / 2 - 0.25, 0, 0)
+			_piece(objet, _cyl(0.15, 0.06, 0.42), terre, Vector3(0, 0, 0))
+			_piece(objet, _cyl(0.06, 0.15, 0.12), terre, Vector3(0, 0.27, 0))
+			_piece(objet, _cyl(0.04, 0.045, 0.14), terre, Vector3(0, 0.39, 0))
+			_piece(objet, _cyl(0.0, 0.05, 0.1), terre, Vector3(0, -0.26, 0)).rotation.x = PI
 
 
 func _ajouter_parapluie() -> void:

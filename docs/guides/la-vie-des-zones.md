@@ -19,6 +19,7 @@ le modifier avec n'importe quel éditeur de texte (Bloc-notes, VS Code…), sans
 | **Carrières de Toura** | vautours, choucas devant la falaise, ibis au bord du Nil, nuage de poussière de la carrière, 4 tailleurs de pierre au travail, porteurs entre la carrière et le débarcadère |
 | **Village des Bâtisseurs** | hirondelles, pigeons, milans au-dessus du chantier, 12 habitants (porteuses d'eau qui montent au chantier, ouvriers qui redescendent, bavards sur la place, tailleurs de pierre, bouvier…), poussière du chantier, mouches de l'enclos, fumée du four |
 | **Désert Rouge** | vautours qui tournent au-dessus des tombes, sable soulevé par le vent, le camp des nomades qui s'anime, un prêtre et son porteur sur la rue des mastabas |
+| **Le Pirée** | goélands et mouettes sur le port et la crique, nuée de pigeons devant le grand portique, hirondelles sur l'agora, choucas autour du temple d'Artémis, milans au-dessus de l'Akté, hérons sur la côte ; 24 habitants : dockers qui portent amphores et sacs le long des quais, charpentiers qui réparent une trière à l'arsenal, un archer scythe qui fait sa ronde, clientes des étals, pêcheurs de la crique (dont un qui lance son filet), porteuses d'eau dans les rues, bavards de l'agora, une prêtresse en prière ; **barques de pêche, navires de commerce à voile carrée et une trière de guerre qui rame au large** ; mouches sur les étals, papillons dans les oliviers, braises des feux, buissons, paniers et seaux |
 | **Hikari Bay** | 28 passants de plus (sur la place, dans les rues, accoudés au garde-corps du front de mer), ferry, vedettes, voilier, bateaux de pêche, cargo au loin, **grand pont suspendu illuminé avec son flot de voitures**, avions et hélicoptère qui clignotent, distributeurs de boissons éclairés, vélos et scooters garés |
 
 ## Ajouter un oiseau, un habitant ou des cailloux
@@ -31,11 +32,13 @@ Ouvre `game/data/vie_ambiante.json`, trouve la section de la zone (par exemple
   - `"comportement": "formation"` = vol en V qui traverse le ciel ; `"nuee"` = nuée qui virevolte
 - **Un habitant** : `{"comme": "egy_femme", "porte": "jarre", "chemin": [[30, 60], [14, 48]]}`
   - `comme` : un modèle de `modeles_figurants` (en haut du fichier)
-  - `porte` : jarre, panier, fagot, sac, lance
+  - `porte` : jarre, amphore (sur l'épaule), panier, fagot, sac, lance
   - `geste` (pendant ses pauses, vraies animations Mixamo) : assis, a_genoux, telephone, regarder, discute, travail (creuser), priere, lancer (pêcher), ramasser
   - un seul point dans `chemin` = il reste sur place ; `regarde` = son orientation (0 = nord, 90 = est)
 - **Des insectes** : `{"sorte": "moucherons", "position": [24, -9, 1.0]}` — sortes : moucherons, mouches, papillons, libellules, poussiere, sable, duvet, lucioles, cendres
 - **Des objets au sol** : `{"modele": "stone_01", "nombre": 900, "echelle": [0.25, 0.8]}` — on ne pose jamais rien sur un toit ou dans une maison.
+
+- **Un bateau** (au Pirée) : `{"sorte": "barque", "chemin": [[-20, 190], [60, 215]], "vitesse": 1.4}` — sortes antiques : barque, marchand (voile carrée, `"voile": "#c9a678"` pour sa couleur), triere (les rames battent la mesure). Un seul point dans `chemin` = il reste au mouillage.
 
 Les positions sont en mètres, le nord est vers les `z` négatifs.
 
