@@ -2341,12 +2341,7 @@
 			},
 			{
 				"comme": "egy_ouvrier",
-				"chemin": [
-					[
-						-14,
-						-94
-					]
-				],
+				"chemin": [[-14.5, -94.3]],
 				"geste": "travail",
 				"regarde": 300
 			},
