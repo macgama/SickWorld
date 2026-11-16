@@ -325,6 +325,8 @@ func _aller_a(numero: int) -> void:
 					objet.actif = true
 		if e.has("apparition") and multiplayer.is_server() and _ici(e):
 			_faire_apparaitre(e["apparition"], true)
+	if multiplayer.is_server():
+		_mettre_a_jour_allies.call_deferred()
 	_mettre_a_jour_objectif()
 	etape_changee.emit(e.get("id", ""))
 
@@ -502,6 +504,61 @@ func _faire_apparaitre(groupe: Dictionary, unique: bool) -> void:
 				var combat = joueur.get_node_or_null("Combat")
 				if combat != null:
 					loup.engager.call_deferred(combat)
+
+
+## « allies » : des personnages qui combattent aux côtés du joueur pendant l'étape (les
+## gladiateurs Priscus et Verus dans l'arène). Ils le suivent comme la meute invoquée,
+## et s'en vont quand une étape sans eux commence.
+## Ex. "allies": [{"type": "gladiateur_priscus", "position": [-6, 0]}].
+func _mettre_a_jour_allies() -> void:
+	if not is_inside_tree():
+		return
+	var e := etape_actuelle()
+	var voulus: Array = e.get("allies", []) if _ici(e) else []
+	var types: Array[String] = []
+	for a in voulus:
+		types.append(String(a.get("type", "")))
+	var presents: Array[String] = []
+	for n in get_tree().get_nodes_in_group("allie_quete"):
+		if n.is_queued_for_deletion():
+			continue
+		if not String(n.get("type_ennemi")) in types:
+			n.queue_free()
+		else:
+			presents.append(String(n.get("type_ennemi")))
+	if voulus.is_empty():
+		return
+	var ile := get_tree().get_first_node_in_group("ile")
+	var dossier := get_tree().get_first_node_in_group("dossier_loups")
+	var joueur := get_tree().get_first_node_in_group("joueur_local") as Node3D
+	if joueur == null:
+		var joueurs := get_tree().get_nodes_in_group("joueur")
+		joueur = joueurs[0] as Node3D if not joueurs.is_empty() else null
+	if ile == null or dossier == null or joueur == null:
+		# Le joueur n'est pas encore là (chargement de la zone) : on réessaie.
+		get_tree().create_timer(0.5).timeout.connect(_mettre_a_jour_allies)
+		return
+	var combat_joueur = joueur.get_node_or_null("Combat")
+	for a in voulus:
+		var type := String(a.get("type", ""))
+		if type in presents:
+			continue
+		var pos: Array = a.get("position", [0, 0])
+		var x := float(pos[0])
+		var z := float(pos[1])
+		var p := Vector3(x, ile.hauteur(x, z) + 0.4, z)
+		var allie = SCENE_LOUP.instantiate()
+		allie.name = "Allie_%s" % type
+		allie.type_ennemi = type
+		if combat_joueur != null:
+			allie.faction = combat_joueur.faction
+		allie.maitre = joueur
+		allie.fin_invocation = Regles.maintenant() + 1.0e7
+		allie.position = p
+		allie.camp = p
+		allie.position_reseau = p
+		allie.add_to_group("allie_quete")
+		dossier.add_child(allie, true)
 
 
 func _sur_nouvel_ennemi(n: Node) -> void:

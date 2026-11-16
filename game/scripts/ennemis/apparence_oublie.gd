@@ -22,6 +22,8 @@ const HABITS := ["#e2d8c0", "#d8cdb2", "#ddd2b8", "#cfc3a6"]
 @export var variante := "oublie"
 ## Pour un Masqué : le chef (Masque lui-même), plus grand, au masque doré.
 var chef := false
+## Pour les gladiateurs (île de Rome) : « mirmillon » ou « thrace ».
+var style := ""
 
 const HABITS_GRECS := ["#e9e2d0", "#c9b48a", "#9b4a34", "#5d6b7a", "#b8a98a", "#7a2a22"]
 const PEAUX_GRECQUES := ["#a87a56", "#b07f5a", "#9c6e4b", "#b58660", "#a5764f"]
@@ -124,6 +126,9 @@ func _habiller() -> void:
 		return
 	if variante == "pretorien":
 		_habiller_pretorien(hasard)
+		return
+	if variante == "gladiateur":
+		_habiller_gladiateur(hasard)
 		return
 	if variante == "pirate":
 		_habiller_pirate(hasard)
@@ -235,6 +240,34 @@ func _habiller_pretorien(hasard: RandomNumberGenerator) -> void:
 		_corps.equiper({"tete": {"forme": "casque", "couleur": "#a8a8a8"},
 				"arme_principale": {"forme": "lame", "couleur": "#b0b0b0"},
 				"arme_secondaire": {"forme": "bouclier_rond", "couleur": "#7a1e1a"}})
+
+
+## Un gladiateur des jeux d'inauguration (île de Rome) : le pagne (subligaculum) et la
+## large ceinture, le bras droit protégé (manica), et le casque à visière grillagée.
+## Le mirmillon porte le grand bouclier rouge et le glaive ; le Thrace, le petit bouclier
+## carré et l'épée courbe. Le champion fracturé est en noir, avec l'éclat violet.
+func _habiller_gladiateur(hasard: RandomNumberGenerator) -> void:
+	var thrace := style == "thrace"
+	if _corps.has_method("appliquer"):
+		_corps.appliquer({"sexe": "homme", "taille_cm": 190 if chef else (184 if thrace else 180),
+				"peau": Color.from_string(PEAUX_GRECQUES[hasard.randi() % PEAUX_GRECQUES.size()], Color.WHITE).darkened(0.05 if thrace else 0.0)})
+	var teinte := Color("#1e1a22") if chef else Color("#e3d8bd")
+	if _corps.has_method("teindre_tenue"):
+		_corps.teindre_tenue(teinte)
+	if _corps.has_method("porter_habit"):
+		_corps.porter_habit("shendyt_court", {"principal": teinte})
+	if _corps.has_method("equiper"):
+		var bronze := "#3a2a3e" if chef else "#b8893e"
+		if thrace:
+			_corps.equiper({"tete": {"forme": "casque_thrace", "couleur": bronze},
+					"bras": {"forme": "manica", "couleur": "#d8cfb8"},
+					"arme_principale": {"forme": "sica", "couleur": "#b8b8b8"},
+					"arme_secondaire": {"forme": "parmula", "couleur": "#2a4a6a"}})
+		else:
+			_corps.equiper({"tete": {"forme": "casque_gladiateur", "couleur": bronze},
+					"bras": {"forme": "manica", "couleur": "#d8cfb8"},
+					"arme_principale": {"forme": "lame", "couleur": "#c0c0c0"},
+					"arme_secondaire": {"forme": "scutum", "couleur": "#3a1030" if chef else "#9a2a1e"}})
 
 
 ## Un pirate de l'Égée (île de Grèce) : tunique courte délavée par le sel, bandeau, épée

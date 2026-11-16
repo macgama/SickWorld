@@ -69,6 +69,13 @@ const FEUX := [Vector2(-132, -108), Vector2(-90, -118), Vector2(-142, -142), Vec
 const OIES := CAPITOLE + Vector2(-10, 12)
 const JANUS := Vector2(-100, -150)
 const PORTAIL_QG := Vector2(-74, -146)
+# Chapitre 7 : les jeux d'inauguration. On entre dans l'amphithéâtre par la grande arche de
+# l'ouest (la porte du côté du Colosse) ; la bouche de la Cloaca Maxima, au bord du Forum.
+const PORTE_COLISEE := Vector2(9, -16)
+const MARTIAL_JEUX := Vector2(3, -11)
+const MARTIAL_COLOSSE := Vector2(24, -48)
+const EGOUT := Vector2(-96, -26)
+const EGOUTIER := EGOUT + Vector2(3, 1.5)
 
 var _portail_qg: Node3D
 
@@ -100,12 +107,16 @@ func _init() -> void:
 
 func _ready() -> void:
 	if not Engine.is_editor_hint() and Reseau.get_meta("arrivee_rome", "") != "":
+		# En sortant de l'amphithéâtre, on se retrouve devant sa grande arche.
+		var depuis := String(Reseau.get_meta("arrivee_rome", ""))
 		Reseau.remove_meta("arrivee_rome")
-		point_apparition = ENTREE + Vector2(0, -4)
+		point_apparition = PORTE_COLISEE + Vector2(-5, -2) if depuis == "colisee" else ENTREE + Vector2(0, -4)
 	super._ready()
 
 
 func sortie_vers(zone: String) -> Vector2:
+	if zone == "colisee":
+		return PORTE_COLISEE + Vector2(-2, 0)
 	return Vector2.INF if zone == "rome" else SORTIE_SUD + Vector2(0, -6)
 
 
@@ -1035,6 +1046,7 @@ func _construire_quete() -> void:
 	cage.position = Vector3(CAGE_RHINO.x, hauteur(CAGE_RHINO.x, CAGE_RHINO.y), CAGE_RHINO.y)
 	dossier.add_child(cage)
 	_construire_quete_incendie(dossier)
+	_construire_quete_jeux(dossier)
 	# Repères de la carte.
 	var repere := func(type: int, texte: String, p: Vector2) -> void:
 		MarqueurCarte.creer(dossier, type, texte, Vector3(p.x, hauteur(p.x, p.y), p.y))
@@ -1048,6 +1060,67 @@ func _construire_quete() -> void:
 	repere.call(MarqueurCarte.Type.LIEU, "Vivarium", VIVARIUM.get_center())
 	repere.call(MarqueurCarte.Type.LIEU, "Vers la Porta Maggiore", SORTIE_SUD)
 	repere.call(MarqueurCarte.Type.LIEU, "Caserne des vigiles", LUCRETIUS)
+	repere.call(MarqueurCarte.Type.LIEU, "Cloaca Maxima", EGOUT)
+
+
+## Chapitre 7 : Martial devant l'amphithéâtre, les yeux du Colosse qui s'allument, et la
+## bouche du grand égout (la Cloaca Maxima) avec son égoutier.
+func _construire_quete_jeux(dossier: Node3D) -> void:
+	var martial := _pnj(dossier, "martial_jeux", MARTIAL_JEUX, PI * 0.6)
+	martial.add_to_group("decor_quete")
+	martial.set_meta("identifiant", "martial_jeux")
+	martial.visible = false
+	_pnj(dossier, "egoutier", EGOUTIER, PI * 0.5)
+	# La bouche de l'égout : un grand arc de pierre à demi enterré, fermé d'une grille.
+	var egout := Node3D.new()
+	egout.name = "CloacaMaxima"
+	var sol := hauteur(EGOUT.x, EGOUT.y)
+	egout.position = Vector3(EGOUT.x, sol, EGOUT.y)
+	dossier.add_child(egout)
+	var arche := MeshInstance3D.new()
+	arche.mesh = _maillage_arche(3.4, 1.2, 1.8)
+	arche.material_override = _mat_deux_faces(_mat_tuf())
+	arche.position = Vector3(0, 0.4, 0)
+	egout.add_child(arche)
+	for x: float in [-2.2, 2.2]:
+		_boite(Vector3(1.0, 1.2, 1.2), Vector3(x, 0.4, 0), _mat_tuf(), egout)
+	_boite(Vector3(3.4, 2.2, 0.4), Vector3(0, 0.6, -0.5), _mat_pbr("", Color(0.04, 0.035, 0.03), 1.0), egout, false)
+	var grille := StandardMaterial3D.new()
+	grille.albedo_color = Color(0.14, 0.11, 0.09)
+	grille.metallic = 0.6
+	grille.roughness = 0.6
+	for i in 7:
+		_boite(Vector3(0.06, 2.0, 0.06), Vector3(-1.5 + i * 0.5, 0.8, 0.0), grille, egout, false)
+	# Les yeux du Colosse : deux lueurs violettes, cachées jusqu'au chapitre 7.
+	var yeux := Node3D.new()
+	yeux.name = "YeuxColosse"
+	yeux.add_to_group("decor_quete")
+	yeux.set_meta("identifiant", "yeux_colosse")
+	yeux.visible = false
+	var sol_c := hauteur(COLOSSE.x, COLOSSE.y)
+	yeux.position = Vector3(COLOSSE.x, sol_c, COLOSSE.y)
+	yeux.rotation.y = PI * 0.15
+	dossier.add_child(yeux)
+	var lueur := StandardMaterial3D.new()
+	lueur.albedo_color = Color(0.6, 0.3, 1.0)
+	lueur.emission_enabled = true
+	lueur.emission = Color(0.65, 0.3, 1.0)
+	lueur.emission_energy_multiplier = 8.0
+	for x: float in [-0.6, 0.6]:
+		var oeil := MeshInstance3D.new()
+		var boule := SphereMesh.new()
+		boule.radius = 0.28
+		boule.height = 0.4
+		oeil.mesh = boule
+		oeil.material_override = lueur
+		oeil.position = Vector3(x, 7.6 + 24.0, -1.55)
+		yeux.add_child(oeil)
+	var lumiere := OmniLight3D.new()
+	lumiere.light_color = Color(0.65, 0.3, 1.0)
+	lumiere.light_energy = 6.0
+	lumiere.omni_range = 14.0
+	lumiere.position = Vector3(0, 7.6 + 24.0, -3.0)
+	yeux.add_child(lumiere)
 
 
 ## Chapitre 5 : le centurion des vigiles et ses hommes, les foyers de l'incendie, l'enclos
@@ -1118,3 +1191,6 @@ func _process(delta: float) -> void:
 	var p := Vector2(joueur.global_position.x, joueur.global_position.z)
 	if p.y > 152.0 and absf(p.x - SORTIE_SUD.x) < 12.0:
 		quete.changer_de_zone("campagne")
+	# La grande arche de l'ouest de l'amphithéâtre s'ouvre le jour des jeux.
+	elif p.distance_to(PORTE_COLISEE) < 4.5 and quete.etape_atteinte("entrer_colisee"):
+		quete.changer_de_zone("colisee")
