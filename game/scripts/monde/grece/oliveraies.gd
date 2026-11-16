@@ -47,6 +47,8 @@ const HAMEAU_OUEST := Vector2(-60, 98)
 const MARKOS := Vector2(5, 132)
 
 var _attente_sortie := 0.0
+var _porte_ouverte := false
+var _mur_porte: StaticBody3D
 
 
 func _init() -> void:
@@ -537,8 +539,8 @@ func _construire_limites() -> void:
 	_mur_invisible(limites, Vector3(2, 160, taille_terrain), Vector3(-demi, 40, 0))
 	_mur_invisible(limites, Vector3(2, 160, taille_terrain), Vector3(demi, 40, 0))
 	_mur_invisible(limites, Vector3(taille_terrain, 160, 2), Vector3(0, 40, demi))
-	# La porte d'Athènes, fermée pour l'instant.
-	_mur_invisible(limites, Vector3(10, 14, 2), Vector3(0, hauteur(0, RAMPART_Z) + 6.0, RAMPART_Z + 0.5))
+	# La porte d'Athènes, fermée jusqu'à ce que Socrate convainque le garde.
+	_mur_porte = _mur_invisible(limites, Vector3(10, 14, 2), Vector3(0, hauteur(0, RAMPART_Z) + 6.0, RAMPART_Z + 0.5))
 
 
 # --- Personnages et objets de la quête ----------------------------------------------------------
@@ -554,6 +556,8 @@ func _construire_quete() -> void:
 	_pnj(dossier, "pretresse", PRETRESSE, 1.4)
 	_pnj(dossier, "paysan_ktesippe", HAMEAU_EST + Vector2(-5, 6), 2.6)
 	_pnj(dossier, "garde_porte", PORTE_ATHENES + Vector2(4, 4), 0.0)
+	# Socrate revient du Pirée : il attend derrière le rempart, puis arrive à la porte.
+	_pnj(dossier, "socrate", PORTE_ATHENES + Vector2(-4, -12), 0.0)
 	# Le masque de théâtre que Néra a ramassé près des ruches.
 	var masque := ObjetGrece.new()
 	masque.name = "MasqueNera"
@@ -601,3 +605,18 @@ func _process(delta: float) -> void:
 	# Au sud, la route redescend vers le Pirée.
 	if p.y > 151.0 and absf(p.x) < MURS:
 		quete.changer_de_zone("le_piree")
+	# Au nord, la porte d'Athènes s'ouvre quand Socrate a convaincu le garde.
+	if not _porte_ouverte and quete.etape_atteinte("entrer_athenes"):
+		_ouvrir_porte()
+	if _porte_ouverte and p.y < RAMPART_Z + 1.0 and absf(p.x) < 5.0 and quete.donnees.get("zones", {}).has("athenes"):
+		quete.changer_de_zone("athenes")
+
+
+func _ouvrir_porte() -> void:
+	_porte_ouverte = true
+	if _mur_porte != null and is_instance_valid(_mur_porte):
+		_mur_porte.queue_free()
+	for n in get_tree().get_nodes_in_group("decor_quete"):
+		var id := String(n.get_meta("identifiant", ""))
+		if id.begins_with("porte_athenes_"):
+			n.rotation.y = 1.4 if id.ends_with("g") else -1.4

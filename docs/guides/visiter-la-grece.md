@@ -1,4 +1,4 @@
-# Visiter la Grèce : le Pirée et les Oliveraies d'Attique
+# Visiter la Grèce : le Pirée, les Oliveraies d'Attique et Athènes
 
 Deux zones de l'île de Grèce sont jouables : **le Pirée** (niveaux 20 à 22) et **les Oliveraies d'Attique** (niveaux 22 à 25). Le Pirée est le port d'Athènes, pendant l'été 438 av. J.-C., au temps de Périclès. C'est là que mène le portail **Grèce antique** du QG de la Vigie (le troisième en partant de la gauche). La conception de toute l'île est dans [ILE-3-GRECE.md](../ILE-3-GRECE.md).
 
@@ -69,7 +69,25 @@ La campagne entre le port et la ville. On y arrive en passant la **porte des Lon
 6. Revenir chez Myrtô, qui t'envoie voir **Théano**, la prêtresse, de l'autre côté des murs (poterne de l'ouest).
 7. **Refermer la faille** entre les racines de la Moria (rester immobile 5 secondes).
 8. Théano t'offre une **couronne d'olivier sacré**. Retourner voir Néra : elle a retrouvé la voix et parle de « l'homme aux masques ».
-9. Rejoindre Markos à **la porte d'Athènes** : le garde est muet, la porte est fermée. La suite (Athènes) arrive bientôt.
+9. Rejoindre Markos à **la porte d'Athènes** : le garde est muet, la porte est fermée.
+10. **Socrate** arrive par la route. Il pose quelques questions au garde, qui finit par ouvrir.
+
+## Athènes
+
+La ville de Périclès, dans un grand carré de 300 m de côté. On entre par la porte du sud. La grande rue monte tout droit jusqu'à **l'Agora**, la place du marché : le **Portique peint** au nord (ses tableaux racontent la bataille de Marathon), le Portique de Zeus à l'ouest, la **Tholos** ronde, la salle du Conseil, l'autel des Douze Dieux, la fontaine et les étals. Les bornes de la place portent encore l'inscription retrouvée par les archéologues : « Je suis la borne de l'Agora ».
+
+Autour : le **temple d'Héphaïstos** sur sa colline (à l'ouest), le **Céramique**, quartier des potiers, avec ses fours et ses tombes, jusqu'à la porte du Dipylon (au nord-ouest), la **Pnyx**, la colline de l'assemblée (au sud-ouest), et à l'est le rocher de **l'Acropole** : le Parthénon tout neuf avec ses échafaudages, la grande Athéna de bronze, le chantier des Propylées. Sur le flanc sud, le **théâtre de Dionysos** et ses gradins de bois. On ne peut pas encore monter sur l'Acropole : ce sera le donjon de la fin de l'île.
+
+## Le chapitre 3 : « Les muets de l'Agora » (fin, à Athènes)
+
+1. Parler à **Markos**, derrière la porte.
+2. Rejoindre **l'Agora**, où trois personnes sont à moitié changées en marbre.
+3. Parler à **Socrate**, devant le Portique peint : il propose sa méthode, trouver où quelqu'un se contredit.
+4. Écouter **Kallias**, le marchand de poisson, puis **choisir une réponse** sur l'une des trois tablettes de cire (F). Une mauvaise réponse ne fait pas perdre : Socrate donne un indice et on peut réessayer.
+5. Les **Pétrifiés** se réveillent : on brise leur gangue de marbre (sans les tuer), puis on leur **rend la voix** (F, 2,5 secondes). Ce sont Chéréphon, l'ami de Socrate, Glykéra et Démocharès.
+6. Aller au **Céramique**, écouter le potier **Lydos**, et trouver sa contradiction (regarde bien son four).
+7. Retourner au **Portique peint** : chasser trois chiens fracturés, puis **refermer la faille** (5 secondes).
+8. Socrate parle d'**Aspasie**, qui attendra le joueur au chapitre 4, et lui donne son vieux manteau, le **tribôn de Socrate**.
 
 ## Les ennemis
 
@@ -81,12 +99,16 @@ La campagne entre le port et la ville. On y arrive en passant la **porte des Lon
 | Sanglier fracturé | 23 | Les pentes de l'Hymette | Frappe fort, d'un coup de boutoir |
 | Loup d'Attique fracturé | 22 | Les oliveraies de l'ouest | En meute |
 | Vipère fracturée | 23 | Les rochers autour du sanctuaire | Presque invisible dans les cailloux |
+| Chien errant fracturé | 24-25 | Athènes : Céramique, Pnyx, faubourg du théâtre | En meute |
+| Pétrifié | 25 | L'Agora (quête) | On ne le tue pas : on brise sa gangue de marbre, puis on lui rend la voix |
 
 Le niveau maximum passe de 20 à 30 avec cette île.
 
 ## Pour les curieux
 
-- Le code des zones : `scripts/monde/grece/le_piree.gd` et `oliveraies.gd` (et `ile_grece.gd` pour ce qui sera commun à toute l'île : colonnes, portiques peints, maisons, amphores, trières, oliviers, cyprès).
+- Le code des zones : `scripts/monde/grece/le_piree.gd`, `oliveraies.gd` et `athenes.gd` (et `ile_grece.gd` pour ce qui sera commun à toute l'île : colonnes, portiques peints, maisons, amphores, trières, oliviers, cyprès).
 - La trière où l'on rame : `scripts/monde/grece/triere_cadence.gd` (le rythme de la flûte, la marge pour un coup en cadence et la distance gagnée se règlent en haut du fichier).
 - Les textes de la quête : `data/grece_quete.json` ; les personnages : `data/grece_pnj.json`.
-- Les tests automatiques : `tests/test_le_piree.gd` et `tests/test_oliveraies.gd`.
+- Les interrogatoires à la Socrate : une étape « objet » (la bonne réponse) avec des « leurres » (les mauvaises réponses et ce qu'on répond alors), dans `data/grece_quete.json`.
+- Les Pétrifiés : leur apparence est dans `scripts/ennemis/apparence_oublie.gd` (la gangue de marbre est un petit shader, en haut du fichier).
+- Les tests automatiques : `tests/test_le_piree.gd`, `tests/test_oliveraies.gd` et `tests/test_athenes.gd`. Les images : `tests/capture_athenes.gd`.

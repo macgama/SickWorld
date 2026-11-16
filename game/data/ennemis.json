@@ -554,5 +554,47 @@
 		"distance_laisse": 40,
 		"entraide": 14,
 		"temps_reapparition": 0
+	},
+	"chien_fracture_agora": {
+		"nom": "Chien errant fracturé",
+		"niveau": 25,
+		"points_de_vie": 760,
+		"degats": [27, 36],
+		"intervalle_attaque": 1.5,
+		"portee_attaque": 2.1,
+		"vitesse_course": 7.0,
+		"vitesse_marche": 2.0,
+		"distance_detection": 14,
+		"distance_laisse": 40,
+		"entraide": 14,
+		"temps_reapparition": 0
+	},
+	"chien_fracture_ville": {
+		"nom": "Chien errant fracturé",
+		"niveau": 24,
+		"points_de_vie": 700,
+		"degats": [25, 34],
+		"intervalle_attaque": 1.5,
+		"portee_attaque": 2.1,
+		"vitesse_course": 7.0,
+		"vitesse_marche": 2.0,
+		"distance_detection": 12,
+		"distance_laisse": 35,
+		"entraide": 12,
+		"temps_reapparition": 70
+	},
+	"petrifie": {
+		"nom": "Pétrifié",
+		"niveau": 25,
+		"points_de_vie": 980,
+		"degats": [24, 32],
+		"intervalle_attaque": 2.3,
+		"portee_attaque": 2.2,
+		"vitesse_course": 3.4,
+		"vitesse_marche": 0.8,
+		"distance_detection": 9,
+		"distance_laisse": 30,
+		"entraide": 10,
+		"temps_reapparition": 0
 	}
 }

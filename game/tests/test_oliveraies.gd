@@ -2,7 +2,8 @@ extends SceneTree
 ## Test automatique des Oliveraies d'Attique (Grèce, zone 2) et du chapitre 3 :
 ## la porte des Longs Murs s'ouvre au Pirée, la route entre les murs, Myrtô et Néra,
 ## le masque, les sangliers de l'Hymette, Théano et la faille de la Moria, la couronne,
-## Néra retrouve la voix, puis la porte d'Athènes, gardée par un muet.
+## Néra retrouve la voix, puis la porte d'Athènes, gardée par un muet, que Socrate
+## convainc d'ouvrir.
 ## Lancement : godot --headless --path game -s res://tests/test_oliveraies.gd
 
 const FICHIER := "user://test_grece_oliveraies.cfg"
@@ -211,17 +212,32 @@ func _lancer() -> void:
 	_verifier(_id_etape() == "garde_muet", "on arrive devant la porte (%s)" % _id_etape())
 	lues = await _parler("GardePorte")
 	_verifier(lues >= 3, "le garde est muet (%d bulles)" % lues)
-	_verifier(_quete.etape < 0, "la suite (Athènes) arrive bientôt")
-	# La porte d'Athènes reste fermée.
+	_verifier(_id_etape() == "socrate_porte", "un homme pieds nus arrive (%s)" % _id_etape())
+	# Tant que Socrate n'a pas parlé au garde, la porte d'Athènes reste fermée.
 	await _placer(Vector3(0, _scene.hauteur(0, -130) + 0.4, -130), 0.0)
 	Input.action_press("avancer")
 	await _attendre(120)
 	Input.action_release("avancer")
 	_verifier(_joueur.global_position.z > _scene.RAMPART_Z, "la porte d'Athènes est fermée (z = %.1f)" % _joueur.global_position.z)
+	var socrate: Node3D = _scene.find_child("Socrate", true, false)
+	_verifier(socrate != null and socrate.global_position.z > _scene.RAMPART_Z, "Socrate est arrivé devant la porte")
+	lues = await _parler("Socrate")
+	_verifier(lues >= 6, "Socrate convainc le garde par ses questions (%d bulles)" % lues)
+	_verifier(_id_etape() == "entrer_athenes", "il faut entrer dans Athènes (%s)" % _id_etape())
+	await _attendre(30)
+	_verifier(_scene._porte_ouverte, "la porte d'Athènes s'est ouverte")
+	await _placer(Vector3(0, _scene.hauteur(0, -134) + 0.4, -134), 0.0)
+	Input.action_press("avancer")
+	await _attendre(120)
+	Input.action_release("avancer")
+	await _attendre(60)
+	_verifier(_quete.zone_demandee == "athenes", "passer la porte mène à Athènes (%s)" % _quete.zone_demandee)
 
 	# --- La progression est gardée, et la route ramène au Pirée.
 	await _charger(OLIVERAIES)
-	_verifier(_quete.etape < 0, "au retour, la quête reprend où on l'avait laissée")
+	_verifier(_id_etape() == "entrer_athenes", "au retour, la quête reprend où on l'avait laissée (%s)" % _id_etape())
+	await _attendre(30)
+	_verifier(_scene._porte_ouverte, "la porte d'Athènes reste ouverte")
 	_verifier(_scene.find_child("Faille", true, false).fermee, "la faille de la Moria reste fermée")
 	markos = _scene.find_child("Markos", true, false)
 	_verifier(markos != null and markos.global_position.z < -110.0, "Markos est toujours à la porte")

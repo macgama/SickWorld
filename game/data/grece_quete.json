@@ -16,9 +16,22 @@
 				"sous_titre": "Grèce · entre le Pirée et Athènes",
 				"texte": "La route file tout droit entre deux murailles. Par-dessus, on voit des oliviers à perte de vue, d'un vert presque gris, et des cigales qui crient si fort qu'on n'entend plus ses pas. Au bout, très loin, un rocher blanc : l'Acropole."
 			}
+		},
+		"athenes": {
+			"scene": "res://scenes/monde/grece/athenes.tscn",
+			"arrivee": {
+				"titre": "Athènes",
+				"sous_titre": "Grèce · la cité de Périclès",
+				"texte": "Des rues étroites, des murs blanchis, des odeurs de pain, de poisson et de poix. Au-dessus des toits, l'Acropole : un rocher immense couronné d'échafaudages et de marbre neuf. Trente mille citoyens vivent ici. On n'en entend pas un."
+			}
 		}
 	},
 	"camps": {
+		"athenes": [
+			{ "type": "chien_fracture_ville", "position": [-132, -76], "nombre": 3, "rayon": 5 },
+			{ "type": "chien_fracture_ville", "position": [-96, 118], "nombre": 2, "rayon": 4 },
+			{ "type": "chien_fracture_ville", "position": [52, 96], "nombre": 2, "rayon": 4 }
+		],
 		"le_piree": [
 			{ "type": "chien_fracture", "position": [-72, 86], "nombre": 3, "rayon": 5 },
 			{ "type": "chien_fracture", "position": [-36, 70], "nombre": 2, "rayon": 4 },
@@ -481,15 +494,276 @@
 					"recit": {
 						"titre": "Athènes se tait",
 						"texte": "Derrière le rempart, la ville devrait gronder comme une ruche : la fête approche, les marchands crient, les orateurs s'époumonent. On n'entend que les cigales."
+					},
+					"apres": [
+						{"pnj": "socrate", "aller": [-4, -130]}
+					]
+				},
+				{
+					"id": "socrate_porte",
+					"objectif": "Un homme pieds nus arrive par la route : parle-lui",
+					"pnj": "socrate",
+					"repliques": [
+						"Un petit homme trapu, pieds nus, le nez écrasé et le manteau râpé, s'arrête à côté de toi. Il regarde le garde, puis toi, avec une curiosité gourmande.",
+						"Bonjour, étranger. Je m'appelle Socrate. Je reviens du Pirée, où j'ai passé la nuit à parler de justice. Personne ne m'a répondu. C'est rare, chez nous.",
+						"(Il se tourne vers le garde.) Dis-moi, ami : tu gardes cette porte pour protéger qui ? La cité ? Bien. Et la cité, ce sont ses murs ou ses citoyens ?",
+						"(Le garde hésite, puis grave sur sa tablette : « LES CITOYENS ».)",
+						"Et cet étranger est l'hôte de Lysimaque, un citoyen, qui l'a reçu selon la loi de Zeus Xénios. Fermer la porte à l'hôte d'un citoyen, c'est le fermer au citoyen lui-même, non ?",
+						"(Le garde regarde longtemps sa tablette. Puis il soupire, et pousse le battant.)",
+						"Tu vois, Xénos : on n'a pas besoin de crier pour avoir raison. Il suffit de poser la bonne question. Viens, je veux comprendre pourquoi ma ville se tait."
+					],
+					"apres": [
+						{"pnj": "garde_porte", "aller": [9, -134]}
+					]
+				},
+				{
+					"id": "entrer_athenes",
+					"objectif": "Entre dans Athènes avec Socrate",
+					"arriver": "athenes",
+					"action_pnj": [
+						{
+							"pnj": "socrate",
+							"aller": [-4, -136]
+						}
+					]
+				},
+				{
+					"id": "markos_ville",
+					"ou": "athenes",
+					"objectif": "Parle à l'agent Markos, derrière la porte",
+					"pnj": "markos",
+					"repliques": [
+						"Socrate ! LE Socrate ! Il marche à côté de toi comme si de rien n'était. Je vais m'évanouir. Non. Je suis un professionnel. Je ne m'évanouis pas.",
+						"Regarde autour de toi : les gens marchent tête baissée. Personne ne parle. Dans une ville où on se dispute même pour le prix d'un oignon, c'est une catastrophe.",
+						"La fête des Panathénées commence dans quelques jours. Si les Athéniens ne votent plus, n'osent plus contredire, un seul homme pourra décider de tout. Allons à l'Agora : c'est là que tout se dit."
+					]
+				},
+				{
+					"id": "agora",
+					"ou": "athenes",
+					"objectif": "Rejoins l'Agora, au nord, par la grande rue",
+					"zone": [-10, 0],
+					"rayon": 14,
+					"recit": {
+						"titre": "L'Agora muette",
+						"texte": "Le marché est plein, et pourtant on entend le vent dans les platanes. Les marchands montrent leurs prix du doigt. Trois personnes, debout au milieu de la place, ne bougent plus du tout : leur peau a la couleur du marbre."
+					},
+					"apres": [
+						{
+							"pnj": "socrate",
+							"aller": [-10, -36]
+						}
+					]
+				},
+				{
+					"id": "socrate_agora",
+					"ou": "athenes",
+					"objectif": "Retrouve Socrate devant le Portique peint",
+					"pnj": "socrate",
+					"repliques": [
+						"Ces trois-là, je les connais. Le cordonnier Démocharès, Glykéra qui vend des couronnes, et... Chéréphon, mon ami. Hier, ils parlaient. Ce matin, ils sont de pierre jusqu'à la poitrine.",
+						"Je ne sais pas ce qui leur est arrivé. Mais je connais une méthode : on interroge quelqu'un qui croit savoir, et on cherche où il se contredit. La vérité se cache souvent là.",
+						"Le marchand de poisson, Kallias, a son étal juste à côté d'eux depuis vingt ans. Va l'écouter. Écoute bien. Et quand il se trahira, tu le lui montreras."
+					]
+				},
+				{
+					"id": "kallias",
+					"ou": "athenes",
+					"objectif": "Écoute le témoignage de Kallias, le marchand de poisson",
+					"pnj": "kallias",
+					"repliques": [
+						"Moi ? Je n'ai rien vu. J'étais à mon étal depuis l'aube, comme tous les jours. Je vends du poisson, pas des histoires.",
+						"Ces trois-là ? Une fièvre, voilà tout. Une mauvaise fièvre de l'été. Ça arrive.",
+						"Un sophiste au masque ? Jamais vu. Il n'existe pas, ton sophiste. Et puis il parlait si bien qu'on l'aurait écouté des heures, alors pourquoi on l'aurait remarqué ?",
+						"(Socrate te glisse à l'oreille : « Tu as entendu ? Choisis ce que tu vas lui répondre. »)"
+					]
+				},
+				{
+					"id": "question_kallias",
+					"ou": "athenes",
+					"objectif": "Montre à Kallias où il se contredit (choisis une réponse, F)",
+					"objet": "reponse_kallias_parle",
+					"pnj": "kallias",
+					"leurres": [
+						{
+							"objet": "reponse_kallias_fievre",
+							"pnj": "socrate",
+							"repliques": [
+								"« Une fièvre ne change pas les gens en statue ! »",
+								"Kallias : Qu'est-ce que tu en sais, tu es médecin ? Il y a des fièvres pour tout.",
+								"Socrate : Il n'a pas tort, Xénos. Ne lui oppose pas ce que TU sais. Cherche ce que LUI a dit contre lui-même."
+							]
+						},
+						{
+							"objet": "reponse_kallias_ment",
+							"pnj": "socrate",
+							"repliques": [
+								"« Tu mens, poissonnier ! »",
+								"Kallias croise les bras et ne dit plus rien.",
+								"Socrate : Accuser n'est pas démontrer. Si tu le traites de menteur, il se ferme comme une huître. Repense à ses propres mots."
+							]
+						}
+					],
+					"repliques": [
+						"« Tu dis que tu ne l'as jamais vu. Mais tu sais qu'il parlait si bien qu'on l'aurait écouté des heures ? »",
+						"Kallias ouvre la bouche, la referme. Il regarde ses poissons. Puis, tout bas : ... Bon. Il est venu il y a six jours. Il portait un masque de théâtre, un beau, peint en blanc.",
+						"Il donnait des leçons gratuites sous le Portique peint : « Je vous apprendrai à parler à l'assemblée mieux que Périclès. » Il donnait aussi un masque à chaque élève, pour s'entraîner.",
+						"Ceux qui sont allés à toutes ses leçons... ce sont eux, là. J'y suis allé une fois. J'ai eu peur. Depuis, je n'ose plus crier mes prix.",
+						"Socrate : Tu vois ? La vérité était dans sa bouche depuis le début. Il fallait seulement l'aider à sortir. ... Attention ! Ils bougent !"
+					]
+				},
+				{
+					"id": "petrifies",
+					"ou": "athenes",
+					"objectif": "Brise la gangue des Pétrifiés, puis rends-leur la voix (F)",
+					"recolter": "voix_rendue",
+					"nombre": 3,
+					"duree": 2.5,
+					"action": "Tu leur parles doucement, jusqu'à ce qu'un mot leur revienne…",
+					"apparition": {
+						"type": "petrifie",
+						"position": [-26, 6],
+						"nombre": 3,
+						"rayon": 4
+					},
+					"recit": {
+						"titre": "Chéréphon, Glykéra, Démocharès",
+						"texte": "La pierre craque comme une coquille. Dessous, la peau est chaude. Ils toussent, ils respirent, et le premier mot qu'ils disent est un nom : celui de quelqu'un qu'ils aiment."
 					}
+				},
+				{
+					"id": "cherephon",
+					"ou": "athenes",
+					"objectif": "Parle à Socrate",
+					"pnj": "socrate",
+					"repliques": [
+						"Chéréphon ! Mon vieil ami. Te voilà de chair à nouveau. Tu as une tête de noyé, mais c'est la tienne.",
+						"Il dit que les masques venaient du Céramique, le quartier des potiers, au nord-ouest. D'un atelier près de la porte du Dipylon.",
+						"Un masque de théâtre, c'est du lin et du stuc, d'habitude. Pas de l'argile. Alors pourquoi un potier ? Allons poser la question. Gentiment."
+					],
+					"apres": [
+						{
+							"pnj": "socrate",
+							"aller": [-102, -92]
+						}
+					]
+				},
+				{
+					"id": "ceramique",
+					"ou": "athenes",
+					"objectif": "Va au Céramique, le quartier des potiers (nord-ouest)",
+					"zone": [-112, -100],
+					"rayon": 10
+				},
+				{
+					"id": "lydos",
+					"ou": "athenes",
+					"objectif": "Écoute le témoignage de Lydos, le potier",
+					"pnj": "lydos",
+					"repliques": [
+						"Des masques ? Je suis potier, moi. Je fais des vases, des coupes, des amphores pour les Jeux. Les masques, c'est le métier des faiseurs de masques, près du théâtre.",
+						"Mon four ? Il est froid depuis dix jours. La fête approche, tout le monde a déjà acheté ses vases. Je n'ai rien à cuire.",
+						"Va voir au théâtre, et laisse un honnête homme travailler.",
+						"(Derrière lui, la cheminée du four laisse échapper un filet de fumée grise.)"
+					]
+				},
+				{
+					"id": "question_lydos",
+					"ou": "athenes",
+					"objectif": "Montre à Lydos où il se contredit (choisis une réponse, F)",
+					"objet": "reponse_lydos_four",
+					"pnj": "lydos",
+					"leurres": [
+						{
+							"objet": "reponse_lydos_lin",
+							"pnj": "socrate",
+							"repliques": [
+								"« Les faiseurs de masques travaillent le lin, pas l'argile ! »",
+								"Lydos : Justement ! C'est ce que je te dis. Va les voir.",
+								"Socrate : Il est d'accord avec toi, Xénos. Là, il n'y a pas de contradiction. Regarde autour de lui plutôt qu'à ses mots."
+							]
+						},
+						{
+							"objet": "reponse_lydos_vases",
+							"pnj": "socrate",
+							"repliques": [
+								"« Montre-moi tes vases. »",
+								"Lydos montre fièrement une rangée de cratères à figures rouges : un athlète, un hoplite, une chouette.",
+								"Socrate : De beaux vases. Mais ce ne sont pas eux qui parlent. Qu'est-ce qui, ici, dit le contraire de Lydos ?"
+							]
+						}
+					],
+					"repliques": [
+						"« Ton four est froid depuis dix jours ? Alors pourquoi sa cheminée fume-t-elle encore ? »",
+						"Lydos se retourne vers le four. Ses épaules tombent. ... J'avais besoin de cet argent. Un homme au masque m'a payé en dariques, de l'or perse, plus que ce que je gagne en un an.",
+						"Il voulait des masques d'argile, très fins, avec un petit éclat de verre violet au milieu du front. Il me les a dessinés. Il savait exactement ce qu'il voulait.",
+						"Ce soir, quelqu'un doit venir chercher la dernière fournée sous le Portique peint. Il a dit : « Là où les Athéniens se racontent leurs victoires, ils apprendront le silence. »",
+						"Socrate : Le Portique peint... les grandes peintures de la bataille de Marathon. Courons, Xénos."
+					],
+					"apres": [
+						{
+							"pnj": "socrate",
+							"aller": [-4, -30]
+						}
+					]
+				},
+				{
+					"id": "chiens_poikile",
+					"ou": "athenes",
+					"objectif": "Sous le Portique peint, repousse les chiens fracturés",
+					"tuer": "chien_fracture_agora",
+					"nombre": 3,
+					"lieu": [-14, -36],
+					"apparition": {
+						"type": "chien_fracture_agora",
+						"position": [-18, -42],
+						"nombre": 3,
+						"rayon": 3,
+						"attaque": true
+					}
+				},
+				{
+					"id": "faille_poikile",
+					"ou": "athenes",
+					"objectif": "Referme la faille sous le Portique peint (F)",
+					"objet": "faille_poikile",
+					"duree": 5,
+					"action": "Tu refermes la faille…",
+					"apres": [
+						{
+							"cacher": "faille_poikile"
+						},
+						{
+							"masquer": "masques_poikile"
+						}
+					]
+				},
+				{
+					"id": "socrate_fin",
+					"ou": "athenes",
+					"objectif": "Parle à Socrate",
+					"pnj": "socrate",
+					"fin_chapitre": true,
+					"repliques": [
+						"La faille s'est refermée, et les masques d'argile sont en miettes. Écoute... Tu entends ? Là-bas, au marché, quelqu'un se dispute pour le prix d'un thon.",
+						"Mais celui qui distribuait ces masques court toujours. Il paie en or perse, il parle mieux que Périclès, et il sait des choses que personne ici ne devrait savoir. Comme toi, Xénos.",
+						"Je connais quelqu'un qui saura t'aider : Aspasie, l'amie de Périclès. Chez elle, on parle de tout, et elle écoute tout. Elle t'attendra.",
+						"Tiens, prends mon vieux manteau. Il ne vaut rien, mais il tient chaud, et les gens se méfient moins d'un homme mal habillé. C'est mon secret."
+					],
+					"recompense": [
+						{
+							"id": "tribon_socrate",
+							"nom": "Tribôn de Socrate"
+						}
+					]
 				}
 			]
 		}
 	],
 	"fin_provisoire": {
 		"chapitre": "LA SUITE ARRIVE",
-		"objectif": "La route d'Athènes, à travers les oliveraies, s'ouvre bientôt.",
+		"objectif": "Chapitre 4, « L'or de Phidias » : Aspasie t'attendra bientôt chez elle.",
 		"titre": "Que le temps n'efface pas",
-		"message": "Le Pirée est en sécurité. Athènes t'attend au bout des Longs Murs."
+		"message": "L'Agora a retrouvé sa voix. Mais l'homme au masque court toujours."
 	}
 }

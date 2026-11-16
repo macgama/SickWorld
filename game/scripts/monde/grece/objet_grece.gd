@@ -5,6 +5,7 @@ extends "res://scripts/monde/egypte/objet_egypte.gd"
 ## - « filet » : un filet de pêche emmêlé, avec ses flotteurs de liège ;
 ## - « amphore » : une amphore de terre cuite, debout ;
 ## - « masque » : un masque de théâtre blanc, posé dans l'herbe, avec un éclat violet.
+## - « tablette » : une tablette de cire sur une borne (les réponses d’un interrogatoire).
 
 
 func _construire_sac_voyage() -> void:
@@ -137,3 +138,43 @@ func _construire_masque() -> void:
 	eclat.material_override = cristal
 	eclat.position = Vector3(0.0, 0.14, 0.13)
 	visage.add_child(eclat)
+
+
+## Une tablette de cire ouverte (deux planchettes de bois), posée sur une borne de pierre :
+## c'est là qu'on choisit sa réponse pendant un interrogatoire à la Socrate.
+func _construire_tablette() -> void:
+	var pierre := StandardMaterial3D.new()
+	pierre.albedo_color = Color(0.72, 0.69, 0.63)
+	pierre.roughness = 0.9
+	var bois := StandardMaterial3D.new()
+	bois.albedo_color = Color(0.45, 0.3, 0.18)
+	bois.roughness = 0.8
+	var cire := StandardMaterial3D.new()
+	cire.albedo_color = Color(0.16, 0.12, 0.08)
+	cire.roughness = 0.45
+	var borne := MeshInstance3D.new()
+	var cyl := CylinderMesh.new()
+	cyl.top_radius = 0.16
+	cyl.bottom_radius = 0.2
+	cyl.height = 0.8
+	cyl.radial_segments = 10
+	borne.mesh = cyl
+	borne.material_override = pierre
+	borne.position.y = 0.4
+	_visuel.add_child(borne)
+	for cote: float in [-1.0, 1.0]:
+		var planche := MeshInstance3D.new()
+		var b := BoxMesh.new()
+		b.size = Vector3(0.2, 0.025, 0.28)
+		planche.mesh = b
+		planche.material_override = bois
+		planche.position = Vector3(cote * 0.105, 0.82, 0)
+		planche.rotation.z = cote * -0.12
+		_visuel.add_child(planche)
+		var creux := MeshInstance3D.new()
+		var c := BoxMesh.new()
+		c.size = Vector3(0.16, 0.01, 0.23)
+		creux.mesh = c
+		creux.material_override = cire
+		creux.position = Vector3(0, 0.014, 0)
+		planche.add_child(creux)
