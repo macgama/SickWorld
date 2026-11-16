@@ -211,7 +211,7 @@
 					],
 					[
 						24,
-						-12
+						-14.5
 					]
 				],
 				"vitesse": 1.2,
@@ -251,12 +251,12 @@
 				"comme": "clan_femme",
 				"chemin": [
 					[
-						21,
-						-63
+						24.7,
+						-61.8
 					]
 				],
 				"geste": "a_genoux",
-				"regarde": 120
+				"regarde": 140
 			},
 			{
 				"comme": "clan_homme",
@@ -1964,12 +1964,7 @@
 			},
 			{
 				"comme": "egy_ouvrier",
-				"chemin": [
-					[
-						-5,
-						-56
-					]
-				],
+				"chemin": [[-8, -56]],
 				"geste": "lancer",
 				"regarde": 90
 			},

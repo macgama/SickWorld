@@ -98,6 +98,13 @@ func _tester_zone(zone: String, chemin: String) -> void:
 			au_sol = false
 	_verifier(marcheurs == 0 or bougent > 0, "%s : %d marcheurs sur %d ont bougé" % [zone, bougent, marcheurs])
 	_verifier(au_sol, "%s : les figurants marchent sur le sol" % zone)
+	# Personne sous l'eau (fond de la mer, du fleuve ou du canal).
+	var mer = scene.get("NIVEAU_MER")
+	if mer != null and scene.has_method("hauteur"):
+		for g: Node3D in figurants:
+			for p: Vector2 in g.get("chemin") as PackedVector2Array:
+				if scene.hauteur(p.x, p.y) < float(mer) - 0.05:
+					_verifier(false, "%s : figurant sous l'eau en %s" % [zone, p])
 	if fiche.has("bateaux"):
 		var ville := vie.get_node_or_null("Ville")
 		_verifier(ville != null and ville.find_children("Bateau_*", "", false, false).size() == fiche["bateaux"].size(), "%s : bateaux dans la baie" % zone)

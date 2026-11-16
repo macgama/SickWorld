@@ -17,6 +17,8 @@ const DISTANCE_ANIMATION := 35.0
 const POSES := {"travail": "creuser", "creuser": "creuser", "priere": "prier", "prier": "prier",
 	"discute": "discuter", "discuter": "discuter", "lancer": "pecher", "pecher": "pecher",
 	"assis": "assis", "a_genoux": "a_genoux", "telephone": "telephone", "regarder": "regarder"}
+## Objet tenu en main pendant la pose : téléphone, canne à pêche, houe.
+const OUTILS := {"telephone": "telephone", "pecher": "canne", "creuser": "houe"}
 
 var fiche: Dictionary = {}
 ## Points [x, z] du chemin. Un seul point : il reste sur place.
@@ -95,8 +97,11 @@ func _habiller() -> void:
 		_apparence.equiper(visuels)
 	if porte != "":
 		_ajouter_charge()
-	if parapluie.a > 0.0:
+	# Pas de parapluie pour ceux qui prennent une pose (assis, téléphone…) : il traverserait le corps.
+	if parapluie.a > 0.0 and not POSES.has(geste):
 		_ajouter_parapluie()
+	if OUTILS.has(POSES.get(geste, geste)):
+		_ajouter_outil(OUTILS[POSES.get(geste, geste)])
 	_pret = true
 
 
@@ -157,6 +162,47 @@ func _ajouter_charge() -> void:
 			objet.add_child(sac)
 		"lance":
 			_piece(objet, _cyl(0.015, 0.018, 1.9), bois, Vector3(0, 0.5, 0))
+
+
+## Un objet dans la main droite (le squelette Mixamo : l'axe Y de la main suit les doigts).
+func _ajouter_outil(sorte: String) -> void:
+	var squelette := _apparence.find_children("*", "Skeleton3D", true, false)
+	if squelette.is_empty():
+		return
+	var s := squelette[0] as Skeleton3D
+	if s.find_bone("mixamorig_RightHand") < 0:
+		return
+	var accroche := BoneAttachment3D.new()
+	accroche.name = "Outil"
+	accroche.bone_name = "mixamorig_RightHand"
+	s.add_child(accroche)
+	var objet := Node3D.new()
+	accroche.add_child(objet)
+	var echelle := 1.0 / maxf(0.001, s.global_transform.basis.get_scale().x / _apparence.global_transform.basis.get_scale().x)
+	objet.scale = Vector3.ONE * echelle
+	var bois := _mat(Color(0.36, 0.26, 0.17), 0.9)
+	match sorte:
+		"telephone":
+			var boite := BoxMesh.new()
+			boite.size = Vector3(0.07, 0.145, 0.009)
+			var ecran := _mat(Color(0.05, 0.05, 0.06), 0.25)
+			ecran.emission_enabled = true
+			ecran.emission = Color(0.35, 0.5, 0.75)
+			ecran.emission_energy_multiplier = 0.6
+			_piece(objet, boite, ecran, Vector3(0.0, 0.08, 0.03))
+		"canne":
+			# Le manche traverse le poing ; la canne part vers l'avant et vers le haut.
+			var canne := _piece(objet, _cyl(0.006, 0.014, 2.6), bois, Vector3(0, 0.06, 0.02))
+			canne.rotation = Vector3(0, 0, PI / 2)
+			canne.position += Vector3(-1.0, 0, 0)
+		"houe":
+			var manche := _piece(objet, _cyl(0.016, 0.018, 1.2), bois, Vector3(0, 0.06, 0.02))
+			manche.rotation = Vector3(0, 0, PI / 2)
+			manche.position += Vector3(-0.35, 0, 0)
+			var lame := BoxMesh.new()
+			lame.size = Vector3(0.04, 0.2, 0.14)
+			var mi := _piece(objet, lame, _mat(Color(0.45, 0.4, 0.33), 0.8), Vector3(-0.95, -0.06, 0.02))
+			mi.rotation = Vector3(0, 0, 0)
 
 
 func _ajouter_parapluie() -> void:
@@ -236,9 +282,15 @@ func _physics_process(delta: float) -> void:
 				rotation.y = lerp_angle(rotation.y, atan2(-d.x, -d.y), clampf(5.0 * delta, 0.0, 1.0))
 	elif _pret:
 		_geste_en_pause(delta)
-	if not visible or not _pret or _apparence == null or not _apparence.has_method("animer"):
+	if not _pret or _apparence == null or not _apparence.has_method("animer"):
 		return
 	_image += 1
+	if not visible:
+		# Caché : on met quand même sa pose en place de temps en temps (pas de fondu visible
+		# quand on arrive près de lui).
+		if _image % 30 == 0:
+			_apparence.animer(0.5, global_transform.basis.inverse() * deplacement, true, -1.0, Vector3.ZERO)
+		return
 	if distance > DISTANCE_ANIMATION and _image % 3 != 0:
 		return
 	var pas_temps := delta * (3.0 if distance > DISTANCE_ANIMATION else 1.0)
