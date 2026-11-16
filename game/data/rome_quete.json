@@ -8,6 +8,14 @@
 				"sous_titre": "Rome · sous l'empereur Titus, été 80 apr. J.-C.",
 				"texte": "Le portail se referme dans un souffle. Autour de toi, des tombeaux de pierre, des pins aux têtes plates, et une route de grosses dalles noires qui file tout droit jusqu'à l'horizon. Quelque part, une cigale. Puis plus rien."
 			}
+		},
+		"campagne": {
+			"scene": "res://scenes/monde/rome/campagne.tscn",
+			"arrivee": {
+				"titre": "La Campagne et les aqueducs",
+				"sous_titre": "Rome · le Latium, aux portes de la ville",
+				"texte": "La route sort des tombeaux et la campagne s'ouvre d'un coup, immense, dorée. Au loin, une ligne d'arches file d'une colline à l'autre, plus haute que tout. Les arches de l'aqueduc. Elles devraient chanter, pleines d'eau. Elles se taisent."
+			}
 		}
 	},
 	"camps": {
@@ -53,6 +61,71 @@
 				"position": [
 					-60,
 					-20
+				],
+				"nombre": 2,
+				"rayon": 5
+			}
+		],
+		"campagne": [
+			{
+				"type": "loup_fracture_campagne",
+				"position": [
+					-40,
+					110
+				],
+				"nombre": 3,
+				"rayon": 5
+			},
+			{
+				"type": "loup_fracture_campagne",
+				"position": [
+					40,
+					120
+				],
+				"nombre": 2,
+				"rayon": 5
+			},
+			{
+				"type": "loup_fracture_campagne",
+				"position": [
+					-60,
+					-70
+				],
+				"nombre": 3,
+				"rayon": 5
+			},
+			{
+				"type": "sanglier_fracture_latium",
+				"position": [
+					-100,
+					70
+				],
+				"nombre": 3,
+				"rayon": 6
+			},
+			{
+				"type": "sanglier_fracture_latium",
+				"position": [
+					-120,
+					-20
+				],
+				"nombre": 2,
+				"rayon": 5
+			},
+			{
+				"type": "sanglier_fracture_latium",
+				"position": [
+					120,
+					90
+				],
+				"nombre": 3,
+				"rayon": 6
+			},
+			{
+				"type": "sanglier_fracture_latium",
+				"position": [
+					70,
+					-110
 				],
 				"nombre": 2,
 				"rayon": 5
@@ -302,7 +375,18 @@
 					"recolter": "milliaire",
 					"nombre": 3,
 					"duree": 3,
-					"action": "Tu redresses la borne…"
+					"action": "Tu redresses la borne…",
+					"apres": [
+						{
+							"cacher": "milliaire_0"
+						},
+						{
+							"cacher": "milliaire_1"
+						},
+						{
+							"cacher": "milliaire_2"
+						}
+					]
 				},
 				{
 					"id": "faille",
@@ -368,12 +452,163 @@
 					"fin_chapitre": true
 				}
 			]
+		},
+		{
+			"numero": 3,
+			"titre": "L'eau qui ne vient plus",
+			"ou": "campagne",
+			"etapes": [
+				{
+					"id": "vers_campagne",
+					"ou": "voie_appienne",
+					"objectif": "Prends la voie Appienne vers le nord, au-delà du relais : la campagne et les aqueducs",
+					"arriver": "campagne"
+				},
+				{
+					"id": "livia_arches",
+					"objectif": "Retrouve l'agent Livia au pied des grandes arches, à l'est de la route",
+					"pnj": "livia",
+					"repliques": [
+						"Te voilà. Regarde-les. L'Aqua Claudia : soixante-neuf kilomètres, depuis les sources de l'Anio. Et là, sur les arches, l'eau devrait passer à vingt mètres au-dessus de nos têtes.",
+						"Écoute. Rien. Pas un filet. Le canal est sec.",
+						"Rome boit un million de litres par heure, rien qu'avec cet aqueduc. Les fontaines des quartiers, les thermes, les latrines. Sans eau, dans trois jours, la ville se bat pour un seau.",
+						"Le chef des fontainiers s'appelle Sextus. Un vieux, roux, qui boite de la jambe gauche. Sa cabane est juste là, à l'est. Moi, je file vers la porte surveiller la route.",
+						"Ah, et dis-lui que tu viens de la part du curateur des eaux. Il ne discutera pas."
+					]
+				},
+				{
+					"id": "rencontre_sextus",
+					"objectif": "Parle à Sextus, le chef des fontainiers, devant sa cabane",
+					"pnj": "sextus",
+					"repliques": [
+						"Le curateur des eaux t'envoie ? Il était temps. Trois jours que je fais porter des messages à Rome, et personne ne les comprend. Ils reviennent avec les mots dans le désordre.",
+						"Trente ans que je soigne ce canal. Je l'ai vu boucher par le calcaire, par les racines, par un âne mort une fois. Mais là... L'eau entre en haut, à la montagne, et elle n'arrive pas en bas. Elle disparaît.",
+						"Il faut monter sur l'aqueduc et ouvrir les regards, ces trappes de pierre sur le canal, pour voir ce qui la boit. Mon échafaudage est là, contre les arches.",
+						"Seulement, mes hommes ne montent plus. Une bête énorme est sortie de la carrière, à l'est. Un ours, avec des yeux qui brûlent violet. Il a blessé Felix. Les autres se sont enfuis dans les vignes.",
+						"Toi, tu as une épée. Va me chasser cet ours, et mes hommes reviendront tenir les cordes."
+					]
+				},
+				{
+					"id": "ours_carriere",
+					"objectif": "Descends dans la carrière de tuf, à l'est, et abats l'ours fracturé",
+					"tuer": "ours_fracture_carriere",
+					"nombre": 1,
+					"lieu": [
+						122,
+						-58
+					],
+					"apparition": {
+						"type": "ours_fracture_carriere",
+						"position": [
+							122,
+							-58
+						],
+						"nombre": 1,
+						"rayon": 1
+					},
+					"apres": [
+						{
+							"montrer": "aquarius_1"
+						},
+						{
+							"montrer": "aquarius_2"
+						}
+					],
+					"recit": {
+						"titre": "La carrière se tait",
+						"texte": "L'ours s'effondre entre les blocs de tuf. Autour de son cou, un collier de cuivre gravé : VIVARIVM. Encore une bête des jeux. Quelqu'un ouvre les cages."
+					}
+				},
+				{
+					"id": "retour_sextus",
+					"objectif": "Retourne voir Sextus, devant la cabane des fontainiers",
+					"pnj": "sextus",
+					"repliques": [
+						"Tu l'as eu ? Par Neptune ! Felix, Rufus, sortez de là, c'est fini.",
+						"Un ours des jeux, ici. Ce sont les bêtes de l'empereur, pour l'inauguration de l'amphithéâtre. Quelqu'un ouvre les cages, je te le dis.",
+						"Bon. Monte par l'échafaudage. Prends les rampes doucement, et ne regarde pas en bas. En haut, ouvre le premier regard, juste à côté du palier."
+					]
+				},
+				{
+					"id": "regard_sommet",
+					"objectif": "Monte sur l'aqueduc par l'échafaudage des fontainiers et ouvre le regard du canal (F)",
+					"objet": "regard_sommet",
+					"recit": {
+						"titre": "Le canal à sec",
+						"texte": "Tu soulèves la trappe. Dessous, le canal : une rigole de pierre, couverte d'une croûte de calcaire blanc. Elle est humide, encore. Plus loin, vers la ville, une lueur violette palpite sur le canal, et l'air y tremble comme au-dessus d'un feu."
+					}
+				},
+				{
+					"id": "failles_canal",
+					"objectif": "Marche sur le canal vers la ville et referme les trois failles qui boivent l'eau (reste immobile)",
+					"recolter": "faille_canal",
+					"nombre": 3,
+					"duree": 5,
+					"action": "Fermeture de la faille…",
+					"apres": [
+						{
+							"cacher": "faille_canal_0"
+						},
+						{
+							"cacher": "faille_canal_1"
+						},
+						{
+							"cacher": "faille_canal_2"
+						},
+						{
+							"montrer": "eau_aqueduc"
+						},
+						{
+							"pnj": "sextus",
+							"aller": [
+								10,
+								-118
+							]
+						}
+					],
+					"recit": {
+						"titre": "L'eau revient",
+						"texte": "La dernière faille se referme. Un grondement sourd court dans la pierre, sous tes pieds, puis un bruit que tu n'avais pas remarqué avant parce qu'il manquait : l'eau. Elle arrive, claire et froide, et file vers Rome."
+					}
+				},
+				{
+					"id": "recompense_sextus",
+					"objectif": "Redescends par l'échafaudage de l'ouest et retrouve Sextus à la Porta Maggiore",
+					"pnj": "sextus",
+					"repliques": [
+						"Tu l'entends ? Elle chante ! Ah, je n'ai jamais rien entendu de plus beau. Pas même ma femme le jour de nos noces, et pourtant elle chantait bien.",
+						"Dans une heure, les fontaines de l'Esquilin couleront. Ce soir, les thermes. Tu as rendu l'eau à un million de gens, l'étranger. Ils ne le sauront jamais.",
+						"Tiens. Ma vieille tunique de fontainier, en laine grasse : l'eau glisse dessus. Et ce tuyau de plomb, avec mon nom dessus. C'est ma signature, sur tous les tuyaux que j'ai posés. Tu es un peu des nôtres, maintenant.",
+						"Ton amie t'attend de l'autre côté de la porte. Rome, c'est par là. Fais attention à toi, en ville. Là-bas, ce ne sont pas les ours qui mordent."
+					],
+					"recompense": [
+						{
+							"id": "tunique_fontainier",
+							"nom": "Tunique des fontainiers"
+						},
+						{
+							"id": "fistula_sextus",
+							"nom": "Fistule de plomb de Sextus"
+						}
+					]
+				},
+				{
+					"id": "vers_rome",
+					"objectif": "Passe sous la Porta Maggiore : Rome t'attend",
+					"zone": [
+						3,
+						-126
+					],
+					"rayon": 5,
+					"fin_chapitre": true
+				}
+			]
 		}
 	],
 	"fin_provisoire": {
-		"chapitre": "Chapitre 3 : L'eau qui ne vient plus",
-		"objectif": "La suite arrive bientôt : la campagne et les aqueducs, au nord de la voie Appienne.",
+		"chapitre": "Chapitre 4 : Du pain et des jeux",
+		"objectif": "La suite arrive bientôt : Rome, derrière la Porta Maggiore.",
 		"titre": "Tous les chemins",
-		"message": "Au relais de Petronius, les gens se comprennent de nouveau. Mais au nord, les aqueducs se taisent."
+		"message": "L'eau coule de nouveau dans l'aqueduc de Claude. Derrière la Porta Maggiore, Rome t'attend."
 	}
 }

@@ -147,5 +147,44 @@
 		"repliques": [
 			"« Voler... ne pas je vous... voulais ! » Il tient sa bourse contre lui et recule."
 		]
+	},
+	"sextus": {
+		"nom": "Sextus Iulius",
+		"role": "Chef des fontainiers de l'Aqua Claudia",
+		"modele": "homme",
+		"habit": "chiton_court",
+		"taille_cm": 170,
+		"peau": "#c29070",
+		"habits": "#6a5a3a",
+		"repliques": [
+			"Un aqueduc, ça se soigne comme un vieux cheval. Tous les jours. Le calcaire, les fuites, les racines des figuiers qui fendent la pierre.",
+			"Tu sais combien de gens vivent de cette eau ? Moi non plus. Mais je sais que si elle s'arrête, ils viennent tous frapper à ma porte."
+		]
+	},
+	"aquarius_1": {
+		"nom": "Felix",
+		"role": "Fontainier",
+		"modele": "homme",
+		"habit": "chiton_court",
+		"taille_cm": 174,
+		"peau": "#b07a54",
+		"habits": "#7a6a4a",
+		"repliques": [
+			"L'ours m'a envoyé valser dans les vignes. J'ai encore du raisin dans les cheveux.",
+			"Sextus dit qu'on est des soldats de l'eau. Moi je dis qu'on est surtout des maçons mouillés."
+		]
+	},
+	"aquarius_2": {
+		"nom": "Rufus",
+		"role": "Fontainier",
+		"modele": "homme",
+		"habit": "chiton_court",
+		"taille_cm": 168,
+		"peau": "#c89a78",
+		"habits": "#5a4a3a",
+		"repliques": [
+			"Je monte là-haut tous les jours depuis dix ans, et j'ai toujours le vertige. Ne le dis pas à Sextus.",
+			"Quand l'eau passe, la pierre tremble un peu sous les pieds. On dirait que l'aqueduc respire."
+		]
 	}
 }

@@ -1,6 +1,6 @@
-# Visiter Rome : la Voie Appienne
+# Visiter Rome : la Voie Appienne, la Campagne et les aqueducs
 
-La première zone de l'île de Rome est jouable : **la Voie Appienne** (niveaux 30 à 32). Nous sommes à l'été de l'an 80 après J.-C., sous l'empereur Titus, un an après l'éruption du Vésuve. C'est là que mène le portail **Rome antique** du QG de la Vigie (le quatrième en partant de la gauche). La conception de toute l'île est dans [ILE-4-ROME.md](../ILE-4-ROME.md).
+Deux zones de l'île de Rome sont jouables : **la Voie Appienne** (niveaux 30 à 32) et **la Campagne et les aqueducs** (niveaux 32 à 35). Nous sommes à l'été de l'an 80 après J.-C., sous l'empereur Titus, un an après l'éruption du Vésuve. C'est là que mène le portail **Rome antique** du QG de la Vigie (le quatrième en partant de la gauche). La conception de toute l'île est dans [ILE-4-ROME.md](../ILE-4-ROME.md).
 
 On y trouve :
 
@@ -19,7 +19,7 @@ Tout est fabriqué par le code. Le lion n'a pas encore de vrai modèle 3D : c'es
 1. Dans GitHub Desktop, sur la branche **main** : **Fetch origin** puis **Pull origin** (Claude le fait pour toi quand il le peut).
 2. **Ferme Godot et rouvre-le** s'il était ouvert pendant la mise à jour.
 3. **Par le jeu** : F5, **Jouer seul**, puis au QG de la Vigie, traverse le portail **Rome antique**.
-4. **Directement** : double-clique sur `scenes/monde/rome/voie_appienne.tscn` puis **F6**.
+4. **Directement** : double-clique sur `scenes/monde/rome/voie_appienne.tscn` (ou `campagne.tscn`) puis **F6**.
 
 Pour revenir à Hikari Bay : éloigne-toi un peu du portail, puis retraverse-le.
 
@@ -40,4 +40,24 @@ Pour revenir à Hikari Bay : éloigne-toi un peu du portail, puis retraverse-le.
 4. **Refermer la faille** qui brille entre les tombeaux, à l'ouest des bornes.
 5. Retourner voir Petronius pour ta récompense, puis retrouver **la femme qui t'attend dans la cour** : c'est Livia Conti en personne. Elle t'envoie vers les aqueducs.
 
-La suite (la Campagne et les aqueducs, chapitre 3) arrive bientôt.
+## La Campagne et les aqueducs
+
+Au nord du relais, la route sort des tombeaux et la campagne s'ouvre. On y trouve :
+
+- **l'aqueduc de Claude** (l'Aqua Claudia), qui arrive du sud-est sur ses grandes arches de tuf et file vers la ville, à une vingtaine de mètres de haut. **On peut marcher dessus**, sur le canal : sans garde-fou, on peut tomber ;
+- **l'échafaudage des fontainiers**, des rampes de bois en zigzag pour monter sur l'aqueduc (un deuxième, à l'ouest, sert à redescendre) ;
+- **la cabane des fontainiers** de Sextus, ses tuyaux de plomb et ses outils ;
+- **la Porta Maggiore**, tout au nord : une double arche de travertin où l'aqueduc passe au-dessus des deux routes, avec les inscriptions de Claude et de Vespasien. Derrière, Rome (fermée pour l'instant) ;
+- **une villa** de campagne à l'ouest, avec son pressoir à vin et ses vignes ;
+- **une carrière de tuf** à l'est, creusée en gradins (on y descend par une rampe, à l'ouest) ;
+- au loin, les toits de Rome et le Colisée tout neuf.
+
+## Le chapitre 3 : « L'eau qui ne vient plus »
+
+1. Retrouver **Livia** au pied des grandes arches : le canal est sec, et Rome a soif.
+2. Parler à **Sextus**, le chef des fontainiers, devant sa cabane.
+3. Descendre dans **la carrière** et abattre **l'ours fracturé** évadé des jeux (un ennemi d'élite). Les fontainiers reviennent.
+4. **Monter sur l'aqueduc** par l'échafaudage et ouvrir le regard du canal (touche **F**).
+5. Marcher sur le canal vers la ville et **refermer les trois failles** qui boivent l'eau (reste immobile). L'eau revient !
+6. Redescendre par l'échafaudage de l'ouest et retrouver Sextus à la porte, pour ta récompense.
+7. Passer sous **la Porta Maggiore**. La suite (Rome, chapitre 4) arrive bientôt.
