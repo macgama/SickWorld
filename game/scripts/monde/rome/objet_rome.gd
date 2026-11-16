@@ -74,3 +74,26 @@ func cacher() -> void:
 	super.cacher()
 	if _debout != null:
 		_debout.visible = true
+
+
+## Un gros sac de toile plein de blé, ficelé en haut, avec un peu de grain renversé.
+func _construire_sac() -> void:
+	var toile := _mat_uni(Color(0.72, 0.62, 0.44), 0.95)
+	var corps := SphereMesh.new()
+	corps.radius = 0.3
+	corps.height = 0.75
+	_morceau(corps, toile, Vector3(0, 0.36, 0))
+	var col := CylinderMesh.new()
+	col.top_radius = 0.1
+	col.bottom_radius = 0.07
+	col.height = 0.16
+	_morceau(col, toile, Vector3(0, 0.76, 0))
+	var lien := TorusMesh.new()
+	lien.inner_radius = 0.06
+	lien.outer_radius = 0.085
+	_morceau(lien, _mat_uni(Color(0.4, 0.3, 0.18), 0.9), Vector3(0, 0.7, 0))
+	var grain := CylinderMesh.new()
+	grain.top_radius = 0.18
+	grain.bottom_radius = 0.26
+	grain.height = 0.05
+	_morceau(grain, _mat_uni(Color(0.86, 0.72, 0.4), 0.9), Vector3(0.32, 0.02, 0.1))

@@ -16,6 +16,14 @@
 				"sous_titre": "Rome · le Latium, aux portes de la ville",
 				"texte": "La route sort des tombeaux et la campagne s'ouvre d'un coup, immense, dorée. Au loin, une ligne d'arches file d'une colline à l'autre, plus haute que tout. Les arches de l'aqueduc. Elles devraient chanter, pleines d'eau. Elles se taisent."
 			}
+		},
+		"rome": {
+			"scene": "res://scenes/monde/rome/rome.tscn",
+			"arrivee": {
+				"titre": "Rome",
+				"sous_titre": "Rome · la Ville, un million d'âmes",
+				"texte": "Passé la porte, le bruit te tombe dessus d'un coup : des charrettes, des marteaux, des cris de marchands, des chiens. Des immeubles de brique à cinq étages, du linge aux fenêtres. Et au-dessus des toits, énorme, blanc, tout neuf : l'amphithéâtre de Titus."
+			}
 		}
 	},
 	"camps": {
@@ -129,6 +137,53 @@
 				],
 				"nombre": 2,
 				"rayon": 5
+			}
+		],
+		"rome": [
+			{
+				"type": "chien_fracture_subure",
+				"position": [
+					30,
+					-150
+				],
+				"nombre": 3,
+				"rayon": 4
+			},
+			{
+				"type": "chien_fracture_subure",
+				"position": [
+					-60,
+					-150
+				],
+				"nombre": 2,
+				"rayon": 4
+			},
+			{
+				"type": "chien_fracture_subure",
+				"position": [
+					-140,
+					-110
+				],
+				"nombre": 3,
+				"rayon": 5
+			},
+			{
+				"type": "chien_fracture_subure",
+				"position": [
+					140,
+					40
+				],
+				"nombre": 2,
+				"rayon": 4
+			},
+			{
+				"type": "chien_fracture_subure",
+				"position": [
+					100,
+					-90
+				],
+				"nombre": 3,
+				"rayon": 4
 			}
 		]
 	},
@@ -603,12 +658,236 @@
 					"fin_chapitre": true
 				}
 			]
+		},
+		{
+			"numero": 4,
+			"titre": "Du pain et des jeux",
+			"ou": "rome",
+			"etapes": [
+				{
+					"id": "entrer_rome",
+					"ou": "campagne",
+					"objectif": "Passe sous la Porta Maggiore et entre dans Rome",
+					"arriver": "rome"
+				},
+				{
+					"id": "livia_rome",
+					"objectif": "Retrouve l'agent Livia près de la porte, sur la colline de l'Esquilin",
+					"pnj": "livia",
+					"repliques": [
+						"Rome. Un million de personnes sur sept collines. Personne n'a jamais vu autant de monde au même endroit, et personne ne le reverra avant Londres, dix-huit siècles plus tard.",
+						"Écoute-les. Tu entends ? Ça crie partout, mais personne ne se répond. La fracture a gagné la ville.",
+						"Il y a pire. Dans la Subure, le quartier pauvre, en bas, c'est jour de distribution du blé. Deux cent mille citoyens reçoivent leur ration gratuite. Si personne ne se comprend, ça tourne à l'émeute.",
+						"Un ami de la Vigie t'attend sur la place du blé : Martial, un poète. Il a une langue de vipère, mais il connaît tout le monde.",
+						"Moi, je vais voir du côté du vivarium. Les bêtes des jeux m'inquiètent. Le lion, l'ours... ça fait beaucoup de cages ouvertes par hasard."
+					]
+				},
+				{
+					"id": "rencontre_martial",
+					"objectif": "Descends dans la Subure et trouve Martial sur la place du blé",
+					"pnj": "martial",
+					"repliques": [
+						"Ah ! Le Pérégrin ! Livia m'a parlé de toi. Marcus Valerius Martialis, poète, Espagnol, pauvre, et logé au troisième étage, ce qui est le pire des trois malheurs.",
+						"Regarde-les. Ce matin encore, ils faisaient la queue en se racontant leurs malheurs. Et puis, d'un coup, plus personne ne comprend son voisin. On se bouscule. On croit que l'autre vous insulte.",
+						"Le distributeur ne sait plus lire ses listes, les gens ne savent plus dire leur nom. Encore une heure comme ça, et ils mettent le feu aux greniers.",
+						"Toi, tu sais rendre les mots aux gens, paraît-il. Commence par ces trois-là, au milieu de la place : ce sont eux qui crient le plus fort."
+					]
+				},
+				{
+					"id": "renouer_foule",
+					"objectif": "Renoue les trois Égarés de la foule, sur la place : remets leurs mots dans l'ordre (F)",
+					"recolter": "egare_subure",
+					"nombre": 3,
+					"titre_mots": "Renouer : remets ses mots dans l'ordre",
+					"mots": [
+						"J'ai cinq enfants et pas de pain",
+						"Mon nom est sur la liste du blé",
+						"Je ne voulais pas frapper cet homme"
+					],
+					"recit": {
+						"titre": "La foule respire",
+						"texte": "Les trois crient moins fort, puis plus du tout. Autour d'eux, les gens s'apaisent un peu, comme une marmite qu'on retire du feu. Mais près des greniers, un homme au manteau gris continue de haranguer la foule. Lui, on le comprend parfaitement."
+					}
+				},
+				{
+					"id": "choix_emeute",
+					"objectif": "La foule hésite entre le calme et la colère : que fais-tu ?",
+					"choix": [
+						{
+							"objet": "table_ble",
+							"objectif": "Organise toi-même la distribution du blé, à la table des listes",
+							"pnj": "frumentarius",
+							"repliques": [
+								"Le distributeur : Tu... tu sais lire mes listes ? Les dieux soient loués. Moi, je n'y vois plus que des lettres qui dansent.",
+								"Les sacs sont là, derrière la table. Un sac par famille, en commençant par ceux qui ont des enfants. Martial appellera les noms."
+							]
+						},
+						{
+							"objet": "suivre_agitateur",
+							"objectif": "Laisse la foule à Martial et suis l'agitateur au manteau gris",
+							"pnj": "martial",
+							"repliques": [
+								"Martial : Tu as raison, celui-là parle trop bien pour un homme du quartier. Je vais tenir la foule, je sais faire rire les gens qui ont faim. Va.",
+								"Il file vers le nord, dans les ruelles. Reste loin derrière lui, et ne le perds pas de vue."
+							]
+						}
+					]
+				},
+				{
+					"id": "distribution",
+					"si_choix": {
+						"choix_emeute": "table_ble"
+					},
+					"objectif": "Donne les quatre sacs de blé aux familles qui attendent (F, reste immobile)",
+					"recolter": "sac_ble",
+					"nombre": 4,
+					"duree": 1.5,
+					"action": "Tu donnes le sac de blé…",
+					"apres": [
+						{
+							"cacher": "sac_ble_0"
+						},
+						{
+							"cacher": "sac_ble_1"
+						},
+						{
+							"cacher": "sac_ble_2"
+						},
+						{
+							"cacher": "sac_ble_3"
+						},
+						{
+							"masquer": "agitateur"
+						}
+					],
+					"recit": {
+						"titre": "Du pain",
+						"texte": "Le dernier sac part sur l'épaule d'une grand-mère qui te bénit en trois langues. La place se vide doucement, chacun avec sa ration. L'homme au manteau gris, lui, a disparu. Une poissonnière te sourit : dans la Subure, on se souviendra de toi."
+					}
+				},
+				{
+					"id": "filature_ruelles",
+					"si_choix": {
+						"choix_emeute": "suivre_agitateur"
+					},
+					"objectif": "Suis l'agitateur de loin : il s'enfonce dans les ruelles du nord-est",
+					"zone": [
+						44,
+						-142
+					],
+					"rayon": 8,
+					"apres": [
+						{
+							"masquer": "agitateur"
+						}
+					]
+				},
+				{
+					"id": "filature_fontaine",
+					"si_choix": {
+						"choix_emeute": "suivre_agitateur"
+					},
+					"objectif": "Il tourne vers l'amphithéâtre, au sud : ne le perds pas",
+					"zone": [
+						56,
+						-96
+					],
+					"rayon": 8
+				},
+				{
+					"id": "oreillette",
+					"si_choix": {
+						"choix_emeute": "suivre_agitateur"
+					},
+					"objectif": "Il a disparu au coin d'un immeuble, mais il a laissé tomber quelque chose : ramasse-le (F)",
+					"objet": "oreillette_vigie",
+					"recit": {
+						"titre": "Une oreillette",
+						"texte": "Dans la poussière, une petite oreillette noire, toute moderne. Au dos, le sceau de la Vigie, et un numéro de série. Celle-ci n'a pas été perdue par un Effaceur : c'est du matériel de la Vigie, de cette année. Quelqu'un, chez toi, parle avec ceux qui brouillent Rome."
+					}
+				},
+				{
+					"id": "vers_vivarium",
+					"objectif": "Un esclave arrive en courant : les cages du vivarium sont ouvertes ! Va voir Carpophore, au vivarium, à l'est de l'amphithéâtre",
+					"pnj": "carpophore",
+					"action_pnj": [
+						{
+							"pnj": "martial",
+							"aller": [
+								118,
+								100
+							]
+						}
+					],
+					"repliques": [
+						"Tu es l'étranger de Martial ? Carpophore. Je chasse les bêtes de l'arène depuis vingt ans. J'ai tué un ours, un lion et un léopard le même matin, et tout Rome m'a applaudi.",
+						"Mais ça... Regarde. Cette nuit, toutes les cages se sont ouvertes. Toutes en même temps, sans un bruit. Mes gardiens dormaient. Ils ne se souviennent de rien.",
+						"On a repris les cerfs, les autruches. Mais il manque le pire : le rhinocéros. Une bête d'Afrique, plus lourde qu'une charrette de pierres, avec une corne qui perce un mur.",
+						"Il est dans les jardins, là, au nord. Je l'entends souffler. Et ses yeux... ses yeux brillent violet. Va voir sa cage, d'abord. Je veux savoir qui a fait ça."
+					]
+				},
+				{
+					"id": "cage_rhino",
+					"objectif": "Examine la cage ouverte du rhinocéros, au fond du vivarium (F)",
+					"objet": "cage_rhino",
+					"recit": {
+						"titre": "Pas forcée",
+						"texte": "La grille n'a pas été forcée. Le verrou de bronze est intact, ouvert proprement, et sur la serrure, il reste une trace de brûlure fine, nette, comme celle d'un outil de découpe de la Vigie. Sur le sol, des traces de sandales qui ne sont pas romaines. Puis, tout près, un souffle énorme."
+					}
+				},
+				{
+					"id": "rhinoceros",
+					"objectif": "Abats le rhinocéros fracturé dans les jardins, au nord du vivarium",
+					"tuer": "rhinoceros_fracture",
+					"nombre": 1,
+					"lieu": [
+						110,
+						84
+					],
+					"apparition": {
+						"type": "rhinoceros_fracture",
+						"position": [
+							110,
+							84
+						],
+						"nombre": 1,
+						"rayon": 1,
+						"attaque": true
+					},
+					"recit": {
+						"titre": "La bête tombe",
+						"texte": "Le rhinocéros s'abat dans un fracas de terre et de buis brisés. Les éclats violets sur sa peau s'éteignent un à un. Carpophore s'approche, pose la main sur la corne. « Une belle bête. Elle ne méritait pas ça. Personne ne mérite ça. »"
+					}
+				},
+				{
+					"id": "fin_martial",
+					"objectif": "Retrouve Martial, au vivarium",
+					"pnj": "martial",
+					"repliques": [
+						"Par Hercule ! J'ai tout vu depuis le mur. Je vais en faire un poème : « Le rhinocéros et le Pérégrin ». Non. « Le Pérégrin et le rhinocéros ». C'est toi le héros, après tout.",
+						"Sérieusement. Les cages ouvertes, les mots brouillés, l'agitateur... ce n'est pas le hasard. Quelqu'un veut que les jeux d'inauguration tournent mal.",
+						"Et quand les jeux tournent mal, à Rome, ce sont les empereurs qui tombent.",
+						"Tiens. Mon dernier livre, à peine sec. Il parle des jeux. Garde-le, et dis à ton amie Livia qu'elle a de drôles de façons d'être toujours là où il ne se passe rien."
+					],
+					"recompense": [
+						{
+							"id": "tablettes_martial",
+							"nom": "Tablettes de Martial"
+						},
+						{
+							"id": "corne_rhinoceros",
+							"nom": "Corne du rhinocéros du vivarium"
+						}
+					],
+					"fin_chapitre": true
+				}
+			]
 		}
 	],
 	"fin_provisoire": {
-		"chapitre": "Chapitre 4 : Du pain et des jeux",
-		"objectif": "La suite arrive bientôt : Rome, derrière la Porta Maggiore.",
+		"chapitre": "Chapitre 5 : Les deux visages",
+		"objectif": "La suite arrive bientôt : l'incendie du Champ de Mars.",
 		"titre": "Tous les chemins",
-		"message": "L'eau coule de nouveau dans l'aqueduc de Claude. Derrière la Porta Maggiore, Rome t'attend."
+		"message": "La Subure est calme et le rhinocéros du vivarium ne chargera plus. Mais quelqu'un, à Rome, ouvre les cages."
 	}
 }

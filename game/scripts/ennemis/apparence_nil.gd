@@ -45,6 +45,8 @@ func _construire() -> void:
 	add_child(_corps)
 	if espece == "hippopotame":
 		_construire_hippopotame()
+	elif espece == "rhinoceros":
+		_construire_rhinoceros()
 	elif espece == "babouin":
 		_construire_babouin()
 	elif espece == "sanglier":
@@ -111,6 +113,18 @@ static func _materiau(cle: String) -> StandardMaterial3D:
 			m.metallic_specular = 0.6
 			m.uv1_triplanar = true
 			m.uv1_scale = Vector3.ONE * 0.8
+		"rhino":
+			# Peau gris ardoise, épaisse et mate, creusée de grands plis.
+			m.albedo_texture = _bruit_cellules(7, 0.02, false, [Color(0.5, 0.49, 0.46), Color(0.33, 0.32, 0.3)])
+			m.normal_enabled = true
+			m.normal_texture = _bruit_cellules(7, 0.02, true, [])
+			m.normal_scale = 0.9
+			m.roughness = 0.85
+			m.uv1_triplanar = true
+			m.uv1_scale = Vector3.ONE * 0.7
+		"corne":
+			m.albedo_color = Color(0.36, 0.32, 0.27)
+			m.roughness = 0.6
 		"hippo_rose":
 			m.albedo_color = Color(0.68, 0.45, 0.42)
 			m.roughness = 0.4
@@ -391,6 +405,51 @@ func _construire_hippopotame() -> void:
 		_pattes.append(patte)
 
 
+# --- Rhinocéros blanc (environ 1,8 m au garrot, 4 m de long) -----------------------------
+# Une bête des jeux, ramenée d'Afrique pour l'inauguration de l'amphithéâtre (Martial
+# raconte un rhinocéros qui lance un ours en l'air comme un taureau un mannequin).
+
+func _construire_rhinoceros() -> void:
+	_hauteur = 0.0
+	var peau := _materiau("rhino")
+	var corne := _materiau("corne")
+	# Le corps : massif, une bosse de muscle au-dessus des épaules, la croupe plus basse.
+	_piece(_corps, _loft([
+		[1.5, 0.3, 0.38, 1.25, 0.2], [1.25, 0.66, 0.66, 1.25, 0.3], [0.7, 0.8, 0.78, 1.2, 0.3],
+		[0.0, 0.82, 0.82, 1.2, 0.3], [-0.6, 0.76, 0.86, 1.28, 0.3], [-1.0, 0.6, 0.78, 1.36, 0.2],
+		[-1.3, 0.42, 0.56, 1.36, 0.1],
+	], 22), peau)
+	# Les plis de peau au cou et aux cuisses, comme une armure.
+	for z: float in [-1.05, 0.95]:
+		_piece(_corps, _loft([[z - 0.06, 0.84, 0.86, 1.22, 0.3], [z + 0.06, 0.86, 0.88, 1.22, 0.3]], 22), peau)
+	# La petite queue à houppe.
+	_piece(_corps, _loft([[1.48, 0.05, 0.05, 1.3], [1.85, 0.03, 0.03, 0.95]], 8), peau)
+	# La tête longue, portée bas, le museau carré qui broute l'herbe.
+	_tete = _pivot(_corps, Vector3(0, 1.3, -1.35), "Tete")
+	_piece(_tete, _loft([
+		[0.1, 0.4, 0.42, -0.05, 0.2], [-0.3, 0.36, 0.38, -0.18, 0.3], [-0.65, 0.3, 0.3, -0.36, 0.3],
+		[-0.95, 0.3, 0.26, -0.52, 0.4], [-1.12, 0.26, 0.2, -0.6, 0.4],
+	], 20), peau)
+	# Les deux cornes : la grande devant, la petite derrière.
+	_piece(_tete, _cone(0.15, 0.85), corne, Vector3(0, -0.15, -1.0), Vector3(-0.45, 0, 0))
+	_piece(_tete, _cone(0.11, 0.38), corne, Vector3(0, -0.04, -0.68), Vector3(-0.3, 0, 0))
+	for cote in [-1.0, 1.0]:
+		_piece(_tete, _sphere(0.03), _materiau("oeil"), Vector3(cote * 0.27, -0.2, -0.5))
+		var oreille := _pivot(_tete, Vector3(cote * 0.22, 0.38, 0.12), "Oreille")
+		_piece(oreille, _cone(0.08, 0.26), peau, Vector3(0, 0.1, 0), Vector3(0, 0, cote * -0.3))
+		_oreilles.append(oreille)
+	# Une lèvre du bas (pour la menace : il secoue la tête, gueule entrouverte).
+	_machoire = _pivot(_tete, Vector3(0, -0.66, -0.9), "Machoire")
+	_piece(_machoire, _loft([[0.15, 0.2, 0.08, 0.0, 0.3], [-0.2, 0.22, 0.08, -0.02, 0.3]], 14), peau)
+	# Quatre pattes courtes et piliers.
+	var attaches := [Vector3(-0.5, 0.75, -0.8), Vector3(0.5, 0.75, -0.8), Vector3(-0.5, 0.75, 0.95), Vector3(0.5, 0.75, 0.95)]
+	for k in 4:
+		var patte := _pivot(_corps, attaches[k], "Patte%d" % k)
+		_piece(patte, _cylindre(0.22, 0.18, 0.78), peau, Vector3(0, -0.36, 0))
+		_piece(patte, _cylindre(0.2, 0.22, 0.08), corne, Vector3(0, -0.75, 0))
+		_pattes.append(patte)
+
+
 # --- Babouin hamadryas (environ 0,8 m au garrot) ----------------------------------------
 
 func _construire_babouin() -> void:
@@ -552,7 +611,7 @@ func animer(delta: float, vitesse: float, mort: bool) -> void:
 	_corps.rotation.z = lerpf(_corps.rotation.z, 0.0, 0.2)
 	_corps.position.y = lerpf(_corps.position.y, 0.0, 0.2)
 	_morsure = maxf(0.0, _morsure - delta)
-	if espece == "hippopotame":
+	if espece == "hippopotame" or espece == "rhinoceros":
 		_animer_hippopotame(delta, vitesse)
 	elif espece == "babouin":
 		_animer_babouin(delta, vitesse)

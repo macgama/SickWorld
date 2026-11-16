@@ -186,5 +186,92 @@
 			"Je monte là-haut tous les jours depuis dix ans, et j'ai toujours le vertige. Ne le dis pas à Sextus.",
 			"Quand l'eau passe, la pierre tremble un peu sous les pieds. On dirait que l'aqueduc respire."
 		]
+	},
+	"martial": {
+		"nom": "Martial",
+		"role": "Poète",
+		"modele": "homme",
+		"habit": "chiton_himation",
+		"taille_cm": 168,
+		"peau": "#c09068",
+		"habits": "#d8ccb0",
+		"repliques": [
+			"Tu sais ce qu'on dit à Rome ? Que je vends mes poèmes trop cher. C'est faux : on ne me les achète pas du tout.",
+			"Ici, la nuit, on ne dort pas : les charrettes n'ont le droit d'entrer en ville qu'après le coucher du soleil. Rome est bâtie sur le bruit des roues."
+		]
+	},
+	"frumentarius": {
+		"nom": "Le distributeur de blé",
+		"role": "Préposé aux distributions",
+		"modele": "homme",
+		"habit": "chiton_himation",
+		"taille_cm": 172,
+		"peau": "#b88a64",
+		"habits": "#e6dcc4",
+		"repliques": [
+			"Cinq boisseaux de blé par mois et par citoyen. Ça ne fait pas un festin, mais ça fait du pain.",
+			"Merci pour tout à l'heure. Sans toi, j'aurais fini sous mes propres sacs."
+		]
+	},
+	"agitateur": {
+		"nom": "L'homme au manteau gris",
+		"role": "Agitateur",
+		"modele": "homme",
+		"habit": "chiton_himation",
+		"taille_cm": 180,
+		"peau": "#c8a07a",
+		"habits": "#5a5a5e",
+		"repliques": [
+			"Ils mangent dans des plats d'argent sur le Palatin, et vous, vous faites la queue pour du grain ! Vous allez attendre encore longtemps ?"
+		]
+	},
+	"carpophore": {
+		"nom": "Carpophore",
+		"role": "Chasseur de l'arène",
+		"modele": "homme",
+		"habit": "exomis",
+		"taille_cm": 184,
+		"peau": "#9a6a46",
+		"habits": "#6a4a2a",
+		"repliques": [
+			"Une bête qu'on respecte, on la regarde dans les yeux. Une bête qu'on craint, on la regarde aux pieds. Le rhinocéros, lui, on le regarde de loin.",
+			"Le jour des jeux, je descendrai dans l'arène avec un épieu. Tout Rome me regardera. Ce sont les seuls jours où je n'ai pas peur."
+		]
+	},
+	"egare_subure_1": {
+		"nom": "La mère de famille",
+		"role": "Égarée",
+		"modele": "femme",
+		"habit": "peplos_himation",
+		"taille_cm": 160,
+		"peau": "#b88a64",
+		"habits": "#8a6a4a",
+		"repliques": [
+			"« Enfants... pain j'ai et cinq pas de ! » Elle serre une petite tablette de bois contre elle : sa carte de blé."
+		]
+	},
+	"egare_subure_2": {
+		"nom": "Le cordonnier",
+		"role": "Égaré",
+		"modele": "homme",
+		"habit": "exomis",
+		"taille_cm": 170,
+		"peau": "#a87850",
+		"habits": "#6a5a3a",
+		"repliques": [
+			"« Liste nom la... blé est sur du mon ! » Il agite le poing vers la table des distributions."
+		]
+	},
+	"egare_subure_3": {
+		"nom": "Le portefaix",
+		"role": "Égaré",
+		"modele": "homme",
+		"habit": "exomis",
+		"taille_cm": 186,
+		"peau": "#8a5a3a",
+		"habits": "#7a6a4a",
+		"repliques": [
+			"« Frapper homme je... pas cet voulais ne ! » Il regarde ses mains, effrayé de sa propre force."
+		]
 	}
 }
