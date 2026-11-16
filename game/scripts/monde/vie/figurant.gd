@@ -17,8 +17,8 @@ const DISTANCE_ANIMATION := 35.0
 const POSES := {"travail": "creuser", "creuser": "creuser", "priere": "prier", "prier": "prier",
 	"discute": "discuter", "discuter": "discuter", "lancer": "pecher", "pecher": "pecher",
 	"assis": "assis", "a_genoux": "a_genoux", "telephone": "telephone", "regarder": "regarder"}
-## Objet tenu en main pendant la pose : téléphone, canne à pêche, houe.
-const OUTILS := {"telephone": "telephone", "pecher": "canne", "creuser": "houe"}
+## Objet tenu en main pendant la pose : téléphone, canne à pêche, maillet.
+const OUTILS := {"telephone": "telephone", "pecher": "canne", "creuser": "maillet"}
 
 var fiche: Dictionary = {}
 ## Points [x, z] du chemin. Un seul point : il reste sur place.
@@ -49,6 +49,9 @@ var _attente := 0.0
 var _prochain_geste := 0.0
 var _image := 0
 var _pret := false
+## Canne à pêche (pêcheurs) et la main qui la tient.
+var _canne: Node3D
+var _main: Node3D
 
 
 func _ready() -> void:
@@ -191,18 +194,20 @@ func _ajouter_outil(sorte: String) -> void:
 			ecran.emission_energy_multiplier = 0.6
 			_piece(objet, boite, ecran, Vector3(0.0, 0.08, 0.03))
 		"canne":
-			# Le manche traverse le poing ; la canne part vers l'avant et vers le haut.
-			var canne := _piece(objet, _cyl(0.006, 0.014, 2.6), bois, Vector3(0, 0.06, 0.02))
-			canne.rotation = Vector3(0, 0, PI / 2)
-			canne.position += Vector3(-1.0, 0, 0)
-		"houe":
-			var manche := _piece(objet, _cyl(0.016, 0.018, 1.2), bois, Vector3(0, 0.06, 0.02))
+			# La canne ne suit pas l'orientation de la main (trop variable dans l'animation) :
+			# elle part du poing vers l'avant, 30° au-dessus de l'horizontale (voir _physics_process).
+			_canne = Node3D.new()
+			_canne.top_level = true
+			accroche.add_child(_canne)
+			var canne := _piece(_canne, _cyl(0.006, 0.016, 2.8), bois, Vector3(0, 1.2, 0))
+			canne.rotation = Vector3.ZERO
+			_main = accroche
+		"maillet":
+			# Un maillet de tailleur de pierre (court : il ne traverse pas les blocs).
+			var manche := _piece(objet, _cyl(0.014, 0.016, 0.36), bois, Vector3(0, 0.08, 0.03))
 			manche.rotation = Vector3(0, 0, PI / 2)
-			manche.position += Vector3(-0.35, 0, 0)
-			var lame := BoxMesh.new()
-			lame.size = Vector3(0.04, 0.2, 0.14)
-			var mi := _piece(objet, lame, _mat(Color(0.45, 0.4, 0.33), 0.8), Vector3(-0.95, -0.06, 0.02))
-			mi.rotation = Vector3(0, 0, 0)
+			var tete := _piece(objet, _cyl(0.05, 0.05, 0.16), _mat(Color(0.42, 0.3, 0.2), 0.9), Vector3(-0.17, 0.08, 0.03))
+			tete.rotation = Vector3(PI / 2, 0, 0)
 
 
 func _ajouter_parapluie() -> void:
@@ -284,6 +289,9 @@ func _physics_process(delta: float) -> void:
 		_geste_en_pause(delta)
 	if not _pret or _apparence == null or not _apparence.has_method("animer"):
 		return
+	if _canne != null and visible:
+		_canne.global_transform = Transform3D(global_basis * Basis(Vector3.RIGHT, deg_to_rad(-60.0)),
+				_main.global_position)
 	_image += 1
 	if not visible:
 		# Caché : on met quand même sa pose en place de temps en temps (pas de fondu visible

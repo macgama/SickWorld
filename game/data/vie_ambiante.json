@@ -1964,7 +1964,7 @@
 			},
 			{
 				"comme": "egy_ouvrier",
-				"chemin": [[-8, -56]],
+				"chemin": [[-7.3, -56]],
 				"geste": "lancer",
 				"regarde": 90
 			},
