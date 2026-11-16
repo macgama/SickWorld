@@ -23,7 +23,7 @@ const STATS := ["pv", "degats_pourcent", "reduction_pourcent", "critique_pourcen
 		"resistance_controles_pourcent", "soins_pourcent", "vol_de_vie_pourcent", "blessure_pourcent"]
 const FICHIER_DONNEES := "res://data/progression.json"
 ## Les îles dont on lit les quêtes (rattrapage, titre « toutes les secondaires »).
-const ILES := ["prehistoire", "egypte", "grece"]
+const ILES := ["prehistoire", "egypte", "grece", "rome"]
 
 static var _donnees: Dictionary = {}
 

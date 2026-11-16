@@ -939,5 +939,9 @@
 		"distance_laisse": 35,
 		"entraide": 14,
 		"temps_reapparition": 0
-	}
+	},
+	"loup_fracture_appia": {"nom": "Loup du Latium fracturé", "niveau": 30, "points_de_vie": 980, "degats": [34, 44], "intervalle_attaque": 1.5, "portee_attaque": 2.2, "vitesse_course": 7.2, "vitesse_marche": 1.9, "distance_detection": 14, "distance_laisse": 36, "entraide": 14, "temps_reapparition": 60},
+	"loup_fracture_convoi": {"nom": "Loup du Latium fracturé", "niveau": 30, "points_de_vie": 900, "degats": [32, 42], "intervalle_attaque": 1.5, "portee_attaque": 2.2, "vitesse_course": 7.2, "vitesse_marche": 1.9, "distance_detection": 18, "distance_laisse": 40, "entraide": 14, "temps_reapparition": 0},
+	"loup_fracture_faille_appia": {"nom": "Loup du Latium fracturé", "niveau": 31, "points_de_vie": 1000, "degats": [34, 46], "intervalle_attaque": 1.5, "portee_attaque": 2.2, "vitesse_course": 7.2, "vitesse_marche": 1.9, "distance_detection": 14, "distance_laisse": 36, "entraide": 14, "temps_reapparition": 0},
+	"lion_fracture": {"nom": "Lion du vivarium fracturé", "insensible_controles": true, "niveau": 31, "points_de_vie": 3600, "degats": [44, 58], "intervalle_attaque": 1.8, "portee_attaque": 2.7, "vitesse_course": 8.0, "vitesse_marche": 1.8, "distance_detection": 20, "distance_laisse": 50, "entraide": 0, "temps_reapparition": 0}
 }

@@ -28,8 +28,8 @@ const ENTRAINEMENT := Rect2(4.0, 74.0, 28.0, 32.0)
 const PORTAILS := Rect2(-48.0, 110.0, 50.0, 26.0)
 ## Les archives : à l'ouest de la salle des portails (ouvertes au chapitre 5 de la Grèce).
 const ARCHIVES := Rect2(-72.0, 112.0, 23.5, 22.0)
-## Les époques, dans l'ordre ; les trois premières (Préhistoire, Égypte, Grèce) ont un portail actif.
-const EPOQUES := ["Préhistoire", "Égypte antique", "Grèce antique", "Moyen Âge", "Renaissance"]
+## Les époques, dans l'ordre ; les quatre premières (Préhistoire, Égypte, Grèce, Rome) ont un portail actif.
+const EPOQUES := ["Préhistoire", "Égypte antique", "Grèce antique", "Rome antique", "Moyen Âge", "Renaissance"]
 
 const VIOLET := Color(0.62, 0.48, 1.0)
 const CYAN := Color(0.35, 0.85, 1.0)
@@ -281,7 +281,7 @@ static func _amenager_portails(hub: HikariBay, metal: Material) -> void:
 	for i in EPOQUES.size():
 		var x := r.position.x + 5.0 + i * (r.size.x - 10.0) / (EPOQUES.size() - 1)
 		var z := r.end.y - 4.0
-		var actif := i <= 2
+		var actif := i <= 3
 		var anneau := MeshInstance3D.new()
 		var tore := TorusMesh.new()
 		tore.inner_radius = 2.6

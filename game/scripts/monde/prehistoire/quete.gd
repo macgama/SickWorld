@@ -15,6 +15,7 @@ const SCENE_LOUP := preload("res://scenes/ennemis/loup.tscn")
 const QuetesSecondaires := preload("res://scripts/monde/prehistoire/quetes_secondaires.gd")
 const EvenementsPublics := preload("res://scripts/monde/prehistoire/evenements_publics.gd")
 const Cinematiques := preload("res://scripts/monde/cinematiques.gd")
+const PuzzleMots := preload("res://scripts/interface/puzzle_mots.gd")
 
 signal etape_changee(id: String)
 
@@ -81,6 +82,9 @@ var evenements: Node
 var cinematiques: Node
 ## Action longue lancée par une quête secondaire : appelée à la fin.
 var _rappel_canalisation: Callable
+## Puzzle de mots (île de Rome) : les objets dont la phrase a déjà été remise en ordre.
+var _mots_resolus := {}
+var _puzzle: CanvasLayer
 
 
 ## Fichier des données de la quête de l'île.
@@ -287,6 +291,7 @@ func _aller_a(numero: int) -> void:
 	etape = numero if numero >= 0 and numero < etapes.size() else -1
 	compteur = 0
 	_avant_choix = {}
+	_mots_resolus.clear()
 	escorte_distance = 0.0
 	_vagues_faites.clear()
 	var e := etape_actuelle()
@@ -529,6 +534,10 @@ func utiliser_objet(objet: Node3D) -> void:
 	var e := etape_actuelle()
 	if _canalisation != null:
 		return
+	# Renouer (île de Rome) : avant tout, remettre la phrase de l'Égaré dans l'ordre.
+	if e.has("mots") and _objet_concerne(e, objet) and not _mots_resolus.has(objet.get("identifiant")):
+		_ouvrir_mots(e, objet)
+		return
 	if e.has("recolter") and objet.get("groupe") == e["recolter"]:
 		_recolter(objet)
 		return
@@ -559,6 +568,43 @@ func utiliser_objet(objet: Node3D) -> void:
 	_combat_joueur = joueur.get_node_or_null("Combat")
 	if _combat_joueur != null and not _combat_joueur.degats_recus.is_connected(_sur_degats_joueur):
 		_combat_joueur.degats_recus.connect(_sur_degats_joueur)
+
+
+## L'objet compte-t-il pour l'étape (l'objet demandé, ou un objet du groupe à récolter) ?
+func _objet_concerne(e: Dictionary, objet: Node3D) -> bool:
+	if e.has("recolter"):
+		return objet.get("groupe") == e["recolter"]
+	return e.get("objet", "") == objet.get("identifiant")
+
+
+## La phrase à remettre en ordre : celle de l'objet (meta « phrase »), sinon celle de
+## l'étape (« mots » : une phrase, ou une liste, une par objet récolté).
+func phrase_mots(e: Dictionary, objet: Node3D) -> String:
+	if objet != null and objet.has_meta("phrase"):
+		return String(objet.get_meta("phrase"))
+	var mots = e.get("mots", "")
+	if mots is Array:
+		return String(mots[mini(compteur, mots.size() - 1)]) if not mots.is_empty() else ""
+	return String(mots)
+
+
+func _ouvrir_mots(e: Dictionary, objet: Node3D) -> void:
+	if _puzzle == null or not is_instance_valid(_puzzle):
+		_puzzle = PuzzleMots.new()
+		_puzzle.name = "PuzzleMots"
+		add_child(_puzzle)
+	if _puzzle.est_ouvert():
+		return
+	var id = objet.get("identifiant")
+	_puzzle.ouvrir(String(e.get("titre_mots", "Renouer : remets ses mots dans l'ordre")), phrase_mots(e, objet), func():
+		_mots_resolus[id] = true
+		if is_instance_valid(objet):
+			utiliser_objet(objet))
+
+
+## Le puzzle de mots en cours (null s'il n'a jamais été ouvert).
+func puzzle_mots() -> CanvasLayer:
+	return _puzzle
 
 
 func _objet_utilise(objet: Node3D) -> void:
