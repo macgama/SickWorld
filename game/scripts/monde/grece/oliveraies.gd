@@ -43,6 +43,8 @@ const HERMES := Vector2(22, 46)
 ## Les hameaux : quelques fermes à l'est et à l'ouest des murs.
 const HAMEAU_EST := Vector2(44, 104)
 const HAMEAU_OUEST := Vector2(-60, 98)
+## La route du Laurion, qui part du hameau de l'est vers le sud (les mines d'argent).
+const ROUTE_LAURION := Vector2(60, 154)
 ## L'agent Markos, qui fait la route avec le joueur.
 const MARKOS := Vector2(5, 132)
 
@@ -83,13 +85,20 @@ func _ready() -> void:
 		var venu := String(Reseau.get_meta("arrivee_grece"))
 		Reseau.remove_meta("arrivee_grece")
 		# Retour d'Athènes : on arrive devant la porte, côté campagne.
-		point_apparition = PORTE_ATHENES + Vector2(0, 10) if venu == "athenes" else ENTREE + Vector2(0, -6)
+		if venu == "athenes":
+			point_apparition = PORTE_ATHENES + Vector2(0, 10)
+		elif venu == "laurion":
+			point_apparition = ROUTE_LAURION + Vector2(0, -10)
+		else:
+			point_apparition = ENTREE + Vector2(0, -6)
 	super._ready()
 
 
 func sortie_vers(zone: String) -> Vector2:
 	if zone == "oliveraies":
 		return Vector2.INF
+	if zone == "laurion":
+		return ROUTE_LAURION + Vector2(0, -8)
 	return PORTE_ATHENES + Vector2(0, 4) if zone == "athenes" else ENTREE + Vector2(0, 4)
 
 
@@ -107,6 +116,8 @@ func _distance_chemins(p: Vector2) -> float:
 	d = minf(d, _distance_segment(p, FERME + Vector2(-6, 6), RUCHES))
 	d = minf(d, _distance_segment(p, POTERNE_OUEST, Vector2(-44, -36)))
 	d = minf(d, _distance_segment(p, Vector2(-44, -36), AUTEL + Vector2(6, 2)))
+	d = minf(d, _distance_segment(p, POTERNE_EST + Vector2(4, 4), HAMEAU_EST + Vector2(-12, 6)))
+	d = minf(d, _distance_segment(p, HAMEAU_EST + Vector2(-12, 6), ROUTE_LAURION + Vector2(0, 6)))
 	return d
 
 
@@ -582,6 +593,7 @@ func _construire_quete() -> void:
 	repere.call(MarqueurCarte.Type.LIEU, "Sanctuaire des oliviers sacrés", MORIA + Vector2(0, 8))
 	repere.call(MarqueurCarte.Type.LIEU, "Poterne de l'est", POTERNE_EST)
 	repere.call(MarqueurCarte.Type.LIEU, "Poterne de l'ouest", POTERNE_OUEST)
+	repere.call(MarqueurCarte.Type.LIEU, "Route du Laurion", ROUTE_LAURION + Vector2(0, -6))
 	repere.call(MarqueurCarte.Type.DANGER, "Sangliers", Vector2(116, 30))
 	repere.call(MarqueurCarte.Type.DANGER, "Loups", Vector2(-70, 40))
 	repere.call(MarqueurCarte.Type.DANGER, "Faille", FAILLE)
@@ -605,6 +617,9 @@ func _process(delta: float) -> void:
 	# Au sud, la route redescend vers le Pirée.
 	if p.y > 151.0 and absf(p.x) < MURS:
 		quete.changer_de_zone("le_piree")
+	# Au sud-est, après le hameau, la route poussiéreuse du Laurion.
+	if p.y > 151.0 and absf(p.x - ROUTE_LAURION.x) < 6.0 and quete.donnees.get("zones", {}).has("laurion"):
+		quete.changer_de_zone("laurion")
 	# Au nord, la porte d'Athènes s'ouvre quand Socrate a convaincu le garde.
 	if not _porte_ouverte and quete.etape_atteinte("entrer_athenes"):
 		_ouvrir_porte()

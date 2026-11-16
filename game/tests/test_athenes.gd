@@ -343,7 +343,7 @@ func _lancer() -> void:
 	await _placer(Vector3(100, _scene.hauteur(100, 92) + 0.4, 92), PI)
 	await _placer(Vector3(100, _scene.hauteur(100, 85) + 0.4, 85), PI)
 	await _attendre(20)
-	_verifier(_quete.etape < 0, "retour au QG : la suite (chapitre 6) arrive bientôt")
+	_verifier(_id_etape() == "retour_grece", "retour au QG : le chapitre 6 attend en Grèce (%s)" % _id_etape())
 	_verifier(String(root.get_node("Reseau").get_meta("mission_hub_auto", "")) == "archives", "la mission des archives se lance au QG")
 
 	# --- L'autre choix : laisser filer Ménon et le suivre.

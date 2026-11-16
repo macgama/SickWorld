@@ -205,6 +205,21 @@ static func construire(forme: String, couleur: Color, cote := 1.0) -> Node3D:
 			eclat.emission = Color(0.6, 0.3, 1.0)
 			eclat.emission_energy_multiplier = 2.5
 			_piece(n, _cylindre(0.0, 0.018, 0.08), eclat, Vector3(0, 0.19, 0.14), Vector3.ONE, Vector3(30, 0, 0))
+		"casque_hoplite":
+			# Le casque corinthien : une calotte de bronze qui descend sur les joues, la
+			# fente des yeux en T, et un cimier de crin.
+			var bronze := _materiau(couleur, 0.35, 0.85)
+			_piece(n, _sphere(0.13, true), bronze, Vector3(0, 0.1, 0.0), Vector3(1.0, 1.35, 1.12))
+			_piece(n, _boite(Vector3(0.22, 0.12, 0.2)), bronze, Vector3(0, 0.02, 0.02))
+			var fente := _materiau(Color(0.03, 0.025, 0.02))
+			_piece(n, _boite(Vector3(0.16, 0.025, 0.02)), fente, Vector3(0, 0.12, 0.13))
+			_piece(n, _boite(Vector3(0.03, 0.09, 0.02)), fente, Vector3(0, 0.07, 0.13))
+			_piece(n, _boite(Vector3(0.035, 0.09, 0.3)), _materiau(Color(0.55, 0.12, 0.08), 0.95), Vector3(0, 0.3, -0.02))
+		"bouclier_rond":
+			# L'hoplon : un grand bouclier rond et creux, bois plaqué de bronze, tenu au bras.
+			var bronze := _materiau(couleur, 0.35, 0.8)
+			_piece(n, _cylindre(0.45, 0.45, 0.05), bronze, Vector3(0, 0.1, 0.06), Vector3.ONE, Vector3(90, 0, 0))
+			_piece(n, _sphere(0.08), _materiau(Color(0.12, 0.1, 0.08)), Vector3(0, 0.1, 0.09), Vector3(1, 1, 0.3))
 		"cape_fourrure":
 			# Mantelet sur les épaules + pan de fourrure dans le dos.
 			var fourrure := _fourrure(couleur)

@@ -1839,6 +1839,8 @@
 			}
 		},
 		"masque_fendu": {"nom": "Masque fendu de Damien Roche", "type": "equipement", "rarete": "epique", "description": "Un masque de tragédie doré, fendu du front au menton. Derrière, un petit circuit gravé aux armes de la Vigie, il y a dix ans. Lenoir n'a pas voulu le garder.", "emplacement": "relique", "epoque": "Grèce antique", "stats": {"pv": 70, "critique_pourcent": 3, "degats_pourcent": 4}, "icone": {"forme": "eclat", "couleur": "#d8b65a"}},
+		"lampe_laurion": {"nom": "Lampe de mineur de Daos", "type": "equipement", "rarete": "rare", "description": "Une petite lampe à huile en terre cuite, noircie de suie. Elle brûle dix heures : la durée d'une journée au fond. Daos l'a portée vingt ans.", "emplacement": "bijou", "epoque": "Grèce antique", "stats": {"pv": 35, "critique_pourcent": 2}, "icone": {"forme": "bol", "couleur": "#a0603a"}},
+		"chouette_argent": {"nom": "Chouette d'argent du Laurion", "type": "equipement", "rarete": "epique", "description": "Une pièce de quatre drachmes : Athéna d'un côté, sa chouette de l'autre. On la frappe avec l'argent du Laurion. Avec elle, Athènes paie ses rameurs, ses juges et ses temples.", "emplacement": "bijou", "epoque": "Grèce antique", "stats": {"pv": 60, "degats_pourcent": 4, "critique_pourcent": 2}, "icone": {"forme": "eclat", "couleur": "#d9dde2"}},
 		"tribon_socrate": {
 			"nom": "Tribôn de Socrate",
 			"type": "equipement",
@@ -1978,6 +1980,7 @@
 		"chien_fracture_agora": [{"objet": "eclat_de_fracture", "chance": 0.6}],
 		"masque_tribunal": [{"objet": "eclat_de_fracture", "chance": 0.7}],
 		"masque_garde": [{"objet": "eclat_de_fracture", "chance": 0.7}],
+		"mercenaire_masque": [{"objet": "eclat_de_fracture", "chance": 0.6}],
 		"masque_effaceur": [{"objet": "eclat_de_fracture", "chance": 1.0, "quantite": [3, 4]}],
 		"chien_fracture_ville": [{"objet": "eclat_de_fracture", "chance": 0.45}, {"objet": "croc_de_chien", "chance": 0.4}],
 		"poulpe_fracture": [{"objet": "eclat_de_fracture", "chance": 1.0, "quantite": [2, 3]}, {"objet": "encre_de_poulpe", "chance": 1.0, "quantite": [1, 2]}],

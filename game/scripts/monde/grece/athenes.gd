@@ -231,34 +231,6 @@ func reconstruire() -> void:
 	_appliquer_ciel()
 
 
-## Regroupe toutes les boîtes d'un dossier en un seul maillage par matériau : des
-## centaines de maisons s'affichent alors aussi vite qu'une seule. Les collisions restent.
-func _fusionner(dossier: Node3D) -> void:
-	var outils := {}
-	for n in dossier.find_children("*", "MeshInstance3D", true, false):
-		var mi := n as MeshInstance3D
-		if mi.mesh == null or mi.material_override == null:
-			continue
-		var t := Transform3D.IDENTITY
-		var noeud: Node = mi
-		while noeud != null and noeud != dossier:
-			if noeud is Node3D:
-				t = (noeud as Node3D).transform * t
-			noeud = noeud.get_parent()
-		var m := mi.material_override
-		if not outils.has(m):
-			var outil := SurfaceTool.new()
-			outil.begin(Mesh.PRIMITIVE_TRIANGLES)
-			outils[m] = outil
-		(outils[m] as SurfaceTool).append_from(mi.mesh, 0, t)
-		mi.mesh = null
-	for m in outils:
-		var fusion := MeshInstance3D.new()
-		fusion.mesh = (outils[m] as SurfaceTool).commit()
-		fusion.material_override = m
-		dossier.add_child(fusion)
-
-
 # --- Les remparts et la porte du sud ------------------------------------------------------
 
 func _construire_remparts() -> void:
@@ -636,40 +608,6 @@ func _vase(parent: Node3D, p: Vector3, taille: float, noir: bool) -> void:
 	bande.material_override = _mat_terre_cuite() if noir else _mat_peint(NOIR_POIX, 0.35)
 	bande.position = Vector3(0, 0.52, 0)
 	mi.add_child(bande)
-
-
-## Une fumée grise qui monte doucement (four, autel, forge).
-func _fumee(parent: Node3D, p: Vector3) -> void:
-	var fumee := GPUParticles3D.new()
-	fumee.amount = 24
-	fumee.lifetime = 6.0
-	fumee.position = p
-	var processus := ParticleProcessMaterial.new()
-	processus.direction = Vector3(0.2, 1, 0)
-	processus.spread = 12.0
-	processus.initial_velocity_min = 0.5
-	processus.initial_velocity_max = 0.9
-	processus.gravity = Vector3(0.15, 0.1, 0)
-	processus.scale_min = 0.6
-	processus.scale_max = 1.4
-	var courbe := CurveTexture.new()
-	var c := Curve.new()
-	c.add_point(Vector2(0, 0.4))
-	c.add_point(Vector2(1, 1.6))
-	courbe.curve = c
-	processus.scale_curve = courbe
-	fumee.process_material = processus
-	var quad := QuadMesh.new()
-	quad.size = Vector2(0.9, 0.9)
-	var m := StandardMaterial3D.new()
-	m.albedo_color = Color(0.55, 0.53, 0.5, 0.25)
-	m.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
-	m.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-	m.billboard_mode = BaseMaterial3D.BILLBOARD_PARTICLES
-	m.albedo_texture = _texture_flamme()
-	quad.material = m
-	fumee.draw_pass_1 = quad
-	parent.add_child(fumee)
 
 
 # --- La Pnyx ----------------------------------------------------------------------------------

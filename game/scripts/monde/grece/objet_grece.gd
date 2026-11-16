@@ -7,7 +7,9 @@ extends "res://scripts/monde/egypte/objet_egypte.gd"
 ## - « masque » : un masque de théâtre blanc, posé dans l'herbe, avec un éclat violet.
 ## - « tablette » : une tablette de cire sur une borne (les réponses d’un interrogatoire).
 ## - « plaque_or » : des plaques d’or de la statue d’Athéna, sur un tréteau ;
-## - « jeton » : un jeton de plomb des mines du Laurion.
+## - « jeton » : un jeton de plomb des mines du Laurion ;
+## - « ostraka » : des sacs de tessons gravés (le vote truqué) ;
+## - « machine » : une pompe moderne de l’Effaceur, au fond des galeries.
 
 
 func _construire_sac_voyage() -> void:
@@ -225,3 +227,78 @@ func _construire_jeton() -> void:
 	jeton.material_override = plomb
 	jeton.position.y = 0.01
 	_visuel.add_child(jeton)
+
+
+func _mat_uni(couleur: Color, rugosite := 0.8, metal := 0.0) -> StandardMaterial3D:
+	var m := StandardMaterial3D.new()
+	m.albedo_color = couleur
+	m.roughness = rugosite
+	m.metallic = metal
+	return m
+
+
+func _morceau(maillage: Mesh, materiau: Material, p: Vector3, rot := Vector3.ZERO) -> MeshInstance3D:
+	var mi := MeshInstance3D.new()
+	mi.mesh = maillage
+	mi.material_override = materiau
+	mi.position = p
+	mi.rotation = rot
+	_visuel.add_child(mi)
+	return mi
+
+
+## Deux sacs de toile ouverts, pleins de tessons de poterie gravés d'un nom.
+func _construire_ostraka() -> void:
+	var toile := _mat_uni(Color(0.62, 0.55, 0.42), 0.95)
+	var terre := _mat_uni(Color(0.72, 0.42, 0.26), 0.85)
+	for k in 2:
+		var sac := SphereMesh.new()
+		sac.radius = 0.32
+		sac.height = 0.7
+		_morceau(sac, toile, Vector3(-0.3 + k * 0.6, 0.32, 0.05 * k), Vector3(0, k * 0.6, 0.1))
+	var hasard := RandomNumberGenerator.new()
+	hasard.seed = 438
+	for k in 14:
+		var tesson := BoxMesh.new()
+		tesson.size = Vector3(hasard.randf_range(0.08, 0.14), 0.015, hasard.randf_range(0.06, 0.11))
+		_morceau(tesson, terre, Vector3(hasard.randf_range(-0.6, 0.6), 0.02 + (0.62 if k < 6 else 0.0), hasard.randf_range(0.25, 0.6) * (1.0 if k >= 6 else 0.0)),
+				Vector3(hasard.randf_range(-0.3, 0.3), hasard.randf() * TAU, hasard.randf_range(-0.3, 0.3)))
+
+
+## Une machine de l'Effaceur : une pompe moderne, carrossée de gris, branchée sur des
+## câbles noirs, un voyant rouge qui clignote et un éclat violet de faille dans le moteur.
+func _construire_machine() -> void:
+	var metal := _mat_uni(Color(0.32, 0.34, 0.36), 0.45, 0.8)
+	var noir := _mat_uni(Color(0.04, 0.04, 0.045), 0.6)
+	var corps := BoxMesh.new()
+	corps.size = Vector3(1.1, 0.8, 0.7)
+	_morceau(corps, metal, Vector3(0, 0.45, 0))
+	var moteur := CylinderMesh.new()
+	moteur.top_radius = 0.26
+	moteur.bottom_radius = 0.26
+	moteur.height = 0.9
+	_morceau(moteur, metal, Vector3(0, 0.55, 0.0), Vector3(0, 0, PI / 2)).position.y = 1.0
+	var tuyau := CylinderMesh.new()
+	tuyau.top_radius = 0.07
+	tuyau.bottom_radius = 0.07
+	tuyau.height = 1.8
+	_morceau(tuyau, noir, Vector3(-0.9, 0.12, 0.3), Vector3(0, 0.4, PI / 2))
+	_morceau(tuyau, noir, Vector3(0.8, 0.12, -0.5), Vector3(0, -0.7, PI / 2))
+	var voyant := SphereMesh.new()
+	voyant.radius = 0.04
+	voyant.height = 0.08
+	var rouge := _mat_uni(Color(1.0, 0.1, 0.05))
+	rouge.emission_enabled = true
+	rouge.emission = Color(1.0, 0.1, 0.05)
+	rouge.emission_energy_multiplier = 4.0
+	_morceau(voyant, rouge, Vector3(0.35, 0.88, 0.36))
+	var eclat := CylinderMesh.new()
+	eclat.top_radius = 0.0
+	eclat.bottom_radius = 0.08
+	eclat.height = 0.42
+	eclat.radial_segments = 5
+	var violet := _mat_uni(Color(0.6, 0.3, 1.0))
+	violet.emission_enabled = true
+	violet.emission = Color(0.6, 0.3, 1.0)
+	violet.emission_energy_multiplier = 3.0
+	_morceau(eclat, violet, Vector3(0, 1.32, 0), Vector3(0.2, 0, 0.15))
