@@ -1,5 +1,5 @@
 {
-	"_aide": "Montures : appuyer sur V pour appeler sa monture (immobile, hors combat), V à nouveau pour descendre. Interdites dans le hub et les donjons. Une attaque reçue fait tomber de la monture. Chaque île a sa monture d'époque ; « epoque » = nom du dossier de l'île (prehistoire, egypte…).",
+	"_aide": "Montures : appuyer sur V pour appeler sa monture (immobile, hors combat), V à nouveau pour descendre. Interdites dans le hub et les donjons. Une attaque reçue fait tomber de la monture. Chaque île a sa monture d'époque ; « epoque » = nom du dossier de l'île (prehistoire, egypte…). « requiert » : un objet à avoir dans ses sacs pour l'appeler (la bride du poulain de Lysimaque, en Grèce).",
 	"reglages": {
 		"duree_invocation": 1.5,
 		"vitesse_pourcent": 70,
@@ -23,6 +23,26 @@
 			"saut": "Skeleton|Jump_Run",
 			"cacher": ["Saddle", "Horseshoe", "Icosphere"],
 			"robe": {"couleur": "#b8935c", "pattes": "#2a2018", "crins": "#2a2018"},
+			"vitesse_pourcent": 80
+		},
+		"cheval_attique": {
+			"nom": "Poulain de Lysimaque",
+			"epoque": "grece",
+			"requiert": "bride_lysimaque",
+			"description": "Le poulain rétif que tu as dressé pour le fils de Lysimaque : un petit cheval grec, bai, nerveux, qui n'obéit qu'à toi. (Les Grecs montaient sans selle ni étriers.)",
+			"modele": "res://assets/animaux/cheval/scene.gltf",
+			"echelle": 0.072,
+			"tourner": 0,
+			"garrot": 1.32,
+			"selle": 0.1,
+			"os_selle": "BN_Spine_02_04_04",
+			"os_racine": "_aucun_",
+			"allures": ["Skeleton|Walk", "Skeleton|Gallop"],
+			"vitesses": {"Skeleton|Walk": 1.7, "Skeleton|Gallop": 10.0},
+			"repos": "Skeleton|1 Ilde",
+			"saut": "Skeleton|Jump_Run",
+			"cacher": ["Saddle", "Horseshoe", "Icosphere"],
+			"robe": {"couleur": "#7a4626", "pattes": "#1e1612", "crins": "#1a1410"},
 			"vitesse_pourcent": 80
 		},
 		"renne": {

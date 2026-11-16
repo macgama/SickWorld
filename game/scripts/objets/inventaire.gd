@@ -352,6 +352,26 @@ func _habiller() -> void:
 	if apparence == null or not apparence.has_method("equiper"):
 		return
 	apparence.equiper(Objets.visuels(cat(), porte))
+	_mettre_compagnon()
+
+
+## Le compagnon (Glaukê, la chouette…) : il suit le personnage tant qu'on porte son objet.
+func _mettre_compagnon() -> void:
+	var espece := ""
+	for id in porte.values():
+		var o := Objets.objet(cat(), String(id))
+		if o.has("compagnon"):
+			espece = String(o["compagnon"])
+	var actuel := joueur.get_node_or_null("Compagnon")
+	if actuel != null and String(actuel.get("espece")) != espece:
+		actuel.queue_free()
+		actuel.name = "CompagnonParti"
+		actuel = null
+	if espece != "" and actuel == null:
+		var compagnon = load("res://scripts/joueur/compagnon.gd").new()
+		compagnon.name = "Compagnon"
+		compagnon.espece = espece
+		joueur.add_child(compagnon)
 
 
 # --- Sauvegarde (serveur) ----------------------------------------------------

@@ -736,6 +736,15 @@
 				"natron": 1
 			}
 		},
+		"gateau_miel_sesame": {
+			"artisan": "cuisine",
+			"categorie": "plats",
+			"donne": "gateau_miel_sesame",
+			"quantite": 2,
+			"ingredients": {
+				"miel_hymette": 1
+			}
+		},
 		"poisson_chat_lotus": {
 			"artisan": "cuisine",
 			"categorie": "plats",

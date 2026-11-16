@@ -635,6 +635,8 @@ func _construire_quete() -> void:
 		_pnj(dossier, "rameur_%d" % (k + 1), RAMEURS[k], -1.4 + k * 0.5)
 	_pnj(dossier, "marchande_huile", Vector2(52, -56), 0.0)
 	_pnj(dossier, "marchand_vin", Vector2(88, -56), 0.0)
+	# Quête secondaire « Les derniers de Marathon » : un vieux rameur, sur la petite agora.
+	_pnj(dossier, "veteran_diphilos", Vector2(-80, -100), PI * 0.25)
 	# Le sac de Markos, coincé dans les rochers.
 	var sac := ObjetGrece.new()
 	sac.name = "SacMarkos"

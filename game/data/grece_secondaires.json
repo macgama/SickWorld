@@ -1,0 +1,891 @@
+{
+	"_aide": "Quêtes secondaires de l'île de Grèce. Même format que data/egypte_secondaires.json : chaque quête est proposée par un personnage (« donneur ») une fois l'étape « apres » de la quête principale passée. Types d'étape : recolter (un groupe d'objets, « nombre »), objet (un objet précis, « effet » possible), tuer (début du nom de l'ennemi, « apparition » possible), pnj (parler à quelqu'un). « ou » est la zone de l'étape. « mini_jeu » sur une étape « objet » : un petit jeu d'adresse au lieu d'une barre d'action (voir scripts/monde/mini_jeu.gd : « jauge » pour le kottabos et le poulain, « rythme » pour le chœur). Un objet avec « reste »: true ne disparaît pas quand on l'a utilisé.",
+	"noms_zones": {
+		"le_piree": "Le Pirée",
+		"oliveraies": "Oliveraies d'Attique",
+		"athenes": "Athènes",
+		"laurion": "Mines du Laurion",
+		"galeries_laurion": "Galeries du Laurion",
+		"acropole": "Acropole"
+	},
+	"quetes": [
+		{
+			"id": "chouette_de_nera",
+			"titre": "La chouette de Néra",
+			"donneur": "nera",
+			"apres": "nera_parle",
+			"offre": [
+				"Tu sais garder un secret ? Hier, j'ai entendu pleurer dans le sanctuaire des oliviers sacrés. Pas un enfant : une petite chouette. Elle est tombée du nid.",
+				"Je voulais aller la chercher, mais il y a des vipères entre les racines. Des vipères avec des cailloux violets sur le dos, comme le masque de l'autre jour.",
+				"La chouette, c'est l'oiseau d'Athéna. On ne peut pas la laisser là. Tu veux bien m'aider ? Maman ne doit pas savoir que j'y suis allée."
+			],
+			"etapes": [
+				{
+					"objectif": "Chasse les vipères fracturées du sanctuaire des oliviers sacrés",
+					"tuer": "vipere_fracture_olivier",
+					"nombre": 3,
+					"ou": "oliveraies",
+					"apparition": {
+						"type": "vipere_fracture_olivier",
+						"position": [
+							-70,
+							-58
+						],
+						"nombre": 3,
+						"rayon": 3,
+						"attaque": false
+					}
+				},
+				{
+					"objectif": "Recueille la petite chouette tombée entre les racines",
+					"objet": "chouette_nera",
+					"ou": "oliveraies",
+					"duree": 2.5,
+					"action": "Tu prends doucement la petite chouette dans tes mains…"
+				},
+				{
+					"objectif": "Attrape 3 grappes de cigales dans les champs, à l'ouest des Longs Murs : elle a faim",
+					"recolter": "cigales",
+					"nombre": 3,
+					"ou": "oliveraies",
+					"duree": 1.5,
+					"action": "Tu attrapes les cigales d'un coup de main…"
+				},
+				{
+					"objectif": "Ramène la chouette à Néra, à la ferme de Myrtô",
+					"pnj": "nera",
+					"ou": "oliveraies",
+					"repliques": [
+						"Elle est vivante ! Regarde ses yeux : on dirait deux petites lunes.",
+						"Elle a mangé toutes les cigales. Maman dit qu'une chevêche, ça ne s'apprivoise pas. Mais celle-là, elle ne te quitte pas des yeux.",
+						"Je crois qu'elle t'a choisi. Garde-la. Je l'appelle Glaukê : « celle aux yeux brillants », comme Athéna. Elle se posera sur ton épaule."
+					]
+				}
+			],
+			"recompense": [
+				{
+					"id": "glauke_chouette",
+					"nom": "Glaukê, la petite chouette"
+				}
+			]
+		},
+		{
+			"id": "miel_d_hymette",
+			"titre": "Le miel d'Hymette",
+			"donneur": "myrto",
+			"apres": "couronne_theano",
+			"offre": [
+				"Mes abeilles sont parties. Trois essaims, d'un coup. Je les ai vus filer vers la pente, comme si quelque chose les chassait des ruches.",
+				"Il y a un bourdonnement, là-haut, qui n'a rien d'une abeille. Un grésillement. Les tiennes, à la Vigie, elles font ce bruit-là ?",
+				"Ramène-moi les essaims : ils sont pendus aux branches, au-dessus des ruches. Et cueille du thym sauvage sur l'Hymette : avec son odeur, elles accepteront de rentrer."
+			],
+			"etapes": [
+				{
+					"objectif": "Recueille les 3 essaims pendus aux branches, au-dessus des ruches",
+					"recolter": "essaim",
+					"nombre": 3,
+					"ou": "oliveraies",
+					"duree": 2.5,
+					"action": "Tu fais tomber l'essaim dans le panier, tout doucement…"
+				},
+				{
+					"objectif": "Cueille 4 touffes de thym sauvage sur les pentes de l'Hymette",
+					"recolter": "thym",
+					"nombre": 4,
+					"ou": "oliveraies",
+					"duree": 1.5,
+					"action": "Tu coupes les tiges de thym en fleur…"
+				},
+				{
+					"objectif": "Rapporte les essaims et le thym à Myrtô",
+					"pnj": "myrto",
+					"ou": "oliveraies",
+					"repliques": [
+						"Tu sens ? Le thym chauffé au soleil. On en frotte l'intérieur des ruches, et les abeilles reconnaissent leur maison.",
+						"Elles rentrent déjà. Écoute-les : ça, c'est le bon bruit.",
+						"Prends ces gâteaux au miel et au sésame : c'est ce qu'on offre aux mariés, ici. Et ces pots de miel. Le cuisinier de ta drôle de ville saura quoi en faire."
+					]
+				}
+			],
+			"recompense": [
+				{
+					"id": "gateau_miel_sesame",
+					"nom": "Gâteaux au miel et au sésame",
+					"n": 4
+				},
+				{
+					"id": "miel_hymette",
+					"nom": "Miel de l'Hymette",
+					"n": 3
+				}
+			]
+		},
+		{
+			"id": "sanglier_de_l_hymette",
+			"titre": "Le sanglier de l'Hymette",
+			"donneur": "paysan_ktesippe",
+			"apres": "retour_myrto",
+			"offre": [
+				"Tu as vu mes vignes ? Arrachées. Les ceps couchés, la terre retournée. Et ce matin, il a défoncé deux ruches de Myrtô.",
+				"C'est un sanglier. Un vieux mâle, gros comme un taureau, avec des défenses comme des faucilles. Mon chien n'a pas voulu le suivre.",
+				"Suis ses traces jusqu'à la montagne, et débarrasse-nous de lui. Mon père avait un manteau de chasseur : il est à toi si tu reviens."
+			],
+			"etapes": [
+				{
+					"objectif": "Suis les traces du sanglier, des vignes jusqu'aux pentes de l'Hymette",
+					"recolter": "traces_sanglier",
+					"nombre": 3,
+					"ou": "oliveraies",
+					"duree": 1.5,
+					"action": "Tu examines les traces…"
+				},
+				{
+					"objectif": "Abats le grand sanglier de l'Hymette",
+					"tuer": "sanglier_hymette",
+					"nombre": 1,
+					"ou": "oliveraies",
+					"apparition": {
+						"type": "sanglier_hymette",
+						"position": [
+							112,
+							52
+						],
+						"nombre": 1,
+						"rayon": 1,
+						"attaque": false
+					}
+				},
+				{
+					"objectif": "Retourne voir Ktésippe, au hameau de l'est",
+					"pnj": "paysan_ktesippe",
+					"ou": "oliveraies",
+					"repliques": [
+						"Tu l'as eu ? Lui ? Tout le hameau va venir voir les défenses.",
+						"Ce soir, on le fait rôtir, et on en garde pour Myrtô : c'est elle qui a perdu le plus.",
+						"Tiens, la chlamyde de mon père, et son pétase. Un chasseur d'Attique doit avoir de l'ombre sur la tête et le vent dans le dos."
+					]
+				}
+			],
+			"recompense": [
+				{
+					"id": "chlamyde_chasseur",
+					"nom": "Chlamyde de chasseur"
+				},
+				{
+					"id": "petase",
+					"nom": "Pétase de voyageur"
+				}
+			]
+		},
+		{
+			"id": "oliviers_sacres",
+			"titre": "Les oliviers sacrés",
+			"donneur": "pretresse",
+			"apres": "couronne_theano",
+			"offre": [
+				"Ces oliviers sont nés de la Moria, l'arbre qu'Athéna a fait pousser sur l'Acropole. Toute l'huile qu'on offre aux vainqueurs des Jeux vient d'eux.",
+				"Les Jeux approchent, et les fracturés reviennent rôder entre les troncs. S'ils abîment un arbre sacré, c'est un sacrilège : on exile pour moins que ça.",
+				"Chasse-les. Puis cueille les olives sacrées et porte-les au pressoir. Ce que tu presseras, c'est l'huile des champions."
+			],
+			"etapes": [
+				{
+					"objectif": "Chasse les loups fracturés qui rôdent entre les oliviers sacrés",
+					"tuer": "loup_fracture_sanctuaire",
+					"nombre": 4,
+					"ou": "oliveraies",
+					"apparition": {
+						"type": "loup_fracture_sanctuaire",
+						"position": [
+							-84,
+							-50
+						],
+						"nombre": 4,
+						"rayon": 5,
+						"attaque": false
+					}
+				},
+				{
+					"objectif": "Cueille 4 paniers d'olives sacrées dans le sanctuaire",
+					"recolter": "olives_sacrees",
+					"nombre": 4,
+					"ou": "oliveraies",
+					"duree": 1.5,
+					"action": "Tu cueilles les olives à la main, sans abîmer les branches…"
+				},
+				{
+					"objectif": "Presse les olives au pressoir du sanctuaire",
+					"objet": "pressoir_sanctuaire",
+					"ou": "oliveraies",
+					"duree": 4.0,
+					"action": "Tu pousses le levier : la meule écrase les olives…",
+					"effet": "huile"
+				},
+				{
+					"objectif": "Apporte l'amphore d'huile à Théano",
+					"pnj": "pretresse",
+					"ou": "oliveraies",
+					"repliques": [
+						"De l'huile verte, épaisse, qui sent l'herbe coupée. Elle ira aux vainqueurs des Panathénées.",
+						"Garde cette petite amphore pour toi. Les athlètes s'en frottent avant l'effort : on dit qu'elle donne les jambes de Phidippidès.",
+						"Mais n'en abuse pas. Athéna aime ceux qui gagnent. Pas ceux qui trichent."
+					]
+				}
+			],
+			"recompense": [
+				{
+					"id": "amphore_huile_sacree",
+					"nom": "Amphore d'huile sacrée"
+				}
+			]
+		},
+		{
+			"id": "cheval_de_lysimaque",
+			"titre": "Le cheval de Lysimaque",
+			"donneur": "lysimaque",
+			"apres": "fin_chapitre_2",
+			"offre": [
+				"Mon fils, Charès, a quinze ans. Il ne rêve que d'une chose : entrer dans la cavalerie, défiler aux Panathénées sur un cheval à lui.",
+				"Un rameur n'a pas de quoi s'acheter un cheval. Mais un éleveur du hameau de l'ouest, dans les Oliveraies, a un poulain que personne n'arrive à approcher. Il me le laisse si quelqu'un le dresse.",
+				"Ne le frappe pas. Un cheval qu'on frappe, il te jette par terre le jour de la bataille. Il faut juste… lui parler au bon moment."
+			],
+			"etapes": [
+				{
+					"objectif": "Dresse le poulain rétif, au hameau de l'ouest des Oliveraies",
+					"objet": "poulain",
+					"ou": "oliveraies",
+					"effet": "dresse",
+					"mini_jeu": {
+						"type": "jauge",
+						"titre": "Le poulain rétif",
+						"consigne": "Appuie sur F quand le poulain se calme (le curseur dans la zone verte) pour poser la main sur son encolure.",
+						"essais": 5,
+						"reussites": 3,
+						"vitesse": 0.75,
+						"zone": 0.2,
+						"touche": "Il se laisse toucher…",
+						"rate": "Il recule en hennissant !",
+						"reussite": "Le poulain baisse la tête et te suit.",
+						"echec": "Le poulain s'est enfui au bout du pré. Approche-toi doucement et réessaie (F)."
+					}
+				},
+				{
+					"objectif": "Ramène le poulain à Lysimaque, au Pirée",
+					"pnj": "lysimaque",
+					"ou": "le_piree",
+					"repliques": [
+						"Il te suit comme un chien ! Charès va en pleurer.",
+						"Tu sais, ce poulain, je ne pourrai pas le nourrir tout l'hiver. Alors fais-moi une faveur : garde-le chez toi, et prête-le à mon fils pour les Panathénées.",
+						"Tiens, la bride. Siffle, et il viendra. Partout en Attique."
+					]
+				}
+			],
+			"recompense": [
+				{
+					"id": "bride_lysimaque",
+					"nom": "Bride de Lysimaque"
+				}
+			]
+		},
+		{
+			"id": "derniers_de_marathon",
+			"titre": "Les derniers de Marathon",
+			"donneur": "herodote",
+			"apres": "socrate_fin",
+			"offre": [
+				"Je m'appelle Hérodote. J'écris une enquête, une « historia », sur la grande guerre contre les Perses.",
+				"Marathon, c'était il y a cinquante-deux ans. Ceux qui y ont combattu sont presque tous morts. Quand le dernier s'en ira, qui saura ce qui s'est vraiment passé ?",
+				"J'en connais encore trois : Mélanthios, au Céramique ; Épizélos, dans un hameau des Oliveraies ; et Diphilos, au Pirée. Va les écouter pour moi. Et retiens bien tout."
+			],
+			"etapes": [
+				{
+					"objectif": "Écoute Mélanthios, l'ancien potier, au Céramique",
+					"pnj": "veteran_melanthios",
+					"ou": "athenes",
+					"repliques": [
+						"Marathon ? On a couru. Huit stades en courant, sous les flèches, avec dix kilos de bronze sur le dos. Les Perses n'avaient jamais vu des fous pareils.",
+						"Ils pensaient qu'on allait s'arrêter pour leur tirer dessus. On ne s'est pas arrêtés.",
+						"Le soir, on a enterré nos morts sous un grand tertre. Cent quatre-vingt-douze. Je connais tous leurs noms. Personne ne me les a jamais demandés."
+					]
+				},
+				{
+					"objectif": "Écoute Épizélos, au hameau de l'ouest des Oliveraies",
+					"pnj": "veteran_epizelos",
+					"ou": "oliveraies",
+					"repliques": [
+						"Hérodote t'envoie ? Bien. Alors écoute, je ne raconte ça qu'une fois par an.",
+						"Je me battais au premier rang. Un géant en armure, avec une barbe qui lui couvrait tout le bouclier, est passé à côté de moi. Il a tué l'homme à ma droite.",
+						"Et d'un coup, je n'ai plus rien vu. Pas une blessure, pas une égratignure. Juste le noir. Depuis ce jour-là, je suis aveugle. Dis-le-lui exactement comme ça."
+					]
+				},
+				{
+					"objectif": "Écoute Diphilos, le vieux rameur, sur la petite agora du Pirée",
+					"pnj": "veteran_diphilos",
+					"ou": "le_piree",
+					"repliques": [
+						"Moi j'étais esclave, à Marathon. On nous avait promis la liberté si on se battait. On s'est battus.",
+						"Après, Thémistocle a fait construire la flotte, et c'est nous, les pauvres, les rameurs, qui avons sauvé la cité à Salamine. C'est pour ça qu'aujourd'hui, à l'Assemblée, on a le droit de parler.",
+						"Écris-le, ça aussi : la démocratie, ce sont des rameurs qui l'ont gagnée."
+					]
+				},
+				{
+					"objectif": "Raconte tout à Hérodote, sur l'Agora d'Athènes",
+					"pnj": "herodote",
+					"ou": "athenes",
+					"repliques": [
+						"Les cent quatre-vingt-douze noms… L'aveugle et le géant barbu… Les esclaves et les rameurs… Tu as une mémoire de scribe égyptien.",
+						"J'écrirai l'histoire d'Épizélos telle qu'il te l'a dite. Dans deux mille cinq cents ans, quelqu'un la lira encore.",
+						"Prends ceci. Mélanthios me l'a donné un jour : une pointe de lance ramassée sur la plaine. Elle sera mieux dans ton musée que dans mon sac."
+					]
+				}
+			],
+			"recompense": [
+				{
+					"id": "pointe_lance_marathon",
+					"nom": "Pointe de lance de Marathon"
+				}
+			],
+			"titre_obtenu": "Témoin d'Hérodote"
+		},
+		{
+			"id": "choeur_de_sophocle",
+			"titre": "Le chœur de Sophocle",
+			"donneur": "sophocle",
+			"apres": "qg_archives",
+			"offre": [
+				"Demain, je fais répéter le chœur d'Antigone. Douze choreutes. Et l'un d'eux s'est réveillé ce matin sans voix, comme ceux que tu as sauvés.",
+				"Un chœur à onze, c'est un chœur boiteux. Tu as l'air de savoir bouger. Tu prendrais sa place, juste pour la répétition ?",
+				"Rien de difficile : on danse en cercle autour de l'autel, et on suit le rythme de l'aulos. Gauche, droite, en avant, en arrière."
+			],
+			"etapes": [
+				{
+					"objectif": "Danse avec le chœur, au milieu de l'orchestre du théâtre",
+					"objet": "place_choeur",
+					"ou": "athenes",
+					"mini_jeu": {
+						"type": "rythme",
+						"titre": "Le chœur d'Antigone",
+						"consigne": "Suis la danse : appuie sur la direction affichée (Z Q S D ou les flèches) quand le cercle vert touche le cercle doré.",
+						"nombre": 8,
+						"reussites": 6,
+						"periode": 1.1,
+						"reussite": "Le chœur tourne d'un seul pas autour de l'autel.",
+						"echec": "Tu as perdu le rythme. Sophocle frappe dans ses mains : on reprend (F)."
+					}
+				},
+				{
+					"objectif": "Retourne voir Sophocle",
+					"pnj": "sophocle",
+					"ou": "athenes",
+					"repliques": [
+						"« Il y a bien des merveilles en ce monde, mais il n'en est pas de plus grande que l'homme. » Et ce matin, l'homme, c'était toi.",
+						"Tu as le pied un peu lourd au troisième tour, mais personne ne l'a vu.",
+						"Garde ce masque de choreute. Accroche-le chez toi : il porte bonheur aux maisons, et aux acteurs qui ont le trac."
+					]
+				}
+			],
+			"recompense": [
+				{
+					"id": "masque_choreute",
+					"nom": "Masque de choreute"
+				}
+			]
+		},
+		{
+			"id": "banquet_d_aspasie",
+			"titre": "Le banquet",
+			"donneur": "aspasie",
+			"apres": "phidias_merci",
+			"offre": [
+				"Ce soir, je reçois. Un banquet, un vrai : du vin coupé d'eau, des philosophes qui se disputent, et des musiciennes pour les faire taire.",
+				"Il paraît que les étrangers sont nuls au kottabos. Tu sais ce que c'est ? On lance la dernière goutte de sa coupe sur le petit disque de bronze, en haut de la tige. S'il tombe, on a gagné.",
+				"Gagne une partie, et je te dirai ce que j'ai entendu sur l'homme au masque. Les hommes parlent beaucoup, quand ils ont bu."
+			],
+			"etapes": [
+				{
+					"objectif": "Gagne une partie de kottabos au banquet, devant la maison d'Aspasie",
+					"objet": "banquet_aspasie",
+					"ou": "athenes",
+					"mini_jeu": {
+						"type": "jauge",
+						"titre": "Le kottabos",
+						"consigne": "Fais tourner ta coupe et appuie sur F quand le curseur est dans la zone verte : la goutte doit toucher le disque.",
+						"essais": 4,
+						"reussites": 2,
+						"vitesse": 1.0,
+						"zone": 0.13,
+						"touche": "Tchic ! Le disque tombe dans un bruit de cloche.",
+						"rate": "La goutte tache le tapis… Rires.",
+						"reussite": "Tout le banquet t'applaudit en tapant sur les coupes.",
+						"echec": "Perdu ! Socrate te ressert une coupe : encore une partie (F)."
+					}
+				},
+				{
+					"objectif": "Retourne voir Aspasie",
+					"pnj": "aspasie",
+					"ou": "athenes",
+					"repliques": [
+						"Deux disques ! Même Alcibiade n'en fait pas autant, et il s'entraîne plus qu'à la lutte.",
+						"Voici ma rumeur. Un des invités, un marchand de Mégare, a vu l'homme au masque payer des pirates, au Pirée, avec des pièces « trop rondes, trop brillantes, sans la chouette ». Des pièces de ton monde, je suppose.",
+						"Et tiens, ma coupe à kottabos. Tu l'as bien méritée. Ne bois pas trop dedans."
+					]
+				}
+			],
+			"recompense": [
+				{
+					"id": "kylix_aspasie",
+					"nom": "Coupe à kottabos d'Aspasie"
+				}
+			]
+		},
+		{
+			"id": "la_palestre",
+			"titre": "La palestre",
+			"donneur": "hippomachos",
+			"apres": "socrate_fin",
+			"offre": [
+				"Tu as des épaules de rameur et des jambes de berger. Mais est-ce que tu sais lutter ?",
+				"À Athènes, un citoyen s'entraîne à la palestre comme il vote à l'Assemblée : tous les jours. Mes élèves s'ennuient : viens les mettre au sol.",
+				"Trois lutteurs, puis une course jusqu'aux quatre bornes du gymnase. Si tu tiens encore debout, tu affronteras Autolykos, mon champion."
+			],
+			"etapes": [
+				{
+					"objectif": "Mets au sol 3 lutteurs de la palestre",
+					"tuer": "athlete_lutteur",
+					"nombre": 3,
+					"ou": "athenes",
+					"apparition": {
+						"type": "athlete_lutteur",
+						"position": [
+							-128,
+							-63
+						],
+						"nombre": 3,
+						"rayon": 3,
+						"attaque": false
+					}
+				},
+				{
+					"objectif": "Cours toucher les 4 bornes du gymnase, dans toute la ville",
+					"recolter": "borne_gymnase",
+					"nombre": 4,
+					"ou": "athenes",
+					"action": "Tu touches la borne…"
+				},
+				{
+					"objectif": "Affronte Autolykos, le champion de la palestre",
+					"tuer": "athlete_champion",
+					"nombre": 1,
+					"ou": "athenes",
+					"apparition": {
+						"type": "athlete_champion",
+						"position": [
+							-128,
+							-63
+						],
+						"nombre": 1,
+						"rayon": 1,
+						"attaque": false
+					}
+				},
+				{
+					"objectif": "Retourne voir Hippomachos",
+					"pnj": "hippomachos",
+					"ou": "athenes",
+					"repliques": [
+						"Autolykos au sable ! Ça faisait trois ans que personne ne lui avait fait toucher les épaules.",
+						"Tu n'as pas la technique, mais tu as la tête. Et à la lutte, la tête, c'est la moitié du combat.",
+						"Prends ce pagne : c'est celui des vainqueurs de la palestre. Aux Panathénées, je parie une amphore sur toi."
+					]
+				}
+			],
+			"recompense": [
+				{
+					"id": "perizoma_athlete",
+					"nom": "Perizoma d'athlète"
+				}
+			],
+			"titre_obtenu": "Athlète des Panathénées"
+		},
+		{
+			"id": "intrus_modernes_grece",
+			"titre": "Les intrus modernes",
+			"donneur": "markos",
+			"apres": "socrate_fin",
+			"offre": [
+				"Agent, les capteurs s'affolent. Les Effaceurs ont semé du matériel moderne dans Athènes. Trois signaux, au moins.",
+				"Un sur la Pnyx, là où se réunit l'Assemblée. Un sur le Portique de Zeus, sur l'Agora. Et un au théâtre de Dionysos.",
+				"Si un Athénien voit une machine qui parle toute seule, il écrira que les dieux sont descendus. Et l'histoire part dans le décor. Récupère-les."
+			],
+			"etapes": [
+				{
+					"objectif": "Trouve l'objet moderne sur la Pnyx, près de la tribune",
+					"recolter": "moderne_pnyx",
+					"nombre": 1,
+					"ou": "athenes",
+					"duree": 1.0,
+					"action": "Tu ramasses l'objet…"
+				},
+				{
+					"objectif": "Trouve l'objet moderne sur une colonne du Portique de Zeus",
+					"recolter": "moderne_portique",
+					"nombre": 1,
+					"ou": "athenes",
+					"duree": 1.5,
+					"action": "Tu décolles l'affiche…"
+				},
+				{
+					"objectif": "Trouve l'objet moderne caché au théâtre de Dionysos",
+					"recolter": "moderne_theatre",
+					"nombre": 1,
+					"ou": "athenes",
+					"duree": 1.5,
+					"action": "Tu démontes la caméra…"
+				},
+				{
+					"objectif": "Rapporte les trois objets à l'agent Markos",
+					"pnj": "markos",
+					"ou": "athenes",
+					"repliques": [
+						"Un mégaphone, une affiche électorale… sur la Pnyx, en -438. Ils veulent que les Athéniens votent pour une photo.",
+						"Attends. La caméra. Elle n'enregistre pas le théâtre : elle émet. Et le signal part vers… notre QG. Vers la salle des portails.",
+						"Quelqu'un nous regarde depuis l'intérieur, agent. Garde ça pour toi. Et prends ceci : une montre de terrain, réglée sur l'heure de la Vigie."
+					]
+				}
+			],
+			"recompense": [
+				{
+					"id": "montre_vigie",
+					"nom": "Montre de terrain de la Vigie"
+				}
+			]
+		}
+	],
+	"objets": [
+		{
+			"id": "chouette_nera",
+			"groupe": "",
+			"forme": "chouette",
+			"ou": "oliveraies",
+			"position": [
+				-66,
+				-60
+			],
+			"invite": "[F] Recueillir la chouette"
+		},
+		{
+			"id": "cigales_0",
+			"groupe": "cigales",
+			"forme": "insectes",
+			"ou": "oliveraies",
+			"position": [
+				-40,
+				-10
+			],
+			"invite": "[F] Attraper les cigales"
+		},
+		{
+			"id": "cigales_1",
+			"groupe": "cigales",
+			"forme": "insectes",
+			"ou": "oliveraies",
+			"position": [
+				-52,
+				4
+			],
+			"invite": "[F] Attraper les cigales"
+		},
+		{
+			"id": "cigales_2",
+			"groupe": "cigales",
+			"forme": "insectes",
+			"ou": "oliveraies",
+			"position": [
+				-34,
+				20
+			],
+			"invite": "[F] Attraper les cigales"
+		},
+		{
+			"id": "essaim_0",
+			"groupe": "essaim",
+			"forme": "essaim",
+			"ou": "oliveraies",
+			"position": [
+				100,
+				12
+			],
+			"invite": "[F] Recueillir l'essaim"
+		},
+		{
+			"id": "essaim_1",
+			"groupe": "essaim",
+			"forme": "essaim",
+			"ou": "oliveraies",
+			"position": [
+				108,
+				28
+			],
+			"invite": "[F] Recueillir l'essaim"
+		},
+		{
+			"id": "essaim_2",
+			"groupe": "essaim",
+			"forme": "essaim",
+			"ou": "oliveraies",
+			"position": [
+				88,
+				10
+			],
+			"invite": "[F] Recueillir l'essaim"
+		},
+		{
+			"id": "thym_0",
+			"groupe": "thym",
+			"forme": "thym",
+			"ou": "oliveraies",
+			"position": [
+				110,
+				40
+			],
+			"invite": "[F] Cueillir le thym"
+		},
+		{
+			"id": "thym_1",
+			"groupe": "thym",
+			"forme": "thym",
+			"ou": "oliveraies",
+			"position": [
+				118,
+				20
+			],
+			"invite": "[F] Cueillir le thym"
+		},
+		{
+			"id": "thym_2",
+			"groupe": "thym",
+			"forme": "thym",
+			"ou": "oliveraies",
+			"position": [
+				108,
+				0
+			],
+			"invite": "[F] Cueillir le thym"
+		},
+		{
+			"id": "thym_3",
+			"groupe": "thym",
+			"forme": "thym",
+			"ou": "oliveraies",
+			"position": [
+				120,
+				50
+			],
+			"invite": "[F] Cueillir le thym"
+		},
+		{
+			"id": "traces_sanglier_0",
+			"groupe": "traces_sanglier",
+			"forme": "empreinte_sanglier",
+			"ou": "oliveraies",
+			"position": [
+				60,
+				96
+			],
+			"invite": "[F] Examiner les traces",
+			"reste": true
+		},
+		{
+			"id": "traces_sanglier_1",
+			"groupe": "traces_sanglier",
+			"forme": "empreinte_sanglier",
+			"ou": "oliveraies",
+			"position": [
+				80,
+				80
+			],
+			"invite": "[F] Examiner les traces",
+			"reste": true
+		},
+		{
+			"id": "traces_sanglier_2",
+			"groupe": "traces_sanglier",
+			"forme": "empreinte_sanglier",
+			"ou": "oliveraies",
+			"position": [
+				96,
+				62
+			],
+			"invite": "[F] Examiner les traces",
+			"reste": true
+		},
+		{
+			"id": "olives_0",
+			"groupe": "olives_sacrees",
+			"forme": "olives",
+			"ou": "oliveraies",
+			"position": [
+				-94,
+				-60
+			],
+			"invite": "[F] Cueillir les olives"
+		},
+		{
+			"id": "olives_1",
+			"groupe": "olives_sacrees",
+			"forme": "olives",
+			"ou": "oliveraies",
+			"position": [
+				-94,
+				-48
+			],
+			"invite": "[F] Cueillir les olives"
+		},
+		{
+			"id": "olives_2",
+			"groupe": "olives_sacrees",
+			"forme": "olives",
+			"ou": "oliveraies",
+			"position": [
+				-70,
+				-62
+			],
+			"invite": "[F] Cueillir les olives"
+		},
+		{
+			"id": "olives_3",
+			"groupe": "olives_sacrees",
+			"forme": "olives",
+			"ou": "oliveraies",
+			"position": [
+				-65,
+				-41
+			],
+			"invite": "[F] Cueillir les olives"
+		},
+		{
+			"id": "pressoir_sanctuaire",
+			"groupe": "",
+			"forme": "pressoir",
+			"ou": "oliveraies",
+			"position": [
+				-88,
+				-46
+			],
+			"invite": "[F] Presser les olives"
+		},
+		{
+			"id": "poulain",
+			"groupe": "",
+			"forme": "poulain",
+			"ou": "oliveraies",
+			"position": [
+				-70,
+				110
+			],
+			"invite": "[F] Approcher le poulain"
+		},
+		{
+			"id": "place_choeur",
+			"groupe": "",
+			"forme": "choeur",
+			"ou": "athenes",
+			"position": [
+				98,
+				60
+			],
+			"invite": "[F] Danser avec le chœur"
+		},
+		{
+			"id": "banquet_aspasie",
+			"groupe": "",
+			"forme": "banquet",
+			"ou": "athenes",
+			"position": [
+				46,
+				90
+			],
+			"invite": "[F] Jouer au kottabos"
+		},
+		{
+			"id": "borne_gymnase_0",
+			"groupe": "borne_gymnase",
+			"forme": "borne",
+			"ou": "athenes",
+			"position": [
+				-138,
+				-66
+			],
+			"invite": "[F] Toucher la borne",
+			"reste": true
+		},
+		{
+			"id": "borne_gymnase_1",
+			"groupe": "borne_gymnase",
+			"forme": "borne",
+			"ou": "athenes",
+			"position": [
+				-120,
+				-110
+			],
+			"invite": "[F] Toucher la borne",
+			"reste": true
+		},
+		{
+			"id": "borne_gymnase_2",
+			"groupe": "borne_gymnase",
+			"forme": "borne",
+			"ou": "athenes",
+			"position": [
+				-80,
+				-80
+			],
+			"invite": "[F] Toucher la borne",
+			"reste": true
+		},
+		{
+			"id": "borne_gymnase_3",
+			"groupe": "borne_gymnase",
+			"forme": "borne",
+			"ou": "athenes",
+			"position": [
+				-130,
+				0
+			],
+			"invite": "[F] Toucher la borne",
+			"reste": true
+		},
+		{
+			"id": "moderne_pnyx",
+			"groupe": "moderne_pnyx",
+			"forme": "megaphone",
+			"ou": "athenes",
+			"position": [
+				-88,
+				84
+			],
+			"invite": "[F] Ramasser l'objet"
+		},
+		{
+			"id": "moderne_portique",
+			"groupe": "moderne_portique",
+			"forme": "affiche",
+			"ou": "athenes",
+			"position": [
+				-54,
+				-6
+			],
+			"invite": "[F] Décoller l'affiche"
+		},
+		{
+			"id": "moderne_theatre",
+			"groupe": "moderne_theatre",
+			"forme": "camera",
+			"ou": "athenes",
+			"position": [
+				112,
+				64
+			],
+			"invite": "[F] Démonter la caméra"
+		}
+	]
+}
