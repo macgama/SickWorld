@@ -310,5 +310,40 @@
 		"repliques": [
 			"Ma maison est à deux rues d'ici. Alors je porte de l'eau, comme tout le monde."
 		]
+	},
+	"pline": {
+		"nom": "Pline le Jeune",
+		"role": "Étudiant, neveu de l'amiral",
+		"modele": "homme",
+		"habit": "chiton_himation",
+		"taille_cm": 170,
+		"peau": "#d0a07a",
+		"habits": "#e6dcc4",
+		"repliques": [
+			"Mon oncle a écrit trente-sept livres sur la nature. Il dormait quatre heures par nuit et se faisait lire des livres pendant son bain.",
+			"J'avais dix-sept ans, à Misène. J'ai choisi de rester lire Tite-Live pendant qu'il partait. Je ne sais pas si c'était du courage ou de la peur."
+		]
+	},
+	"masque_pompei": {
+		"nom": "Damien Roche",
+		"role": "« Masque » · ancien agent de la Vigie",
+		"modele": "homme",
+		"taille_cm": 188,
+		"peau": "#c4987a",
+		"habits": "#4a1d24",
+		"repliques": [
+			"Laisse-moi."
+		]
+	},
+	"vera_pompei": {
+		"nom": "Vera Lind",
+		"role": "Effaceuse · « Sablier »",
+		"modele": "femme",
+		"taille_cm": 174,
+		"peau": "#e9cdb6",
+		"habits": "#3a3a40",
+		"repliques": [
+			"Je ne suis pas là, agent. Tu ne m'as pas vue."
+		]
 	}
 }

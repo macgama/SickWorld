@@ -97,4 +97,27 @@ Passé la Porta Maggiore, on arrive sur la colline de l'Esquilin. On y trouve :
 7. Repousser ses quatre **prétoriens**. Janus s'enfuit par une faille, et Lenoir ouvre un portail de campagne près du portique.
 8. Traverser le portail : au QG, la commandante Morel fait fouiller **le bureau de Livia** (mission du hub : Morel, puis Odile aux archives, puis Morel).
 
-La suite (chapitre 6, Pompéi sous la cendre) arrive bientôt.
+## Pompéi sous la cendre
+
+Au bout du sud de la voie Appienne (le passage s'ouvre au chapitre 6), on arrive dans **Pompéi**, ensevelie sous la cendre du Vésuve depuis l'an 79 :
+
+- les toits et le haut des colonnes qui dépassent des dunes grises ; il tombe encore une fine pluie de cendre ;
+- au loin, **le Vésuve** et son panache de fumée ;
+- **le Forum** et le temple de Jupiter, au fond d'une grande fouille ;
+- **la maison de Caecilia**, aux murs rouges, avec son bassin et la mosaïque « Cave canem » (attention au chien !) ;
+- **l'amphithéâtre**, à moitié dégagé, et le rempart avec sa porte ;
+- des pilleurs qui fouillent la cendre, et des chiens fracturés.
+
+## Le chapitre 6 : « Pompéi sous la cendre »
+
+1. Prendre la voie Appienne vers le sud, jusqu'à Pompéi.
+2. Parler à **Pline le Jeune** à la porte : il cherche ce qui reste de la ville où son oncle est mort.
+3. **Chasser les trois pilleurs** qui creusent au-dessus de la maison de Caecilia.
+4. **Descendre dans la fouille** (la pente mène au niveau des rues) et entrer dans la maison.
+5. Trouver **la marque de la Vigie** gravée dans le mur : l'agent Roche est passé par ici.
+6. La terre tremble : rejoindre la fosse du Forum, et **récupérer le matériel de Roche** (appuie sur F et reste immobile).
+7. **Masque** apparaît : l'enregistrement de Roche prouve que Janus lui a menti. Il repart sans combattre.
+8. **Vera** surgit à son tour et te prête sa fréquence.
+9. Retrouver Pline au Forum (récompense : **les tablettes de Pline** et **l'enregistreur de Roche**).
+
+La suite (chapitre 7, « Ave, César ») arrive bientôt.

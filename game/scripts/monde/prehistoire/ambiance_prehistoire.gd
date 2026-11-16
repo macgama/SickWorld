@@ -144,6 +144,27 @@ const CLIMATS := {
 		"nuage_lumiere": Color(1.0, 0.94, 0.84),
 		"saturation": 1.04,
 	},
+	# Pompéi : un ciel bas et gris, voilé par la cendre du Vésuve ; le soleil n'est qu'une
+	# tache pâle.
+	"pompei": {
+		"etalonnage": "mediterranee",
+		"soleil": Vector2(200.0, 35.0),
+		"couleur_soleil": Color(0.95, 0.86, 0.74),
+		"energie_soleil": 1.6,
+		"couverture": 0.75,
+		"brume": Color(0.62, 0.6, 0.58),
+		"densite_brume": 0.004,
+		"brume_volume": 0.012,
+		"albedo_brume": Color(0.7, 0.68, 0.66),
+		"ambiance": 0.6,
+		"zenith": Color(0.32, 0.33, 0.36),
+		"horizon": Color(0.62, 0.6, 0.57),
+		"brume_ciel": 0.45,
+		"horizon_soleil": Color(0.85, 0.7, 0.55),
+		"nuage_ombre": Color(0.42, 0.41, 0.4),
+		"nuage_lumiere": Color(0.75, 0.72, 0.68),
+		"saturation": 0.7,
+	},
 	"oliveraies": {
 		"etalonnage": "mediterranee",
 		"soleil": Vector2(140.0, 52.0),

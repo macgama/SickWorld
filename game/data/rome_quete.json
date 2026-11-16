@@ -24,6 +24,14 @@
 				"sous_titre": "Rome · la Ville, un million d'âmes",
 				"texte": "Passé la porte, le bruit te tombe dessus d'un coup : des charrettes, des marteaux, des cris de marchands, des chiens. Des immeubles de brique à cinq étages, du linge aux fenêtres. Et au-dessus des toits, énorme, blanc, tout neuf : l'amphithéâtre de Titus."
 			}
+		},
+		"pompei": {
+			"scene": "res://scenes/monde/rome/pompei.tscn",
+			"arrivee": {
+				"titre": "Pompéi sous la cendre",
+				"sous_titre": "Rome · la Campanie, un an après le Vésuve",
+				"texte": "La route s'enfonce dans un désert gris. Pas un arbre, pas un oiseau. Sous tes pieds, la cendre crisse comme de la neige sale. Puis tu comprends ce que sont ces lignes de tuiles qui affleurent partout : des toits. Une ville entière dort là-dessous. Au loin, le Vésuve fume encore."
+			}
 		}
 	},
 	"camps": {
@@ -183,6 +191,53 @@
 					-90
 				],
 				"nombre": 3,
+				"rayon": 4
+			}
+		],
+		"pompei": [
+			{
+				"type": "pilleur_cendre",
+				"position": [
+					-80,
+					-40
+				],
+				"nombre": 3,
+				"rayon": 4
+			},
+			{
+				"type": "pilleur_cendre",
+				"position": [
+					70,
+					-70
+				],
+				"nombre": 2,
+				"rayon": 4
+			},
+			{
+				"type": "pilleur_cendre",
+				"position": [
+					-90,
+					80
+				],
+				"nombre": 3,
+				"rayon": 5
+			},
+			{
+				"type": "chien_fracture_pompei",
+				"position": [
+					60,
+					110
+				],
+				"nombre": 3,
+				"rayon": 4
+			},
+			{
+				"type": "chien_fracture_pompei",
+				"position": [
+					-30,
+					40
+				],
+				"nombre": 2,
 				"rayon": 4
 			}
 		]
@@ -1054,12 +1109,175 @@
 					"fin_chapitre": true
 				}
 			]
+		},
+		{
+			"numero": 6,
+			"titre": "Pompéi sous la cendre",
+			"ou": "pompei",
+			"etapes": [
+				{
+					"id": "vers_pompei",
+					"ou": "voie_appienne",
+					"objectif": "Descends la voie Appienne vers le sud, au-delà du tombeau du portail : la route de Pompéi",
+					"arriver": "pompei"
+				},
+				{
+					"id": "rencontre_pline",
+					"objectif": "Un jeune homme t'attend au bord de la route, devant la porte ensevelie",
+					"pnj": "pline",
+					"repliques": [
+						"Tu es l'envoyé dont parlait le centurion Lucretius ? Caius Plinius Caecilius Secundus. Pline, si tu préfères. Mon oncle était l'amiral de la flotte de Misène.",
+						"Il y a un an, il a vu le nuage monter du Vésuve. Un nuage en forme de pin, immense. Il a pris ses galères pour aller sauver les gens de la côte. Il n'est jamais revenu.",
+						"Depuis, je viens ici. J'écris tout ce que les survivants me racontent. Quelqu'un doit s'en souvenir.",
+						"Une femme est passée hier, avec des soldats en rouge. Elle cherchait un endroit précis, sous le Forum. Et des pilleurs fouillent la maison d'une marchande de vin, à l'ouest. Caecilia, je crois. Tu la connais ?"
+					]
+				},
+				{
+					"id": "pilleurs_maison",
+					"objectif": "Chasse les pilleurs qui fouillent la maison de Caecilia, à l'ouest de la route",
+					"tuer": "pilleur_cendre_maison",
+					"nombre": 3,
+					"lieu": [
+						-36,
+						-80
+					],
+					"apparition": {
+						"type": "pilleur_cendre_maison",
+						"position": [
+							-36,
+							-80
+						],
+						"nombre": 3,
+						"rayon": 4,
+						"attaque": true
+					},
+					"recit": {
+						"titre": "Les pilleurs s'enfuient",
+						"texte": "Le dernier pilleur lâche sa pioche et détale dans la cendre. Au bord du trou qu'ils ont creusé, des poutres retiennent la pente. En bas, on devine des murs rouges."
+					}
+				},
+				{
+					"id": "descendre_maison",
+					"objectif": "Descends dans la maison ensevelie de Caecilia, par la pente des pilleurs",
+					"zone": [
+						-37,
+						-53
+					],
+					"rayon": 6,
+					"recit": {
+						"titre": "La maison de Caecilia",
+						"texte": "Les murs sont encore rouges, d'un rouge profond, avec des oiseaux et des guirlandes peints dessus. Au fond, les amphores de vin sont alignées comme le matin de l'éruption. Le bassin de l'atrium est plein de cendre. À l'entrée, une mosaïque : un chien noir, la gueule ouverte. CAVE CANEM. Fausta disait que son chien s'appelait comme ça."
+					}
+				},
+				{
+					"id": "marque_vigie",
+					"objectif": "Sur le mur ouest de l'atrium, quelque chose brille faiblement : regarde (F)",
+					"objet": "marque_vigie",
+					"recit": {
+						"titre": "Un signe de la Vigie",
+						"texte": "Gravé dans l'enduit rouge, le sigle de la Vigie, et une flèche. Dessous, quelques mots au couteau, en français : « R., 79. Abri sous le forum. Si on me cherche. » Il y a dix ans, Damien Roche est passé ici. Il a laissé une piste."
+					}
+				},
+				{
+					"id": "secousse",
+					"objectif": "Suis la piste de Roche : va jusqu'à la fouille du Forum, au sud-est",
+					"zone": [
+						24,
+						-4
+					],
+					"rayon": 10,
+					"recit": {
+						"titre": "La terre tremble",
+						"texte": "Le sol gronde. Pendant quelques secondes, tout tremble : la cendre coule le long des pentes en petites avalanches grises, une colonne du Forum s'incline et se brise. Puis plus rien. Le Vésuve, au loin, souffle un peu plus fort. Il n'a pas fini."
+					}
+				},
+				{
+					"id": "materiel_roche",
+					"objectif": "Descends sous le Forum, dans le recoin du fond, et dégage le sac à demi enterré (F, reste immobile)",
+					"objet": "materiel_roche",
+					"duree": 3,
+					"action": "Tu dégages le sac de la cendre…",
+					"apres": [
+						{
+							"montrer": "masque_pompei"
+						}
+					],
+					"recit": {
+						"titre": "L'enregistrement",
+						"texte": "Un sac de la Vigie, d'un vieux modèle. Dedans, une couverture brûlée, une ration, et un enregistreur. Il s'allume encore. Une voix de femme, que tu connais : « Ici Conti. Ordre de E. : on ferme le portail de Roche dans quatre heures. Pas de relève. Il faut qu'il croie que la Vigie l'a abandonné. » Derrière toi, quelqu'un respire très fort."
+					}
+				},
+				{
+					"id": "verite_masque",
+					"objectif": "Damien Roche, « Masque », a tout entendu. Parle-lui",
+					"pnj": "masque_pompei",
+					"repliques": [
+						"Repasse-le. ... Non. Ne le repasse pas.",
+						"Dix ans. Dix ans que je hais Lenoir, Morel, toute la Vigie, parce qu'ils m'avaient laissé crever sous ce volcan. Et E. qui est venu me chercher. Qui m'a sauvé. Qui m'a donné une raison de vivre.",
+						"C'était lui. C'était eux. Ils m'ont jeté dans le feu pour pouvoir me tendre la main.",
+						"Ne me regarde pas comme ça. Je ne reviens pas chez vous. Mais Janus... Janus, elle est à moi. Dis-le à Lenoir."
+					],
+					"apres": [
+						{
+							"masquer": "masque_pompei"
+						},
+						{
+							"montrer": "vera_pompei"
+						}
+					]
+				},
+				{
+					"id": "vera_pompei",
+					"objectif": "Quelqu'un d'autre regardait la scène, sous les arches du portique",
+					"pnj": "vera_pompei",
+					"repliques": [
+						"Ne sors pas ton arme, agent. Je ne suis venue que pour voir.",
+						"Je savais pour Janus. Pas pour Roche. Je le jure.",
+						"Vous avez une traîtresse chez vous, nous avons un menteur chez nous. Peut-être qu'on n'est pas si différents.",
+						"Ta collègue m'a toujours fait peur. Si tu as encore besoin d'une voix à la radio... je te prête ma fréquence. Ne le dis à personne."
+					],
+					"apres": [
+						{
+							"masquer": "vera_pompei"
+						},
+						{
+							"pnj": "pline",
+							"aller": [
+								22,
+								8
+							]
+						}
+					]
+				},
+				{
+					"id": "retour_pline",
+					"objectif": "Remonte de la fouille et retrouve Pline, qui t'a suivi jusqu'au Forum",
+					"pnj": "pline",
+					"repliques": [
+						"J'ai vu un homme sortir de la cendre comme un fantôme, puis une femme en noir. Je n'ai rien compris, mais je l'ai écrit.",
+						"Tu sais ce que mon oncle disait ? « La fortune sourit aux audacieux. » Il est mort en allant vers le volcan, quand tout le monde le fuyait.",
+						"Tiens. Mes tablettes de cire, avec tout ce que j'ai vu ici. Un jour, j'écrirai à un historien, Tacite, pour lui raconter la mort de mon oncle. Garde-les jusque-là.",
+						"Retourne à Rome. On dit que les jeux d'inauguration commencent dans trois jours, et que le frère de l'empereur prépare quelque chose."
+					],
+					"recompense": [
+						{
+							"id": "tablettes_pline",
+							"nom": "Tablettes de cire de Pline"
+						},
+						{
+							"id": "enregistreur_roche",
+							"nom": "Enregistreur de Damien Roche"
+						}
+					],
+					"fin_chapitre": true
+				}
+			]
 		}
 	],
 	"fin_provisoire": {
-		"chapitre": "Chapitre 6 : Pompéi sous la cendre",
-		"objectif": "La suite arrive bientôt : Janus s'est enfuie à Pompéi.",
+		"chapitre": "Chapitre 7 : Ave, César",
+		"objectif": "La suite arrive bientôt : les jeux d'inauguration, à Rome.",
 		"titre": "Tous les chemins",
-		"message": "Livia Conti était Janus. Elle s'est enfuie à Pompéi, sous la cendre du Vésuve."
+		"message": "La vérité est sortie de la cendre : c'est Janus, sur ordre de E., qui a fait abandonner Damien Roche."
 	}
 }

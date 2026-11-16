@@ -311,7 +311,7 @@ func _lancer() -> void:
 	_quete.rentrer_au_hub()
 	await _attendre(10)
 	_verifier(String(root.get_node("Reseau").get_meta("mission_hub_auto", "")) == "bureau_livia", "au QG, la mission du bureau de Livia se lance")
-	_verifier(_quete.etape < 0, "chapitre 5 terminé (fin provisoire)")
+	_verifier(_quete.etape >= 0 and String(_quete.etape_actuelle().get("id", "")) == "vers_pompei", "chapitre 5 terminé, le 6 commence (vers Pompéi)")
 	root.get_node("Reseau").remove_meta("mission_hub_auto")
 	_scene.queue_free()
 	await _attendre(5)
