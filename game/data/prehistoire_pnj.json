@@ -16,6 +16,7 @@
 		"nom": "Toran",
 		"role": "Chef des chasseurs · clan du Bison",
 		"modele": "homme",
+		"habit": "peaux",
 		"taille_cm": 184,
 		"peau": "#b98a68",
 		"tenue": [
@@ -35,6 +36,7 @@
 		"nom": "Ulm",
 		"role": "Chasseur · clan du Bison",
 		"modele": "homme",
+		"habit": "peaux",
 		"taille_cm": 176,
 		"peau": "#a87a58",
 		"tenue": [
@@ -53,6 +55,7 @@
 		"nom": "Naya",
 		"role": "Chasseuse · clan du Bison",
 		"modele": "femme",
+		"habit": "peaux_femme",
 		"taille_cm": 166,
 		"peau": "#c29372",
 		"tenue": [
@@ -71,6 +74,7 @@
 		"nom": "Aïna",
 		"role": "Chamane et peintre · clan du Bison",
 		"modele": "femme",
+		"habit": "peaux_femme",
 		"taille_cm": 162,
 		"peau": "#b48463",
 		"tenue": [
@@ -87,6 +91,7 @@
 		"nom": "La Vieille Mère",
 		"role": "Gardienne des récits · clan du Bison",
 		"modele": "femme",
+		"habit": "peaux_femme",
 		"taille_cm": 155,
 		"peau": "#a77c5e",
 		"tenue": [
@@ -103,6 +108,7 @@
 		"nom": "Saé",
 		"role": "Gardienne du feu · clan du Bison",
 		"modele": "femme",
+		"habit": "peaux_femme",
 		"taille_cm": 158,
 		"peau": "#b88a66",
 		"tenue": [
@@ -119,6 +125,7 @@
 		"nom": "Kéo",
 		"role": "Jeune chasseur · clan du Bison",
 		"modele": "homme",
+		"habit": "peaux",
 		"taille_cm": 160,
 		"peau": "#b98d6c",
 		"habits": "#7d6248",

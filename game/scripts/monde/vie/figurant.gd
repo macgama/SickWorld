@@ -10,6 +10,7 @@ extends Node3D
 ## qu'avancer ; au-delà de DISTANCE_ANIMATION il n'est animé qu'une image sur trois.
 
 const SCENE_APPARENCE := "res://scenes/joueur/apparence_agent.tscn"
+const HabitEpoque := preload("res://scripts/personnage/habit_epoque.gd")
 const DISTANCE_VISIBLE := 85.0
 const DISTANCE_ANIMATION := 35.0
 ## Geste demandé → animation Mixamo jouée en boucle pendant les pauses (si le fichier
@@ -78,7 +79,10 @@ func _habiller() -> void:
 		_apparence.appliquer({"sexe": sexe,
 				"taille_cm": float(fiche.get("taille_cm", 172 if sexe == "homme" else 162)),
 				"peau": Color.from_string(String(fiche.get("peau", "#9a6a48")), Color(0.6, 0.42, 0.3))})
-	if fiche.has("habits") and _apparence.has_method("teindre_tenue"):
+	# Vrai habit d'époque (chiton, pagne, peaux…) ; sinon, ancienne méthode : la tenue
+	# moderne teinte et une robe dessinée en code.
+	var habille := HabitEpoque.depuis_fiche(_apparence, fiche)
+	if not habille and fiche.has("habits") and _apparence.has_method("teindre_tenue"):
 		_apparence.teindre_tenue(Color.from_string(String(fiche["habits"]), Color.WHITE))
 		for n in _apparence.find_children("*", "MeshInstance3D", true, false):
 			var m := (n as MeshInstance3D).material_override as StandardMaterial3D
@@ -98,7 +102,7 @@ func _habiller() -> void:
 			if o.has("visuel") and o.has("emplacement"):
 				visuels[o["emplacement"]] = o["visuel"]
 		_apparence.equiper(visuels)
-	if fiche.has("antique"):
+	if fiche.has("antique") and not habille:
 		_ajouter_drape(fiche["antique"])
 	if porte != "":
 		_ajouter_charge()

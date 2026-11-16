@@ -44,6 +44,7 @@ const TAILLE_REFERENCE := 180.0
 const PEAU_DE_REFERENCE := Color(0.80, 0.62, 0.50)
 const VisuelEquipement := preload("res://scripts/objets/visuel_equipement.gd")
 const GesteArme := preload("res://scripts/joueur/geste_arme.gd")
+const HabitEpoque := preload("res://scripts/personnage/habit_epoque.gd")
 ## Durée du geste calculé pour ranger ou sortir l'arme (secondes).
 const DUREE_GESTE_ARME := 0.75
 ## Moment du geste calculé (0 à 1) où l'arme passe de la main au dos / à la ceinture.
@@ -97,6 +98,9 @@ var _teinte_imposee := Color.WHITE
 var _force_imposee := 0.95
 ## Équipement visible (emplacement -> visuel, voir Inventaire et data/objets.json).
 var _visuels := {}
+## Habit d'époque porté à la place de la tenue moderne (voir habit_epoque.gd), et ses couleurs.
+var _habit := ""
+var _couleurs_habit := {}
 ## Armes rangées (dans le dos / à la ceinture) : état affiché et état demandé.
 var _armes_rangees := false
 var _armes_rangees_voulu := false
@@ -174,6 +178,7 @@ func _construire() -> void:
 	_appliquer_materiaux()
 	_appliquer_teintes()
 	_appliquer_equipement()
+	_appliquer_habit()
 	_lecteur = _corps.find_children("*", "AnimationPlayer", true, false)[0] as AnimationPlayer
 	_lecteur.add_animation_library("agent", _bibliotheque(modele))
 	_mort = false
@@ -286,6 +291,25 @@ func _appliquer_equipement() -> void:
 		if _visuels[e].has("teinte"):
 			_teinte_equipement = Color.from_string(String(_visuels[e]["teinte"]), Color.WHITE)
 	_appliquer_teintes()
+
+
+## Fait porter un habit d'époque (chiton, péplos, pagne de lin…) à la place de la tenue
+## moderne. couleurs : {rôle: Color} (principal, drape, ceinture, fourrure, chaussures).
+## habit = "" rend la tenue moderne. Rend false si l'habit n'existe pas pour ce sexe.
+func porter_habit(habit: String, couleurs := {}) -> bool:
+	_habit = habit
+	_couleurs_habit = couleurs.duplicate()
+	return _appliquer_habit()
+
+
+func _appliquer_habit() -> bool:
+	var squelette := _squelette()
+	if squelette == null:
+		return false
+	if _habit == "":
+		HabitEpoque.retirer(squelette)
+		return true
+	return HabitEpoque.habiller(squelette, modele, _habit, _couleurs_habit, _materiau_peau) != null
 
 
 ## Position du visage dans le monde (pour que la caméra de l'écran de création le cadre).
