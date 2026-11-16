@@ -66,7 +66,8 @@ func _lancer() -> void:
 			camera.projection = Camera3D.PROJECTION_PERSPECTIVE
 			camera.global_position = pos
 			camera.look_at(cible)
-		await _attendre(12)
+		# Laisse aux habitants le temps de reprendre leur pose (fondu 0,35 s).
+		await _attendre(45)
 		var image := root.get_texture().get_image()
 		var sortie := dossier.path_join("%s_%s.jpg" % [prefixe, morceaux[0]])
 		image.save_jpg(sortie, 0.88)
