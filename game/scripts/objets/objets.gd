@@ -147,6 +147,7 @@ static func valider(cat: Dictionary, etat, barre_par_defaut: Array, competences:
 		else:
 			propre["cases"].append({})
 	propre["barre"] = barre_valide(cat, etat.get("barre", []), barre_par_defaut, competences)
+	_retirer_competences_interdites(cat, propre, propre["barre"], barre_par_defaut)
 	var tenues_lues: Array = etat.get("tenues", []) if etat.get("tenues") is Array else []
 	for i in int(reglage(cat, "tenues_max", 4)):
 		var t = tenues_lues[i] if i < tenues_lues.size() else {}
@@ -230,6 +231,28 @@ static func premiere_case_libre(etat: Dictionary) -> int:
 		if (cases[i] as Dictionary).is_empty():
 			return i
 	return -1
+
+
+## L'objet est-il dans les sacs, ou porté ?
+static func possede(etat: Dictionary, id: String) -> bool:
+	if trouver(etat, id) >= 0:
+		return true
+	var porte = etat.get("equipement", {})
+	return porte is Dictionary and id in (porte as Dictionary).values()
+
+
+## Une compétence d'époque qui demande un objet (« competences_requises ») : l'a-t-on ?
+static func competence_permise(cat: Dictionary, etat: Dictionary, id: String) -> bool:
+	var requis := String((cat.get("competences_requises", {}) as Dictionary).get(id, ""))
+	return requis == "" or possede(etat, requis)
+
+
+## Une compétence d'époque dont on a perdu l'objet (jeté, vendu…) sort de la barre.
+static func _retirer_competences_interdites(cat: Dictionary, etat: Dictionary, barre: Array, par_defaut: Array) -> void:
+	for i in CASES_EPOQUE:
+		if i < barre.size() and not competence_permise(cat, etat, String(barre[i])):
+			var defaut := String(par_defaut[i]) if i < par_defaut.size() else ""
+			barre[i] = defaut if not defaut in barre else ""
 
 
 static func trouver(etat: Dictionary, id: String) -> int:
@@ -497,6 +520,9 @@ static func changer_competence(cat: Dictionary, etat: Dictionary, index: int, id
 	if index in CASES_EPOQUE:
 		if not id in cat.get("competences_d_epoque", []):
 			return "Ce n'est pas une compétence d'époque"
+		if not competence_permise(cat, etat, id):
+			var requis := String((cat.get("competences_requises", {}) as Dictionary).get(id, ""))
+			return "Il te faut : %s" % String(objet(cat, requis).get("nom", requis))
 		var autre := CASES_EPOQUE[1] if index == CASES_EPOQUE[0] else CASES_EPOQUE[0]
 		if String(barre[autre]) == id:
 			barre[autre] = barre[index]

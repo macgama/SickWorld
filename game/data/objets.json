@@ -1917,7 +1917,24 @@
 				"forme": "collier",
 				"couleur": "#6a4a2a"
 			}
-		}
+		},
+		"glauke_chouette": {"nom": "Glaukê, la petite chouette", "type": "equipement", "rarete": "epique", "description": "Une chevêche, la chouette d'Athéna, que Néra a soignée avec toi. Portée, elle se pose sur ton épaule et te suit partout, y compris dans les autres époques. « Celle aux yeux brillants. »", "emplacement": "bijou", "epoque": "Grèce antique", "stats": {"pv": 45, "critique_pourcent": 3}, "compagnon": "chouette", "icone": {"forme": "plante", "couleur": "#8a6a48"}},
+		"gateau_miel_sesame": {"nom": "Gâteau au miel et au sésame", "type": "consommable", "rarete": "raffine", "description": "De la farine, du miel de l'Hymette et des graines de sésame grillées. À Athènes, on en offre aux mariés : on dit qu'ils rendent la vie douce.", "pile": 10, "epoque": "Grèce antique", "repas": {"duree": 1800, "stats": {"pv": 60}}, "icone": {"forme": "bol", "couleur": "#d9a441"}},
+		"miel_hymette": {"nom": "Miel de l'Hymette", "type": "materiau", "rarete": "raffine", "description": "Un miel sombre qui sent le thym. Les Anciens le disaient le meilleur du monde. Le Chef Goro en fait des gâteaux.", "pile": 20, "epoque": "Grèce antique", "icone": {"forme": "ambre", "couleur": "#c08a2a"}},
+		"chlamyde_chasseur": {"nom": "Chlamyde de chasseur", "type": "equipement", "rarete": "rare", "description": "Le court manteau de laine des cavaliers et des chasseurs, agrafé sur l'épaule droite. Celui-ci appartenait au père de Ktésippe.", "emplacement": "torse", "epoque": "Grèce antique", "stats": {"pv": 70, "degats_pourcent": 3}, "visuel": {"forme": "veste", "couleur": "#7a5a3a"}},
+		"petase": {"nom": "Pétase de voyageur", "type": "equipement", "rarete": "raffine", "description": "Un chapeau de feutre à larges bords, attaché sous le menton. Hermès, le dieu des voyageurs, en porte un : il te va bien.", "emplacement": "tete", "epoque": "Grèce antique", "stats": {"pv": 45, "reduction_pourcent": 2}, "visuel": {"forme": "bandeau", "couleur": "#8a7050"}},
+		"amphore_huile_sacree": {"nom": "Amphore d'huile sacrée", "type": "materiau", "rarete": "historique", "description": "Une petite amphore d'huile des oliviers d'Athéna, pressée de tes mains. Tant qu'elle est dans tes sacs, tu peux mettre la compétence d'époque « Huile d'athlète » dans ta barre (touches 6 et 7).", "pile": 1, "epoque": "Grèce antique", "icone": {"forme": "bol", "couleur": "#a8a03a"}},
+		"bride_lysimaque": {"nom": "Bride de Lysimaque", "type": "materiau", "rarete": "historique", "description": "Une bride de cuir tressé, ornée d'une petite chouette de bronze. Tant qu'elle est dans tes sacs, le poulain dressé pour Lysimaque vient quand tu l'appelles (touche V) en Grèce.", "pile": 1, "epoque": "Grèce antique", "icone": {"forme": "tendon", "couleur": "#6a4a2a"}},
+		"pointe_lance_marathon": {"nom": "Pointe de lance de Marathon", "type": "equipement", "rarete": "epique", "description": "Une pointe de fer rouillée, ramassée sur la plaine de Marathon par Mélanthios. Hérodote te l'a donnée : « Elle sera mieux dans ton musée que dans mon sac. »", "emplacement": "bijou", "epoque": "Grèce antique", "stats": {"pv": 50, "degats_pourcent": 5}, "icone": {"forme": "silex", "couleur": "#6a5040"}},
+		"masque_choreute": {"nom": "Masque de choreute", "type": "materiau", "rarete": "historique", "description": "Un masque de lin stuqué et peint, aux yeux percés. Sophocle te l'a offert après la répétition d'Antigone. À accrocher chez soi : il porte bonheur aux maisons et aux acteurs qui ont le trac.", "pile": 1, "epoque": "Grèce antique", "icone": {"forme": "pierre", "couleur": "#efe6d6"}},
+		"kylix_aspasie": {"nom": "Coupe à kottabos d'Aspasie", "type": "materiau", "rarete": "historique", "description": "Une coupe plate à figures rouges : au fond, une joueuse de flûte. Aspasie te l'a donnée après tes deux disques au kottabos. « Ne bois pas trop dedans. »", "pile": 1, "epoque": "Grèce antique", "icone": {"forme": "bol", "couleur": "#b0502a"}},
+		"perizoma_athlete": {"nom": "Perizoma d'athlète", "type": "equipement", "rarete": "rare", "description": "Le pagne court des vainqueurs de la palestre d'Hippomachos. Pour courir, sauter et lutter, il n'y a pas mieux (à part rien du tout, comme les Grecs aux Jeux).", "emplacement": "jambes", "epoque": "Grèce antique", "stats": {"pv": 55, "critique_pourcent": 3}, "visuel": {"forme": "pantalon", "couleur": "#e9e2d0"}},
+		"montre_vigie": {"nom": "Montre de terrain de la Vigie", "type": "equipement", "rarete": "rare", "description": "Une montre noire, étanche, réglée sur l'heure du QG. L'agent Markos te l'a donnée après avoir découvert que quelqu'un, au QG, espionnait les missions.", "emplacement": "bijou", "epoque": "Moderne", "stats": {"pv": 45, "degats_pourcent": 3}, "icone": {"forme": "montre", "couleur": "#2a2a2e"}},
+		"amphore_panatheneenne": {"nom": "Amphore panathénaïque", "type": "equipement", "rarete": "epique", "description": "Le vrai prix des Jeux : une amphore d'huile sacrée, peinte d'une Athéna qui brandit sa lance. Au dos, des coureurs. On en a retrouvé dans tout le monde grec.", "emplacement": "relique", "epoque": "Grèce antique", "stats": {"pv": 80, "degats_pourcent": 6}, "icone": {"forme": "bol", "couleur": "#1a1a1a"}},
+		"sabre_archipirate": {"nom": "Kopis de l'archipirate", "type": "equipement", "rarete": "rare", "description": "Un sabre recourbé, lourd du bout, fait pour trancher. L'archipirate l'avait payé avec des pièces « sans chouette ».", "emplacement": "arme_principale", "epoque": "Grèce antique", "stats": {"degats_pourcent": 14, "pv": 30}, "visuel": {"forme": "lame", "couleur": "#8a7a6a"}},
+		"bouchons_effaceur": {"nom": "Bouchons d'oreilles d'Effaceur", "type": "equipement", "rarete": "rare", "description": "Deux bouchons de mousse orange, tombés d'un Effaceur. Avec ça, le Mur de haut-parleurs ne te fait plus peur. Enfin, un peu moins.", "emplacement": "bijou", "epoque": "Moderne", "stats": {"pv": 40, "reduction_pourcent": 2}, "icone": {"forme": "ambre", "couleur": "#f08a2a"}},
+		"defense_sanglier": {"nom": "Défense de sanglier", "type": "materiau", "rarete": "raffine", "description": "Une défense recourbée, jaune et tranchante. Les guerriers d'Homère en cousaient sur leur casque.", "pile": 20, "epoque": "Grèce antique", "icone": {"forme": "croc", "couleur": "#e8dcb0"}},
+		"galene_laurion": {"nom": "Galène du Laurion", "type": "materiau", "rarete": "commun", "description": "Un caillou gris et lourd qui brille comme du métal : du plomb, et dedans un peu d'argent. Il en faut des tonnes pour une poignée de chouettes.", "pile": 20, "epoque": "Grèce antique", "icone": {"forme": "minerai", "couleur": "#8a8e94"}}
 	},
 	"ensembles": {
 		"chasseur_du_clan": {
@@ -1967,12 +1984,27 @@
 		"feu_des_ancetres",
 		"lancer_au_propulseur",
 		"cri_du_clan",
-		"peinture_de_guerre"
+		"peinture_de_guerre",
+		"huile_d_athlete"
 	],
+	"_aide_competences_requises": "Une compétence d'époque qui demande un objet : elle ne peut aller dans la barre que si l'objet est dans les sacs (ou porté).",
+	"competences_requises": {
+		"huile_d_athlete": "amphore_huile_sacree"
+	},
 	"ultimes": [
 		"appel_de_la_meute"
 	],
 	"butin": {
+		"vipere_fracture_olivier": [{"objet": "eclat_de_fracture", "chance": 0.4}, {"objet": "peau_de_vipere", "chance": 0.5}],
+		"loup_fracture_sanctuaire": [{"objet": "eclat_de_fracture", "chance": 0.5}],
+		"sanglier_hymette": [{"objet": "defense_sanglier", "chance": 1.0, "quantite": [1, 2]}, {"objet": "soie_de_sanglier", "chance": 1.0, "quantite": [2, 4]}, {"objet": "eclat_de_fracture", "chance": 1.0, "quantite": [1, 2]}],
+		"sanglier_fracture_harde": [{"objet": "eclat_de_fracture", "chance": 0.4}, {"objet": "soie_de_sanglier", "chance": 0.5}],
+		"sanglier_fracture_geant": [{"objet": "defense_sanglier", "chance": 1.0}, {"objet": "eclat_de_fracture", "chance": 1.0, "quantite": [2, 3]}],
+		"pirate_egee": [{"objet": "eclat_de_fracture", "chance": 0.45}],
+		"pirate_chef_egee": [{"objet": "eclat_de_fracture", "chance": 1.0, "quantite": [2, 3]}],
+		"mur_haut_parleurs": [{"objet": "eclat_de_fracture", "chance": 1.0, "quantite": [3, 5]}],
+		"mercenaire_masque_eboulement": [{"objet": "eclat_de_fracture", "chance": 0.6}],
+		"vipere_fracture_eboulement": [{"objet": "eclat_de_fracture", "chance": 0.3}, {"objet": "peau_de_vipere", "chance": 0.4}],
 		"chien_fracture": [{"objet": "eclat_de_fracture", "chance": 0.45}, {"objet": "croc_de_chien", "chance": 0.6, "quantite": [1, 2]}],
 		"chien_fracture_faille": [{"objet": "eclat_de_fracture", "chance": 0.6}],
 		"chien_fracture_loges": [{"objet": "eclat_de_fracture", "chance": 0.5}, {"objet": "croc_de_chien", "chance": 0.5}],

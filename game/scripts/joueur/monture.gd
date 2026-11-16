@@ -104,6 +104,14 @@ static func monture_du_lieu(arbre: SceneTree) -> String:
 	return ""
 
 
+## L'objet est-il dans les sacs du joueur (ou porté) ?
+func _possede(id: String) -> bool:
+	var inventaire = joueur.get_node_or_null("Inventaire")
+	if inventaire == null or not inventaire.get("etat") is Dictionary:
+		return false
+	return Objets.possede(inventaire.etat, id)
+
+
 func est_monte() -> bool:
 	return monture != ""
 
@@ -125,8 +133,13 @@ func raison_impossible() -> String:
 			return "Pas de monture en ville"
 		"donjon":
 			return "Pas de monture dans un donjon"
-	if monture_du_lieu(get_tree()) == "":
+	var ici := monture_du_lieu(get_tree())
+	if ici == "":
 		return "Aucune monture de cette époque"
+	var requis := String(fiche(ici).get("requiert", ""))
+	if requis != "" and not _possede(requis):
+		return "Il te faut d'abord dresser une monture ici (quête « Le cheval de Lysimaque »)" \
+				if requis == "bride_lysimaque" else "Il te faut : " + requis
 	if multiplayer.is_server() and combat.en_combat():
 		return "Impossible en combat"
 	if joueur.bouge():

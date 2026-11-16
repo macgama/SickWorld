@@ -322,6 +322,10 @@ func raison_impossible(index: int) -> String:
 		return "Tu es désynchronisé"
 	if _incantation_id != "" or _barre_nom != "":
 		return "Déjà en train de préparer une compétence"
+	# Le Mur de haut-parleurs (la Faille de l'Agora) a couvert notre voix : plus aucune
+	# compétence pendant quelques secondes, sauf l'attaque de base (touche 1).
+	if index > 0 and combat.a_effet("voix_coupee"):
+		return "Ta voix est couverte par le Mur de haut-parleurs"
 	if recharge_restante(index).x > 0.05:
 		return "Pas encore prêt"
 	if elan < cout(c):

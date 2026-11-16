@@ -88,7 +88,7 @@ func _ready() -> void:
 	if variante == "gorgone":
 		_preparer_gorgone()
 		return
-	if variante == "masque":
+	if variante == "masque" or variante == "athlete":
 		return
 	# L'amulette offerte par la « prêtresse de Memphis » : un scarabée qui luit.
 	# Le garde, lui, cache sous sa ceinture une petite diode rouge (une radio moderne).
@@ -121,6 +121,12 @@ func _habiller() -> void:
 		return
 	if variante == "mercenaire":
 		_habiller_mercenaire(hasard)
+		return
+	if variante == "pirate":
+		_habiller_pirate(hasard)
+		return
+	if variante == "athlete":
+		_habiller_athlete(hasard)
 		return
 	if variante == "statue":
 		_habiller_statue(hasard)
@@ -209,6 +215,42 @@ func _habiller_mercenaire(hasard: RandomNumberGenerator) -> void:
 		_corps.equiper({"tete": {"forme": "casque_hoplite", "couleur": "#b0813e"},
 				"arme_principale": {"forme": "lance", "couleur": "#6b5034"},
 				"arme_secondaire": {"forme": "bouclier_rond", "couleur": "#a8743a"}})
+
+
+## Un pirate de l'Égée (île de Grèce) : tunique courte délavée par le sel, bandeau, épée
+## courte. Un éclat violet sur la poitrine : la fracture les a recrutés.
+func _habiller_pirate(hasard: RandomNumberGenerator) -> void:
+	if _corps.has_method("appliquer"):
+		_corps.appliquer({"sexe": "homme", "taille_cm": 186 if chef else hasard.randi_range(166, 182),
+				"peau": Color.from_string(PEAUX_GRECQUES[hasard.randi() % PEAUX_GRECQUES.size()], Color.WHITE).darkened(0.08)})
+	var teinte := Color.from_string(["#5a5248", "#4a4a52", "#6a5a44", "#3e4a50"][hasard.randi() % 4], Color.WHITE)
+	if chef:
+		teinte = Color("#2a2a34")
+	if _corps.has_method("teindre_tenue"):
+		_corps.teindre_tenue(teinte)
+	if _corps.has_method("porter_habit"):
+		_corps.porter_habit("exomis" if hasard.randf() < 0.5 else "chiton_court", {"principal": teinte})
+	if _corps.has_method("equiper"):
+		var tenue := {"tete": {"forme": "bandeau", "couleur": "#7a1e1a" if chef else "#3a2a22"},
+				"arme_principale": {"forme": "lame", "couleur": "#9a7a4a"}}
+		if chef or hasard.randf() < 0.4:
+			tenue["arme_secondaire"] = {"forme": "bouclier_rond", "couleur": "#4a3a2a"}
+		_corps.equiper(tenue)
+
+
+## Un athlète de la palestre : le pagne court des lutteurs, le corps huilé, un bandeau.
+## Pas de fracture : ce sont des Athéniens qui s'entraînent (on les met au sol, sans plus).
+func _habiller_athlete(hasard: RandomNumberGenerator) -> void:
+	if _corps.has_method("appliquer"):
+		_corps.appliquer({"sexe": "homme", "taille_cm": 192 if chef else hasard.randi_range(172, 186),
+				"peau": Color.from_string(PEAUX_GRECQUES[hasard.randi() % PEAUX_GRECQUES.size()], Color.WHITE)})
+	var teinte := Color("#e9e2d0")
+	if _corps.has_method("teindre_tenue"):
+		_corps.teindre_tenue(teinte)
+	if _corps.has_method("porter_habit"):
+		_corps.porter_habit("chiton_court", {"principal": teinte})
+	if _corps.has_method("equiper"):
+		_corps.equiper({"tete": {"forme": "bandeau", "couleur": "#b8932a" if chef else "#7a2a22"}})
 
 
 ## Une statue fracturée de l'Acropole : un hoplite de bronze et de marbre peint, que la

@@ -12,6 +12,7 @@ extends Node
 
 const ObjetQuete := preload("res://scripts/monde/prehistoire/objet_quete.gd")
 const Faille := preload("res://scripts/monde/prehistoire/faille.gd")
+const MiniJeu := preload("res://scripts/monde/mini_jeu.gd")
 const ORANGE := Color(1.0, 0.6, 0.25)
 ## Points de participation pour une action (allumer un feu, refermer la faille…).
 const POINTS_ACTION := 150.0
@@ -44,6 +45,13 @@ var _troupeau: Array[Node] = []
 var _prochaine_embuscade := 0.0
 var _prochain_froid := 0.0
 var _a_froid := false
+## Cri de l'anomalie (« cri » : le Mur de haut-parleurs coupe la voix des joueurs proches).
+var _prochain_cri := 0.0
+var _cri_prepare := false
+## Renforts d'une phase (« renforts » : des ennemis qui arrivent pendant qu'on travaille).
+var _prochain_renfort := 0.0
+## Le mini-jeu ouvert (javelot…), pour ne pas en lancer deux.
+var _mini_jeu: Node
 var _minuterie := 0.0
 var _quete: Node
 ## Repère de l'événement sur la carte et la mini-carte.
@@ -237,6 +245,10 @@ func _phase_suivante() -> void:
 		var o = _objets[id]
 		if is_instance_valid(o) and not o.ramasse:
 			o.actif = (p.get("objet", "") == id) or (p.has("recolter") and p.recolter == o.groupe)
+	if p.has("passages"):
+		_activer_passage()
+	if p.has("renforts"):
+		_prochain_renfort = float(p.renforts.get("toutes", 20.0)) * 0.5
 	if p.has("vagues"):
 		_lancer_vague()
 	if p.has("embuscades"):
@@ -252,6 +264,14 @@ func _suivre(delta: float) -> void:
 	var p := phase_actuelle()
 	if actif.has("froid"):
 		_suivre_froid(delta)
+	if actif.has("cri"):
+		_suivre_cri(delta)
+	if p.has("passages"):
+		_suivre_passages()
+		if not en_cours():
+			return
+	if p.has("renforts"):
+		_suivre_renforts(delta)
 	if p.get("escorte", false):
 		_suivre_troupeau(delta, p)
 	if p.has("vagues"):
@@ -349,7 +369,8 @@ func _installer_objets(e: Dictionary) -> void:
 			objet = Faille.new()
 			objet.portee = 6.0
 		else:
-			var chemin := "res://scripts/monde/%s/objet_%s.gd" % [ile, ile]
+			# (« self.ile » : le nom de l'île ; la variable locale « ile » est la zone.)
+			var chemin := "res://scripts/monde/%s/objet_%s.gd" % [self.ile, self.ile]
 			objet = (load(chemin) if ResourceLoader.exists(chemin) else ObjetQuete).new()
 			objet.forme = o.get("forme", "")
 		objet.name = "Evenement_" + String(o.id)
@@ -373,10 +394,32 @@ func utiliser_objet(objet: Node3D) -> void:
 		return
 	var duree := float(p.get("duree", 0.0))
 	var fin := func(o: Node3D): _objet_fini(o)
+	if p.has("mini_jeu"):
+		_lancer_mini_jeu(objet, p)
+		return
 	if duree > 0.0:
 		_quete.canaliser(objet, duree, String(p.get("action", "…")), fin)
 	else:
 		fin.call(objet)
+
+
+## Un mini-jeu (le javelot des Jeux…) : chaque réussite compte pour la participation.
+func _lancer_mini_jeu(objet: Node3D, p: Dictionary) -> void:
+	if _mini_jeu != null and is_instance_valid(_mini_jeu):
+		return
+	_mini_jeu = MiniJeu.lancer(get_tree(), p.mini_jeu)
+	_mini_jeu.fini.connect(func(reussi: bool):
+		var score := int(_mini_jeu.score) if is_instance_valid(_mini_jeu) else 0
+		_mini_jeu = null
+		var combat := _combat_joueur()
+		if combat != null and en_cours():
+			efforts[combat] = float(efforts.get(combat, 0.0)) + score * float(p.mini_jeu.get("points", 60.0))
+		if not en_cours() or phase_actuelle() != p:
+			return
+		if reussi:
+			_objet_fini(objet)
+		else:
+			_quete.annoncer(String(actif.titre), String(p.mini_jeu.get("echec", "Raté ! Appuie sur F pour réessayer."))))
 
 
 func _objet_fini(objet: Node3D) -> void:
@@ -393,6 +436,11 @@ func _objet_fini(objet: Node3D) -> void:
 			objet.call("fermer", true)
 		"allumer":
 			_allumer(objet)
+		"":
+			pass
+		var effet:
+			if objet.has_method("appliquer_effet"):
+				objet.appliquer_effet(effet)
 	compteur += 1
 	if compteur >= int(p.get("nombre", 1)):
 		_phase_suivante()
@@ -410,6 +458,123 @@ func _allumer(objet: Node3D) -> void:
 		var feu := ile.get_child(ile.get_child_count() - 1)
 		feu.reparent(objet)
 		feu.name = "FeuDeVeille"
+
+
+# --- Course à bornes ------------------------------------------------------------------------
+
+## « passages » : les objets du groupe, dans l'ordre du fichier ; on passe tout près de
+## chacun (sans F) et le suivant s'allume.
+func _bornes(p: Dictionary) -> Array:
+	var liste := []
+	for o in actif.get("objets", []):
+		if String(o.get("groupe", "")) == String(p.passages) and _objets.has(o.id):
+			liste.append(_objets[o.id])
+	return liste
+
+
+func prochaine_borne() -> Node3D:
+	var p := phase_actuelle()
+	if not p.has("passages"):
+		return null
+	for b in _bornes(p):
+		if is_instance_valid(b) and not b.ramasse:
+			return b
+	return null
+
+
+func _activer_passage() -> void:
+	var suivante := prochaine_borne()
+	for b in _bornes(phase_actuelle()):
+		if is_instance_valid(b):
+			b.actif = b == suivante
+
+
+func _suivre_passages() -> void:
+	var joueur := get_tree().get_first_node_in_group("joueur_local") as Node3D
+	var borne := prochaine_borne()
+	if joueur == null or borne == null:
+		return
+	var p := phase_actuelle()
+	var d := Vector2(joueur.global_position.x, joueur.global_position.z).distance_to(
+			Vector2(borne.global_position.x, borne.global_position.z))
+	if d > float(p.get("rayon_passage", 3.5)):
+		return
+	borne.ramasse = true
+	borne.actif = false
+	var combat := _combat_joueur()
+	if combat != null:
+		# Plus on va vite, plus ça compte : il reste du temps = des points en plus.
+		efforts[combat] = float(efforts.get(combat, 0.0)) + POINTS_ACTION + restant * float(p.get("bonus_vitesse", 0.0))
+	compteur += 1
+	if compteur >= int(p.get("nombre", _bornes(p).size())):
+		_phase_suivante()
+	else:
+		_activer_passage()
+		_mettre_a_jour_ecran()
+
+
+# --- Renforts ----------------------------------------------------------------------------------
+
+func _suivre_renforts(delta: float) -> void:
+	if not multiplayer.is_server():
+		return
+	_prochain_renfort -= delta
+	if _prochain_renfort > 0.0:
+		return
+	var r: Dictionary = phase_actuelle().renforts
+	_prochain_renfort = float(r.get("toutes", 20.0))
+	var vivants: Array[Node] = []
+	for n in _ennemis:
+		if is_instance_valid(n) and n.combat.est_vivant():
+			vivants.append(n)
+	_ennemis = vivants
+	if _ennemis.size() >= int(r.get("max", 6)):
+		return
+	var groupe := r.duplicate()
+	var positions: Array = r.get("positions", [r.get("position", actif.get("position", [0, 0]))])
+	groupe["position"] = positions[randi() % positions.size()]
+	_faire_apparaitre(groupe)
+
+
+# --- Le cri de l'anomalie ----------------------------------------------------------------------
+
+## Le chef qui crie (le Mur de haut-parleurs), s'il est là et vivant.
+func _crieur() -> Node3D:
+	var prefixe := String(actif.cri.get("chef", ""))
+	for n in _ennemis:
+		if is_instance_valid(n) and n.combat.est_vivant() and String(n.type_ennemi).begins_with(prefixe):
+			return n
+	return null
+
+
+func _suivre_cri(delta: float) -> void:
+	var cri: Dictionary = actif.cri
+	var crieur := _crieur()
+	if crieur == null:
+		_prochain_cri = float(cri.get("premier", 6.0))
+		_cri_prepare = false
+		return
+	_prochain_cri -= delta
+	if not _cri_prepare and _prochain_cri <= float(cri.get("preavis", 2.0)):
+		_cri_prepare = true
+		_quete.annoncer(String(actif.titre), String(cri.get("annonce", "Il va crier : éloigne-toi !")))
+		var apparence = crieur.get_node_or_null("Apparence")
+		if apparence != null and apparence.has_method("preparer_cri"):
+			apparence.preparer_cri()
+	if _prochain_cri > 0.0:
+		return
+	_prochain_cri = float(cri.get("toutes", 14.0))
+	_cri_prepare = false
+	var apparence = crieur.get_node_or_null("Apparence")
+	if apparence != null and apparence.has_method("crier"):
+		apparence.crier()
+	if not multiplayer.is_server():
+		return
+	var rayon := float(cri.get("rayon", 20.0))
+	for j in get_tree().get_nodes_in_group("joueur"):
+		var c = j.get_node_or_null("Combat")
+		if c != null and c.est_vivant() and (j as Node3D).global_position.distance_to(crieur.global_position) < rayon:
+			c.ajouter_effet(String(cri.get("effet", "voix_coupee")), float(cri.get("duree", 3.0)))
 
 
 # --- Le froid de la tempête -------------------------------------------------------------
@@ -562,6 +727,9 @@ const NOMS_PALIERS := {"or": "Or", "argent": "Argent", "bronze": "Bronze"}
 
 func _finir(reussi: bool) -> void:
 	var e := actif
+	if _mini_jeu != null and is_instance_valid(_mini_jeu):
+		_mini_jeu.abandonner()
+	_mini_jeu = null
 	var combat := _combat_joueur()
 	var rang := palier(combat)
 	# Ce qui reste disparaît : la faille se referme, les fracturés repartent.
@@ -685,8 +853,8 @@ func texte_objectif() -> String:
 	if p.is_empty():
 		return ""
 	var texte := String(p.get("objectif", ""))
-	if p.has("recolter"):
-		texte += " (%d/%d)" % [compteur, int(p.get("nombre", 1))]
+	if p.has("recolter") or p.has("passages"):
+		texte += " (%d/%d)" % [compteur, int(p.get("nombre", _bornes(p).size() if p.has("passages") else 1))]
 	elif p.has("vagues"):
 		texte += " (vague %d/%d)" % [mini(_vague + 1, _nombre_vagues(p)), _nombre_vagues(p)]
 	var joueur := get_tree().get_first_node_in_group("joueur_local") as Node3D
@@ -695,6 +863,9 @@ func texte_objectif() -> String:
 	var meneur := _meneur()
 	if meneur != null:
 		cible = meneur.global_position
+	var borne := prochaine_borne()
+	if borne != null:
+		cible = borne.global_position
 	if joueur != null:
 		var d := Vector2(joueur.global_position.x, joueur.global_position.z).distance_to(Vector2(cible.x, cible.z))
 		if d > 25.0:

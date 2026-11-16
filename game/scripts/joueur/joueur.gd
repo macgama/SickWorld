@@ -300,7 +300,8 @@ func _physics_process(delta: float) -> void:
 	var clic_droit := camera.clic_droit_maintenu()
 	# Pendant qu'on écrit (nom d'une tenue…) ou pendant une cinématique,
 	# les touches ne déplacent pas le personnage.
-	var clavier := 0.0 if get_viewport().gui_get_focus_owner() is LineEdit or en_cinematique() else 1.0
+	var clavier := 0.0 if get_viewport().gui_get_focus_owner() is LineEdit or en_cinematique() \
+			or get_tree().has_group("mini_jeu_en_cours") else 1.0
 
 	# 1. Orientation du personnage.
 	if clic_droit:

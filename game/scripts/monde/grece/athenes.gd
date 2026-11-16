@@ -85,6 +85,10 @@ const CANEPHORE := Vector2(24, 15)
 const ESCALIER := Vector2(42.0, -4)
 const PERICLES_ACROPOLE := Vector2(37, -1)
 
+## Quêtes secondaires : Hérodote (sur l'Agora), Mélanthios (au Céramique) et la palestre.
+const HERODOTE := Vector2(12, -34)
+const MELANTHIOS := Vector2(-104, -90)
+const PALESTRE := Vector2(-128, -63)
 ## Les trois Pétrifiés de l'Agora, une fois qu'on leur a rendu la voix.
 const NOMS_LIBERES := ["petrifie_cherephon", "petrifie_glykera", "petrifie_demochares"]
 const LIBERES := [Vector2(-4, -36), Vector2(0, -34), Vector2(4, -36)]
@@ -1088,6 +1092,7 @@ func _construire_quete() -> void:
 	_reponse(dossier, "suivre_menon", "le laisser filer et le suivre", BALANCE + Vector2(9, 0), "[F] Choisir : ")
 	_construire_quete_theatre(dossier)
 	_construire_quete_ostracisme(dossier)
+	_construire_secondaires(dossier)
 	var jeton := ObjetGrece.new()
 	jeton.name = "JetonLaurion"
 	jeton.identifiant = "jeton_laurion"
@@ -1144,6 +1149,58 @@ func _construire_quete() -> void:
 	repere.call(MarqueurCarte.Type.LIEU, "Tribunal de l'Héliée", TRIBUNAL)
 	repere.call(MarqueurCarte.Type.LIEU, "Atelier de Phidias", ATELIER_PHIDIAS)
 	repere.call(MarqueurCarte.Type.LIEU, "Maison d'Aspasie", MAISON_ASPASIE)
+
+
+## Quêtes secondaires : Hérodote sur l'Agora, un ancien de Marathon au Céramique, et la
+## palestre (un carré de sable pour la lutte, deux hermès et un banc) d'Hippomachos.
+func _construire_secondaires(dossier: Node3D) -> void:
+	_pnj(dossier, "herodote", HERODOTE, PI * 0.8)
+	_pnj(dossier, "veteran_melanthios", MELANTHIOS, -PI / 2)
+	_pnj(dossier, "hippomachos", PALESTRE + Vector2(3, 3), PI * 0.75)
+	var palestre := Node3D.new()
+	palestre.name = "Palestre"
+	dossier.add_child(palestre)
+	var h := hauteur(PALESTRE.x, PALESTRE.y)
+	var sable := StandardMaterial3D.new()
+	sable.albedo_color = Color(0.86, 0.76, 0.58)
+	sable.roughness = 1.0
+	var fosse := MeshInstance3D.new()
+	var b := BoxMesh.new()
+	b.size = Vector3(11, 0.06, 6)
+	fosse.mesh = b
+	fosse.material_override = sable
+	fosse.position = Vector3(PALESTRE.x, h + 0.02, PALESTRE.y)
+	palestre.add_child(fosse)
+	var marbre := StandardMaterial3D.new()
+	marbre.albedo_color = Color(0.9, 0.88, 0.82)
+	marbre.roughness = 0.6
+	for c in [Vector2(-6.5, -3.5), Vector2(6.5, -3.5)]:
+		var p: Vector2 = PALESTRE + c
+		var hermes := MeshInstance3D.new()
+		var pilier := BoxMesh.new()
+		pilier.size = Vector3(0.36, 1.5, 0.32)
+		hermes.mesh = pilier
+		hermes.material_override = marbre
+		hermes.position = Vector3(p.x, hauteur(p.x, p.y) + 0.75, p.y)
+		palestre.add_child(hermes)
+		var tete := MeshInstance3D.new()
+		var sph := SphereMesh.new()
+		sph.radius = 0.17
+		sph.height = 0.38
+		tete.mesh = sph
+		tete.material_override = marbre
+		tete.position = Vector3(0, 0.95, 0)
+		hermes.add_child(tete)
+	var bois := StandardMaterial3D.new()
+	bois.albedo_color = Color(0.42, 0.3, 0.2)
+	var banc := MeshInstance3D.new()
+	var bb := BoxMesh.new()
+	bb.size = Vector3(3.0, 0.1, 0.5)
+	banc.mesh = bb
+	banc.material_override = bois
+	var pb := PALESTRE + Vector2(0, 4.6)
+	banc.position = Vector3(pb.x, hauteur(pb.x, pb.y) + 0.45, pb.y)
+	palestre.add_child(banc)
 
 
 ## Chapitre 5 : Sophocle, les spectateurs muets, les masques truqués sur les gradins,

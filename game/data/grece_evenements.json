@@ -1,0 +1,716 @@
+{
+	"_aide": "Événements publics de l'île de Grèce (même format que data/egypte_evenements.json, voir scripts/monde/prehistoire/evenements_publics.gd). Ils arrivent tout seuls dans leur zone : le premier « premier_delai » secondes après l'arrivée, puis toutes les « intervalle » secondes. « apres » : étape de la quête principale à atteindre. Phases : « vagues », « objet »/« recolter » (F), « passages » (une course : on passe tout près de chaque borne du groupe, dans l'ordre ; « bonus_vitesse » = points en plus par seconde restante), « mini_jeu » sur une phase « objet » (voir scripts/monde/mini_jeu.gd ; « points » par réussite), « renforts » (des ennemis qui arrivent toutes les « toutes » secondes pendant la phase, « max » vivants à la fois). « cri » : le chef nommé hurle toutes les « toutes » secondes et donne l'effet (« voix_coupee » : compétences bloquées) aux joueurs à moins de « rayon » mètres. Récompenses selon la participation : or (25 % ou plus de l'effort total), argent (10 %), bronze (un peu).",
+	"premier_delai": 150,
+	"evenements": [
+		{
+			"id": "jeux_panathenees",
+			"titre": "Les Jeux des Panathénées",
+			"zone": "athenes",
+			"apres": "socrate_fin",
+			"intervalle": 3600,
+			"duree": 420,
+			"position": [
+				-40,
+				-50
+			],
+			"annonce": "Les hérauts sonnent la trompette : les Jeux commencent sur la voie des Panathénées ! Course, javelot, pancrace.",
+			"objets": [
+				{
+					"id": "borne_course_0",
+					"groupe": "borne_course",
+					"forme": "borne",
+					"position": [
+						-120,
+						-110
+					],
+					"invite": "Borne de la course"
+				},
+				{
+					"id": "borne_course_1",
+					"groupe": "borne_course",
+					"forme": "borne",
+					"position": [
+						-77,
+						-77
+					],
+					"invite": "Borne de la course"
+				},
+				{
+					"id": "borne_course_2",
+					"groupe": "borne_course",
+					"forme": "borne",
+					"position": [
+						-40,
+						-50
+					],
+					"invite": "Borne de la course"
+				},
+				{
+					"id": "borne_course_3",
+					"groupe": "borne_course",
+					"forme": "borne",
+					"position": [
+						-10,
+						-30
+					],
+					"invite": "Borne de la course"
+				},
+				{
+					"id": "borne_course_4",
+					"groupe": "borne_course",
+					"forme": "borne",
+					"position": [
+						24,
+						0
+					],
+					"invite": "Borne de la course"
+				},
+				{
+					"id": "aire_javelot",
+					"forme": "cible_javelot",
+					"position": [
+						10,
+						10
+					],
+					"invite": "[F] Lancer le javelot"
+				}
+			],
+			"phases": [
+				{
+					"objectif": "Course à pied : file le long de la voie des Panathénées en passant par les 5 bornes",
+					"annonce": "Départ au Dipylon ! Passe tout près de chaque borne, la plus vite possible.",
+					"passages": "borne_course",
+					"nombre": 5,
+					"rayon_passage": 4.0,
+					"bonus_vitesse": 0.8
+				},
+				{
+					"objectif": "Lancer du javelot : touche la cible de paille, sur l'Agora",
+					"annonce": "Au javelot ! La cible est au milieu de l'Agora.",
+					"objet": "aire_javelot",
+					"mini_jeu": {
+						"type": "jauge",
+						"titre": "Le lancer du javelot",
+						"consigne": "Prends ton élan, et appuie sur F quand le curseur est dans la zone verte pour lâcher le javelot.",
+						"essais": 5,
+						"reussites": 3,
+						"vitesse": 1.05,
+						"zone": 0.13,
+						"touche": "En plein dans la paille !",
+						"rate": "Le javelot se plante dans le sable…",
+						"points": 80,
+						"echec": "Pas assez de lancers dans la cible. Reprends un javelot (F) !"
+					}
+				},
+				{
+					"objectif": "Pancrace : mets au sol les champions des autres tribus",
+					"annonce": "Dernière épreuve, le pancrace : la lutte où presque tout est permis !",
+					"vagues": [
+						{
+							"type": "athlete_lutteur_jeux",
+							"nombre": 2,
+							"position": [
+								0,
+								12
+							],
+							"rayon": 4,
+							"attaque": true
+						},
+						{
+							"type": "athlete_lutteur_jeux",
+							"nombre": 3,
+							"position": [
+								0,
+								12
+							],
+							"rayon": 5,
+							"attaque": true
+						}
+					]
+				}
+			],
+			"echec": "Le soleil se couche avant la fin des épreuves. Les juges remettent les prix… à d'autres.",
+			"reussite": "Les juges t'ont vu courir, lancer et lutter. On remplit pour toi une amphore d'huile sacrée.",
+			"recompenses": {
+				"or": [
+					{
+						"id": "amphore_panatheneenne",
+						"nom": "Amphore panathénaïque",
+						"chance": 0.35
+					},
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclats de fracture ×3",
+						"n": 3
+					},
+					{
+						"id": "gateau_miel_sesame",
+						"nom": "Gâteaux au miel ×2",
+						"n": 2
+					}
+				],
+				"argent": [
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclats de fracture ×2",
+						"n": 2
+					},
+					{
+						"id": "gateau_miel_sesame",
+						"nom": "Gâteau au miel",
+						"n": 1
+					}
+				],
+				"bronze": [
+					{
+						"id": "gateau_miel_sesame",
+						"nom": "Gâteau au miel",
+						"n": 1
+					}
+				]
+			},
+			"stabilite": 5
+		},
+		{
+			"id": "pirates_egee",
+			"titre": "Les Pirates de l'Égée",
+			"zone": "le_piree",
+			"apres": "liberation",
+			"intervalle": 4800,
+			"duree": 360,
+			"position": [
+				70,
+				-58
+			],
+			"annonce": "Des pirates fracturés débarquent sur les quais du grand portique ! Ils pillent les entrepôts et y mettent le feu.",
+			"objets": [
+				{
+					"id": "incendie_0",
+					"groupe": "incendie",
+					"forme": "incendie",
+					"position": [
+						56,
+						-60
+					],
+					"invite": "[F] Éteindre le feu"
+				},
+				{
+					"id": "incendie_1",
+					"groupe": "incendie",
+					"forme": "incendie",
+					"position": [
+						76,
+						-60
+					],
+					"invite": "[F] Éteindre le feu"
+				},
+				{
+					"id": "incendie_2",
+					"groupe": "incendie",
+					"forme": "incendie",
+					"position": [
+						94,
+						-60
+					],
+					"invite": "[F] Éteindre le feu"
+				}
+			],
+			"phases": [
+				{
+					"objectif": "Repousse les pirates qui pillent les quais",
+					"vagues": [
+						{
+							"type": "pirate_egee",
+							"nombre": 3,
+							"position": [
+								40,
+								-58
+							],
+							"rayon": 4,
+							"attaque": true
+						},
+						{
+							"type": "pirate_egee",
+							"nombre": 4,
+							"position": [
+								100,
+								-58
+							],
+							"rayon": 5,
+							"attaque": true
+						}
+					]
+				},
+				{
+					"objectif": "Éteins les 3 incendies des entrepôts",
+					"annonce": "Les amphores d'huile brûlent ! Jette de l'eau de mer sur les flammes.",
+					"recolter": "incendie",
+					"nombre": 3,
+					"duree": 3.0,
+					"action": "Tu jettes des seaux d'eau de mer sur les flammes…",
+					"effet": "eteindre",
+					"renforts": {
+						"type": "pirate_egee",
+						"nombre": 2,
+						"toutes": 24,
+						"positions": [
+							[
+								40,
+								-58
+							],
+							[
+								100,
+								-58
+							]
+						],
+						"rayon": 3,
+						"max": 4,
+						"attaque": true
+					}
+				},
+				{
+					"objectif": "Abats l'archipirate avant qu'il ne regagne son navire",
+					"annonce": "L'archipirate en personne saute sur le quai !",
+					"vagues": [
+						{
+							"type": "pirate_chef_egee",
+							"nombre": 1,
+							"position": [
+								71,
+								-56
+							],
+							"rayon": 1,
+							"chef": true,
+							"attaque": true
+						},
+						{
+							"type": "pirate_egee",
+							"nombre": 2,
+							"position": [
+								71,
+								-56
+							],
+							"rayon": 4,
+							"avec_le_chef": true
+						}
+					]
+				}
+			],
+			"echec": "Les pirates ont filé vers le large, les cales pleines d'huile et de vin. Le grand portique sent la fumée pour des jours.",
+			"reussite": "Les pirates s'enfuient à la rame. Sur les quais, les marchands applaudissent en comptant leurs amphores.",
+			"recompenses": {
+				"or": [
+					{
+						"id": "sabre_archipirate",
+						"nom": "Kopis de l'archipirate",
+						"chance": 0.3
+					},
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclats de fracture ×3",
+						"n": 3
+					},
+					{
+						"id": "encre_de_poulpe",
+						"nom": "Encre de poulpe",
+						"n": 1
+					}
+				],
+				"argent": [
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclats de fracture ×2",
+						"n": 2
+					}
+				],
+				"bronze": [
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclat de fracture",
+						"n": 1
+					}
+				]
+			},
+			"stabilite": 5
+		},
+		{
+			"id": "faille_agora",
+			"titre": "La Faille de l'Agora",
+			"zone": "athenes",
+			"apres": "phidias_merci",
+			"intervalle": 5400,
+			"duree": 360,
+			"position": [
+				-8,
+				-38
+			],
+			"annonce": "Une faille s'ouvre au milieu de l'Agora. Quelque chose de moderne et d'immense pousse à travers : un mur de haut-parleurs qui hurle !",
+			"cri": {
+				"chef": "mur_haut_parleurs",
+				"toutes": 13,
+				"premier": 8,
+				"preavis": 2.5,
+				"rayon": 18,
+				"duree": 3.5,
+				"effet": "voix_coupee",
+				"annonce": "Le Mur de haut-parleurs prend son souffle : éloigne-toi, ou il couvrira ta voix !"
+			},
+			"objets": [
+				{
+					"id": "faille_agora",
+					"forme": "faille",
+					"position": [
+						-8,
+						-42
+					],
+					"invite": "[F] Refermer la faille",
+					"taille": 1.8
+				}
+			],
+			"phases": [
+				{
+					"objectif": "Abats les chiens fracturés qui sortent de la faille",
+					"vagues": [
+						{
+							"type": "chien_fracture_agora",
+							"nombre": 3,
+							"position": [
+								-8,
+								-42
+							],
+							"rayon": 5,
+							"attaque": true
+						},
+						{
+							"type": "chien_fracture_agora",
+							"nombre": 4,
+							"position": [
+								-8,
+								-42
+							],
+							"rayon": 6,
+							"attaque": true
+						}
+					]
+				},
+				{
+					"objectif": "Détruis le Mur de haut-parleurs (quand il prend son souffle, éloigne-toi à plus de 18 m)",
+					"annonce": "Le Mur de haut-parleurs se dresse sur l'Agora !",
+					"vagues": [
+						{
+							"type": "mur_haut_parleurs",
+							"nombre": 1,
+							"position": [
+								-6,
+								-33
+							],
+							"rayon": 0.5,
+							"chef": true
+						},
+						{
+							"type": "chien_fracture_agora",
+							"nombre": 2,
+							"position": [
+								-8,
+								-42
+							],
+							"rayon": 5,
+							"avec_le_chef": true,
+							"attaque": true
+						}
+					]
+				},
+				{
+					"objectif": "Referme la faille",
+					"objet": "faille_agora",
+					"duree": 5.0,
+					"action": "Tu refermes la faille…",
+					"effet": "fermer"
+				}
+			],
+			"echec": "La faille se referme toute seule. Mais pendant une heure, sur l'Agora, plus personne n'a réussi à se faire entendre.",
+			"reussite": "Le silence revient, puis les voix : les marchands, les philosophes, les disputes. Le vrai bruit d'Athènes.",
+			"recompenses": {
+				"or": [
+					{
+						"id": "bouchons_effaceur",
+						"nom": "Bouchons d'oreilles d'Effaceur",
+						"chance": 0.3
+					},
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclats de fracture ×4",
+						"n": 4
+					}
+				],
+				"argent": [
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclats de fracture ×2",
+						"n": 2
+					},
+					{
+						"id": "croc_de_chien",
+						"nom": "Croc de chien",
+						"n": 1
+					}
+				],
+				"bronze": [
+					{
+						"id": "croc_de_chien",
+						"nom": "Croc de chien",
+						"n": 1
+					}
+				]
+			},
+			"stabilite": 6
+		},
+		{
+			"id": "chasse_hymette",
+			"titre": "La Chasse de l'Hymette",
+			"zone": "oliveraies",
+			"apres": "retour_myrto",
+			"intervalle": 4800,
+			"duree": 300,
+			"position": [
+				100,
+				40
+			],
+			"annonce": "Une harde de sangliers fracturés dévale l'Hymette vers les fermes ! Tous à la battue.",
+			"phases": [
+				{
+					"objectif": "Arrête la harde avant qu'elle n'atteigne la ferme de Myrtô",
+					"vagues": [
+						{
+							"type": "sanglier_fracture_harde",
+							"nombre": 3,
+							"position": [
+								126,
+								30
+							],
+							"rayon": 5,
+							"attaque": true
+						},
+						{
+							"type": "sanglier_fracture_harde",
+							"nombre": 4,
+							"position": [
+								122,
+								10
+							],
+							"rayon": 6,
+							"attaque": true
+						}
+					]
+				},
+				{
+					"objectif": "Abats le grand mâle qui mène la harde",
+					"annonce": "Le meneur de la harde charge, la hure couverte de cristaux !",
+					"vagues": [
+						{
+							"type": "sanglier_fracture_geant",
+							"nombre": 1,
+							"position": [
+								120,
+								40
+							],
+							"rayon": 1,
+							"chef": true,
+							"attaque": true
+						},
+						{
+							"type": "sanglier_fracture_harde",
+							"nombre": 2,
+							"position": [
+								120,
+								40
+							],
+							"rayon": 4,
+							"avec_le_chef": true
+						}
+					]
+				}
+			],
+			"echec": "La harde a ravagé les vignes et deux ruches avant de remonter dans la montagne.",
+			"reussite": "Les sangliers sont tombés. Ce soir, on rôtit au hameau, et tout le monde est invité.",
+			"recompenses": {
+				"or": [
+					{
+						"id": "defense_sanglier",
+						"nom": "Défense de sanglier",
+						"chance": 0.5
+					},
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclats de fracture ×3",
+						"n": 3
+					},
+					{
+						"id": "soie_de_sanglier",
+						"nom": "Soies de sanglier ×3",
+						"n": 3
+					}
+				],
+				"argent": [
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclats de fracture ×2",
+						"n": 2
+					},
+					{
+						"id": "soie_de_sanglier",
+						"nom": "Soies de sanglier ×2",
+						"n": 2
+					}
+				],
+				"bronze": [
+					{
+						"id": "soie_de_sanglier",
+						"nom": "Soies de sanglier",
+						"n": 1
+					}
+				]
+			},
+			"stabilite": 5
+		},
+		{
+			"id": "eboulement",
+			"titre": "L'Éboulement",
+			"zone": "laurion",
+			"apres": "sosias_fin",
+			"intervalle": 5400,
+			"duree": 360,
+			"position": [
+				72,
+				108
+			],
+			"annonce": "Un grondement sous la colline : la vieille descenderie s'est effondrée, des mineurs sont enfermés dedans !",
+			"objets": [
+				{
+					"id": "eboulis_0",
+					"groupe": "eboulis",
+					"forme": "eboulis",
+					"position": [
+						68,
+						104
+					],
+					"invite": "[F] Dégager les blocs"
+				},
+				{
+					"id": "eboulis_1",
+					"groupe": "eboulis",
+					"forme": "eboulis",
+					"position": [
+						68,
+						112
+					],
+					"invite": "[F] Dégager les blocs"
+				},
+				{
+					"id": "eboulis_2",
+					"groupe": "eboulis",
+					"forme": "eboulis",
+					"position": [
+						71,
+						106
+					],
+					"invite": "[F] Dégager les blocs"
+				},
+				{
+					"id": "eboulis_3",
+					"groupe": "eboulis",
+					"forme": "eboulis",
+					"position": [
+						71,
+						110
+					],
+					"invite": "[F] Dégager les blocs"
+				}
+			],
+			"phases": [
+				{
+					"objectif": "Dégage les 4 tas de blocs qui bouchent la descenderie",
+					"recolter": "eboulis",
+					"nombre": 4,
+					"duree": 3.5,
+					"action": "Tu dégages les blocs, un par un…",
+					"renforts": {
+						"type": "vipere_fracture_eboulement",
+						"nombre": 2,
+						"toutes": 20,
+						"positions": [
+							[
+								90,
+								100
+							],
+							[
+								86,
+								120
+							]
+						],
+						"rayon": 3,
+						"max": 4,
+						"attaque": true
+					}
+				},
+				{
+					"objectif": "Repousse les mercenaires de Masque, venus achever le travail",
+					"annonce": "Des mercenaires de Masque arrivent par la colline !",
+					"vagues": [
+						{
+							"type": "mercenaire_masque_eboulement",
+							"nombre": 3,
+							"position": [
+								90,
+								100
+							],
+							"rayon": 5,
+							"attaque": true
+						}
+					]
+				}
+			],
+			"echec": "On a fini par sortir les mineurs, mais trop tard pour deux d'entre eux. Sosias fait graver leurs noms près des fours.",
+			"reussite": "Les mineurs sortent un à un, gris de poussière, en toussant. Le dernier te serre la main sans rien dire.",
+			"recompenses": {
+				"or": [
+					{
+						"id": "lampe_laurion",
+						"nom": "Lampe du Laurion",
+						"chance": 0.3
+					},
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclats de fracture ×4",
+						"n": 4
+					},
+					{
+						"id": "galene_laurion",
+						"nom": "Galène du Laurion ×2",
+						"n": 2
+					}
+				],
+				"argent": [
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclats de fracture ×2",
+						"n": 2
+					},
+					{
+						"id": "galene_laurion",
+						"nom": "Galène du Laurion",
+						"n": 1
+					}
+				],
+				"bronze": [
+					{
+						"id": "galene_laurion",
+						"nom": "Galène du Laurion",
+						"n": 1
+					}
+				]
+			},
+			"stabilite": 6
+		}
+	]
+}

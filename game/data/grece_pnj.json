@@ -651,5 +651,67 @@
 		"repliques": [
 			"J'ai combattu les Perses à Marathon. Je sais ce qu'est un tyran. Mais je sais aussi ce qu'est un mensonge. Dis-moi ce que tu sais, étranger."
 		]
+	},
+	"herodote": {
+		"nom": "Hérodote",
+		"role": "Voyageur d'Halicarnasse, raconteur d'histoires",
+		"modele": "homme",
+		"habit": "chiton_himation",
+		"taille_cm": 174,
+		"peau": "#b48660",
+		"habits": "#5a4a6a",
+		"repliques": [
+			"J'ai vu l'Égypte, Babylone, la mer Noire. Partout, les gens oublient. Alors j'écris : pour que le temps n'efface pas ce que les hommes ont fait.",
+			"On me traite de menteur parce que je raconte ce qu'on m'a raconté. Mais je dis toujours qui me l'a dit. C'est toute la différence."
+		]
+	},
+	"veteran_diphilos": {
+		"nom": "Diphilos",
+		"role": "Vieux rameur · ancien de Marathon",
+		"modele": "homme",
+		"habit": "exomis",
+		"taille_cm": 164,
+		"peau": "#a47452",
+		"habits": "#8a7a62",
+		"repliques": [
+			"Les jeunes croient que la mer a toujours été à nous. Ils n'étaient pas là quand les Perses sont venus."
+		]
+	},
+	"veteran_epizelos": {
+		"nom": "Épizélos",
+		"role": "Aveugle depuis Marathon",
+		"modele": "homme",
+		"habit": "chiton_himation",
+		"taille_cm": 168,
+		"peau": "#b08660",
+		"habits": "#6a6050",
+		"repliques": [
+			"Je n'y vois plus, mais j'entends très bien. Tu marches comme quelqu'un qui vient de loin."
+		]
+	},
+	"veteran_melanthios": {
+		"nom": "Mélanthios",
+		"role": "Potier à la retraite · ancien de Marathon",
+		"modele": "homme",
+		"habit": "chiton_himation",
+		"taille_cm": 166,
+		"peau": "#9c6e4b",
+		"habits": "#7a5a3a",
+		"repliques": [
+			"Mon fils tient l'atelier, maintenant. Moi, je compte les vases et je raconte des histoires que personne n'écoute."
+		]
+	},
+	"hippomachos": {
+		"nom": "Hippomachos",
+		"role": "Entraîneur de la palestre",
+		"modele": "homme",
+		"habit": "chiton_court",
+		"taille_cm": 182,
+		"peau": "#a87850",
+		"habits": "#e9e2d0",
+		"repliques": [
+			"Un corps qu'on n'entraîne pas, c'est une cité sans remparts. Viens transpirer avec nous, étranger.",
+			"Mes élèves savent tout de suite reconnaître un mauvais lutteur : il regarde les mains de l'autre au lieu de ses pieds."
+		]
 	}
 }
