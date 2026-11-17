@@ -594,9 +594,8 @@ func _construire_touffes() -> void:
 				var y := hauteur(x, z)
 				if y < NIVEAU_MER + 0.8:
 					continue
-				var parts := _parts_sol(x, z, y)
-				# L'herbe pousse sur la terre, rarement dans la neige épaisse ou les galets.
-				if parts.r > 0.5 or hasard.randf() < parts.g * 0.9:
+				# L'herbe pousse sur les sols fertiles de la zone (voir _fertilite).
+				if hasard.randf() > _fertilite(_parts_sol(x, z, y)):
 					continue
 				var pente := absf(hauteur(x + 0.5, z) - y) + absf(hauteur(x, z + 0.5) - y)
 				if pente > 0.4:
@@ -616,11 +615,61 @@ func _construire_touffes() -> void:
 			var instance := MultiMeshInstance3D.new()
 			instance.multimesh = multi
 			instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-			instance.visibility_range_end = 70.0 + 15.0 * facteur
+			instance.visibility_range_end = 70.0 + 10.0 * facteur
 			instance.visibility_range_end_margin = 10.0
 			instance.visibility_range_fade_mode = GeometryInstance3D.VISIBILITY_RANGE_FADE_SELF
 			_contenu.add_child(instance)
+	_construire_herbe_rase(Arbres.maillage_herbe(reglages_herbe.get("couleur_base", Color(0.2, 0.18, 0.1)),
+			reglages_herbe.get("couleur_pointe", Color(0.6, 0.55, 0.32))), taches)
 	_construire_couvre_sol()
+
+
+## Herbe rase entre les touffes, près du joueur : un tapis de petites touffes basses
+## qui cache le sol nu (dessinée seulement jusqu'à 35 m).
+func _construire_herbe_rase(brin: Mesh, taches: FastNoiseLite) -> void:
+	var facteur := facteur_densite()
+	var hasard := RandomNumberGenerator.new()
+	hasard.seed = graine + 25
+	const BLOC := 12.0
+	var demi := taille_terrain * 0.5 - 20.0
+	var blocs := int(ceil((demi * 2.0) / BLOC))
+	var par_bloc := int(nombre_touffes * 0.8 * facteur / float(blocs * blocs))
+	if par_bloc <= 0:
+		return
+	for bj in blocs:
+		for bi in blocs:
+			var x0 := -demi + bi * BLOC
+			var z0 := -demi + bj * BLOC
+			var transformations: Array[Transform3D] = []
+			for n in par_bloc:
+				var x := x0 + hasard.randf() * BLOC
+				var z := z0 + hasard.randf() * BLOC
+				if hasard.randf() > 0.25 + 0.75 * smoothstep(-0.5, 0.2, taches.get_noise_2d(x, z)):
+					continue
+				var y := hauteur(x, z)
+				if y < NIVEAU_MER + 0.8:
+					continue
+				if hasard.randf() > _fertilite(_parts_sol(x, z, y)):
+					continue
+				transformations.append(Transform3D(Basis(Vector3.UP, hasard.randf() * TAU).scaled(
+						Vector3.ONE * hasard.randf_range(0.6, 1.2)), Vector3(x, y - 0.02, z)))
+			if transformations.is_empty():
+				continue
+			var multi := MultiMesh.new()
+			multi.transform_format = MultiMesh.TRANSFORM_3D
+			multi.use_custom_data = true
+			multi.mesh = brin
+			multi.instance_count = transformations.size()
+			for k in transformations.size():
+				multi.set_instance_transform(k, transformations[k])
+				multi.set_instance_custom_data(k, Color(hasard.randf() * 0.6, 0, 0, 0))
+			var instance := MultiMeshInstance3D.new()
+			instance.multimesh = multi
+			instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+			instance.visibility_range_end = 30.0 + 8.0 * facteur
+			instance.visibility_range_end_margin = 8.0
+			instance.visibility_range_fade_mode = GeometryInstance3D.VISIBILITY_RANGE_FADE_SELF
+			_contenu.add_child(instance)
 
 
 ## Multiplicateur de densité de la végétation selon la qualité graphique (F10).
@@ -628,12 +677,34 @@ func facteur_densite() -> float:
 	var qualite := get_node_or_null("/root/QualiteGraphique")
 	if qualite == null:
 		return 1.0
-	return [0.5, 1.0, 2.0, 3.0][clampi(int(qualite.niveau), 0, 3)]
+	return [0.6, 1.2, 2.2, 3.0][clampi(int(qualite.niveau), 0, 3)]
 
 
 ## Couvre-sol : cailloux et fleurs sauvages semés là où pousse l'herbe.
 ## reglages_couvre_sol : {"cailloux": nombre pour 100 m², "fleurs": [couleurs], "densite_fleurs": nombre pour 100 m²}
+## "buissons" : nombre pour 100 m² ; "litiere" : plaques de feuilles mortes pour 100 m².
 var reglages_couvre_sol := {"cailloux": 6.0, "fleurs": [], "densite_fleurs": 0.0}
+
+
+## Chances (0-1) que l'herbe pousse sur chaque sol de _parts_sol (rouge, vert, bleu).
+## Vector3.ZERO = règle des îles froides : pas sur les galets (rouge), peu dans la neige (vert).
+var fertilite_sols := Vector3.ZERO
+
+
+func _fertilite(parts: Color) -> float:
+	if fertilite_sols == Vector3.ZERO:
+		return 0.0 if parts.r > 0.5 else 1.0 - parts.g * 0.9
+	return clampf(parts.r * fertilite_sols.x + parts.g * fertilite_sols.y + parts.b * fertilite_sols.z, 0.0, 1.0)
+
+
+## Buisson bas propre à l'île (voir les essences « buisson* » de arbres.gd).
+func _essence_buisson() -> String:
+	return "buisson_sec"
+
+
+## Teinte des plaques de feuilles mortes / brindilles.
+func _teinte_litiere() -> Color:
+	return Color(1.0, 0.95, 0.85)
 
 
 func _construire_couvre_sol() -> void:
@@ -654,6 +725,16 @@ func _construire_couvre_sol() -> void:
 			var maillage := _maillage_bosse(bruit, Vector3(1.0, 0.55, 0.8) * (0.08 + forme * 0.05), 1.5 + forme, 0.45, 8)
 			maillage.surface_set_material(0, mat)
 			_semer_sol(maillage, nb_cailloux / 3, hasard, 0.5, 2.2, 0.7, 45.0, true)
+	# Buissons bas, en petits groupes.
+	var nb_buissons := int(float(reglages_couvre_sol.get("buissons", 0.5)) * surface * minf(facteur, 2.5))
+	if nb_buissons > 0:
+		for v in 3:
+			var maillage := Arbres.maillage(_essence_buisson(), v, null)
+			_semer_sol(maillage, nb_buissons / 3, hasard, 0.6, 1.5, 0.0, 120.0, true, 0.05)
+	# Litière : feuilles mortes, brindilles et gravillons à plat.
+	var nb_litiere := int(float(reglages_couvre_sol.get("litiere", 3.0)) * surface * minf(facteur, 2.5))
+	if nb_litiere > 0:
+		_semer_sol(Arbres.maillage_litiere(_teinte_litiere()), nb_litiere, hasard, 0.6, 1.6, 0.0, 40.0, false)
 	var couleurs: Array = reglages_couvre_sol.get("fleurs", [])
 	var nb_fleurs := int(float(reglages_couvre_sol.get("densite_fleurs", 0.0)) * surface * facteur)
 	if not couleurs.is_empty() and nb_fleurs > 0:
@@ -688,8 +769,7 @@ func _semer_sol(maillage: Mesh, nombre: int, hasard: RandomNumberGenerator, eche
 				var y := hauteur(x, z)
 				if y < NIVEAU_MER + 0.8:
 					continue
-				var parts := _parts_sol(x, z, y)
-				if parts.r > 0.5:
+				if hasard.randf() > _fertilite(_parts_sol(x, z, y)):
 					continue
 				var pente := absf(hauteur(x + 0.5, z) - y) + absf(hauteur(x, z + 0.5) - y)
 				if pente > 0.6:

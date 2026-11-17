@@ -65,6 +65,7 @@ func _init() -> void:
 	graine = 1210
 	point_apparition = CHAR_POSTE + Vector2(-4, 6)
 	nombre_touffes = 20000
+	fertilite_sols = Vector3(0.3, 0.05, 1.0)
 	neige_qui_tombe = false
 	sols = {
 		# Rouge : la terre retournée des fosses, la route, les cours.

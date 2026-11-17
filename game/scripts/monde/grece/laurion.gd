@@ -54,6 +54,7 @@ func _init() -> void:
 	graine = 4383
 	point_apparition = ENTREE + Vector2(0, 8)
 	nombre_touffes = 14000
+	fertilite_sols = Vector3(0.25, 0.8, 0.0)
 	reglages_couvre_sol = {"cailloux": 6.0, "fleurs": [Color(0.95, 0.78, 0.12), Color(0.93, 0.91, 0.86)], "densite_fleurs": 0.8}
 	neige_qui_tombe = false
 	sols = {

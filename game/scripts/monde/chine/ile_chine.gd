@@ -767,3 +767,12 @@ func _lanterne(parent: Node3D, p: Vector3, poteau := true) -> void:
 	globe.material_override = m
 	globe.position = Vector3(0.75 if poteau else 0.0, 2.55 if poteau else -0.4, 0)
 	l.add_child(globe)
+
+
+## Buisson bas de l'île (couvre-sol, voir ile_prehistoire._construire_couvre_sol).
+func _essence_buisson() -> String:
+	return "buisson_hiver"
+
+
+func _teinte_litiere() -> Color:
+	return Color(0.9, 0.85, 0.8)

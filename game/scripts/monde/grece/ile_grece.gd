@@ -625,3 +625,12 @@ func _fusionner(dossier: Node3D) -> void:
 		fusion.mesh = (outils[m] as SurfaceTool).commit()
 		fusion.material_override = m
 		dossier.add_child(fusion)
+
+
+## Buisson bas de l'île (couvre-sol, voir ile_prehistoire._construire_couvre_sol).
+func _essence_buisson() -> String:
+	return "buisson"
+
+
+func _teinte_litiere() -> Color:
+	return Color(1.0, 0.95, 0.85)
