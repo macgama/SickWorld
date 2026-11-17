@@ -53,10 +53,15 @@ func _lancer() -> void:
 			if n is MeshInstance3D and n != sol:
 				n.free()
 		for k in 3:
-			Arbres.planter(monde, Vector3((k - 1) * 9.0, 0, -k * 3.0), essence, hasard, 1.0, null, false)
+			var pas := 3.0 if essence in ["papyrus", "buisson", "buisson_sec", "buisson_hiver"] else 9.0
+			Arbres.planter(monde, Vector3((k - 1) * pas, 0, -k * pas / 3.0), essence, hasard, 1.0, null, false)
 		var haut: float = 6.0 if essence in ["olivier", "tamaris", "murier", "peuplier_desert", "saule"] else 10.0
-		camera.position = Vector3(0, haut * 0.45, 13 + haut * 1.2)
-		camera.look_at(Vector3(0, haut * 0.5, -3))
+		var ecart := 3.0
+		if essence in ["papyrus", "buisson", "buisson_sec", "buisson_hiver"]:
+			haut = 2.5
+			ecart = 1.2
+		camera.position = Vector3(0, haut * 0.45, ecart * (4.3 + haut * 0.4))
+		camera.look_at(Vector3(0, haut * 0.5, -ecart))
 		for i in 6:
 			await process_frame
 		var image := root.get_texture().get_image()

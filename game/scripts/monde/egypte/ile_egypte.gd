@@ -239,67 +239,14 @@ func _construire_eau(centre := Vector3.ZERO, taille := Vector2(3000, 3000)) -> v
 
 # --- Papyrus et roseaux ----------------------------------------------------------------------
 
-## Une touffe de papyrus : des tiges triangulaires de 2 à 4 m surmontées d'une
-## ombelle en plumeau (les fines tiges vertes qui retombent).
-func _maillage_papyrus(hasard: RandomNumberGenerator) -> ArrayMesh:
-	var outil := SurfaceTool.new()
-	outil.begin(Mesh.PRIMITIVE_TRIANGLES)
-	var tiges := hasard.randi_range(7, 11)
-	for t in tiges:
-		var base := Vector3(hasard.randf_range(-0.35, 0.35), 0, hasard.randf_range(-0.35, 0.35))
-		var haut_tige := hasard.randf_range(2.0, 3.8)
-		var penche := Vector3(base.x, 0, base.z).normalized() * hasard.randf_range(0.1, 0.45)
-		var sommet := base + Vector3(0, haut_tige, 0) + penche
-		var r := 0.022
-		# La tige : un prisme à trois faces (le papyrus a une tige triangulaire).
-		for f in 3:
-			var a0 := TAU * f / 3.0
-			var a1 := TAU * (f + 1) / 3.0
-			var c0 := Vector3(cos(a0), 0, sin(a0)) * r
-			var c1 := Vector3(cos(a1), 0, sin(a1)) * r
-			outil.set_uv(Vector2(0, 0)); outil.add_vertex(base + c0)
-			outil.set_uv(Vector2(0, 0.82)); outil.add_vertex(sommet + c0 * 0.5)
-			outil.set_uv(Vector2(1, 0)); outil.add_vertex(base + c1)
-			outil.set_uv(Vector2(1, 0)); outil.add_vertex(base + c1)
-			outil.set_uv(Vector2(0, 0.82)); outil.add_vertex(sommet + c0 * 0.5)
-			outil.set_uv(Vector2(1, 0.82)); outil.add_vertex(sommet + c1 * 0.5)
-		# L'ombelle : des brins fins qui partent du sommet et retombent en gerbe.
-		var brins := 16
-		for b in brins:
-			var a := TAU * b / brins + hasard.randf_range(-0.2, 0.2)
-			var dir := Vector3(cos(a), 0, sin(a))
-			var longueur := hasard.randf_range(0.35, 0.55)
-			var milieu := sommet + dir * longueur * 0.55 + Vector3(0, longueur * 0.35, 0)
-			var bout := sommet + dir * longueur + Vector3(0, longueur * 0.05 - 0.08, 0)
-			var cote := dir.cross(Vector3.UP).normalized() * 0.018
-			outil.set_uv(Vector2(0, 0.84)); outil.add_vertex(sommet - cote)
-			outil.set_uv(Vector2(1, 0.84)); outil.add_vertex(sommet + cote)
-			outil.set_uv(Vector2(0, 0.95)); outil.add_vertex(milieu - cote)
-			outil.set_uv(Vector2(1, 0.84)); outil.add_vertex(sommet + cote)
-			outil.set_uv(Vector2(1, 0.95)); outil.add_vertex(milieu + cote)
-			outil.set_uv(Vector2(0, 0.95)); outil.add_vertex(milieu - cote)
-			outil.set_uv(Vector2(0, 0.95)); outil.add_vertex(milieu - cote * 0.8)
-			outil.set_uv(Vector2(1, 0.95)); outil.add_vertex(milieu + cote * 0.8)
-			outil.set_uv(Vector2(0.5, 1.0)); outil.add_vertex(bout)
-	outil.generate_normals()
-	return outil.commit()
-
-
 ## Sème des touffes de papyrus là où « ou_pousser(x, z) » renvoie vrai.
 func _semer_papyrus(nombre: int, zone: Rect2, ou_pousser: Callable, graine_p: int) -> void:
 	var hasard := RandomNumberGenerator.new()
 	hasard.seed = graine_p
-	var materiau := ShaderMaterial.new()
-	materiau.shader = SHADER_HERBE
-	materiau.set_shader_parameter("couleur_base", Color(0.16, 0.22, 0.07))
-	materiau.set_shader_parameter("couleur_pointe", Color(0.52, 0.6, 0.2))
-	materiau.set_shader_parameter("couleur_givre", Color(0.62, 0.64, 0.28))
-	materiau.set_shader_parameter("force_vent", 0.08)
+	# Touffes réalistes (scripts/monde/vegetation/arbres.gd, essence « papyrus »).
 	var formes: Array[ArrayMesh] = []
-	for k in 5:
-		var f := _maillage_papyrus(hasard)
-		f.surface_set_material(0, materiau)
-		formes.append(f)
+	for k in Arbres.NB_VARIANTES:
+		formes.append(Arbres.maillage("papyrus", k))
 	# Par blocs de 24 m, pour que les touffes lointaines disparaissent ensemble.
 	const BLOC := 24.0
 	var blocs := {}
@@ -314,7 +261,7 @@ func _semer_papyrus(nombre: int, zone: Rect2, ou_pousser: Callable, graine_p: in
 		var cle := Vector2i(floori(x / BLOC), floori(z / BLOC))
 		if not blocs.has(cle):
 			blocs[cle] = []
-		var t := Transform3D(Basis(Vector3.UP, hasard.randf() * TAU).scaled(Vector3.ONE * hasard.randf_range(0.75, 1.25)),
+		var t := Transform3D(Basis(Vector3.UP, hasard.randf() * TAU).scaled(Vector3.ONE * hasard.randf_range(0.75, 1.2)),
 				Vector3(x, hauteur(x, z) - 0.1, z))
 		blocs[cle].append([hasard.randi() % formes.size(), t])
 		places += 1
