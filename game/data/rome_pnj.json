@@ -457,5 +457,82 @@
 		"repliques": [
 			"..."
 		]
+	},
+	"gardien_junon": {
+		"nom": "Aulus",
+		"role": "Gardien des oies de Junon",
+		"modele": "homme",
+		"habit": "exomis",
+		"taille_cm": 166,
+		"peau": "#c49a72",
+		"habits": "#8a7a5a",
+		"repliques": [
+			"Il y a quatre cents ans, les Gaulois ont escaladé le Capitole en pleine nuit. Les chiens n'ont rien entendu. Les oies, si. Depuis, on les nourrit aux frais de la Ville.",
+			"Une oie, ça ne ment pas. Si elle crie, c'est qu'il y a quelqu'un."
+		]
+	},
+	"refugiee_herculanum": {
+		"nom": "Rectina",
+		"role": "Rescapée d'Herculanum",
+		"modele": "femme",
+		"habit": "peplos_himation",
+		"taille_cm": 162,
+		"peau": "#c8a07c",
+		"habits": "#6a5a7a",
+		"repliques": [
+			"Ma villa était au pied du Vésuve, au bord de la mer. J'ai écrit à l'amiral Pline pour qu'il vienne nous chercher. Il est venu. Il n'est pas reparti.",
+			"Herculanum n'a pas reçu de cendre, tu sais. Elle a reçu un nuage brûlant, qui descendait la montagne plus vite qu'un cheval."
+		]
+	},
+	"gerant_thermes": {
+		"nom": "Licinius",
+		"role": "Gérant des thermes de Titus",
+		"modele": "homme",
+		"habit": "chiton_court",
+		"taille_cm": 174,
+		"peau": "#c69a74",
+		"habits": "#d8cdb4",
+		"repliques": [
+			"Les thermes de l'empereur, ouverts à tous, pour un quart d'as. Bain chaud, bain tiède, bain froid, et la palestre. Même les esclaves y viennent.",
+			"Sous nos pieds, il y a l'hypocauste : un sol posé sur des piliers de brique, et l'air chaud du foyer qui circule dessous."
+		]
+	},
+	"lanista": {
+		"nom": "Rufus",
+		"role": "Lanista du Ludus Magnus",
+		"modele": "homme",
+		"habit": "exomis",
+		"taille_cm": 182,
+		"peau": "#a8784e",
+		"habits": "#5a3a2a",
+		"repliques": [
+			"Le Ludus Magnus : la plus grande école de gladiateurs du monde, juste à côté de l'amphithéâtre. Un tunnel les relie.",
+			"Un gladiateur, ça coûte cher. On ne le tue pas pour rien. La plupart des combats s'arrêtent quand l'un des deux lève le doigt."
+		]
+	},
+	"boulangere": {
+		"nom": "Modesta",
+		"role": "Boulangère de la Subure",
+		"modele": "femme",
+		"habit": "peplos",
+		"taille_cm": 158,
+		"peau": "#c89c74",
+		"habits": "#a8765a",
+		"repliques": [
+			"Je cuis le pain du quartier depuis vingt ans. Un pain rond, coupé en huit, avec mon nom tamponné dessus. Comme ça, personne ne me le vole.",
+			"La meule, c'est l'âne qui la tourne. Moi, je pétris. Et je n'ai pas le temps de bavarder."
+		]
+	},
+	"lenoir_appia": {
+		"nom": "Agent Bastien Lenoir",
+		"role": "Vigie · nettoyage",
+		"modele": "homme",
+		"taille_cm": 180,
+		"peau": "#d6ae8c",
+		"habits": "#2a3440",
+		"repliques": [
+			"Lenoir, du service Nettoyage. Quand une fracture se referme, il reste toujours des choses de notre époque derrière. C'est moi qui ramasse.",
+			"Un jour, un archéologue trouvera une canette dans une tombe étrusque. Mon travail, c'est que ce jour n'arrive jamais."
+		]
 	}
 }

@@ -1006,6 +1006,7 @@ func _construire_quete() -> void:
 	dossier.add_child(cage)
 	_construire_quete_incendie(dossier)
 	_construire_quete_jeux(dossier)
+	_construire_secondaires(dossier)
 	# Repères de la carte.
 	var repere := func(type: int, texte: String, p: Vector2) -> void:
 		MarqueurCarte.creer(dossier, type, texte, Vector3(p.x, hauteur(p.x, p.y), p.y))
@@ -1156,3 +1157,12 @@ func _process(delta: float) -> void:
 	# La bouche de la Cloaca Maxima, ouverte par l'égoutier (chapitre 8, donjon).
 	elif p.distance_to(EGOUT) < 3.2 and quete.etape_atteinte("entrer_cloaca"):
 		quete.changer_de_zone("cloaca")
+
+
+## Quêtes secondaires : le gardien des oies du Capitole, le gérant des thermes de Titus,
+## le lanista du Ludus Magnus et la boulangère de la Subure.
+func _construire_secondaires(dossier: Node3D) -> void:
+	_pnj(dossier, "gardien_junon", Vector2(-136, -24), PI * 0.5)
+	_pnj(dossier, "gerant_thermes", Vector2(100, -80), PI * 0.8)
+	_pnj(dossier, "lanista", Vector2(140, -50), -PI * 0.6)
+	_pnj(dossier, "boulangere", Vector2(3, -130), PI * 0.2)

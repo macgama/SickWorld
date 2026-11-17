@@ -1,5 +1,5 @@
 {
-	"_aide": "Montures : appuyer sur V pour appeler sa monture (immobile, hors combat), V à nouveau pour descendre. Interdites dans le hub et les donjons. Une attaque reçue fait tomber de la monture. Chaque île a sa monture d'époque ; « epoque » = nom du dossier de l'île (prehistoire, egypte…). « requiert » : un objet à avoir dans ses sacs pour l'appeler (la bride du poulain de Lysimaque, en Grèce).",
+	"_aide": "Montures : appuyer sur V pour appeler sa monture (immobile, hors combat), V à nouveau pour descendre. Interdites dans le hub et les donjons. Une attaque reçue fait tomber de la monture. Chaque île a sa monture d'époque ; « epoque » = nom du dossier de l'île (prehistoire, egypte…). « requiert » : un objet à avoir dans ses sacs pour l'appeler (la bride du poulain de Lysimaque, en Grèce ; le sceau de la poste, à Rome). « requiert_texte » : le message affiché quand on ne l'a pas.",
 	"reglages": {
 		"duree_invocation": 1.5,
 		"vitesse_pourcent": 70,
@@ -74,6 +74,25 @@
 			"repos": "H_Idle_01",
 			"saut": "H_Jump_Forward",
 			"vitesse_pourcent": 60
+		},
+		"mule_poste": {
+			"nom": "Mule de la poste impériale",
+			"epoque": "rome",
+			"requiert": "sceau_poste",
+			"requiert_texte": "Il te faut le sceau de la poste impériale (quête « La poste de l'empereur »)",
+			"description": "Une mule du cursus publicus, la poste de l'empereur : fille d'un âne et d'une jument, plus grande et plus endurante qu'un âne. Pétronius te l'a confiée avec le sceau des courriers.",
+			"modele": "res://assets/animaux/ane/ane.glb",
+			"echelle": 1.02,
+			"tourner": -90,
+			"pelage": "mule",
+			"selle": 0.14,
+			"os_selle": "Spine1_014",
+			"os_racine": "CG_01",
+			"garder_hauteur_racine": true,
+			"allures": ["H_Walk", "H_Trot", "H_Canter", "H_Gallop", "H_Sprint"],
+			"repos": "H_Idle_01",
+			"saut": "H_Jump_Forward",
+			"vitesse_pourcent": 75
 		}
 	}
 }
