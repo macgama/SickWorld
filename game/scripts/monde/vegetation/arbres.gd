@@ -157,6 +157,13 @@ const ESSENCES := {
 		"feuille": "palme", "cartes": 0, "carte": 0.0,
 		"couleur": Color(0.6, 0.7, 0.42), "variation": Color(0.95, 0.88, 0.6), "translucidite": 0.45,
 	},
+	# Touffe de bambous : chaumes annelés qui s'arquent, feuilles longues et fines.
+	"bambou": {
+		"forme": "bambou", "tronc": [5.0, 9.0], "rayon": 0.045, "penche": 0.18, "torsion": 0.0,
+		"chaumes": 16,
+		"feuille": "bambou", "cartes": 24, "carte": 1.25,
+		"couleur": Color(0.62, 0.74, 0.45), "variation": Color(0.92, 0.95, 0.75), "translucidite": 0.6,
+	},
 	"saule": {
 		"forme": "feuillu", "tronc": [2.4, 3.2], "rayon": 0.34, "penche": 0.15, "torsion": 0.15,
 		"niveaux": 3, "branches": [6, 5, 3], "angle": [45, 50, 40], "longueur": [0.85, 0.7, 0.7],
@@ -210,6 +217,8 @@ static func maillage(essence: String, variante: int, ecorce: Material = null) ->
 	var g := _Geometrie.new()
 	if fiche["forme"] == "palmier":
 		_palmier(g, fiche, hasard)
+	elif fiche["forme"] == "bambou":
+		_bambou(g, fiche, hasard)
 	else:
 		_arbre(g, fiche, hasard)
 	var m := ArrayMesh.new()
@@ -683,6 +692,42 @@ static func _rameaux(g: _Geometrie, fiche: Dictionary, hasard: RandomNumberGener
 			_carte(g.feuilles, base, direction, cote2, s * 0.9, s, souplesse + 0.25, phase)
 
 
+## Bambous : une douzaine de chaumes annelés, penchés et arqués, feuillus dans le haut.
+static func _bambou(g: _Geometrie, fiche: Dictionary, hasard: RandomNumberGenerator) -> void:
+	var nb: int = fiche["chaumes"]
+	for k in nb:
+		var h := hasard.randf_range(fiche["tronc"][0], fiche["tronc"][1])
+		var a := hasard.randf() * TAU
+		var depart := Vector3(cos(a), 0, sin(a)) * hasard.randf_range(0.0, 0.9)
+		var penche := hasard.randf_range(0.02, fiche["penche"])
+		var dir := (Vector3(cos(a), 0, sin(a)) * sin(penche) + Vector3.UP * cos(penche)).normalized()
+		var points: Array[Vector3] = []
+		var rayons: Array[float] = []
+		var segments := 14
+		var r0: float = fiche["rayon"] * hasard.randf_range(0.8, 1.25)
+		for i in segments + 1:
+			var t := float(i) / segments
+			# L'arc : le haut retombe un peu sous le poids des feuilles.
+			var p := depart + dir * h * t + Vector3(cos(a), 0, sin(a)) * h * 0.12 * t * t - Vector3.UP * h * 0.05 * t * t
+			points.append(p)
+			var noeud := 1.12 if i % 2 == 0 else 1.0
+			rayons.append(r0 * (1.0 - t * 0.6) * noeud)
+		_tube(g.ecorce, points, rayons, 6, Vector2(0.0, 0.7), hasard.randf())
+		var phase := hasard.randf()
+		for c in fiche["cartes"]:
+			var t := hasard.randf_range(0.35, 1.0)
+			var lp := _le_long(points, t)
+			var base: Vector3 = lp[0]
+			var d: Vector3 = lp[1]
+			var perp := _tourner(_perpendiculaire(d), d, hasard.randf() * TAU)
+			var direction := (perp * 0.8 + d * 0.3 + Vector3.DOWN * 0.25).normalized()
+			var cote := direction.cross(Vector3.UP).normalized()
+			if cote.length_squared() < 0.01:
+				cote = _perpendiculaire(direction)
+			var taille: float = fiche["carte"] * hasard.randf_range(0.75, 1.2)
+			_carte(g.feuilles, base, direction, cote, taille, taille * 1.1, 0.4 + t * 0.5, phase)
+
+
 ## Palmier : stipe annelé et courbe, couronne de palmes arquées.
 static func _palmier(g: _Geometrie, fiche: Dictionary, hasard: RandomNumberGenerator) -> void:
 	var hauteur := hasard.randf_range(fiche["tronc"][0], fiche["tronc"][1])
@@ -760,7 +805,7 @@ static func texture_feuilles(motif: String, teinte_dessin := Color(0, 0, 0, 0)) 
 	var defauts := {
 		"large": Color(0.30, 0.42, 0.16), "petite": Color(0.34, 0.46, 0.17), "olivier": Color(0.36, 0.42, 0.28),
 		"aiguilles": Color(0.18, 0.28, 0.13), "ecailles": Color(0.17, 0.27, 0.13), "plumeux": Color(0.36, 0.44, 0.27),
-		"palme": Color(0.33, 0.43, 0.18),
+		"palme": Color(0.33, 0.43, 0.18), "bambou": Color(0.34, 0.46, 0.18),
 	}
 	var c: Color = dessin_couleur(defauts.get(motif, Color(0.3, 0.4, 0.2)), teinte_dessin)
 	match motif:
@@ -778,6 +823,8 @@ static func texture_feuilles(motif: String, teinte_dessin := Color(0, 0, 0, 0)) 
 			_dessiner_plumeux(dessin, hasard, c)
 		"palme":
 			_dessiner_palme(dessin, hasard, c)
+		"bambou":
+			_dessiner_rameau(dessin, hasard, 16, 0.3, 0.032, 0.95, c)
 	dessin.boucher_fond()
 	image.generate_mipmaps()
 	var tex := ImageTexture.create_from_image(image)
