@@ -206,7 +206,7 @@ func _sauvegarder() -> void:
 ## L'île a-t-elle déjà été visitée (sa quête principale a commencé) ?
 func ile_visitee(ile: String) -> bool:
 	if ile == "":
-		return ile_visitee("prehistoire") or ile_visitee("egypte") or ile_visitee("grece") or ile_visitee("rome")
+		return ile_visitee("prehistoire") or ile_visitee("egypte") or ile_visitee("grece") or ile_visitee("rome") or ile_visitee("chine")
 	var cfg := ConfigFile.new()
 	if cfg.load(_fichier()) != OK:
 		return false

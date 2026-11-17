@@ -1,0 +1,544 @@
+{
+	"_aide": "Quête principale de la Chine : « Le papier et la flamme ». Mêmes règles que data/prehistoire_quete.json, data/egypte_quete.json, data/grece_quete.json et data/rome_quete.json (voir leur « _aide »). En plus : « calligraphie » = rendre la mémoire à un Figé : avant de compter l'objet, le joueur trace les traits d'un caractère chinois dans le bon ordre (un caractère, ou une liste : un par objet, dans l'ordre où on les fait) ; « titre_calligraphie » = le titre de la petite fenêtre. Caractères connus : 人 大 山 木 天 火 文 中 水. Pour changer un texte, modifie ce qui est entre guillemets. Garde les virgules.",
+	"zones": {
+		"porte_de_jade": {
+			"scene": "res://scenes/monde/chine/porte_de_jade.tscn",
+			"arrivee": {
+				"titre": "La Porte de Jade",
+				"sous_titre": "Chine · l'empire des Han, hiver 105 apr. J.-C.",
+				"texte": "Le portail se referme dans un claquement de vent. Du sable fin te pique les joues. Devant toi, une tour de terre écroulée, un petit feu, et un homme assis qui ne lève même pas les yeux. Au nord, un long mur de terre file d'un bout à l'autre de l'horizon."
+			}
+		}
+	},
+	"camps": {
+		"porte_de_jade": [
+			{
+				"type": "loup_fracture_jade",
+				"position": [
+					-130,
+					-100
+				],
+				"nombre": 3,
+				"rayon": 5
+			},
+			{
+				"type": "loup_fracture_jade",
+				"position": [
+					40,
+					-110
+				],
+				"nombre": 3,
+				"rayon": 5
+			},
+			{
+				"type": "loup_fracture_jade",
+				"position": [
+					120,
+					-104
+				],
+				"nombre": 2,
+				"rayon": 4
+			},
+			{
+				"type": "loup_fracture_jade",
+				"position": [
+					-120,
+					120
+				],
+				"nombre": 2,
+				"rayon": 5
+			},
+			{
+				"type": "pillard_desert",
+				"position": [
+					-132,
+					10
+				],
+				"nombre": 2,
+				"rayon": 4
+			},
+			{
+				"type": "pillard_desert",
+				"position": [
+					118,
+					-40
+				],
+				"nombre": 3,
+				"rayon": 5
+			},
+			{
+				"type": "pillard_desert",
+				"position": [
+					20,
+					80
+				],
+				"nombre": 2,
+				"rayon": 4
+			},
+			{
+				"type": "pillard_desert",
+				"position": [
+					-30,
+					-44
+				],
+				"nombre": 2,
+				"rayon": 4
+			}
+		]
+	},
+	"chapitres": [
+		{
+			"numero": 1,
+			"titre": "La Porte de Jade",
+			"ou": "porte_de_jade",
+			"etapes": [
+				{
+					"id": "rencontre_masque",
+					"objectif": "Un homme est assis près d'un feu, au pied de la tour en ruine : approche-toi",
+					"pnj": "masque_jade",
+					"repliques": [
+						"Janus t'avait prévenu, non ? « Regarde bien qui est déjà de l'autre côté. » C'est moi. Désolé de te décevoir.",
+						"Damien Roche. Tu peux dire Masque, si tu préfères. Je n'ai plus de masque, de toute façon : je l'ai laissé à Pompéi, avec dix ans de mensonges.",
+						"Depuis le Colisée, je sais ce qu'il m'a fait. L'Éditeur. Il m'a fait abandonner sous ce volcan pour venir me « sauver » ensuite. Il m'a fabriqué comme on fabrique un outil.",
+						"Alors maintenant, je le chasse. Et toi aussi, tu le cherches. Je ne reviendrai jamais à la Vigie, entends-moi bien. Mais on pourrait chercher ensemble.",
+						"Réfléchis vite. Il y a de la fumée sur la route, là-bas, au nord. Quelqu'un attaque une caravane."
+					]
+				},
+				{
+					"id": "choix_masque",
+					"objectif": "Masque attend ta réponse : que fais-tu ?",
+					"choix": [
+						{
+							"objet": "allier_masque",
+							"objectif": "Accepte l'alliance de Masque",
+							"pnj": "masque_jade",
+							"repliques": [
+								"Masque : Bien. Je ne te demande pas d'être d'accord avec moi. Juste de ne pas me tirer dans le dos.",
+								"Je pars vers l'est, sur les traces de l'Éditeur. Je te retrouverai quand j'aurai quelque chose. Toi, occupe-toi de cette caravane."
+							]
+						},
+						{
+							"objet": "mefier_masque",
+							"objectif": "Refuse : tu ne lui fais pas confiance",
+							"pnj": "masque_jade",
+							"repliques": [
+								"Masque : Tu as raison. Moi non plus, je ne me ferais pas confiance.",
+								"Je pars quand même vers l'est, sur ses traces. On se recroisera, que tu le veuilles ou non. Va donc sauver ta caravane."
+							]
+						}
+					]
+				},
+				{
+					"id": "radio_vera",
+					"objectif": "Une radio grésille sur une pierre, près du feu : prends-la",
+					"objet": "radio_vera",
+					"duree": 1.5,
+					"action": "Tu règles la radio…",
+					"consomme": true,
+					"apres": [
+						{
+							"masquer": "masque_jade"
+						}
+					],
+					"recit": {
+						"titre": "Vera Lind, à la radio",
+						"texte": "« ...agent ? C'est Vera. Oui, je sais. Disons que je te prête ma fréquence, comme promis. Tu es à la Porte de Jade, en l'an 105, au bout de la Grande Muraille des Han. La Vigie m'a donné un accès provisoire. Provisoire, ils ont insisté. Il y a une caravane attaquée sur la route, au nord. Vas-y. Et Roche... méfie-toi de lui. Ou ne t'en méfie pas. Moi, je ne sais plus. »"
+					}
+				},
+				{
+					"id": "vers_caravane",
+					"objectif": "Suis le sentier vers le nord, jusqu'à la route de la soie et la caravane attaquée",
+					"zone": [
+						-80,
+						-22
+					],
+					"rayon": 10
+				},
+				{
+					"id": "pillards",
+					"objectif": "Des pillards fracturés attaquent la caravane de soie : chasse-les",
+					"tuer": "pillard_desert_caravane",
+					"nombre": 4,
+					"lieu": [
+						-98,
+						-38
+					],
+					"apparition": {
+						"type": "pillard_desert_caravane",
+						"position": [
+							-98,
+							-38
+						],
+						"nombre": 4,
+						"rayon": 4,
+						"attaque": true
+					},
+					"apres": [
+						{
+							"montrer": "ban_yong_route"
+						}
+					],
+					"recit": {
+						"titre": "Des pillards du désert",
+						"texte": "Le dernier pillard s'effondre dans le sable. Sous son manteau de peau, des éclats violets lui couraient sur les bras. Au loin, des cavaliers en armure de cuir laqué arrivent au galop : la garnison de la Porte de Jade."
+					}
+				},
+				{
+					"id": "rencontre_ban_yong",
+					"objectif": "Parle à l'officier qui vient d'arriver avec ses cavaliers",
+					"pnj": "ban_yong_route",
+					"repliques": [
+						"Tu te bats bien, pour un étranger. D'où viens-tu ? Tes habits ne ressemblent à rien de ce que j'ai vu, et j'ai tout vu passer par cette porte.",
+						"Peu importe. Je suis Ban Yong, je commande la Porte de Jade. Ces pillards n'auraient jamais dû arriver jusqu'ici : les fanaux auraient dû nous prévenir.",
+						"Les fanaux, ce sont les feux en haut des tours de la muraille. Fumée le jour, flammes la nuit. Une tour voit l'ennemi, elle allume, la suivante allume à son tour, et en une journée, la capitale sait.",
+						"Ce matin, ils se sont tous éteints. Tous. Les gardes des tours ne répondent plus. Va rallumer les trois fanaux les plus proches, au pied des tours, le long de la muraille. Moi, je reste avec la caravane."
+					]
+				},
+				{
+					"id": "fanaux",
+					"objectif": "Rallume les trois fanaux au pied des tours de la muraille, au nord (F, reste immobile)",
+					"recolter": "fanal",
+					"nombre": 3,
+					"duree": 3,
+					"action": "Tu bats le briquet sur les fagots…",
+					"apres": [
+						{
+							"cacher": "fanal_0"
+						},
+						{
+							"cacher": "fanal_1"
+						},
+						{
+							"cacher": "fanal_2"
+						},
+						{
+							"montrer": "fanaux_lointains"
+						}
+					],
+					"recit": {
+						"titre": "La muraille parle",
+						"texte": "La troisième meule s'embrase. Une colonne de fumée noire monte, toute droite dans le froid. Et loin à l'est, au bout de la muraille, une autre colonne lui répond. Puis une autre. Puis une autre. Le message court vers la Chine, de tour en tour, plus vite qu'un cheval."
+					}
+				},
+				{
+					"id": "wang_ba",
+					"objectif": "Retourne à la caravane : son chef veut te parler",
+					"pnj": "wang_ba",
+					"repliques": [
+						"Les fanaux brûlent ! Alors c'est toi. Le commandant a dit qu'un étranger était parti les rallumer à pied. Je lui ai dit que tu ne reviendrais pas.",
+						"Wang Ba, chef de cette caravane. Quarante chameaux de soie, enfin, trente-huit depuis ce matin. On vient de Dunhuang et on va vers l'ouest, vers les royaumes des oasis.",
+						"Mais avec ces pillards sur la route, pas question de partir ce soir. Le commandant nous envoie au relais, de l'autre côté du fort. Accompagne-nous, tu veux ? Mes chameliers ne savent tenir qu'un bâton."
+					]
+				},
+				{
+					"id": "escorte_caravane",
+					"objectif": "Escorte la caravane jusqu'au relais des caravanes, à l'est, après le fort (reste près d'elle)",
+					"escorte": [
+						"wang_ba",
+						"caravanier_1",
+						"caravanier_2",
+						"caravanier_3"
+					],
+					"charge": "caravane_soie",
+					"distance_joueur": 12,
+					"chemin": [
+						[
+							-84,
+							-30
+						],
+						[
+							-60,
+							-28
+						],
+						[
+							-30,
+							-22
+						],
+						[
+							-10,
+							-16
+						],
+						[
+							20,
+							-6
+						],
+						[
+							52,
+							6
+						],
+						[
+							70,
+							12
+						]
+					],
+					"vitesse": 1.7,
+					"vagues": [
+						{
+							"a": 0.4,
+							"annonce": "Des loups fracturés descendent des dunes !",
+							"apparition": {
+								"type": "loup_fracture_escorte",
+								"position": [
+									-24,
+									-44
+								],
+								"nombre": 3,
+								"rayon": 3,
+								"attaque": true
+							}
+						}
+					],
+					"apres": [
+						{
+							"decor": "caravane_soie",
+							"aller": [
+								70,
+								12
+							],
+							"angle": 0.2
+						},
+						{
+							"pnj": "wang_ba",
+							"aller": [
+								76,
+								22
+							]
+						},
+						{
+							"pnj": "caravanier_1",
+							"aller": [
+								72,
+								24
+							]
+						},
+						{
+							"pnj": "caravanier_2",
+							"aller": [
+								84,
+								26
+							]
+						},
+						{
+							"pnj": "caravanier_3",
+							"aller": [
+								68,
+								22
+							]
+						},
+						{
+							"masquer": "ban_yong_route"
+						}
+					]
+				},
+				{
+					"id": "ban_yong_fort",
+					"objectif": "Retrouve Ban Yong devant la porte ouest du fort",
+					"pnj": "ban_yong",
+					"repliques": [
+						"La caravane est à l'abri. Bien. Mes hommes ont trouvé les gardes des tours : ils sont vivants, mais...",
+						"Je ne sais pas comment le dire. Ils sont devenus de la terre. Comme les statues qu'on met dans les tombes des princes. Ils respirent encore, je crois. Ils te regardent.",
+						"Ça a commencé dans le fort aussi, ce matin. Entre. Tu verras."
+					],
+					"fin_chapitre": true
+				}
+			]
+		},
+		{
+			"numero": 2,
+			"titre": "Les Figés",
+			"ou": "porte_de_jade",
+			"etapes": [
+				{
+					"id": "figes_cour",
+					"objectif": "Entre dans la cour du fort de la Porte de Jade, par la porte ouest",
+					"zone": [
+						22,
+						-23
+					],
+					"rayon": 6,
+					"recit": {
+						"titre": "Les Figés",
+						"texte": "Dans la cour, quatre hommes se tiennent immobiles, au milieu de leurs gestes. Un soldat, un arbalétrier, le cuisinier, un marchand. Leur peau, leurs habits, leurs cheveux sont devenus de la terre cuite, rouge et grise. Quand tu passes devant eux, leurs yeux te suivent."
+					}
+				},
+				{
+					"id": "ban_yong_figes",
+					"objectif": "Parle à Ban Yong, devant la porte ouest du fort",
+					"pnj": "ban_yong",
+					"repliques": [
+						"Le cuisinier a perdu ses mots le premier. Il a regardé sa louche comme s'il ne savait plus ce que c'était. Puis il a oublié le nom de sa femme. Puis il s'est arrêté de bouger.",
+						"Mon père m'a appris qu'un homme sans mémoire n'est plus qu'un vase vide. Je n'avais jamais pensé que ce serait vrai à la lettre.",
+						"Le vieux Gan Ying, au relais, dit qu'il faut leur rappeler un mot. Un seul caractère, bien écrit, dans le bon ordre des traits, comme on l'apprend aux enfants. Il dit que l'écriture, c'est la mémoire des Han.",
+						"Moi, je ne sais tenir qu'une épée. Toi, essaie."
+					]
+				},
+				{
+					"id": "figes",
+					"objectif": "Rends la mémoire aux quatre Figés de la cour : approche-toi de chacun et trace son caractère dans le bon ordre (F)",
+					"recolter": "fige_fort",
+					"nombre": 4,
+					"titre_calligraphie": "Rendre la mémoire : trace le caractère dans l'ordre des traits",
+					"calligraphie": [
+						"人",
+						"木",
+						"山",
+						"大"
+					],
+					"apres": [
+						{
+							"cacher": "memoire_0"
+						},
+						{
+							"cacher": "memoire_1"
+						},
+						{
+							"cacher": "memoire_2"
+						},
+						{
+							"cacher": "memoire_3"
+						}
+					],
+					"recit": {
+						"titre": "La mémoire revient",
+						"texte": "L'argile du dernier Figé se fendille, puis tombe en poussière rouge. Le marchand cligne des yeux, regarde ses mains, et dit son propre nom à voix haute, comme pour vérifier. Le cuisinier, lui, a déjà repris sa louche."
+					}
+				},
+				{
+					"id": "scribe",
+					"objectif": "Ban Yong t'envoie au relais des caravanes : parle au scribe de la poste",
+					"pnj": "scribe_jade",
+					"repliques": [
+						"Tu viens du fort ? Alors aide-moi, vite ! Mes lattes brûlent ! Toutes seules, sans flamme, sans rien !",
+						"Ce sont les registres de la poste : chaque lettre, chaque soldat, chaque caravane depuis dix ans. Et les lettres des soldats à leurs familles. Si elles brûlent, c'est comme si ces gens n'avaient jamais existé.",
+						"Il y a trois tas, là, dans la cour. Étouffe les flammes avec ton manteau, du sable, n'importe quoi !"
+					]
+				},
+				{
+					"id": "lattes",
+					"objectif": "Étouffe les flammes des trois tas de lattes de bois, dans la cour du relais (F, reste immobile)",
+					"recolter": "lattes",
+					"nombre": 3,
+					"duree": 2.5,
+					"action": "Tu étouffes les flammes sous le sable…",
+					"apres": [
+						{
+							"cacher": "lattes_0"
+						},
+						{
+							"cacher": "lattes_1"
+						},
+						{
+							"cacher": "lattes_2"
+						}
+					]
+				},
+				{
+					"id": "gan_ying",
+					"objectif": "Un vieil homme te fait signe, au fond de la cour du relais",
+					"pnj": "gan_ying",
+					"repliques": [
+						"Approche, approche. Montre-moi ce que tu as dans ton sac. Non, n'aie pas peur. Ce glaive... ces sandales cloutées... Je les connais.",
+						"Je suis Gan Ying. Il y a huit ans, je suis parti vers l'ouest pour trouver Da Qin, le grand empire au bout de la route de la soie. J'ai vu des marchands qui en venaient. Ils portaient des choses comme ça.",
+						"Tu viens de Da Qin. De Rome, comme ils disent là-bas. Je le savais. Personne ne me croira, mais je le savais.",
+						"Écoute-moi. Ce qui brûle les lattes et fige les hommes vient du sud, du lac salé. La nuit dernière, j'y ai vu une lumière violette, et des cavaliers autour. Ceux qui ont attaqué la caravane.",
+						"Leur chef campe au bord du lac. Ban Yong n'a pas assez d'hommes pour l'attaquer. Toi, peut-être."
+					]
+				},
+				{
+					"id": "chef_pillards",
+					"objectif": "Au bord du lac salé, au sud-est : abats le chef des pillards fracturés et ses gardes",
+					"tuer": "chef_pillard",
+					"nombre": 1,
+					"lieu": [
+						90,
+						66
+					],
+					"apparition": {
+						"type": "chef_pillard",
+						"position": [
+							90,
+							66
+						],
+						"nombre": 1,
+						"rayon": 1,
+						"attaque": false
+					},
+					"recit": {
+						"titre": "Le chef des pillards",
+						"texte": "Le chef tombe à genoux dans la croûte de sel. À sa ceinture, une bourse de cuir pleine de monnaie Han, toute neuve, et un petit sceau de jade gravé d'un seul caractère : 秦. Qin. Le nom du Premier Empereur, mort il y a plus de trois cents ans."
+					}
+				},
+				{
+					"id": "faille",
+					"objectif": "Une faille violette brille au bord du lac : referme-la (reste immobile)",
+					"objet": "faille_jade",
+					"duree": 5,
+					"action": "Fermeture de la faille…",
+					"apparition": {
+						"type": "loup_fracture_faille_jade",
+						"position": [
+							114,
+							58
+						],
+						"nombre": 3,
+						"rayon": 3,
+						"attaque": false
+					},
+					"apres": [
+						{
+							"cacher": "faille_jade"
+						}
+					],
+					"recit": {
+						"titre": "Le désert se tait",
+						"texte": "La faille se referme dans un bruit de papier froissé. Autour d'elle, sur le sel, des cendres légères retombent : des cendres de livres. Quelqu'un, quelque part, fait brûler la mémoire de la Chine."
+					}
+				},
+				{
+					"id": "recompense_ban_yong",
+					"objectif": "Retourne voir Ban Yong, devant la porte ouest du fort",
+					"pnj": "ban_yong",
+					"repliques": [
+						"Le chef des pillards est mort, la faille est fermée, mes hommes sont redevenus des hommes. Je ne sais pas qui tu es, étranger, mais la Porte de Jade a une dette envers toi.",
+						"Prends cette épée. C'est celle de mon père, Ban Chao. Il l'a portée trente ans dans les royaumes de l'Ouest. Il aurait voulu qu'elle serve encore.",
+						"Et ce manteau matelassé : les nuits de la frontière sont plus froides que tu ne crois.",
+						"Ce sceau... Qin. Montre-le à Gan Ying. Lui saura."
+					],
+					"recompense": [
+						{
+							"id": "jian_ban_chao",
+							"nom": "Épée de Ban Chao"
+						},
+						{
+							"id": "manteau_frontiere",
+							"nom": "Manteau matelassé de la frontière"
+						}
+					]
+				},
+				{
+					"id": "lettre_gan_ying",
+					"objectif": "Montre le sceau de jade à Gan Ying, au relais des caravanes",
+					"pnj": "gan_ying",
+					"repliques": [
+						"Qin. Le Premier Empereur. Celui qui a uni la Chine, imposé une seule écriture... et fait brûler les livres. On dit qu'il dort sous une montagne, à l'est, près de l'ancienne capitale, avec une armée entière pour le garder.",
+						"Si quelqu'un veut le réveiller, ou réveiller ce qu'il voulait, il faut prévenir la cour. Tiens : une lettre, de ma main, pour la grande historienne Ban Zhao, à Luoyang. C'est la sœur de Ban Chao. Elle m'écoutera.",
+						"Suis la route vers l'est. Tu passeras le Fleuve Jaune. Et regarde bien les villages en chemin : les papetiers de là-bas font des choses étonnantes avec de vieux chiffons."
+					],
+					"recompense": [
+						{
+							"id": "lettre_gan_ying",
+							"nom": "Lettre de Gan Ying"
+						}
+					],
+					"fin_chapitre": true
+				}
+			]
+		}
+	],
+	"fin_provisoire": {
+		"chapitre": "Chapitre 3 : La soie et le fleuve",
+		"objectif": "La suite arrive bientôt : les terres de lœss et le Fleuve Jaune, à l'est de la Porte de Jade.",
+		"titre": "Le papier et la flamme",
+		"message": "À la Porte de Jade, les fanaux brûlent et les Figés ont retrouvé la mémoire. Mais à l'est, quelqu'un fait brûler les livres."
+	}
+}

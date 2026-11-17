@@ -1,0 +1,177 @@
+{
+	"_aide": "Personnages de l'île de la Chine (l'empire des Han, hiver 105 apr. J.-C.). Pour changer ce qu'ils disent, modifie le texte entre guillemets (une ligne = une bulle de dialogue). Garde les virgules entre les lignes. « tenue » = objets de data/objets.json portés par le personnage, « peau » = couleur de peau, « habits » = couleur de la robe (ou de la tunique). « argile » : vrai = le personnage est Figé (changé en statue de terre cuite) jusqu'à ce qu'on lui rende la mémoire.",
+	"masque_jade": {
+		"nom": "Damien Roche",
+		"role": "« Masque » · ancien agent de la Vigie",
+		"modele": "homme",
+		"taille_cm": 188,
+		"peau": "#c4987a",
+		"habits": "#4a1d24",
+		"repliques": [
+			"Tu as trouvé mon feu. Assieds-toi, ou reste debout, comme tu veux. Mais ne sors pas ton arme : je ne suis pas venu me battre."
+		]
+	},
+	"wang_ba": {
+		"nom": "Wang Ba",
+		"role": "Chef de caravane",
+		"modele": "homme",
+		"habit": "robe_nomade",
+		"taille_cm": 170,
+		"peau": "#c8a07a",
+		"habits": "#6a4a2a",
+		"repliques": [
+			"Vingt ans que je traverse ce désert. Je connais chaque puits, chaque dune, chaque douanier. Et chacun a son prix.",
+			"La soie part vers l'ouest, les chevaux, le verre et le jade reviennent. Au bout de la route, dit-on, il y a un empire aussi grand que le nôtre. Da Qin. Je n'y suis jamais allé. Personne n'y est jamais allé."
+		]
+	},
+	"caravanier_1": {
+		"nom": "Sogdien",
+		"role": "Marchand de l'Ouest",
+		"modele": "homme",
+		"habit": "robe_nomade",
+		"taille_cm": 176,
+		"peau": "#c09070",
+		"habits": "#5a3a5a",
+		"repliques": [
+			"Il compte et recompte ses ballots de soie en marmonnant dans une langue que tu ne connais pas."
+		]
+	},
+	"caravanier_2": {
+		"nom": "Ah Lian",
+		"role": "Caravanière",
+		"modele": "femme",
+		"habit": "robe_nomade",
+		"taille_cm": 160,
+		"peau": "#d4ab88",
+		"habits": "#7a5a3a",
+		"repliques": [
+			"Mon frère mène les chameaux, moi je mène mon frère. Il n'a jamais su lire les étoiles."
+		]
+	},
+	"caravanier_3": {
+		"nom": "Vieux Chen",
+		"role": "Chamelier",
+		"modele": "homme",
+		"habit": "robe_nomade",
+		"taille_cm": 166,
+		"peau": "#b88a66",
+		"habits": "#4a3a2a",
+		"repliques": [
+			"Ces bêtes boivent une fois tous les dix jours. Moi, je bois tous les soirs. C'est pour ça que c'est elles qui portent."
+		]
+	},
+	"ban_yong": {
+		"nom": "Ban Yong",
+		"role": "Commandant de la Porte de Jade",
+		"modele": "homme",
+		"habit": "chiton_court",
+		"taille_cm": 180,
+		"peau": "#d0a882",
+		"habits": "#3a3a3e",
+		"repliques": [
+			"Mon père, Ban Chao, a tenu les royaumes de l'Ouest trente ans avec quelques milliers d'hommes. Moi, je tiens une porte. Mais c'est la porte du monde.",
+			"Ici, tout ce qui entre en Chine passe sous mes yeux. Et tout ce qui en sort aussi. Même les idées."
+		]
+	},
+	"ban_yong_route": {
+		"nom": "Ban Yong",
+		"role": "Commandant de la Porte de Jade",
+		"modele": "homme",
+		"habit": "chiton_court",
+		"taille_cm": 180,
+		"peau": "#d0a882",
+		"habits": "#3a3a3e",
+		"repliques": [
+			"Les fanaux, étranger. Il faut que la muraille parle."
+		]
+	},
+	"fige_soldat": {
+		"nom": "Un soldat figé",
+		"role": "Figé",
+		"modele": "homme",
+		"habit": "chiton_court",
+		"taille_cm": 174,
+		"peau": "#c89c78",
+		"habits": "#4a4a3a",
+		"argile": true,
+		"repliques": [
+			"Il ne bouge plus. Sa peau, ses habits, ses cils : tout est devenu de la terre cuite, rouge et grise. Seuls ses yeux te suivent."
+		]
+	},
+	"fige_arbaletrier": {
+		"nom": "Un arbalétrier figé",
+		"role": "Figé",
+		"modele": "homme",
+		"habit": "chiton_court",
+		"taille_cm": 170,
+		"peau": "#c0946c",
+		"habits": "#5a4a3a",
+		"argile": true,
+		"repliques": [
+			"Une arbalète d'argile dans des mains d'argile. Il était en train de la bander quand la mémoire l'a quitté."
+		]
+	},
+	"fige_cuisinier": {
+		"nom": "Le cuisinier figé",
+		"role": "Figé",
+		"modele": "homme",
+		"habit": "exomis",
+		"taille_cm": 168,
+		"peau": "#b88c66",
+		"habits": "#7a6a52",
+		"argile": true,
+		"repliques": [
+			"Une louche à la main, la bouche ouverte. Il appelait sans doute les soldats pour la soupe."
+		]
+	},
+	"fige_marchand": {
+		"nom": "Un marchand figé",
+		"role": "Figé",
+		"modele": "homme",
+		"habit": "robe_nomade",
+		"taille_cm": 172,
+		"peau": "#c49870",
+		"habits": "#6a3a2a",
+		"argile": true,
+		"repliques": [
+			"Il serre un ballot de soie contre lui. La soie, elle, a gardé ses couleurs."
+		]
+	},
+	"scribe_jade": {
+		"nom": "Le scribe Zhang",
+		"role": "Scribe de la poste",
+		"modele": "homme",
+		"habit": "chiton_himation",
+		"taille_cm": 168,
+		"peau": "#d2ac8a",
+		"habits": "#3a4a5a",
+		"repliques": [
+			"Chaque lettre qui passe ici est notée : qui l'apporte, à quelle heure, vers où. Sur des lattes de bois, une ligne par latte. On les attache avec une ficelle et ça fait un livre.",
+			"Le papier ? On en parle, à la capitale. Un eunuque du palais en ferait avec de vieux filets de pêche. Moi, je crois ce que je vois."
+		]
+	},
+	"gan_ying": {
+		"nom": "Gan Ying",
+		"role": "Ancien envoyé vers Da Qin",
+		"modele": "homme",
+		"habit": "chiton_himation",
+		"taille_cm": 170,
+		"peau": "#c8a280",
+		"habits": "#5a2a2a",
+		"repliques": [
+			"En l'an neuf de Yongyuan, le général Ban Chao m'a envoyé vers Da Qin, l'empire de l'Ouest. J'ai marché deux ans. J'ai vu la grande mer. Et je suis revenu.",
+			"Les marins parthes m'ont dit qu'il fallait trois ans pour la traverser, et que les hommes y mouraient de chagrin. J'ai eu peur. Je le regrette chaque jour."
+		]
+	},
+	"vera_radio": {
+		"nom": "Vera Lind",
+		"role": "« Sablier » · à la radio",
+		"modele": "femme",
+		"taille_cm": 174,
+		"peau": "#e9cdb6",
+		"habits": "#3a3a40",
+		"repliques": [
+			"..."
+		]
+	}
+}

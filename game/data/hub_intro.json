@@ -80,6 +80,11 @@
 			"scene": "res://scenes/monde/rome/voie_appienne.tscn",
 			"titre": "Rome antique",
 			"sous_titre": "La Rome de Titus, été 80 apr. J.-C."
+		},
+		"Chine des Han": {
+			"scene": "res://scenes/monde/chine/porte_de_jade.tscn",
+			"titre": "Chine des Han",
+			"sous_titre": "La Porte de Jade, hiver 105 apr. J.-C."
 		}
 	}
 }

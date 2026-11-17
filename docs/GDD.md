@@ -103,7 +103,7 @@ Les îles suivent l'ordre chronologique. Liste prévue (elle pourra encore être
 | 2 | **Égypte antique** (vers -2560, règne de Khéops) | La fin du chantier de la Grande Pyramide et le journal de Merer *(conception détaillée validée le 14/11/2026 : [ILE-2-EGYPTE.md](ILE-2-EGYPTE.md))* |
 | 3 | **Grèce antique** (été -438, Athènes de Périclès) | Les Panathénées, le Parthénon et la démocratie athénienne *(conception validée le 15/11/2026 : [ILE-3-GRECE.md](ILE-3-GRECE.md) ; Rome a son île à part, la n°4)* |
 | 4 | **Rome antique** (été 80 apr. J.-C., Rome de Titus) | L'inauguration du Colisée, les aqueducs et les routes, Pompéi sous la cendre *(conception validée le 16/11/2026 : [ILE-4-ROME.md](ILE-4-ROME.md))* |
-| 5 | **Chine des Han** (hiver 105 apr. J.-C., Luoyang) | L'invention du papier par Cai Lun, la route de la soie et l'armée de terre cuite du Premier Empereur *(conception proposée le 17/11/2026, en attente de validation : [ILE-5-CHINE.md](ILE-5-CHINE.md) ; le Japon est gardé pour une île plus tardive)* |
+| 5 | **Chine des Han** (hiver 105 apr. J.-C., Luoyang) | L'invention du papier par Cai Lun, la route de la soie et l'armée de terre cuite du Premier Empereur *(conception validée le 17/11/2026 : [ILE-5-CHINE.md](ILE-5-CHINE.md) ; le Japon est gardé pour une île plus tardive)* |
 | 6 | Moyen Âge européen | Les cathédrales, les croisades, la peste |
 | 7 | Grandes découvertes / Renaissance | Les navigateurs, l'imprimerie, les artistes |
 | 8 | Révolution industrielle | Vapeur, usines, grandes villes |
@@ -117,7 +117,7 @@ La conception de la troisième île (l'Athènes de Périclès), validée par Ga�
 
 La conception de la quatrième île (la Rome de Titus), validée par Gaël le 16 novembre 2026, est dans [ILE-4-ROME.md](ILE-4-ROME.md).
 
-La conception de la cinquième île (la Chine des Han), proposée le 17 novembre 2026, est dans [ILE-5-CHINE.md](ILE-5-CHINE.md).
+La conception de la cinquième île (la Chine des Han), validée par Gaël le 17 novembre 2026, est dans [ILE-5-CHINE.md](ILE-5-CHINE.md).
 
 ---
 

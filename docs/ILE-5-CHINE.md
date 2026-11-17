@@ -1,6 +1,6 @@
 # SickWorld — Île n°5 : la Chine des Han
 
-*Version 0.1 — **proposition, en attente de la validation de Gaël** (section 19). Rien n'est construit tant que les points ne sont pas validés. Une fois validé, ce document sert de plan pour construire l'île zone par zone.*
+*Version 1.0 — **validée par Gaël le 17 novembre 2026** (toutes les recommandations de la section 19 sont retenues ; le Japon est gardé pour une île plus tardive). L'île se construit zone par zone : ce document sert de plan.*
 
 Ce document suit le même modèle que Rome ([ILE-4-ROME.md](ILE-4-ROME.md)) : cadre historique, moment clé, peuple, fil rouge, zones, quête principale, quêtes secondaires, events, ennemis, compétences, équipement, ambiance, anachronismes, technique.
 
