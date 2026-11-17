@@ -200,37 +200,8 @@ func _pin(parent: Node3D, p: Vector2, hasard: RandomNumberGenerator, taille := 1
 
 ## Une touffe de bambous : une douzaine de tiges hautes et fines, des bouquets de feuilles.
 func _bambous(parent: Node3D, p: Vector2, hasard: RandomNumberGenerator) -> Node3D:
-	var touffe := Node3D.new()
-	touffe.name = "Bambou%d" % parent.get_child_count()
-	touffe.position = Vector3(p.x, hauteur(p.x, p.y) - 0.1, p.y)
-	parent.add_child(touffe)
 	var tige_mat := _mat_pbr("", Color(0.46, 0.56, 0.26), 0.55)
-	var feuilles := _mat_pbr("", Color(0.24, 0.38, 0.14), 0.8)
-	for k in hasard.randi_range(8, 14):
-		var h := hasard.randf_range(5.0, 9.0)
-		var a := hasard.randf() * TAU
-		var r := hasard.randf_range(0.0, 1.2)
-		var penche := Vector3(hasard.randf_range(-0.12, 0.12), 0, hasard.randf_range(-0.12, 0.12))
-		var tige := MeshInstance3D.new()
-		tige.mesh = _cylindre(0.035, 0.05, h, 5)
-		tige.material_override = tige_mat
-		tige.position = Vector3(cos(a) * r, h * 0.5, sin(a) * r)
-		tige.rotation = penche
-		touffe.add_child(tige)
-		for f in 6:
-			var bouquet := MeshInstance3D.new()
-			var s := SphereMesh.new()
-			s.radius = hasard.randf_range(0.18, 0.32)
-			s.height = s.radius * 3.2
-			s.radial_segments = 5
-			s.rings = 3
-			bouquet.mesh = s
-			bouquet.material_override = feuilles
-			var y := h * (0.55 + f * 0.08)
-			bouquet.position = tige.position + Vector3(penche.z * y + hasard.randf_range(-0.6, 0.6), y - h * 0.5, -penche.x * y + hasard.randf_range(-0.6, 0.6))
-			bouquet.rotation = Vector3(hasard.randf_range(0.6, 1.2), hasard.randf() * TAU, 0)
-			touffe.add_child(bouquet)
-	return touffe
+	return _arbre_realiste(parent, p, "bambou", hasard, 1.0, tige_mat, 0.1, false)
 
 
 ## Une torche plantée (un poteau, une flamme, une lumière chaude).
