@@ -77,6 +77,7 @@ func _init() -> void:
 	graine = 438
 	point_apparition = PORTAIL + Vector2(0, -6)
 	nombre_touffes = 50000
+	reglages_couvre_sol = {"cailloux": 6.0, "fleurs": [Color(0.82, 0.1, 0.06), Color(0.95, 0.78, 0.12), Color(0.93, 0.91, 0.86)], "densite_fleurs": 1.0}
 	neige_qui_tombe = false
 	sols = {
 		# Rouge : les galets et le sable des criques.

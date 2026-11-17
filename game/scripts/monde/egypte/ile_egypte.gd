@@ -473,56 +473,11 @@ static func _ajouter_palme(outil: SurfaceTool, origine: Vector3, direction: Vect
 		precedent_d = d
 
 
-## Un palmier dattier complet (tronc courbe + couronne), en un seul maillage à deux surfaces.
-func _maillage_palmier(hasard: RandomNumberGenerator, haut: float) -> ArrayMesh:
-	var tronc := SurfaceTool.new()
-	tronc.begin(Mesh.PRIMITIVE_TRIANGLES)
-	var courbe := Vector3(hasard.randf_range(-1, 1), 0, hasard.randf_range(-1, 1)).normalized() * hasard.randf_range(0.3, 1.4)
-	var anneaux := 14
-	var segments := 10
-	var points: Array[Vector3] = []
-	for a in anneaux + 1:
-		var t := float(a) / anneaux
-		points.append(courbe * t * t + Vector3(0, haut * t, 0))
-	for a in anneaux:
-		var r0 := lerpf(0.26, 0.17, float(a) / anneaux)
-		var r1 := lerpf(0.26, 0.17, float(a + 1) / anneaux)
-		# Le tronc est couvert de la base des anciennes palmes : un relief en anneaux.
-		var bosse0 := 1.0 + 0.08 * (a % 2)
-		var bosse1 := 1.0 + 0.08 * ((a + 1) % 2)
-		for k in segments:
-			var c0 := Vector3(cos(TAU * k / segments), 0, sin(TAU * k / segments))
-			var c1 := Vector3(cos(TAU * (k + 1) / segments), 0, sin(TAU * (k + 1) / segments))
-			tronc.add_vertex(points[a] + c0 * r0 * bosse0)
-			tronc.add_vertex(points[a + 1] + c0 * r1 * bosse1)
-			tronc.add_vertex(points[a] + c1 * r0 * bosse0)
-			tronc.add_vertex(points[a] + c1 * r0 * bosse0)
-			tronc.add_vertex(points[a + 1] + c0 * r1 * bosse1)
-			tronc.add_vertex(points[a + 1] + c1 * r1 * bosse1)
-	tronc.generate_normals()
-	var maillage := tronc.commit()
-	maillage.surface_set_material(0, _mat_choix(["palm_tree_bark", "palm_bark", "rough_wood"], Color(0.55, 0.45, 0.36), 0.95, 0.8))
-	var couronne := SurfaceTool.new()
-	couronne.begin(Mesh.PRIMITIVE_TRIANGLES)
-	var tete := points[-1]
-	var palmes := hasard.randi_range(16, 22)
-	for p in palmes:
-		var a := TAU * p / palmes + hasard.randf_range(-0.15, 0.15)
-		var montee := hasard.randf_range(-0.3, 0.7)
-		var dir := Vector3(cos(a), montee, sin(a)).normalized()
-		_ajouter_palme(couronne, tete, dir, hasard.randf_range(2.6, 3.6), hasard.randf_range(0.45, 0.9), 0.42)
-	couronne.generate_normals()
-	couronne.commit(maillage)
-	var m := StandardMaterial3D.new()
-	m.albedo_texture = _texture_palme()
-	m.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA_SCISSOR
-	m.alpha_scissor_threshold = 0.4
-	m.cull_mode = BaseMaterial3D.CULL_DISABLED
-	m.roughness = 0.7
-	m.backlight_enabled = true
-	m.backlight = Color(0.25, 0.3, 0.1)
-	maillage.surface_set_material(1, m)
-	return maillage
+## Un palmier dattier réaliste (voir scripts/monde/vegetation/arbres.gd) : stipe annelé,
+## couronne de palmes découpées qui bougent au vent. `haut` est gardé pour compatibilité.
+func _maillage_palmier(hasard: RandomNumberGenerator, _haut: float) -> ArrayMesh:
+	var ecorce := _mat_choix(["palm_tree_bark", "palm_bark", "rough_wood"], Color(0.55, 0.45, 0.36), 0.95, 0.8)
+	return Arbres.maillage("palmier", hasard.randi() % Arbres.NB_VARIANTES, ecorce)
 
 
 ## Plante des palmiers aux points donnés (avec une collision sur le tronc).

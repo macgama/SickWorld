@@ -193,30 +193,8 @@ func reconstruire() -> void:
 
 ## Un pin noir (les arbres plantés sur le tumulus).
 func _pin(parent: Node3D, p: Vector2, hasard: RandomNumberGenerator, taille := 1.0) -> Node3D:
-	var arbre := Node3D.new()
-	arbre.name = "Pin%d" % parent.get_child_count()
-	arbre.position = Vector3(p.x, hauteur(p.x, p.y) - 0.2, p.y)
-	arbre.rotation.y = hasard.randf() * TAU
-	parent.add_child(arbre)
-	var h := hasard.randf_range(7.0, 11.0) * taille
-	var tronc := MeshInstance3D.new()
-	tronc.mesh = _cylindre(0.12 * taille, 0.26 * taille, h, 7)
-	tronc.material_override = _mat_pbr("bark_willow_02", Color(0.42, 0.34, 0.3), 0.95, 1.0)
-	tronc.position.y = h * 0.5
-	arbre.add_child(tronc)
-	var aiguilles := _mat_pbr("", Color(0.1, 0.17, 0.12), 0.95)
-	for k in 3:
-		var cime := MeshInstance3D.new()
-		var c := CylinderMesh.new()
-		c.top_radius = 0.0
-		c.bottom_radius = (2.4 - k * 0.6) * taille
-		c.height = 2.6 * taille
-		c.radial_segments = 8
-		cime.mesh = c
-		cime.material_override = aiguilles
-		cime.position = Vector3(hasard.randf_range(-0.3, 0.3), h * 0.55 + k * 1.6 * taille, hasard.randf_range(-0.3, 0.3))
-		arbre.add_child(cime)
-	return arbre
+	var ecorce := _mat_pbr("bark_willow_02", Color(0.42, 0.34, 0.3), 0.95, 1.0)
+	return _arbre_realiste(parent, p, "pin", hasard, taille, ecorce, 0.2)
 
 
 ## Une touffe de bambous : une douzaine de tiges hautes et fines, des bouquets de feuilles.

@@ -231,56 +231,8 @@ func _voie(parent: Node3D, points: Array, largeur := 4.6) -> Node3D:
 ## Un pin parasol (pin pignon) : un long tronc nu, un peu penché, et une couronne large et
 ## plate tout en haut. L'arbre de la campagne romaine.
 func _pin_parasol(parent: Node3D, p: Vector2, hasard: RandomNumberGenerator, taille := 1.0) -> Node3D:
-	var arbre := Node3D.new()
-	arbre.name = "PinParasol"
-	arbre.position = Vector3(p.x, hauteur(p.x, p.y) - 0.1, p.y)
-	arbre.rotation.y = hasard.randf() * TAU
-	arbre.scale = Vector3.ONE * taille
-	parent.add_child(arbre)
-	var haut := hasard.randf_range(9.0, 13.0)
-	var penche := hasard.randf_range(0.04, 0.16)
 	var ecorce := _mat_choix(["tree_bark_03", "bark_willow_02", "rough_wood"], Color(0.42, 0.32, 0.25), 0.95, 0.8)
-	var tronc := MeshInstance3D.new()
-	tronc.mesh = _cylindre(0.2, 0.38, haut, 8)
-	tronc.material_override = ecorce
-	tronc.position = Vector3(sin(penche) * haut * 0.5, haut * 0.5, 0)
-	tronc.rotation.z = -penche
-	arbre.add_child(tronc)
-	var sommet := Vector3(sin(penche) * haut, haut, 0)
-	# Deux ou trois branches maîtresses qui s'écartent, puis la couronne plate.
-	for k in 3:
-		var a := TAU * k / 3.0 + hasard.randf_range(-0.3, 0.3)
-		var branche := MeshInstance3D.new()
-		branche.mesh = _cylindre(0.08, 0.16, 2.6, 6)
-		branche.material_override = ecorce
-		branche.position = sommet + Vector3(cos(a) * 0.7, -0.3, sin(a) * 0.7)
-		branche.rotation = Vector3(sin(a) * 0.8, 0.0, -cos(a) * 0.8)
-		arbre.add_child(branche)
-	var feuillage := _mat_feuillage(Color(0.2, 0.3, 0.16))
-	var largeur := hasard.randf_range(4.2, 6.0)
-	for k in 6:
-		var touffe := MeshInstance3D.new()
-		var s := SphereMesh.new()
-		s.radius = hasard.randf_range(1.6, 2.4)
-		s.height = s.radius * 0.7
-		s.radial_segments = 12
-		s.rings = 5
-		touffe.mesh = s
-		touffe.material_override = feuillage
-		var a := TAU * k / 6.0 + hasard.randf_range(-0.3, 0.3)
-		var r := largeur * 0.45 if k > 0 else 0.0
-		touffe.position = sommet + Vector3(cos(a) * r, 1.0 + hasard.randf_range(-0.2, 0.3), sin(a) * r)
-		arbre.add_child(touffe)
-	var corps := StaticBody3D.new()
-	var forme := CollisionShape3D.new()
-	var c := CylinderShape3D.new()
-	c.radius = 0.4
-	c.height = 3.0
-	forme.shape = c
-	forme.position.y = 1.5
-	corps.add_child(forme)
-	arbre.add_child(corps)
-	return arbre
+	return _arbre_realiste(parent, p, "pin_parasol", hasard, taille * 1.1, ecorce)
 
 
 # --- Monuments --------------------------------------------------------------------------------

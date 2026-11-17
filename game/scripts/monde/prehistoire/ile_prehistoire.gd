@@ -46,6 +46,7 @@ const SHADER_HERBE := preload("res://shaders/prehistoire_herbe.gdshader")
 const SHADER_FRACTURE := preload("res://shaders/prehistoire_fracture.gdshader")
 const AmbiancePrehistoire := preload("res://scripts/monde/prehistoire/ambiance_prehistoire.gd")
 const VieAmbiante := preload("res://scripts/monde/vie/vie_ambiante.gd")
+const Arbres := preload("res://scripts/monde/vegetation/arbres.gd")
 
 ## Textures Poly Haven de chaque sol (la première trouvée est utilisée).
 const TEXTURES_SOLS := {
@@ -242,6 +243,13 @@ func _demander_reconstruction() -> void:
 		return
 	_reconstruction_demandee = true
 	reconstruire.call_deferred()
+
+
+## Un arbre réaliste (voir scripts/monde/vegetation/arbres.gd) planté au sol en `p`.
+func _arbre_realiste(parent: Node3D, p: Vector2, essence: String, hasard: RandomNumberGenerator,
+		taille := 1.0, ecorce: Material = null, enfoui := 0.1, collision := true) -> Node3D:
+	return Arbres.planter(parent, Vector3(p.x, hauteur(p.x, p.y) - enfoui, p.y), essence, hasard,
+			taille, ecorce, collision)
 
 
 func _texture(id: String, carte: String) -> Texture2D:
@@ -555,6 +563,7 @@ func _maillage_bosse(bruit: FastNoiseLite, echelle: Vector3, details := 2.0, for
 func _construire_touffes() -> void:
 	if nombre_touffes <= 0 or DisplayServer.get_name() == "headless":
 		return
+	var facteur := facteur_densite()
 	var brin := _maillage_touffe()
 	var materiau := ShaderMaterial.new()
 	materiau.shader = SHADER_HERBE
@@ -563,10 +572,15 @@ func _construire_touffes() -> void:
 	brin.surface_set_material(0, materiau)
 	var hasard := RandomNumberGenerator.new()
 	hasard.seed = graine + 21
+	# Des taches : l'herbe pousse en plaques denses et laisse des clairières (plus naturel
+	# qu'un semis régulier).
+	var taches := FastNoiseLite.new()
+	taches.seed = graine + 22
+	taches.frequency = 0.045
 	const BLOC := 20.0
 	var demi := taille_terrain * 0.5 - 20.0
 	var blocs := int(ceil((demi * 2.0) / BLOC))
-	var par_bloc := int(nombre_touffes / float(blocs * blocs))
+	var par_bloc := int(nombre_touffes * facteur / float(blocs * blocs))
 	for bj in blocs:
 		for bi in blocs:
 			var x0 := -demi + bi * BLOC
@@ -575,6 +589,8 @@ func _construire_touffes() -> void:
 			for n in par_bloc:
 				var x := x0 + hasard.randf() * BLOC
 				var z := z0 + hasard.randf() * BLOC
+				if hasard.randf() > 0.35 + 0.65 * smoothstep(-0.35, 0.3, taches.get_noise_2d(x, z)):
+					continue
 				var y := hauteur(x, z)
 				if y < NIVEAU_MER + 0.8:
 					continue
@@ -600,22 +616,119 @@ func _construire_touffes() -> void:
 			var instance := MultiMeshInstance3D.new()
 			instance.multimesh = multi
 			instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-			instance.visibility_range_end = 80.0
+			instance.visibility_range_end = 70.0 + 15.0 * facteur
 			instance.visibility_range_end_margin = 10.0
+			instance.visibility_range_fade_mode = GeometryInstance3D.VISIBILITY_RANGE_FADE_SELF
+			_contenu.add_child(instance)
+	_construire_couvre_sol()
+
+
+## Multiplicateur de densité de la végétation selon la qualité graphique (F10).
+func facteur_densite() -> float:
+	var qualite := get_node_or_null("/root/QualiteGraphique")
+	if qualite == null:
+		return 1.0
+	return [0.5, 1.0, 2.0, 3.0][clampi(int(qualite.niveau), 0, 3)]
+
+
+## Couvre-sol : cailloux et fleurs sauvages semés là où pousse l'herbe.
+## reglages_couvre_sol : {"cailloux": nombre pour 100 m², "fleurs": [couleurs], "densite_fleurs": nombre pour 100 m²}
+var reglages_couvre_sol := {"cailloux": 6.0, "fleurs": [], "densite_fleurs": 0.0}
+
+
+func _construire_couvre_sol() -> void:
+	var facteur := facteur_densite()
+	var hasard := RandomNumberGenerator.new()
+	hasard.seed = graine + 23
+	var demi := taille_terrain * 0.5 - 20.0
+	var surface := (demi * 2.0) * (demi * 2.0) / 100.0
+	# Cailloux : trois formes, semées en petites grappes.
+	var nb_cailloux := int(float(reglages_couvre_sol.get("cailloux", 0.0)) * surface * minf(facteur, 2.0))
+	if nb_cailloux > 0:
+		var bruit := FastNoiseLite.new()
+		bruit.seed = graine + 24
+		bruit.frequency = 1.6
+		var mat := _mat_pbr(_premiere_texture(["rock_boulder_dry", "dry_ground_rocks", "cliff_side"]),
+				Color(0.78, 0.74, 0.68), 0.9, 0.6)
+		for forme in 3:
+			var maillage := _maillage_bosse(bruit, Vector3(1.0, 0.55, 0.8) * (0.08 + forme * 0.05), 1.5 + forme, 0.45, 8)
+			maillage.surface_set_material(0, mat)
+			_semer_sol(maillage, nb_cailloux / 3, hasard, 0.5, 2.2, 0.7, 45.0, true)
+	var couleurs: Array = reglages_couvre_sol.get("fleurs", [])
+	var nb_fleurs := int(float(reglages_couvre_sol.get("densite_fleurs", 0.0)) * surface * facteur)
+	if not couleurs.is_empty() and nb_fleurs > 0:
+		for couleur in couleurs:
+			var maillage := Arbres.maillage_fleurs(couleur)
+			_semer_sol(maillage, nb_fleurs / couleurs.size(), hasard, 0.7, 1.4, 0.0, 60.0, false, 0.08)
+
+
+## Sème `nombre` copies de `maillage` sur le terrain (là où l'herbe pousse), par blocs de 20 m.
+## `grappes` : frequence des regroupements (0 = uniforme, sinon des taches).
+func _semer_sol(maillage: Mesh, nombre: int, hasard: RandomNumberGenerator, echelle_min: float,
+		echelle_max: float, enfoui: float, portee: float, ombres: bool, frequence_taches := 0.0) -> void:
+	const BLOC := 20.0
+	var demi := taille_terrain * 0.5 - 20.0
+	var blocs := int(ceil((demi * 2.0) / BLOC))
+	var par_bloc := maxi(1, nombre / (blocs * blocs))
+	var taches: FastNoiseLite = null
+	if frequence_taches > 0.0:
+		taches = FastNoiseLite.new()
+		taches.seed = hasard.randi()
+		taches.frequency = frequence_taches
+	for bj in blocs:
+		for bi in blocs:
+			var x0 := -demi + bi * BLOC
+			var z0 := -demi + bj * BLOC
+			var liste: Array[Transform3D] = []
+			for n in par_bloc:
+				var x := x0 + hasard.randf() * BLOC
+				var z := z0 + hasard.randf() * BLOC
+				if taches != null and taches.get_noise_2d(x, z) < 0.15:
+					continue
+				var y := hauteur(x, z)
+				if y < NIVEAU_MER + 0.8:
+					continue
+				var parts := _parts_sol(x, z, y)
+				if parts.r > 0.5:
+					continue
+				var pente := absf(hauteur(x + 0.5, z) - y) + absf(hauteur(x, z + 0.5) - y)
+				if pente > 0.6:
+					continue
+				var s := hasard.randf_range(echelle_min, echelle_max)
+				var base := Basis(Vector3.UP, hasard.randf() * TAU).scaled(Vector3.ONE * s)
+				if ombres:
+					base = Basis(Vector3(hasard.randf() - 0.5, 0, hasard.randf() - 0.5).normalized(),
+							hasard.randf_range(0.0, 0.5)) * base
+				liste.append(Transform3D(base, Vector3(x, y - enfoui * s * 0.1, z)))
+			if liste.is_empty():
+				continue
+			var multi := MultiMesh.new()
+			multi.transform_format = MultiMesh.TRANSFORM_3D
+			multi.mesh = maillage
+			multi.instance_count = liste.size()
+			for k in liste.size():
+				multi.set_instance_transform(k, liste[k])
+			var instance := MultiMeshInstance3D.new()
+			instance.multimesh = multi
+			instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON if ombres \
+					else GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+			instance.visibility_range_end = portee
+			instance.visibility_range_end_margin = 8.0
 			instance.visibility_range_fade_mode = GeometryInstance3D.VISIBILITY_RANGE_FADE_SELF
 			_contenu.add_child(instance)
 
 
-## Une touffe de 7 brins fins et longs, un peu couchés.
+## Une touffe de 11 brins de longueurs variées, un peu couchés.
 func _maillage_touffe() -> ArrayMesh:
 	var outil := SurfaceTool.new()
 	outil.begin(Mesh.PRIMITIVE_TRIANGLES)
-	for k in 7:
-		var angle := k * TAU / 7.0 + 0.4
-		var cote := Vector3(cos(angle), 0, sin(angle)) * 0.012
-		var penche := Vector3(-sin(angle), 0, cos(angle)) * (0.1 + 0.05 * (k % 3))
-		var decalage := Vector3(cos(angle * 3.0), 0, sin(angle * 3.0)) * 0.04
-		var hauteur_brin := 0.35 + (k % 4) * 0.08
+	var nb := 11
+	for k in nb:
+		var angle := k * TAU / nb + 0.4 + sin(k * 2.3) * 0.3
+		var cote := Vector3(cos(angle), 0, sin(angle)) * 0.014
+		var penche := Vector3(-sin(angle), 0, cos(angle)) * (0.08 + 0.05 * (k % 3))
+		var decalage := Vector3(cos(angle * 3.0), 0, sin(angle * 3.0)) * (0.03 + 0.03 * (k % 2))
+		var hauteur_brin := 0.28 + (k % 5) * 0.09
 		var etages := 3
 		var precedent_g := decalage - cote
 		var precedent_d := decalage + cote

@@ -49,6 +49,7 @@ func _init() -> void:
 	taille_terrain = 360
 	point_apparition = Vector2(0, 156)
 	nombre_touffes = 140000
+	reglages_couvre_sol = {"cailloux": 6.0, "fleurs": [Color(0.95, 0.82, 0.25), Color(0.62, 0.5, 0.82)], "densite_fleurs": 0.8}
 	neige_qui_tombe = false
 	ciel = "table_mountain_1_puresky"
 	sols = {
