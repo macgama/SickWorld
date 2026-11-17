@@ -4385,5 +4385,128 @@
 				"hors_piste": 1.0
 			}
 		]
+	},
+	"luoyang": {
+		"niveau_eau": -50.0,
+		"oiseaux": [
+			{
+				"espece": "pigeon",
+				"comportement": "nuee",
+				"centre": [-40, 20],
+				"altitude": 9,
+				"rayon": 20,
+				"nombre": 18
+			},
+			{
+				"espece": "choucas",
+				"centre": [20, -30],
+				"altitude": 50,
+				"rayon": 45,
+				"nombre": 12
+			},
+			{
+				"espece": "corbeau",
+				"centre": [-110, -120],
+				"altitude": 20,
+				"rayon": 25,
+				"nombre": 5
+			},
+			{
+				"espece": "pigeon",
+				"comportement": "nuee",
+				"centre": [-100, 70],
+				"altitude": 8,
+				"rayon": 14,
+				"nombre": 14
+			}
+		],
+		"insectes": [
+			{
+				"sorte": "poussiere",
+				"autour": true,
+				"nombre": 120
+			},
+			{
+				"sorte": "cendres",
+				"position": [-88, -40, 2.0],
+				"nombre": 16,
+				"rayon": 0.6
+			},
+			{
+				"sorte": "poussiere",
+				"position": [-100, 70, 1.0],
+				"rayon": 12,
+				"nombre": 60
+			}
+		],
+		"figurants": [
+			{
+				"comme": "marchand_luoyang_3",
+				"chemin": [[-140, 24], [-90, 24], [-40, 24], [0, 24]],
+				"porte": "panier",
+				"vitesse": 0.9,
+				"pause": [3, 8]
+			},
+			{
+				"comme": "marchand_luoyang_1",
+				"chemin": [[-20, 16], [-70, 16], [-110, 16]],
+				"porte": "sac",
+				"vitesse": 0.8,
+				"pause": [4, 9]
+			},
+			{
+				"comme": "etudiant_2",
+				"chemin": [[60, 16], [100, 16], [100, -60], [90, -90]],
+				"vitesse": 1.0,
+				"pause": [3, 6]
+			},
+			{
+				"comme": "etudiant_1",
+				"chemin": [[80, -90], [110, -90], [120, -110]],
+				"vitesse": 0.8,
+				"pause": [5, 10]
+			},
+			{
+				"comme": "ouvrier_atelier_2",
+				"chemin": [[-100, -22], [-100, 16], [-100, 50], [-112, 64]],
+				"porte": "fagot",
+				"vitesse": 0.9,
+				"pause": [3, 7]
+			},
+			{
+				"comme": "garde_porte_1",
+				"chemin": [[-140, 26], [-60, 26], [-60, -60], [-60, 26]],
+				"porte": "lance",
+				"vitesse": 0.9,
+				"pause": [6, 10]
+			},
+			{
+				"comme": "marchand_luoyang_5",
+				"chemin": [[-120, 60], [-90, 66], [-100, 88], [-120, 80]],
+				"porte": "panier",
+				"vitesse": 0.8,
+				"pause": [4, 8]
+			},
+			{
+				"comme": "ouvrier_atelier_3",
+				"chemin": [[40, 24], [60, 24], [60, 40]],
+				"porte": "jarre",
+				"vitesse": 0.8,
+				"pause": [4, 9]
+			},
+			{
+				"comme": "marchand_luoyang_2",
+				"chemin": [[-30, 26], [10, 26], [50, 26], [90, 26]],
+				"vitesse": 0.9,
+				"pause": [3, 6]
+			},
+			{
+				"comme": "garde_porte_2",
+				"chemin": [[14, 36], [26, 36]],
+				"porte": "lance",
+				"vitesse": 0.6,
+				"pause": [8, 14]
+			}
+		]
 	}
 }

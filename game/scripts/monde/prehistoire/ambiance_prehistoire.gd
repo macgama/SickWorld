@@ -164,6 +164,26 @@ const CLIMATS := {
 		"nuage_lumiere": Color(1.0, 0.95, 0.88),
 		"saturation": 1.0,
 	},
+	# Luoyang (Chine) : une fin de matinée d'hiver, ciel pâle et voilé, fumée des braseros
+	# qui traîne entre les toits de tuiles grises.
+	"luoyang": {
+		"soleil": Vector2(160.0, 30.0),
+		"couleur_soleil": Color(1.0, 0.9, 0.76),
+		"energie_soleil": 2.2,
+		"couverture": 0.4,
+		"brume": Color(0.78, 0.77, 0.74),
+		"densite_brume": 0.0022,
+		"brume_volume": 0.006,
+		"albedo_brume": Color(0.96, 0.94, 0.9),
+		"ambiance": 0.85,
+		"zenith": Color(0.3, 0.42, 0.6),
+		"horizon": Color(0.82, 0.82, 0.8),
+		"brume_ciel": 0.3,
+		"horizon_soleil": Color(1.0, 0.86, 0.68),
+		"nuage_ombre": Color(0.6, 0.6, 0.64),
+		"nuage_lumiere": Color(0.98, 0.96, 0.92),
+		"saturation": 0.95,
+	},
 	# Rome : un matin d'été, soleil déjà haut, poussière dorée entre les immeubles.
 	"rome": {
 		"etalonnage": "mediterranee",

@@ -688,3 +688,184 @@ func _peuplier_hiver(parent: Node3D, p: Vector2, hasard: RandomNumberGenerator, 
 		r.rotation = Vector3(sin(ang) * inc, 0, -cos(ang) * inc)
 		a.add_child(r)
 	return a
+
+
+# --- Luoyang : palais, pavillons et enceintes ------------------------------------------------
+
+## Le rouge des piliers laqués.
+func _mat_laque() -> StandardMaterial3D:
+	var cle := "laque_rouge"
+	if not _materiaux.has(cle):
+		var m := StandardMaterial3D.new()
+		m.albedo_color = ROUGE_LAQUE
+		m.roughness = 0.35
+		m.metallic_specular = 0.6
+		_materiaux[cle] = m
+	return _materiaux[cle]
+
+
+## Un toit à quatre pans (en croupe), légèrement relevé aux angles, posé à la hauteur y.
+func _toit_croupe(parent: Node3D, centre: Vector3, largeur: float, profondeur: float, haut := 2.4) -> void:
+	var tuiles := _mat_tuiles_han()
+	var debord := 1.6
+	var l := largeur + debord * 2.0
+	var p := profondeur + debord * 2.0
+	# Les deux grands pans (avant et arrière).
+	var pente := atan2(haut, p * 0.5)
+	for cote: float in [-1.0, 1.0]:
+		var pan := _boite(Vector3(l - p * 0.5, 0.3, (p * 0.5) / cos(pente)), centre + Vector3(0, haut * 0.5, cote * p * 0.25), tuiles, parent, false)
+		pan.rotation.x = cote * pente
+	# Les deux petits pans (les croupes, sur les côtés).
+	var pente2 := atan2(haut, p * 0.5)
+	for cote: float in [-1.0, 1.0]:
+		var croupe := MeshInstance3D.new()
+		var prisme := PrismMesh.new()
+		prisme.size = Vector3(p, haut, p * 0.5)
+		croupe.mesh = prisme
+		croupe.material_override = tuiles
+		croupe.rotation.y = PI / 2 * cote
+		croupe.position = centre + Vector3(cote * (l * 0.5 - p * 0.25), haut * 0.5, 0)
+		parent.add_child(croupe)
+	# L'arête faîtière et ses deux « queues de hibou » relevées.
+	_boite(Vector3(l - p * 0.5 + 0.4, 0.4, 0.5), centre + Vector3(0, haut + 0.1, 0), tuiles, parent, false)
+	for cote: float in [-1.0, 1.0]:
+		var corne := _boite(Vector3(0.5, 0.9, 0.45), centre + Vector3(cote * (l * 0.5 - p * 0.25 + 0.2), haut + 0.5, 0), tuiles, parent, false)
+		corne.rotation.z = -cote * 0.35
+	# Le dessous du toit, sombre (les chevrons), pour qu'on ne voie pas le ciel au travers.
+	_boite(Vector3(l, 0.12, p), centre + Vector3(0, 0.02, 0), _mat_pbr("", Color(0.22, 0.12, 0.08), 0.9), parent, false)
+
+
+## Un pavillon de palais : une terrasse de terre damée parementée, un escalier, des piliers
+## rouges, des murs de cloisons (ou rien : un pavillon ouvert) et un toit en croupe gris.
+## « etages » = 1 ou 2. Rend le nœud (le dessus de la terrasse est à « haut_terrasse »).
+func _pavillon_han(parent: Node3D, centre: Vector2, taille: Vector2, angle := 0.0, haut_terrasse := 1.6,
+		etages := 1, ouvert := false, nom := "Pavillon") -> Node3D:
+	var pav := Node3D.new()
+	pav.name = nom
+	pav.position = Vector3(centre.x, hauteur(centre.x, centre.y), centre.y)
+	pav.rotation.y = angle
+	parent.add_child(pav)
+	var terre := _mat_terre_damee()
+	var pierre := _mat_choix(["old_stone_wall", "stacked_stone_wall"], Color(0.7, 0.68, 0.64), 0.9, 1.0)
+	var t := taille + Vector2(4.0, 4.0)
+	_boite(Vector3(t.x, haut_terrasse, t.y), Vector3(0, haut_terrasse * 0.5 - 0.1, 0), terre, pav)
+	_boite(Vector3(t.x + 0.2, 0.25, t.y + 0.2), Vector3(0, haut_terrasse - 0.05, 0), pierre, pav, false)
+	# L'escalier (une rampe en marches) au milieu de la façade.
+	var marches := int(ceil(haut_terrasse / 0.3))
+	for k in marches:
+		var h := haut_terrasse * (k + 1) / marches
+		_boite(Vector3(5.0, h, 0.5), Vector3(0, h * 0.5 - 0.1, t.y * 0.5 + (marches - k) * 0.5 - 0.2), pierre, pav)
+	var laque := _mat_laque()
+	var y := haut_terrasse
+	var haut_etage := 4.2
+	for e in etages:
+		var l := taille * (1.0 - e * 0.18)
+		var nx := maxi(2, int(l.x / 3.4))
+		var nz := maxi(2, int(l.y / 3.4))
+		for i in nx + 1:
+			for j in nz + 1:
+				if i != 0 and i != nx and j != 0 and j != nz:
+					continue
+				var pilier := MeshInstance3D.new()
+				pilier.mesh = _cylindre(0.26, 0.3, haut_etage, 10)
+				pilier.material_override = laque
+				pilier.position = Vector3(-l.x * 0.5 + l.x * i / nx, y + haut_etage * 0.5, -l.y * 0.5 + l.y * j / nz)
+				pav.add_child(pilier)
+				var corps := StaticBody3D.new()
+				var forme := CollisionShape3D.new()
+				var cyl := CylinderShape3D.new()
+				cyl.radius = 0.3
+				cyl.height = haut_etage
+				forme.shape = cyl
+				corps.add_child(forme)
+				corps.position = pilier.position
+				pav.add_child(corps)
+		if not ouvert:
+			# Les cloisons : des panneaux de bois clair en retrait des piliers, une porte au milieu.
+			var cloison := _mat_torchis()
+			_boite(Vector3(l.x - 0.6, haut_etage - 0.6, 0.25), Vector3(0, y + haut_etage * 0.5 - 0.3, -l.y * 0.5 + 0.6), cloison, pav)
+			for cote: float in [-1.0, 1.0]:
+				_boite(Vector3(0.25, haut_etage - 0.6, l.y - 1.2), Vector3(cote * (l.x * 0.5 - 0.6), y + haut_etage * 0.5 - 0.3, 0), cloison, pav)
+				_boite(Vector3(l.x * 0.5 - 2.2, haut_etage - 0.6, 0.25), Vector3(cote * (l.x * 0.25 + 1.1), y + haut_etage * 0.5 - 0.3, l.y * 0.5 - 0.6), cloison, pav)
+				_fenetre_treillis(pav, Vector3(cote * (l.x * 0.25 + 1.1), y + haut_etage * 0.55, l.y * 0.5 - 0.46), Vector2(minf(3.0, l.x * 0.3), 1.6))
+		# La poutre (l'architrave) peinte, au-dessus des piliers.
+		for cote: float in [-1.0, 1.0]:
+			_boite(Vector3(l.x + 0.4, 0.5, 0.4), Vector3(0, y + haut_etage + 0.1, cote * l.y * 0.5), laque, pav, false)
+			_boite(Vector3(0.4, 0.5, l.y + 0.4), Vector3(cote * l.x * 0.5, y + haut_etage + 0.1, 0), laque, pav, false)
+		if e < etages - 1:
+			# Un auvent (un toit de rive) entre les deux étages, et le plancher du haut.
+			_toit_croupe(pav, Vector3(0, y + haut_etage + 0.35, 0), l.x, l.y, 1.2)
+			y += haut_etage + 1.4
+		else:
+			_toit_croupe(pav, Vector3(0, y + haut_etage + 0.35, 0), l.x, l.y, maxf(2.4, l.y * 0.32))
+	return pav
+
+
+## Un mur d'enceinte de palais (ou de quartier) : de la terre damée enduite, coiffée d'un
+## petit toit de tuiles. Les « portes » sont des positions (0 à 1) le long du mur où l'on passe.
+func _mur_palais(parent: Node3D, a: Vector2, b: Vector2, haut := 4.0, portes: Array = [], largeur_porte := 5.0) -> void:
+	var d := b - a
+	var longueur := d.length()
+	var dir := d / longueur
+	var angle := atan2(-dir.y, dir.x)
+	var coupes := [0.0]
+	for p: float in portes:
+		coupes.append(p * longueur - largeur_porte * 0.5)
+		coupes.append(p * longueur + largeur_porte * 0.5)
+	coupes.append(longueur)
+	var enduit := _mat_choix(["white_plaster_02", "clay_plaster"], Color(0.84, 0.78, 0.7), 0.95, 2.0)
+	for k in range(0, coupes.size(), 2):
+		var l: float = coupes[k + 1] - coupes[k]
+		if l <= 0.2:
+			continue
+		var m: Vector2 = a + dir * ((coupes[k] + coupes[k + 1]) * 0.5)
+		var y := hauteur(m.x, m.y)
+		_boite_orientee(Vector3(l, haut, 1.2), Vector3(m.x, y + haut * 0.5 - 0.3, m.y), angle, enduit, parent)
+		_boite_orientee(Vector3(l + 0.2, 0.3, 1.9), Vector3(m.x, y + haut - 0.15, m.y), angle, _mat_tuiles_han(), parent, false)
+		var faite := _boite_orientee(Vector3(l + 0.2, 0.25, 0.4), Vector3(m.x, y + haut + 0.1, m.y), angle, _mat_tuiles_han(), parent, false)
+		faite.name = "Faite"
+	# Les portes : deux piliers rouges et un petit toit.
+	for p: float in portes:
+		var m := a + dir * (p * longueur)
+		var y := hauteur(m.x, m.y)
+		for c: float in [-1.0, 1.0]:
+			var q := m + dir * c * (largeur_porte * 0.5 + 0.2)
+			var pilier := MeshInstance3D.new()
+			pilier.mesh = _cylindre(0.28, 0.3, haut + 0.8, 10)
+			pilier.material_override = _mat_laque()
+			pilier.position = Vector3(q.x, y + (haut + 0.8) * 0.5 - 0.3, q.y)
+			parent.add_child(pilier)
+		var toit := Node3D.new()
+		toit.position = Vector3(m.x, y + haut + 0.5, m.y)
+		toit.rotation.y = angle
+		parent.add_child(toit)
+		_toit_croupe(toit, Vector3.ZERO, largeur_porte + 0.6, 1.6, 1.0)
+
+
+## Une lanterne de papier rouge pendue à un poteau (ou à une poutre si « poteau » est faux).
+func _lanterne(parent: Node3D, p: Vector3, poteau := true) -> void:
+	var l := Node3D.new()
+	l.position = p
+	parent.add_child(l)
+	if poteau:
+		var bois := MeshInstance3D.new()
+		bois.mesh = _cylindre(0.06, 0.07, 3.0, 6)
+		bois.material_override = _mat_bois()
+		bois.position.y = 1.5
+		l.add_child(bois)
+		_boite(Vector3(0.9, 0.08, 0.08), Vector3(0.4, 2.95, 0), _mat_bois(), l, false)
+	var globe := MeshInstance3D.new()
+	var s := SphereMesh.new()
+	s.radius = 0.28
+	s.height = 0.5
+	s.radial_segments = 12
+	s.rings = 6
+	globe.mesh = s
+	var m := StandardMaterial3D.new()
+	m.albedo_color = Color(0.85, 0.15, 0.08)
+	m.emission_enabled = true
+	m.emission = Color(1.0, 0.35, 0.12)
+	m.emission_energy_multiplier = 1.2
+	globe.material_override = m
+	globe.position = Vector3(0.75 if poteau else 0.0, 2.55 if poteau else -0.4, 0)
+	l.add_child(globe)

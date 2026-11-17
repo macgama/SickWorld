@@ -70,7 +70,27 @@ On y arrive par la route de l'ouest (on y repart de la même façon). On y trouv
 8. Retrouver Lao Fan au bac, au bout de la route, et **monter sur le grand bac** (F) : il traverse le Fleuve Jaune tout seul, tu es à bord.
 9. Sur l'autre rive, chasser **les pirates du fleuve**, puis parler à Lao Fan : il te confie **sa rame de papier** pour Cai Lun, et ses **gants de papetier**.
 
-Ensuite, pour repasser le fleuve dans un sens ou dans l'autre, il y a **un passeur** sur chaque rive (F). La suite (Luoyang, la capitale) arrive bientôt.
+Ensuite, pour repasser le fleuve dans un sens ou dans l'autre, il y a **un passeur** sur chaque rive (F). La route de l'est mène à Luoyang.
+
+## Zone 3 : Luoyang, la capitale
+
+On entre par **la porte de l'Ouest**, gardée par deux soldats. Derrière, une grande avenue traverse la ville d'ouest en est. Au sud, **le Palais du Sud** ; au nord, **le Palais du Nord** ; entre les deux, **une galerie couverte** sur piliers rouges passe au-dessus de l'avenue. Au nord-ouest, **les ateliers de Cai Lun** et, derrière, **le parc impérial** et son étang gelé. Au sud-ouest, **le grand marché**. À l'est, **le pavillon de l'Est** (la bibliothèque de Ban Zhao), **l'Académie impériale** et **la Plate-forme des esprits** (l'observatoire). Des passants, des marchands, des étudiants et des gardes circulent dans les rues.
+
+### Chapitre 4 : Le cadeau de Cai Lun
+
+1. Remettre la lettre de Gan Ying à **Ban Zhao**, au pavillon de l'Est.
+2. Porter la rame de papier à **Cai Lun**, aux ateliers : ses cuves sont empoisonnées au mercure. **Vider les trois cuves** (F, reste immobile).
+3. **Choix** : rester avec Cai Lun pour **refaire le papier** (écorce, pilon, tamis, séchoir : on gagne la **recette du papier**), ou **suivre le saboteur** jusqu'au marché (on trouve une **fiole de mercure** marquée d'un sceau). Les deux choix continuent l'histoire.
+4. Dans le parc impérial, abattre **le tigre fracturé de l'empereur** (élite). Cai Lun offre son **couteau à gratter**.
+
+### Chapitre 5 : Le pavillon de l'Est
+
+1. La bibliothèque brûle d'un feu violet : parler à **Ma Rong**, puis **éteindre les quatre rayonnages** (F, reste immobile) et **mettre à l'abri les cinq liasses** de livres.
+2. Chasser **les manteaux rouges** qui reviennent avec des torches.
+3. **Lire le manuscrit** du Livre des Han : dans la marge, des notes en français, signées de l'Éditeur.
+4. Ban Zhao donne **une copie de la page** et un portail de la Vigie s'ouvre au fond de la cour. Au QG, la mission **« La charte de fondation »** se lance : Morel, puis Odile aux archives, puis Morel.
+
+La suite (le mont Li et l'armée d'argile) arrive bientôt.
 
 ## Les ennemis
 
@@ -84,6 +104,11 @@ Ensuite, pour repasser le fleuve dans un sens ou dans l'autre, il y a **un passe
 | Brigand des terres jaunes fracturé | 43 | Au sud et au nord-est |
 | Grand Solitaire fracturé (élite) | 44 | Au sud du village des papetiers (chapitre 3) |
 | Pirate du Fleuve Jaune fracturé | 45 | Sur la rive est |
+| Loup des monts Mang fracturé | 45 | Hors des murs de Luoyang, au nord et au sud-est |
+| Voleur des faubourgs fracturé | 46 | Hors des murs de Luoyang |
+| Sanglier du parc impérial fracturé | 46 | Dans le parc impérial |
+| Tigre de l'empereur fracturé (élite) | 47 | Dans le parc impérial (chapitre 4) |
+| Manteau rouge de Cinabre | 47 | Au pavillon de l'Est (chapitre 5) |
 
 ## Pour changer des choses (sans coder)
 

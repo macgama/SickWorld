@@ -1028,6 +1028,47 @@
 					]
 				}
 			]
+		},
+		{
+			"id": "charte_fondation",
+			"titre": "La charte de fondation",
+			"donneur": "commandante",
+			"automatique": true,
+			"resume": "À Luoyang, dans le manuscrit du Livre des Han, l'Éditeur a laissé des notes en français. Ban Zhao t'a donné une copie de la page. La commandante Morel veut la voir.",
+			"recompense": "La vérité sur l'écriture de l'Éditeur",
+			"etapes": [
+				{
+					"objectif": "Montre la page du Livre des Han à la commandante Morel (Hall des opérations)",
+					"parler": "commandante",
+					"repliques": [
+						"Du papier de l'an 105. Tu te rends compte de ce que tu tiens ? Le Musée en pleurerait.",
+						"Et ces notes... « Trop de gens qui lisent, trop de gens qui doutent. » Il ne se cache même plus. Il signe.",
+						"Porte ça à Odile, aux archives. Je veux qu'elle compare l'écriture avec tout ce qu'on a."
+					]
+				},
+				{
+					"objectif": "Fais comparer l'écriture par l'archiviste (salle des archives, porte ouest de la salle des portails)",
+					"parler": "archiviste",
+					"repliques": [
+						"Une écriture penchée, des boucles fines sur les « l », une barre très haute sur les « t ». Je l'ai déjà vue. J'en suis sûre.",
+						"Attends. Ne bouge pas. ... Voilà. La charte de fondation de la Vigie. L'original, sous verre, que personne n'a le droit de toucher.",
+						"Regarde les signatures, en bas. Cinq fondateurs. La troisième. Le même « É ». Les mêmes boucles. La même encre, même, si j'en crois la loupe.",
+						"L'Éditeur n'est pas un ennemi de la Vigie, agent. C'est l'un de ceux qui l'ont créée."
+					]
+				},
+				{
+					"objectif": "Retourne voir la commandante Morel (Hall des opérations)",
+					"parler": "commandante",
+					"repliques": [
+						"...",
+						"Range ça. On en reparlera.",
+						"Retourne à Luoyang. La grande audience approche, et Cai Lun a besoin de toi. C'est un ordre."
+					]
+				}
+			],
+			"apres": [
+				"Elle ne lève pas les yeux de son écran. Sur la vitre de son bureau, tu remarques un vieux cadre retourné, face contre le mur."
+			]
 		}
 	]
 }

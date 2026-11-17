@@ -11,6 +11,12 @@ extends "res://scripts/monde/rome/objet_rome.gd"
 ##   vers à soie, rongées d'une lueur violette. Sauvées (cacher()), les feuilles sont propres.
 ## - « feuille_papier » : une feuille qui sèche, collée sur une planche, que des braises
 ##   violettes commencent à ronger. Une fois ramassée, il reste la planche nue.
+## - « cuve_mercure » : une cuve de pâte à papier empoisonnée (des gouttes de mercure
+##   brillantes, une lueur violette). Vidée et nettoyée (cacher()), la pâte redevient blanche.
+## - « ecorce » : un tas de lanieres d'écorce de mûrier qui trempent (on le ramasse).
+## - « liasse » : une liasse de lattes de bambou roulée et nouée (un livre des Han).
+## - « feu_rayonnage » : une étagère de livres qui brûle ; éteinte, il reste l'étagère noircie.
+## - « manuscrit » : le manuscrit du Livre des Han sur un pupitre, annoté en violet.
 ## - un Figé à qui l'on rend la mémoire n'a pas de forme : l'objet est invisible, posé sur
 ##   le personnage (meta « pnj_lie ») ; quand il est compté, le personnage se dégèle.
 
@@ -218,6 +224,147 @@ func _construire_feuille_papier() -> void:
 	var braise := BoxMesh.new()
 	braise.size = Vector3(0.72, 0.05, 0.02)
 	_morceau(braise, _emissif(Color(0.62, 0.3, 1.0), 3.0), Vector3(0, 0.72, -0.015), Vector3(0, 0, 0.12))
+	_trace_violette()
+
+
+func _construire_cuve_mercure() -> void:
+	var pierre := _mat_uni(Color(0.6, 0.58, 0.54), 0.9)
+	var bord := BoxMesh.new()
+	bord.size = Vector3(2.2, 0.9, 1.4)
+	_morceau(bord, pierre, Vector3(0, 0.45, 0))
+	var surface := BoxMesh.new()
+	surface.size = Vector3(1.9, 0.02, 1.1)
+	_morceau(surface, _mat_uni(Color(0.55, 0.52, 0.56), 0.15, 0.6), Vector3(0, 0.91, 0))
+	var goutte := SphereMesh.new()
+	goutte.radius = 0.05
+	goutte.height = 0.06
+	var mercure := _mat_uni(Color(0.85, 0.86, 0.9), 0.05, 1.0)
+	var hasard := RandomNumberGenerator.new()
+	hasard.seed = hash(identifiant)
+	for k in 9:
+		_morceau(goutte, mercure, Vector3(hasard.randf_range(-0.8, 0.8), 0.93, hasard.randf_range(-0.45, 0.45)))
+	var lueur := BoxMesh.new()
+	lueur.size = Vector3(1.6, 0.01, 0.06)
+	_morceau(lueur, _emissif(Color(0.62, 0.3, 1.0), 2.5), Vector3(0, 0.93, 0.1), Vector3(0, 0.4, 0))
+	_trace_violette()
+	_debout = Node3D.new()
+	_debout.name = "Propre"
+	_debout.visible = false
+	add_child(_debout)
+	_morceau_dans(_debout, bord, pierre, Vector3(0, 0.45, 0))
+	_morceau_dans(_debout, surface, _mat_uni(Color(0.86, 0.84, 0.76), 0.3), Vector3(0, 0.915, 0))
+
+
+func _construire_ecorce() -> void:
+	var ecorce := _mat_uni(Color(0.84, 0.76, 0.58), 1.0)
+	var laniere := BoxMesh.new()
+	laniere.size = Vector3(1.4, 0.05, 0.1)
+	var hasard := RandomNumberGenerator.new()
+	hasard.seed = hash(identifiant)
+	for k in 14:
+		_morceau(laniere, ecorce, Vector3(hasard.randf_range(-0.2, 0.2), 0.05 + k * 0.035, hasard.randf_range(-0.3, 0.3)), Vector3(0, hasard.randf_range(-0.5, 0.5), 0))
+	var baquet := CylinderMesh.new()
+	baquet.top_radius = 0.75
+	baquet.bottom_radius = 0.65
+	baquet.height = 0.3
+	_morceau(baquet, _mat_uni(Color(0.45, 0.35, 0.25), 0.9), Vector3(0, 0.15, 0))
+
+
+## Une liasse de lattes de bambou roulée sur elle-même (un « juan », un rouleau).
+func _liasse_dans(parent: Node3D, p: Vector3, rot := Vector3.ZERO) -> void:
+	var rouleau := CylinderMesh.new()
+	rouleau.top_radius = 0.09
+	rouleau.bottom_radius = 0.09
+	rouleau.height = 0.26
+	rouleau.radial_segments = 10
+	_morceau_dans(parent, rouleau, _mat_uni(Color(0.78, 0.68, 0.42), 0.8), p, rot)
+	var lien := CylinderMesh.new()
+	lien.top_radius = 0.095
+	lien.bottom_radius = 0.095
+	lien.height = 0.03
+	lien.radial_segments = 10
+	_morceau_dans(parent, lien, _mat_uni(Color(0.6, 0.1, 0.08), 0.7), p, rot)
+
+
+func _construire_liasse() -> void:
+	for k in 3:
+		_liasse_dans(_visuel, Vector3(-0.2 + k * 0.2, 0.09, 0), Vector3(PI / 2, 0, 0))
+	_liasse_dans(_visuel, Vector3(-0.1, 0.25, 0), Vector3(PI / 2, 0.2, 0))
+	_liasse_dans(_visuel, Vector3(0.1, 0.25, 0), Vector3(PI / 2, -0.2, 0))
+
+
+func _construire_feu_rayonnage() -> void:
+	var bois := _mat_uni(Color(0.4, 0.22, 0.12), 0.8)
+	var noirci := _mat_uni(Color(0.12, 0.09, 0.07), 1.0)
+	for cible in [_visuel, null]:
+		var parent: Node3D = cible
+		if parent == null:
+			_debout = Node3D.new()
+			_debout.name = "Eteint"
+			_debout.visible = false
+			add_child(_debout)
+			parent = _debout
+		var m := bois if parent == _visuel else noirci
+		var montant := BoxMesh.new()
+		montant.size = Vector3(0.08, 2.0, 0.5)
+		_morceau_dans(parent, montant, m, Vector3(-0.9, 1.0, 0))
+		_morceau_dans(parent, montant, m, Vector3(0.9, 1.0, 0))
+		var planche := BoxMesh.new()
+		planche.size = Vector3(1.9, 0.05, 0.5)
+		for k in 4:
+			_morceau_dans(parent, planche, m, Vector3(0, 0.1 + k * 0.6, 0))
+			if k < 3:
+				for i in 6:
+					_liasse_dans(parent, Vector3(-0.7 + i * 0.28, 0.24 + k * 0.6, 0), Vector3(PI / 2, 0, 0))
+	_flammes_dans(_visuel, 7, 0.4, 1.6, 0.3)
+	_fumee_dans(_visuel, 2.0, true, 0.7)
+
+
+func _construire_manuscrit() -> void:
+	var bois := _mat_uni(Color(0.42, 0.12, 0.08), 0.6)
+	var pupitre := BoxMesh.new()
+	pupitre.size = Vector3(1.0, 0.08, 0.6)
+	_morceau(pupitre, bois, Vector3(0, 0.45, 0))
+	var pied := BoxMesh.new()
+	pied.size = Vector3(0.08, 0.45, 0.08)
+	for sx in [-0.42, 0.42]:
+		for sz in [-0.24, 0.24]:
+			_morceau(pied, bois, Vector3(sx, 0.22, sz))
+	# Le rouleau déroulé : des lattes côte à côte, couvertes de colonnes de caractères.
+	var latte := BoxMesh.new()
+	latte.size = Vector3(0.025, 0.006, 0.42)
+	var bambou := _mat_uni(Color(0.82, 0.72, 0.46), 0.8)
+	var encre := _mat_uni(Color(0.08, 0.07, 0.06), 0.6)
+	var coup_pinceau := BoxMesh.new()
+	coup_pinceau.size = Vector3(0.012, 0.004, 0.3)
+	for k in 26:
+		var x := -0.42 + k * 0.032
+		_morceau(latte, bambou, Vector3(x, 0.5, 0))
+		_morceau(coup_pinceau, encre, Vector3(x, 0.504, 0))
+	# Dans la marge, une écriture fine et violette : quelqu'un a corrigé le texte.
+	var marge := BoxMesh.new()
+	marge.size = Vector3(0.3, 0.004, 0.025)
+	for k in 3:
+		_morceau(marge, _emissif(Color(0.62, 0.3, 1.0), 2.0), Vector3(0.05 + k * 0.08, 0.506, -0.19 + k * 0.01), Vector3(0, 0.2, 0))
+	_liasse_dans(_visuel, Vector3(0.48, 0.58, 0), Vector3(PI / 2, 0, 0))
+	_trace_violette()
+
+
+## Une fiole de terre cuite renversée, du mercure répandu, et un bâton de cinabre rouge vif.
+func _construire_fiole() -> void:
+	var fiole := CylinderMesh.new()
+	fiole.top_radius = 0.03
+	fiole.bottom_radius = 0.07
+	fiole.height = 0.18
+	_morceau(fiole, _mat_uni(Color(0.5, 0.32, 0.2), 0.8), Vector3(0, 0.07, 0), Vector3(0, 0, PI / 2 - 0.2))
+	var flaque := CylinderMesh.new()
+	flaque.top_radius = 0.16
+	flaque.bottom_radius = 0.16
+	flaque.height = 0.01
+	_morceau(flaque, _mat_uni(Color(0.86, 0.87, 0.9), 0.05, 1.0), Vector3(0.18, 0.01, 0.02))
+	var cinabre := BoxMesh.new()
+	cinabre.size = Vector3(0.1, 0.06, 0.06)
+	_morceau(cinabre, _mat_uni(Color(0.78, 0.12, 0.08), 0.5), Vector3(-0.15, 0.03, 0.1), Vector3(0, 0.6, 0))
 	_trace_violette()
 
 
