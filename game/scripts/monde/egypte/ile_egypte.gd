@@ -922,3 +922,12 @@ func tempete(active: bool, anime := true) -> void:
 		var processus := _tempete.process_material as ParticleProcessMaterial
 		processus.direction = Vector3(1, -0.05, 0.25)
 		processus.gravity = Vector3(3.0, -0.3, 0.6)
+
+
+## Buisson bas de l'île (couvre-sol, voir ile_prehistoire._construire_couvre_sol).
+func _essence_buisson() -> String:
+	return "buisson_sec"
+
+
+func _teinte_litiere() -> Color:
+	return Color(1.05, 0.95, 0.8)

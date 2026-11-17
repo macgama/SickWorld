@@ -932,3 +932,12 @@ func _vapeur_mercure(parent: Node3D, p: Vector3, rayon := 3.0) -> void:
 	v.mesh = quad
 	v.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	parent.add_child(v)
+
+
+## Buisson bas de l'île (couvre-sol, voir ile_prehistoire._construire_couvre_sol).
+func _essence_buisson() -> String:
+	return "buisson_hiver"
+
+
+func _teinte_litiere() -> Color:
+	return Color(0.9, 0.85, 0.8)

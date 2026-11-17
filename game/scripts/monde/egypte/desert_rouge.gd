@@ -46,6 +46,7 @@ func _init() -> void:
 	graine = 2563
 	point_apparition = ENTREE + Vector2(-10, 0)
 	nombre_touffes = 3000
+	fertilite_sols = Vector3(0.15, 0.05, 0.2)
 	neige_qui_tombe = false
 	sols = {
 		# Rouge : les graviers de l'ouadi.

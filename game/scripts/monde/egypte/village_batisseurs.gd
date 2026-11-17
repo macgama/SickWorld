@@ -73,6 +73,7 @@ func _init() -> void:
 	graine = 2562
 	point_apparition = ENTREE + Vector2(-10, 0)
 	nombre_touffes = 14000
+	fertilite_sols = Vector3(0.9, 0.15, 0.1)
 	neige_qui_tombe = false
 	sols = {
 		# Rouge : le limon noir des champs et du canal.

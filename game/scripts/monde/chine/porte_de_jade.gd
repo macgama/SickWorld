@@ -77,6 +77,7 @@ func _init() -> void:
 	graine = 105
 	point_apparition = PORTAIL + Vector2(1, -6)
 	nombre_touffes = 14000
+	fertilite_sols = Vector3(0.2, 0.05, 0.05)
 	neige_qui_tombe = false
 	sols = {
 		# Rouge : le gravier noir et gris du désert (le « gobi »).

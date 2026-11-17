@@ -54,6 +54,7 @@ func _init() -> void:
 	graine = 2561
 	point_apparition = DEBARCADERE
 	nombre_touffes = 18000
+	fertilite_sols = Vector3(0.9, 0.1, 0.1)
 	neige_qui_tombe = false
 	sols = {
 		# Rouge : le limon de la berge.

@@ -101,6 +101,28 @@ const ESSENCES := {
 		"feuille": "petite", "cartes": 6, "carte": 0.9, "dessin": Color(0.66, 0.5, 0.13),
 		"couleur": Color(0.68, 0.66, 0.62), "variation": Color(1.05, 0.85, 0.7), "translucidite": 0.7,
 	},
+	# Buissons bas (couvre-sol) : vert, sec (steppe, désert), nu en hiver.
+	"buisson": {
+		"forme": "buisson", "tronc": [0.12, 0.3], "rayon": 0.05, "penche": 0.3, "torsion": 0.2,
+		"niveaux": 2, "branches": [7, 4], "angle": [55, 40], "longueur": [1.0, 0.6],
+		"longueur_branche": 0.9, "debut": 0.3, "montee": [0.45, 0.1],
+		"feuille": "petite", "cartes": 5, "carte": 0.55,
+		"couleur": Color(0.6, 0.74, 0.45), "variation": Color(0.88, 0.95, 0.7), "translucidite": 0.5,
+	},
+	"buisson_sec": {
+		"forme": "buisson", "tronc": [0.1, 0.25], "rayon": 0.04, "penche": 0.3, "torsion": 0.25,
+		"niveaux": 2, "branches": [8, 4], "angle": [55, 40], "longueur": [1.0, 0.6],
+		"longueur_branche": 0.8, "debut": 0.25, "montee": [0.4, 0.1],
+		"feuille": "plumeux", "cartes": 4, "carte": 0.5, "dessin": Color(0.48, 0.44, 0.28),
+		"couleur": Color(0.66, 0.64, 0.6), "variation": Color(1.0, 0.92, 0.8), "translucidite": 0.35,
+	},
+	"buisson_hiver": {
+		"forme": "buisson", "tronc": [0.1, 0.25], "rayon": 0.045, "penche": 0.3, "torsion": 0.25,
+		"niveaux": 3, "branches": [7, 4, 3], "angle": [50, 40, 35], "longueur": [1.0, 0.6, 0.5],
+		"longueur_branche": 0.9, "debut": 0.25, "montee": [0.45, 0.2, 0.1],
+		"feuille": "", "cartes": 0, "carte": 0.0,
+		"couleur": Color(1, 1, 1), "variation": Color(1, 1, 1), "translucidite": 0.0,
+	},
 	"pin": {
 		"forme": "conifere", "tronc": [8.0, 12.0], "rayon": 0.24, "penche": 0.04, "torsion": 0.05,
 		"niveaux": 2, "branches": [30, 4], "angle": [82, 40], "longueur": [0.3, 0.45],
@@ -258,6 +280,111 @@ static func maillage_fleurs(couleur: Color) -> ArrayMesh:
 	m.surface_set_material(0, mat)
 	_maillages[cle] = m
 	return m
+
+
+## Tapis d'herbe : trois cartes croisées couvertes de brins dessinés (cache le sol nu).
+static func maillage_herbe(base: Color, pointe: Color) -> ArrayMesh:
+	var cle := "herbe_%s_%s" % [base.to_html(), pointe.to_html()]
+	if _maillages.has(cle):
+		return _maillages[cle]
+	var s := _Surface.new()
+	for k in 3:
+		var a := PI * k / 3.0 + 0.3
+		_carte(s, Vector3.ZERO - Vector3(0, 0.03, 0), Vector3.UP, Vector3(cos(a), 0, sin(a)), 0.9, 0.42, 0.5, float(k) / 3.0)
+	for i in s.normales.size():
+		s.normales[i] = Vector3.UP
+	var m := ArrayMesh.new()
+	s.ajouter_a(m)
+	var mat := ShaderMaterial.new()
+	mat.shader = SHADER_FEUILLAGE
+	mat.set_shader_parameter("texture_feuilles", _texture_herbe(base, pointe))
+	mat.set_shader_parameter("teinte", Vector3.ONE)
+	mat.set_shader_parameter("teinte_variation", Vector3(1.05, 0.95, 0.85))
+	mat.set_shader_parameter("translucidite", 0.45)
+	mat.set_shader_parameter("force_vent", 0.8)
+	mat.set_shader_parameter("taille_texture", 256.0)
+	mat.set_shader_parameter("seuil", 0.4)
+	m.surface_set_material(0, mat)
+	_maillages[cle] = m
+	return m
+
+
+static func _texture_herbe(base: Color, pointe: Color) -> Texture2D:
+	var image := Image.create(256, 256, false, Image.FORMAT_RGBA8)
+	var hasard := RandomNumberGenerator.new()
+	hasard.seed = 77
+	var d := _Dessin.new(image)
+	for i in 90:
+		var x := hasard.randf_range(0.03, 0.97)
+		var haut := hasard.randf_range(0.3, 0.97)
+		var penche := hasard.randf_range(-0.18, 0.18)
+		var precedent := Vector2(x, 1.0)
+		var c := base.lerp(pointe, hasard.randf_range(0.2, 0.9)) * hasard.randf_range(0.8, 1.15)
+		for e in 4:
+			var t := float(e + 1) / 4.0
+			var p := Vector2(x + penche * t * t, 1.0 - haut * t)
+			d.segment(precedent, p, 0.009 * (1.0 - t * 0.7), base.lerp(c, t))
+			precedent = p
+	d.boucher_fond()
+	image.generate_mipmaps()
+	return ImageTexture.create_from_image(image)
+
+
+## Litière : une plaque posée au sol (feuilles mortes, brindilles, gravillons) qui casse
+## la répétition de la texture du terrain.
+static func maillage_litiere(teinte: Color) -> ArrayMesh:
+	var cle := "litiere_%s" % teinte.to_html()
+	if _maillages.has(cle):
+		return _maillages[cle]
+	var s := _Surface.new()
+	var c := Color(0.0, 0.0, 0.0)
+	var i0 := s.sommet(Vector3(-0.8, 0.06, -0.8), Vector3.UP, Vector2(0, 0), c)
+	var i1 := s.sommet(Vector3(0.8, 0.06, -0.8), Vector3.UP, Vector2(1, 0), c)
+	var i2 := s.sommet(Vector3(0.8, 0.06, 0.8), Vector3.UP, Vector2(1, 1), c)
+	var i3 := s.sommet(Vector3(-0.8, 0.06, 0.8), Vector3.UP, Vector2(0, 1), c)
+	s.indices.append_array([i0, i2, i1, i0, i3, i2])
+	var m := ArrayMesh.new()
+	s.ajouter_a(m)
+	var mat := ShaderMaterial.new()
+	mat.shader = SHADER_FEUILLAGE
+	mat.set_shader_parameter("texture_feuilles", _texture_litiere())
+	mat.set_shader_parameter("teinte", Vector3(teinte.r, teinte.g, teinte.b))
+	mat.set_shader_parameter("teinte_variation", Vector3(0.9, 0.85, 0.8))
+	mat.set_shader_parameter("translucidite", 0.0)
+	mat.set_shader_parameter("force_vent", 0.0)
+	mat.set_shader_parameter("seuil", 0.5)
+	m.surface_set_material(0, mat)
+	_maillages[cle] = m
+	return m
+
+
+static func _texture_litiere() -> Texture2D:
+	if _textures.has("_litiere"):
+		return _textures["_litiere"]
+	var image := Image.create(256, 256, false, Image.FORMAT_RGBA8)
+	var hasard := RandomNumberGenerator.new()
+	hasard.seed = 911
+	var d := _Dessin.new(image)
+	var centre := Vector2(0.5, 0.5)
+	for i in 70:
+		# Plus dense au centre : la plaque se fond dans le sol sur les bords.
+		var p := centre + Vector2.from_angle(hasard.randf() * TAU) * pow(hasard.randf(), 0.7) * 0.42
+		var sorte := hasard.randf()
+		if sorte < 0.55:
+			var c := Color(0.45, 0.33, 0.2).lerp(Color(0.62, 0.5, 0.3), hasard.randf()) * hasard.randf_range(0.7, 1.1)
+			d.feuille(p, hasard.randf() * TAU, hasard.randf_range(0.05, 0.09), hasard.randf_range(0.015, 0.03), c)
+		elif sorte < 0.8:
+			var a := hasard.randf() * TAU
+			d.segment(p, p + Vector2.from_angle(a) * hasard.randf_range(0.06, 0.16), 0.006,
+					Color(0.32, 0.25, 0.18) * hasard.randf_range(0.8, 1.2))
+		else:
+			d.segment(p, p + Vector2(0.001, 0), hasard.randf_range(0.008, 0.016),
+					Color(0.55, 0.52, 0.48) * hasard.randf_range(0.7, 1.15))
+	d.boucher_fond()
+	image.generate_mipmaps()
+	var tex := ImageTexture.create_from_image(image)
+	_textures["_litiere"] = tex
+	return tex
 
 
 static func _texture_fleurs(couleur: Color) -> Texture2D:
