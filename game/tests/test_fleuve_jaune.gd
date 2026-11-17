@@ -249,7 +249,7 @@ func _lancer() -> void:
 	if inventaire != null and inventaire.has_method("quantite"):
 		_verifier(inventaire.quantite("rame_lao_fan") >= 1, "la rame de papier est dans le sac")
 		_verifier(inventaire.quantite("gants_papetier") >= 1, "et les gants du papetier")
-	_verifier(_quete.etape < 0, "chapitre 3 terminé (étape %d)" % _quete.etape)
+	_verifier(_id_etape() == "vers_luoyang", "chapitre 3 terminé, en route pour Luoyang (%s)" % _id_etape())
 	await _attendre(30)
 	_verifier(_scene._est_ouvert, "la route de Luoyang s'ouvre")
 
@@ -271,7 +271,7 @@ func _lancer() -> void:
 	await _attendre(5)
 	await _charger()
 	await _attendre(20)
-	_verifier(_quete.etape < 0, "au retour, la quête est toujours finie (%d)" % _quete.etape)
+	_verifier(_id_etape() == "vers_luoyang", "au retour, on est toujours en route pour Luoyang (%s)" % _id_etape())
 	_verifier(_scene.find_child("Faille", true, false).fermee, "la faille est toujours fermée")
 	_verifier(not _scene.find_child("FumeeMagnanerie", true, false).visible, "la grotte ne fume plus")
 	_verifier(not _scene.find_child("IncendiePapetiers", true, false).visible, "le village ne brûle plus")
@@ -285,6 +285,15 @@ func _lancer() -> void:
 	Input.action_release("avancer")
 	await _attendre(60)
 	_verifier(_quete.zone_demandee == "porte_de_jade", "la route de l'ouest ramène à la Porte de Jade (%s)" % _quete.zone_demandee)
+	# Vers l'est, la route mène à Luoyang.
+	_quete.zone_demandee = ""
+	var s_est: Vector2 = _scene.SORTIE_EST
+	await _placer(Vector3(s_est.x - 8.0, _scene.hauteur(s_est.x - 8.0, s_est.y) + 0.4, s_est.y), -PI / 2)
+	Input.action_press("avancer")
+	await _attendre(60)
+	Input.action_release("avancer")
+	await _attendre(30)
+	_verifier(_quete.zone_demandee == "luoyang", "la route de l'est mène à Luoyang (%s)" % _quete.zone_demandee)
 
 	print("")
 	if _echecs == 0:

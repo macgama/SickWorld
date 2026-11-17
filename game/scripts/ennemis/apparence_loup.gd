@@ -187,6 +187,11 @@ func _ready() -> void:
 			# au pelage doré tacheté de noir.
 			scale = Vector3(1.0, 0.95, 1.15)
 			_en_leopard()
+		elif type.begins_with("tigre"):
+			# Le tigre du parc impérial de Luoyang (île de la Chine) : un grand félin orange
+			# rayé de noir (sur la silhouette du loup, en attendant un vrai modèle de tigre).
+			scale = Vector3(1.35, 1.25, 1.45)
+			_en_tigre()
 		elif type.begins_with("lion"):
 			# Le lion évadé du vivarium (île de Rome) : un grand félin fauve à crinière
 			# sombre (sur la silhouette du loup, si le vrai modèle de lion manque).
@@ -285,6 +290,37 @@ func _en_leopard() -> void:
 		robe.albedo_color = Color(1.5, 1.08, 0.5)
 		robe.detail_enabled = true
 		robe.detail_albedo = taches
+		robe.detail_blend_mode = BaseMaterial3D.BLEND_MODE_MUL
+		robe.detail_uv_layer = BaseMaterial3D.DETAIL_UV_1
+		(mi as MeshInstance3D).material_override = robe
+
+
+## Le tigre : une robe orange vif, des rayures noires (du bruit étiré en bandes).
+func _en_tigre() -> void:
+	if _pivot == null:
+		return
+	var rayures := NoiseTexture2D.new()
+	rayures.width = 256
+	rayures.height = 32
+	rayures.seamless = true
+	var bruit := FastNoiseLite.new()
+	bruit.frequency = 0.05
+	bruit.fractal_octaves = 2
+	rayures.noise = bruit
+	var degrade := Gradient.new()
+	degrade.set_color(0, Color(0.06, 0.04, 0.03))
+	degrade.set_color(1, Color(1.0, 0.96, 0.9))
+	degrade.add_point(0.42, Color(0.06, 0.04, 0.03))
+	degrade.add_point(0.5, Color(1.0, 0.96, 0.9))
+	rayures.color_ramp = degrade
+	for mi in _pivot.find_children("*", "MeshInstance3D", true, false):
+		var m := (mi as MeshInstance3D).get_active_material(0) as StandardMaterial3D
+		if m == null:
+			continue
+		var robe := m.duplicate() as StandardMaterial3D
+		robe.albedo_color = Color(1.7, 0.86, 0.32)
+		robe.detail_enabled = true
+		robe.detail_albedo = rayures
 		robe.detail_blend_mode = BaseMaterial3D.BLEND_MODE_MUL
 		robe.detail_uv_layer = BaseMaterial3D.DETAIL_UV_1
 		(mi as MeshInstance3D).material_override = robe

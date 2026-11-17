@@ -40,6 +40,7 @@ const SOUVENIRS := {
 	"archives": ["carnet", Color(0.55, 0.12, 0.1)],
 	"bureau_livia": ["carnet", Color(0.62, 0.14, 0.12)],
 	"cellule_janus": ["cle", Color(0.6, 0.62, 0.66)],
+	"charte_fondation": ["carnet", Color(0.86, 0.8, 0.66)],
 }
 
 var _bouton_hall: Node3D
