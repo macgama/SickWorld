@@ -380,8 +380,32 @@ func _mat_pbr(id: String, couleur: Color, rugosite := 0.9, taille_motif := 2.0) 
 			m.roughness = minf(1.0, rugosite + 0.1)
 		m.uv1_triplanar = true
 		m.uv1_scale = Vector3.ONE / taille_motif
+	# Usure : variations, coulures, salissure au pied, poussière (sauf en qualité basse).
+	if facteur_densite() >= 1.0:
+		m.next_pass = _mat_usure()
 	_materiaux[cle] = m
 	return m
+
+
+const SHADER_USURE := preload("res://shaders/usure.gdshader")
+static var _usure: ShaderMaterial
+
+
+func _mat_usure() -> ShaderMaterial:
+	if _usure == null:
+		_usure = ShaderMaterial.new()
+		_usure.shader = SHADER_USURE
+		var bruit := NoiseTexture2D.new()
+		bruit.width = 512
+		bruit.height = 512
+		bruit.seamless = true
+		bruit.generate_mipmaps = true
+		var n := FastNoiseLite.new()
+		n.frequency = 0.012
+		n.fractal_octaves = 4
+		bruit.noise = n
+		_usure.set_shader_parameter("bruit", bruit)
+	return _usure
 
 
 func _construire_terrain() -> void:
@@ -860,6 +884,9 @@ func _boite(taille: Vector3, centre: Vector3, materiau: Material, parent: Node3D
 	mi.mesh = b
 	mi.material_override = materiau
 	mi.position = centre
+	# La salissure monte depuis le pied de la boîte (shaders/usure.gdshader).
+	if materiau is BaseMaterial3D and (materiau as BaseMaterial3D).next_pass != null:
+		mi.set_instance_shader_parameter("demi_hauteur", taille.y * 0.5)
 	parent.add_child(mi)
 	if collision:
 		var corps := StaticBody3D.new()
