@@ -500,6 +500,8 @@ func _construire_quete() -> void:
 	livia.set_meta("identifiant", "livia")
 	livia.visible = false
 	_pnj(dossier, "aubergiste", AUBERGE + Vector2(-7.0, 3.4), PI)
+	# Quêtes secondaires : l'agent Lenoir, du service Nettoyage de la Vigie.
+	_pnj(dossier, "lenoir_appia", Vector2(-28, 104), PI * 0.3)
 	# Les Égarés de la cour : des gens qui ne se comprennent plus. Un objet invisible sur
 	# chacun : on le « renoue » en remettant sa phrase dans l'ordre.
 	var ids_egares := ["egare_muletier", "egare_refugie", "egare_servante", "egare_marchand"]

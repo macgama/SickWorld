@@ -27,6 +27,7 @@ const NOMS_EFFETS := {
 	"poison": "Empoisonné", "bulle_lente": "Temps ralenti", "acceleration": "Accéléré", "huile": "Huile d'athlète (plus rapide, soigné)",
 	"nom_efface": "Nom effacé (compétences d'époque bloquées)", "voix_coupee": "Voix couverte (compétences bloquées)", "enfoui": "Dans les murs",
 	"blessure": "Blessure (soins reçus réduits)",
+	"sens_inverse": "Sens dessus dessous (directions inversées)", "thermes": "Bain des thermes (soigné)",
 }
 
 var _joueur: Joueur

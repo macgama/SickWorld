@@ -1,0 +1,886 @@
+{
+	"_aide": "Quêtes secondaires de l'île de Rome. Même format que data/grece_secondaires.json : chaque quête est proposée par un personnage (« donneur ») une fois l'étape « apres » de la quête principale passée. Types d'étape : recolter (un groupe d'objets, « nombre »), objet (un objet précis, « effet » possible : « allumer » pour la chaudière des thermes), tuer (début du nom de l'ennemi, « apparition » possible), pnj (parler à quelqu'un). « ou » est la zone de l'étape. Un objet avec « reste »: true ne disparaît pas quand on l'a utilisé.",
+	"noms_zones": {
+		"voie_appienne": "La Voie Appienne",
+		"campagne": "La Campagne et les aqueducs",
+		"rome": "Rome",
+		"pompei": "Pompéi",
+		"colisee": "L'amphithéâtre flavien"
+	},
+	"quetes": [
+		{
+			"id": "oies_du_capitole",
+			"titre": "Les oies du Capitole",
+			"donneur": "gardien_junon",
+			"apres": "retour_lucretius",
+			"offre": [
+				"Pendant l'incendie du Champ de Mars, quelqu'un a ouvert l'enclos des oies sacrées. Elles ont filé dans toute la ville, en criant comme des folles.",
+				"Cinq oies de Junon, dans les rues de Rome ! Si un boucher de la Subure en attrape une, c'est un sacrilège. Et moi, je perds ma place.",
+				"Elles ne vont jamais loin d'un endroit où il y a du monde, du grain ou de l'eau. Le Forum, la Subure, l'Esquilin, le Champ de Mars… et l'amphithéâtre, évidemment. Ramène-les-moi."
+			],
+			"etapes": [
+				{
+					"objectif": "Retrouve les 5 oies sacrées échappées dans Rome (Forum, Subure, Esquilin, Champ de Mars, amphithéâtre)",
+					"recolter": "oie_perdue",
+					"nombre": 5,
+					"ou": "rome",
+					"duree": 2.0,
+					"action": "Tu attrapes l'oie à bras-le-corps. Elle proteste très fort…"
+				},
+				{
+					"objectif": "Ramène les oies au gardien Aulus, sur le Capitole",
+					"pnj": "gardien_junon",
+					"ou": "rome",
+					"repliques": [
+						"Cinq ! Toutes les cinq ! Et pas une plume de moins. Regarde-les se remettre à manger comme si de rien n'était.",
+						"Sauf celle-là. Cornélia. Elle n'arrête pas de te suivre. Tu sais ce que ça veut dire ? Elle t'a adopté.",
+						"Prends-la avec toi. Une oie du Capitole, ça sent le danger avant tout le monde : quand elle criera, regarde derrière toi."
+					]
+				}
+			],
+			"recompense": [
+				{
+					"id": "oie_capitole",
+					"nom": "Cornélia, l'oie du Capitole"
+				}
+			]
+		},
+		{
+			"id": "ce_qu_a_vu_pline",
+			"titre": "Ce qu'a vu Pline",
+			"donneur": "pline",
+			"apres": "retour_pline",
+			"offre": [
+				"Mon oncle est mort à Stabies en voulant sauver les gens de la côte. Moi, je l'ai regardé partir. Je n'ai rien vu d'autre que la fumée, de loin.",
+				"Un jour, je voudrais écrire ce qui s'est passé. Vraiment. Pas les rumeurs de Rome, où l'on raconte que des géants sont sortis de la montagne.",
+				"Les rescapés sont sur la Voie Appienne, et une dame d'Herculanum s'est réfugiée dans la campagne. Va les écouter pour moi, et rapporte-moi leurs mots. Exactement leurs mots."
+			],
+			"etapes": [
+				{
+					"objectif": "Écoute Gnaeus, le réfugié de Pompéi, sur la Voie Appienne",
+					"pnj": "refugie_1",
+					"ou": "voie_appienne",
+					"repliques": [
+						"Le premier jour, une colonne est montée de la montagne. Haute, très haute, et puis elle s'est ouverte en haut, comme un pin parasol.",
+						"Ensuite il a plu des pierres. Des pierres blanches, légères, qui flottaient. Pendant des heures. Les toits ont cédé sous le poids."
+					]
+				},
+				{
+					"objectif": "Écoute Lucius, le muletier rescapé",
+					"pnj": "refugie_3",
+					"ou": "voie_appienne",
+					"repliques": [
+						"La nuit, je n'ai pas vu la nuit. Il faisait plus noir que n'importe quelle nuit. Plus noir qu'une chambre fermée.",
+						"Les gens portaient des coussins attachés sur la tête, contre les pierres. Et ils criaient des noms. Tout le monde criait des noms."
+					]
+				},
+				{
+					"objectif": "Écoute Caecilia, la marchande",
+					"pnj": "caecilia",
+					"ou": "voie_appienne",
+					"repliques": [
+						"La mer s'est retirée. Je l'ai vue reculer, et des poissons sauter sur le sable sec. Puis la terre a tremblé si fort que les charrettes roulaient toutes seules.",
+						"Beaucoup ont cru que c'était la fin du monde. Que les dieux étaient morts, et nous avec."
+					]
+				},
+				{
+					"objectif": "Écoute Rectina, la rescapée d'Herculanum, dans la campagne",
+					"pnj": "refugiee_herculanum",
+					"ou": "campagne",
+					"repliques": [
+						"C'est moi qui ai écrit à l'amiral. Ma villa était sous la montagne, on ne pouvait fuir que par la mer. Il a fait armer les galères.",
+						"Il n'a jamais pu accoster. Les pierres tombaient sur le pont, la mer était trop basse. Il a dit à son pilote : « La Fortune aide les courageux. » Et il est allé à Stabies."
+					]
+				},
+				{
+					"objectif": "Rapporte les témoignages à Pline, à Pompéi",
+					"pnj": "pline",
+					"ou": "pompei",
+					"repliques": [
+						"« Un pin parasol. » C'est exactement ça. Je l'avais vu de Misène, sans trouver le mot. Mon oncle aurait aimé cette image : il aimait les arbres.",
+						"Je vais tout noter. Un jour, quelqu'un d'important me demandera comment il est mort, et je saurai lui répondre.",
+						"Prends ces tablettes : c'est la copie de tout ce que tu m'as rapporté. Tu étais là pour eux, quand moi je lisais Tite-Live."
+					]
+				}
+			],
+			"recompense": [
+				{
+					"id": "tablette_pline_cire",
+					"nom": "Les témoignages du Vésuve"
+				}
+			],
+			"titre_obtenu": "Témoin du Vésuve"
+		},
+		{
+			"id": "cave_canem",
+			"titre": "Cave canem",
+			"donneur": "fausta",
+			"apres": "retour_pline",
+			"offre": [
+				"On avait un chien, à Pompéi. Ferox. Il était noir avec des taches rousses, et il gardait la porte. Sur le sol, à l'entrée, il y avait écrit « Attention au chien ».",
+				"Quand on a fui, papa n'a pas eu le temps de le détacher. Je pense à lui tous les soirs.",
+				"Les gens disent qu'il y a des chiens qui rôdent dans les ruines, avec des yeux violets. Ferox n'a pas des yeux violets. Tu veux bien aller voir notre maison ? Elle est dans la partie qu'on a déblayée."
+			],
+			"etapes": [
+				{
+					"objectif": "Chasse les chiens fracturés qui rôdent dans la maison déblayée de Pompéi",
+					"tuer": "chien_fracture_cave",
+					"nombre": 3,
+					"ou": "pompei",
+					"apparition": {
+						"type": "chien_fracture_cave",
+						"position": [
+							-25,
+							-67
+						],
+						"nombre": 3,
+						"rayon": 3,
+						"attaque": false
+					}
+				},
+				{
+					"objectif": "Dégage la mosaïque du seuil, sous la cendre",
+					"objet": "mosaique_cave_canem",
+					"ou": "pompei",
+					"duree": 2.5,
+					"action": "Tu balaies la cendre du plat de la main… CAVE CANEM."
+				},
+				{
+					"objectif": "Approche-toi doucement du chien qui garde encore la porte",
+					"objet": "chien_fausta",
+					"ou": "pompei",
+					"duree": 3.0,
+					"action": "Tu tends la main, très lentement. Il gronde… puis il la renifle."
+				},
+				{
+					"objectif": "Ramène Ferox à Fausta, sur la Voie Appienne",
+					"pnj": "fausta",
+					"ou": "voie_appienne",
+					"repliques": [
+						"FEROX ! Ferox, Ferox, Ferox ! Il est tout maigre… il est vivant !",
+						"Il est resté devant la porte. Un an. Il attendait qu'on revienne.",
+						"Son vieux collier est cassé, papa va lui en faire un neuf. Tiens, garde l'ancien. Comme ça, il saura toujours te reconnaître."
+					]
+				}
+			],
+			"recompense": [
+				{
+					"id": "collier_ferox",
+					"nom": "Collier de Ferox"
+				}
+			]
+		},
+		{
+			"id": "thermes_de_titus",
+			"titre": "Les thermes de Titus",
+			"donneur": "gerant_thermes",
+			"apres": "fin_martial",
+			"offre": [
+				"Les thermes de l'empereur doivent ouvrir pour les jeux, et ma chaudière est froide. Le foyer est mort, et les esclaves du chauffage refusent de descendre dans l'hypocauste.",
+				"Ils disent qu'il y a des serpents, là-dessous. Des serpents avec des cailloux violets sur le dos, qui aiment la chaleur des briques.",
+				"Apporte-moi du bois, chasse ces bêtes, et rallume le foyer. Tout Rome t'en sera reconnaissant. Moi surtout."
+			],
+			"etapes": [
+				{
+					"objectif": "Ramasse 4 piles de bois autour des thermes",
+					"recolter": "bois_thermes",
+					"nombre": 4,
+					"ou": "rome",
+					"duree": 1.5,
+					"action": "Tu charges les bûches sur ton épaule…"
+				},
+				{
+					"objectif": "Chasse les vipères fracturées de l'hypocauste",
+					"tuer": "vipere_thermes",
+					"nombre": 3,
+					"ou": "rome",
+					"apparition": {
+						"type": "vipere_thermes",
+						"position": [
+							60,
+							-60
+						],
+						"nombre": 3,
+						"rayon": 3,
+						"attaque": false
+					}
+				},
+				{
+					"objectif": "Rallume le foyer de la chaudière des thermes",
+					"objet": "chaudiere_thermes",
+					"ou": "rome",
+					"duree": 4.0,
+					"action": "Tu glisses les bûches sous la cuve et tu souffles sur les braises…",
+					"effet": "allumer"
+				},
+				{
+					"objectif": "Retourne voir Licinius, le gérant des thermes",
+					"pnj": "gerant_thermes",
+					"ou": "rome",
+					"repliques": [
+						"Tu sens le sol ? Il chauffe ! Dans une heure, le caldarium sera brûlant.",
+						"Un bain chaud, un bain tiède, un plongeon dans l'eau froide, et tu ressors neuf. C'est ça, la civilisation.",
+						"Prends ce strigile, il est à toi. Frotte-toi avec après le bain chaud : la chaleur des thermes te suivra partout, même au combat."
+					]
+				}
+			],
+			"recompense": [
+				{
+					"id": "strigile_thermes",
+					"nom": "Strigile des thermes"
+				}
+			]
+		},
+		{
+			"id": "poste_imperiale",
+			"titre": "La poste de l'empereur",
+			"donneur": "petronius",
+			"apres": "retour_sextus",
+			"offre": [
+				"Un courrier de la poste impériale a été attaqué par des loups au sud de la voie. Le cavalier s'en est sorti. Le sac, non.",
+				"Ce sac contient des lettres pour le relais de la campagne. Des ordres de Titus pour les fontainiers des aqueducs. Ils ne peuvent pas attendre.",
+				"Retrouve-le, et porte-le au relais. Si tu fais ça, je te confie une mule de la poste. Je suis vétéran, j'ai encore des amis au cursus publicus."
+			],
+			"etapes": [
+				{
+					"objectif": "Chasse les loups fracturés qui ont attaqué le courrier, au sud de la voie",
+					"tuer": "loup_fracture_convoi",
+					"nombre": 3,
+					"ou": "voie_appienne",
+					"apparition": {
+						"type": "loup_fracture_convoi",
+						"position": [
+							-20,
+							-60
+						],
+						"nombre": 3,
+						"rayon": 3,
+						"attaque": false
+					}
+				},
+				{
+					"objectif": "Ramasse le sac du courrier impérial",
+					"objet": "sac_courrier",
+					"ou": "voie_appienne",
+					"duree": 2.0,
+					"action": "Tu ramasses le sac de cuir. Le sceau de l'empereur est intact."
+				},
+				{
+					"objectif": "Remets le courrier au relais de poste de la campagne",
+					"objet": "relais_poste",
+					"ou": "campagne",
+					"duree": 2.5,
+					"action": "Le maître du relais brise le sceau et lit, en hochant la tête…"
+				},
+				{
+					"objectif": "Retourne voir Pétronius sur la Voie Appienne",
+					"pnj": "petronius",
+					"ou": "voie_appienne",
+					"repliques": [
+						"Le relais a reçu ses lettres ? Bien. Rome ne tient que parce que ses ordres arrivent. Une route, c'est d'abord une lettre qui voyage.",
+						"Un courrier de la poste fait cinquante milles par jour. Il change de bête à chaque relais, et il ne s'arrête jamais.",
+						"Voilà le sceau. Montre-le à n'importe quel relais et on te donnera une mule. Celle-là, je l'ai choisie moi-même : elle est têtue, mais elle ne tombe jamais."
+					]
+				}
+			],
+			"recompense": [
+				{
+					"id": "sceau_poste",
+					"nom": "Sceau de la poste impériale"
+				}
+			]
+		},
+		{
+			"id": "betes_de_carpophore",
+			"titre": "Les bêtes de Carpophore",
+			"donneur": "carpophore",
+			"apres": "fin_martial",
+			"offre": [
+				"Le vivarium n'a pas perdu que le rhinocéros. Un ours et deux léopards se sont échappés vers la campagne, près des arches.",
+				"Ces bêtes étaient pour les jeux. Maintenant, elles ont les yeux violets et elles attaquent les bergers. Ce ne sont plus des bêtes : ce sont des malheurs.",
+				"Je ne peux pas quitter la ville, les autres cages sont fragiles. Va les arrêter, toi. Et regarde-les dans les yeux."
+			],
+			"etapes": [
+				{
+					"objectif": "Abats l'ours évadé du vivarium, près des arches de l'aqueduc",
+					"tuer": "ours_evade",
+					"nombre": 1,
+					"ou": "campagne",
+					"apparition": {
+						"type": "ours_evade",
+						"position": [
+							-70,
+							0
+						],
+						"nombre": 1,
+						"rayon": 1,
+						"attaque": false
+					}
+				},
+				{
+					"objectif": "Abats les 2 léopards évadés qui rôdent dans les champs",
+					"tuer": "leopard_evade",
+					"nombre": 2,
+					"ou": "campagne",
+					"apparition": {
+						"type": "leopard_evade",
+						"position": [
+							-80,
+							36
+						],
+						"nombre": 2,
+						"rayon": 3,
+						"attaque": false
+					}
+				},
+				{
+					"objectif": "Retourne voir Carpophore à Rome",
+					"pnj": "carpophore",
+					"ou": "rome",
+					"repliques": [
+						"Je l'ai vu dans tes yeux en arrivant. Tu les as regardés en face.",
+						"Les léopards, ce sont les pires. Ils ne grognent pas avant d'attaquer. Ils attendent.",
+						"Prends ma manica. Le cuir est épais, et les griffes ne passent pas. Enfin… presque pas."
+					]
+				}
+			],
+			"recompense": [
+				{
+					"id": "manica_bestiaire",
+					"nom": "Manica de bestiaire"
+				}
+			]
+		},
+		{
+			"id": "ecole_de_gladiateurs",
+			"titre": "L'école des gladiateurs",
+			"donneur": "lanista",
+			"apres": "parole_titus",
+			"offre": [
+				"C'est toi qui as fait libérer Priscus et Verus ? Tout le Ludus ne parle que de ça. Mes gladiateurs veulent te voir combattre.",
+				"Mais trois de mes hommes ont respiré cette poussière violette, pendant les jeux. Ils ne reconnaissent plus personne. Ils frappent pour de vrai.",
+				"Descends dans la cour du Ludus et désarme-les, un par un : le rétiaire, le mirmillon, puis Celadus, mon champion. Ne les tue pas, si tu peux. Ils me coûtent une fortune."
+			],
+			"etapes": [
+				{
+					"objectif": "Désarme le rétiaire fracturé dans la cour du Ludus Magnus",
+					"tuer": "gladiateur_ecole_retiaire",
+					"nombre": 1,
+					"ou": "rome",
+					"apparition": {
+						"type": "gladiateur_ecole_retiaire",
+						"position": [
+							144,
+							-40
+						],
+						"nombre": 1,
+						"rayon": 1,
+						"attaque": false
+					}
+				},
+				{
+					"objectif": "Désarme le mirmillon fracturé",
+					"tuer": "gladiateur_ecole_mirmillon",
+					"nombre": 1,
+					"ou": "rome",
+					"apparition": {
+						"type": "gladiateur_ecole_mirmillon",
+						"position": [
+							136,
+							-56
+						],
+						"nombre": 1,
+						"rayon": 1,
+						"attaque": false
+					}
+				},
+				{
+					"objectif": "Désarme Celadus, le champion du Ludus",
+					"tuer": "gladiateur_ecole_champion",
+					"nombre": 1,
+					"ou": "rome",
+					"apparition": {
+						"type": "gladiateur_ecole_champion",
+						"position": [
+							149,
+							-29
+						],
+						"nombre": 1,
+						"rayon": 1,
+						"attaque": false
+					}
+				},
+				{
+					"objectif": "Retourne voir Rufus, le lanista",
+					"pnj": "lanista",
+					"ou": "rome",
+					"repliques": [
+						"Ils se réveillent. Celadus demande ce qui s'est passé, et pourquoi il a si mal au crâne.",
+						"Je t'ai regardé. Tu ne te bats pas comme un gladiateur : tu te bats comme quelqu'un qui veut que tout le monde rentre chez soi.",
+						"Celadus veut que tu prennes son casque. C'est rare, un gladiateur qui donne son casque. Accepte."
+					]
+				}
+			],
+			"recompense": [
+				{
+					"id": "casque_mirmillon",
+					"nom": "Casque de mirmillon"
+				}
+			],
+			"titre_obtenu": "Gladiateur du Ludus"
+		},
+		{
+			"id": "les_murs_parlent",
+			"titre": "Les murs parlent",
+			"donneur": "martial_jeux",
+			"apres": "martial_colosse",
+			"offre": [
+				"Tu sais ce qu'on lit sur les murs de la Subure ? Des déclarations d'amour, des insultes, des votes, des comptes de taverne. La vraie poésie de Rome.",
+				"Sauf que depuis quelques jours, quelqu'un les efface. Ou pire : les corrige. Une ligne violette en travers, et le mot disparaît de la mémoire des gens.",
+				"Trouve-moi les graffitis de la Subure avant qu'ils ne s'effacent, et recopie-les. Je veux tout. Même les grossiers. Surtout les grossiers."
+			],
+			"etapes": [
+				{
+					"objectif": "Recopie 6 graffitis sur les murs de la Subure, avant qu'ils ne s'effacent",
+					"recolter": "graffiti",
+					"nombre": 6,
+					"ou": "rome",
+					"duree": 2.0,
+					"action": "Tu recopies le graffiti sur ta tablette de cire…"
+				},
+				{
+					"objectif": "Rapporte les graffitis à Martial, devant l'amphithéâtre",
+					"pnj": "martial_jeux",
+					"ou": "rome",
+					"repliques": [
+						"« Titus, délice du genre humain. » Ha ! Quelqu'un de la Subure aime l'empereur. Il ne doit pas payer de loyer.",
+						"« Celadus fait soupirer les filles. » Celui-là, je le garde pour un poème.",
+						"Tu as sauvé six petites voix de Rome. Les Effaceurs voulaient que la ville oublie ce qu'elle pense. Garde la tablette : elle est à toi."
+					]
+				}
+			],
+			"recompense": [
+				{
+					"id": "epigrammes_martial",
+					"nom": "Les épigrammes des murs"
+				}
+			]
+		},
+		{
+			"id": "gateau_de_caton",
+			"titre": "Le gâteau de Caton",
+			"donneur": "boulangere",
+			"apres": "fin_martial",
+			"offre": [
+				"C'est bientôt la fête de ma fille. Je veux lui faire un libum, le gâteau de Caton : du fromage, de la farine, un œuf, du laurier et du miel.",
+				"Mais depuis que la campagne est pleine de bêtes bizarres, plus rien n'arrive au marché. Le fromagier et l'apiculteur ont fermé.",
+				"Tu voyages, toi. Ramène-moi un fromage de brebis et du miel de la campagne, un rameau de laurier sur la Voie Appienne, et mon sac de farine du moulin d'à côté. Je fournis l'œuf."
+			],
+			"etapes": [
+				{
+					"objectif": "Prends un fromage de brebis à la bergerie de la campagne",
+					"objet": "fromage_campagne",
+					"ou": "campagne",
+					"duree": 1.5,
+					"action": "Tu soulèves la faisselle : le fromage est frais."
+				},
+				{
+					"objectif": "Récolte un rayon de miel dans les ruches de la campagne",
+					"objet": "miel_campagne",
+					"ou": "campagne",
+					"duree": 2.5,
+					"action": "Tu enfumes la ruche et tu prélèves un rayon, doucement…"
+				},
+				{
+					"objectif": "Cueille un rameau de laurier au bord de la Voie Appienne",
+					"objet": "laurier_appia",
+					"ou": "voie_appienne",
+					"duree": 1.5,
+					"action": "Tu casses un rameau de laurier. Ça sent bon."
+				},
+				{
+					"objectif": "Prends le sac de farine au moulin de la Subure",
+					"objet": "farine_subure",
+					"ou": "rome",
+					"duree": 1.5,
+					"action": "Tu charges le sac de farine sur ton dos."
+				},
+				{
+					"objectif": "Rapporte tout à Modesta, la boulangère",
+					"pnj": "boulangere",
+					"ou": "rome",
+					"repliques": [
+						"Du vrai pecorino, et ce miel… il sent le thym ! Tu as tout trouvé.",
+						"On écrase le fromage, on mélange la farine, l'œuf, on pose sur des feuilles de laurier, et au four. Le miel à la fin, chaud.",
+						"Tiens, prends-en. Caton disait qu'il fallait l'offrir aux dieux. Moi, je dis qu'il faut l'offrir à ceux qui nous aident."
+					]
+				}
+			],
+			"recompense": [
+				{
+					"id": "libum",
+					"nom": "Libum de Caton",
+					"n": 4
+				}
+			]
+		},
+		{
+			"id": "intrus_modernes_rome",
+			"titre": "Les intrus modernes de Rome",
+			"donneur": "lenoir_appia",
+			"apres": "retour_pline",
+			"offre": [
+				"Agent Lenoir, service Nettoyage. Livia… enfin, Janus, laissait traîner du matériel moderne partout où elle passait. Exprès, je pense.",
+				"Mes détecteurs en voient trois : un GPS sur la Voie Appienne, un extincteur dans Rome, et un drone qui s'est écrasé à Pompéi.",
+				"Si un Romain s'en sert, l'histoire déraille. Ramasse-les avant eux. Je n'ai pas le droit de quitter ce secteur."
+			],
+			"etapes": [
+				{
+					"objectif": "Ramasse le GPS oublié sur la Voie Appienne",
+					"objet": "gps_appia",
+					"ou": "voie_appienne",
+					"duree": 1.5,
+					"action": "Tu éteins le GPS. « Signal perdu », forcément."
+				},
+				{
+					"objectif": "Ramasse l'extincteur caché dans Rome, au Champ de Mars",
+					"objet": "extincteur_rome",
+					"ou": "rome",
+					"duree": 2.0,
+					"action": "Tu soulèves l'extincteur. Il est lourd, et bien réel."
+				},
+				{
+					"objectif": "Ramasse le drone écrasé dans les cendres de Pompéi",
+					"objet": "drone_pompei",
+					"ou": "pompei",
+					"duree": 2.0,
+					"action": "Tu ramasses les morceaux du drone…"
+				},
+				{
+					"objectif": "Rapporte les intrus à l'agent Lenoir",
+					"pnj": "lenoir_appia",
+					"ou": "voie_appienne",
+					"repliques": [
+						"Un GPS, un extincteur, un drone. Que du matériel du QG, avec les numéros limés. Janus préparait quelque chose de gros.",
+						"Je vais tout faire analyser. Et je mettrai ton nom dans le rapport, pas le mien.",
+						"Tiens, prends ma boussole. Près d'une fracture, l'aiguille tourne en rond : c'est le meilleur détecteur que je connaisse."
+					]
+				}
+			],
+			"recompense": [
+				{
+					"id": "boussole_vigie",
+					"nom": "Boussole de terrain de la Vigie"
+				}
+			]
+		}
+	],
+	"objets": [
+		{
+			"id": "oie_perdue_0",
+			"groupe": "oie_perdue",
+			"forme": "oie",
+			"ou": "rome",
+			"position": [
+				-60,
+				-40
+			],
+			"invite": "[F] Attraper l'oie sacrée"
+		},
+		{
+			"id": "oie_perdue_1",
+			"groupe": "oie_perdue",
+			"forme": "oie",
+			"ou": "rome",
+			"position": [
+				10,
+				-122
+			],
+			"invite": "[F] Attraper l'oie sacrée"
+		},
+		{
+			"id": "oie_perdue_2",
+			"groupe": "oie_perdue",
+			"forme": "oie",
+			"ou": "rome",
+			"position": [
+				104,
+				60
+			],
+			"invite": "[F] Attraper l'oie sacrée"
+		},
+		{
+			"id": "oie_perdue_3",
+			"groupe": "oie_perdue",
+			"forme": "oie",
+			"ou": "rome",
+			"position": [
+				-120,
+				-112
+			],
+			"invite": "[F] Attraper l'oie sacrée"
+		},
+		{
+			"id": "oie_perdue_4",
+			"groupe": "oie_perdue",
+			"forme": "oie",
+			"ou": "rome",
+			"position": [
+				30,
+				0
+			],
+			"invite": "[F] Attraper l'oie sacrée"
+		},
+		{
+			"id": "mosaique_cave_canem",
+			"groupe": "",
+			"forme": "mosaique",
+			"ou": "pompei",
+			"position": [
+				-36,
+				-42
+			],
+			"invite": "[F] Dégager la mosaïque",
+			"reste": true
+		},
+		{
+			"id": "chien_fausta",
+			"groupe": "",
+			"forme": "chien",
+			"ou": "pompei",
+			"position": [
+				-30,
+				-60
+			],
+			"invite": "[F] Approcher le chien"
+		},
+		{
+			"id": "bois_thermes_0",
+			"groupe": "bois_thermes",
+			"forme": "bois",
+			"ou": "rome",
+			"position": [
+				96,
+				-74
+			],
+			"invite": "[F] Ramasser le bois"
+		},
+		{
+			"id": "bois_thermes_1",
+			"groupe": "bois_thermes",
+			"forme": "bois",
+			"ou": "rome",
+			"position": [
+				104,
+				-86
+			],
+			"invite": "[F] Ramasser le bois"
+		},
+		{
+			"id": "bois_thermes_2",
+			"groupe": "bois_thermes",
+			"forme": "bois",
+			"ou": "rome",
+			"position": [
+				92,
+				-90
+			],
+			"invite": "[F] Ramasser le bois"
+		},
+		{
+			"id": "bois_thermes_3",
+			"groupe": "bois_thermes",
+			"forme": "bois",
+			"ou": "rome",
+			"position": [
+				108,
+				-78
+			],
+			"invite": "[F] Ramasser le bois"
+		},
+		{
+			"id": "chaudiere_thermes",
+			"groupe": "",
+			"forme": "chaudiere",
+			"ou": "rome",
+			"position": [
+				106,
+				-72
+			],
+			"invite": "[F] Rallumer la chaudière",
+			"reste": true
+		},
+		{
+			"id": "sac_courrier",
+			"groupe": "",
+			"forme": "sac",
+			"ou": "voie_appienne",
+			"position": [
+				-12,
+				-70
+			],
+			"invite": "[F] Ramasser le sac du courrier"
+		},
+		{
+			"id": "relais_poste",
+			"groupe": "",
+			"forme": "tablette",
+			"ou": "campagne",
+			"position": [
+				-60,
+				10
+			],
+			"invite": "[F] Remettre le courrier au relais"
+		},
+		{
+			"id": "graffiti_0",
+			"groupe": "graffiti",
+			"forme": "graffiti",
+			"ou": "rome",
+			"position": [
+				20,
+				-140
+			],
+			"invite": "[F] Recopier le graffiti",
+			"reste": true
+		},
+		{
+			"id": "graffiti_1",
+			"groupe": "graffiti",
+			"forme": "graffiti",
+			"ou": "rome",
+			"position": [
+				40,
+				-120
+			],
+			"invite": "[F] Recopier le graffiti",
+			"reste": true
+		},
+		{
+			"id": "graffiti_2",
+			"groupe": "graffiti",
+			"forme": "graffiti",
+			"ou": "rome",
+			"position": [
+				50,
+				-100
+			],
+			"invite": "[F] Recopier le graffiti",
+			"reste": true
+		},
+		{
+			"id": "graffiti_3",
+			"groupe": "graffiti",
+			"forme": "graffiti",
+			"ou": "rome",
+			"position": [
+				24,
+				-104
+			],
+			"invite": "[F] Recopier le graffiti",
+			"reste": true
+		},
+		{
+			"id": "graffiti_4",
+			"groupe": "graffiti",
+			"forme": "graffiti",
+			"ou": "rome",
+			"position": [
+				-14,
+				-108
+			],
+			"invite": "[F] Recopier le graffiti",
+			"reste": true
+		},
+		{
+			"id": "graffiti_5",
+			"groupe": "graffiti",
+			"forme": "graffiti",
+			"ou": "rome",
+			"position": [
+				-19,
+				-139
+			],
+			"invite": "[F] Recopier le graffiti",
+			"reste": true
+		},
+		{
+			"id": "fromage_campagne",
+			"groupe": "",
+			"forme": "fromage",
+			"ou": "campagne",
+			"position": [
+				92,
+				34
+			],
+			"invite": "[F] Prendre le fromage"
+		},
+		{
+			"id": "miel_campagne",
+			"groupe": "",
+			"forme": "ruche",
+			"ou": "campagne",
+			"position": [
+				104,
+				26
+			],
+			"invite": "[F] Récolter le miel",
+			"reste": true
+		},
+		{
+			"id": "laurier_appia",
+			"groupe": "",
+			"forme": "laurier",
+			"ou": "voie_appienne",
+			"position": [
+				22,
+				90
+			],
+			"invite": "[F] Cueillir le laurier"
+		},
+		{
+			"id": "farine_subure",
+			"groupe": "",
+			"forme": "sac",
+			"ou": "rome",
+			"position": [
+				27,
+				-95
+			],
+			"invite": "[F] Prendre la farine"
+		},
+		{
+			"id": "gps_appia",
+			"groupe": "",
+			"forme": "gps",
+			"ou": "voie_appienne",
+			"position": [
+				5,
+				-52
+			],
+			"invite": "[F] Ramasser le GPS"
+		},
+		{
+			"id": "extincteur_rome",
+			"groupe": "",
+			"forme": "extincteur",
+			"ou": "rome",
+			"position": [
+				-110,
+				-100
+			],
+			"invite": "[F] Ramasser l'extincteur"
+		},
+		{
+			"id": "drone_pompei",
+			"groupe": "",
+			"forme": "drone",
+			"ou": "pompei",
+			"position": [
+				60,
+				40
+			],
+			"invite": "[F] Ramasser le drone"
+		}
+	]
+}

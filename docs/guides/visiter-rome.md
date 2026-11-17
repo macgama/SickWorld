@@ -175,4 +175,35 @@ Un donjon pour un groupe (jusqu'à 5). On descend par la grille de l'égoutier, 
 11. Écouter **le poème de Martial**.
 12. Traverser le **portail de campagne** de Lenoir, près de la herse : au QG, la mission **« La cellule de Janus »** commence (la commandante, puis Janus dans sa cellule, à côté des archives).
 
-L'histoire de Rome est terminée. Les quêtes secondaires et les événements de l'île arrivent bientôt.
+L'histoire de Rome est terminée.
+
+## Les quêtes secondaires
+
+Elles s'ouvrent au fil de l'histoire (un « ! » doré au-dessus du personnage).
+
+| Quête | Qui la donne | Ce qu'on fait | Récompense |
+|---|---|---|---|
+| Les oies du Capitole | Aulus, sur le Capitole | Retrouver 5 oies sacrées dans Rome (Forum, Subure, Esquilin, Champ de Mars, amphithéâtre) | **Cornélia, l'oie compagnon** : elle te suit en se dandinant et cacarde quand un prétorien ou un Effaceur approche |
+| Ce qu'a vu Pline | Pline, à Pompéi | Écouter les rescapés du Vésuve (Voie Appienne, Campagne) | Les témoignages du Vésuve, titre **Témoin du Vésuve** |
+| Cave canem | Fausta, sur la Voie | Chasser les chiens de la maison de Pompéi, dégager la mosaïque, retrouver Ferox | Collier de Ferox |
+| Les thermes de Titus | Licinius, aux thermes | Du bois, des vipères, rallumer la chaudière | **Strigile** : compétence d'époque **Bain des thermes** (soin et protection) |
+| La poste de l'empereur | Pétronius, sur la Voie | Les loups, le sac du courrier, le relais de la Campagne | **Sceau de la poste** : la **mule** de Rome (touche V) |
+| Les bêtes de Carpophore | Carpophore, à Rome | Un ours et deux léopards évadés dans la Campagne | Manica de bestiaire |
+| L'école des gladiateurs | Rufus, au Ludus Magnus | Désarmer un rétiaire, un mirmillon et Celadus | Casque de mirmillon, titre **Gladiateur du Ludus** |
+| Les murs parlent | Martial, devant l’amphithéâtre | Recopier 6 graffitis de la Subure | Les épigrammes des murs |
+| Le gâteau de Caton | Modesta, la boulangère | Fromage, miel, laurier et farine | Libum (repas) |
+| Les intrus modernes | L'agent Lenoir, sur la Voie | Un GPS, un extincteur, un drone | Boussole de la Vigie |
+
+Toutes les finir donne le titre **Ami du peuple romain**.
+
+## Les événements publics
+
+Ils arrivent tout seuls, environ toutes les heures et demie, une fois l'histoire assez avancée.
+
+- **Les jeux fracturés** (amphithéâtre) : gladiateurs, lions, puis le champion des jeux, et la faille à refermer.
+- **Le feu dans la Subure** (Rome) : éteindre trois foyers pendant que des chiens fracturés attaquent, puis chasser la meute.
+- **La grande évasion du vivarium** (Campagne) : léopards, lions, puis le grand ours brun.
+- **Le Carrefour fou** (Voie Appienne) : un carrefour moderne avec ses feux tricolores. Quand ses feux clignotent en orange, éloigne-toi à plus de 16 m : sinon, pendant 4 secondes, **avancer fait reculer et la gauche devient la droite** ! Ensuite, arracher les panneaux et refermer la faille.
+- **Le Vésuve gronde** (Pompéi) : mettre trois fouilleurs à l'abri malgré les pilleurs, puis chasser pilleurs et chiens.
+
+Réussir 3 événements de Rome donne le titre **Gardien de la Ville**. La naumachie (bataille navale dans l'amphithéâtre rempli d'eau) n'est pas prévue pour l'instant.

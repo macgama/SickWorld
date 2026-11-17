@@ -69,6 +69,14 @@ func _ready() -> void:
 		_delegue.chef = type.contains("chef") or type.contains("champion")
 		add_child(_delegue)
 		return
+	if type.begins_with("carrefour") or type.begins_with("feu_tricolore"):
+		# L'anomalie du Carrefour fou (île de Rome) et ses petits feux tricolores.
+		espece = "oublie"
+		_delegue = preload("res://scripts/ennemis/apparence_carrefour.gd").new()
+		_delegue.name = "Carrefour"
+		_delegue.petit = type.begins_with("feu_tricolore")
+		add_child(_delegue)
+		return
 	if type.begins_with("colosse"):
 		# Le cœur de cristal du Colosse (boss du donjon du Colisée, île de Rome).
 		espece = "colosse"
@@ -164,6 +172,11 @@ func _ready() -> void:
 			# Le chacal doré d'Égypte : un petit loup fin, au pelage fauve.
 			scale = Vector3(0.72, 0.74, 0.7)
 			_en_chacal()
+		elif type.begins_with("leopard"):
+			# Le léopard des jeux (île de Rome) : un félin plus fin que le lion, sans crinière,
+			# au pelage doré tacheté de noir.
+			scale = Vector3(1.0, 0.95, 1.15)
+			_en_leopard()
 		elif type.begins_with("lion"):
 			# Le lion évadé du vivarium (île de Rome) : un grand félin fauve à crinière
 			# sombre (sur la silhouette du loup, en attendant un vrai modèle de lion).
@@ -236,6 +249,37 @@ func _en_chacal() -> void:
 
 ## Pelage fauve du lion, et sa crinière : une grosse touffe brun sombre autour du cou,
 ## accrochée à l'os de la tête (elle suit ses mouvements).
+func _en_leopard() -> void:
+	if _pivot == null:
+		return
+	var taches := NoiseTexture2D.new()
+	taches.width = 128
+	taches.height = 128
+	taches.seamless = true
+	var bruit := FastNoiseLite.new()
+	bruit.noise_type = FastNoiseLite.TYPE_CELLULAR
+	bruit.frequency = 0.09
+	bruit.cellular_return_type = FastNoiseLite.RETURN_DISTANCE
+	taches.noise = bruit
+	var degrade := Gradient.new()
+	degrade.set_color(0, Color(0.12, 0.08, 0.04))
+	degrade.set_color(1, Color(1.0, 0.95, 0.85))
+	degrade.add_point(0.22, Color(0.12, 0.08, 0.04))
+	degrade.add_point(0.3, Color(1.0, 0.95, 0.85))
+	taches.color_ramp = degrade
+	for mi in _pivot.find_children("*", "MeshInstance3D", true, false):
+		var m := (mi as MeshInstance3D).get_active_material(0) as StandardMaterial3D
+		if m == null:
+			continue
+		var robe := m.duplicate() as StandardMaterial3D
+		robe.albedo_color = Color(1.5, 1.08, 0.5)
+		robe.detail_enabled = true
+		robe.detail_albedo = taches
+		robe.detail_blend_mode = BaseMaterial3D.BLEND_MODE_MUL
+		robe.detail_uv_layer = BaseMaterial3D.DETAIL_UV_1
+		(mi as MeshInstance3D).material_override = robe
+
+
 func _en_lion() -> void:
 	if _pivot == null:
 		return

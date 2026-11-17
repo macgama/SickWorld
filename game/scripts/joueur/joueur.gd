@@ -321,6 +321,10 @@ func _physics_process(delta: float) -> void:
 	if clic_droit:
 		cote += Input.get_axis("tourner_gauche", "tourner_droite") * clavier
 	cote = clampf(cote, -1.0, 1.0)
+	# Le cri du Carrefour fou (Rome) : avant et arrière, gauche et droite sont inversés.
+	if combat.a_effet("sens_inverse"):
+		avant = -avant
+		cote = -cote
 
 	var direction := -transform.basis.z * avant + transform.basis.x * cote
 	if direction.length() > 1.0:

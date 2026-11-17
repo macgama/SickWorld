@@ -1,0 +1,689 @@
+{
+	"_aide": "Événements publics de l'île de Rome (même format que data/grece_evenements.json, voir scripts/monde/prehistoire/evenements_publics.gd). Ils arrivent tout seuls dans leur zone : le premier « premier_delai » secondes après l'arrivée, puis toutes les « intervalle » secondes. « apres » : étape de la quête principale à atteindre. Phases : « vagues », « objet »/« recolter » (F), « renforts » (des ennemis qui arrivent pendant la phase). « cri » : le chef nommé hurle toutes les « toutes » secondes et donne l'effet aux joueurs à moins de « rayon » mètres (« sens_inverse » : avant, arrière, gauche et droite sont inversés). La naumachie (une bataille navale dans l'amphithéâtre rempli d'eau) n'est pas faite : elle demanderait de remplir l'arène d'eau.",
+	"premier_delai": 150,
+	"evenements": [
+		{
+			"id": "jeux_colisee",
+			"titre": "Les jeux fracturés",
+			"zone": "colisee",
+			"apres": "parole_titus",
+			"intervalle": 5400,
+			"duree": 420,
+			"position": [
+				0,
+				-20
+			],
+			"annonce": "Une faille s'ouvre sous le sable de l'arène ! Des gladiateurs aux yeux violets en sortent, et ils ne font pas semblant.",
+			"objets": [
+				{
+					"id": "faille_arene",
+					"forme": "faille",
+					"position": [
+						10,
+						-10
+					],
+					"invite": "[F] Refermer la faille",
+					"taille": 1.8
+				}
+			],
+			"phases": [
+				{
+					"objectif": "Abats les gladiateurs fracturés qui sortent de la faille",
+					"vagues": [
+						{
+							"type": "gladiateur_jeux_thrace",
+							"nombre": 3,
+							"position": [
+								20,
+								10
+							],
+							"rayon": 4,
+							"attaque": true
+						},
+						{
+							"type": "gladiateur_jeux_mirmillon",
+							"nombre": 3,
+							"position": [
+								-20,
+								-10
+							],
+							"rayon": 4,
+							"attaque": true
+						}
+					]
+				},
+				{
+					"objectif": "Abats les lions lâchés dans l'arène",
+					"annonce": "Les trappes s'ouvrent : des lions fracturés bondissent sur le sable !",
+					"vagues": [
+						{
+							"type": "lion_jeux",
+							"nombre": 3,
+							"position": [
+								0,
+								20
+							],
+							"rayon": 5,
+							"attaque": true
+						}
+					]
+				},
+				{
+					"objectif": "Abats le champion des jeux fracturé",
+					"annonce": "La foule se tait : le champion des jeux entre dans l'arène.",
+					"vagues": [
+						{
+							"type": "gladiateur_jeux_champion",
+							"nombre": 1,
+							"position": [
+								-10,
+								10
+							],
+							"rayon": 1,
+							"attaque": true,
+							"chef": true
+						},
+						{
+							"type": "gladiateur_jeux_thrace",
+							"nombre": 2,
+							"position": [
+								-10,
+								10
+							],
+							"rayon": 4,
+							"attaque": true,
+							"avec_le_chef": true
+						}
+					]
+				},
+				{
+					"objectif": "Referme la faille",
+					"objet": "faille_arene",
+					"duree": 5.0,
+					"action": "Tu refermes la faille…",
+					"effet": "fermer"
+				}
+			],
+			"echec": "La faille se referme toute seule. Dans les gradins, on parle déjà de jeux maudits.",
+			"reussite": "Cinquante mille personnes se lèvent d'un coup. Le bruit est tel que tu le sens dans ta poitrine. Ils scandent un nom : le tien.",
+			"recompenses": {
+				"or": [
+					{
+						"id": "casque_thrace_jeux",
+						"nom": "Casque de thrace des jeux",
+						"chance": 0.3
+					},
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclats de fracture ×4",
+						"n": 4
+					}
+				],
+				"argent": [
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclats de fracture ×2",
+						"n": 2
+					},
+					{
+						"id": "criniere_de_lion",
+						"nom": "Crinière de lion",
+						"n": 1
+					}
+				],
+				"bronze": [
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclat de fracture",
+						"n": 1
+					}
+				]
+			},
+			"stabilite": 6
+		},
+		{
+			"id": "incendie_subure",
+			"titre": "Le feu dans la Subure",
+			"zone": "rome",
+			"apres": "retour_lucretius",
+			"intervalle": 4800,
+			"duree": 360,
+			"position": [
+				10,
+				-122
+			],
+			"annonce": "Au feu ! Des immeubles de la Subure brûlent, et des chiens fracturés empêchent les vigiles d'approcher.",
+			"objets": [
+				{
+					"id": "incendie_subure_0",
+					"groupe": "incendie_subure",
+					"forme": "brasier",
+					"position": [
+						-40,
+						-130
+					],
+					"invite": "[F] Éteindre le feu"
+				},
+				{
+					"id": "incendie_subure_1",
+					"groupe": "incendie_subure",
+					"forme": "brasier",
+					"position": [
+						-50,
+						-100
+					],
+					"invite": "[F] Éteindre le feu"
+				},
+				{
+					"id": "incendie_subure_2",
+					"groupe": "incendie_subure",
+					"forme": "brasier",
+					"position": [
+						60,
+						-120
+					],
+					"invite": "[F] Éteindre le feu"
+				}
+			],
+			"phases": [
+				{
+					"objectif": "Éteins les 3 foyers de la Subure avant qu'ils ne gagnent tout le quartier",
+					"recolter": "incendie_subure",
+					"nombre": 3,
+					"duree": 3.0,
+					"action": "Tu fais passer les seaux de la chaîne des vigiles…",
+					"effet": "eteindre",
+					"renforts": {
+						"type": "chien_fracture_incendie",
+						"nombre": 2,
+						"toutes": 22,
+						"positions": [
+							[
+								-35,
+								-120
+							],
+							[
+								60,
+								-120
+							],
+							[
+								10,
+								-122
+							]
+						],
+						"rayon": 3,
+						"max": 4,
+						"attaque": true
+					}
+				},
+				{
+					"objectif": "Chasse la meute de chiens fracturés qui a allumé le feu",
+					"annonce": "La meute qui a renversé les braseros sort des ruelles !",
+					"vagues": [
+						{
+							"type": "chien_fracture_incendie",
+							"nombre": 4,
+							"position": [
+								10,
+								-122
+							],
+							"rayon": 5,
+							"attaque": true
+						},
+						{
+							"type": "chien_fracture_incendie",
+							"nombre": 4,
+							"position": [
+								-35,
+								-120
+							],
+							"rayon": 5,
+							"attaque": true
+						}
+					]
+				}
+			],
+			"echec": "Les vigiles ont fini par éteindre le feu, seuls, à l'aube. Trois immeubles sont partis en fumée.",
+			"reussite": "La fumée retombe. Des familles entières sortent des immeubles, noires de suie, et te serrent dans leurs bras sans te connaître.",
+			"recompenses": {
+				"or": [
+					{
+						"id": "seau_vigiles",
+						"nom": "Seau de cuir des vigiles",
+						"chance": 0.3
+					},
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclats de fracture ×3",
+						"n": 3
+					}
+				],
+				"argent": [
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclats de fracture ×2",
+						"n": 2
+					}
+				],
+				"bronze": [
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclat de fracture",
+						"n": 1
+					}
+				]
+			},
+			"stabilite": 5
+		},
+		{
+			"id": "grande_evasion",
+			"titre": "La grande évasion du vivarium",
+			"zone": "campagne",
+			"apres": "fin_martial",
+			"intervalle": 5000,
+			"duree": 360,
+			"position": [
+				-60,
+				20
+			],
+			"annonce": "Les cages d'un convoi pour les jeux ont cédé sous les arches de l'aqueduc ! Des fauves fracturés se répandent dans les champs.",
+			"objets": [],
+			"phases": [
+				{
+					"objectif": "Abats les léopards évadés avant qu'ils n'atteignent les fermes",
+					"vagues": [
+						{
+							"type": "leopard_evasion",
+							"nombre": 3,
+							"position": [
+								-40,
+								30
+							],
+							"rayon": 5,
+							"attaque": true
+						},
+						{
+							"type": "leopard_evasion",
+							"nombre": 2,
+							"position": [
+								-56,
+								-6
+							],
+							"rayon": 4,
+							"attaque": true
+						}
+					]
+				},
+				{
+					"objectif": "Abats les lions évadés",
+					"annonce": "Des rugissements sous les arches : les lions sont sortis à leur tour !",
+					"vagues": [
+						{
+							"type": "lion_evasion",
+							"nombre": 3,
+							"position": [
+								-50,
+								30
+							],
+							"rayon": 5,
+							"attaque": true
+						}
+					]
+				},
+				{
+					"objectif": "Abats le grand ours brun, le plus dangereux de tous",
+					"annonce": "La dernière cage vole en éclats. Le grand ours brun du vivarium se dresse sur ses pattes arrière.",
+					"vagues": [
+						{
+							"type": "ours_evasion_grand",
+							"nombre": 1,
+							"position": [
+								-60,
+								20
+							],
+							"rayon": 1,
+							"attaque": true,
+							"chef": true
+						}
+					]
+				}
+			],
+			"echec": "Les fauves se sont dispersés dans les collines. Pendant des semaines, les bergers ne sortiront plus la nuit.",
+			"reussite": "Le silence revient sur la campagne. Un vieux berger s'approche, te regarde, et te tend sans un mot son outre de vin.",
+			"recompenses": {
+				"or": [
+					{
+						"id": "manica_bestiaire",
+						"nom": "Manica de bestiaire",
+						"chance": 0.25
+					},
+					{
+						"id": "griffe_leopard",
+						"nom": "Griffes de léopard ×2",
+						"n": 2
+					},
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclats de fracture ×3",
+						"n": 3
+					}
+				],
+				"argent": [
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclats de fracture ×2",
+						"n": 2
+					}
+				],
+				"bronze": [
+					{
+						"id": "griffe_leopard",
+						"nom": "Griffe de léopard",
+						"n": 1
+					}
+				]
+			},
+			"stabilite": 5
+		},
+		{
+			"id": "carrefour_fou",
+			"titre": "Le Carrefour fou",
+			"zone": "voie_appienne",
+			"apres": "retour_sextus",
+			"intervalle": 5400,
+			"duree": 360,
+			"position": [
+				10,
+				110
+			],
+			"annonce": "Une faille s'ouvre sur la Voie Appienne. Quelque chose de moderne pousse à travers les dalles romaines : un carrefour, avec ses feux et ses panneaux !",
+			"cri": {
+				"chef": "carrefour_fou",
+				"toutes": 13,
+				"premier": 8,
+				"preavis": 2.5,
+				"rayon": 16,
+				"duree": 4.0,
+				"effet": "sens_inverse",
+				"annonce": "Les feux du Carrefour clignotent en orange : éloigne-toi, ou tu ne sauras plus où est la droite !"
+			},
+			"objets": [
+				{
+					"id": "faille_carrefour",
+					"forme": "faille",
+					"position": [
+						8,
+						120
+					],
+					"invite": "[F] Refermer la faille",
+					"taille": 1.8
+				},
+				{
+					"id": "panneau_0",
+					"groupe": "panneau",
+					"forme": "panneau",
+					"position": [
+						0,
+						110
+					],
+					"invite": "[F] Arracher le panneau"
+				},
+				{
+					"id": "panneau_1",
+					"groupe": "panneau",
+					"forme": "panneau",
+					"position": [
+						20,
+						120
+					],
+					"invite": "[F] Arracher le panneau"
+				},
+				{
+					"id": "panneau_2",
+					"groupe": "panneau",
+					"forme": "panneau",
+					"position": [
+						24,
+						100
+					],
+					"invite": "[F] Arracher le panneau"
+				}
+			],
+			"phases": [
+				{
+					"objectif": "Abats les feux tricolores fracturés qui sautillent hors de la faille",
+					"vagues": [
+						{
+							"type": "feu_tricolore_fracture",
+							"nombre": 3,
+							"position": [
+								8,
+								120
+							],
+							"rayon": 4,
+							"attaque": true
+						},
+						{
+							"type": "feu_tricolore_fracture",
+							"nombre": 3,
+							"position": [
+								4,
+								100
+							],
+							"rayon": 4,
+							"attaque": true
+						}
+					]
+				},
+				{
+					"objectif": "Détruis le Carrefour fou (quand ses feux clignotent en orange, éloigne-toi à plus de 16 m)",
+					"annonce": "Le Carrefour fou se dresse au milieu de la voie !",
+					"vagues": [
+						{
+							"type": "carrefour_fou",
+							"nombre": 1,
+							"position": [
+								14,
+								130
+							],
+							"rayon": 0.5,
+							"attaque": false,
+							"chef": true
+						},
+						{
+							"type": "feu_tricolore_fracture",
+							"nombre": 2,
+							"position": [
+								8,
+								120
+							],
+							"rayon": 4,
+							"attaque": true,
+							"avec_le_chef": true
+						}
+					]
+				},
+				{
+					"objectif": "Arrache les 3 panneaux routiers plantés dans la voie romaine",
+					"annonce": "Il reste des panneaux plantés dans les dalles. Personne ne doit les voir !",
+					"recolter": "panneau",
+					"nombre": 3,
+					"duree": 2.5,
+					"action": "Tu tires sur le panneau de toutes tes forces…"
+				},
+				{
+					"objectif": "Referme la faille",
+					"objet": "faille_carrefour",
+					"duree": 5.0,
+					"action": "Tu refermes la faille…",
+					"effet": "fermer"
+				}
+			],
+			"echec": "La faille se referme toute seule. Des voyageurs jurent qu'ils ont marché une heure vers Rome… et qu'ils sont arrivés à Capoue.",
+			"reussite": "Les dalles noires de la voie se referment sur le dernier panneau. Au loin, un muletier qui tournait en rond depuis une heure repart enfin dans le bon sens.",
+			"recompenses": {
+				"or": [
+					{
+						"id": "ampoule_feu_rouge",
+						"nom": "Ampoule de feu rouge",
+						"chance": 0.3
+					},
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclats de fracture ×4",
+						"n": 4
+					}
+				],
+				"argent": [
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclats de fracture ×2",
+						"n": 2
+					}
+				],
+				"bronze": [
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclat de fracture",
+						"n": 1
+					}
+				]
+			},
+			"stabilite": 6
+		},
+		{
+			"id": "reveil_vesuve",
+			"titre": "Le Vésuve gronde",
+			"zone": "pompei",
+			"apres": "retour_pline",
+			"intervalle": 5400,
+			"duree": 360,
+			"position": [
+				10,
+				-80
+			],
+			"annonce": "La terre tremble ! Le Vésuve crache un nuage de cendre. Des fouilleurs sont pris dans les ruines, et des pilleurs en profitent.",
+			"objets": [
+				{
+					"id": "refugie_vesuve_0",
+					"groupe": "refugie_vesuve",
+					"forme": "refugie",
+					"position": [
+						-20,
+						-90
+					],
+					"invite": "[F] Mettre à l'abri"
+				},
+				{
+					"id": "refugie_vesuve_1",
+					"groupe": "refugie_vesuve",
+					"forme": "refugie",
+					"position": [
+						20,
+						-60
+					],
+					"invite": "[F] Mettre à l'abri"
+				},
+				{
+					"id": "refugie_vesuve_2",
+					"groupe": "refugie_vesuve",
+					"forme": "refugie",
+					"position": [
+						40,
+						-50
+					],
+					"invite": "[F] Mettre à l'abri"
+				}
+			],
+			"phases": [
+				{
+					"objectif": "Mets à l'abri les 3 fouilleurs pris dans la cendre",
+					"recolter": "refugie_vesuve",
+					"nombre": 3,
+					"duree": 3.0,
+					"action": "Tu aides le fouilleur à se relever, et tu le guides vers la route…",
+					"renforts": {
+						"type": "pilleur_vesuve",
+						"nombre": 2,
+						"toutes": 22,
+						"positions": [
+							[
+								0,
+								-70
+							],
+							[
+								30,
+								-80
+							]
+						],
+						"rayon": 3,
+						"max": 4,
+						"attaque": true
+					}
+				},
+				{
+					"objectif": "Chasse les pilleurs et les chiens fracturés qui rôdent dans le nuage",
+					"annonce": "Dans la cendre, des silhouettes : des pilleurs, et des chiens aux yeux violets.",
+					"vagues": [
+						{
+							"type": "pilleur_vesuve",
+							"nombre": 3,
+							"position": [
+								0,
+								-70
+							],
+							"rayon": 4,
+							"attaque": true
+						},
+						{
+							"type": "chien_fracture_vesuve",
+							"nombre": 4,
+							"position": [
+								30,
+								-80
+							],
+							"rayon": 5,
+							"attaque": true
+						}
+					]
+				}
+			],
+			"echec": "La secousse s'arrête. Mais certains fouilleurs ne sont jamais revenus des ruines.",
+			"reussite": "La cendre retombe doucement. Le Vésuve se tait. Les fouilleurs, assis au bord de la route, regardent la montagne sans rien dire.",
+			"recompenses": {
+				"or": [
+					{
+						"id": "lampe_pompei",
+						"nom": "Lampe à huile de Pompéi",
+						"chance": 0.3
+					},
+					{
+						"id": "pierre_ponce",
+						"nom": "Pierres ponces ×2",
+						"n": 2
+					},
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclats de fracture ×3",
+						"n": 3
+					}
+				],
+				"argent": [
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclats de fracture ×2",
+						"n": 2
+					}
+				],
+				"bronze": [
+					{
+						"id": "pierre_ponce",
+						"nom": "Pierre ponce",
+						"n": 1
+					}
+				]
+			},
+			"stabilite": 5
+		}
+	]
+}

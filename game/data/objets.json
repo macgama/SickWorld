@@ -1958,7 +1958,23 @@
 		"sabre_archipirate": {"nom": "Kopis de l'archipirate", "type": "equipement", "rarete": "rare", "description": "Un sabre recourbé, lourd du bout, fait pour trancher. L'archipirate l'avait payé avec des pièces « sans chouette ».", "emplacement": "arme_principale", "epoque": "Grèce antique", "stats": {"degats_pourcent": 14, "pv": 30}, "visuel": {"forme": "lame", "couleur": "#8a7a6a"}},
 		"bouchons_effaceur": {"nom": "Bouchons d'oreilles d'Effaceur", "type": "equipement", "rarete": "rare", "description": "Deux bouchons de mousse orange, tombés d'un Effaceur. Avec ça, le Mur de haut-parleurs ne te fait plus peur. Enfin, un peu moins.", "emplacement": "bijou", "epoque": "Moderne", "stats": {"pv": 40, "reduction_pourcent": 2}, "icone": {"forme": "ambre", "couleur": "#f08a2a"}},
 		"defense_sanglier": {"nom": "Défense de sanglier", "type": "materiau", "rarete": "raffine", "description": "Une défense recourbée, jaune et tranchante. Les guerriers d'Homère en cousaient sur leur casque.", "pile": 20, "epoque": "Grèce antique", "icone": {"forme": "croc", "couleur": "#e8dcb0"}},
-		"galene_laurion": {"nom": "Galène du Laurion", "type": "materiau", "rarete": "commun", "description": "Un caillou gris et lourd qui brille comme du métal : du plomb, et dedans un peu d'argent. Il en faut des tonnes pour une poignée de chouettes.", "pile": 20, "epoque": "Grèce antique", "icone": {"forme": "minerai", "couleur": "#8a8e94"}}
+		"galene_laurion": {"nom": "Galène du Laurion", "type": "materiau", "rarete": "commun", "description": "Un caillou gris et lourd qui brille comme du métal : du plomb, et dedans un peu d'argent. Il en faut des tonnes pour une poignée de chouettes.", "pile": 20, "epoque": "Grèce antique", "icone": {"forme": "minerai", "couleur": "#8a8e94"}},
+		"oie_capitole": {"nom": "Cornélia, l'oie du Capitole", "type": "equipement", "rarete": "epique", "description": "Une oie sacrée de Junon, la plus bavarde de l'enclos. Portée, elle te suit en se dandinant partout, y compris dans les autres époques, et cacarde très fort quand un Effaceur ou un prétorien approche. Comme en 390 avant J.-C.", "emplacement": "bijou", "epoque": "Rome antique", "stats": {"pv": 50, "critique_pourcent": 2, "reduction_pourcent": 2}, "compagnon": "oie", "icone": {"forme": "plante", "couleur": "#f0ece0"}},
+		"tablette_pline_cire": {"nom": "Les témoignages du Vésuve", "type": "equipement", "rarete": "epique", "description": "Des tablettes de cire où Pline a noté, sous ta dictée, ce qu'ont vu les rescapés. Vingt-cinq ans plus tard, il écrira à Tacite les deux lettres qui nous racontent encore l'éruption.", "emplacement": "relique", "epoque": "Rome antique", "stats": {"pv": 85, "degats_pourcent": 5}, "icone": {"forme": "eclat", "couleur": "#c8a050"}},
+		"collier_ferox": {"nom": "Collier de Ferox", "type": "equipement", "rarete": "rare", "description": "Le collier de bronze clouté du chien de garde de Fausta, qui a attendu un an sur le seuil de sa maison. Elle a voulu que tu le gardes.", "emplacement": "bijou", "epoque": "Rome antique", "stats": {"pv": 45, "degats_pourcent": 3}, "visuel": {"forme": "collier", "couleur": "#8a6a3a"}},
+		"strigile_thermes": {"nom": "Strigile des thermes", "type": "materiau", "rarete": "historique", "description": "Un racloir de bronze recourbé, pour ôter l'huile et la sueur après le bain chaud. Tant qu'il est dans tes sacs, tu peux mettre la compétence d'époque « Bain des thermes » dans ta barre (touches 6 et 7).", "pile": 1, "epoque": "Rome antique", "icone": {"forme": "lame", "couleur": "#b8864a"}},
+		"sceau_poste": {"nom": "Sceau de la poste impériale", "type": "materiau", "rarete": "historique", "description": "Le diplôme de bronze des courriers du cursus publicus, au nom de Titus. Tant qu'il est dans tes sacs, la mule de la poste vient quand tu l'appelles (touche V) à Rome.", "pile": 1, "epoque": "Rome antique", "icone": {"forme": "eclat", "couleur": "#b8963c"}},
+		"manica_bestiaire": {"nom": "Manica de bestiaire", "type": "equipement", "rarete": "rare", "description": "Le brassard de cuir matelassé que porte Carpophore pour affronter les fauves. Les griffes du léopard y ont laissé quatre longues traces.", "emplacement": "mains", "epoque": "Rome antique", "stats": {"pv": 60, "reduction_pourcent": 3}, "visuel": {"forme": "gants", "couleur": "#6a4a2a"}},
+		"casque_mirmillon": {"nom": "Casque de mirmillon", "type": "equipement", "rarete": "epique", "description": "Un casque de bronze à larges bords, la visière percée de petits trous et la crête en forme de poisson. Celadus te l'a tendu en souriant : « Tu l'as mérité, le nouveau. »", "emplacement": "tete", "epoque": "Rome antique", "stats": {"pv": 70, "degats_pourcent": 4, "reduction_pourcent": 2}, "visuel": {"forme": "casque", "couleur": "#b0884a"}},
+		"epigrammes_martial": {"nom": "Les épigrammes des murs", "type": "materiau", "rarete": "historique", "description": "Six graffitis recopiés de ta main sur une tablette, que Martial a corrigés en riant. « Les murs de Rome ont plus d'esprit que le Sénat. » À accrocher chez soi.", "pile": 1, "epoque": "Rome antique", "icone": {"forme": "tendon", "couleur": "#b89a5a"}},
+		"libum": {"nom": "Libum de Caton", "type": "consommable", "rarete": "raffine", "description": "La recette du vieux Caton : une livre de fromage écrasé, une livre de farine, un œuf, cuit sous des feuilles de laurier et nappé de miel. On l'offre aux dieux les jours de fête. Et aux amis.", "pile": 10, "epoque": "Rome antique", "repas": {"duree": 1800, "stats": {"pv": 70}}, "icone": {"forme": "bol", "couleur": "#d8a04a"}},
+		"boussole_vigie": {"nom": "Boussole de terrain de la Vigie", "type": "equipement", "rarete": "rare", "description": "Une petite boussole de l'agent Lenoir, qui indique toujours le nord… sauf près d'une fracture, où l'aiguille tourne en rond.", "emplacement": "bijou", "epoque": "Moderne", "stats": {"pv": 45, "critique_pourcent": 3}, "icone": {"forme": "montre", "couleur": "#3a4a5a"}},
+		"casque_thrace_jeux": {"nom": "Casque de thrace des jeux", "type": "equipement", "rarete": "rare", "description": "Un casque à large bord orné d'un griffon, ramassé sur le sable de l'arène après les jeux fracturés.", "emplacement": "tete", "epoque": "Rome antique", "stats": {"pv": 60, "degats_pourcent": 4}, "visuel": {"forme": "casque", "couleur": "#a8804a"}},
+		"seau_vigiles": {"nom": "Seau de cuir des vigiles", "type": "equipement", "rarete": "rare", "description": "Le seau de sparte enduit de poix des vigiles de Rome, les pompiers de la Ville. Celui-ci a éteint tout un pâté d'immeubles.", "emplacement": "relique", "epoque": "Rome antique", "stats": {"pv": 70, "reduction_pourcent": 3}, "icone": {"forme": "bol", "couleur": "#5a4030"}},
+		"griffe_leopard": {"nom": "Griffe de léopard", "type": "materiau", "rarete": "raffine", "description": "Une griffe noire et courbe, longue comme un doigt.", "pile": 20, "epoque": "Rome antique", "icone": {"forme": "griffe", "couleur": "#2a2420"}},
+		"ampoule_feu_rouge": {"nom": "Ampoule de feu rouge", "type": "equipement", "rarete": "rare", "description": "Une grosse ampoule rouge tombée du Carrefour fou. Elle brille encore un peu quand on la secoue. Personne, en l'an 80, ne saura jamais ce que c'est.", "emplacement": "bijou", "epoque": "Moderne", "stats": {"pv": 40, "critique_pourcent": 3}, "icone": {"forme": "ambre", "couleur": "#e02a1a"}},
+		"pierre_ponce": {"nom": "Pierre ponce du Vésuve", "type": "materiau", "rarete": "raffine", "description": "Une pierre grise, légère, criblée de trous : elle flotte sur l'eau. Le Vésuve en a fait pleuvoir pendant des heures sur Pompéi.", "pile": 20, "epoque": "Rome antique", "icone": {"forme": "minerai", "couleur": "#a8a49c"}},
+		"lampe_pompei": {"nom": "Lampe à huile de Pompéi", "type": "equipement", "rarete": "epique", "description": "Une lampe de bronze en forme de pied, sauvée des cendres quand le Vésuve s'est réveillé une dernière fois. Elle sent encore le soufre.", "emplacement": "relique", "epoque": "Rome antique", "stats": {"pv": 85, "degats_pourcent": 5}, "icone": {"forme": "bol", "couleur": "#8a6a3a"}}
 	},
 	"ensembles": {
 		"chasseur_du_clan": {
@@ -2009,11 +2025,13 @@
 		"lancer_au_propulseur",
 		"cri_du_clan",
 		"peinture_de_guerre",
-		"huile_d_athlete"
+		"huile_d_athlete",
+		"bain_des_thermes"
 	],
 	"_aide_competences_requises": "Une compétence d'époque qui demande un objet : elle ne peut aller dans la barre que si l'objet est dans les sacs (ou porté).",
 	"competences_requises": {
-		"huile_d_athlete": "amphore_huile_sacree"
+		"huile_d_athlete": "amphore_huile_sacree",
+		"bain_des_thermes": "strigile_thermes"
 	},
 	"ultimes": [
 		"appel_de_la_meute"
@@ -2037,6 +2055,23 @@
 		"colosse": [{"objet": "eclat_de_fracture", "chance": 1.0, "quantite": [7, 10]}, {"objet": "bronze_colosse", "chance": 1.0, "quantite": [2, 3]}],
 		"pilleur_cendre": [{"objet": "eclat_de_fracture", "chance": 0.5}, {"objet": "pioche_pilleur", "chance": 0.4}],
 		"pilleur_cendre_maison": [{"objet": "pioche_pilleur", "chance": 1.0}],
+		"chien_fracture_cave": [{"objet": "eclat_de_fracture", "chance": 0.6}],
+		"vipere_thermes": [{"objet": "eclat_de_fracture", "chance": 0.5}],
+		"ours_evade": [{"objet": "eclat_de_fracture", "chance": 1.0, "quantite": [1, 2]}, {"objet": "fourrure_ours_vivarium", "chance": 1.0}],
+		"leopard_evade": [{"objet": "eclat_de_fracture", "chance": 0.8}, {"objet": "griffe_leopard", "chance": 1.0, "quantite": [1, 2]}],
+		"gladiateur_ecole_champion": [{"objet": "eclat_de_fracture", "chance": 1.0, "quantite": [1, 2]}],
+		"lion_jeux": [{"objet": "eclat_de_fracture", "chance": 0.6}, {"objet": "criniere_de_lion", "chance": 0.5}],
+		"gladiateur_jeux_thrace": [{"objet": "eclat_de_fracture", "chance": 0.5}],
+		"gladiateur_jeux_mirmillon": [{"objet": "eclat_de_fracture", "chance": 0.5}],
+		"gladiateur_jeux_champion": [{"objet": "eclat_de_fracture", "chance": 1.0, "quantite": [2, 3]}],
+		"chien_fracture_incendie": [{"objet": "eclat_de_fracture", "chance": 0.4}, {"objet": "croc_de_chien", "chance": 0.4}],
+		"leopard_evasion": [{"objet": "eclat_de_fracture", "chance": 0.4}, {"objet": "griffe_leopard", "chance": 0.6}],
+		"lion_evasion": [{"objet": "eclat_de_fracture", "chance": 0.5}, {"objet": "criniere_de_lion", "chance": 0.5}],
+		"ours_evasion_grand": [{"objet": "eclat_de_fracture", "chance": 1.0, "quantite": [2, 3]}, {"objet": "fourrure_ours_vivarium", "chance": 1.0}],
+		"feu_tricolore_fracture": [{"objet": "eclat_de_fracture", "chance": 0.4}],
+		"carrefour_fou": [{"objet": "eclat_de_fracture", "chance": 1.0, "quantite": [2, 4]}],
+		"pilleur_vesuve": [{"objet": "eclat_de_fracture", "chance": 0.4}, {"objet": "pioche_pilleur", "chance": 0.4}],
+		"chien_fracture_vesuve": [{"objet": "eclat_de_fracture", "chance": 0.4}, {"objet": "pierre_ponce", "chance": 0.5}],
 		"chien_fracture_pompei": [{"objet": "eclat_de_fracture", "chance": 0.5}],
 		"chien_fracture_subure": [{"objet": "eclat_de_fracture", "chance": 0.5}],
 		"vipere_fracture_olivier": [{"objet": "eclat_de_fracture", "chance": 0.4}, {"objet": "peau_de_vipere", "chance": 0.5}],

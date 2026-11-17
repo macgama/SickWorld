@@ -568,6 +568,8 @@ func _construire_quete() -> void:
 	var regard_p: Vector2 = e[0] - (e[1] as Vector2) * 1.0
 	_pnj(dossier, "livia", LIVIA, PI * 0.7)
 	_pnj(dossier, "sextus", SEXTUS, -PI * 0.6)
+	# Quêtes secondaires : Rectina, rescapée d'Herculanum.
+	_pnj(dossier, "refugiee_herculanum", Vector2(100, 36), PI)
 	# Les fontainiers ont fui l'ours : ils reviennent quand il est abattu.
 	for k in AQUARII.size():
 		var ouvrier := _pnj(dossier, "aquarius_%d" % (k + 1), AQUARII[k], PI * (0.3 + k * 0.5))

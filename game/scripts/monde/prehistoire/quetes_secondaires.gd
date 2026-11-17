@@ -22,7 +22,8 @@ const NOMS_ZONES := {
 	"grotte": "Grande Grotte",
 }
 ## Objets détruits quand on les utilise (les objets modernes semés par les fractures…).
-const FORMES_CONSOMMEES := ["canette", "telephone", "lunettes", "gobelet", "drone", "chat"]
+const FORMES_CONSOMMEES := ["canette", "telephone", "lunettes", "gobelet", "drone", "chat", "chien", "gps", "extincteur",
+		"fromage", "laurier", "sac", "tablette"]
 
 signal quete_changee(id: String)
 

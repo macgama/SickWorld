@@ -314,6 +314,21 @@
 		"couleur": "#b5a642"
 	},
 
+	"bain_des_thermes": {
+		"nom": "Bain des thermes",
+		"origine": "Rome",
+		"description": "Une bouffée de vapeur chaude des thermes de Titus, frottée au strigile : pendant 12 secondes, toi (ou l'allié ciblé) regagnes 12 points de vie par seconde et subis 10 % de dégâts en moins. Demande le Strigile des thermes (quête « Les thermes de Titus »).",
+		"type": "renfort_allie",
+		"portee": 30,
+		"effet": "thermes",
+		"duree": 12,
+		"soin_par_seconde": 12,
+		"reduction_degats_subis": 0.1,
+		"recharge": 35,
+		"animation": "sort",
+		"couleur": "#d98c5a"
+	},
+
 	"lancer_au_propulseur": {
 		"nom": "Lancer au propulseur",
 		"origine": "Préhistoire",

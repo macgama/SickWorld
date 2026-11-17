@@ -138,6 +138,8 @@ func raison_impossible() -> String:
 		return "Aucune monture de cette époque"
 	var requis := String(fiche(ici).get("requiert", ""))
 	if requis != "" and not _possede(requis):
+		if fiche(ici).has("requiert_texte"):
+			return String(fiche(ici).requiert_texte)
 		return "Il te faut d'abord dresser une monture ici (quête « Le cheval de Lysimaque »)" \
 				if requis == "bride_lysimaque" else "Il te faut : " + requis
 	if multiplayer.is_server() and combat.en_combat():
