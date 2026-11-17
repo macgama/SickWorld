@@ -184,6 +184,26 @@ const CLIMATS := {
 		"nuage_lumiere": Color(0.98, 0.96, 0.92),
 		"saturation": 0.95,
 	},
+	# Le mont Li (Chine) : la nuit. Une lune froide et basse, un ciel d'encre, un peu de
+	# brume au ras des champs ; la lumière vient surtout des torches et des feux.
+	"mont_li": {
+		"soleil": Vector2(250.0, 24.0),
+		"couleur_soleil": Color(0.62, 0.7, 0.95),
+		"energie_soleil": 1.0,
+		"couverture": 0.35,
+		"brume": Color(0.16, 0.18, 0.26),
+		"densite_brume": 0.0035,
+		"brume_volume": 0.01,
+		"albedo_brume": Color(0.5, 0.52, 0.66),
+		"ambiance": 0.6,
+		"zenith": Color(0.04, 0.06, 0.14),
+		"horizon": Color(0.2, 0.23, 0.34),
+		"brume_ciel": 0.35,
+		"horizon_soleil": Color(0.3, 0.34, 0.5),
+		"nuage_ombre": Color(0.06, 0.07, 0.1),
+		"nuage_lumiere": Color(0.32, 0.34, 0.42),
+		"saturation": 0.8,
+	},
 	# Rome : un matin d'été, soleil déjà haut, poussière dorée entre les immeubles.
 	"rome": {
 		"etalonnage": "mediterranee",

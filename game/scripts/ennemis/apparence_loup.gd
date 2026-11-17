@@ -99,7 +99,7 @@ func _ready() -> void:
 		return
 	if type.begins_with("oublie") or type.begins_with("garde") or type.begins_with("petrifie") \
 			or type.begins_with("masque") or type.begins_with("mercenaire") or type.begins_with("statue") \
-			or type.begins_with("meduse") or type.begins_with("pretorien"):
+			or type.begins_with("meduse") or type.begins_with("pretorien") or type.contains("argile"):
 		# Pas « "" » : ce serait un agent de la Vigie pour le bruiteur (pas, esquives…).
 		espece = "oublie"
 		_delegue = ApparenceOublie.new()
@@ -109,7 +109,10 @@ func _ready() -> void:
 				else ("masque" if type.begins_with("masque") else ("mercenaire" if type.begins_with("mercenaire") \
 				else ("statue" if type.begins_with("statue") else ("gorgone" if type.begins_with("meduse") \
 				else ("pretorien" if type.begins_with("pretorien") else "oublie"))))))
-		_delegue.chef = type == "masque_effaceur" or type == "masque_acropole"
+		if type.contains("argile"):
+			_delegue.variante = "argile"
+			_delegue.style = "general" if type.begins_with("general") else ("arbaletrier" if type.begins_with("arbaletrier") else "soldat")
+		_delegue.chef = type == "masque_effaceur" or type == "masque_acropole" or type.begins_with("general_argile")
 		add_child(_delegue)
 		return
 	if type.begins_with("cobra") or type.begins_with("isfet") or type.begins_with("vipere") or type.begins_with("serpent_gorgone"):

@@ -24,6 +24,14 @@
 				"sous_titre": "Chine · la capitale des Han",
 				"texte": "Des murs de terre si hauts qu'ils cachent le ciel, une porte gardée par des soldats en manteau rouge, et derrière, une avenue large comme un fleuve. Des toits de tuiles grises aux bords relevés, des lanternes, des charrettes, des marchands qui crient. Cinq cent mille personnes vivent ici. Et toutes, ce matin, parlent de la grande audience du Nouvel An."
 			}
+		},
+		"mont_li": {
+			"scene": "res://scenes/monde/chine/mont_li.tscn",
+			"arrivee": {
+				"titre": "Le mont Li",
+				"sous_titre": "Chine · le tombeau du Premier Empereur, la nuit",
+				"texte": "Le char s'arrête dans un hameau endormi. Le vent siffle dans les pins. À l'ouest, une colline trop carrée pour être une vraie colline découpe le ciel. Entre les deux, des torches, des trous béants dans la terre... et, au fond, des centaines d'hommes immobiles, debout en rangs, qui ne respirent pas."
+			}
 		}
 	},
 	"camps": {
@@ -238,6 +246,80 @@
 				],
 				"nombre": 2,
 				"rayon": 4
+			}
+		],
+		"mont_li": [
+			{
+				"type": "soldat_argile",
+				"position": [
+					20,
+					-36
+				],
+				"nombre": 3,
+				"rayon": 4
+			},
+			{
+				"type": "soldat_argile",
+				"position": [
+					-40,
+					-4
+				],
+				"nombre": 2,
+				"rayon": 4
+			},
+			{
+				"type": "arbaletrier_argile",
+				"position": [
+					60,
+					-74
+				],
+				"nombre": 2,
+				"rayon": 4
+			},
+			{
+				"type": "arbaletrier_argile",
+				"position": [
+					-20,
+					-50
+				],
+				"nombre": 2,
+				"rayon": 4
+			},
+			{
+				"type": "fouilleur_cinabre",
+				"position": [
+					120,
+					-130
+				],
+				"nombre": 2,
+				"rayon": 4
+			},
+			{
+				"type": "fouilleur_cinabre",
+				"position": [
+					150,
+					-70
+				],
+				"nombre": 2,
+				"rayon": 4
+			},
+			{
+				"type": "loup_fracture_qinling",
+				"position": [
+					-150,
+					70
+				],
+				"nombre": 3,
+				"rayon": 5
+			},
+			{
+				"type": "loup_fracture_qinling",
+				"position": [
+					-90,
+					160
+				],
+				"nombre": 3,
+				"rayon": 5
 			}
 		]
 	},
@@ -1401,12 +1483,290 @@
 					"fin_chapitre": true
 				}
 			]
+		},
+		{
+			"numero": 6,
+			"titre": "L'armée d'argile",
+			"ou": "mont_li",
+			"etapes": [
+				{
+					"id": "ban_zhao_qin",
+					"ou": "luoyang",
+					"objectif": "Retourne à Luoyang et parle à Ban Zhao, au pavillon de l'Est",
+					"pnj": "ban_zhao",
+					"repliques": [
+						"Te voilà. Tes amis ont-ils compris l'écriture ? ... Tu ne dis rien. Alors ils ont compris quelque chose qu'ils n'aiment pas.",
+						"Moi aussi, j'ai des nouvelles. Le mont Li, à l'ouest, où dort le Premier Empereur : des paysans racontent que des étrangers en manteau rouge y creusent jour et nuit. Et que la nuit, des soldats de terre marchent dans les champs.",
+						"Le sceau de ta fiole, la flamme dans un cercle : c'est le leur. Ils veulent réveiller l'armée de Qin, celle qui a brûlé les livres il y a trois cents ans.",
+						"L'impératrice Deng t'a fait préparer un char de poste. Il t'attend derrière la porte de l'Ouest. Va voir ce qu'ils déterrent, et reviens vite : la grande audience est après-demain."
+					]
+				},
+				{
+					"id": "vers_mont_li",
+					"ou": "luoyang",
+					"objectif": "Prends le char de poste qui t'attend derrière la porte de l'Ouest, vers le mont Li (F)",
+					"arriver": "mont_li"
+				},
+				{
+					"id": "paysan_puits",
+					"objectif": "Un paysan creuse un puits à la lueur d'un feu, dans le hameau de Lishan : parle-lui",
+					"pnj": "paysan_puits",
+					"repliques": [
+						"Ne t'approche pas trop du trou, étranger. Regarde ce qui en est sorti ce matin. Une tête. Une tête d'homme, en terre cuite, avec une moustache et un chignon. Elle me regardait.",
+						"Mon grand-père disait qu'il y avait une armée sous les champs, pour garder l'Empereur. Je croyais que c'était pour faire peur aux enfants.",
+						"Puis les hommes en rouge sont arrivés. Ils ont ouvert la terre, là-bas, vers la colline. De grands trous, longs comme des rues. Et la nuit dernière, j'ai vu les soldats se lever. Ils marchaient. Sans bruit.",
+						"Il y a un autre étranger, au bord de la route. Un grand, avec une cicatrice. Il est arrivé hier et il regarde les fosses sans rien dire."
+					]
+				},
+				{
+					"id": "masque_allie",
+					"si_choix": {
+						"choix_masque": "allier_masque"
+					},
+					"objectif": "Rejoins Masque, au bord de la route, entre le hameau et les fosses",
+					"pnj": "masque_li",
+					"repliques": [
+						"Je t'avais dit que je te retrouverais quand j'aurais quelque chose. J'ai quelque chose.",
+						"La nouvelle Effaceuse se fait appeler Cinabre. Une historienne. Elle était à l'université, à Xi'an, avant que l'Éditeur la recrute. Elle connaît ce tombeau mieux que les archéologues de notre temps.",
+						"Elle ne veut pas piller l'Empereur. Elle veut le réveiller. Son armée, son ordre, sa Chine sans livres. Et elle a commencé par la grande fosse.",
+						"Descends dans la fosse par la rampe de l'est. Je surveille les bords. Cette fois, je suis de ton côté. Vraiment."
+					]
+				},
+				{
+					"id": "masque_mefiant",
+					"si_choix": {
+						"choix_masque": "mefier_masque"
+					},
+					"objectif": "L'homme à la cicatrice, au bord de la route, entre le hameau et les fosses : c'est Masque",
+					"pnj": "masque_li",
+					"repliques": [
+						"Tu ne me fais toujours pas confiance. C'est bien. Garde ta main près de ton arme.",
+						"Mais écoute quand même. L'Effaceuse d'ici se fait appeler Cinabre. Une historienne, recrutée par l'Éditeur. Elle veut réveiller l'armée du Premier Empereur.",
+						"Elle a commencé par la grande fosse. Descends par la rampe de l'est. Je te regarderai faire. De loin."
+					]
+				},
+				{
+					"id": "soldats",
+					"objectif": "Descends dans la grande fosse par la rampe de l'est : des soldats de terre cuite se relèvent",
+					"tuer": "soldat_argile_fosse",
+					"nombre": 6,
+					"lieu": [
+						42,
+						-44
+					],
+					"apparition": {
+						"type": "soldat_argile_fosse",
+						"position": [
+							46,
+							-44
+						],
+						"nombre": 6,
+						"rayon": 5,
+						"attaque": true
+					},
+					"recit": {
+						"titre": "Les soldats d'argile",
+						"texte": "Le dernier soldat se fend du haut en bas et retombe en morceaux, comme un vase. À l'intérieur, il n'y a rien. Seulement de la terre, et des éclats violets qui s'éteignent. Mais au milieu du couloir, un soldat plus grand que les autres, coiffé d'un bonnet de général, tourne lentement la tête vers toi."
+					}
+				},
+				{
+					"id": "general",
+					"objectif": "Abats le général d'argile, au milieu de la grande fosse : tant qu'il commande, les soldats se relèvent",
+					"tuer": "general_argile",
+					"nombre": 1,
+					"lieu": [
+						42,
+						-44
+					],
+					"apparition": {
+						"type": "general_argile",
+						"position": [
+							42,
+							-44
+						],
+						"nombre": 1,
+						"rayon": 1,
+						"attaque": true
+					},
+					"recit": {
+						"titre": "Le général d'argile",
+						"texte": "Le général s'écroule, et avec lui, dans tous les couloirs, les soldats qui commençaient à bouger se figent de nouveau. Un silence énorme. Puis, au sud, dans la petite fosse des chevaux, une lueur violette se met à battre."
+					}
+				},
+				{
+					"id": "faille",
+					"objectif": "Referme la faille, au fond de la fosse des chevaux, au sud (reste immobile)",
+					"objet": "faille_mont_li",
+					"duree": 5,
+					"action": "Fermeture de la faille…",
+					"apparition": {
+						"type": "arbaletrier_argile_faille",
+						"position": [
+							30,
+							26
+						],
+						"nombre": 3,
+						"rayon": 3,
+						"attaque": false
+					},
+					"apres": [
+						{
+							"cacher": "faille_mont_li"
+						}
+					],
+					"recit": {
+						"titre": "Une odeur de métal",
+						"texte": "La faille se referme. Il reste une odeur étrange, métallique, et au fond de la fosse, de minuscules billes d'argent qui roulent entre les sabots des chevaux de terre. Du mercure. Elles roulent toutes dans la même direction : vers le nord-est, vers le camp des hommes en rouge."
+					}
+				},
+				{
+					"id": "camp",
+					"objectif": "Le camp des fouilleurs de Cinabre, au nord-est : chasse-les",
+					"tuer": "fouilleur_cinabre_camp",
+					"nombre": 5,
+					"lieu": [
+						120,
+						-102
+					],
+					"apparition": {
+						"type": "fouilleur_cinabre_camp",
+						"position": [
+							118,
+							-104
+						],
+						"nombre": 5,
+						"rayon": 6,
+						"attaque": true
+					},
+					"recit": {
+						"titre": "Les fouilleurs",
+						"texte": "Ce ne sont pas des paysans. Sous leurs manteaux rouges, ils portent des gants de nitrile et des lampes frontales. L'un d'eux, en tombant, laisse échapper un carnet couvert de mesures, en chiffres arabes."
+					}
+				},
+				{
+					"id": "plans",
+					"objectif": "Fouille la grande tente du camp : des papiers sont étalés sur une caisse (F)",
+					"objet": "plans_cinabre",
+					"duree": 2,
+					"action": "Tu déplies les grandes feuilles…",
+					"apres": [
+						{
+							"montrer": "vera_li"
+						}
+					],
+					"recit": {
+						"titre": "Le plan du tombeau",
+						"texte": "Un plan du tombeau, tracé au feutre rouge sur du papier moderne : le palais souterrain, les murs, les fleuves de mercure dessinés en bleu, et au centre, une croix entourée trois fois. À côté, d'une écriture ronde : « Le cœur. L'Empereur se relèvera quand l'Audience brûlera. » Et une date : le premier jour de l'an, à Luoyang."
+					}
+				},
+				{
+					"id": "vera_li",
+					"objectif": "Quelqu'un t'attend à la lisière du camp, une radio à la main",
+					"pnj": "vera_li",
+					"repliques": [
+						"Bonsoir, agent. Oui, c'est moi, en vrai, pas seulement à la radio. J'en avais assez de t'écouter te battre sans voir.",
+						"Tu as vu le plan ? « Quand l'Audience brûlera. » Cinabre ne veut pas seulement réveiller ses soldats. Elle veut qu'ils marchent sur Luoyang le jour où Cai Lun présentera son papier. Brûler le papier devant l'empereur, et l'histoire bascule.",
+						"Elle est devant l'entrée du tombeau, au pied sud de la colline. Elle t'attend, je crois. Elle aime parler.",
+						"Et non, je ne viens pas avec toi. Je ne me bats plus pour personne. Mais je te prête mes oreilles."
+					],
+					"apres": [
+						{
+							"montrer": "cinabre_li"
+						}
+					]
+				},
+				{
+					"id": "cinabre",
+					"objectif": "Va à l'entrée du tombeau, au pied sud de la grande colline : Cinabre t'attend",
+					"pnj": "cinabre_li",
+					"repliques": [
+						"Le voyageur de la Vigie. Enfin. Tu as cassé mon général. C'était un très bon général : Meng Tian l'aurait aimé.",
+						"Je m'appelle Cinabre. La pierre rouge. On en tirait le mercure que buvait l'Empereur pour vivre toujours. Il n'a pas vécu toujours. Mais son idée, si.",
+						"Avant lui, sept royaumes qui se massacraient depuis deux siècles. Sept écritures, sept mesures, sept monnaies. Après lui : une seule Chine. Une seule écriture, que tout le monde lit encore dans ton époque. Ça, c'est lui.",
+						"Oui, il a brûlé des livres. Parce que les livres, ce sont des avis. Et quand chacun a son avis, on recommence à se massacrer. Le papier de Cai Lun, c'est des avis par milliers, pour rien. Dis-moi que j'ai tort."
+					]
+				},
+				{
+					"id": "choix_cinabre",
+					"objectif": "Cinabre attend ta réponse : que lui dis-tu ?",
+					"choix": [
+						{
+							"objet": "repondre_unite",
+							"objectif": "Réponds à Cinabre",
+							"pnj": "cinabre_li",
+							"repliques": [
+								"« L'unité, oui. L'écriture commune, oui. Mais Ban Zhao, l'impératrice Deng, Cai Lun : ils prouvent qu'on peut être unis sans brûler les livres. »",
+								"Cinabre : ... Ban Zhao. Je l'ai lue, tu sais, à l'université. Elle écrit bien. C'est dommage.",
+								"Tu as une réponse de bibliothécaire. Moi, j'ai une armée. On verra laquelle tient debout le jour de l'an."
+							]
+						},
+						{
+							"objet": "demander_editeur",
+							"objectif": "Demande-lui qui l'a envoyée",
+							"pnj": "cinabre_li",
+							"repliques": [
+								"« Qui t'a envoyée ici ? Qui t'a donné ce sceau ? »",
+								"Cinabre : L'Éditeur ? Personne ne l'envoie, il propose. Il m'a montré un monde où on ne se dispute plus. Il écrit très bien, d'ailleurs. Une écriture fine, penchée. Très ancienne école.",
+								"Tu as l'air surpris. Tu l'as déjà vue, son écriture, n'est-ce pas ? Bonne nuit, voyageur."
+							]
+						}
+					],
+					"apres": [
+						{
+							"masquer": "cinabre_li"
+						},
+						{
+							"montrer": "masque_tombeau"
+						}
+					]
+				},
+				{
+					"id": "panda",
+					"objectif": "Cinabre s'est enfoncée dans le tombeau. Au sud-ouest, dans les bambous, un petit cri plaintif : va voir (F)",
+					"objet": "bebe_panda",
+					"duree": 2,
+					"action": "Tu tends la main, tout doucement…",
+					"apres": [
+						{
+							"cacher": "bebe_panda"
+						}
+					],
+					"recompense": [
+						{
+							"id": "bebe_panda",
+							"nom": "Bao, le bébé panda"
+						}
+					],
+					"recit": {
+						"titre": "Bao",
+						"texte": "Une boule de poils noire et blanche, pas plus grosse qu'un chat, qui tremble au pied des bambous. Sa mère a dû fuir les soldats d'argile. Il renifle ta main, éternue, puis s'accroche à ta botte et ne la lâche plus. Il faudra bien lui donner un nom : Bao, « trésor »."
+					}
+				},
+				{
+					"id": "masque_tombeau",
+					"objectif": "Retourne à l'entrée du tombeau : Masque y monte la garde",
+					"pnj": "masque_tombeau",
+					"repliques": [
+						"Un panda. Tu pars chasser une Effaceuse et tu reviens avec un panda. Je comprends pourquoi la Vigie t'aime bien.",
+						"Cinabre est descendue. Je l'ai laissée passer : là-dessous, il y a des arbalètes qui tirent toutes seules sur ceux qui entrent. Sima Qian l'a écrit, et je le crois.",
+						"Il faudra un groupe pour descendre. Et d'abord, il faut protéger l'audience à Luoyang : si le papier brûle là-bas, ce qui dort ici se lèvera.",
+						"Prends le char. Je garde la porte. Personne ne sort d'ici sans que je le voie."
+					],
+					"recompense": [
+						{
+							"id": "cuirasse_lamelles",
+							"nom": "Cuirasse de lamelles du mont Li"
+						}
+					],
+					"fin_chapitre": true
+				}
+			]
 		}
 	],
 	"fin_provisoire": {
-		"chapitre": "Chapitre 6 : L'armée d'argile",
-		"objectif": "La suite arrive bientôt : le mont Li, où dort le Premier Empereur.",
+		"chapitre": "Chapitre 7 : La grande audience",
+		"objectif": "La suite arrive bientôt : le jour de l'an, au Palais du Sud de Luoyang.",
 		"titre": "Le papier et la flamme",
-		"message": "L'Éditeur a écrit dans le Livre des Han. Et son écriture, la Vigie la connaît."
+		"message": "Cinabre veut que l'Audience brûle. Et sous le mont Li, l'Empereur attend."
 	}
 }

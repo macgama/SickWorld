@@ -267,6 +267,18 @@ func _lancer() -> void:
 	_verifier(not _scene.find_child("IncendieBibliotheque", true, false).visible, "la bibliothèque ne brûle plus")
 	_verifier(_scene.find_child("Rayonnage2", true, false).get_node("Eteint").visible, "les rayonnages sont toujours éteints")
 	_verifier(_scene.find_child("Cuve0", true, false).get_node("Propre").visible, "les cuves sont toujours propres")
+	# Chapitre 6 : Ban Zhao envoie au mont Li, en char de poste.
+	_verifier(_id_etape() == "ban_zhao_qin", "le chapitre 6 commence chez Ban Zhao (%s)" % _id_etape())
+	lues = await _parler("BanZhao")
+	_verifier(lues >= 4, "Ban Zhao parle du mont Li (%d bulles)" % lues)
+	_verifier(_id_etape() == "vers_mont_li", "il faut prendre le char de poste (%s)" % _id_etape())
+	var char_poste: Node3D = _scene.find_child("CharPoste", true, false)
+	_verifier(char_poste != null, "le char de poste attend derrière la porte de l'Ouest")
+	await _placer(char_poste.global_position + Vector3(1.5, 0.4, 0.4), 0.0)
+	await _appuyer_f()
+	await _attendre(80)
+	_verifier(_quete.zone_demandee == "mont_li", "le char part vers le mont Li (%s)" % _quete.zone_demandee)
+	_quete.zone_demandee = ""
 	# Vers l'ouest, la route ramène au Fleuve Jaune.
 	var o: Vector2 = _scene.ENTREE
 	await _placer(Vector3(o.x + 8.0, _scene.hauteur(o.x + 8.0, o.y) + 0.4, o.y), PI / 2)

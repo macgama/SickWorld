@@ -33,6 +33,10 @@ const SHADER_GANGUE := """
 shader_type spatial;
 render_mode blend_mix, depth_draw_opaque, cull_back;
 uniform float niveau = 1.25;
+uniform vec3 pierre_sombre = vec3(0.72, 0.71, 0.69);
+uniform vec3 pierre_claire = vec3(0.88, 0.87, 0.84);
+uniform vec3 couleur_veine = vec3(0.42, 0.4, 0.44);
+uniform float rugosite = 0.42;
 varying vec3 monde;
 void vertex() {
 	monde = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
@@ -54,14 +58,14 @@ void fragment() {
 	float d = fract(sin(dot(i + vec3(0.0, 0.0, 1.0), vec3(12.9898, 78.233, 37.719))) * 43758.5453);
 	float grain = mix(mix(a, b, f.x), mix(c, d, f.x), f.y * 0.5 + f.z * 0.5);
 	float veine = smoothstep(0.78, 1.0, sin(monde.x * 11.0 + sin(monde.y * 7.0 + monde.z * 5.0) * 3.0 + grain * 2.0) * 0.5 + 0.5);
-	vec3 marbre = mix(vec3(0.72, 0.71, 0.69), vec3(0.88, 0.87, 0.84), grain);
-	ALBEDO = mix(marbre, vec3(0.42, 0.4, 0.44), veine * 0.75);
+	vec3 marbre = mix(pierre_sombre, pierre_claire, grain);
+	ALBEDO = mix(marbre, couleur_veine, veine * 0.75);
 	// Des fissures sombres, plus nombreuses près de la lisière (la pierre craque).
 	float fissure = smoothstep(0.97, 1.0, sin(monde.y * 40.0 + grain * 6.0 + monde.x * 9.0) * 0.5 + 0.5);
 	ALBEDO *= 1.0 - fissure * 0.45;
 	float lisiere = smoothstep(0.09, 0.0, bord - h);
 	EMISSION = vec3(0.6, 0.3, 1.0) * lisiere * 2.0;
-	ROUGHNESS = 0.42 + grain * 0.2;
+	ROUGHNESS = rugosite + grain * 0.2;
 	SPECULAR = 0.6;
 }
 """
@@ -84,7 +88,7 @@ func _ready() -> void:
 	_corps.set("modele", "femme" if (variante == "petrifie" and graine % 3 == 1) or variante == "gorgone" else "homme")
 	add_child(_corps)
 	_habiller.call_deferred()
-	if variante == "petrifie" or variante == "statue":
+	if variante == "petrifie" or variante == "statue" or variante == "argile":
 		_preparer_gangue()
 		return
 	if variante == "gorgone":
@@ -138,6 +142,9 @@ func _habiller() -> void:
 		return
 	if variante == "statue":
 		_habiller_statue(hasard)
+		return
+	if variante == "argile":
+		_habiller_argile(hasard)
 		return
 	if variante == "gorgone":
 		_habiller_gorgone()
@@ -330,6 +337,32 @@ func _habiller_statue(hasard: RandomNumberGenerator) -> void:
 	_poser_gangue(true)
 
 
+## Un soldat de terre cuite du Premier Empereur, que la fracture a relevé : tout le corps
+## est d'argile grise et rouge, fendue de cristal violet (« style » : soldat, arbaletrier,
+## general).
+func _habiller_argile(hasard: RandomNumberGenerator) -> void:
+	if _corps.has_method("appliquer"):
+		_corps.appliquer({"sexe": "homme", "taille_cm": hasard.randi_range(184, 192) + (10 if chef else 0),
+				"peau": Color("#8a7060")})
+	if _corps.has_method("teindre_tenue"):
+		_corps.teindre_tenue(Color("#7a6252"))
+	if _corps.has_method("porter_habit"):
+		_corps.porter_habit("chiton_court", {"principal": Color("#6e5444")})
+	if _corps.has_method("equiper"):
+		var armes := {"arme_principale": {"forme": "lance", "couleur": "#5a5048"}}
+		if style == "general":
+			armes = {"arme_principale": {"forme": "lame", "couleur": "#6a6050"}, "tete": {"forme": "casque", "couleur": "#5a4a40"}}
+		elif style == "arbaletrier":
+			armes = {"arme_principale": {"forme": "dague", "couleur": "#5a5048"}}
+		_corps.equiper(armes)
+	_gangue.set_shader_parameter("pierre_sombre", Vector3(0.36, 0.3, 0.26))
+	_gangue.set_shader_parameter("pierre_claire", Vector3(0.56, 0.46, 0.38))
+	_gangue.set_shader_parameter("couleur_veine", Vector3(0.62, 0.28, 0.2))
+	_gangue.set_shader_parameter("rugosite", 0.8)
+	_gangue.set_shader_parameter("niveau", 3.0)
+	_poser_gangue(true)
+
+
 ## Méduse, la Gorgone de l'égide : la fracture majeure a pris la forme de la tête sculptée
 ## sur le bouclier d'Athéna. Une femme immense, de cristal violet et d'or, une chevelure de
 ## serpents de bronze, et des yeux qui s'allument avant de pétrifier.
@@ -517,4 +550,4 @@ func animer(delta: float, vitesse: float, mort: bool) -> void:
 	# Un Pétrifié marche raide, à petits pas (la pierre pèse). La Gorgone agite ses serpents.
 	for k in _serpents.size():
 		_serpents[k].rotation.x += sin(_temps * 2.3 + k * 1.7) * delta * 0.6
-	_corps.animer(delta, Vector3(0, 0, -vitesse * (0.7 if variante == "petrifie" or variante == "statue" else 1.0)), true, -1.0, Vector3.ZERO)
+	_corps.animer(delta, Vector3(0, 0, -vitesse * (0.7 if variante == "petrifie" or variante == "statue" or variante == "argile" else 1.0)), true, -1.0, Vector3.ZERO)

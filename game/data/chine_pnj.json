@@ -527,5 +527,86 @@
 		"repliques": [
 			"Cinq cent mille personnes derrière ce mur. Et chacune a une bonne raison de se plaindre."
 		]
+	},
+	"paysan_puits": {
+		"nom": "Le vieux Yang",
+		"role": "Paysan de Lishan",
+		"modele": "homme",
+		"habit": "exomis",
+		"taille_cm": 164,
+		"peau": "#b88a60",
+		"habits": "#4a4030",
+		"repliques": [
+			"Je voulais seulement de l'eau pour mes kakis. Et la terre m'a rendu une tête.",
+			"Si tu vois les hommes en rouge, dis-leur que les gens de Lishan n'ont rien vu. Rien du tout."
+		]
+	},
+	"villageois_lishan_1": {
+		"nom": "Madame Yang",
+		"role": "Paysanne de Lishan",
+		"modele": "femme",
+		"habit": "peplos_himation",
+		"taille_cm": 156,
+		"peau": "#c49a74",
+		"habits": "#5a3a2a",
+		"repliques": [
+			"Mon mari ne dort plus. Il dit qu'il entend des pas sous les champs. Moi, j'entends surtout ses ronflements, d'habitude."
+		]
+	},
+	"villageois_lishan_2": {
+		"nom": "Petit Shun",
+		"role": "Fils du paysan",
+		"modele": "homme",
+		"habit": "exomis",
+		"taille_cm": 140,
+		"peau": "#c8a07a",
+		"habits": "#5a4a3a",
+		"repliques": [
+			"J'ai touché la tête en argile ! Elle était froide. Papa m'a grondé. Mais elle avait l'air gentille."
+		]
+	},
+	"masque_li": {
+		"nom": "Damien Roche",
+		"role": "« Masque » · ancien agent de la Vigie",
+		"modele": "homme",
+		"taille_cm": 188,
+		"peau": "#c4987a",
+		"habits": "#4a1d24",
+		"repliques": [
+			"Tu entends ? Le vent dans les pins. Ou autre chose."
+		]
+	},
+	"masque_tombeau": {
+		"nom": "Damien Roche",
+		"role": "« Masque » · il garde l'entrée du tombeau",
+		"modele": "homme",
+		"taille_cm": 188,
+		"peau": "#c4987a",
+		"habits": "#4a1d24",
+		"repliques": [
+			"Personne ne sort d'ici sans que je le voie. Personne."
+		]
+	},
+	"vera_li": {
+		"nom": "Vera Lind",
+		"role": "« Sablier » · en chair et en os",
+		"modele": "femme",
+		"taille_cm": 174,
+		"peau": "#e9cdb6",
+		"habits": "#3a3a40",
+		"repliques": [
+			"Je te prête mes oreilles. Pas mes mains."
+		]
+	},
+	"cinabre_li": {
+		"nom": "Cinabre",
+		"role": "Effaceuse · historienne du Premier Empereur",
+		"modele": "femme",
+		"taille_cm": 170,
+		"peau": "#e2c4a8",
+		"habits": "#8a1a14",
+		"repliques": [
+			"L'ordre est une forme de bonté. On l'oublie toujours trop tôt."
+		]
 	}
 }
