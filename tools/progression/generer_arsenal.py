@@ -130,8 +130,7 @@ ILES = [
      }},
     {"id": "chine", "palier": 5, "epoque": "Chine des Han", "categorie": "Chine",
      "armure": {"soie_grege": 3, "pelage_loup_desert": 2}, "arme": {"plaquette_laque": 2, "ecorce_murier": 2},
-     # Pas encore de boss final en Chine : des plaquettes de laque en attendant le trophée du donjon.
-     "trophee": None, "trophee_provisoire": {"plaquette_laque": 4},
+     "trophee": "perle_coiffe_imperiale",
      "panoplies": {
         "assaut": {"nom": "Arbalétrier des Han", "couleur": "#7a2a2a",
             "formes": ["lame", "veste", "pantalon", "bandeau", "brassards", "rangers", "collier"],

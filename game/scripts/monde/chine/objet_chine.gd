@@ -16,6 +16,13 @@ extends "res://scripts/monde/rome/objet_rome.gd"
 ## - « ecorce » : un tas de lanieres d'écorce de mûrier qui trempent (on le ramasse).
 ## - « liasse » : une liasse de lattes de bambou roulée et nouée (un livre des Han).
 ## - « feu_rayonnage » : une étagère de livres qui brûle ; éteinte, il reste l'étagère noircie.
+## - « sechoir_papier » : un grand cadre de bois où sèchent des feuilles de papier, touché
+##   par une flèche enflammée. Éteint (cacher()), il reste le cadre et les feuilles roussies.
+## - « mecanisme_arbalete » : le mécanisme de bronze qui fait tirer les arbalètes du tombeau
+##   (un treuil, une roue dentée, un levier) ; bloqué, il reste figé, coincé par une barre.
+## - « bucher_livres » : un bûcher de lattes et de rouleaux qui flambe (le grand autodafé) ;
+##   étouffé, il reste un tas noir et fumant sous des feuilles de papier mouillées.
+## - « carnet » : un petit carnet de cuir noir à élastique (le carnet de l'Éditeur).
 ## - « manuscrit » : le manuscrit du Livre des Han sur un pupitre, annoté en violet.
 ## - un Figé à qui l'on rend la mémoire n'a pas de forme : l'objet est invisible, posé sur
 ##   le personnage (meta « pnj_lie ») ; quand il est compté, le personnage se dégèle.
@@ -318,6 +325,123 @@ func _construire_feu_rayonnage() -> void:
 					_liasse_dans(parent, Vector3(-0.7 + i * 0.28, 0.24 + k * 0.6, 0), Vector3(PI / 2, 0, 0))
 	_flammes_dans(_visuel, 7, 0.4, 1.6, 0.3)
 	_fumee_dans(_visuel, 2.0, true, 0.7)
+
+
+func _construire_sechoir_papier() -> void:
+	var bois := _mat_uni(Color(0.42, 0.28, 0.16), 0.85)
+	var papier := _mat_uni(Color(0.94, 0.9, 0.8), 0.95)
+	var roussi := _mat_uni(Color(0.55, 0.42, 0.28), 1.0)
+	var montant := BoxMesh.new()
+	montant.size = Vector3(0.1, 2.2, 0.1)
+	var traverse := BoxMesh.new()
+	traverse.size = Vector3(2.6, 0.08, 0.08)
+	var feuille := BoxMesh.new()
+	feuille.size = Vector3(0.55, 0.7, 0.01)
+	for cible in [_visuel, null]:
+		var parent: Node3D = cible
+		if parent == null:
+			_debout = Node3D.new()
+			_debout.name = "Eteint"
+			_debout.visible = false
+			add_child(_debout)
+			parent = _debout
+		for c: float in [-1.25, 1.25]:
+			_morceau_dans(parent, montant, bois, Vector3(c, 1.1, 0))
+		for h: float in [1.0, 1.9]:
+			_morceau_dans(parent, traverse, bois, Vector3(0, h, 0))
+			for i in 4:
+				var m := papier if parent == _visuel or (i + int(h)) % 2 == 0 else roussi
+				_morceau_dans(parent, feuille, m, Vector3(-0.9 + i * 0.6, h - 0.38, 0.05))
+	# La flèche enflammée plantée dans le cadre.
+	var fleche := CylinderMesh.new()
+	fleche.top_radius = 0.012
+	fleche.bottom_radius = 0.012
+	fleche.height = 0.8
+	_morceau(fleche, bois, Vector3(0.4, 1.6, 0.3), Vector3(PI / 2 - 0.3, 0, 0.2))
+	_flammes_dans(_visuel, 6, 0.6, 1.4, 0.9)
+	_fumee_dans(_visuel, 2.2, true, 0.6)
+
+
+func _construire_mecanisme_arbalete() -> void:
+	var bronze := _mat_uni(Color(0.36, 0.4, 0.28), 0.4)
+	bronze.metallic = 0.7
+	var bois := _mat_uni(Color(0.22, 0.12, 0.07), 0.7)
+	var socle := BoxMesh.new()
+	socle.size = Vector3(0.9, 1.0, 0.6)
+	var roue := CylinderMesh.new()
+	roue.top_radius = 0.38
+	roue.bottom_radius = 0.38
+	roue.height = 0.08
+	roue.radial_segments = 16
+	var dent := BoxMesh.new()
+	dent.size = Vector3(0.1, 0.1, 0.1)
+	var levier := BoxMesh.new()
+	levier.size = Vector3(0.06, 0.8, 0.06)
+	for cible in [_visuel, null]:
+		var parent: Node3D = cible
+		if parent == null:
+			_debout = Node3D.new()
+			_debout.name = "Eteint"
+			_debout.visible = false
+			add_child(_debout)
+			parent = _debout
+		_morceau_dans(parent, socle, bois, Vector3(0, 0.5, 0))
+		_morceau_dans(parent, roue, bronze, Vector3(0, 1.3, 0), Vector3(PI / 2, 0, 0))
+		for k in 10:
+			var a := k * TAU / 10.0
+			_morceau_dans(parent, dent, bronze, Vector3(cos(a) * 0.42, 1.3 + sin(a) * 0.42, 0))
+		var penche := 0.5 if parent == _visuel else -0.2
+		_morceau_dans(parent, levier, bronze, Vector3(0.35, 1.2, 0.2), Vector3(0, 0, penche))
+	# Bloqué : une barre de fer glissée dans les rayons de la roue.
+	var barre := BoxMesh.new()
+	barre.size = Vector3(1.0, 0.06, 0.06)
+	_morceau_dans(_debout, barre, _mat_uni(Color(0.2, 0.2, 0.22), 0.5), Vector3(0, 1.3, 0.08), Vector3(0, 0, 0.7))
+	_trace_violette()
+
+
+func _construire_bucher_livres() -> void:
+	var bois := _mat_uni(Color(0.46, 0.36, 0.22), 0.9)
+	var noir := _mat_uni(Color(0.08, 0.07, 0.06), 1.0)
+	var papier := _mat_uni(Color(0.82, 0.78, 0.7), 0.95)
+	var hasard := RandomNumberGenerator.new()
+	hasard.seed = hash(identifiant)
+	var latte := BoxMesh.new()
+	latte.size = Vector3(0.05, 0.02, 0.9)
+	for cible in [_visuel, null]:
+		var parent: Node3D = cible
+		if parent == null:
+			_debout = Node3D.new()
+			_debout.name = "Eteint"
+			_debout.visible = false
+			add_child(_debout)
+			parent = _debout
+		var m := bois if parent == _visuel else noir
+		for k in 40:
+			var r := hasard.randf_range(0.0, 1.1)
+			var a := hasard.randf() * TAU
+			_morceau_dans(parent, latte, m, Vector3(cos(a) * r, 0.05 + hasard.randf() * (0.9 - r * 0.6), sin(a) * r),
+					Vector3(hasard.randf_range(-0.6, 0.6), hasard.randf() * TAU, hasard.randf_range(-0.4, 0.4)))
+		for k in 6:
+			_liasse_dans(parent, Vector3(hasard.randf_range(-0.8, 0.8), 0.15, hasard.randf_range(-0.8, 0.8)), Vector3(PI / 2, hasard.randf() * TAU, 0))
+	# Étouffé : des feuilles de papier mouillées posées dessus.
+	var feuille := BoxMesh.new()
+	feuille.size = Vector3(0.6, 0.01, 0.7)
+	for k in 7:
+		_morceau_dans(_debout, feuille, papier, Vector3(hasard.randf_range(-0.6, 0.6), 0.55 + k * 0.03, hasard.randf_range(-0.6, 0.6)),
+				Vector3(hasard.randf_range(-0.3, 0.3), hasard.randf() * TAU, hasard.randf_range(-0.3, 0.3)))
+	_fumee_dans(_debout, 0.8, false, 0.5)
+	_flammes_dans(_visuel, 10, 0.9, 2.4, 0.3)
+	_fumee_dans(_visuel, 3.0, true, 1.2)
+
+
+func _construire_carnet() -> void:
+	var cuir := BoxMesh.new()
+	cuir.size = Vector3(0.14, 0.025, 0.2)
+	_morceau(cuir, _mat_uni(Color(0.06, 0.05, 0.05), 0.5), Vector3(0, 0.02, 0), Vector3(0, 0.4, 0))
+	var elastique := BoxMesh.new()
+	elastique.size = Vector3(0.01, 0.03, 0.205)
+	_morceau(elastique, _mat_uni(Color(0.5, 0.06, 0.05), 0.6), Vector3(0.04, 0.022, 0), Vector3(0, 0.4, 0))
+	_trace_violette()
 
 
 func _construire_manuscrit() -> void:

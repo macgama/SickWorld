@@ -220,6 +220,11 @@ Un titre se gagne une fois pour toutes. Dans l'onglet **Titres** de la fenêtre 
 | Rome | « Gladiateur du Ludus » | Désarmer le champion du Ludus Magnus (quête « L'école des gladiateurs »). |
 | Rome | « Ami du peuple romain » | Terminer toutes les quêtes secondaires de Rome. |
 | Rome | « Gardien de la Ville » | Réussir 3 événements publics de Rome. |
+| Chine | « Ami des pandas » | Trouver Bao, le bébé panda, dans les bambous du mont Li (chapitre 6). |
+| Chine | « Défenseur de l'audience » | Défendre le Palais du Sud le jour de l'an (chapitre 7). |
+| Chine | « Briseur d'argile » | Vaincre 60 soldats de terre cuite. |
+| Chine | « Vainqueur de l'Empereur d'argile » | Briser le cœur de l'Empereur d'argile, au fond du tombeau du Premier Empereur. |
+| Chine | « Lettré du pavillon de l'Est » | Terminer la quête principale de Chine : l'impératrice Deng te fait lettré du pavillon de l'Est. |
 | Arène de la baie | « Baptême de l'arène » | Gagner un premier combat à l'Arène de la baie. |
 | Arène de la baie | « Habitué de l'arène » | Gagner 25 combats à l'Arène. |
 | Arène de la baie | « Vétéran de l'arène » | Gagner 100 combats à l'Arène. |

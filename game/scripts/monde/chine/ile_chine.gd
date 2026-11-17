@@ -750,11 +750,25 @@ func _pavillon_han(parent: Node3D, centre: Vector2, taille: Vector2, angle := 0.
 	var t := taille + Vector2(4.0, 4.0)
 	_boite(Vector3(t.x, haut_terrasse, t.y), Vector3(0, haut_terrasse * 0.5 - 0.1, 0), terre, pav)
 	_boite(Vector3(t.x + 0.2, 0.25, t.y + 0.2), Vector3(0, haut_terrasse - 0.05, 0), pierre, pav, false)
-	# L'escalier (une rampe en marches) au milieu de la façade.
+	# L'escalier au milieu de la façade : des marches qu'on voit, et dessous une rampe
+	# invisible sur laquelle on marche (le personnage ne grimpe pas les marches une à une).
 	var marches := int(ceil(haut_terrasse / 0.3))
 	for k in marches:
 		var h := haut_terrasse * (k + 1) / marches
-		_boite(Vector3(5.0, h, 0.5), Vector3(0, h * 0.5 - 0.1, t.y * 0.5 + (marches - k) * 0.5 - 0.2), pierre, pav)
+		_boite(Vector3(5.0, h, 0.5), Vector3(0, h * 0.5 - 0.1, t.y * 0.5 + (marches - k) * 0.5 - 0.2), pierre, pav, false)
+	if marches > 0:
+		var longueur := marches * 0.5
+		var pente := atan2(haut_terrasse, longueur)
+		var rampe := StaticBody3D.new()
+		rampe.name = "RampeEscalier"
+		var forme := CollisionShape3D.new()
+		var boite := BoxShape3D.new()
+		boite.size = Vector3(5.0, 0.2, sqrt(longueur * longueur + haut_terrasse * haut_terrasse) + 0.3)
+		forme.shape = boite
+		rampe.add_child(forme)
+		rampe.position = Vector3(0, haut_terrasse * 0.5 - 0.2, t.y * 0.5 + longueur * 0.5 - 0.1)
+		rampe.rotation.x = pente
+		pav.add_child(rampe)
 	var laque := _mat_laque()
 	var y := haut_terrasse
 	var haut_etage := 4.2
@@ -869,3 +883,154 @@ func _lanterne(parent: Node3D, p: Vector3, poteau := true) -> void:
 	globe.material_override = m
 	globe.position = Vector3(0.75 if poteau else 0.0, 2.55 if poteau else -0.4, 0)
 	l.add_child(globe)
+
+
+# --- Le Premier Empereur : terre cuite et mercure (mont Li, tombeau) ------------------------
+
+func _mat_terre_cuite_grise() -> StandardMaterial3D:
+	var m := _mat_pbr("clay_block_wall", Color(0.85, 0.74, 0.64), 0.95, 1.2)
+	return m
+
+
+## Un soldat de terre cuite immobile (décor) : 1,85 m, robe à pans, cuirasse de lamelles,
+## chignon sur le côté. « casse » : renversé, la tête roulée à côté.
+func _statue_argile(parent: Node3D, p: Vector3, angle: float, hasard: RandomNumberGenerator, casse := false) -> void:
+	var argile := _mat_terre_cuite_grise()
+	var sombre := _mat_pbr("", Color(0.5, 0.42, 0.37), 0.95)
+	var soldat := Node3D.new()
+	soldat.position = p
+	soldat.rotation.y = angle
+	parent.add_child(soldat)
+	var corps := Node3D.new()
+	soldat.add_child(corps)
+	if casse:
+		corps.rotation = Vector3(PI / 2 * (1.0 if hasard.randf() < 0.5 else -1.0), 0, hasard.randf_range(-0.4, 0.4))
+		corps.position.y = 0.3
+	# Le socle, les jambes, la robe, la cuirasse.
+	_boite(Vector3(0.6, 0.08, 0.5), Vector3(0, 0.04, 0), sombre, corps, false)
+	for c in [-1.0, 1.0]:
+		var jambe := MeshInstance3D.new()
+		jambe.mesh = _cylindre(0.08, 0.09, 0.7, 6)
+		jambe.material_override = argile
+		jambe.position = Vector3(c * 0.12, 0.43, 0)
+		corps.add_child(jambe)
+	var robe := MeshInstance3D.new()
+	robe.mesh = _cylindre(0.2, 0.3, 0.55, 8)
+	robe.material_override = argile
+	robe.position.y = 0.95
+	corps.add_child(robe)
+	_boite(Vector3(0.42, 0.42, 0.26), Vector3(0, 1.34, 0), sombre, corps, false)
+	for c in [-1.0, 1.0]:
+		var bras := MeshInstance3D.new()
+		bras.mesh = _cylindre(0.06, 0.07, 0.55, 6)
+		bras.material_override = argile
+		bras.position = Vector3(c * 0.28, 1.25, -0.08)
+		bras.rotation.x = 0.35
+		corps.add_child(bras)
+	if not casse or hasard.randf() < 0.4:
+		var tete := MeshInstance3D.new()
+		var s := SphereMesh.new()
+		s.radius = 0.12
+		s.height = 0.27
+		s.radial_segments = 8
+		s.rings = 5
+		tete.mesh = s
+		tete.material_override = argile
+		tete.position.y = 1.7
+		corps.add_child(tete)
+		var chignon := MeshInstance3D.new()
+		var c2 := SphereMesh.new()
+		c2.radius = 0.06
+		c2.height = 0.1
+		c2.radial_segments = 6
+		c2.rings = 3
+		chignon.mesh = c2
+		chignon.material_override = sombre
+		chignon.position = Vector3(0.08, 1.82, 0.02)
+		corps.add_child(chignon)
+	elif casse:
+		var tete := MeshInstance3D.new()
+		var s := SphereMesh.new()
+		s.radius = 0.12
+		s.height = 0.27
+		s.radial_segments = 8
+		s.rings = 5
+		tete.mesh = s
+		tete.material_override = argile
+		tete.position = Vector3(hasard.randf_range(-0.8, 0.8), 0.12, hasard.randf_range(-0.8, 0.8))
+		soldat.add_child(tete)
+
+
+## Un cheval de terre cuite (décor), grandeur nature.
+func _cheval_argile(parent: Node3D, p: Vector3, angle: float) -> void:
+	var argile := _mat_terre_cuite_grise()
+	var cheval := Node3D.new()
+	cheval.position = p
+	cheval.rotation.y = angle
+	parent.add_child(cheval)
+	var corps := MeshInstance3D.new()
+	corps.mesh = _cylindre(0.36, 0.38, 1.7, 10)
+	corps.material_override = argile
+	corps.position.y = 1.25
+	corps.rotation.x = PI / 2
+	cheval.add_child(corps)
+	for k in 4:
+		var jambe := MeshInstance3D.new()
+		jambe.mesh = _cylindre(0.07, 0.08, 1.0, 6)
+		jambe.material_override = argile
+		jambe.position = Vector3(-0.2 if k % 2 == 0 else 0.2, 0.55, -0.6 if k < 2 else 0.6)
+		cheval.add_child(jambe)
+	var cou := MeshInstance3D.new()
+	cou.mesh = _cylindre(0.14, 0.2, 0.8, 8)
+	cou.material_override = argile
+	cou.position = Vector3(0, 1.65, -0.85)
+	cou.rotation.x = -0.6
+	cheval.add_child(cou)
+	_boite(Vector3(0.2, 0.26, 0.55), Vector3(0, 1.95, -1.15), argile, cheval, false)
+
+
+## Une vapeur de mercure : une brume violette et argentée qui rampe au ras du sol.
+func _vapeur_mercure(parent: Node3D, p: Vector3, rayon := 3.0) -> void:
+	var v := CPUParticles3D.new()
+	v.amount = 40
+	v.lifetime = 6.0
+	v.preprocess = 6.0
+	v.position = p
+	v.emission_shape = CPUParticles3D.EMISSION_SHAPE_SPHERE
+	v.emission_sphere_radius = rayon
+	v.direction = Vector3(0, 1, 0)
+	v.spread = 60.0
+	v.gravity = Vector3(0.2, 0.05, 0)
+	v.initial_velocity_min = 0.1
+	v.initial_velocity_max = 0.4
+	var taille := Curve.new()
+	taille.max_value = 6.0
+	taille.add_point(Vector2(0, 1.5))
+	taille.add_point(Vector2(1, 4.0))
+	v.scale_amount_curve = taille
+	var teinte := Gradient.new()
+	teinte.set_color(0, Color(0.6, 0.45, 0.95, 0.0))
+	teinte.add_point(0.3, Color(0.7, 0.6, 0.95, 0.28))
+	teinte.set_color(teinte.get_point_count() - 1, Color(0.8, 0.8, 0.9, 0.0))
+	v.color_ramp = teinte
+	var quad := QuadMesh.new()
+	quad.size = Vector2(1.6, 1.6)
+	var degrade := Gradient.new()
+	degrade.set_color(0, Color(1, 1, 1, 1))
+	degrade.set_color(1, Color(1, 1, 1, 0))
+	var tache := GradientTexture2D.new()
+	tache.gradient = degrade
+	tache.fill = GradientTexture2D.FILL_RADIAL
+	tache.fill_from = Vector2(0.5, 0.5)
+	tache.fill_to = Vector2(0.5, 0.0)
+	var m := StandardMaterial3D.new()
+	m.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	m.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	m.billboard_mode = BaseMaterial3D.BILLBOARD_PARTICLES
+	m.vertex_color_use_as_albedo = true
+	m.albedo_texture = tache
+	m.depth_draw_mode = BaseMaterial3D.DEPTH_DRAW_DISABLED
+	quad.material = m
+	v.mesh = quad
+	v.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	parent.add_child(v)

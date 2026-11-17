@@ -394,22 +394,25 @@ static func _amenager_archives(hub: HikariBay, metal: Material) -> void:
 	_amenager_cellule(hub, metal)
 
 
-## La cellule de détention, dans le coin sud-est des archives : des barreaux, un lit de camp,
-## une chaise. Vide jusqu'au chapitre 8 de Rome (Janus y est enfermée, voir la mission
-## « cellule_janus », qui y fait apparaître Livia Conti).
+## Les cellules de détention, dans le coin sud-est des archives : des barreaux, un lit de camp,
+## une chaise. Vides jusqu'au chapitre 8 de Rome (Janus est enfermée dans la première, voir la
+## mission « cellule_janus », qui y fait apparaître Livia Conti) et au chapitre 8 de la Chine
+## (Cinabre dans la seconde, juste à l'ouest : mission « cellule_cinabre »).
 static func _amenager_cellule(hub: HikariBay, metal: Material) -> void:
 	var r := ARCHIVES
-	var x0 := r.end.x - 5.0
+	_cellule(hub, metal, r.end.x - 5.0, r.end.x - 0.3, true)
+	_cellule(hub, metal, r.end.x - 10.0, r.end.x - 5.0, false)
+
+
+static func _cellule(hub: HikariBay, metal: Material, x0: float, x1: float, mur_est: bool) -> void:
+	var r := ARCHIVES
 	var z0 := r.end.y - 5.2
-	var x1 := r.end.x - 0.3
 	var z1 := r.end.y - 0.3
-	# Les barreaux : côté ouest et côté nord (les deux autres sont les murs de la salle).
-	var n := 0
+	# Les barreaux : côté ouest et côté nord (à l'est, le mur de la salle ou la cellule voisine).
 	var z := z0
 	while z <= z1:
 		hub._cylindre(0.03, 0.03, 3.4, Vector3(x0, SOL + 1.7, z), metal, false)
 		z += 0.22
-		n += 1
 	var x := x0
 	while x <= x1:
 		hub._cylindre(0.03, 0.03, 3.4, Vector3(x, SOL + 1.7, z0), metal, false)
@@ -424,7 +427,8 @@ static func _amenager_cellule(hub: HikariBay, metal: Material) -> void:
 	hub._boite(Vector3(0.45, 0.06, 0.45), Vector3(x0 + 1.6, SOL + 0.46, z1 - 1.2), metal, false)
 	hub._boite(Vector3(0.45, 0.5, 0.05), Vector3(x0 + 1.6, SOL + 0.72, z1 - 0.98), metal, false)
 	hub._lumiere(Vector3((x0 + x1) * 0.5, SOL + 3.2, (z0 + z1) * 0.5), Color(0.8, 0.88, 1.0), 1.2, 5.0)
-	hub._texte("Détention", Vector3(x0 - 0.1, SOL + 3.0, (z0 + z1) * 0.5), Color(0.75, 0.82, 0.9), 40, -PI / 2, 1.2)
+	if mur_est:
+		hub._texte("Détention", Vector3(x0 - 5.1, SOL + 3.0, (z0 + z1) * 0.5), Color(0.75, 0.82, 0.9), 40, -PI / 2, 1.2)
 
 
 static func _mat_uni(couleur: Color, rugosite: float) -> StandardMaterial3D:

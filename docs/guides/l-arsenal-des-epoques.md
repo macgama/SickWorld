@@ -224,7 +224,7 @@ Bonus d'ensemble : 3 pièces : +10 % de soins donnés ; 5 pièces : +5 % de coup
 
 - Armures : 7 × Éclat de fracture, 3 × Soie grège, 2 × Pelage de loup du désert.
 - Arme et bijou : 7 × Éclat de fracture, 2 × Plaquette d'armure laquée, 2 × Écorce de mûrier.
-- Renforcer une pièce : 9 × Éclat de fracture, 4 × Plaquette d'armure laquée.
+- Renforcer une pièce : 9 × Éclat de fracture, 1 × Perle de la coiffe impériale.
 
 **Arbalétrier des Han** — Assaut (Lame, Traqueur)
 
