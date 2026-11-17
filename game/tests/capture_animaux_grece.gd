@@ -1,8 +1,8 @@
 extends SceneTree
-## Captures du chien errant, du molosse et du poulpe du Pirée (vrais modèles),
+## Captures du chien errant, du molosse et du poulpe du Pirée, et du lion de Rome (vrais modèles),
 ## dans un petit studio : à l'arrêt, au pas, à la course, en mordant, et morts.
 ## Lancement (fenêtre visible, pas en --headless) :
-##   godot --path game -s res://tests/capture_animaux_grece.gd -- dossier [chien|molosse|poulpe]...
+##   godot --path game -s res://tests/capture_animaux_grece.gd -- dossier [chien|molosse|poulpe|lion]...
 
 const ApparenceLoup := preload("res://scripts/ennemis/apparence_loup.gd")
 
@@ -122,4 +122,7 @@ func _lancer() -> void:
 		await _capturer("molosse_fracture", dossier, "molosse", false, 1.4)
 	if choix.is_empty() or "poulpe" in choix:
 		await _capturer("poulpe_fracture", dossier, "poulpe", true, 2.6)
+	if "lion" in choix:
+		# Le lion de l'île de Rome (même studio).
+		await _capturer("lion_fracture", dossier, "lion", false, 1.5)
 	quit()

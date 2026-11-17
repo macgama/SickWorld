@@ -360,6 +360,12 @@ func _lancer() -> void:
 	for pnj in ["commandante", "janus_cellule", "commandante"]:
 		await _parler_a(pnj)
 	_verifier(_quetes.etat("cellule_janus") == "terminee", "mission « La cellule de Janus » accomplie")
+
+	# 22. La charte de fondation (Chine, chapitre 5) : Morel -> Odile (archives) -> Morel.
+	_quetes.accepter("charte_fondation")
+	for pnj in ["commandante", "archiviste", "commandante"]:
+		await _parler_a(pnj)
+	_verifier(_quetes.etat("charte_fondation") == "terminee", "mission « La charte de fondation » accomplie")
 	souvenirs = _appart.get_node("Souvenirs").get_child_count()
 	_verifier(souvenirs == _quetes.quetes.size(), "toutes les missions ont leur souvenir (%d)" % souvenirs)
 

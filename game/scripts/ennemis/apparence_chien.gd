@@ -7,7 +7,9 @@ extends Node3D
 ## - « molosse » : le grand chien de garde, fait à partir d'un labrador
 ##   (« Labrador Dog », kenchoo) assombri et grandi. Il n'a qu'une animation
 ##   d'attente : sa marche et sa course sont faites ici, en bougeant ses pattes.
-## Les deux ont les yeux violets des bêtes fracturées.
+## - « lion » : le lion de l'île de Rome (« Lion », kenchoo, même squelette que
+##   le labrador). Une seule animation d'attente lui aussi : il marche et galope en code.
+## Les bêtes fracturées ont les yeux violets (« fracture » à faux pour une bête saine).
 ##
 ## Appelé par apparence_loup.gd (même interface : animer, mordre, colorer).
 ## Si un modèle manque, apparence_loup.gd garde l'ancien chien (le loup teinté).
@@ -15,6 +17,7 @@ extends Node3D
 const MODELES := {
 	"chien": "res://assets/animaux/chien/scene.gltf",
 	"molosse": "res://assets/animaux/molosse/scene.gltf",
+	"lion": "res://assets/animaux/lion/scene.gltf",
 }
 
 ## Réglages de chaque modèle : échelle, os utiles et position des yeux (en mètres,
@@ -51,9 +54,40 @@ const FICHES := {
 		"teinte": Color(0.2, 0.18, 0.18),
 		"cacher": ["Object_18"],
 	},
+	"lion": {
+		# Le modèle fait 1,86 m au garrot : un vrai lion en fait 1,1 à 1,2.
+		"echelle": 0.62,
+		"tete": "Head_0",
+		"machoire": "",
+		"gauche": "BackUpperLeg.L_16",
+		"droite": "BackUpperLeg.R_20",
+		# Derrière, la cuisse est « BackLeg » et le jarret « BackUpperLeg ».
+		"cuisses": ["FrontUpperLeg.L_8", "FrontUpperLeg.R_11", "BackLeg.L_17", "BackLeg.R_21"],
+		"jarrets": ["FrontLowerLeg.L_7", "FrontLowerLeg.R_10", "BackUpperLeg.L_16", "BackUpperLeg.R_20"],
+		"queue": "Tail1_30",
+		"foulee": 2.6,
+		# Pli des genoux quand la patte revient en l'air (avant, arrière) : ici le
+		# « jarret » arrière est le tibia, qui se replie vers l'arrière.
+		"plis": [0.7, -0.2],
+		"amplitude": 0.7,
+		# Les pieds sont liés aux os d'IK de Blender (IK…, et leurs enfants FF/FFB),
+		# qui ne suivent pas les pattes : on les recolle au bas de chaque patte (pied, patte).
+		"pieds": [["IKFrontLeg.L_40", "FrontLowerLeg.L_7"], ["IKFrontLeg.R_44", "FrontLowerLeg.R_10"],
+				["IKBackLeg.L_38", "BackLowerLeg.L_15"], ["IKBackLeg.R_42", "BackLowerLeg.R_19"]],
+		# Ici les yeux sont donnés dans le repère du fichier, au repos (la tête du
+		# modèle est tournée de côté au repos) : relevés sur les pupilles de la texture.
+		"yeux_repos": [Vector3(-0.565, 2.33, 1.765), Vector3(-0.405, 2.325, 1.985)],
+		"rayon_oeil": 0.04,
+		# Au repos, le lion a la tête tournée d'environ 50° sur sa droite : on la
+		# remet dans l'axe en répartissant la rotation sur le cou et la tête.
+		"redresser": ["Neck1_5", "Neck2_4", "Neck3_3", "Head_0"],
+		"redresser_angle": 50.0,
+	},
 }
 
 var espece := "chien"
+## Faux pour une bête qui n'est pas altérée par une fracture : pas d'yeux violets.
+var fracture := true
 var _fiche: Dictionary
 var _pivot: Node3D
 var _modele: Node3D
@@ -101,7 +135,7 @@ func _construire() -> void:
 	if _squelette != null:
 		for cle in ["tete", "machoire", "gauche", "droite", "queue"]:
 			_os[cle] = _squelette.find_bone(str(_fiche.get(cle, "")))
-		for cle in ["cuisses", "jarrets"]:
+		for cle in ["cuisses", "jarrets", "redresser"]:
 			var liste: Array[int] = []
 			for nom in _fiche.get(cle, []):
 				liste.append(_squelette.find_bone(nom))
@@ -110,7 +144,8 @@ func _construire() -> void:
 		if _os["gauche"] >= 0 and _os["droite"] >= 0:
 			_lateral = (_squelette.get_bone_global_rest(_os["gauche"]).origin
 					- _squelette.get_bone_global_rest(_os["droite"]).origin).normalized()
-		_poser_yeux()
+		if fracture:
+			_poser_yeux()
 	if _anim != null:
 		# C'est nous qui faisons avancer l'animation, pour pouvoir corriger la pose ensuite.
 		_anim.callback_mode_process = AnimationMixer.ANIMATION_CALLBACK_MODE_PROCESS_MANUAL
@@ -218,22 +253,32 @@ func _poser_yeux() -> void:
 	accroche.name = "Yeux"
 	accroche.bone_idx = tete
 	_squelette.add_child(accroche)
+	if _fiche.has("yeux_repos"):
+		# Positions dans le repère du squelette au repos : on les ramène dans celui de l'os.
+		var repos := _squelette.get_bone_global_rest(tete).affine_inverse()
+		for p: Vector3 in _fiche["yeux_repos"]:
+			accroche.add_child(_oeil(float(_fiche["rayon_oeil"]), Transform3D(Basis(), repos * p)))
+		return
 	# Repère de la tête vu depuis cette apparence (le squelette est à l'échelle du fichier).
 	var tete_ici := global_transform.affine_inverse() * _squelette.global_transform * _squelette.get_bone_global_pose(tete)
 	var inverse := tete_ici.basis.inverse()
 	var rayon := float(_fiche["rayon_oeil"])
 	for p: Vector3 in _fiche["yeux"]:
-		var oeil := MeshInstance3D.new()
-		var s := SphereMesh.new()
-		s.radius = rayon
-		s.height = rayon * 2.0
-		s.radial_segments = 10
-		s.rings = 6
-		oeil.mesh = s
-		oeil.material_override = _mat_oeil
-		oeil.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-		oeil.transform = Transform3D(inverse, inverse * p)
-		accroche.add_child(oeil)
+		accroche.add_child(_oeil(rayon, Transform3D(inverse, inverse * p)))
+
+
+func _oeil(rayon: float, repere: Transform3D) -> MeshInstance3D:
+	var oeil := MeshInstance3D.new()
+	var s := SphereMesh.new()
+	s.radius = rayon
+	s.height = rayon * 2.0
+	s.radial_segments = 10
+	s.rings = 6
+	oeil.mesh = s
+	oeil.material_override = _mat_oeil
+	oeil.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	oeil.transform = repere
+	return oeil
 
 
 func colorer(allie: bool) -> void:
@@ -272,7 +317,9 @@ func animer(delta: float, vitesse: float, mort: bool) -> void:
 		_animer_chien(delta, vitesse)
 	else:
 		_animer_molosse(delta, vitesse)
+	_redresser_tete()
 	_corriger_tete(mord)
+	_recoller_pieds()
 
 
 func _animer_chien(delta: float, vitesse: float) -> void:
@@ -306,7 +353,8 @@ func _animer_molosse(delta: float, vitesse: float) -> void:
 	# Au trot, les pattes vont en diagonale ; au galop, l'avant puis l'arrière.
 	var decalage := lerpf(PI, 0.7, allure)
 	var phases := [0.0, PI, decalage, decalage + PI]
-	var amplitude := lerpf(0.35, 0.6, allure)
+	var amplitude := lerpf(0.35, 0.6, allure) * float(_fiche.get("amplitude", 1.0))
+	var plis: Array = _fiche.get("plis", [0.7, -0.6])
 	var cuisses: Array[int] = _os["cuisses"]
 	var jarrets: Array[int] = _os["jarrets"]
 	for k in 4:
@@ -314,12 +362,41 @@ func _animer_molosse(delta: float, vitesse: float) -> void:
 		# Angle négatif = patte lancée vers l'avant.
 		_tourner(cuisses[k], -sin(p) * amplitude)
 		# Le genou plie quand la patte revient vers l'avant (en l'air).
-		var plie := maxf(0.0, cos(p)) * (0.7 if k < 2 else -0.6)
+		var plie := maxf(0.0, cos(p)) * float(plis[0] if k < 2 else plis[1])
 		_tourner(jarrets[k], plie * (0.5 + allure))
 	var queue: int = _os.get("queue", -1)
 	if queue >= 0:
 		_tourner(queue, -0.25 - 0.15 * sin(_phase * 2.0))
 	_pivot.position.y = absf(sin(_phase)) * 0.06 * allure
+
+
+## Les os de pied qui ne suivent pas la patte (voir « pieds ») : on leur applique
+## le même déplacement que l'os du bas de la patte, depuis le repos.
+func _recoller_pieds() -> void:
+	if _squelette == null or not _fiche.has("pieds"):
+		return
+	for paire: Array in _fiche["pieds"]:
+		var pied := _squelette.find_bone(paire[0])
+		var patte := _squelette.find_bone(paire[1])
+		if pied < 0 or patte < 0:
+			continue
+		var ecart := _squelette.get_bone_global_pose(patte) * _squelette.get_bone_global_rest(patte).affine_inverse()
+		var repos := _squelette.get_bone_global_rest(pied)
+		# Le pied suit le bout de la patte mais reste à plat, comme posé.
+		_squelette.set_bone_global_pose(pied, Transform3D(repos.basis, ecart * repos.origin))
+
+
+## Remet dans l'axe du corps une tête tournée de côté dans le modèle (le lion).
+func _redresser_tete() -> void:
+	var liste: Array = _os.get("redresser", [])
+	if _squelette == null or liste.is_empty():
+		return
+	var angle := deg_to_rad(float(_fiche["redresser_angle"])) / liste.size()
+	for os: int in liste:
+		if os < 0:
+			continue
+		var axe := (_squelette.get_bone_global_pose(os).basis.inverse() * Vector3.UP).normalized()
+		_squelette.set_bone_pose_rotation(os, _squelette.get_bone_pose_rotation(os) * Quaternion(axe, angle))
 
 
 ## Penche la tête et ouvre la gueule pendant la morsure (par-dessus l'animation).

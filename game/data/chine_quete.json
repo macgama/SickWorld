@@ -16,6 +16,14 @@
 				"sous_titre": "Chine · au cœur de l'empire des Han",
 				"texte": "La route quitte le désert et la terre change de couleur d'un coup : jaune, fine comme de la farine, taillée en marches géantes jusqu'en haut des collines. Dans la falaise, des portes rondes, des fenêtres de papier. Et loin à l'est, un fleuve si large et si boueux qu'on dirait de la terre qui coule."
 			}
+		},
+		"luoyang": {
+			"scene": "res://scenes/monde/chine/luoyang.tscn",
+			"arrivee": {
+				"titre": "Luoyang",
+				"sous_titre": "Chine · la capitale des Han",
+				"texte": "Des murs de terre si hauts qu'ils cachent le ciel, une porte gardée par des soldats en manteau rouge, et derrière, une avenue large comme un fleuve. Des toits de tuiles grises aux bords relevés, des lanternes, des charrettes, des marchands qui crient. Cinq cent mille personnes vivent ici. Et toutes, ce matin, parlent de la grande audience du Nouvel An."
+			}
 		}
 	},
 	"camps": {
@@ -173,6 +181,62 @@
 					80
 				],
 				"nombre": 3,
+				"rayon": 4
+			}
+		],
+		"luoyang": [
+			{
+				"type": "pillard_luoyang",
+				"position": [
+					-170,
+					-90
+				],
+				"nombre": 2,
+				"rayon": 4
+			},
+			{
+				"type": "pillard_luoyang",
+				"position": [
+					-170,
+					110
+				],
+				"nombre": 3,
+				"rayon": 4
+			},
+			{
+				"type": "pillard_luoyang",
+				"position": [
+					20,
+					150
+				],
+				"nombre": 2,
+				"rayon": 4
+			},
+			{
+				"type": "loup_fracture_luoyang",
+				"position": [
+					-60,
+					-172
+				],
+				"nombre": 3,
+				"rayon": 5
+			},
+			{
+				"type": "loup_fracture_luoyang",
+				"position": [
+					100,
+					150
+				],
+				"nombre": 3,
+				"rayon": 5
+			},
+			{
+				"type": "sanglier_fracture_parc",
+				"position": [
+					-132,
+					-96
+				],
+				"nombre": 2,
 				"rayon": 4
 			}
 		]
@@ -703,7 +767,7 @@
 					"repliques": [
 						"Merci. Les vers t'en remercient aussi, même s'ils ne le savent pas encore.",
 						"Regarde ces feuilles. Ce n'est pas de la soie, ni du bambou : c'est du papier. On le fait au village des papetiers, de l'autre côté de la route. Le vieux Lao Fan nous les vend pour les œufs.",
-						"Mais regarde là-bas, au sud... Cette fumée noire. C'est chez eux. Vas-y, vite ! Lao Fan est comme un oncle pour moi."
+						"Mais regarde là-bas, au sud... Cette fumée noire. C'est chez eux. Vas-y, vite ! C'est mon grand-père."
 					]
 				},
 				{
@@ -740,7 +804,7 @@
 					"objectif": "Parle au vieux papetier, au milieu de la cour du village",
 					"pnj": "lao_fan",
 					"repliques": [
-						"Mei t'envoie ? Cette petite... Elle a toujours su choisir ses amis. Moi, c'est Lao Fan. Je fais du papier depuis trente ans.",
+						"Mei t'envoie ? Ma petite-fille... Elle a toujours su choisir ses amis. Moi, c'est Lao Fan. Je fais du papier depuis trente ans.",
 						"Tu vois ces cuves ? Dedans, de l'écorce de mûrier, du chanvre, des vieux chiffons, et même des filets de pêche usés. On pile tout, on fait bouillir, on tamise. Et on obtient ça : une feuille. Légère, douce, et presque gratuite.",
 						"Le grand Cai Lun, l'intendant du palais, m'a commandé cent feuilles parfaites. Pour la grande audience du Nouvel An, devant l'empereur. Il veut montrer à toute la cour qu'on peut écrire sans bambou ni soie.",
 						"Ces brigands le savaient. Ils ne cherchaient qu'à brûler les séchoirs. Et regarde : les feuilles qui sèchent sur les murs commencent à fumer violet, comme les œufs de Mei. Aide-moi à les décoller avant qu'elles ne partent en cendres !"
@@ -918,12 +982,431 @@
 					"fin_chapitre": true
 				}
 			]
+		},
+		{
+			"numero": 4,
+			"titre": "Le cadeau de Cai Lun",
+			"ou": "luoyang",
+			"etapes": [
+				{
+					"id": "vers_luoyang",
+					"ou": "fleuve_jaune",
+					"objectif": "Suis la route de l'est, au bout du relais du bac, jusqu'à Luoyang, la capitale des Han",
+					"arriver": "luoyang"
+				},
+				{
+					"id": "ban_zhao",
+					"objectif": "Remets la lettre de Gan Ying à Ban Zhao, au pavillon de l'Est (la bibliothèque impériale, à l'est de la ville)",
+					"pnj": "ban_zhao",
+					"repliques": [
+						"Une lettre de Gan Ying ? Ce vieux fou est encore vivant ! Il a vu la mer de l'Ouest et il est revenu nous dire qu'elle était trop grande. Je ne l'ai jamais oublié.",
+						"Je suis Ban Zhao. Mon père a commencé l'histoire de notre dynastie, mon frère l'a continuée, et la prison l'a tué avant la fin. Alors je la termine. Ici, au milieu de ces rouleaux.",
+						"Le sceau de Qin... Gan Ying a raison d'avoir peur. Depuis un mois, des livres brûlent tout seuls dans la ville. Et des gens se figent dans la rue, comme des statues de terre cuite.",
+						"Tu portes la rame de papier de Lao Fan ? Alors va d'abord chez Cai Lun, aux ateliers impériaux, au nord-ouest de la ville. Il ne dort plus depuis une semaine. Reviens me voir après : j'aurai lu la lettre."
+					]
+				},
+				{
+					"id": "cai_lun",
+					"objectif": "Porte la rame de papier de Lao Fan à Cai Lun, aux ateliers impériaux (au nord-ouest de la ville)",
+					"pnj": "cai_lun",
+					"repliques": [
+						"Cent feuilles ? De Lao Fan ? Montre ! ... Oui. Oui ! Fines, égales, sans un trou. Ce vieux grincheux est le meilleur papetier de l'empire, et il le sait.",
+						"Je suis Cai Lun, directeur des ateliers du palais. Les épées de l'empereur, ses miroirs, ses arcs : tout sort d'ici. Mais ça, ce papier, c'est mon œuvre. La seule qui restera.",
+						"Dans trois jours, à la grande audience du Nouvel An, je le présente à l'empereur. Un support d'écriture que n'importe quel scribe peut payer. Imagine : des livres pour tout le monde.",
+						"Mais regarde mes cuves. Ce matin, elles brillaient. Une poussière d'argent au fond, et cette lueur violette... Du mercure. Quelqu'un a empoisonné ma pâte. Vide-les, vite, avant que mes ouvriers ne tombent malades !"
+					]
+				},
+				{
+					"id": "cuves",
+					"objectif": "Vide les trois cuves empoisonnées au mercure, dans la cour de l'atelier (F, reste immobile)",
+					"recolter": "cuve_mercure",
+					"nombre": 3,
+					"duree": 2,
+					"action": "Tu vides la pâte empoisonnée dans la rigole…",
+					"apres": [
+						{
+							"cacher": "cuve_mercure_0"
+						},
+						{
+							"cacher": "cuve_mercure_1"
+						},
+						{
+							"cacher": "cuve_mercure_2"
+						}
+					],
+					"recit": {
+						"titre": "Les cuves sont propres",
+						"texte": "La pâte grise s'écoule dans la rigole, et avec elle les petites perles d'argent qui roulent comme des billes. Au fond des cuves, il ne reste que de l'eau claire. Et dans la cour, un ouvrier que personne ne connaît pose son seau et file vers la porte, sans se presser, la tête basse."
+					}
+				},
+				{
+					"id": "choix_cai_lun",
+					"objectif": "Cai Lun est désespéré et l'ouvrier inconnu s'en va par la porte de l'atelier : que fais-tu ?",
+					"choix": [
+						{
+							"objet": "aider_cai_lun",
+							"objectif": "Reste avec Cai Lun pour refaire la pâte à temps",
+							"pnj": "cai_lun",
+							"repliques": [
+								"Tu restes ? Tu... Bien. Bien ! Alors on recommence tout, depuis le début. Ce n'est pas difficile, c'est seulement long.",
+								"D'abord l'écorce de mûrier : elle trempe dans les bacs, au fond de la cour. Ensuite on la pile, on la mélange à l'eau, on tamise, et on colle la feuille sur le mur chaud. Je te montre."
+							]
+						},
+						{
+							"objet": "suivre_saboteur",
+							"objectif": "Suis l'ouvrier inconnu sans te faire voir",
+							"pnj": "cai_lun",
+							"repliques": [
+								"L'ouvrier ? Je ne l'ai jamais vu de ma vie ! Suis-le, mais de loin. S'il te voit, il disparaîtra dans la foule du marché.",
+								"Moi, je vais refaire la pâte avec mes hommes. Ça prendra deux nuits au lieu d'une. Va !"
+							]
+						}
+					]
+				},
+				{
+					"id": "ecorces",
+					"si_choix": {
+						"choix_cai_lun": "aider_cai_lun"
+					},
+					"objectif": "Prends l'écorce de mûrier qui trempe dans les trois bacs, au fond de la cour (F)",
+					"recolter": "ecorce",
+					"nombre": 3,
+					"duree": 1.2,
+					"action": "Tu sors les lanières d'écorce de l'eau froide…",
+					"apres": [
+						{
+							"cacher": "ecorce_0"
+						},
+						{
+							"cacher": "ecorce_1"
+						},
+						{
+							"cacher": "ecorce_2"
+						}
+					]
+				},
+				{
+					"id": "piler",
+					"si_choix": {
+						"choix_cai_lun": "aider_cai_lun"
+					},
+					"objectif": "Pile les fibres au grand pilon à pied, au fond de l'atelier (reste immobile)",
+					"objet": "pilon_cai_lun",
+					"duree": 4,
+					"action": "Pied gauche, pied droit… les fibres s'écrasent en bouillie…"
+				},
+				{
+					"id": "tamiser",
+					"si_choix": {
+						"choix_cai_lun": "aider_cai_lun"
+					},
+					"objectif": "Plonge le tamis de bambou dans la cuve propre, devant Cai Lun (reste immobile)",
+					"objet": "tamis_cai_lun",
+					"duree": 3,
+					"action": "Tu plonges le tamis, tu le relèves bien à plat, tu secoues doucement…"
+				},
+				{
+					"id": "secher",
+					"si_choix": {
+						"choix_cai_lun": "aider_cai_lun"
+					},
+					"objectif": "Colle la feuille sur le mur chaud du séchoir, à l'est de la cour (reste immobile)",
+					"objet": "sechoir_cai_lun",
+					"duree": 2,
+					"action": "Tu poses la feuille mouillée sur le mur tiède et tu la lisses du plat de la main…",
+					"recompense": [
+						{
+							"id": "recette_papier",
+							"nom": "Recette du papier de Cai Lun"
+						}
+					],
+					"recit": {
+						"titre": "Une feuille",
+						"texte": "La feuille sèche en quelques minutes, beige, un peu rugueuse, avec de petites fibres qu'on voit à contre-jour. Cai Lun la décolle du bout des doigts, la regarde longtemps, et sourit pour la première fois. « Plus que quatre-vingt-dix-neuf. Tu vois ? Ce n'est pas difficile. C'est seulement long. »"
+					}
+				},
+				{
+					"id": "filature_porte",
+					"si_choix": {
+						"choix_cai_lun": "suivre_saboteur"
+					},
+					"objectif": "Suis l'ouvrier inconnu de loin : il sort par la porte sud de l'atelier",
+					"zone": [
+						-104,
+						-22
+					],
+					"rayon": 7
+				},
+				{
+					"id": "filature_avenue",
+					"si_choix": {
+						"choix_cai_lun": "suivre_saboteur"
+					},
+					"objectif": "Il traverse la grande avenue, vers le sud : ne le perds pas",
+					"zone": [
+						-100,
+						20
+					],
+					"rayon": 9
+				},
+				{
+					"id": "filature_marche",
+					"si_choix": {
+						"choix_cai_lun": "suivre_saboteur"
+					},
+					"objectif": "Il se glisse dans la foule du grand marché, au sud de l'avenue",
+					"zone": [
+						-104,
+						72
+					],
+					"rayon": 9
+				},
+				{
+					"id": "fiole",
+					"si_choix": {
+						"choix_cai_lun": "suivre_saboteur"
+					},
+					"objectif": "Il a disparu dans une ruelle, au coin sud-ouest du marché, mais quelque chose brille par terre : ramasse-le (F)",
+					"objet": "fiole_cinabre",
+					"recompense": [
+						{
+							"id": "fiole_cinabre",
+							"nom": "Fiole de mercure et bâton de cinabre"
+						}
+					],
+					"recit": {
+						"titre": "Une fiole de mercure",
+						"texte": "Une petite fiole de bronze, renversée, et un bâton de cinabre, la pierre rouge dont on tire le mercure. Sur le bouchon, un sceau gravé : une flamme dans un cercle. Le même sceau que sur le jade de Qin. Ce n'est pas un ouvrier jaloux. C'est quelqu'un qui croit que le papier ne doit jamais exister."
+					}
+				},
+				{
+					"id": "cai_lun_tigre",
+					"si_choix": {
+						"choix_cai_lun": "aider_cai_lun"
+					},
+					"objectif": "Retourne voir Cai Lun, devant les cuves",
+					"pnj": "cai_lun",
+					"repliques": [
+						"Tu as les mains d'un papetier, maintenant. Lao Fan serait jaloux. Mes ouvriers finiront les autres feuilles cette nuit.",
+						"Mais écoute... Tu entends ? Ce rugissement, au nord, dans le parc impérial.",
+						"Le gardien vient d'arriver en courant : quelqu'un a ouvert la cage du grand tigre de l'empereur. Et la bête n'est plus une bête : elle brille de violet, comme mes cuves.",
+						"Le parc est juste derrière l'atelier, au nord. Si ce tigre arrive jusqu'à l'avenue, ce sera un massacre. Va !"
+					]
+				},
+				{
+					"id": "cai_lun_fiole",
+					"si_choix": {
+						"choix_cai_lun": "suivre_saboteur"
+					},
+					"objectif": "Rapporte la fiole à Cai Lun, à l'atelier",
+					"pnj": "cai_lun",
+					"repliques": [
+						"Une fiole de mercure... avec ce sceau. Alors ce n'était pas un accident. Quelqu'un en veut à mon papier, et ce quelqu'un a de l'argent et des amis.",
+						"Mais écoute... Tu entends ? Ce rugissement, au nord. Quelqu'un vient d'ouvrir la cage du grand tigre de l'empereur, dans le parc impérial. Et la bête brille de violet.",
+						"Le parc est juste derrière l'atelier, au nord. Si ce tigre arrive jusqu'à l'avenue, ce sera un massacre. Va !"
+					]
+				},
+				{
+					"id": "tigre",
+					"objectif": "Dans le parc impérial, au nord de l'atelier : abats le tigre fracturé de l'empereur",
+					"tuer": "tigre_fracture",
+					"nombre": 1,
+					"lieu": [
+						-98,
+						-110
+					],
+					"apparition": {
+						"type": "tigre_fracture",
+						"position": [
+							-98,
+							-110
+						],
+						"nombre": 1,
+						"rayon": 1,
+						"attaque": false
+					},
+					"recit": {
+						"titre": "Le tigre de l'empereur",
+						"texte": "Le grand fauve s'effondre au bord de l'étang gelé. Les éclats violets s'éteignent sur son dos, et ses rayures redeviennent noires. Il respire encore. Le gardien du parc arrive en courant, une corde à la main, et s'agenouille près de lui en pleurant comme un enfant."
+					}
+				},
+				{
+					"id": "cai_lun_cadeau",
+					"objectif": "Retourne voir Cai Lun, à l'atelier",
+					"pnj": "cai_lun",
+					"repliques": [
+						"Le tigre est vivant ? Le gardien t'en sera reconnaissant toute sa vie. Moi aussi.",
+						"Tiens. Mon couteau à gratter. Avec, on efface les fautes sur les lattes de bambou : on gratte une fine couche de bois, et on récrit dessus. Avec le papier, je n'en aurai plus besoin.",
+						"Ou peut-être que si. Celui qui brûle les livres, lui, voudra gratter l'histoire. Garde-le bien affûté.",
+						"Ban Zhao te cherchait, tout à l'heure. Elle a lu la lettre de Gan Ying. Va la voir au pavillon de l'Est."
+					],
+					"recompense": [
+						{
+							"id": "couteau_cai_lun",
+							"nom": "Couteau à gratter de Cai Lun"
+						}
+					],
+					"fin_chapitre": true
+				}
+			]
+		},
+		{
+			"numero": 5,
+			"titre": "Le pavillon de l'Est",
+			"ou": "luoyang",
+			"etapes": [
+				{
+					"id": "vers_pavillon",
+					"objectif": "Retourne au pavillon de l'Est, la bibliothèque de Ban Zhao, à l'est de la ville",
+					"zone": [
+						103,
+						60
+					],
+					"rayon": 12,
+					"apres": [
+						{
+							"montrer": "incendie_bibliotheque"
+						}
+					],
+					"recit": {
+						"titre": "Le pavillon brûle",
+						"texte": "Une fumée épaisse sort des fenêtres de la bibliothèque. Pas de flammes rouges : des flammes violettes, qui lèchent les rayonnages sans un bruit. Des étudiants courent dans la cour avec des brassées de rouleaux. Un jeune homme crie des ordres en agitant les bras."
+					}
+				},
+				{
+					"id": "ma_rong",
+					"objectif": "Parle au jeune lettré qui organise les secours, dans la cour du pavillon",
+					"pnj": "ma_rong",
+					"repliques": [
+						"Tu es l'ami de Cai Lun ? Alors aide-nous ! Je suis Ma Rong, j'étudie le Livre des Han avec maîtresse Ban. Elle est restée à l'intérieur, elle ne veut pas sortir sans le manuscrit.",
+						"Le feu a pris en même temps sur quatre rayonnages. Tout seul. Les seaux sont là : les étudiants font la chaîne depuis le puits, toi, tu jettes l'eau. Monte sur la terrasse !"
+					]
+				},
+				{
+					"id": "feu",
+					"objectif": "Éteins les quatre rayonnages en feu, sur la terrasse de la bibliothèque (F, reste immobile)",
+					"recolter": "feu_rayonnage",
+					"nombre": 4,
+					"duree": 2.5,
+					"action": "Seau après seau, la chaîne des étudiants te passe l'eau…",
+					"apres": [
+						{
+							"cacher": "rayonnage_0"
+						},
+						{
+							"cacher": "rayonnage_1"
+						},
+						{
+							"cacher": "rayonnage_2"
+						},
+						{
+							"cacher": "rayonnage_3"
+						}
+					],
+					"recit": {
+						"titre": "Le feu froid",
+						"texte": "Le dernier rayonnage s'éteint dans un nuage de vapeur. Les lattes de bambou sont noires, tordues, mais les rouleaux du fond ont tenu. Et sous la cendre, tu remarques une chose étrange : seuls les livres d'histoire ont brûlé. Les livres de poésie, à côté, n'ont même pas chauffé."
+					}
+				},
+				{
+					"id": "liasses",
+					"objectif": "Mets à l'abri les cinq liasses de livres que les étudiants ont posées dans la cour (F)",
+					"recolter": "liasse",
+					"nombre": 5,
+					"duree": 1,
+					"action": "Tu ramasses la liasse de lattes et tu la portes sous l'auvent…",
+					"apres": [
+						{
+							"cacher": "liasse_0"
+						},
+						{
+							"cacher": "liasse_1"
+						},
+						{
+							"cacher": "liasse_2"
+						},
+						{
+							"cacher": "liasse_3"
+						},
+						{
+							"cacher": "liasse_4"
+						}
+					]
+				},
+				{
+					"id": "mercenaires",
+					"objectif": "Des mercenaires au manteau rouge entrent dans la cour avec des torches : chasse-les avant qu'ils ne rallument le feu",
+					"tuer": "mercenaire_cinabre",
+					"nombre": 4,
+					"lieu": [
+						103,
+						62
+					],
+					"apparition": {
+						"type": "mercenaire_cinabre",
+						"position": [
+							100,
+							64
+						],
+						"nombre": 4,
+						"rayon": 5,
+						"attaque": true
+					},
+					"recit": {
+						"titre": "Les manteaux rouges",
+						"texte": "Le dernier mercenaire tombe, et sa torche roule sur les dalles. Sur son manteau, brodé en fil d'or, le même sceau que sur le jade de Qin : une flamme dans un cercle. Ces hommes ne volaient rien. On les avait payés pour finir le travail du feu."
+					}
+				},
+				{
+					"id": "manuscrit",
+					"objectif": "Ban Zhao a sauvé le manuscrit du Livre des Han : il est posé sur sa table, sur la terrasse. Lis-le (F)",
+					"objet": "manuscrit_han",
+					"duree": 2,
+					"action": "Tu déroules le livre de lattes, latte après latte…",
+					"recit": {
+						"titre": "Des notes dans la marge",
+						"texte": "Le texte est en chinois ancien, serré, élégant. Mais dans la marge, à l'encre violette, quelqu'un a écrit d'une écriture fine et penchée. En français. « Supprimer ce passage. » « Le papier ne doit pas sortir du palais. » « Trop de gens qui lisent, trop de gens qui doutent. » Et en bas, une seule initiale, comme une signature : un É majuscule, entouré d'un cercle."
+					}
+				},
+				{
+					"id": "ban_zhao_page",
+					"objectif": "Parle à Ban Zhao, devant le pavillon",
+					"pnj": "ban_zhao",
+					"repliques": [
+						"Ces notes, dans la marge... Je les ai vues ce matin, et je croyais devenir folle. Ce ne sont pas des caractères. Tu sais les lire, toi ?",
+						"Quelqu'un est venu ici, dans ma bibliothèque, et a voulu corriger notre histoire avant même qu'elle soit finie. Effacer ce qui le gêne, garder ce qui l'arrange.",
+						"Gan Ying m'écrit que tu viens de très loin, et que tu as des amis capables de comprendre ce genre de choses. Prends cette page : je l'ai recopiée sur le papier de Cai Lun, avec les notes, à l'identique. Montre-la à tes amis.",
+						"Ma Rong dit qu'une porte de lumière vient de s'ouvrir au fond de la cour, près du puits. Je suppose que c'est pour toi. Reviens vite : la grande audience est dans deux jours, et j'ai peur."
+					],
+					"recompense": [
+						{
+							"id": "page_livre_han",
+							"nom": "Page du Livre des Han, avec les notes de l'Éditeur"
+						}
+					],
+					"apres": [
+						{
+							"masquer": "incendie_bibliotheque"
+						},
+						{
+							"montrer": "portail_qg"
+						}
+					]
+				},
+				{
+					"id": "qg_charte",
+					"objectif": "Traverse le portail de la Vigie, au fond de la cour du pavillon, pour rentrer au QG et montrer la page à Odile",
+					"portail": true,
+					"mission_hub": "charte_fondation",
+					"fin_chapitre": true
+				}
+			]
 		}
 	],
 	"fin_provisoire": {
-		"chapitre": "Chapitre 4 : Le cadeau de Cai Lun",
-		"objectif": "La suite arrive bientôt : Luoyang, la capitale des Han, au bout de la route de l'est.",
+		"chapitre": "Chapitre 6 : L'armée d'argile",
+		"objectif": "La suite arrive bientôt : le mont Li, où dort le Premier Empereur.",
 		"titre": "Le papier et la flamme",
-		"message": "Les cent feuilles de Lao Fan ont passé le Fleuve Jaune. Mais quelqu'un, quelque part, veut que les livres brûlent."
+		"message": "L'Éditeur a écrit dans le Livre des Han. Et son écriture, la Vigie la connaît."
 	}
 }

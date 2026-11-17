@@ -176,15 +176,15 @@
 	},
 	"mei": {
 		"nom": "Mei",
-		"role": "Éleveuse de vers à soie",
+		"role": "Fille d'éleveurs de vers à soie",
 		"modele": "femme",
 		"habit": "peplos_himation",
-		"taille_cm": 158,
+		"taille_cm": 132,
 		"peau": "#d8b48e",
 		"habits": "#6a3a3a",
 		"repliques": [
 			"Les vers ne mangent que des feuilles de mûrier. Au printemps, il faut cueillir jour et nuit. En hiver, on attend, et on prie pour les œufs.",
-			"Ma grand-mère disait que l'impératrice Leizu a découvert la soie quand un cocon est tombé dans son thé. Moi, je crois surtout qu'elle avait beaucoup de patience."
+			"Grand-père Lao Fan dit que je parle plus vite qu'un ver ne file. Moi, je dis qu'il pile plus lentement qu'une tortue."
 		]
 	},
 	"villageois_loess_1": {
@@ -331,6 +331,201 @@
 		"habits": "#5a2a2a",
 		"repliques": [
 			"Un relais tous les trente lis, des chevaux frais, un lit et une soupe. C'est ainsi que les ordres de l'empereur traversent l'empire en quelques jours."
+		]
+	},
+	"ban_zhao": {
+		"nom": "Ban Zhao",
+		"role": "Grande historienne, au pavillon de l'Est",
+		"modele": "femme",
+		"habit": "peplos_himation",
+		"taille_cm": 158,
+		"peau": "#dcb894",
+		"habits": "#2a2a3a",
+		"repliques": [
+			"Une femme qui sait écrire n'a pas besoin qu'on lui donne la parole. Elle la prend, un caractère après l'autre.",
+			"J'ai écrit des leçons pour les jeunes filles de la cour. On me dit qu'elles sont sévères. Elles sont surtout lues, et c'est déjà beaucoup."
+		]
+	},
+	"ma_rong": {
+		"nom": "Ma Rong",
+		"role": "Jeune lettré, élève de Ban Zhao",
+		"modele": "homme",
+		"habit": "chiton_himation",
+		"taille_cm": 172,
+		"peau": "#d4b08c",
+		"habits": "#2a3a4a",
+		"repliques": [
+			"Maîtresse Ban m'apprend le Livre des Han, latte après latte. Elle dit qu'un jour j'enseignerai à mille élèves. Je dis qu'il faudra d'abord que je comprenne ce qu'elle m'enseigne.",
+			"Avec le papier, un livre entier tiendrait dans une manche. Je n'arrive pas à imaginer un monde pareil."
+		]
+	},
+	"etudiant_1": {
+		"nom": "Étudiant Liu",
+		"role": "Étudiant de l'Académie impériale",
+		"modele": "homme",
+		"habit": "chiton_himation",
+		"taille_cm": 168,
+		"peau": "#d2ae8a",
+		"habits": "#3a3a4a",
+		"repliques": [
+			"Il récite à voix basse, les yeux fermés, en se balançant d'avant en arrière. Les classiques de Confucius, par cœur, d'un bout à l'autre."
+		]
+	},
+	"etudiant_2": {
+		"nom": "Étudiant Zheng",
+		"role": "Étudiant de l'Académie impériale",
+		"modele": "homme",
+		"habit": "chiton_himation",
+		"taille_cm": 174,
+		"peau": "#c8a480",
+		"habits": "#4a3a3a",
+		"repliques": [
+			"Trente mille étudiants à l'Académie, et un seul examen. Je ne dors plus."
+		]
+	},
+	"etudiant_3": {
+		"nom": "Étudiante Yu",
+		"role": "Étudiant de l'Académie impériale",
+		"modele": "femme",
+		"habit": "peplos_himation",
+		"taille_cm": 160,
+		"peau": "#dab690",
+		"habits": "#5a3a4a",
+		"repliques": [
+			"Mon père dit que maîtresse Ban est la preuve qu'une fille peut devenir savante. Ma mère dit qu'elle est surtout la preuve qu'il faut travailler deux fois plus."
+		]
+	},
+	"cai_lun": {
+		"nom": "Cai Lun",
+		"role": "Directeur des ateliers impériaux",
+		"modele": "homme",
+		"habit": "chiton_himation",
+		"taille_cm": 170,
+		"peau": "#d6b292",
+		"habits": "#5a1e1e",
+		"repliques": [
+			"On m'appelle « l'eunuque des ateliers ». Dans mille ans, on m'appellera autrement. Je le sais.",
+			"Une épée, on la forge une fois. Un livre, on peut le recopier mille fois, si le support ne coûte rien. Voilà ce que j'offre à l'empereur."
+		]
+	},
+	"ouvrier_atelier_1": {
+		"nom": "Ouvrier Hu",
+		"role": "Ouvrier des ateliers impériaux",
+		"modele": "homme",
+		"habit": "exomis",
+		"taille_cm": 166,
+		"peau": "#c09468",
+		"habits": "#4a4438",
+		"repliques": [
+			"Il pile, il pile, il pile. Ses jambes sont plus grosses que celles d'un porteur de chaise."
+		]
+	},
+	"ouvrier_atelier_2": {
+		"nom": "Ouvrier Ding",
+		"role": "Ouvrier des ateliers impériaux",
+		"modele": "homme",
+		"habit": "exomis",
+		"taille_cm": 168,
+		"peau": "#c89c74",
+		"habits": "#5a4a3a",
+		"repliques": [
+			"Le maître veut cent feuilles parfaites. Nous, on en fait mille, et il en garde cent."
+		]
+	},
+	"ouvrier_atelier_3": {
+		"nom": "Ouvrière Qiao",
+		"role": "Ouvrier des ateliers impériaux",
+		"modele": "femme",
+		"habit": "chiton_court",
+		"taille_cm": 170,
+		"peau": "#d4ac86",
+		"habits": "#6a4a3a",
+		"repliques": [
+			"On rince les vieux filets de pêche trois fois dans l'eau froide. Ça sent la rivière jusqu'au soir."
+		]
+	},
+	"marchand_luoyang_1": {
+		"nom": "Madame Sun",
+		"role": "Marchande de soie",
+		"modele": "femme",
+		"habit": "peplos_himation",
+		"taille_cm": 162,
+		"peau": "#dab490",
+		"habits": "#6a2a3a",
+		"repliques": [
+			"De la soie de Qi, de la soie de Shu, de la soie de lœss ! Touche, touche : c'est plus doux qu'une joue de bébé."
+		]
+	},
+	"marchand_luoyang_2": {
+		"nom": "Maître Wu",
+		"role": "Marchand de laques",
+		"modele": "homme",
+		"habit": "chiton_himation",
+		"taille_cm": 165,
+		"peau": "#c8a07c",
+		"habits": "#2a2a2a",
+		"repliques": [
+			"Rouge à l'intérieur, noir à l'extérieur. Trente couches de laque, un an de travail. Un bol pour toute une vie."
+		]
+	},
+	"marchand_luoyang_3": {
+		"nom": "Le vieux Gao",
+		"role": "Vendeur de galettes",
+		"modele": "homme",
+		"habit": "exomis",
+		"taille_cm": 168,
+		"peau": "#bc9068",
+		"habits": "#5a4a32",
+		"repliques": [
+			"Galettes de millet chaudes ! Avec du sésame ! Pour le froid, rien de mieux !"
+		]
+	},
+	"marchand_luoyang_4": {
+		"nom": "Han le Sogdien",
+		"role": "Marchand de l'Ouest",
+		"modele": "homme",
+		"habit": "robe_nomade",
+		"taille_cm": 171,
+		"peau": "#c09070",
+		"habits": "#4a3a5a",
+		"repliques": [
+			"Du verre de Da Qin, des chevaux de Ferghana, des raisins secs. Tout ce que l'Ouest a de plus beau, et un peu plus cher."
+		]
+	},
+	"marchand_luoyang_5": {
+		"nom": "Fang l'herboriste",
+		"role": "Marchande de remèdes",
+		"modele": "femme",
+		"habit": "peplos_himation",
+		"taille_cm": 174,
+		"peau": "#d2a882",
+		"habits": "#3a4a3a",
+		"repliques": [
+			"Du ginseng, de la cannelle, de la corne de cerf. Et du cinabre, pour ceux qui veulent vivre mille ans. Moi, je n'en vends pas. Je n'aime pas ce qu'il fait aux gens."
+		]
+	},
+	"garde_porte_1": {
+		"nom": "Garde de la porte de l'Ouest",
+		"role": "Soldat de la capitale",
+		"modele": "homme",
+		"habit": "chiton_court",
+		"taille_cm": 176,
+		"peau": "#c8a07a",
+		"habits": "#6a1a1a",
+		"repliques": [
+			"Avance, étranger. Ici, c'est la porte de la capitale : tout le monde entre, et tout le monde est regardé."
+		]
+	},
+	"garde_porte_2": {
+		"nom": "Garde de la porte de l'Ouest",
+		"role": "Soldat de la capitale",
+		"modele": "homme",
+		"habit": "chiton_court",
+		"taille_cm": 179,
+		"peau": "#c8a07a",
+		"habits": "#6a1a1a",
+		"repliques": [
+			"Cinq cent mille personnes derrière ce mur. Et chacune a une bonne raison de se plaindre."
 		]
 	}
 }
