@@ -69,3 +69,7 @@ L'inventaire est enregistré par le serveur, un fichier par nom de personnage. P
 - Les pièces visibles sur le personnage (capuche, cape, lance…) sont des **maquettes en formes simples**, comme les blocs du hub. Elles seront remplacées par de vrais modèles 3D.
 - La **garde-robe** (garder un look différent de ses statistiques) est prévue pour plus tard.
 - La sauvegarde passera dans Nakama à l'étape 4 (comptes et sauvegarde).
+
+## Voir aussi
+
+L'équipement de palier de chaque île (niveau requis, panoplies et bonus d'ensemble) : [l'Arsenal des époques](l-arsenal-des-epoques.md).

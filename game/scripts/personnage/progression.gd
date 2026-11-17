@@ -77,10 +77,23 @@ static func avancement(d: Dictionary, xp: int) -> Vector2i:
 	return Vector2i(xp - xp_total_pour(d, n), xp_pour_niveau(d, n))
 
 
-## Points de talent gagnés à un niveau (un par niveau à partir du niveau 2).
+## Points de talent gagnés à un niveau : un par niveau à partir du niveau 2, puis un
+## tous les deux niveaux après « talents_un_niveau_sur_deux_apres » (20 par défaut).
 static func points_gagnes(d: Dictionary, niveau: int) -> int:
-	var premier := int((d.get("niveaux", {}) as Dictionary).get("premier_niveau_talents", 2))
-	return maxi(0, niveau - premier + 1)
+	var r: Dictionary = d.get("niveaux", {})
+	var premier := int(r.get("premier_niveau_talents", 2))
+	var seuil := int(r.get("talents_un_niveau_sur_deux_apres", 0))
+	if seuil <= 0 or niveau <= seuil:
+		return maxi(0, niveau - premier + 1)
+	return maxi(0, seuil - premier + 1) + int((niveau - seuil) / 2)
+
+
+## Le prochain niveau qui donnera un point de talent (0 au niveau maximum).
+static func prochain_niveau_avec_point(d: Dictionary, niveau: int) -> int:
+	for n in range(niveau + 1, niveau_max(d) + 1):
+		if points_gagnes(d, n) > points_gagnes(d, niveau):
+			return n
+	return 0
 
 
 # --- Expérience --------------------------------------------------------------
@@ -151,7 +164,7 @@ static func valider(d: Dictionary, classe: String, lu) -> Dictionary:
 	e["titre"] = porte if porte in e["titres"] else ""
 	# Les talents sont repris un par un, dans l'ordre des paliers, tant qu'ils restent permis.
 	var voulus: Dictionary = lu.get("talents", {}) if lu.get("talents") is Dictionary else {}
-	for palier in range(1, 5):
+	for palier in range(1, nombre_de_paliers(d) + 1):
 		for v in voies(d, classe):
 			for t in v.get("talents", []):
 				if int(t.get("palier", 1)) != palier or not voulus.has(t["id"]):
@@ -201,7 +214,13 @@ static func points_libres(d: Dictionary, e: Dictionary) -> int:
 	return points_gagnes(d, niveau(d, e)) - points_depenses(e)
 
 
-## Points à avoir dans la voie pour ouvrir un palier (1 à 4).
+## Nombre de paliers des voies de talents (7 depuis le niveau 60).
+static func nombre_de_paliers(d: Dictionary) -> int:
+	var liste: Array = (d.get("talents", {}) as Dictionary).get("points_par_palier", [0, 3, 6, 8])
+	return maxi(1, liste.size())
+
+
+## Points à avoir dans la voie pour ouvrir un palier (1 à 7).
 static func points_requis(d: Dictionary, palier: int) -> int:
 	var liste: Array = (d.get("talents", {}) as Dictionary).get("points_par_palier", [0, 3, 6, 8])
 	return int(liste[clampi(palier - 1, 0, liste.size() - 1)])
@@ -216,7 +235,7 @@ static func raison_talent_impossible(d: Dictionary, classe: String, e: Dictionar
 	if int(e.get("talents", {}).get(id, 0)) >= int(t.get("rangs", 1)):
 		return "Ce talent est déjà au maximum"
 	if points_libres(d, e) <= 0:
-		return "Plus de point de talent (un par niveau)"
+		return "Plus de point de talent à placer"
 	var requis := points_requis(d, int(t.get("palier", 1)))
 	if points_dans_voie(e, trouve["voie"]) < requis:
 		return "Il faut %d points dans la voie %s" % [requis, trouve["voie"].get("nom", "")]

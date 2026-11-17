@@ -83,6 +83,11 @@ func _donnees(cat: Dictionary, art: Dictionary) -> void:
 	obtenables[String(arene.get("recompenses", {}).get("objet_medaille", "medaille_arene"))] = true
 	# Les sceaux de guilde récompensent les contrats de guilde de la semaine (voir Guildes).
 	obtenables["sceau_guilde"] = true
+	# Les récompenses des quêtes secondaires des îles comptent aussi (ex. le miel de l'Hymette).
+	for ile in Progression.ILES:
+		var chemin := "res://data/%s_secondaires.json" % ile
+		if FileAccess.file_exists(chemin):
+			_noter_ids(JSON.parse_string(FileAccess.get_file_as_string(chemin)), cat, obtenables)
 	var introuvables: Array[String] = []
 	for id in cat["objets"]:
 		if String(cat["objets"][id].get("type", "")) == "materiau" and not obtenables.has(id) \
@@ -97,6 +102,18 @@ func _donnees(cat: Dictionary, art: Dictionary) -> void:
 
 
 ## Les règles seules (sans scène).
+## Note chaque « id » d'objet connu trouvé dans des données (récompenses de quêtes).
+func _noter_ids(v, cat: Dictionary, obtenables: Dictionary) -> void:
+	if v is Dictionary:
+		if v.has("id") and Objets.existe(cat, String(v["id"])):
+			obtenables[String(v["id"])] = true
+		for k in v:
+			_noter_ids(v[k], cat, obtenables)
+	elif v is Array:
+		for x in v:
+			_noter_ids(x, cat, obtenables)
+
+
 func _regles(cat: Dictionary, art: Dictionary, barre: Array) -> void:
 	print("Règles de l'artisanat")
 	var etat := Objets.etat_de_depart(cat, barre)

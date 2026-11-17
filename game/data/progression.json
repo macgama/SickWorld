@@ -2,13 +2,14 @@
 	"_aide": "Progression du personnage : niveaux, expérience (XP), arbres de talents et titres. Tout se règle ici sans toucher au code (voir docs/guides/la-progression.md). Les montants d'XP dépendent du niveau de la zone (partie « zones ») ou de l'ennemi.",
 
 	"niveaux": {
-		"_aide": "XP pour passer du niveau N au niveau N+1 = base + par_niveau × N + carre × N × N. niveau_max monte à chaque nouvelle île (Préhistoire 1-10, Égypte 10-20, Grèce 20-30, Rome 30-40, Chine 40-50). Chaque niveau donne pv_pourcent de vie de base en plus et degats_pourcent de dégâts en plus. Un point de talent par niveau à partir du niveau 2.",
-		"niveau_max": 50,
+		"_aide": "XP pour passer du niveau N au niveau N+1 = base + par_niveau × N + carre × N × N. Une île = 10 niveaux (Préhistoire 1-10, Égypte 10-20, Grèce 20-30, Rome 30-40, Chine 40-50, île suivante 50-60) : pour une nouvelle époque, monter niveau_max de 10. Chaque niveau donne pv_pourcent de vie de base en plus et degats_pourcent de dégâts en plus. Points de talent : un par niveau à partir de premier_niveau_talents, puis un tous les deux niveaux après talents_un_niveau_sur_deux_apres (19 points au niveau 20, 39 au niveau 60).",
+		"niveau_max": 60,
 		"base": 0,
 		"par_niveau": 120,
 		"carre": 10,
 		"par_niveau_gagne": { "pv_pourcent": 6, "degats_pourcent": 2.5 },
-		"premier_niveau_talents": 2
+		"premier_niveau_talents": 2,
+		"talents_un_niveau_sur_deux_apres": 20
 	},
 
 	"xp": {
@@ -42,8 +43,8 @@
 	},
 
 	"talents": {
-		"_aide": "Chaque classe a 3 voies de 4 talents. Un talent a un palier (1 à 4) : pour prendre un talent du palier 2, il faut déjà avoir mis 3 points dans la même voie ; palier 3 : 6 points ; palier 4 : 8 points (voir points_par_palier). Chaque rang ajoute « stats » (pv, degats_pourcent, reduction_pourcent, critique_pourcent) et « competences » (id de compétence -> { clé: valeur ajoutée par rang }, comme les bonus d'équipement). On peut tout oublier gratuitement hors combat.",
-		"points_par_palier": [0, 3, 6, 8],
+		"_aide": "Chaque classe a 3 voies de 7 talents, un par palier (1 à 7) : pour prendre un talent du palier 2, il faut déjà avoir mis 3 points dans la même voie ; palier 3 : 6 points ; palier 4 : 8 ; palier 5 : 9 (les 4 premiers paliers remplis) ; palier 6 : 12 ; palier 7 (le talent ultime de la voie) : 15 (voir points_par_palier). Une voie complète coûte 16 points : au niveau 60 (39 points), on finit deux voies et on commence la troisième. Chaque rang ajoute « stats » (pv, degats_pourcent, reduction_pourcent, critique_pourcent) et « competences » (id de compétence -> { clé: valeur ajoutée par rang }, comme les bonus d'équipement). On peut tout oublier gratuitement hors combat.",
+		"points_par_palier": [0, 3, 6, 8, 9, 12, 15],
 
 		"lame": [
 			{
@@ -61,7 +62,16 @@
 						"competences": { "frappe_tournoyante": { "rayon": 1, "recharge": -1.5 } } },
 					{ "id": "coup_de_grace", "nom": "Coup de grâce", "palier": 4, "rangs": 1,
 						"texte": "Exécution : utilisable dès 30 % de vie de la cible et +10 dégâts.",
-						"competences": { "execution": { "pv_cible_max_pourcent": 10, "degats": 10 } } }
+						"competences": { "execution": { "pv_cible_max_pourcent": 10, "degats": 10 } } },
+					{ "id": "fer_trempe", "nom": "Fer trempé", "palier": 5, "rangs": 3,
+						"texte": "Taille rapide et Frappe tournoyante : +3 dégâts par rang.",
+						"competences": {"taille_rapide": {"degats": 3}, "frappe_tournoyante": {"degats": 3}} },
+					{ "id": "rage_du_duelliste", "nom": "Rage du duelliste", "palier": 6, "rangs": 3,
+						"texte": "+3 % de dégâts par rang.",
+						"stats": {"degats_pourcent": 3} },
+					{ "id": "lame_des_siecles", "nom": "Lame des siècles", "palier": 7, "rangs": 1,
+						"texte": "Exécution : utilisable dès 35 % de vie de la cible (avec Coup de grâce), +20 dégâts et 2 s de recharge en moins.",
+						"competences": {"execution": {"pv_cible_max_pourcent": 5, "degats": 20, "recharge": -2}} }
 				]
 			},
 			{
@@ -80,7 +90,17 @@
 					{ "id": "lames_jumelles", "nom": "Lames jumelles", "palier": 4, "rangs": 1,
 						"texte": "+6 % de coups critiques et Exécution coûte 10 d'Élan de moins.",
 						"stats": { "critique_pourcent": 6 },
-						"competences": { "execution": { "cout": -10 } } }
+						"competences": { "execution": { "cout": -10 } } },
+					{ "id": "hemorragie", "nom": "Hémorragie", "palier": 5, "rangs": 3,
+						"texte": "Entaille : +2 dégâts, et le saignement fait +2 dégâts par seconde par rang.",
+						"competences": {"entaille": {"degats": 2, "saignement.degats_par_seconde": 2}} },
+					{ "id": "soif_de_sang", "nom": "Soif de sang", "palier": 6, "rangs": 3,
+						"texte": "Tu regagnes 2 % des dégâts que tu infliges en vie, par rang.",
+						"stats": {"vol_de_vie_pourcent": 2} },
+					{ "id": "mille_entailles", "nom": "Mille entailles", "palier": 7, "rangs": 1,
+						"texte": "+8 % de coups critiques ; Entaille coûte 5 d'Élan de moins et le saignement dure 4 s de plus.",
+						"stats": {"critique_pourcent": 8},
+						"competences": {"entaille": {"cout": -5, "saignement.duree": 4}} }
 				]
 			},
 			{
@@ -98,7 +118,17 @@
 						"competences": { "bond": { "ralenti.duree": 1.5 } } },
 					{ "id": "second_souffle", "nom": "Second souffle", "palier": 4, "rangs": 1,
 						"texte": "+60 points de vie et +5 % de protection.",
-						"stats": { "pv": 60, "reduction_pourcent": 5 } }
+						"stats": { "pv": 60, "reduction_pourcent": 5 } },
+					{ "id": "garde_haute", "nom": "Garde haute", "palier": 5, "rangs": 3,
+						"texte": "+3 % de protection par rang.",
+						"stats": {"reduction_pourcent": 3} },
+					{ "id": "endurance_du_voyageur", "nom": "Endurance du voyageur", "palier": 6, "rangs": 3,
+						"texte": "+50 points de vie par rang.",
+						"stats": {"pv": 50} },
+					{ "id": "ombre_insaisissable", "nom": "Ombre insaisissable", "palier": 7, "rangs": 1,
+						"texte": "+100 points de vie, Bond se recharge 4 s plus vite, et étourdissements, immobilisations et ralentissements durent 30 % de moins sur toi.",
+						"stats": {"pv": 100, "resistance_controles_pourcent": 30},
+						"competences": {"bond": {"recharge": -4}} }
 				]
 			}
 		],
@@ -120,7 +150,17 @@
 					{ "id": "forteresse", "nom": "Forteresse", "palier": 4, "rangs": 1,
 						"texte": "+100 points de vie, et le Mur de bouclier arrête 70 % des dégâts au lieu de 60 %.",
 						"stats": { "pv": 100 },
-						"competences": { "mur_de_bouclier": { "reduction_degats_subis": 0.1 } } }
+						"competences": { "mur_de_bouclier": { "reduction_degats_subis": 0.1 } } },
+					{ "id": "peau_de_bronze", "nom": "Peau de bronze", "palier": 5, "rangs": 3,
+						"texte": "+3 % de protection par rang.",
+						"stats": {"reduction_pourcent": 3} },
+					{ "id": "colosse", "nom": "Colosse", "palier": 6, "rangs": 3,
+						"texte": "+80 points de vie par rang.",
+						"stats": {"pv": 80} },
+					{ "id": "rempart_eternel", "nom": "Rempart éternel", "palier": 7, "rangs": 1,
+						"texte": "Mur de bouclier : dure 3 s de plus et se recharge 5 s plus vite ; +5 % de protection.",
+						"stats": {"reduction_pourcent": 5},
+						"competences": {"mur_de_bouclier": {"duree": 3, "recharge": -5}} }
 				]
 			},
 			{
@@ -138,7 +178,17 @@
 						"competences": { "onde_de_choc": { "rayon": 1, "etourdit": 0.5 } } },
 					{ "id": "point_de_ralliement", "nom": "Point de ralliement", "palier": 4, "rangs": 1,
 						"texte": "Provocation : dure 2 s de plus et porte 5 m plus loin.",
-						"competences": { "provocation": { "duree": 2, "portee": 5 } } }
+						"competences": { "provocation": { "duree": 2, "portee": 5 } } },
+					{ "id": "coup_retentissant", "nom": "Coup retentissant", "palier": 5, "rangs": 3,
+						"texte": "Coup de bouclier : +3 dégâts et +1 de menace par rang.",
+						"competences": {"coup_de_bouclier": {"degats": 3, "menace": 1}} },
+					{ "id": "onde_ecrasante", "nom": "Onde écrasante", "palier": 6, "rangs": 3,
+						"texte": "Onde de choc : +5 dégâts et 1 s de recharge en moins par rang.",
+						"competences": {"onde_de_choc": {"degats": 5, "recharge": -1}} },
+					{ "id": "defi_absolu", "nom": "Défi absolu", "palier": 7, "rangs": 1,
+						"texte": "Provocation : 3 s de recharge en moins et dure 2 s de plus ; les contrôles durent 25 % de moins sur toi.",
+						"stats": {"resistance_controles_pourcent": 25},
+						"competences": {"provocation": {"recharge": -3, "duree": 2}} }
 				]
 			},
 			{
@@ -157,7 +207,17 @@
 					{ "id": "riposte", "nom": "Riposte", "palier": 4, "rangs": 1,
 						"texte": "+6 % de dégâts et Coup de bouclier fait +6 dégâts.",
 						"stats": { "degats_pourcent": 6 },
-						"competences": { "coup_de_bouclier": { "degats": 6 } } }
+						"competences": { "coup_de_bouclier": { "degats": 6 } } },
+					{ "id": "main_lourde", "nom": "Main lourde", "palier": 5, "rangs": 3,
+						"texte": "+3 % de dégâts par rang.",
+						"stats": {"degats_pourcent": 3} },
+					{ "id": "sang_froid", "nom": "Sang-froid", "palier": 6, "rangs": 3,
+						"texte": "Tu regagnes 2 % des dégâts que tu infliges en vie, par rang.",
+						"stats": {"vol_de_vie_pourcent": 2} },
+					{ "id": "bouclier_des_innocents", "nom": "Bouclier des innocents", "palier": 7, "rangs": 1,
+						"texte": "+150 points de vie ; Charge protectrice se recharge 6 s plus vite et protège l'allié 4 s de plus.",
+						"stats": {"pv": 150},
+						"competences": {"charge_protectrice": {"recharge": -6, "duree": 4}} }
 				]
 			}
 		],
@@ -178,7 +238,16 @@
 						"competences": { "tir_vise": { "degats": 6 } } },
 					{ "id": "tir_mortel", "nom": "Tir mortel", "palier": 4, "rangs": 1,
 						"texte": "Tir visé : 3 s de recharge en moins et 5 m de portée en plus.",
-						"competences": { "tir_vise": { "recharge": -3, "portee": 5 } } }
+						"competences": { "tir_vise": { "recharge": -3, "portee": 5 } } },
+					{ "id": "pointes_d_acier", "nom": "Pointes d'acier", "palier": 5, "rangs": 3,
+						"texte": "Tir rapide : +3 dégâts par rang.",
+						"competences": {"tir_rapide": {"degats": 3}} },
+					{ "id": "oeil_de_lynx", "nom": "Œil de lynx", "palier": 6, "rangs": 3,
+						"texte": "+2 % de coups critiques et +1 % de dégâts par rang.",
+						"stats": {"critique_pourcent": 2, "degats_pourcent": 1} },
+					{ "id": "tir_de_legende", "nom": "Tir de légende", "palier": 7, "rangs": 1,
+						"texte": "Tir visé : +20 dégâts, se prépare 0,3 s plus vite et se recharge 2 s plus vite.",
+						"competences": {"tir_vise": {"degats": 20, "incantation": -0.3, "recharge": -2}} }
 				]
 			},
 			{
@@ -197,7 +266,17 @@
 					{ "id": "toxines_du_marais", "nom": "Toxines du marais", "palier": 4, "rangs": 1,
 						"texte": "+6 % de dégâts et le poison fait +3 dégâts par seconde.",
 						"stats": { "degats_pourcent": 6 },
-						"competences": { "fleche_empoisonnee": { "poison.degats_par_seconde": 3 } } }
+						"competences": { "fleche_empoisonnee": { "poison.degats_par_seconde": 3 } } },
+					{ "id": "venin_concentre", "nom": "Venin concentré", "palier": 5, "rangs": 3,
+						"texte": "Flèche empoisonnée : le poison fait +2 dégâts par seconde par rang.",
+						"competences": {"fleche_empoisonnee": {"poison.degats_par_seconde": 2}} },
+					{ "id": "dard_barbele", "nom": "Dard barbelé", "palier": 6, "rangs": 3,
+						"texte": "Flèche empoisonnée : +3 dégâts, et le poison dure 1 s de plus par rang.",
+						"competences": {"fleche_empoisonnee": {"degats": 3, "poison.duree": 1}} },
+					{ "id": "fleau_des_epoques", "nom": "Fléau des époques", "palier": 7, "rangs": 1,
+						"texte": "+8 % de dégâts ; le poison fait +4 dégâts par seconde et Flèche empoisonnée coûte 5 de Concentration de moins.",
+						"stats": {"degats_pourcent": 8},
+						"competences": {"fleche_empoisonnee": {"poison.degats_par_seconde": 4, "cout": -5}} }
 				]
 			},
 			{
@@ -215,7 +294,17 @@
 						"competences": { "repli": { "recharge": -3 } } },
 					{ "id": "maitre_des_pieges", "nom": "Maître des pièges", "palier": 4, "rangs": 1,
 						"texte": "Piège à collet : +10 dégâts, rayon plus large et 5 s de recharge en moins.",
-						"competences": { "piege_a_collet": { "degats": 10, "rayon": 0.6, "recharge": -5 } } }
+						"competences": { "piege_a_collet": { "degats": 10, "rayon": 0.6, "recharge": -5 } } },
+					{ "id": "cuir_de_chasse", "nom": "Cuir de chasse", "palier": 5, "rangs": 3,
+						"texte": "+3 % de protection par rang.",
+						"stats": {"reduction_pourcent": 3} },
+					{ "id": "instinct_de_survie", "nom": "Instinct de survie", "palier": 6, "rangs": 3,
+						"texte": "+50 points de vie par rang.",
+						"stats": {"pv": 50} },
+					{ "id": "ombre_de_la_steppe", "nom": "Ombre de la steppe", "palier": 7, "rangs": 1,
+						"texte": "Repli : 4 s de recharge en moins, les ennemis restent ralentis 2 s de plus ; les contrôles durent 25 % de moins sur toi.",
+						"stats": {"resistance_controles_pourcent": 25},
+						"competences": {"repli": {"recharge": -4, "ralenti.duree": 2}} }
 				]
 			}
 		],
@@ -236,7 +325,16 @@
 						"competences": { "fil_de_vie": { "cout": -3 } } },
 					{ "id": "second_fil", "nom": "Second fil", "palier": 4, "rangs": 1,
 						"texte": "Accélération : soigne 6 points de plus par seconde et dure 4 s de plus.",
-						"competences": { "acceleration": { "soin_par_seconde": 6, "duree": 4 } } }
+						"competences": { "acceleration": { "soin_par_seconde": 6, "duree": 4 } } },
+					{ "id": "fils_dores", "nom": "Fils dorés", "palier": 5, "rangs": 3,
+						"texte": "+4 % de soins donnés par rang.",
+						"stats": {"soins_pourcent": 4} },
+					{ "id": "tisserand", "nom": "Tisserand", "palier": 6, "rangs": 3,
+						"texte": "Fil de vie : soigne 6 points de plus par rang.",
+						"competences": {"fil_de_vie": {"soin": 6}} },
+					{ "id": "trame_de_vie", "nom": "Trame de vie", "palier": 7, "rangs": 1,
+						"texte": "Fil de vie : se tisse 0,3 s plus vite et coûte 4 de Flux de moins ; Accélération soigne 4 points de plus par seconde.",
+						"competences": {"fil_de_vie": {"incantation": -0.3, "cout": -4}, "acceleration": {"soin_par_seconde": 4}} }
 				]
 			},
 			{
@@ -254,7 +352,17 @@
 						"competences": { "eclat_temporel": { "cout": -3 } } },
 					{ "id": "distorsion", "nom": "Distorsion", "palier": 4, "rangs": 1,
 						"texte": "Bulle lente : ralentit davantage, 2 m plus large et dure 2 s de plus.",
-						"competences": { "bulle_lente": { "vitesse": -0.1, "rayon": 2, "duree": 2 } } }
+						"competences": { "bulle_lente": { "vitesse": -0.1, "rayon": 2, "duree": 2 } } },
+					{ "id": "eclat_brulant", "nom": "Éclat brûlant", "palier": 5, "rangs": 3,
+						"texte": "Éclat temporel : +3 dégâts par rang.",
+						"competences": {"eclat_temporel": {"degats": 3}} },
+					{ "id": "faille_ouverte", "nom": "Faille ouverte", "palier": 6, "rangs": 3,
+						"texte": "+3 % de dégâts par rang.",
+						"stats": {"degats_pourcent": 3} },
+					{ "id": "paradoxe_parfait", "nom": "Paradoxe parfait", "palier": 7, "rangs": 1,
+						"texte": "+6 % de coups critiques ; Éclat temporel fait +10 dégâts et Bulle lente se recharge 5 s plus vite.",
+						"stats": {"critique_pourcent": 6},
+						"competences": {"eclat_temporel": {"degats": 10}, "bulle_lente": {"recharge": -5}} }
 				]
 			},
 			{
@@ -272,7 +380,17 @@
 						"competences": { "retour_en_arriere": { "soin_minimum_pourcent": 5 } } },
 					{ "id": "maitre_du_temps", "nom": "Maître du temps", "palier": 4, "rangs": 1,
 						"texte": "Retour en arrière remonte 2 s plus loin, et Accélération se recharge 5 s plus vite.",
-						"competences": { "retour_en_arriere": { "secondes": 2 }, "acceleration": { "recharge": -5 } } }
+						"competences": { "retour_en_arriere": { "secondes": 2 }, "acceleration": { "recharge": -5 } } },
+					{ "id": "sablier_de_verre", "nom": "Sablier de verre", "palier": 5, "rangs": 3,
+						"texte": "+3 % de protection par rang.",
+						"stats": {"reduction_pourcent": 3} },
+					{ "id": "eternite", "nom": "Éternité", "palier": 6, "rangs": 3,
+						"texte": "+40 points de vie par rang.",
+						"stats": {"pv": 40} },
+					{ "id": "boucle_temporelle", "nom": "Boucle temporelle", "palier": 7, "rangs": 1,
+						"texte": "Retour en arrière : 6 s de recharge en moins et rend au moins 10 % de vie de plus ; les contrôles durent 20 % de moins sur toi.",
+						"stats": {"resistance_controles_pourcent": 20},
+						"competences": {"retour_en_arriere": {"recharge": -6, "soin_minimum_pourcent": 10}} }
 				]
 			}
 		]
@@ -377,6 +495,14 @@
 				"comment": "Atteindre le niveau 10.", "condition": { "niveau": 10 } },
 			{ "id": "agent_confirme", "nom": "Agent confirmé", "epoque": "La Vigie",
 				"comment": "Atteindre le niveau 20.", "condition": { "niveau": 20 } },
+			{ "id": "agent_emerite", "nom": "Agent émérite", "epoque": "La Vigie",
+				"comment": "Atteindre le niveau 30.", "condition": { "niveau": 30 } },
+			{ "id": "agent_d_elite", "nom": "Agent d'élite", "epoque": "La Vigie",
+				"comment": "Atteindre le niveau 40.", "condition": { "niveau": 40 } },
+			{ "id": "maitre_des_epoques", "nom": "Maître des époques", "epoque": "La Vigie",
+				"comment": "Atteindre le niveau 50.", "condition": { "niveau": 50 } },
+			{ "id": "gardien_des_siecles", "nom": "Gardien des siècles", "epoque": "La Vigie",
+				"comment": "Atteindre le niveau 60.", "condition": { "niveau": 60 } },
 
 			{ "id": "ami_du_clan", "nom": "Ami du clan", "epoque": "Préhistoire",
 				"comment": "Être accueilli au camp du clan (chapitre 2).", "condition": { "etape": "prehistoire:vers_le_camp" } },

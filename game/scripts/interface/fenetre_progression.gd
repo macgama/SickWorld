@@ -1,9 +1,9 @@
 extends PanelContainer
 ## Fenêtre « Talents et titres » (touche N).
 ##
-## Onglet Talents : les 3 voies de la classe, 4 talents chacune (paliers 1 à 4).
-## Un clic sur un talent y met un point (un point par niveau à partir du niveau 2).
-## Un palier s'ouvre quand on a assez de points dans la même voie (3, 6 puis 8).
+## Onglet Talents : les 3 voies de la classe, 7 talents chacune (paliers 1 à 7).
+## Un clic sur un talent y met un point (un par niveau du niveau 2 au 20, puis un tous les deux niveaux).
+## Un palier s'ouvre quand on a assez de points dans la même voie (3, 6, 8, 9, 12 puis 15).
 ## « Oublier mes talents » rend tous les points, gratuitement (hors combat).
 ##
 ## Onglet Arène : les 6 talents d'Arène de la classe ; on en choisit 3 (un clic pour
@@ -64,7 +64,7 @@ func _ready() -> void:
 	haut.add_child(fermer)
 
 	_onglets = TabContainer.new()
-	_onglets.custom_minimum_size = Vector2(3 * LARGEUR_TALENT + 80, 600)
+	_onglets.custom_minimum_size = Vector2(3 * LARGEUR_TALENT + 96, 640)
 	colonne.add_child(_onglets)
 
 	# --- Onglet Talents
@@ -83,9 +83,15 @@ func _ready() -> void:
 	_oublier.tooltip_text = "Rend tous tes points de talent, gratuitement (hors combat)."
 	_oublier.pressed.connect(func(): _confirmation.popup_centered())
 	ligne_points.add_child(_oublier)
+	# 7 talents par voie : la liste défile si l'écran est petit.
+	var defile_voies := ScrollContainer.new()
+	defile_voies.name = "DefilementVoies"
+	defile_voies.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	defile_voies.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	talents.add_child(defile_voies)
 	_voies = HBoxContainer.new()
 	_voies.add_theme_constant_override("separation", 14)
-	talents.add_child(_voies)
+	defile_voies.add_child(_voies)
 
 	# --- Onglet Arène
 	var arene := VBoxContainer.new()
@@ -188,7 +194,9 @@ func rafraichir() -> void:
 	_entete.text = "%s niveau %d   ·   %s" % [nom_classe, n,
 			("%d / %d XP vers le niveau %d" % [a.x, a.y, n + 1]) if a.y > 0 else "niveau maximum de cette époque"]
 	var libres := Progression.points_libres(d, e)
-	_points.text = "Points de talent à placer : %d   (un par niveau, à partir du niveau 2)" % libres
+	var prochain := Progression.prochain_niveau_avec_point(d, n)
+	_points.text = "Points de talent à placer : %d   (%d gagnés%s)" % [libres, Progression.points_gagnes(d, n),
+			(" · prochain point au niveau %d" % prochain) if prochain > 0 else ""]
 	_points.modulate = Color(1.0, 0.85, 0.4) if libres > 0 else Color(0.75, 0.8, 0.85)
 	_oublier.disabled = Progression.points_depenses(e) == 0
 	_remplir_voies(d, classe, e)
@@ -231,7 +239,7 @@ func _case_talent(d: Dictionary, classe: String, e: Dictionary, t: Dictionary, c
 
 	var b := Button.new()
 	b.name = "Talent_" + id
-	b.custom_minimum_size = Vector2(LARGEUR_TALENT, 104)
+	b.custom_minimum_size = Vector2(LARGEUR_TALENT, 88 if palier < 7 else 104)
 	b.focus_mode = Control.FOCUS_NONE
 	b.alignment = HORIZONTAL_ALIGNMENT_LEFT
 	b.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART

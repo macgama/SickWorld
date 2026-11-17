@@ -50,6 +50,15 @@ func _lancer() -> void:
 	prog.etat["titre"] = "gardien_des_murs"
 	for t in TALENTS.get(classe, []):
 		Progression.prendre_talent(d, classe, prog.etat, t)
+	# 4e argument : un niveau (ex. 60) ; les points vont dans les voies, dans l'ordre.
+	var arguments := OS.get_cmdline_user_args()
+	if arguments.size() >= 4 and int(arguments[3]) > 0:
+		prog.etat["xp"] = Progression.xp_total_pour(d, int(arguments[3]))
+		Progression.oublier_talents(prog.etat)
+		for v in Progression.voies(d, classe):
+			for t in v["talents"]:
+				while Progression.prendre_talent(d, classe, prog.etat, String(t["id"])) == "":
+					pass
 	var talents_arene := Progression.talents_arene(d, classe)
 	for i in [0, 1, 4]:
 		if i < talents_arene.size():
@@ -71,6 +80,12 @@ func _lancer() -> void:
 			hud._fenetre_progression.montrer_onglet(1)
 		"titres":
 			hud._fenetre_progression.montrer_onglet(2)
+		"talents_bas":
+			hud._fenetre_progression.montrer_onglet(0)
+			await _attendre(10)
+			var defile: ScrollContainer = hud._fenetre_progression.find_child("DefilementVoies", true, false)
+			if defile != null:
+				defile.scroll_vertical = 100000
 		"niveau":
 			hud._sur_xp_gagnee(240, "Quête")
 			hud._sur_niveau_gagne(12)
