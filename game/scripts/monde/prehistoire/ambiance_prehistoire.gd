@@ -8,6 +8,8 @@ extends Node
 ##   AmbiancePrehistoire.appliquer(self, "cote_gelee")
 ## Les réglages de chaque zone sont dans CLIMATS ci-dessous.
 
+## Multiplicateur général de saturation (couleurs vives sans être criardes).
+const VIVACITE := 1.22
 const SHADER_CIEL := preload("res://shaders/ciel_polaire.gdshader")
 const SHADER_POST := preload("res://shaders/post_traitement.gdshader")
 const Etalonnage := preload("res://scripts/monde/etalonnage.gd")
@@ -475,8 +477,10 @@ static func appliquer(zone: Node, climat := "cote_gelee") -> void:
 	env.volumetric_fog_ambient_inject = 0.1
 	env.volumetric_fog_sky_affect = 0.0
 	env.adjustment_enabled = true
-	env.adjustment_contrast = 1.1
-	env.adjustment_saturation = r.get("saturation", 1.08)
+	# Couleurs plus franches (17/11/2026 : le rendu AgX délavait tout). VIVACITE multiplie
+	# la saturation propre à chaque climat ; le contraste donne du relief à la lumière.
+	env.adjustment_contrast = 1.14
+	env.adjustment_saturation = r.get("saturation", 1.08) * VIVACITE
 	# Étalonnage « cinéma » : ombres teintées, hautes lumières réchauffées.
 	Etalonnage.appliquer(env, r.get("etalonnage", "hiver"))
 	# Une fois les réglages « au maximum » posés, la qualité graphique allège.

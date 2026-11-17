@@ -526,58 +526,14 @@ func _fumee(parent: Node3D, p: Vector3) -> void:
 
 ## Un olivier : un tronc court et tordu, gris, et une couronne de feuillage gris-vert.
 func _olivier(parent: Node3D, p: Vector2, hasard: RandomNumberGenerator, taille := 1.0) -> Node3D:
-	var arbre := Node3D.new()
-	arbre.name = "Olivier"
-	arbre.position = Vector3(p.x, hauteur(p.x, p.y) - 0.1, p.y)
-	arbre.rotation.y = hasard.randf() * TAU
-	arbre.scale = Vector3.ONE * taille
-	parent.add_child(arbre)
 	var ecorce := _mat_choix(["tree_bark_03", "bark_willow_02", "rough_wood"], Color(0.5, 0.47, 0.42), 0.95, 0.8)
-	var tronc := MeshInstance3D.new()
-	tronc.mesh = _cylindre(0.18, 0.34, 2.0, 8)
-	tronc.material_override = ecorce
-	tronc.position.y = 1.0
-	tronc.rotation.z = hasard.randf_range(-0.2, 0.2)
-	arbre.add_child(tronc)
-	var feuillage := _mat_feuillage(Color(0.36, 0.42, 0.3))
-	for k in 5:
-		var touffe := MeshInstance3D.new()
-		var s := SphereMesh.new()
-		s.radius = hasard.randf_range(0.9, 1.4)
-		s.height = s.radius * 1.3
-		s.radial_segments = 10
-		s.rings = 6
-		touffe.mesh = s
-		touffe.material_override = feuillage
-		var a := TAU * k / 5.0 + hasard.randf_range(-0.3, 0.3)
-		touffe.position = Vector3(cos(a) * hasard.randf_range(0.6, 1.3), hasard.randf_range(2.2, 3.0), sin(a) * hasard.randf_range(0.6, 1.3))
-		touffe.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON
-		arbre.add_child(touffe)
-	var corps := StaticBody3D.new()
-	var forme := CollisionShape3D.new()
-	var c := CylinderShape3D.new()
-	c.radius = 0.35
-	c.height = 2.0
-	forme.shape = c
-	forme.position.y = 1.0
-	corps.add_child(forme)
-	arbre.add_child(corps)
-	return arbre
+	return _arbre_realiste(parent, p, "olivier", hasard, taille, ecorce)
 
 
 ## Un cyprès : une flamme vert sombre, haute et fine.
 func _cypres(parent: Node3D, p: Vector2, hasard: RandomNumberGenerator) -> void:
-	var haut := hasard.randf_range(7.0, 11.0)
-	var mi := MeshInstance3D.new()
-	var c := CylinderMesh.new()
-	c.top_radius = 0.05
-	c.bottom_radius = 0.75
-	c.height = haut
-	c.radial_segments = 10
-	mi.mesh = c
-	mi.material_override = _mat_feuillage(Color(0.14, 0.22, 0.13))
-	mi.position = Vector3(p.x, hauteur(p.x, p.y) + haut * 0.5 + 0.3, p.y)
-	parent.add_child(mi)
+	var ecorce := _mat_choix(["tree_bark_03", "bark_willow_02", "rough_wood"], Color(0.42, 0.36, 0.3), 0.95, 0.8)
+	_arbre_realiste(parent, p, "cypres", hasard, 1.0, ecorce)
 
 
 func _mat_feuillage(couleur: Color) -> StandardMaterial3D:

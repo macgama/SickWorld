@@ -104,6 +104,7 @@ func _init() -> void:
 	graine = 4382
 	point_apparition = ENTREE
 	nombre_touffes = 30000
+	reglages_couvre_sol = {"cailloux": 6.0, "fleurs": [Color(0.82, 0.1, 0.06), Color(0.95, 0.78, 0.12), Color(0.93, 0.91, 0.86)], "densite_fleurs": 0.8}
 	neige_qui_tombe = false
 	prefixe_liberables = "petrifie"
 	invite_liberer = "[F] Rendre la voix"

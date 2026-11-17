@@ -346,57 +346,14 @@ func _chameau(parent: Node3D, p: Vector2, angle := 0.0, couche := false, bat := 
 ## Un peuplier de l'Euphrate (« hu yang »), l'arbre des oasis du désert : un tronc
 ## noueux et penché, des branches tordues, et en hiver quelques feuilles d'or qui restent.
 func _peuplier_desert(parent: Node3D, p: Vector2, hasard: RandomNumberGenerator, taille := 1.0) -> Node3D:
-	var arbre := Node3D.new()
-	arbre.name = "Peuplier"
-	arbre.position = Vector3(p.x, hauteur(p.x, p.y) - 0.1, p.y)
-	arbre.rotation.y = hasard.randf() * TAU
-	parent.add_child(arbre)
 	var ecorce := _mat_choix(["bark_brown_02", "pine_bark", "palm_tree_bark"], Color(0.5, 0.44, 0.38), 0.95, 1.2)
-	var tronc := MeshInstance3D.new()
-	tronc.mesh = _cylindre(0.26 * taille, 0.42 * taille, 3.2 * taille, 9)
-	tronc.material_override = ecorce
-	tronc.position.y = 1.5 * taille
-	tronc.rotation.z = hasard.randf_range(-0.18, 0.18)
-	arbre.add_child(tronc)
-	var feuilles := _mat_feuillage(Color(0.72, 0.56, 0.16))
-	for k in 5:
-		var a := k * TAU / 5.0 + hasard.randf_range(-0.3, 0.3)
-		var branche := MeshInstance3D.new()
-		var l := hasard.randf_range(1.6, 2.6) * taille
-		branche.mesh = _cylindre(0.06 * taille, 0.14 * taille, l, 6)
-		branche.material_override = ecorce
-		var dir := Vector3(cos(a), 1.1, sin(a)).normalized()
-		branche.position = Vector3(0, 3.0 * taille, 0) + dir * l * 0.5
-		branche.look_at_from_position(branche.position, branche.position + dir, Vector3.RIGHT)
-		branche.rotate_object_local(Vector3.RIGHT, PI * 0.5)
-		arbre.add_child(branche)
-		if hasard.randf() < 0.7:
-			var touffe := MeshInstance3D.new()
-			var s := SphereMesh.new()
-			s.radius = hasard.randf_range(0.6, 0.95) * taille
-			s.height = s.radius * 1.3
-			s.radial_segments = 8
-			s.rings = 4
-			touffe.mesh = s
-			touffe.material_override = feuilles
-			touffe.position = Vector3(0, 3.0 * taille, 0) + dir * l
-			arbre.add_child(touffe)
-	return arbre
+	return _arbre_realiste(parent, p, "peuplier_desert", hasard, taille, ecorce)
 
 
 ## Une touffe de tamaris : des tiges fines et serrées, brun-rouge en hiver.
 func _tamaris(parent: Node3D, p: Vector2, hasard: RandomNumberGenerator, taille := 1.0) -> void:
-	var touffe := MeshInstance3D.new()
-	var s := SphereMesh.new()
-	s.radius = hasard.randf_range(0.7, 1.2) * taille
-	s.height = s.radius * 1.4
-	s.radial_segments = 8
-	s.rings = 5
-	touffe.mesh = s
-	touffe.material_override = _mat_feuillage(Color(0.44, 0.26, 0.2))
-	touffe.position = Vector3(p.x, hauteur(p.x, p.y) + s.radius * 0.45, p.y)
-	touffe.scale = Vector3(1.0, 0.8, 1.0)
-	parent.add_child(touffe)
+	var ecorce := _mat_choix(["bark_willow_02", "tree_bark_03"], Color(0.45, 0.3, 0.26), 0.95, 0.6)
+	_arbre_realiste(parent, p, "tamaris", hasard, taille, ecorce, 0.05, false)
 
 
 ## Un fort carré de terre damée (comme le « petit fort » de la Porte de Jade, haut de
@@ -621,73 +578,14 @@ func _facade_yaodong(parent: Node3D, p: Vector3, angle := 0.0, largeur := 3.4) -
 ## Un mûrier taillé en têtard, nu en hiver : un tronc court et noueux, couronné de
 ## rejets droits (on les coupait chaque année pour les feuilles des vers à soie).
 func _murier(parent: Node3D, p: Vector2, hasard: RandomNumberGenerator, taille := 1.0) -> Node3D:
-	var a := Node3D.new()
-	a.name = "Murier%d" % parent.get_child_count()
-	a.position = Vector3(p.x, hauteur(p.x, p.y) - 0.05, p.y)
-	a.rotation.y = hasard.randf() * TAU
-	a.scale = Vector3.ONE * taille
-	parent.add_child(a)
 	var ecorce := _mat_choix(["bark_willow_02", "tree_bark_03"], Color(0.5, 0.45, 0.4), 0.95, 0.6)
-	var tronc := MeshInstance3D.new()
-	tronc.mesh = _cylindre(0.24, 0.3, 1.7, 8)
-	tronc.material_override = ecorce
-	tronc.position.y = 0.85
-	tronc.rotation.z = hasard.randf_range(-0.08, 0.08)
-	a.add_child(tronc)
-	var tete := MeshInstance3D.new()
-	var boule := SphereMesh.new()
-	boule.radius = 0.36
-	boule.height = 0.55
-	boule.radial_segments = 8
-	boule.rings = 4
-	tete.mesh = boule
-	tete.material_override = ecorce
-	tete.position.y = 1.75
-	a.add_child(tete)
-	var rameau := _cylindre(0.015, 0.045, 1.0, 4)
-	for k in hasard.randi_range(9, 14):
-		var r := MeshInstance3D.new()
-		r.mesh = rameau
-		r.material_override = ecorce
-		var ang := hasard.randf() * TAU
-		var inc := hasard.randf_range(0.15, 0.6)
-		var l := hasard.randf_range(1.0, 2.0)
-		r.scale = Vector3(1, l, 1)
-		r.position = Vector3(cos(ang) * 0.2, 1.8, sin(ang) * 0.2) + Vector3(cos(ang) * sin(inc), cos(inc), sin(ang) * sin(inc)) * l * 0.5
-		r.rotation = Vector3(sin(ang) * inc, 0, -cos(ang) * inc)
-		a.add_child(r)
-	return a
+	return _arbre_realiste(parent, p, "murier_tetard", hasard, taille, ecorce, 0.05)
 
 
 ## Un peuplier nu en hiver, haut et droit (on en plantait le long des routes et des villages).
 func _peuplier_hiver(parent: Node3D, p: Vector2, hasard: RandomNumberGenerator, taille := 1.0) -> Node3D:
-	var a := Node3D.new()
-	a.name = "Peuplier%d" % parent.get_child_count()
-	a.position = Vector3(p.x, hauteur(p.x, p.y) - 0.05, p.y)
-	a.rotation.y = hasard.randf() * TAU
-	a.scale = Vector3.ONE * taille
-	parent.add_child(a)
 	var ecorce := _mat_choix(["bark_willow_02", "tree_bark_03"], Color(0.72, 0.7, 0.64), 0.9, 0.6)
-	var haut := hasard.randf_range(9.0, 12.0)
-	var tronc := MeshInstance3D.new()
-	tronc.mesh = _cylindre(0.08, 0.28, haut, 8)
-	tronc.material_override = ecorce
-	tronc.position.y = haut * 0.5
-	a.add_child(tronc)
-	var rameau := _cylindre(0.02, 0.06, 1.0, 4)
-	for k in 22:
-		var t := hasard.randf_range(0.25, 0.92)
-		var ang := hasard.randf() * TAU
-		var inc := hasard.randf_range(0.25, 0.45)
-		var l := (1.0 - t) * hasard.randf_range(2.0, 3.6) + 0.6
-		var r := MeshInstance3D.new()
-		r.mesh = rameau
-		r.material_override = ecorce
-		r.scale = Vector3(1, l, 1)
-		r.position = Vector3(0, haut * t, 0) + Vector3(cos(ang) * sin(inc), cos(inc), sin(ang) * sin(inc)) * l * 0.5
-		r.rotation = Vector3(sin(ang) * inc, 0, -cos(ang) * inc)
-		a.add_child(r)
-	return a
+	return _arbre_realiste(parent, p, "peuplier_hiver", hasard, taille, ecorce, 0.05)
 
 
 # --- Luoyang : palais, pavillons et enceintes ------------------------------------------------
