@@ -42,10 +42,14 @@ func _niveaux(d: Dictionary) -> void:
 	_verifier(Progression.xp_pour_niveau(d, 1) == 130, "niveau 1 → 2 : 130 XP (%d)" % Progression.xp_pour_niveau(d, 1))
 	_verifier(Progression.niveau_pour_xp(d, 130) == 2, "130 XP : niveau 2")
 	_verifier(Progression.niveau_pour_xp(d, 129) == 1, "129 XP : encore niveau 1")
-	var total50 := Progression.xp_total_pour(d, 50)
-	_verifier(Progression.niveau_pour_xp(d, total50 * 3) == 50, "pas plus loin que le niveau 50 (%d XP pour l'atteindre)" % total50)
-	_verifier(Progression.avancement(d, total50) == Vector2i.ZERO, "au niveau maximum, la barre d'XP est pleine")
+	var total60 := Progression.xp_total_pour(d, 60)
+	_verifier(Progression.niveau_max(d) == 60, "niveau maximum : 60")
+	_verifier(Progression.niveau_pour_xp(d, total60 * 3) == 60, "pas plus loin que le niveau 60 (%d XP pour l'atteindre)" % total60)
+	_verifier(Progression.avancement(d, total60) == Vector2i.ZERO, "au niveau maximum, la barre d'XP est pleine")
 	_verifier(Progression.points_gagnes(d, 1) == 0 and Progression.points_gagnes(d, 20) == 19, "1 point de talent par niveau à partir du 2 (19 au niveau 20)")
+	_verifier(Progression.points_gagnes(d, 21) == 19 and Progression.points_gagnes(d, 22) == 20 and Progression.points_gagnes(d, 60) == 39,
+			"après le niveau 20 : un point tous les deux niveaux (20 au niveau 22, 39 au niveau 60)")
+	_verifier(Progression.prochain_niveau_avec_point(d, 20) == 22 and Progression.prochain_niveau_avec_point(d, 60) == 0, "prochain point : niveau 22 après le 20, aucun au 60")
 	_verifier(Progression.xp_ennemi(d, 1, 1) == 11, "loup niveau 1 pour un niveau 1 : 11 XP")
 	_verifier(Progression.xp_ennemi(d, 1, 10) < Progression.xp_ennemi(d, 1, 1), "un ennemi bien plus faible rapporte moins")
 	_verifier(Progression.xp_ennemi(d, 15, 10) <= int(round(Progression.xp_de(d, "ennemi", 15) * 1.5)), "un ennemi plus fort rapporte plus, plafonné à +50 %")
@@ -122,7 +126,14 @@ func _talents(d: Dictionary) -> void:
 						if c == null:
 							cles_ok = false
 							print("       clé absente : %s.%s (%s)" % [id, cle, t["id"]])
-		_verifier(voies.size() == 3 and ids.size() == 12, "%s : 3 voies de 4 talents" % classe)
+		_verifier(voies.size() == 3 and ids.size() == 21, "%s : 3 voies de 7 talents" % classe)
+		var paliers_ok := true
+		for v in voies:
+			var paliers := []
+			for t in v["talents"]:
+				paliers.append(int(t["palier"]))
+			paliers_ok = paliers_ok and paliers == [1, 2, 3, 4, 5, 6, 7]
+		_verifier(paliers_ok, "%s : un talent par palier, du 1 au 7, dans chaque voie" % classe)
 		_verifier(cles_ok, "%s : chaque talent modifie une vraie compétence de la classe" % classe)
 
 	var e := Progression.etat_de_depart()
@@ -162,6 +173,34 @@ func _talents(d: Dictionary) -> void:
 	_verifier(pris == 19, "niveau 20 : les 19 points se placent (%d)" % pris)
 	Progression.oublier_talents(max_e)
 	_verifier(Progression.points_libres(d, max_e) == 19, "oublier les talents rend tous les points")
+	# Niveau 60 : 39 points, une voie complète coûte 16 points (deux voies + 7 points).
+	var e60 := Progression.etat_de_depart()
+	e60["xp"] = Progression.xp_total_pour(d, 60)
+	var voies_lame := Progression.voies(d, "lame")
+	var ultime := String(voies_lame[0]["talents"][6]["id"])
+	_verifier(Progression.prendre_talent(d, "lame", e60, ultime) != "", "palier 7 fermé sans 15 points dans la voie")
+	var pris60 := 0
+	for v in voies_lame:
+		for t in v["talents"]:
+			while Progression.prendre_talent(d, "lame", e60, t["id"]) == "":
+				pris60 += 1
+	_verifier(pris60 == 39, "niveau 60 : les 39 points se placent (%d)" % pris60)
+	_verifier(Progression.points_dans_voie(e60, voies_lame[0]) == 16 and Progression.points_dans_voie(e60, voies_lame[1]) == 16
+			and Progression.points_dans_voie(e60, voies_lame[2]) == 7, "deux voies complètes (16 + 16) et 7 points dans la troisième")
+	_verifier(int(e60["talents"].get(ultime, 0)) == 1, "le talent ultime (palier 7) est pris")
+	var b60 := Progression.bonus(d, "lame", e60, 220)
+	var exe := Objets.competence_modifiee(donnees.competence("execution"), b60["competences"]["execution"])
+	_verifier(int(exe["pv_cible_max_pourcent"]) == 35, "Lame des siècles + Coup de grâce : Exécution dès 35 %% de vie (%s)" % exe["pv_cible_max_pourcent"])
+	_verifier(float(b60["stats"].get("vol_de_vie_pourcent", 0)) == 6.0, "Soif de sang 3/3 : 6 %% de vol de vie")
+	# Ancienne sauvegarde de niveau 44 (43 points avant, 31 maintenant) : rien n'est perdu de ce qui tient.
+	var ancien := {"xp": Progression.xp_total_pour(d, 44), "talents": {}}
+	for v in voies_lame:
+		for t in v["talents"]:
+			if int(t["palier"]) <= 4:
+				ancien["talents"][t["id"]] = int(t["rangs"])
+	var repris := Progression.valider(d, "lame", ancien)
+	_verifier(Progression.points_depenses(repris) == 27 and Progression.points_libres(d, repris) == 4,
+			"sauvegarde niveau 44 : les 27 anciens points restent, 4 points libres pour les nouveaux paliers")
 
 
 func _titres(d: Dictionary) -> void:

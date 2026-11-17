@@ -27,6 +27,8 @@ func _ready() -> void:
 	classes = _lire("res://data/classes.json")
 	artisanat = _lire("res://data/artisanat.json")
 	recolte = _lire("res://data/recolte.json")
+	# L'Arsenal des époques (équipement de palier de chaque île) s'ajoute aux objets et aux recettes.
+	Objets.ajouter_arsenal(objets, artisanat, _lire("res://data/arsenal.json"))
 
 
 func competence(id: String) -> Dictionary:

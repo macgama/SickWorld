@@ -22,10 +22,12 @@ const NOMS_EMPLACEMENTS := {
 	"arme_principale": "Arme principale", "arme_secondaire": "Arme secondaire",
 	"bijou_1": "Bijou", "bijou_2": "Bijou", "relique": "Relique d'époque",
 }
-const STATS := ["pv", "degats_pourcent", "reduction_pourcent", "critique_pourcent"]
+const STATS := ["pv", "degats_pourcent", "reduction_pourcent", "critique_pourcent",
+		"soins_pourcent", "vol_de_vie_pourcent", "resistance_controles_pourcent"]
 const NOMS_STATS := {
 	"pv": "Points de vie", "degats_pourcent": "Dégâts", "reduction_pourcent": "Protection",
-	"critique_pourcent": "Coups critiques",
+	"critique_pourcent": "Coups critiques", "soins_pourcent": "Soins donnés",
+	"vol_de_vie_pourcent": "Vol de vie", "resistance_controles_pourcent": "Résistance aux contrôles",
 }
 ## Les emplacements de la barre réservés aux compétences d'époque (touches 6 et 7) et à l'ultime (8).
 const CASES_EPOQUE := [5, 6]
@@ -33,6 +35,39 @@ const CASE_ULTIME := 7
 
 
 # --- Lecture du catalogue -----------------------------------------------------
+
+## Ajoute l'Arsenal des époques (data/arsenal.json) au catalogue des objets et aux
+## recettes des artisans. Un id qui existe déjà n'est pas remplacé.
+static func ajouter_arsenal(cat: Dictionary, art: Dictionary, arsenal: Dictionary) -> void:
+	if arsenal.is_empty():
+		return
+	for partie in ["objets", "ensembles"]:
+		if not cat.get(partie) is Dictionary:
+			cat[partie] = {}
+		var dest: Dictionary = cat[partie]
+		var ajout: Dictionary = arsenal.get(partie, {})
+		for id in ajout:
+			if not dest.has(id):
+				dest[id] = ajout[id]
+	for partie in ["recettes", "categories", "artisans"]:
+		if not art.get(partie) is Dictionary:
+			art[partie] = {}
+	var recettes: Dictionary = art["recettes"]
+	var r: Dictionary = arsenal.get("recettes", {})
+	for id in r:
+		if not recettes.has(id):
+			recettes[id] = r[id]
+	var categories: Dictionary = art["categories"]
+	var c: Dictionary = arsenal.get("categories", {})
+	for id in c:
+		if not categories.has(id):
+			categories[id] = c[id]
+	var fiche: Dictionary = arsenal.get("artisan", {})
+	if fiche.has("id") and not (art["artisans"] as Dictionary).has(fiche["id"]):
+		var copie := fiche.duplicate(true)
+		copie.erase("id")
+		art["artisans"][fiche["id"]] = copie
+
 
 static func objet(cat: Dictionary, id: String) -> Dictionary:
 	return (cat.get("objets", {}) as Dictionary).get(id, {})
@@ -290,15 +325,29 @@ static func _redimensionner(cat: Dictionary, etat: Dictionary) -> void:
 
 # --- Équipement ---------------------------------------------------------------
 
+## Niveau du personnage qu'il faut pour porter un objet (0 : aucun).
+static func niveau_requis(cat: Dictionary, id: String) -> int:
+	return maxi(0, int(objet(cat, id).get("niveau", 0)))
+
+
+## "" si le personnage (niveau_joueur, -1 = ne pas vérifier) peut porter l'objet.
+static func raison_niveau(cat: Dictionary, id: String, niveau_joueur: int) -> String:
+	var requis := niveau_requis(cat, id)
+	if niveau_joueur >= 0 and requis > niveau_joueur:
+		return "Il faut être niveau %d pour porter %s" % [requis, objet(cat, id).get("nom", id)]
+	return ""
+
+
 ## Clic sur un objet des sacs : on l'équipe (ou on l'accroche comme sac).
-static func utiliser(cat: Dictionary, etat: Dictionary, index: int) -> String:
+## niveau_joueur : pour vérifier le niveau requis (-1 = pas de vérification).
+static func utiliser(cat: Dictionary, etat: Dictionary, index: int, niveau_joueur := -1) -> String:
 	var cases: Array = etat["cases"]
 	if index < 0 or index >= cases.size() or (cases[index] as Dictionary).is_empty():
 		return "Case vide"
 	var id := String(cases[index]["id"])
 	match String(objet(cat, id).get("type", "")):
 		"equipement":
-			return equiper_dans(cat, etat, index, emplacement_pour(cat, etat, id))
+			return equiper_dans(cat, etat, index, emplacement_pour(cat, etat, id), niveau_joueur)
 		"sac":
 			return accrocher_sac(cat, etat, index)
 		"consommable":
@@ -307,13 +356,16 @@ static func utiliser(cat: Dictionary, etat: Dictionary, index: int) -> String:
 
 
 ## Met l'objet de la case « index » dans l'emplacement donné. L'ancien objet prend sa place dans le sac.
-static func equiper_dans(cat: Dictionary, etat: Dictionary, index: int, emplacement: String) -> String:
+static func equiper_dans(cat: Dictionary, etat: Dictionary, index: int, emplacement: String, niveau_joueur := -1) -> String:
 	var cases: Array = etat["cases"]
 	if index < 0 or index >= cases.size() or (cases[index] as Dictionary).is_empty():
 		return "Case vide"
 	var id := String(cases[index]["id"])
 	if not peut_aller_dans(cat, id, emplacement):
 		return "Ne va pas à cet emplacement"
+	var trop_haut := raison_niveau(cat, id, niveau_joueur)
+	if trop_haut != "":
+		return trop_haut
 	var ancien := String(etat["equipement"].get(emplacement, ""))
 	etat["equipement"][emplacement] = id
 	cases[index] = {"id": ancien, "n": 1} if ancien != "" else {}
@@ -480,7 +532,8 @@ static func raison_tenue_impossible(cat: Dictionary, etat: Dictionary, numero: i
 
 ## Met la tenue : chaque emplacement prend l'objet prévu s'il est dans les sacs.
 ## Renvoie la liste des objets introuvables (pour prévenir le joueur).
-static func mettre_tenue(cat: Dictionary, etat: Dictionary, numero: int) -> Array:
+## Un objet d'un niveau trop haut pour niveau_joueur reste dans les sacs.
+static func mettre_tenue(cat: Dictionary, etat: Dictionary, numero: int, niveau_joueur := -1) -> Array:
 	var tenue: Dictionary = etat["tenues"][numero]
 	var voulu: Dictionary = tenue["equipement"]
 	var manquants: Array = []
@@ -502,7 +555,7 @@ static func mettre_tenue(cat: Dictionary, etat: Dictionary, numero: int) -> Arra
 		if index < 0:
 			manquants.append(String(objet(cat, id).get("nom", id)))
 			continue
-		equiper_dans(cat, etat, index, e)
+		equiper_dans(cat, etat, index, e, niveau_joueur)
 	etat["barre"] = (tenue["barre"] as Array).duplicate()
 	return manquants
 
@@ -582,6 +635,8 @@ static func description(cat: Dictionary, id: String) -> String:
 		"consommable":
 			genre = "Plat"
 	lignes.append("%s — %s — %s" % [r.get("nom", ""), genre, o.get("epoque", "")])
+	if niveau_requis(cat, id) > 0:
+		lignes.append("Niveau requis : %d" % niveau_requis(cat, id))
 	var stats: Dictionary = o.get("stats", {})
 	for s in STATS:
 		if float(stats.get(s, 0)) != 0.0:

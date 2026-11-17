@@ -154,7 +154,7 @@ func _executer(action: String, a: Array) -> String:
 				if r == "":
 					_dire("Tu manges : %s. Te voilà rassasié." % Objets.objet(c, plat).get("nom", plat))
 				return r
-			return Objets.utiliser(c, etat, i)
+			return Objets.utiliser(c, etat, i, niveau_joueur())
 		"retirer":
 			return Objets.retirer(c, etat, String(a[0])) if String(a[0]) in Objets.EMPLACEMENTS else "?"
 		"jeter":
@@ -214,6 +214,14 @@ func _fabriquer(id_recette: String) -> String:
 	return raison
 
 
+## Niveau du personnage (pour l'équipement qui demande un niveau), -1 s'il est inconnu.
+func niveau_joueur() -> int:
+	var prog := joueur.get_node_or_null("Progression") if joueur != null else null
+	if prog != null and prog.is_node_ready() and prog.has_method("niveau"):
+		return int(prog.niveau())
+	return -1
+
+
 ## Heure réelle (secondes) : les repas durent même quand on se déconnecte.
 static func heure() -> float:
 	return Time.get_unix_time_from_system()
@@ -246,7 +254,7 @@ func _process(delta: float) -> void:
 	if Regles.maintenant() >= _fin_changement:
 		var numero := _changement
 		_changement = -1
-		var manquants := Objets.mettre_tenue(cat(), etat, numero)
+		var manquants := Objets.mettre_tenue(cat(), etat, numero, niveau_joueur())
 		if not manquants.is_empty():
 			_dire("Introuvable dans tes sacs : " + ", ".join(manquants))
 		_appliquer()

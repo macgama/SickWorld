@@ -416,6 +416,7 @@ Le joueur progresse sur plusieurs axes en parallèle, pour toujours avoir un obj
 - L'expérience vient des quêtes (surtout), des events, des ennemis et des découvertes de lieux.
 - Monter de niveau augmente les statistiques et débloque de nouvelles compétences de classe.
 - *En jeu depuis le 15 novembre 2026* : niveau maximum 20 ; chaque niveau donne +6 % de vie de base, +2,5 % de dégâts et un point de talent (à partir du niveau 2). L'XP vient des étapes de quête (bonus en fin de chapitre), quêtes secondaires, événements publics (selon le palier), ennemis (selon l'écart de niveau), premières visites de zone et missions du hub. Réglages : `data/progression.json`, guide : `docs/guides/la-progression.md`.
+- *Depuis le 17 novembre 2026* : niveau maximum 60 (une île = 10 niveaux, +10 à chaque nouvelle époque) ; un point de talent par niveau jusqu'au 20 puis un tous les deux niveaux (39 au niveau 60) ; voies de 7 talents (paliers 5 à 7 à 9, 12 et 15 points, le palier 7 étant le talent ultime de la voie). Équipement de palier : l'**Arsenal des époques** (3 panoplies Assaut / Garde / Harmonie de 7 pièces par île, normale ou renforcée avec le trophée du donjon, niveau requis), fabriqué par Inès la soudeuse au quartier des Artisans. Guide : `docs/guides/l-arsenal-des-epoques.md`.
 - Pour l'instant, les 5 compétences de classe restent disponibles dès le niveau 1 (le tutoriel de la Préhistoire les utilise) ; ce sont les **talents** qui les font évoluer. Débloquer de nouvelles compétences par niveau reste prévu.
 
 ### 1 bis. Les talents

@@ -1,6 +1,6 @@
 extends SceneTree
 ## Capture d'écran de l'établi d'un artisan dans le hub (fenêtre visible, pas en --headless).
-## Lancement : godot --path game -s res://tests/capture_artisanat.gd -- [forge|atelier] [chemin.jpg] [categorie]
+## Lancement : godot --path game -s res://tests/capture_artisanat.gd -- [forge|atelier|arsenal] [chemin.jpg] [categorie]
 
 const MATERIAUX := {"silex": 9, "tendon_seche": 7, "bois_de_renne": 5, "croc_loup": 14, "peau_loup": 9,
 	"eclat_de_fracture": 6, "ocre_rouge": 3}
@@ -33,7 +33,13 @@ func _lancer() -> void:
 	for id in MATERIAUX:
 		Objets.ajouter(cat, inv.etat, id, MATERIAUX[id])
 	inv._appliquer()
-	var pnj_vise := "forgeron" if artisan == "forge" else "lea"
+	var pnj_vise := String({"forge": "forgeron", "arsenal": "soudeuse"}.get(artisan, "lea"))
+	if artisan == "arsenal":
+		Objets.ajouter(cat, inv.etat, "eclat_de_fracture", 30)
+		Objets.ajouter(cat, inv.etat, "criniere_de_lion", 4)
+		Objets.ajouter(cat, inv.etat, "gilet_pretorien", 2)
+		Objets.ajouter(cat, inv.etat, "fourrure_ours_vivarium", 2)
+		inv._appliquer()
 	for p in get_nodes_in_group("pnj"):
 		if p.identifiant == pnj_vise:
 			joueur.teleporter(p.global_position + p.global_transform.basis.z * 2.2 + Vector3(0, 0.2, 0), p.rotation.y + PI)
