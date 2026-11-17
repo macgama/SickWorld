@@ -158,8 +158,13 @@ func _lancer() -> void:
 	_verifier(lions.size() == 1, "un lion fracturé attaque")
 	if lions.size() == 1:
 		var apparence: Node = lions[0].get_node("Apparence")
-		_verifier(apparence.find_child("Criniere", true, false) != null, "le lion a une crinière")
-		_verifier(lions[0].scale.x > 0.99 and apparence.scale.x > 1.2, "il est plus grand qu'un loup")
+		# Le vrai modèle de lion (avec sa crinière) ; sinon le loup teinté à crinière ajoutée.
+		var vrai := apparence.find_child("Lion", false, false) != null
+		_verifier(vrai or apparence.find_child("Criniere", true, false) != null, "le lion a une crinière")
+		var grand: bool = apparence.scale.x > 1.05 if vrai else apparence.scale.x > 1.2
+		_verifier(lions[0].scale.x > 0.99 and grand, "il est plus grand qu'un loup")
+		if vrai:
+			_verifier(apparence.find_child("Yeux", true, false) != null, "il a les yeux violets de la fracture")
 	await _tuer("lion_fracture", combat_joueur, "lion")
 	_verifier(_id_etape() == "rencontre_caecilia", "le lion est abattu (%s)" % _id_etape())
 	var lues := await _parler("Caecilia")

@@ -108,3 +108,16 @@ Modèles 3D téléchargés sur Sketchfab, sous licence **Creative Commons Attrib
 - **Remarques :** allégé de 1 968 430 à 40 000 triangles avec Blender
   (`tools/animaux/alleger_poulpe.py`), textures réduites à 2048 px. Pas de squelette : les bras
   ondulent grâce au shader `shaders/poulpe_bras.gdshader`.
+
+## Lion de Rome (vivarium, jeux du Colisée) — `lion/scene.gltf`
+
+- **Modèle :** Lion
+- **Auteur :** kenchoo (@kenchoo, https://sketchfab.com/kenchoo)
+- **URL :** https://sketchfab.com/3d-models/lion-66be3258e2d64f32af2b73b2ecd47637
+- **Licence :** CC-BY 4.0
+- **Crédit :** This work is based on "Lion" (https://sketchfab.com/3d-models/lion-66be3258e2d64f32af2b73b2ecd47637)
+  by kenchoo (https://sketchfab.com/kenchoo) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+- **Taille :** ~42 700 triangles, 1 squelette (le même que le labrador du molosse), textures 1024 px.
+- **Animation :** une seule attente de 8,4 s. Marche et galop sont faits en code
+  (scripts/ennemis/apparence_chien.gd) ; la tête, tournée de côté au repos, y est remise dans l'axe,
+  et les pieds (liés aux os d'IK de Blender) sont recollés au bout des pattes.
