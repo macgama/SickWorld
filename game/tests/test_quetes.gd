@@ -366,6 +366,15 @@ func _lancer() -> void:
 	for pnj in ["commandante", "archiviste", "commandante"]:
 		await _parler_a(pnj)
 	_verifier(_quetes.etat("charte_fondation") == "terminee", "mission « La charte de fondation » accomplie")
+
+	# 23. La cellule de Cinabre (Chine, chapitre 8) : Cinabre dans la cellule voisine de Janus.
+	_verifier(_trouver_pnj("cinabre_cellule") == null, "avant la fin de la Chine, la seconde cellule est vide")
+	_quetes.accepter("cellule_cinabre")
+	await _attendre(5)
+	_verifier(_trouver_pnj("cinabre_cellule") != null, "Cinabre est enfermée à côté de Janus")
+	for pnj in ["commandante", "cinabre_cellule", "commandante"]:
+		await _parler_a(pnj)
+	_verifier(_quetes.etat("cellule_cinabre") == "terminee", "mission « La cellule de Cinabre » accomplie")
 	souvenirs = _appart.get_node("Souvenirs").get_child_count()
 	_verifier(souvenirs == _quetes.quetes.size(), "toutes les missions ont leur souvenir (%d)" % souvenirs)
 

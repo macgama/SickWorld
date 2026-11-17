@@ -326,6 +326,9 @@ func raison_impossible(index: int) -> String:
 	# compétence pendant quelques secondes, sauf l'attaque de base (touche 1).
 	if index > 0 and combat.a_effet("voix_coupee"):
 		return "Ta voix est couverte par le Mur de haut-parleurs"
+	# Le grand autodafé (tombeau du Premier Empereur) : la fumée des bûchers de livres.
+	if index > 0 and combat.a_effet("fumee_autodafe"):
+		return "La fumée du bûcher t'aveugle : éteins-le"
 	if recharge_restante(index).x > 0.05:
 		return "Pas encore prêt"
 	if elan < cout(c):

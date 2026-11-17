@@ -231,7 +231,7 @@ func _lancer() -> void:
 		_verifier(inventaire.quantite("bebe_panda") >= 1, "Bao le panda est dans le sac")
 	lues = await _parler("MasqueTombeau")
 	_verifier(lues >= 4, "Masque garde la porte (%d bulles)" % lues)
-	_verifier(_quete.etape < 0, "chapitre 6 terminé (%s)" % _id_etape())
+	_verifier(_id_etape() == "vers_audience", "chapitre 6 terminé, le 7 commence (%s)" % _id_etape())
 	if inventaire != null and inventaire.has_method("quantite"):
 		_verifier(inventaire.quantite("cuirasse_lamelles") >= 1, "la cuirasse de lamelles est dans le sac")
 
@@ -240,7 +240,7 @@ func _lancer() -> void:
 	await _attendre(5)
 	await _charger()
 	await _attendre(20)
-	_verifier(_quete.etape < 0, "au retour, le chapitre 6 est toujours fini")
+	_verifier(_id_etape() == "vers_audience", "au retour, le chapitre 6 est toujours fini")
 	_verifier(_scene.find_child("Faille", true, false).fermee, "la faille est toujours fermée")
 	_verifier(_scene.find_child("MasqueTombeau", true, false).visible, "Masque garde toujours l'entrée")
 	_verifier(not _scene.find_child("CinabreLi", true, false).visible, "Cinabre n'est plus là")
