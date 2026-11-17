@@ -23,7 +23,8 @@ const NOMS_ZONES := {
 }
 ## Objets détruits quand on les utilise (les objets modernes semés par les fractures…).
 const FORMES_CONSOMMEES := ["canette", "telephone", "lunettes", "gobelet", "drone", "chat", "chien", "gps", "extincteur",
-		"fromage", "laurier", "sac", "tablette"]
+		"fromage", "laurier", "sac", "tablette", "pelleteuse", "briquet", "cle_usb", "cerf", "grue", "macaque",
+		"vieux_tigre", "mere_panda", "the", "ballon_cuju", "cocon"]
 
 signal quete_changee(id: String)
 

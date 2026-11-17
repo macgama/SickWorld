@@ -838,5 +838,112 @@
 		"repliques": [
 			"Frappe ! Je les tiens, mais pas pour toujours !"
 		]
+	},
+	"sergent_cuju": {
+		"nom": "Sergent Ma",
+		"role": "Sergent de la garnison, fou de cuju",
+		"modele": "homme",
+		"habit": "chiton_himation",
+		"taille_cm": 172,
+		"peau": "#c8a07a",
+		"habits": "#6a2a22",
+		"repliques": [
+			"Un soldat qui ne court pas meurt de froid. Un soldat qui court après un ballon oublie qu'il a froid."
+		]
+	},
+	"champion_cuju": {
+		"nom": "Gao Jian",
+		"role": "Champion de cuju de la garde du palais",
+		"modele": "homme",
+		"habit": "chiton_himation",
+		"taille_cm": 180,
+		"peau": "#d2ac8a",
+		"habits": "#8a2a1a",
+		"repliques": [
+			"Le cuju, c'est comme la guerre : il faut voir le trou avant les autres."
+		]
+	},
+	"caravanier_fleuve": {
+		"nom": "Petit Ou",
+		"role": "Chamelier de la caravane de Wang Ba",
+		"modele": "homme",
+		"habit": "robe_nomade",
+		"taille_cm": 164,
+		"peau": "#c09070",
+		"habits": "#5a4a3a",
+		"repliques": [
+			"Mes chameaux ont vu le désert, la tempête et les pillards. Le fleuve, par contre, ils n'aiment pas du tout."
+		]
+	},
+	"maitre_zhou": {
+		"nom": "Maître Zhou",
+		"role": "Médecin du marché, acupuncteur",
+		"modele": "homme",
+		"habit": "chiton_himation",
+		"taille_cm": 166,
+		"peau": "#d8b48e",
+		"habits": "#2a3a2a",
+		"repliques": [
+			"Le corps est un royaume. Le souffle en est le fleuve. Quand le fleuve s'arrête, le royaume meurt."
+		]
+	},
+	"gardien_parc": {
+		"nom": "Le gardien Liang",
+		"role": "Gardien des bêtes du parc impérial",
+		"modele": "homme",
+		"habit": "robe_nomade",
+		"taille_cm": 170,
+		"peau": "#c8a07a",
+		"habits": "#4a3a22",
+		"repliques": [
+			"Les grues dansent au printemps. Les cerfs bramment à l'automne. Et le tigre dort, toute l'année."
+		]
+	},
+	"vieux_lettre": {
+		"nom": "Le vieux lettré Kong",
+		"role": "Maître à l'Académie impériale",
+		"modele": "homme",
+		"habit": "chiton_himation",
+		"taille_cm": 160,
+		"peau": "#dcbc9c",
+		"habits": "#2a2a3a",
+		"repliques": [
+			"Trente mille étudiants, à l'Académie. Et pas un qui sache perdre au liubo avec élégance."
+		]
+	},
+	"cuisiniere_marche": {
+		"nom": "Tante Ning",
+		"role": "Cuisinière du marché de l'Ouest",
+		"modele": "femme",
+		"habit": "peplos_himation",
+		"taille_cm": 156,
+		"peau": "#d2a882",
+		"habits": "#6a4a2a",
+		"repliques": [
+			"Un bol de nouilles chaudes, et même un fonctionnaire du palais sourit."
+		]
+	},
+	"bucheron_qinling": {
+		"nom": "Le bûcheron Shi",
+		"role": "Bûcheron des monts Qinling",
+		"modele": "homme",
+		"habit": "robe_nomade",
+		"taille_cm": 168,
+		"peau": "#b8906a",
+		"habits": "#3a4a2a",
+		"repliques": [
+			"Les bambous fleurissent tous en même temps, une fois tous les cent ans. Puis ils meurent tous. Les pandas, eux, s'en vont ailleurs."
+		]
+	},
+	"lenoir_chine": {
+		"nom": "Agent Bastien Lenoir",
+		"role": "Vigie · nettoyage",
+		"modele": "homme",
+		"taille_cm": 180,
+		"peau": "#d6ae8c",
+		"habits": "#2a3440",
+		"repliques": [
+			"Des soldats d'argile, une Effaceuse et un panda. Ma fiche de mission ne prévoyait pas le panda."
+		]
 	}
 }

@@ -197,7 +197,7 @@ func _ready() -> void:
 		elif type.begins_with("tigre"):
 			# Le tigre du parc impérial de Luoyang (île de la Chine) : un grand félin orange
 			# rayé de noir (sur la silhouette du loup, en attendant un vrai modèle de tigre).
-			scale = Vector3(1.35, 1.25, 1.45)
+			scale = Vector3(1.35, 1.25, 1.45) * (1.45 if type.contains("geant") else 1.0)
 			_en_tigre()
 		elif type.begins_with("lion"):
 			# Le lion évadé du vivarium (île de Rome) : un grand félin fauve à crinière

@@ -104,6 +104,26 @@ static func monture_du_lieu(arbre: SceneTree) -> String:
 	return ""
 
 
+## La monture que ce joueur appelle ici : s'il y en a plusieurs pour l'époque (la chamelle
+## et le cheval céleste, en Chine), celle qu'il possède avec la plus grande « priorite ».
+func monture_choisie() -> String:
+	var ici := lieu(get_tree())
+	var choix := ""
+	var meilleure := -1.0
+	for id in donnees().get("montures", {}):
+		if String(fiche(id).get("epoque", "")) != ici or not bool(fiche(id).get("actif", true)):
+			continue
+		var requis := String(fiche(id).get("requiert", ""))
+		var priorite := float(fiche(id).get("priorite", 0))
+		if requis != "" and not _possede(requis):
+			# Sans l'objet : la monture de base de l'époque passe devant (pour le message).
+			priorite = -100.0 - priorite
+		if choix == "" or priorite > meilleure:
+			choix = id
+			meilleure = priorite
+	return choix
+
+
 ## L'objet est-il dans les sacs du joueur (ou porté) ?
 func _possede(id: String) -> bool:
 	var inventaire = joueur.get_node_or_null("Inventaire")
@@ -133,7 +153,7 @@ func raison_impossible() -> String:
 			return "Pas de monture en ville"
 		"donjon":
 			return "Pas de monture dans un donjon"
-	var ici := monture_du_lieu(get_tree())
+	var ici := monture_choisie()
 	if ici == "":
 		return "Aucune monture de cette époque"
 	var requis := String(fiche(ici).get("requiert", ""))
@@ -188,7 +208,7 @@ func _demander_monture() -> void:
 	if raison != "":
 		Regles.chez(joueur.id_reseau(), combat_joueur, "_recevoir_message", [raison])
 		return
-	_appel_id = monture_du_lieu(get_tree())
+	_appel_id = monture_choisie()
 	var duree := reglage("duree_invocation", 1.5)
 	_appel_fin = Regles.maintenant() + duree
 	Regles.chez(joueur.id_reseau(), combat_joueur, "_recevoir_incantation",
@@ -236,7 +256,7 @@ func _physics_process(_delta: float) -> void:
 			descendre("")
 		elif combat.en_combat():
 			descendre("Tu descends de ta monture pour combattre")
-		elif monture_du_lieu(get_tree()) != monture:
+		elif String(fiche(monture).get("epoque", "")) != lieu(get_tree()):
 			descendre("")
 
 

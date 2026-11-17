@@ -28,6 +28,7 @@ const NOMS_EFFETS := {
 	"nom_efface": "Nom effacé (compétences d'époque bloquées)", "voix_coupee": "Voix couverte (compétences bloquées)", "fumee_autodafe": "Fumée du bûcher (compétences bloquées)", "enfoui": "Dans les murs",
 	"blessure": "Blessure (soins reçus réduits)",
 	"sens_inverse": "Sens dessus dessous (directions inversées)", "thermes": "Bain des thermes (soigné)",
+	"aiguilles": "Aiguilles d'argent (soigné, +8 % dégâts)",
 }
 
 var _joueur: Joueur

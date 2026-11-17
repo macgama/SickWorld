@@ -569,6 +569,7 @@ func _construire_quete() -> void:
 	var dossier := Node3D.new()
 	dossier.name = "Quete"
 	_contenu.add_child(dossier)
+	_construire_secondaires(dossier)
 	_dossier_quete = dossier
 	_construire_portail(dossier, PORTAIL, PI)
 	# La vieille tour de guet du portail, en ruine, et le feu de Masque.
@@ -703,3 +704,8 @@ func _process(delta: float) -> void:
 	var p := Vector2(joueur.global_position.x, joueur.global_position.z)
 	if p.distance_to(SORTIE_EST) < 6.0 and quete.donnees.get("zones", {}).has("fleuve_jaune"):
 		quete.changer_de_zone("fleuve_jaune")
+
+
+## Les personnages des quêtes secondaires (data/chine_secondaires.json).
+func _construire_secondaires(dossier: Node3D) -> void:
+	_pnj(dossier, "sergent_cuju", Vector2(38, 18), PI * 0.8)

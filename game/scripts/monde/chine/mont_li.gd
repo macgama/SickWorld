@@ -492,6 +492,7 @@ func _construire_quete() -> void:
 	var dossier := Node3D.new()
 	dossier.name = "Quete"
 	_contenu.add_child(dossier)
+	_construire_secondaires(dossier)
 	_dossier_quete = dossier
 	# Le hameau : le paysan du puits et ses voisins.
 	_pnj(dossier, "paysan_puits", PAYSAN, PI * 0.75)
@@ -556,3 +557,9 @@ func _process(delta: float) -> void:
 	var p := Vector2(joueur.global_position.x, joueur.global_position.z)
 	if p.distance_to(ENTREE_TOMBEAU + Vector2(0, 0.6)) < 2.4 and quete.etape_atteinte("entrer_tombeau"):
 		quete.changer_de_zone("tombeau")
+
+
+## Les personnages des quêtes secondaires (data/chine_secondaires.json).
+func _construire_secondaires(dossier: Node3D) -> void:
+	_pnj(dossier, "bucheron_qinling", Vector2(-60, 40), PI * 0.6)
+	_pnj(dossier, "lenoir_chine", Vector2(139, 42), PI * 0.3)

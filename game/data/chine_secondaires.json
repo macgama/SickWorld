@@ -1,0 +1,1152 @@
+{
+	"_aide": "Quêtes secondaires de l'île de la Chine. Même format que data/rome_secondaires.json : chaque quête est proposée par un personnage (« donneur ») une fois l'étape « apres » de la quête principale passée. Types d'étape : recolter (un groupe d'objets, « nombre »), objet (un objet précis), tuer (début du nom de l'ennemi, « apparition » possible), pnj (parler à quelqu'un). « ou » est la zone de l'étape. « mini_jeu » : un petit jeu d'adresse au lieu d'une barre d'action (voir scripts/monde/mini_jeu.gd). Les objets sont dessinés par scripts/monde/chine/objet_chine.gd. Pour régénérer ce fichier : /mnt/project-files/chine/outils/generer_chine_secondaires.py",
+	"noms_zones": {
+		"porte_de_jade": "La Porte de Jade",
+		"fleuve_jaune": "Le Fleuve Jaune",
+		"luoyang": "Luoyang",
+		"mont_li": "Le mont Li",
+		"tombeau": "Le tombeau du Premier Empereur"
+	},
+	"quetes": [
+		{
+			"id": "lettres_porte_de_jade",
+			"titre": "Les lettres de la Porte de Jade",
+			"donneur": "scribe_jade",
+			"apres": "lettre_gan_ying",
+			"titre_obtenu": "Facteur de la frontière",
+			"offre": [
+				"Les pillards ont mis le feu au sac du courrier. Les lettres des soldats ! Des lattes de bois gravées, éparpillées partout le long de la muraille, et qui brûlent encore.",
+				"Ce ne sont pas des rapports. Ce sont des mots pour des mères, des femmes, des enfants, là-bas, dans les terres jaunes. « J'ai froid, mais je mange. » « Gardez-moi du millet pour l'été. »",
+				"Sauve-en cinq, au moins cinq. Et porte-les toi-même aux familles du village des maisons-grottes, au bord du Fleuve Jaune. Le courrier ne repartira pas avant le printemps."
+			],
+			"etapes": [
+				{
+					"objectif": "Sauve 5 lettres de soldats qui brûlent le long de la muraille",
+					"recolter": "lettre_soldat",
+					"nombre": 5,
+					"ou": "porte_de_jade",
+					"duree": 2.0,
+					"action": "Tu étouffes les flammes et tu ramasses les lattes…"
+				},
+				{
+					"objectif": "Porte sa lettre au vieux Zhang, au village des maisons-grottes (Fleuve Jaune)",
+					"pnj": "villageois_loess_1",
+					"ou": "fleuve_jaune",
+					"repliques": [
+						"Une lettre ? De mon fils ? Lis-la-moi, je ne sais pas lire…",
+						"« Père, la muraille est haute et le vent ne s'arrête jamais. Je monte la garde au troisième fanal. Ne vendez pas le bœuf. »",
+						"Il pense au bœuf. Il est vivant et il pense au bœuf ! Ah, ce garçon…"
+					]
+				},
+				{
+					"objectif": "Porte sa lettre à Dame Liu",
+					"pnj": "villageois_loess_2",
+					"ou": "fleuve_jaune",
+					"repliques": [
+						"Mon mari écrit qu'il a reçu les chaussettes. Il dit qu'elles sont trop petites, mais qu'il les porte quand même.",
+						"Trois ans qu'il est parti. Je vais garder cette latte sous mon oreiller.",
+						"Merci, voyageur. Dis à ceux de la Porte de Jade qu'on les attend."
+					]
+				},
+				{
+					"objectif": "Porte la dernière lettre au petit Hu",
+					"pnj": "villageois_loess_3",
+					"ou": "fleuve_jaune",
+					"repliques": [
+						"C'est pour moi ? Une vraie lettre, rien que pour moi ?",
+						"Mon frère a dessiné un chameau dessus ! Avec deux bosses ! Et il dit que je dois apprendre à lire pour la prochaine.",
+						"Alors j'apprendrai. Tu le lui diras ?"
+					]
+				}
+			],
+			"recompense": [
+				{
+					"id": "lettre_xuanquan",
+					"nom": "Lettre de soldat de la Porte de Jade"
+				}
+			]
+		},
+		{
+			"id": "route_des_chevaux_celestes",
+			"titre": "La route des chevaux célestes",
+			"donneur": "wang_ba",
+			"apres": "lettre_gan_ying",
+			"offre": [
+				"Ma caravane repart vers l'est, vers le Fleuve Jaune et la capitale. Vingt chameaux de Bactriane, de la laine, du jade, et deux chevaux de Ferghana pour les écuries de l'empereur.",
+				"Les chevaux célestes, on les appelle. On dit qu'ils suent du sang. Moi, je dis qu'ils mangent comme quatre.",
+				"La tempête se lève, et les pillards guettent la route. Allume les feux de balise pour que mes hommes ne se perdent pas, puis chasse les bandits du col. Je te paierai en chameau, s'il le faut."
+			],
+			"etapes": [
+				{
+					"objectif": "Allume les 3 feux de balise le long de la route, dans la tempête",
+					"recolter": "balise_caravane",
+					"nombre": 3,
+					"ou": "porte_de_jade",
+					"duree": 2.5,
+					"action": "Tu frottes ton briquet à silex contre le vent…"
+				},
+				{
+					"objectif": "Chasse les pillards qui guettent la caravane près de la sortie est",
+					"tuer": "pillard_caravane",
+					"nombre": 5,
+					"ou": "porte_de_jade",
+					"apparition": {
+						"type": "pillard_caravane",
+						"nombre": 5,
+						"position": [
+							118,
+							4
+						],
+						"rayon": 6,
+						"attaque": true
+					}
+				},
+				{
+					"objectif": "Retrouve la caravane de Wang Ba arrivée au Fleuve Jaune, à l'entrée ouest",
+					"pnj": "caravanier_fleuve",
+					"ou": "fleuve_jaune",
+					"repliques": [
+						"Te voilà ! Toute la caravane est passée, pas un chameau de perdu. Wang Ba m'a dit : « Donne-lui la Tempête. »",
+						"La Tempête, c'est elle, là. Une chamelle de Bactriane, la plus têtue de la route. Elle sent le sable avant tout le monde et elle ne te lâchera plus.",
+						"Prends sa longe. Quand tu siffles, elle vient. Enfin… quand elle veut bien."
+					]
+				}
+			],
+			"recompense": [
+				{
+					"id": "longe_chameau",
+					"nom": "Longe de la Tempête (chameau de Bactriane)"
+				}
+			]
+		},
+		{
+			"id": "ballon_des_soldats",
+			"titre": "Le ballon des soldats",
+			"donneur": "sergent_cuju",
+			"apres": "lettre_gan_ying",
+			"titre_obtenu": "Pied d'or",
+			"offre": [
+				"Tu vois ce ballon ? Du cuir, des plumes, et huit pièces cousues. C'est le cuju. Le général Huo Qubing y faisait jouer ses soldats même dans le désert.",
+				"Ça apprend à courir, à se placer, à obéir à un signal. Et ça réchauffe, crois-moi, par ce froid.",
+				"La garnison s'ennuie. Montre-leur ce que tu vaux : envoie le ballon dans le trou du filet. Si tu gagnes, je t'envoie défier le champion du palais, à Luoyang."
+			],
+			"etapes": [
+				{
+					"objectif": "Bats l'équipe de la garnison au cuju : envoie le ballon dans le trou du filet",
+					"objet": "ballon_garnison",
+					"ou": "porte_de_jade",
+					"mini_jeu": {
+						"type": "jauge",
+						"titre": "Le cuju de la garnison",
+						"consigne": "Appuie sur F quand le curseur passe dans la zone verte pour frapper le ballon.",
+						"essais": 4,
+						"reussites": 3,
+						"vitesse": 0.9,
+						"zone": 0.2,
+						"reussite": "Trois buts ! Les soldats te portent en triomphe autour du fort.",
+						"echec": "Le ballon rebondit sur le filet. Appuie sur F pour la revanche."
+					}
+				},
+				{
+					"objectif": "Retourne voir le sergent Ma",
+					"pnj": "sergent_cuju",
+					"ou": "porte_de_jade",
+					"repliques": [
+						"Ha ! Mes gars n'en reviennent pas. Personne n'avait marqué contre le caporal Li depuis l'été.",
+						"Va à Luoyang. Près de l'avenue, devant le Palais du Sud, le champion des gardes s'entraîne tous les jours. Il s'appelle Gao Jian, et il ne perd jamais.",
+						"Dis-lui que c'est le sergent Ma qui t'envoie. Ça va l'énerver."
+					]
+				},
+				{
+					"objectif": "Défie le champion du palais à Luoyang, sur la grande avenue",
+					"objet": "ballon_palais",
+					"ou": "luoyang",
+					"mini_jeu": {
+						"type": "rythme",
+						"titre": "Le champion du palais",
+						"consigne": "Gao Jian feinte et dribble : appuie sur la bonne direction quand le cercle touche la flèche.",
+						"nombre": 8,
+						"reussites": 6,
+						"periode": 1.1,
+						"reussite": "Un dernier crochet, et le ballon file dans le filet. La foule hurle ton nom.",
+						"echec": "Gao Jian t'a pris le ballon. Appuie sur F pour recommencer."
+					}
+				},
+				{
+					"objectif": "Serre la main de Gao Jian",
+					"pnj": "champion_cuju",
+					"ou": "luoyang",
+					"repliques": [
+						"Personne. Personne ne m'avait battu depuis trois ans. Même le prince héritier fait semblant de perdre contre moi.",
+						"Toi, tu n'as pas fait semblant. Tiens, prends ce ballon : il a joué devant l'empereur.",
+						"Et dis au sergent Ma que la prochaine fois, je viens à la frontière. Avec toute ma garde."
+					]
+				}
+			],
+			"recompense": [
+				{
+					"id": "ballon_cuju",
+					"nom": "Ballon de cuju du palais"
+				}
+			]
+		},
+		{
+			"id": "soie_de_mei",
+			"titre": "La soie de Mei",
+			"donneur": "mei",
+			"apres": "lao_fan_est",
+			"offre": [
+				"Les œufs que tu as sauvés ont éclos ! Mais il fait trop froid pour les mûriers, et les vers ont faim tout le temps.",
+				"Grand-père dit qu'il reste des feuilles sèches dans les mûriers taillés, au pied des maisons-grottes. Il en faut beaucoup. Un ver mange vingt mille fois son poids !",
+				"Et des voleurs rôdent autour des claies. Si tu m'aides, je te montrerai le plus beau secret de l'empire : comment on tire le fil d'un cocon."
+			],
+			"etapes": [
+				{
+					"objectif": "Cueille des feuilles dans 6 mûriers taillés, sous le village",
+					"recolter": "feuille_murier",
+					"nombre": 6,
+					"ou": "fleuve_jaune",
+					"duree": 1.5,
+					"action": "Tu détaches les dernières feuilles du mûrier…"
+				},
+				{
+					"objectif": "Chasse les voleurs fracturés qui pillent les claies des vers à soie",
+					"tuer": "pillard_ferme",
+					"nombre": 4,
+					"ou": "fleuve_jaune",
+					"apparition": {
+						"type": "pillard_ferme",
+						"nombre": 4,
+						"position": [
+							-80,
+							-38
+						],
+						"rayon": 8,
+						"attaque": true
+					}
+				},
+				{
+					"objectif": "Dévide un cocon dans l'eau chaude, sans casser le fil",
+					"objet": "cocon_mei",
+					"ou": "fleuve_jaune",
+					"mini_jeu": {
+						"type": "jauge",
+						"titre": "Le fil de soie",
+						"consigne": "Tourne le dévidoir : appuie sur F quand le curseur est dans la zone verte, sinon le fil casse.",
+						"essais": 4,
+						"reussites": 3,
+						"vitesse": 0.7,
+						"zone": 0.22,
+						"reussite": "Le fil sort, fin comme un cheveu, et il ne casse pas. Il ne s'arrête plus de sortir.",
+						"echec": "Le fil a cassé ! Cherche le bout et recommence (F)."
+					}
+				},
+				{
+					"objectif": "Montre l'écheveau à Mei",
+					"pnj": "mei",
+					"ou": "fleuve_jaune",
+					"repliques": [
+						"Tu as tout dévidé ? Un seul cocon, et presque mille pas de fil ! Tu vois pourquoi c'est un secret ?",
+						"Les marchands de l'ouest ne savent pas d'où vient la soie. Certains croient qu'elle pousse sur les arbres. Grand-père dit qu'il vaut mieux les laisser croire.",
+						"Maman a fini une robe avec la soie de l'an dernier. Elle est pour toi. Ne dis pas à grand-père que je te l'ai donnée avant le Nouvel An."
+					]
+				}
+			],
+			"recompense": [
+				{
+					"id": "robe_soie_mei",
+					"nom": "Robe de soie de Mei"
+				}
+			]
+		},
+		{
+			"id": "aiguilles_maitre_zhou",
+			"titre": "Les aiguilles de maître Zhou",
+			"donneur": "maitre_zhou",
+			"apres": "cai_lun_cadeau",
+			"offre": [
+				"Ces gens figés dans l'argile, au marché… Les autres médecins disent que c'est une malédiction. Moi, je dis que c'est une maladie du souffle. Le qi ne circule plus.",
+				"Il me faut du ginseng, de l'armoise et de la réglisse. Tu en trouveras dans le parc impérial, au nord-ouest de la ville : personne n'ose plus y entrer depuis l'histoire du tigre.",
+				"Ensuite, je te montrerai où piquer. Neuf aiguilles d'argent, aux bons endroits, dans le bon ordre. Tu as la main sûre ?"
+			],
+			"etapes": [
+				{
+					"objectif": "Cueille 5 plantes médicinales dans le parc impérial (ginseng, armoise, réglisse)",
+					"recolter": "plante_medicinale",
+					"nombre": 5,
+					"ou": "luoyang",
+					"duree": 1.5,
+					"action": "Tu déterres la racine avec précaution…"
+				},
+				{
+					"objectif": "Soigne 3 Figés au bord du marché avec les aiguilles de maître Zhou",
+					"recolter": "fige_patient",
+					"nombre": 3,
+					"ou": "luoyang",
+					"mini_jeu": {
+						"type": "jauge",
+						"titre": "Les aiguilles d'argent",
+						"consigne": "Plante l'aiguille quand le curseur passe sur le point vert (F).",
+						"essais": 3,
+						"reussites": 2,
+						"vitesse": 0.85,
+						"zone": 0.2,
+						"reussite": "La peau d'argile se craquelle, et le Figé prend une grande inspiration.",
+						"echec": "Trop à côté. Respire, et recommence (F)."
+					}
+				},
+				{
+					"objectif": "Rapporte les plantes qui restent à maître Zhou",
+					"pnj": "maitre_zhou",
+					"ou": "luoyang",
+					"repliques": [
+						"Trois ! Ils respirent, ils parlent, ils se souviennent de leur nom. J'écrirai ça dans mon traité, et personne ne me croira.",
+						"Tu as appris en un jour ce que mes élèves mettent dix ans à comprendre. Prends ma trousse : neuf aiguilles d'argent, dans un étui de soie.",
+						"Une aiguille au bon endroit, et un blessé se relève. Une aiguille au mauvais endroit… Non, mieux vaut ne pas y penser."
+					]
+				}
+			],
+			"recompense": [
+				{
+					"id": "trousse_aiguilles",
+					"nom": "Trousse d'aiguilles de maître Zhou"
+				}
+			]
+		},
+		{
+			"id": "tigre_du_parc",
+			"titre": "Le tigre du parc impérial",
+			"donneur": "gardien_parc",
+			"apres": "cai_lun_cadeau",
+			"titre_obtenu": "Ami des tigres",
+			"offre": [
+				"Quand le tigre fracturé a brisé les grilles, toutes mes bêtes ont filé. Le parc impérial est vide, et l'empereur demande des nouvelles de ses grues chaque matin.",
+				"Un cerf sika, une grue, un macaque. Ils sont quelque part en ville, terrorisés. Ne leur fais pas de mal, surtout ! Parle-leur doucement.",
+				"Et puis il y a le vieux tigre, le vrai. Pas le fracturé : le nôtre, Grand-Père-Rayé. On l'a vu filer vers l'est, vers les montagnes du mont Li…"
+			],
+			"etapes": [
+				{
+					"objectif": "Calme le cerf sika réfugié près du tertre de l'Observatoire",
+					"objet": "cerf_echappe",
+					"ou": "luoyang",
+					"mini_jeu": {
+						"type": "jauge",
+						"essais": 4,
+						"reussites": 2,
+						"vitesse": 0.8,
+						"zone": 0.24,
+						"titre": "Le cerf apeuré",
+						"consigne": "Approche quand il baisse la tête : F dans la zone verte.",
+						"reussite": "Le cerf te renifle la main, et te suit sans se presser.",
+						"echec": "Il a sursauté. Attends un peu (F)."
+					}
+				},
+				{
+					"objectif": "Récupère la grue qui s'est posée près de l'Observatoire",
+					"objet": "grue_echappee",
+					"ou": "luoyang",
+					"mini_jeu": {
+						"type": "jauge",
+						"essais": 4,
+						"reussites": 2,
+						"vitesse": 0.8,
+						"zone": 0.24,
+						"titre": "La grue",
+						"consigne": "Elle danse et s'envole à moitié : F quand elle se pose.",
+						"reussite": "La grue replie ses ailes et se laisse prendre.",
+						"echec": "Elle s'est envolée un peu plus loin (F)."
+					}
+				},
+				{
+					"objectif": "Attrape le macaque qui pille les fruits du marché",
+					"objet": "macaque_echappe",
+					"ou": "luoyang",
+					"mini_jeu": {
+						"type": "jauge",
+						"essais": 4,
+						"reussites": 2,
+						"vitesse": 0.8,
+						"zone": 0.24,
+						"titre": "Le macaque voleur",
+						"consigne": "Il a une pêche dans chaque main : F quand il regarde ailleurs.",
+						"reussite": "Tu l'attrapes par la peau du cou. Il ne lâche pas ses pêches.",
+						"echec": "Il t'a filé entre les doigts (F)."
+					}
+				},
+				{
+					"objectif": "Retrouve le vieux tigre au bord des bambous, au mont Li",
+					"objet": "vieux_tigre",
+					"ou": "mont_li",
+					"duree": 4.0,
+					"action": "Il te regarde longtemps. Tu ouvres les mains, et tu recules…"
+				},
+				{
+					"objectif": "Raconte tout au gardien du parc",
+					"pnj": "gardien_parc",
+					"ou": "luoyang",
+					"repliques": [
+						"Le cerf, la grue, le singe… tous rentrés ! Et Grand-Père-Rayé ?",
+						"Tu l'as laissé partir. Dans la montagne. Libre… Tu sais quoi ? Tu as bien fait. Il avait vingt ans de cage. Il mérite de mourir sous les bambous.",
+						"Tiens, mes vieux brassards de cuir. Ils m'ont protégé de ses griffes pendant vingt ans. Il n'a jamais griffé bien fort, tu sais."
+					]
+				}
+			],
+			"recompense": [
+				{
+					"id": "brassards_gardien_parc",
+					"nom": "Brassards du gardien du parc"
+				}
+			]
+		},
+		{
+			"id": "jeu_du_liubo",
+			"titre": "Le jeu du liubo",
+			"donneur": "vieux_lettre",
+			"apres": "qg_charte",
+			"offre": [
+				"Connais-tu le liubo ? Six bâtonnets à lancer, douze pièces, un plateau marqué comme le ciel. L'empereur Wu y jouait avec les Immortels, dit-on.",
+				"Mes étudiants préfèrent les dés, maintenant. Et des voyous fracturés m'ont volé mes pièces d'ivoire pour les revendre. Ils traînent encore derrière l'Académie.",
+				"Rapporte-les-moi, et je t'apprendrai. Puis tu me battras, peut-être. Je n'ai pas perdu depuis le règne précédent."
+			],
+			"etapes": [
+				{
+					"objectif": "Chasse les voleurs fracturés derrière l'Académie impériale",
+					"tuer": "pillard_liubo",
+					"nombre": 3,
+					"ou": "luoyang",
+					"apparition": {
+						"type": "pillard_liubo",
+						"nombre": 3,
+						"position": [
+							104,
+							-76
+						],
+						"rayon": 6,
+						"attaque": true
+					}
+				},
+				{
+					"objectif": "Ramasse les 6 pièces de liubo éparpillées dans la cour",
+					"recolter": "piece_liubo",
+					"nombre": 6,
+					"ou": "luoyang",
+					"duree": 0.8,
+					"action": "Tu ramasses la petite pièce d'ivoire…"
+				},
+				{
+					"objectif": "Bats le vieux lettré au liubo",
+					"objet": "table_liubo",
+					"ou": "luoyang",
+					"mini_jeu": {
+						"type": "jauge",
+						"titre": "Le liubo",
+						"consigne": "Lance les bâtonnets quand le curseur est dans la zone verte (F).",
+						"essais": 5,
+						"reussites": 3,
+						"vitesse": 1.0,
+						"zone": 0.18,
+						"reussite": "Ta pièce devient « hibou » et mange deux poissons. Le vieux lettré éclate de rire.",
+						"echec": "Mauvais lancer. Le lettré te prend une pièce (F pour rejouer)."
+					}
+				},
+				{
+					"objectif": "Écoute le vieux lettré",
+					"pnj": "vieux_lettre",
+					"ou": "luoyang",
+					"repliques": [
+						"Battu ! Par un voyageur venu de nulle part. Les Immortels doivent bien rire, là-haut.",
+						"Prends ce plateau. J'en ai un autre, plus vieux, que je n'ose plus sortir. Celui-là a besoin de quelqu'un qui joue.",
+						"Et quand tu réfléchis à ton coup, fais comme moi : la main sous le menton, et l'air très sage. Ça impressionne l'adversaire."
+					]
+				}
+			],
+			"recompense": [
+				{
+					"id": "liubo_lettre",
+					"nom": "Plateau de liubo du vieux lettré"
+				}
+			]
+		},
+		{
+			"id": "the_et_nouilles",
+			"titre": "Le thé et les nouilles",
+			"donneur": "cuisiniere_marche",
+			"apres": "cai_lun_cadeau",
+			"offre": [
+				"Depuis que les marchands ont peur de la route, plus rien n'arrive au marché. Plus de millet, plus d'herbes. Et mes clients ont faim !",
+				"Les nouilles de millet, on les fait comme ça depuis toujours, au bord du Fleuve Jaune. Il me faut une gerbe de millet et de la ciboule sauvage des champs de lœss.",
+				"Et une brique de thé. Le vieux marchand sogdien en garde une, tout au fond du marché. Avec du thé chaud et des nouilles, on survit à tous les hivers."
+			],
+			"etapes": [
+				{
+					"objectif": "Rapporte une gerbe de millet des champs du Fleuve Jaune",
+					"objet": "sac_millet",
+					"ou": "fleuve_jaune",
+					"duree": 1.5,
+					"action": "Tu coupes une belle gerbe…"
+				},
+				{
+					"objectif": "Cueille de la ciboule sauvage au bord des champs",
+					"objet": "herbes_loess",
+					"ou": "fleuve_jaune",
+					"duree": 1.5,
+					"action": "Tu arraches quelques touffes qui sentent l'ail…"
+				},
+				{
+					"objectif": "Trouve la brique de thé au fond du marché de Luoyang",
+					"objet": "brique_the",
+					"ou": "luoyang",
+					"duree": 1.0,
+					"action": "Tu échanges trois sapèques contre la brique…"
+				},
+				{
+					"objectif": "Rapporte tout à la cuisinière du marché",
+					"pnj": "cuisiniere_marche",
+					"ou": "luoyang",
+					"repliques": [
+						"Du millet, de la ciboule, du thé ! Assieds-toi. Regarde : on pétrit, on étire, on coupe. Pas trop fin, sinon ça casse dans le bouillon.",
+						"Ces nouilles, on en a retrouvé un bol vieux de quatre mille ans, plus tard, au bord du fleuve. Enfin… c'est ce qu'on dira un jour.",
+						"Emporte-en, et du thé aussi. Le Chef de ton époque n'a jamais goûté ça, j'en suis sûre."
+					]
+				}
+			],
+			"recompense": [
+				{
+					"id": "nouilles_millet",
+					"nom": "Nouilles de millet ×4",
+					"n": 4
+				},
+				{
+					"id": "the_han",
+					"nom": "Thé des Han ×4",
+					"n": 4
+				}
+			]
+		},
+		{
+			"id": "mere_de_bao",
+			"titre": "La mère de Bao",
+			"donneur": "bucheron_qinling",
+			"apres": "panda",
+			"offre": [
+				"C'est toi qui as trouvé le petit panda dans les bambous ? Je l'ai entendu pleurer pendant trois nuits. Sa mère le cherche encore, j'en suis sûr.",
+				"Les pandas ne mangent que du bambou. Des pousses tendres, surtout. Si tu en poses en chemin, la mère suivra l'odeur.",
+				"Mais les loups fracturés sont descendus dans la forêt. Si tu veux qu'elle sorte, il faudra d'abord les chasser."
+			],
+			"etapes": [
+				{
+					"objectif": "Cueille 5 pousses de bambou tendres dans la forêt de bambous",
+					"recolter": "pousse_bambou",
+					"nombre": 5,
+					"ou": "mont_li",
+					"duree": 1.5,
+					"action": "Tu coupes la pousse au ras de la neige…"
+				},
+				{
+					"objectif": "Chasse les loups fracturés qui rôdent dans les bambous",
+					"tuer": "loup_fracture_qinling",
+					"nombre": 4,
+					"ou": "mont_li",
+					"apparition": {
+						"type": "loup_fracture_qinling",
+						"nombre": 4,
+						"position": [
+							-120,
+							120
+						],
+						"rayon": 8,
+						"attaque": true
+					}
+				},
+				{
+					"objectif": "Pose les pousses près de la mère panda, au fond de la forêt",
+					"objet": "mere_panda",
+					"ou": "mont_li",
+					"duree": 4.0,
+					"action": "Elle renifle les pousses, puis Bao. Longtemps. Bao se cache derrière ta jambe…"
+				},
+				{
+					"objectif": "Raconte au bûcheron ce qui s'est passé",
+					"pnj": "bucheron_qinling",
+					"ou": "mont_li",
+					"repliques": [
+						"Alors ? Elle l'a repris ? … Non ? Il est resté avec toi ?",
+						"Ha ! Il t'a choisi. Et elle l'a laissé faire. Les vieux disent qu'une mère panda sait toujours quand son petit est en sécurité.",
+						"Tiens, une flûte de bambou. Quand Bao a peur, joue-lui un air. Moi, ça marche avec mes chèvres."
+					]
+				}
+			],
+			"recompense": [
+				{
+					"id": "flute_bambou",
+					"nom": "Flûte de bambou du bûcheron"
+				}
+			]
+		},
+		{
+			"id": "intrus_modernes_chine",
+			"titre": "Les intrus modernes",
+			"donneur": "lenoir_chine",
+			"apres": "masque_tombeau",
+			"offre": [
+				"Lenoir, du Nettoyage. On se recroise, hein ? Cinabre a laissé plus de traces que tous les autres Effaceurs réunis.",
+				"Mon détecteur sonne trois fois : une petite machine au bord des fosses du mont Li, quelque chose au pied du pavillon des livres, et un signal électrique dans un rouleau de l'Académie, à Luoyang.",
+				"Un objet moderne, dans une époque, c'est une fissure. Trouve-les et casse-les. Moi, je surveille le village : ces gens ont déjà assez de soldats d'argile comme ça."
+			],
+			"etapes": [
+				{
+					"objectif": "Trouve la machine miniature au bord des fosses de l'armée d'argile",
+					"objet": "pelleteuse_miniature",
+					"ou": "mont_li",
+					"duree": 1.5,
+					"action": "Une pelleteuse en plastique, télécommandée. Tu la piétines…"
+				},
+				{
+					"objectif": "Trouve l'objet laissé au pied du pavillon de l'Est, à Luoyang",
+					"objet": "briquet_pavillon",
+					"ou": "luoyang",
+					"duree": 1.5,
+					"action": "Un briquet. Au pied d'une bibliothèque. Tu le jettes dans le puits…"
+				},
+				{
+					"objectif": "Trouve le signal caché dans un rouleau, près de l'Académie impériale",
+					"objet": "cle_usb_academie",
+					"ou": "luoyang",
+					"duree": 2.0,
+					"action": "Une clé USB, glissée entre deux lattes. Tu la gardes pour Lenoir…"
+				},
+				{
+					"objectif": "Rapporte la clé USB à l'agent Lenoir, au village du mont Li",
+					"pnj": "lenoir_chine",
+					"ou": "mont_li",
+					"repliques": [
+						"Une pelleteuse, un briquet… et ça. Montre. Une clé USB, en l'an 105. On aura tout vu.",
+						"Il y a un seul fichier dedans. Une thèse d'histoire : « Le papier et le pouvoir sous les Han ». Signée d'un vrai nom. Pas « Cinabre ». Un vrai nom, avec une université.",
+						"Je l'envoie au QG. Garde la copie imprimée : si quelqu'un doit savoir qui elle était avant de devenir Cinabre, c'est toi."
+					]
+				}
+			],
+			"recompense": [
+				{
+					"id": "these_cinabre",
+					"nom": "La thèse de Cinabre (copie imprimée)"
+				}
+			]
+		}
+	],
+	"objets": [
+		{
+			"id": "lettre_soldat_0",
+			"forme": "lattes",
+			"ou": "porte_de_jade",
+			"position": [
+				-30,
+				-40
+			],
+			"invite": "[F] Sauver les lettres du feu",
+			"groupe": "lettre_soldat"
+		},
+		{
+			"id": "lettre_soldat_1",
+			"forme": "lattes",
+			"ou": "porte_de_jade",
+			"position": [
+				56,
+				-44
+			],
+			"invite": "[F] Sauver les lettres du feu",
+			"groupe": "lettre_soldat"
+		},
+		{
+			"id": "lettre_soldat_2",
+			"forme": "lattes",
+			"ou": "porte_de_jade",
+			"position": [
+				-88,
+				-46
+			],
+			"invite": "[F] Sauver les lettres du feu",
+			"groupe": "lettre_soldat"
+		},
+		{
+			"id": "lettre_soldat_3",
+			"forme": "lattes",
+			"ou": "porte_de_jade",
+			"position": [
+				44,
+				4
+			],
+			"invite": "[F] Sauver les lettres du feu",
+			"groupe": "lettre_soldat"
+		},
+		{
+			"id": "lettre_soldat_4",
+			"forme": "lattes",
+			"ou": "porte_de_jade",
+			"position": [
+				0,
+				8
+			],
+			"invite": "[F] Sauver les lettres du feu",
+			"groupe": "lettre_soldat"
+		},
+		{
+			"id": "balise_caravane_0",
+			"forme": "fanal",
+			"ou": "porte_de_jade",
+			"position": [
+				-40,
+				-36
+			],
+			"invite": "[F] Allumer le feu de balise",
+			"groupe": "balise_caravane"
+		},
+		{
+			"id": "balise_caravane_1",
+			"forme": "fanal",
+			"ou": "porte_de_jade",
+			"position": [
+				48,
+				-4
+			],
+			"invite": "[F] Allumer le feu de balise",
+			"groupe": "balise_caravane"
+		},
+		{
+			"id": "balise_caravane_2",
+			"forme": "fanal",
+			"ou": "porte_de_jade",
+			"position": [
+				104,
+				2
+			],
+			"invite": "[F] Allumer le feu de balise",
+			"groupe": "balise_caravane"
+		},
+		{
+			"id": "ballon_garnison",
+			"forme": "ballon_cuju",
+			"ou": "porte_de_jade",
+			"position": [
+				46,
+				14
+			],
+			"invite": "[F] Tirer au but"
+		},
+		{
+			"id": "ballon_palais",
+			"forme": "ballon_cuju",
+			"ou": "luoyang",
+			"position": [
+				-39,
+				37
+			],
+			"invite": "[F] Défier le champion du palais"
+		},
+		{
+			"id": "feuille_murier_0",
+			"forme": "laurier",
+			"ou": "fleuve_jaune",
+			"position": [
+				-112,
+				-22
+			],
+			"invite": "[F] Cueillir des feuilles de mûrier",
+			"groupe": "feuille_murier"
+		},
+		{
+			"id": "feuille_murier_1",
+			"forme": "laurier",
+			"ou": "fleuve_jaune",
+			"position": [
+				-95,
+				-27
+			],
+			"invite": "[F] Cueillir des feuilles de mûrier",
+			"groupe": "feuille_murier"
+		},
+		{
+			"id": "feuille_murier_2",
+			"forme": "laurier",
+			"ou": "fleuve_jaune",
+			"position": [
+				-82,
+				-20
+			],
+			"invite": "[F] Cueillir des feuilles de mûrier",
+			"groupe": "feuille_murier"
+		},
+		{
+			"id": "feuille_murier_3",
+			"forme": "laurier",
+			"ou": "fleuve_jaune",
+			"position": [
+				-66,
+				-26
+			],
+			"invite": "[F] Cueillir des feuilles de mûrier",
+			"groupe": "feuille_murier"
+		},
+		{
+			"id": "feuille_murier_4",
+			"forme": "laurier",
+			"ou": "fleuve_jaune",
+			"position": [
+				-50,
+				-21
+			],
+			"invite": "[F] Cueillir des feuilles de mûrier",
+			"groupe": "feuille_murier"
+		},
+		{
+			"id": "feuille_murier_5",
+			"forme": "laurier",
+			"ou": "fleuve_jaune",
+			"position": [
+				-18,
+				-22
+			],
+			"invite": "[F] Cueillir des feuilles de mûrier",
+			"groupe": "feuille_murier"
+		},
+		{
+			"id": "cocon_mei",
+			"forme": "cocon",
+			"ou": "fleuve_jaune",
+			"position": [
+				-56,
+				-38
+			],
+			"invite": "[F] Dévider le cocon"
+		},
+		{
+			"id": "plante_medicinale_0",
+			"forme": "thym",
+			"ou": "luoyang",
+			"position": [
+				-136,
+				-96
+			],
+			"invite": "[F] Cueillir la plante",
+			"groupe": "plante_medicinale"
+		},
+		{
+			"id": "plante_medicinale_1",
+			"forme": "thym",
+			"ou": "luoyang",
+			"position": [
+				-92,
+				-96
+			],
+			"invite": "[F] Cueillir la plante",
+			"groupe": "plante_medicinale"
+		},
+		{
+			"id": "plante_medicinale_2",
+			"forme": "thym",
+			"ou": "luoyang",
+			"position": [
+				-138,
+				-146
+			],
+			"invite": "[F] Cueillir la plante",
+			"groupe": "plante_medicinale"
+		},
+		{
+			"id": "plante_medicinale_3",
+			"forme": "thym",
+			"ou": "luoyang",
+			"position": [
+				-88,
+				-146
+			],
+			"invite": "[F] Cueillir la plante",
+			"groupe": "plante_medicinale"
+		},
+		{
+			"id": "plante_medicinale_4",
+			"forme": "thym",
+			"ou": "luoyang",
+			"position": [
+				-80,
+				-122
+			],
+			"invite": "[F] Cueillir la plante",
+			"groupe": "plante_medicinale"
+		},
+		{
+			"id": "fige_patient_0",
+			"forme": "fige_patient",
+			"ou": "luoyang",
+			"position": [
+				-126,
+				104
+			],
+			"invite": "[F] Planter les aiguilles",
+			"groupe": "fige_patient"
+		},
+		{
+			"id": "fige_patient_1",
+			"forme": "fige_patient",
+			"ou": "luoyang",
+			"position": [
+				-74,
+				106
+			],
+			"invite": "[F] Planter les aiguilles",
+			"groupe": "fige_patient"
+		},
+		{
+			"id": "fige_patient_2",
+			"forme": "fige_patient",
+			"ou": "luoyang",
+			"position": [
+				-66,
+				70
+			],
+			"invite": "[F] Planter les aiguilles",
+			"groupe": "fige_patient"
+		},
+		{
+			"id": "cerf_echappe",
+			"forme": "cerf",
+			"ou": "luoyang",
+			"position": [
+				62,
+				-62
+			],
+			"invite": "[F] Calmer le cerf"
+		},
+		{
+			"id": "grue_echappee",
+			"forme": "grue",
+			"ou": "luoyang",
+			"position": [
+				96,
+				-24
+			],
+			"invite": "[F] Approcher la grue"
+		},
+		{
+			"id": "macaque_echappe",
+			"forme": "macaque",
+			"ou": "luoyang",
+			"position": [
+				-85,
+				87
+			],
+			"invite": "[F] Attraper le macaque"
+		},
+		{
+			"id": "vieux_tigre",
+			"forme": "vieux_tigre",
+			"ou": "mont_li",
+			"position": [
+				-96,
+				70
+			],
+			"invite": "[F] Laisser partir le vieux tigre"
+		},
+		{
+			"id": "piece_liubo_0",
+			"forme": "pion",
+			"ou": "luoyang",
+			"position": [
+				88,
+				-84
+			],
+			"invite": "[F] Ramasser la pièce de liubo",
+			"groupe": "piece_liubo"
+		},
+		{
+			"id": "piece_liubo_1",
+			"forme": "pion",
+			"ou": "luoyang",
+			"position": [
+				100,
+				-78
+			],
+			"invite": "[F] Ramasser la pièce de liubo",
+			"groupe": "piece_liubo"
+		},
+		{
+			"id": "piece_liubo_2",
+			"forme": "pion",
+			"ou": "luoyang",
+			"position": [
+				116,
+				-84
+			],
+			"invite": "[F] Ramasser la pièce de liubo",
+			"groupe": "piece_liubo"
+		},
+		{
+			"id": "piece_liubo_3",
+			"forme": "pion",
+			"ou": "luoyang",
+			"position": [
+				124,
+				-70
+			],
+			"invite": "[F] Ramasser la pièce de liubo",
+			"groupe": "piece_liubo"
+		},
+		{
+			"id": "piece_liubo_4",
+			"forme": "pion",
+			"ou": "luoyang",
+			"position": [
+				92,
+				-66
+			],
+			"invite": "[F] Ramasser la pièce de liubo",
+			"groupe": "piece_liubo"
+		},
+		{
+			"id": "piece_liubo_5",
+			"forme": "pion",
+			"ou": "luoyang",
+			"position": [
+				108,
+				-62
+			],
+			"invite": "[F] Ramasser la pièce de liubo",
+			"groupe": "piece_liubo"
+		},
+		{
+			"id": "table_liubo",
+			"forme": "plateau_liubo",
+			"ou": "luoyang",
+			"position": [
+				103,
+				-93
+			],
+			"invite": "[F] Jouer au liubo"
+		},
+		{
+			"id": "sac_millet",
+			"forme": "gerbe",
+			"ou": "fleuve_jaune",
+			"position": [
+				-120,
+				56
+			],
+			"invite": "[F] Prendre une gerbe de millet"
+		},
+		{
+			"id": "herbes_loess",
+			"forme": "thym",
+			"ou": "fleuve_jaune",
+			"position": [
+				-142,
+				44
+			],
+			"invite": "[F] Cueillir de la ciboule sauvage"
+		},
+		{
+			"id": "brique_the",
+			"forme": "the",
+			"ou": "luoyang",
+			"position": [
+				-128,
+				64
+			],
+			"invite": "[F] Acheter la brique de thé"
+		},
+		{
+			"id": "pousse_bambou_0",
+			"forme": "pousse_bambou",
+			"ou": "mont_li",
+			"position": [
+				-150,
+				60
+			],
+			"invite": "[F] Cueillir une pousse de bambou",
+			"groupe": "pousse_bambou"
+		},
+		{
+			"id": "pousse_bambou_1",
+			"forme": "pousse_bambou",
+			"ou": "mont_li",
+			"position": [
+				-120,
+				80
+			],
+			"invite": "[F] Cueillir une pousse de bambou",
+			"groupe": "pousse_bambou"
+		},
+		{
+			"id": "pousse_bambou_2",
+			"forme": "pousse_bambou",
+			"ou": "mont_li",
+			"position": [
+				-90,
+				100
+			],
+			"invite": "[F] Cueillir une pousse de bambou",
+			"groupe": "pousse_bambou"
+		},
+		{
+			"id": "pousse_bambou_3",
+			"forme": "pousse_bambou",
+			"ou": "mont_li",
+			"position": [
+				-140,
+				136
+			],
+			"invite": "[F] Cueillir une pousse de bambou",
+			"groupe": "pousse_bambou"
+		},
+		{
+			"id": "pousse_bambou_4",
+			"forme": "pousse_bambou",
+			"ou": "mont_li",
+			"position": [
+				-104,
+				150
+			],
+			"invite": "[F] Cueillir une pousse de bambou",
+			"groupe": "pousse_bambou"
+		},
+		{
+			"id": "mere_panda",
+			"forme": "mere_panda",
+			"ou": "mont_li",
+			"position": [
+				-160,
+				160
+			],
+			"invite": "[F] Approcher la mère panda"
+		},
+		{
+			"id": "pelleteuse_miniature",
+			"forme": "pelleteuse",
+			"ou": "mont_li",
+			"position": [
+				92,
+				-30
+			],
+			"invite": "[F] Détruire l'objet moderne"
+		},
+		{
+			"id": "briquet_pavillon",
+			"forme": "briquet",
+			"ou": "luoyang",
+			"position": [
+				104,
+				40
+			],
+			"invite": "[F] Détruire l'objet moderne"
+		},
+		{
+			"id": "cle_usb_academie",
+			"forme": "cle_usb",
+			"ou": "luoyang",
+			"position": [
+				80,
+				-90
+			],
+			"invite": "[F] Détruire l'objet moderne"
+		}
+	]
+}

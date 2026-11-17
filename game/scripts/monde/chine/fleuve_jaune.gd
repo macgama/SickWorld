@@ -806,6 +806,7 @@ func _construire_quete() -> void:
 	var dossier := Node3D.new()
 	dossier.name = "Quete"
 	_contenu.add_child(dossier)
+	_construire_secondaires(dossier)
 	_dossier_quete = dossier
 	# La ferme de Mei : Mei, les villageois, et les claies d'œufs de vers à soie.
 	_pnj(dossier, "mei", MEI, PI * 0.1)
@@ -934,3 +935,8 @@ func _process(delta: float) -> void:
 			_mur_est.queue_free()
 	if p.distance_to(SORTIE_EST) < 6.0 and quete.donnees.get("zones", {}).has("luoyang"):
 		quete.changer_de_zone("luoyang")
+
+
+## Les personnages des quêtes secondaires (data/chine_secondaires.json).
+func _construire_secondaires(dossier: Node3D) -> void:
+	_pnj(dossier, "caravanier_fleuve", Vector2(-162, 18), PI * 0.5)
