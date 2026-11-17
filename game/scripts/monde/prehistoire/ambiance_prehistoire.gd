@@ -124,6 +124,26 @@ const CLIMATS := {
 		"nuage_lumiere": Color(1.0, 0.94, 0.84),
 		"saturation": 1.04,
 	},
+	# La Porte de Jade (Chine) : un matin d'hiver dans le désert, soleil bas et pâle,
+	# ciel laiteux, un voile de poussière soulevé par le vent.
+	"porte_de_jade": {
+		"soleil": Vector2(150.0, 22.0),
+		"couleur_soleil": Color(1.0, 0.86, 0.68),
+		"energie_soleil": 2.4,
+		"couverture": 0.3,
+		"brume": Color(0.82, 0.76, 0.66),
+		"densite_brume": 0.0022,
+		"brume_volume": 0.005,
+		"albedo_brume": Color(1.0, 0.92, 0.8),
+		"ambiance": 0.75,
+		"zenith": Color(0.24, 0.36, 0.56),
+		"horizon": Color(0.86, 0.8, 0.7),
+		"brume_ciel": 0.28,
+		"horizon_soleil": Color(1.0, 0.8, 0.58),
+		"nuage_ombre": Color(0.62, 0.6, 0.6),
+		"nuage_lumiere": Color(1.0, 0.94, 0.86),
+		"saturation": 0.96,
+	},
 	# Rome : un matin d'été, soleil déjà haut, poussière dorée entre les immeubles.
 	"rome": {
 		"etalonnage": "mediterranee",

@@ -8,13 +8,19 @@ extends "res://scripts/monde/pnj.gd"
 const HabitEpoque := preload("res://scripts/personnage/habit_epoque.gd")
 const DONNEES_EPOQUE := "res://data/prehistoire_pnj.json"
 ## Les personnages des autres îles (lus en plus de ceux de la Préhistoire).
-const AUTRES_EPOQUES := ["res://data/egypte_pnj.json", "res://data/grece_pnj.json", "res://data/rome_pnj.json"]
+const AUTRES_EPOQUES := ["res://data/egypte_pnj.json", "res://data/grece_pnj.json", "res://data/rome_pnj.json", "res://data/chine_pnj.json"]
 
 ## Allongé au sol (blessé) ou debout.
 @export var blesse := false:
 	set(valeur):
 		blesse = valeur
 		_appliquer_posture()
+
+## Figé en argile (île de la Chine) : le personnage a perdu sa mémoire et se change en
+## statue de terre cuite, immobile. degeler() lui rend ses couleurs.
+var fige := false
+var _argile: StandardMaterial3D
+var _deja_degele := false
 
 static var _donnees_epoque := {}
 var _etiquette: Label3D
@@ -73,6 +79,8 @@ func _habiller(fiche: Dictionary) -> void:
 				"taille_cm": fiche.get("taille_cm", 175 if fiche.get("modele", "homme") == "homme" else 165),
 				"peau": Color.from_string(String(fiche["peau"]), Color.WHITE)})
 	var habille := HabitEpoque.depuis_fiche(_apparence, fiche)
+	if fiche.get("argile", false):
+		_figer.call_deferred()
 	if fiche.has("habits") and not habille:
 		_teindre_habits(Color.from_string(String(fiche["habits"]), Color.WHITE))
 	if not fiche.has("tenue") or not _apparence.has_method("equiper"):
@@ -104,6 +112,55 @@ func _teindre_habits(teinte: Color) -> void:
 		gris.albedo_color = teinte.lerp(Color(0.4, 0.28, 0.18), 0.7)
 		gris.roughness = 0.9
 		(n as MeshInstance3D).material_override = gris
+
+
+## Couvre tout le corps d'une couche d'argile grise et rouge, et arrête ses gestes.
+func _figer() -> void:
+	if _apparence == null or not is_instance_valid(_apparence) or _deja_degele:
+		return
+	fige = true
+	if _argile == null:
+		_argile = StandardMaterial3D.new()
+		_argile.albedo_color = Color(0.56, 0.4, 0.3)
+		_argile.roughness = 1.0
+		var bruit := NoiseTexture2D.new()
+		bruit.width = 128
+		bruit.height = 128
+		bruit.seamless = true
+		var n := FastNoiseLite.new()
+		n.frequency = 0.06
+		bruit.noise = n
+		_argile.albedo_texture = bruit
+		_argile.uv1_triplanar = true
+		_argile.uv1_scale = Vector3(3, 3, 3)
+	for mi in _apparence.find_children("*", "MeshInstance3D", true, false):
+		(mi as MeshInstance3D).material_overlay = _argile
+	for ap in _apparence.find_children("*", "AnimationPlayer", true, false):
+		(ap as AnimationPlayer).speed_scale = 0.0
+
+
+## La mémoire revient : l'argile s'effrite (en fondu si « anime »), le corps rebouge.
+func degeler(anime := true) -> void:
+	_deja_degele = true
+	if not fige or _apparence == null or not is_instance_valid(_apparence):
+		fige = false
+		return
+	fige = false
+	var fin := func():
+		for mi in _apparence.find_children("*", "MeshInstance3D", true, false):
+			(mi as MeshInstance3D).material_overlay = null
+		for ap in _apparence.find_children("*", "AnimationPlayer", true, false):
+			(ap as AnimationPlayer).speed_scale = 1.0
+	if not anime or not is_inside_tree():
+		fin.call()
+		return
+	var fondu := _argile.duplicate() as StandardMaterial3D
+	fondu.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	for mi in _apparence.find_children("*", "MeshInstance3D", true, false):
+		(mi as MeshInstance3D).material_overlay = fondu
+	var t := create_tween()
+	t.tween_property(fondu, "albedo_color:a", 0.0, 1.2)
+	t.tween_callback(fin)
 
 
 static var _objets := {}

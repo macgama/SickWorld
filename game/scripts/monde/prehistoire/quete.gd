@@ -16,6 +16,7 @@ const QuetesSecondaires := preload("res://scripts/monde/prehistoire/quetes_secon
 const EvenementsPublics := preload("res://scripts/monde/prehistoire/evenements_publics.gd")
 const Cinematiques := preload("res://scripts/monde/cinematiques.gd")
 const PuzzleMots := preload("res://scripts/interface/puzzle_mots.gd")
+const Calligraphie := preload("res://scripts/interface/calligraphie.gd")
 
 signal etape_changee(id: String)
 
@@ -85,6 +86,8 @@ var _rappel_canalisation: Callable
 ## Puzzle de mots (île de Rome) : les objets dont la phrase a déjà été remise en ordre.
 var _mots_resolus := {}
 var _puzzle: CanvasLayer
+## Calligraphie (île de la Chine) : rendre la mémoire à un Figé en traçant un caractère.
+var _calligraphie: CanvasLayer
 
 
 ## Fichier des données de la quête de l'île.
@@ -595,6 +598,10 @@ func utiliser_objet(objet: Node3D) -> void:
 	if e.has("mots") and _objet_concerne(e, objet) and not _mots_resolus.has(objet.get("identifiant")):
 		_ouvrir_mots(e, objet)
 		return
+	# Rendre la mémoire (île de la Chine) : d'abord tracer le caractère dans l'ordre.
+	if e.has("calligraphie") and _objet_concerne(e, objet) and not _mots_resolus.has(objet.get("identifiant")):
+		_ouvrir_calligraphie(e, objet)
+		return
 	if e.has("recolter") and objet.get("groupe") == e["recolter"]:
 		_recolter(objet)
 		return
@@ -657,6 +664,36 @@ func _ouvrir_mots(e: Dictionary, objet: Node3D) -> void:
 		_mots_resolus[id] = true
 		if is_instance_valid(objet):
 			utiliser_objet(objet))
+
+
+## Le caractère à tracer : celui de l'objet (meta « caractere »), sinon celui de l'étape
+## (« calligraphie » : un caractère, ou une liste, un par objet récolté).
+func caractere_calligraphie(e: Dictionary, objet: Node3D) -> String:
+	if objet != null and objet.has_meta("caractere"):
+		return String(objet.get_meta("caractere"))
+	var c = e.get("calligraphie", "")
+	if c is Array:
+		return String(c[mini(compteur, c.size() - 1)]) if not c.is_empty() else ""
+	return String(c)
+
+
+func _ouvrir_calligraphie(e: Dictionary, objet: Node3D) -> void:
+	if _calligraphie == null or not is_instance_valid(_calligraphie):
+		_calligraphie = Calligraphie.new()
+		_calligraphie.name = "Calligraphie"
+		add_child(_calligraphie)
+	if _calligraphie.est_ouvert():
+		return
+	var id = objet.get("identifiant")
+	_calligraphie.ouvrir(String(e.get("titre_calligraphie", "Rendre la mémoire : trace le caractère")), caractere_calligraphie(e, objet), func():
+		_mots_resolus[id] = true
+		if is_instance_valid(objet):
+			utiliser_objet(objet))
+
+
+## La feuille de calligraphie (null si elle n'a jamais été ouverte).
+func calligraphie() -> CanvasLayer:
+	return _calligraphie
 
 
 ## Le puzzle de mots en cours (null s'il n'a jamais été ouvert).
