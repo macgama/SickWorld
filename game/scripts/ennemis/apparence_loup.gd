@@ -155,6 +155,16 @@ func _ready() -> void:
 		_delegue.espece = "molosse" if type.begins_with("molosse") else "chien"
 		add_child(_delegue)
 		return
+	if type.begins_with("lion") and ApparenceChien.disponible("lion"):
+		# Les lions de l'île de Rome (vivarium, jeux du Colisée) : vrai modèle de lion.
+		_delegue = ApparenceChien.new()
+		_delegue.name = "Lion"
+		_delegue.espece = "lion"
+		# Tous les lions de Rome sont touchés par la fracture (ils lâchent des éclats) : yeux violets.
+		add_child(_delegue)
+		if type == "lion_fracture":
+			scale = Vector3.ONE * 1.12
+		return
 	if type.begins_with("renne"):
 		espece = "renne"
 	elif type.begins_with("ours"):
@@ -179,7 +189,7 @@ func _ready() -> void:
 			_en_leopard()
 		elif type.begins_with("lion"):
 			# Le lion évadé du vivarium (île de Rome) : un grand félin fauve à crinière
-			# sombre (sur la silhouette du loup, en attendant un vrai modèle de lion).
+			# sombre (sur la silhouette du loup, si le vrai modèle de lion manque).
 			scale = Vector3(1.3, 1.25, 1.35)
 			_en_lion()
 		elif type.contains("alpha"):
