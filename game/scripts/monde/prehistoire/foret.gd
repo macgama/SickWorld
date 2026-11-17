@@ -368,13 +368,14 @@ func _construire_bouleaux() -> void:
 	feuilles.backlight_enabled = true
 	feuilles.backlight = Color(0.55, 0.42, 0.12)
 	var modeles: Array[ArrayMesh] = []
+	# Modèles 0-9 : bouleaux réalistes (branches, rameaux découpés, vent) avec l'écorce blanche.
 	for k in 10:
-		modeles.append(_maillage_bouleau(hasard, ecorce, feuilles))
+		modeles.append(Arbres.maillage("bouleau_automne", k % Arbres.NB_VARIANTES, ecorce))
 	# Modèles 10-11 : bouleaux morts ; 12-14 : jeunes bouleaux.
 	for k in 2:
 		modeles.append(_maillage_bouleau(hasard, ecorce, feuilles, "mort"))
 	for k in 3:
-		modeles.append(_maillage_bouleau(hasard, ecorce, feuilles, "jeune"))
+		modeles.append(Arbres.maillage("bouleau_automne", k, ecorce))
 	var dossier := Node3D.new()
 	dossier.name = "Bouleaux"
 	_contenu.add_child(dossier)
@@ -404,9 +405,10 @@ func _construire_bouleaux() -> void:
 			choix = 10 + hasard.randi() % 2
 		elif tirage < 0.3:
 			choix = 12 + hasard.randi() % 3
-		var epaisseur := hasard.randf_range(0.75, 1.5)
+		var epaisseur := hasard.randf_range(0.85, 1.15)
+		var echelle := 0.5 if choix >= 12 else 1.0
 		var base := Basis(Vector3.UP, hasard.randf() * TAU).scaled(
-				Vector3(epaisseur, hasard.randf_range(0.7, 1.25), epaisseur))
+				Vector3(epaisseur, hasard.randf_range(0.8, 1.2), epaisseur) * echelle)
 		base = Basis(Vector3(hasard.randf_range(-1, 1), 0, hasard.randf_range(-1, 1)).normalized(),
 				hasard.randf_range(0.0, 0.12)) * base
 		par_modele[choix].append(Transform3D(base, Vector3(p.x, y - 0.15, p.y)))
