@@ -141,7 +141,41 @@ Le cœur donne des **perles de la coiffe impériale** : c'est le trophée qui re
 5. Remonter, rentrer à Luoyang : l'impératrice Deng fait de toi un **lettré du pavillon de l'Est** (titre), et Cai Lun te donne **la première feuille** de son papier (relique).
 6. Traverser le portail de la cour du pavillon : au QG, Cinabre est enfermée **dans la cellule voisine de celle de Janus** (mission « La cellule de Cinabre »).
 
-L'histoire de la Chine est terminée. Les quêtes secondaires et les événements publics de l'île arrivent bientôt.
+L'histoire de la Chine est terminée.
+
+## Les quêtes secondaires
+
+Elles s'ouvrent au fil de l'histoire : un « ! » doré apparaît au-dessus du personnage qui les donne.
+
+| Quête | Qui la donne | Ce qu'on fait | Récompense |
+|---|---|---|---|
+| Les lettres de la Porte de Jade | Le scribe Zhang, au relais de poste | Sauver 5 lettres de soldats qui brûlent le long de la muraille, puis les porter aux familles du village des maisons-grottes (Fleuve Jaune) | Une lettre de soldat (à accrocher chez soi), titre **Facteur de la frontière** |
+| La route des chevaux célestes | Wang Ba, à la caravane | Allumer 3 feux de balise dans la tempête, chasser les pillards du col, retrouver la caravane au Fleuve Jaune | **La Tempête, chamelle de Bactriane** : la monture de la Chine (touche V) |
+| Le ballon des soldats | Le sergent Ma, devant le fort | Le **cuju** (l'ancêtre du football) : marquer contre la garnison, puis battre le champion du palais à Luoyang (petits jeux d'adresse) | Ballon de cuju du palais, titre **Pied d'or** |
+| La soie de Mei | Mei, au village des maisons-grottes | Cueillir des feuilles de mûrier, chasser les voleurs de soie, dévider un cocon sans casser le fil | **Robe de soie** (torse) |
+| Les aiguilles de maître Zhou | Maître Zhou, au marché de Luoyang | Cueillir des plantes médicinales au parc impérial, soigner 3 Figés avec les aiguilles (petit jeu) | **Trousse d'aiguilles** : compétence d'époque **Aiguilles d'argent** (soin + 8 % de dégâts) |
+| Le tigre du parc impérial | Le gardien Liang, près du parc | Calmer un cerf, une grue et un macaque échappés, puis laisser partir le vieux tigre au mont Li | Brassards du gardien, titre **Ami des tigres** |
+| Le jeu du liubo | Le vieux lettré Kong, à l'Académie | Chasser les voyous, ramasser 6 pièces, battre le lettré au **liubo** (jeu de plateau des Han) | Plateau de liubo (à accrocher chez soi) |
+| Le thé et les nouilles | Tante Ning, au marché | Du millet et de la ciboule au Fleuve Jaune, une brique de thé au marché | Nouilles de millet et thé des Han (repas) |
+| La mère de Bao | Le bûcheron Shi, au bord des bambous | Des pousses de bambou, les loups, puis retrouver la mère de Bao (Bao choisit de rester avec toi) | Flûte de bambou |
+| Les intrus modernes | L'agent Lenoir, au village du mont Li | Détruire une pelleteuse miniature, un briquet et une clé USB | **La thèse de Cinabre** : son vrai nom, avant qu'elle devienne Effaceuse |
+
+Toutes les finir donne le titre **Ami des Han**.
+
+## Les événements publics
+
+Ils arrivent tout seuls, une fois l'histoire assez avancée (de toutes les heures à toutes les 3 heures).
+
+- **La chaîne des fanaux** (Porte de Jade) : allumer les 4 fanaux de la muraille pendant que des pillards attaquent, repousser l'assaut, puis abattre leur chef.
+- **La tempête noire** (Porte de Jade) : une tempête de sable noir ; le sable blesse loin des lanternes. Rallumer les 4 lanternes de la route, puis protéger la caravane des loups.
+- **La crue du Fleuve Jaune** : colmater 4 brèches de la digue avec des sacs de terre, aider 3 familles bloquées dans les champs, chasser les pirates.
+- **Le grand marché** (Luoyang) : attraper les voleurs cachés dans la foule, puis rendre les ballots volés.
+- **Le réveil de l'armée** (mont Li) : une fosse de soldats d'argile se relève ; deux vagues, les arbalétriers, puis le général d'argile.
+- **La chasse impériale** (Fleuve Jaune) : les loups, les filets de battue, puis un tigre géant. Récompense rare : la **bride du cheval céleste**, un cheval doré de Ferghana qui remplace la chamelle quand tu appuies sur V.
+
+Réussir 3 événements de Chine donne le titre **Gardien de l'empire du Milieu**.
+
+À savoir : la chamelle et le cheval céleste utilisent pour l'instant le modèle 3D du cheval (avec deux bosses pour la chamelle), en attendant de vrais modèles.
 
 ## Les ennemis
 
@@ -170,10 +204,20 @@ L'histoire de la Chine est terminée. Les quêtes secondaires et les événement
 | Soldat et arbalétrier de terre cuite du tombeau | 50 | Dans la salle des fleuves de mercure |
 | Garde d'argile de l'Empereur | 50 | Sort des piédestaux du palais souterrain |
 | L'Empereur d'argile (boss) | 50 | Au fond du tombeau du Premier Empereur |
+| Pillard du col fracturé | 42 | Quête « La route des chevaux célestes » |
+| Pillards de la muraille et leur chef | 42-43 | Événement « La chaîne des fanaux » |
+| Loup de la tempête noire | 42 | Événement « La tempête noire » |
+| Voleur de soie fracturé | 44 | Quête « La soie de Mei » |
+| Loup des ravins fracturé, tigre géant fracturé (élite) | 44-46 | Événement « La chasse impériale » |
+| Pirate de la crue fracturé | 45 | Événement « La crue du Fleuve Jaune » |
+| Voleur du marché fracturé | 46 | Événement « Le grand marché » |
+| Voyou de l'Académie fracturé | 47 | Quête « Le jeu du liubo » |
+| Soldats, arbalétriers et général d'argile réveillés | 48-49 | Événement « Le réveil de l'armée » |
 
 ## Pour changer des choses (sans coder)
 
 - **Les dialogues et les étapes** : `data/chine_quete.json` (entre guillemets).
 - **Les personnages** (noms, couleur de peau et d'habits, Figés ou non) : `data/chine_pnj.json`.
 - **Les caractères à tracer** : la liste « calligraphie » de l'étape « figes », dans `data/chine_quete.json`. Les caractères connus sont 人 大 山 木 天 火 文 中 水.
+- **Les quêtes secondaires** : `data/chine_secondaires.json` ; **les événements** : `data/chine_evenements.json`.
 - **Les ennemis** (vie, dégâts) : `data/ennemis.json` ; **les objets** : `data/objets.json`.

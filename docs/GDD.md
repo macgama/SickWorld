@@ -104,7 +104,7 @@ Les îles suivent l'ordre chronologique. Liste prévue (elle pourra encore être
 | 3 | **Grèce antique** (été -438, Athènes de Périclès) | Les Panathénées, le Parthénon et la démocratie athénienne *(conception validée le 15/11/2026 : [ILE-3-GRECE.md](ILE-3-GRECE.md) ; Rome a son île à part, la n°4)* |
 | 4 | **Rome antique** (été 80 apr. J.-C., Rome de Titus) | L'inauguration du Colisée, les aqueducs et les routes, Pompéi sous la cendre *(conception validée le 16/11/2026 : [ILE-4-ROME.md](ILE-4-ROME.md))* |
 | 5 | **Chine des Han** (hiver 105 apr. J.-C., Luoyang) | L'invention du papier par Cai Lun, la route de la soie et l'armée de terre cuite du Premier Empereur *(conception validée le 17/11/2026 : [ILE-5-CHINE.md](ILE-5-CHINE.md) ; le Japon est gardé pour une île plus tardive)* |
-| 6 | Moyen Âge européen | Les cathédrales, les croisades, la peste |
+| 6 | **Moyen Âge** (été 1194, Chartres après l'incendie) | La reconstruction de la cathédrale de Chartres : tout un peuple qui bâtit ensemble *(conception retenue le 17/11/2026, validation déléguée par Gaël : [ILE-6-MOYEN-AGE.md](ILE-6-MOYEN-AGE.md) ; le Japon reste prévu plus tard)* |
 | 7 | Grandes découvertes / Renaissance | Les navigateurs, l'imprimerie, les artistes |
 | 8 | Révolution industrielle | Vapeur, usines, grandes villes |
 | 9 | XXe siècle | Les grands conflits et la conquête spatiale |
@@ -118,6 +118,8 @@ La conception de la troisième île (l'Athènes de Périclès), validée par Ga�
 La conception de la quatrième île (la Rome de Titus), validée par Gaël le 16 novembre 2026, est dans [ILE-4-ROME.md](ILE-4-ROME.md).
 
 La conception de la cinquième île (la Chine des Han), validée par Gaël le 17 novembre 2026, est dans [ILE-5-CHINE.md](ILE-5-CHINE.md).
+
+La conception de la sixième île (Chartres en 1194), retenue par Claude le 17 novembre 2026 avec la validation déléguée par Gaël, est dans [ILE-6-MOYEN-AGE.md](ILE-6-MOYEN-AGE.md).
 
 ---
 

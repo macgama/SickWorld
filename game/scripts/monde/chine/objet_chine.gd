@@ -554,3 +554,339 @@ func _construire_plans() -> void:
 	lumiere.omni_range = 3.0
 	lumiere.position = Vector3(0.1, 0.9, 0.18)
 	_visuel.add_child(lumiere)
+
+
+# --- Quêtes secondaires de la Chine ------------------------------------------------------------
+
+const APPARENCE_BETE := preload("res://scripts/ennemis/apparence_loup.gd")
+
+
+## Porte le « type » d'une bête pour que son apparence (apparence_loup.gd) sache quoi dessiner.
+class PorteurBete extends Node3D:
+	var type_ennemi := ""
+
+
+## Une vraie bête (le tigre, le cerf, le macaque…) dessinée comme les ennemis, mais sans combat.
+func _bete(type: String, echelle := 1.0, angle := 0.0) -> Node3D:
+	var porteur := PorteurBete.new()
+	porteur.type_ennemi = type
+	porteur.name = "Bete"
+	porteur.scale = Vector3.ONE * echelle
+	porteur.rotation.y = angle
+	_visuel.add_child(porteur)
+	if not Engine.is_editor_hint():
+		var apparence: Node3D = APPARENCE_BETE.new()
+		porteur.add_child(apparence)
+	return porteur
+
+
+func _boule(rayon: float, haut: float, m: Material, p: Vector3, e := Vector3.ONE, parent: Node3D = null) -> MeshInstance3D:
+	var s := SphereMesh.new()
+	s.radius = rayon
+	s.height = haut
+	s.radial_segments = 12
+	s.rings = 6
+	var mi := _morceau_dans(parent if parent != null else _visuel, s, m, p)
+	mi.scale = e
+	return mi
+
+
+func _baton(rayon: float, longueur: float, m: Material, p: Vector3, rot := Vector3.ZERO, parent: Node3D = null) -> MeshInstance3D:
+	var c := CylinderMesh.new()
+	c.top_radius = rayon
+	c.bottom_radius = rayon
+	c.height = longueur
+	c.radial_segments = 6
+	return _morceau_dans(parent if parent != null else _visuel, c, m, p, rot)
+
+
+## Le ballon de cuju : une balle de cuir cousue de huit pièces, bourrée de plumes, posée
+## devant deux piquets de bambou tendus d'un filet de soie (le but).
+func _construire_ballon_cuju() -> void:
+	var cuir := _mat_uni(Color(0.55, 0.32, 0.16), 0.7)
+	_boule(0.13, 0.26, cuir, Vector3(0, 0.13, 0))
+	var couture := _mat_uni(Color(0.25, 0.14, 0.07), 0.8)
+	for k in 4:
+		var anneau := TorusMesh.new()
+		anneau.inner_radius = 0.128
+		anneau.outer_radius = 0.136
+		_morceau(anneau, couture, Vector3(0, 0.13, 0), Vector3(PI / 2, k * PI / 4, 0))
+	var bambou := _mat_uni(Color(0.6, 0.55, 0.32), 0.8)
+	for x in [-1.6, 1.6]:
+		_baton(0.04, 3.2, bambou, Vector3(x, 1.6, -3.0))
+	_baton(0.03, 3.2, bambou, Vector3(0, 3.15, -3.0), Vector3(0, 0, PI / 2))
+	var filet := BoxMesh.new()
+	filet.size = Vector3(3.1, 1.2, 0.01)
+	var soie := _mat_uni(Color(0.85, 0.2, 0.15, 0.55), 0.6)
+	soie.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	_morceau(filet, soie, Vector3(0, 2.5, -3.0))
+	# Le trou rond au milieu du filet, où il faut envoyer le ballon.
+	var trou := TorusMesh.new()
+	trou.inner_radius = 0.32
+	trou.outer_radius = 0.38
+	_morceau(trou, _mat_uni(Color(0.9, 0.75, 0.3), 0.4, 0.6), Vector3(0, 2.5, -2.98), Vector3(PI / 2, 0, 0))
+
+
+## Un cocon de ver à soie, blanc et duveteux, dans un bol d'eau chaude fumante, avec le
+## dévidoir de bambou à côté (on tire le fil d'un seul cocon : près d'un kilomètre).
+func _construire_cocon() -> void:
+	var terre := _mat_uni(Color(0.5, 0.36, 0.24), 0.8)
+	var bol := CylinderMesh.new()
+	bol.top_radius = 0.28
+	bol.bottom_radius = 0.18
+	bol.height = 0.2
+	_morceau(bol, terre, Vector3(0, 0.6, 0))
+	var eau := CylinderMesh.new()
+	eau.top_radius = 0.26
+	eau.bottom_radius = 0.26
+	eau.height = 0.01
+	_morceau(eau, _mat_uni(Color(0.5, 0.48, 0.4), 0.1), Vector3(0, 0.69, 0))
+	var soie := _mat_uni(Color(0.95, 0.93, 0.85), 1.0)
+	for k in 5:
+		var a := k * TAU / 5.0
+		_boule(0.035, 0.07, soie, Vector3(cos(a) * 0.12, 0.7, sin(a) * 0.12), Vector3(1.5, 1.0, 1.0))
+	var table := BoxMesh.new()
+	table.size = Vector3(1.2, 0.06, 0.6)
+	var bois := _mat_uni(Color(0.45, 0.32, 0.2), 0.9)
+	_morceau(table, bois, Vector3(0.3, 0.47, 0))
+	for x in [-0.22, 0.82]:
+		for z in [-0.24, 0.24]:
+			_baton(0.025, 0.47, bois, Vector3(x, 0.235, z))
+	# Le dévidoir : une roue à rayons de bambou.
+	var bambou := _mat_uni(Color(0.66, 0.6, 0.4), 0.8)
+	for k in 6:
+		_baton(0.012, 0.5, bambou, Vector3(0.65, 0.85, 0), Vector3(k * PI / 6, 0, 0))
+	_baton(0.015, 0.3, bambou, Vector3(0.65, 0.85, 0), Vector3(0, 0, PI / 2))
+	var fil := _mat_uni(Color(0.98, 0.95, 0.8), 0.4)
+	_baton(0.002, 0.42, fil, Vector3(0.36, 0.78, 0), Vector3(0, 0, 1.0))
+	_fumee_dans(_visuel, 0.72, false, 0.15)
+
+
+## Un Figé assis contre un mur, gris d'argile, la bouche ouverte sur un mot oublié. Soigné
+## (cacher()), il ne reste que la poussière d'argile et la natte où il était assis.
+func _construire_fige_patient() -> void:
+	var argile := _mat_uni(Color(0.58, 0.55, 0.5), 1.0)
+	_boule(0.2, 0.62, argile, Vector3(0, 0.42, 0), Vector3(1.1, 1.0, 0.8))
+	_boule(0.12, 0.24, argile, Vector3(0, 0.84, 0.02))
+	for c in [-1.0, 1.0]:
+		_baton(0.055, 0.45, argile, Vector3(c * 0.12, 0.12, 0.2), Vector3(PI / 2, 0, 0))
+		_baton(0.045, 0.38, argile, Vector3(c * 0.2, 0.42, 0.1), Vector3(0.6, 0, c * 0.2))
+	var fissure := BoxMesh.new()
+	fissure.size = Vector3(0.02, 0.4, 0.3)
+	_morceau(fissure, _emissif(Color(0.62, 0.3, 1.0), 2.0), Vector3(0.05, 0.5, 0.05), Vector3(0, 0.3, 0.2))
+	var natte := BoxMesh.new()
+	natte.size = Vector3(0.9, 0.02, 0.7)
+	var paille := _mat_uni(PAILLE, 1.0)
+	_morceau_dans(self, natte, paille, Vector3(0, 0.01, 0.1))
+	_debout = Node3D.new()
+	_debout.name = "Soigne"
+	_debout.visible = false
+	add_child(_debout)
+	var poussiere := CylinderMesh.new()
+	poussiere.top_radius = 0.2
+	poussiere.bottom_radius = 0.35
+	poussiere.height = 0.05
+	_morceau_dans(_debout, poussiere, argile, Vector3(0, 0.04, 0))
+	_trace_violette()
+
+
+## Un cerf sika échappé du parc impérial (pelage fauve tacheté de blanc en été, brun l'hiver).
+func _construire_cerf() -> void:
+	_bete("renne_cerf_sika", 0.85)
+
+
+## Une grue du parc : grande, grise et blanche, le cou noir et la calotte rouge.
+func _construire_grue() -> void:
+	var blanc := _mat_uni(Color(0.92, 0.92, 0.9), 0.9)
+	var noir := _mat_uni(Color(0.08, 0.08, 0.08), 0.8)
+	var rouge := _mat_uni(Color(0.8, 0.1, 0.08), 0.6)
+	var patte := _mat_uni(Color(0.25, 0.22, 0.2), 0.7)
+	_boule(0.22, 0.4, blanc, Vector3(0, 0.95, 0), Vector3(1.0, 1.0, 1.7))
+	_boule(0.18, 0.3, noir, Vector3(0, 0.98, 0.3), Vector3(0.9, 0.8, 1.0))
+	for c in [-1.0, 1.0]:
+		_baton(0.012, 0.8, patte, Vector3(c * 0.06, 0.4, 0))
+	_baton(0.03, 0.6, noir, Vector3(0, 1.32, -0.3), Vector3(-0.35, 0, 0))
+	_boule(0.06, 0.1, noir, Vector3(0, 1.62, -0.4), Vector3(1.0, 1.0, 1.3))
+	_boule(0.035, 0.03, rouge, Vector3(0, 1.67, -0.4))
+	_baton(0.01, 0.18, _mat_uni(Color(0.4, 0.45, 0.3), 0.6), Vector3(0, 1.6, -0.52), Vector3(PI / 2 - 0.2, 0, 0))
+
+
+## Un macaque du parc, perché sur une caisse de fruits renversée.
+func _construire_macaque() -> void:
+	var bois := _mat_uni(Color(0.5, 0.38, 0.24), 0.9)
+	var caisse := BoxMesh.new()
+	caisse.size = Vector3(0.7, 0.5, 0.5)
+	_morceau(caisse, bois, Vector3(0, 0.25, 0), Vector3(0, 0.3, 0.1))
+	var poil := _mat_uni(Color(0.56, 0.46, 0.34), 1.0)
+	var visage := _mat_uni(Color(0.85, 0.45, 0.42), 0.7)
+	_boule(0.16, 0.36, poil, Vector3(0, 0.72, 0), Vector3(1.0, 1.0, 0.85))
+	_boule(0.11, 0.2, poil, Vector3(0, 0.98, -0.02))
+	_boule(0.07, 0.1, visage, Vector3(0, 0.97, -0.09), Vector3(1.0, 1.1, 0.6))
+	for c in [-1.0, 1.0]:
+		_boule(0.03, 0.04, visage, Vector3(c * 0.1, 1.0, 0))
+		_baton(0.035, 0.32, poil, Vector3(c * 0.15, 0.62, -0.06), Vector3(0.4, 0, c * 0.3))
+		_baton(0.04, 0.28, poil, Vector3(c * 0.1, 0.56, -0.12), Vector3(1.3, 0, 0))
+	for k in 4:
+		_boule(0.05, 0.1, _mat_uni([Color(0.9, 0.5, 0.1), Color(0.7, 0.1, 0.1)][k % 2], 0.6),
+				Vector3(-0.25 + k * 0.17, 0.04, 0.35 + (k % 2) * 0.1))
+
+
+## Le vieux tigre du parc : il ne veut plus rentrer. Couché au bord des bambous.
+func _construire_vieux_tigre() -> void:
+	_bete("tigre_vieux", 1.0)
+
+
+## Un plateau de liubo : la planche laquée noire et rouge, ses marques en L, T et V, six
+## bâtonnets à lancer et douze pions d'ivoire et d'ébène.
+func _construire_plateau_liubo() -> void:
+	var laque := _mat_uni(Color(0.08, 0.05, 0.04), 0.3)
+	var rouge := _mat_uni(Color(0.62, 0.12, 0.08), 0.35)
+	var table := BoxMesh.new()
+	table.size = Vector3(1.0, 0.35, 1.0)
+	_morceau(table, _mat_uni(Color(0.4, 0.28, 0.18), 0.8), Vector3(0, 0.175, 0))
+	var plateau := BoxMesh.new()
+	plateau.size = Vector3(0.7, 0.04, 0.7)
+	_morceau(plateau, laque, Vector3(0, 0.37, 0))
+	var marque := BoxMesh.new()
+	marque.size = Vector3(0.12, 0.005, 0.02)
+	for k in 8:
+		var a := k * TAU / 8.0
+		_morceau(marque, rouge, Vector3(cos(a) * 0.24, 0.393, sin(a) * 0.24), Vector3(0, a, 0))
+	var carre := BoxMesh.new()
+	carre.size = Vector3(0.14, 0.005, 0.14)
+	_morceau(carre, rouge, Vector3(0, 0.393, 0))
+	var ivoire := _mat_uni(Color(0.92, 0.88, 0.76), 0.5)
+	var pion := BoxMesh.new()
+	pion.size = Vector3(0.04, 0.03, 0.04)
+	for k in 6:
+		_morceau(pion, ivoire if k < 3 else laque, Vector3(-0.25 + k * 0.1, 0.405, 0.3 if k < 3 else -0.3))
+	for k in 6:
+		_baton(0.008, 0.2, _mat_uni(Color(0.7, 0.62, 0.4), 0.7), Vector3(0.35 + k * 0.02, 0.38, 0.0), Vector3(PI / 2, 0.2 * k, 0))
+
+
+## Une brique de thé compressé enveloppée de papier, posée sur un sac de millet.
+func _construire_the() -> void:
+	var toile := _mat_uni(Color(0.7, 0.62, 0.46), 1.0)
+	_boule(0.3, 0.55, toile, Vector3(0, 0.28, 0), Vector3(1.0, 1.0, 0.8))
+	var brique := BoxMesh.new()
+	brique.size = Vector3(0.24, 0.05, 0.16)
+	_morceau(brique, _mat_uni(Color(0.25, 0.16, 0.08), 0.9), Vector3(0, 0.6, 0), Vector3(0, 0.3, 0))
+	var papier := BoxMesh.new()
+	papier.size = Vector3(0.26, 0.01, 0.1)
+	_morceau(papier, _mat_uni(Color(0.9, 0.86, 0.72), 0.9), Vector3(0, 0.63, 0), Vector3(0, 0.3, 0))
+	var feuilles := _mat_uni(Color(0.22, 0.35, 0.16), 0.8)
+	for k in 6:
+		_boule(0.03, 0.01, feuilles, Vector3(-0.15 + k * 0.06, 0.56, 0.12), Vector3(1.6, 1, 0.8))
+
+
+## Une pousse de bambou tendre qui sort de la neige, avec ses gaines brunes.
+func _construire_pousse_bambou() -> void:
+	var gaine := _mat_uni(Color(0.5, 0.4, 0.22), 0.9)
+	var vert := _mat_uni(Color(0.55, 0.62, 0.3), 0.7)
+	for k in 3:
+		var c := CylinderMesh.new()
+		c.top_radius = 0.0
+		c.bottom_radius = 0.07 - k * 0.012
+		c.height = 0.45 + k * 0.1
+		c.radial_segments = 8
+		_morceau(c, gaine if k == 0 else vert, Vector3(-0.15 + k * 0.15, c.height * 0.5, (k % 2) * 0.1))
+
+
+## La mère de Bao : une grande panda, assise dans les bambous, qui mâche une tige.
+func _construire_mere_panda() -> void:
+	_construire_panda()
+	for enfant in _visuel.get_children():
+		if enfant is Node3D:
+			(enfant as Node3D).position *= 2.6
+			(enfant as Node3D).scale *= 2.6
+
+
+## Une pelleteuse miniature télécommandée (un jouet de chantier jaune, en plastique), au
+## bord d'une fosse qu'elle a commencé à creuser.
+func _construire_pelleteuse() -> void:
+	var jaune := _mat_uni(Color(0.95, 0.72, 0.05), 0.4)
+	var noir := _mat_uni(Color(0.08, 0.08, 0.08), 0.6)
+	var chenille := BoxMesh.new()
+	chenille.size = Vector3(0.12, 0.1, 0.5)
+	for x in [-0.15, 0.15]:
+		_morceau(chenille, noir, Vector3(x, 0.05, 0))
+	var cabine := BoxMesh.new()
+	cabine.size = Vector3(0.32, 0.2, 0.32)
+	_morceau(cabine, jaune, Vector3(0, 0.2, 0.04))
+	var vitre := BoxMesh.new()
+	vitre.size = Vector3(0.2, 0.12, 0.01)
+	_morceau(vitre, _mat_uni(Color(0.2, 0.3, 0.4), 0.1), Vector3(0, 0.26, -0.12))
+	_morceau(BoxMesh.new(), jaune, Vector3(0, 0.3, -0.3), Vector3(0.7, 0, 0)).scale = Vector3(0.06, 0.06, 0.35)
+	_morceau(BoxMesh.new(), jaune, Vector3(0, 0.22, -0.48), Vector3(-0.6, 0, 0)).scale = Vector3(0.05, 0.05, 0.25)
+	_morceau(BoxMesh.new(), noir, Vector3(0, 0.1, -0.56)).scale = Vector3(0.16, 0.08, 0.1)
+	_baton(0.004, 0.25, noir, Vector3(0.12, 0.42, 0.12))
+	var trou := CylinderMesh.new()
+	trou.top_radius = 0.4
+	trou.bottom_radius = 0.3
+	trou.height = 0.02
+	_morceau(trou, _mat_uni(Color(0.22, 0.18, 0.14), 1.0), Vector3(0, 0.005, -0.85))
+	_trace_violette()
+
+
+## Un briquet en plastique rouge, abandonné sur une pierre au pied du pavillon des livres.
+func _construire_briquet() -> void:
+	_morceau(BoxMesh.new(), _mat_uni(Color(0.5, 0.48, 0.45), 0.9), Vector3(0, 0.2, 0)).scale = Vector3(0.5, 0.4, 0.4)
+	var corps := BoxMesh.new()
+	corps.size = Vector3(0.025, 0.08, 0.012)
+	_morceau(corps, _mat_uni(Color(0.85, 0.1, 0.1, 0.85), 0.2), Vector3(0, 0.44, 0), Vector3(0, 0, PI / 2))
+	var tete := BoxMesh.new()
+	tete.size = Vector3(0.026, 0.02, 0.013)
+	_morceau(tete, _mat_uni(Color(0.75, 0.75, 0.78), 0.3, 0.9), Vector3(0.05, 0.44, 0), Vector3(0, 0, PI / 2))
+	_trace_violette()
+
+
+## Une clé USB noire glissée dans un rouleau de lattes de bambou.
+func _construire_cle_usb() -> void:
+	_construire_liasse()
+	var cle := BoxMesh.new()
+	cle.size = Vector3(0.018, 0.008, 0.06)
+	_morceau(cle, _mat_uni(Color(0.05, 0.05, 0.06), 0.3), Vector3(0.0, 0.36, 0.0))
+	var embout := BoxMesh.new()
+	embout.size = Vector3(0.014, 0.005, 0.018)
+	_morceau(embout, _mat_uni(Color(0.8, 0.8, 0.82), 0.2, 1.0), Vector3(0.0, 0.36, -0.038))
+	var led := _emissif(Color(0.2, 0.5, 1.0), 4.0)
+	_morceau(BoxMesh.new(), led, Vector3(0.0, 0.365, 0.02)).scale = Vector3(0.004, 0.004, 0.004)
+
+
+## Une lanterne de caravane sur une perche plantée dans le sable : un cadre de bambou tendu
+## de papier huilé. Éteinte, la mèche fume ; rallumée (cacher()), elle brille, orange.
+func _construire_lanterne_caravane() -> void:
+	var bambou := _mat_uni(Color(0.55, 0.48, 0.3), 0.8)
+	_baton(0.035, 2.4, bambou, Vector3(0, 1.2, 0))
+	_baton(0.02, 0.6, bambou, Vector3(0, 2.35, -0.28), Vector3(PI / 2, 0, 0))
+	var papier := _mat_uni(Color(0.8, 0.72, 0.55), 0.9)
+	var cage := CylinderMesh.new()
+	cage.top_radius = 0.14
+	cage.bottom_radius = 0.16
+	cage.height = 0.34
+	cage.radial_segments = 8
+	_morceau(cage, papier, Vector3(0, 1.98, -0.55))
+	_fumee_dans(_visuel, 2.2, false, 0.12)
+	_trace_violette()
+	_debout = Node3D.new()
+	_debout.name = "Allumee"
+	_debout.visible = false
+	add_child(_debout)
+	_baton(0.035, 2.4, bambou, Vector3(0, 1.2, 0), Vector3.ZERO, _debout)
+	_baton(0.02, 0.6, bambou, Vector3(0, 2.35, -0.28), Vector3(PI / 2, 0, 0), _debout)
+	_morceau_dans(_debout, cage, _emissif(Color(1.0, 0.62, 0.25), 2.5), Vector3(0, 1.98, -0.55))
+	var lumiere := OmniLight3D.new()
+	lumiere.light_color = Color(1.0, 0.65, 0.3)
+	lumiere.light_energy = 2.2
+	lumiere.omni_range = 9.0
+	lumiere.position = Vector3(0, 1.98, -0.55)
+	_debout.add_child(lumiere)
+
+
+## Chine : « cacher » (un fanal ou une lanterne qu'on rallume pendant un événement) ; le
+## reste comme à Rome.
+func appliquer_effet(effet: String) -> void:
+	if effet == "cacher":
+		cacher()
+		return
+	super.appliquer_effet(effet)

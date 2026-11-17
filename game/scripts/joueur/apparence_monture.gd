@@ -64,6 +64,8 @@ func _ready() -> void:
 			if _os_selle >= 0:
 				break
 	_habiller()
+	if reglages.has("bosses"):
+		_construire_bosses(reglages["bosses"])
 	var lecteurs := _modele.find_children("*", "AnimationPlayer", true, false)
 	if lecteurs.is_empty():
 		return
@@ -162,6 +164,36 @@ func _mettre_robe(maille: MeshInstance3D, robe: Dictionary) -> void:
 func _process(_delta: float) -> void:
 	for sm in _robes:
 		sm.set_shader_parameter("sol", global_position.y)
+	# Les bosses du chameau suivent le dos de la bête (le cavalier est assis entre les deux).
+	if _bosses != null:
+		_bosses.position = point_selle() - Vector3.UP * float(reglages.get("selle", 0.3))
+
+
+var _bosses: Node3D
+
+
+## Les deux bosses laineuses d'un chameau de Bactriane, posées sur le dos du cheval
+## (« bosses » dans data/montures.json : couleur, avant, arriere, rayon).
+func _construire_bosses(b: Dictionary) -> void:
+	_bosses = Node3D.new()
+	_bosses.name = "Bosses"
+	add_child(_bosses)
+	var m := StandardMaterial3D.new()
+	m.albedo_color = Color.html(String(b.get("couleur", "#94704a")))
+	m.roughness = 1.0
+	var rayon := float(b.get("rayon", 0.3))
+	for z: float in [-float(b.get("avant", 0.5)), -float(b.get("arriere", -0.42))]:
+		var bosse := MeshInstance3D.new()
+		var s := SphereMesh.new()
+		s.radius = rayon
+		s.height = rayon * 2.4
+		s.radial_segments = 14
+		s.rings = 8
+		bosse.mesh = s
+		bosse.material_override = m
+		bosse.position = Vector3(0, rayon * 0.35, z)
+		bosse.scale = Vector3(0.7, 1.0, 0.9)
+		_bosses.add_child(bosse)
 
 
 ## Agrandit les oreilles (l'âne a de grandes oreilles, l'élan non).

@@ -225,6 +225,11 @@ Un titre se gagne une fois pour toutes. Dans l'onglet **Titres** de la fenêtre 
 | Chine | « Briseur d'argile » | Vaincre 60 soldats de terre cuite. |
 | Chine | « Vainqueur de l'Empereur d'argile » | Briser le cœur de l'Empereur d'argile, au fond du tombeau du Premier Empereur. |
 | Chine | « Lettré du pavillon de l'Est » | Terminer la quête principale de Chine : l'impératrice Deng te fait lettré du pavillon de l'Est. |
+| Chine | « Facteur de la frontière » | Porter les lettres des soldats de la Porte de Jade à leurs familles (quête « Les lettres de la Porte de Jade »). |
+| Chine | « Pied d'or » | Battre le champion de cuju du palais (quête « Le ballon des soldats »). |
+| Chine | « Ami des tigres » | Laisser partir le vieux tigre du parc impérial (quête « Le tigre du parc impérial »). |
+| Chine | « Ami des Han » | Terminer toutes les quêtes secondaires de Chine. |
+| Chine | « Gardien de l'empire du Milieu » | Réussir 3 événements publics de Chine. |
 | Arène de la baie | « Baptême de l'arène » | Gagner un premier combat à l'Arène de la baie. |
 | Arène de la baie | « Habitué de l'arène » | Gagner 25 combats à l'Arène. |
 | Arène de la baie | « Vétéran de l'arène » | Gagner 100 combats à l'Arène. |

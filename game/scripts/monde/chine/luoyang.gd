@@ -789,6 +789,7 @@ func _construire_quete() -> void:
 	var dossier := Node3D.new()
 	dossier.name = "Quete"
 	_contenu.add_child(dossier)
+	_construire_secondaires(dossier)
 	_dossier_quete = dossier
 	# Le pavillon de l'Est : Ban Zhao, ses étudiants, Ma Rong.
 	_pnj(dossier, "ban_zhao", BAN_ZHAO, 0.0)
@@ -906,3 +907,12 @@ func _process(delta: float) -> void:
 	var p := Vector2(joueur.global_position.x, joueur.global_position.z)
 	if p.distance_to(ENTREE) < 5.0:
 		quete.changer_de_zone("fleuve_jaune")
+
+
+## Les personnages des quêtes secondaires (data/chine_secondaires.json).
+func _construire_secondaires(dossier: Node3D) -> void:
+	_pnj(dossier, "champion_cuju", Vector2(-46, 30), PI * 0.25)
+	_pnj(dossier, "maitre_zhou", Vector2(-86, 46), PI)
+	_pnj(dossier, "gardien_parc", Vector2(-70, -90), -PI * 0.25)
+	_pnj(dossier, "vieux_lettre", Vector2(95, -89), PI * 0.6)
+	_pnj(dossier, "cuisiniere_marche", Vector2(-120, 44), PI)

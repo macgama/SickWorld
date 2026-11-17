@@ -329,6 +329,21 @@
 		"couleur": "#d98c5a"
 	},
 
+	"aiguilles_d_argent": {
+		"nom": "Aiguilles d'argent",
+		"origine": "Chine",
+		"description": "Neuf aiguilles d'argent de maître Zhou, plantées aux bons endroits : pendant 10 secondes, toi (ou l'allié ciblé) regagnes 14 points de vie par seconde et infliges 8 % de dégâts en plus. Demande la Trousse d'aiguilles de maître Zhou (quête « Les aiguilles de maître Zhou »).",
+		"type": "renfort_allie",
+		"portee": 30,
+		"effet": "aiguilles",
+		"duree": 10,
+		"soin_par_seconde": 14,
+		"degats_infliges": 1.08,
+		"recharge": 35,
+		"animation": "sort",
+		"couleur": "#c8d0e0"
+	},
+
 	"lancer_au_propulseur": {
 		"nom": "Lancer au propulseur",
 		"origine": "Préhistoire",

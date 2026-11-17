@@ -579,7 +579,10 @@ func _facade_yaodong(parent: Node3D, p: Vector3, angle := 0.0, largeur := 3.4) -
 ## rejets droits (on les coupait chaque année pour les feuilles des vers à soie).
 func _murier(parent: Node3D, p: Vector2, hasard: RandomNumberGenerator, taille := 1.0) -> Node3D:
 	var ecorce := _mat_choix(["bark_willow_02", "tree_bark_03"], Color(0.5, 0.45, 0.4), 0.95, 0.6)
-	return _arbre_realiste(parent, p, "murier_tetard", hasard, taille, ecorce, 0.05)
+	var arbre := _arbre_realiste(parent, p, "murier_tetard", hasard, taille, ecorce, 0.05)
+	if arbre != null:
+		arbre.name = "Murier%d" % parent.get_child_count()
+	return arbre
 
 
 ## Un peuplier nu en hiver, haut et droit (on en plantait le long des routes et des villages).

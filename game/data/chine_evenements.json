@@ -1,0 +1,912 @@
+{
+	"_aide": "Événements publics de l'île de la Chine (même format que data/rome_evenements.json, voir scripts/monde/prehistoire/evenements_publics.gd). Ils arrivent tout seuls dans leur zone : le premier « premier_delai » secondes après l'arrivée, puis toutes les « intervalle » secondes. « apres » : étape de la quête principale à atteindre. Phases : « vagues », « objet »/« recolter » (F), « renforts » (des ennemis qui arrivent pendant la phase). « tempete » + « froid » : la tempête noire, où le sable blesse loin des lanternes (« chaleur »). Pour régénérer ce fichier : /mnt/project-files/chine/outils/generer_chine_evenements.py",
+	"premier_delai": 150,
+	"evenements": [
+		{
+			"id": "chaine_des_fanaux",
+			"titre": "La chaîne des fanaux",
+			"zone": "porte_de_jade",
+			"apres": "lettre_gan_ying",
+			"intervalle": 7200,
+			"duree": 420,
+			"position": [
+				-16,
+				-44
+			],
+			"annonce": "Des pillards fracturés attaquent la muraille ! Allumez les fanaux de tour en tour pour appeler la garnison.",
+			"objets": [
+				{
+					"id": "fanal_muraille_0",
+					"groupe": "fanal_muraille",
+					"forme": "fanal",
+					"position": [
+						-130,
+						-50
+					],
+					"invite": "[F] Allumer le fanal"
+				},
+				{
+					"id": "fanal_muraille_1",
+					"groupe": "fanal_muraille",
+					"forme": "fanal",
+					"position": [
+						-56,
+						-46
+					],
+					"invite": "[F] Allumer le fanal"
+				},
+				{
+					"id": "fanal_muraille_2",
+					"groupe": "fanal_muraille",
+					"forme": "fanal",
+					"position": [
+						24,
+						-48
+					],
+					"invite": "[F] Allumer le fanal"
+				},
+				{
+					"id": "fanal_muraille_3",
+					"groupe": "fanal_muraille",
+					"forme": "fanal",
+					"position": [
+						100,
+						-52
+					],
+					"invite": "[F] Allumer le fanal"
+				}
+			],
+			"phases": [
+				{
+					"objectif": "Allume les 4 fanaux le long de la muraille, de tour en tour",
+					"recolter": "fanal_muraille",
+					"nombre": 4,
+					"duree": 2.5,
+					"action": "Tu jettes ta torche dans la meule de roseaux…",
+					"effet": "cacher",
+					"renforts": {
+						"type": "pillard_muraille",
+						"nombre": 2,
+						"toutes": 20,
+						"positions": [
+							[
+								-130,
+								-40
+							],
+							[
+								-56,
+								-36
+							],
+							[
+								24,
+								-38
+							],
+							[
+								100,
+								-42
+							]
+						],
+						"rayon": 3,
+						"max": 5,
+						"attaque": true
+					}
+				},
+				{
+					"objectif": "La garnison arrive : repousse l'assaut des pillards",
+					"annonce": "Les fumées noires montent : la garnison sort du fort !",
+					"vagues": [
+						{
+							"type": "pillard_muraille",
+							"nombre": 4,
+							"position": [
+								-20,
+								-36
+							],
+							"rayon": 5,
+							"attaque": true
+						},
+						{
+							"type": "pillard_muraille",
+							"nombre": 3,
+							"position": [
+								40,
+								-40
+							],
+							"rayon": 5,
+							"attaque": true
+						}
+					]
+				},
+				{
+					"objectif": "Abats le chef des pillards fracturés",
+					"annonce": "Le chef des pillards charge, une lance violette à la main !",
+					"vagues": [
+						{
+							"type": "pillard_muraille_chef",
+							"nombre": 1,
+							"position": [
+								0,
+								-40
+							],
+							"rayon": 2,
+							"attaque": true
+						}
+					]
+				}
+			],
+			"echec": "Les pillards ont franchi la muraille. Les fanaux sont restés froids, et la garnison est arrivée trop tard.",
+			"reussite": "Quatre colonnes de fumée noire montent dans le ciel blanc. Jusqu'à Dunhuang, tout le monde sait que la frontière tient.",
+			"recompenses": {
+				"or": [
+					{
+						"id": "manteau_frontiere",
+						"nom": "Manteau matelassé de la frontière",
+						"chance": 0.3
+					},
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclats de fracture ×3",
+						"n": 3
+					},
+					{
+						"id": "plaquette_laque",
+						"nom": "Plaquette d'armure laquée ×2",
+						"n": 2
+					}
+				],
+				"argent": [
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclats de fracture ×2",
+						"n": 2
+					},
+					{
+						"id": "plaquette_laque",
+						"nom": "Plaquette d'armure laquée",
+						"n": 1
+					}
+				],
+				"bronze": [
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclat de fracture",
+						"n": 1
+					}
+				]
+			},
+			"stabilite": 6
+		},
+		{
+			"id": "tempete_noire",
+			"titre": "La tempête noire",
+			"zone": "porte_de_jade",
+			"apres": "lettre_gan_ying",
+			"intervalle": 6000,
+			"duree": 360,
+			"position": [
+				-84,
+				-30
+			],
+			"tempete": true,
+			"annonce": "Le kara buran se lève : la tempête noire du désert ! Une caravane s'est perdue sur la route.",
+			"froid": {
+				"degats_pourcent": 3,
+				"toutes": 3.0,
+				"rayon": 9.0,
+				"chaleur": [
+					[
+						-84,
+						-30
+					],
+					[
+						-60,
+						-24
+					],
+					[
+						-30,
+						-18
+					],
+					[
+						0,
+						-10
+					],
+					[
+						30,
+						-2
+					]
+				],
+				"texte_expose": "Le sable noir te fouette le visage ! Reste près des lanternes.",
+				"texte_abrite": "La lanterne te protège du vent."
+			},
+			"objets": [
+				{
+					"id": "lanterne_tempete_0",
+					"groupe": "lanterne_tempete",
+					"forme": "lanterne_caravane",
+					"position": [
+						-60,
+						-24
+					],
+					"invite": "[F] Rallumer la lanterne"
+				},
+				{
+					"id": "lanterne_tempete_1",
+					"groupe": "lanterne_tempete",
+					"forme": "lanterne_caravane",
+					"position": [
+						-30,
+						-18
+					],
+					"invite": "[F] Rallumer la lanterne"
+				},
+				{
+					"id": "lanterne_tempete_2",
+					"groupe": "lanterne_tempete",
+					"forme": "lanterne_caravane",
+					"position": [
+						0,
+						-10
+					],
+					"invite": "[F] Rallumer la lanterne"
+				},
+				{
+					"id": "lanterne_tempete_3",
+					"groupe": "lanterne_tempete",
+					"forme": "lanterne_caravane",
+					"position": [
+						30,
+						-2
+					],
+					"invite": "[F] Rallumer la lanterne"
+				}
+			],
+			"phases": [
+				{
+					"objectif": "Rallume les 4 lanternes qui balisent la route, d'une balise à l'autre",
+					"recolter": "lanterne_tempete",
+					"nombre": 4,
+					"duree": 2.0,
+					"action": "Tu protèges la mèche de ton corps…",
+					"effet": "cacher"
+				},
+				{
+					"objectif": "Des loups fracturés suivent la caravane dans le noir : protège-la",
+					"annonce": "Des yeux violets brillent dans le sable !",
+					"vagues": [
+						{
+							"type": "loup_tempete_noire",
+							"nombre": 3,
+							"position": [
+								-20,
+								-14
+							],
+							"rayon": 5,
+							"attaque": true
+						},
+						{
+							"type": "loup_tempete_noire",
+							"nombre": 4,
+							"position": [
+								-70,
+								-26
+							],
+							"rayon": 5,
+							"attaque": true
+						}
+					]
+				}
+			],
+			"echec": "La tempête est passée. La caravane a perdu trois chameaux et toute sa laine dans le sable.",
+			"reussite": "Le vent tombe d'un coup. Les chameliers sortent de leurs manteaux, couverts de sable, et éclatent de rire.",
+			"recompenses": {
+				"or": [
+					{
+						"id": "soie_grege",
+						"nom": "Soie grège ×3",
+						"n": 3,
+						"chance": 0.5
+					},
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclats de fracture ×3",
+						"n": 3
+					},
+					{
+						"id": "pelage_loup_desert",
+						"nom": "Pelage de loup du désert ×2",
+						"n": 2
+					}
+				],
+				"argent": [
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclats de fracture ×2",
+						"n": 2
+					},
+					{
+						"id": "pelage_loup_desert",
+						"nom": "Pelage de loup du désert",
+						"n": 1
+					}
+				],
+				"bronze": [
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclat de fracture",
+						"n": 1
+					}
+				]
+			},
+			"stabilite": 6
+		},
+		{
+			"id": "crue_fleuve_jaune",
+			"titre": "La crue du Fleuve Jaune",
+			"zone": "fleuve_jaune",
+			"apres": "lao_fan_est",
+			"intervalle": 10800,
+			"duree": 480,
+			"position": [
+				60,
+				10
+			],
+			"annonce": "Le Fleuve Jaune déborde ! Il faut réparer les digues et sauver les villageois des champs.",
+			"objets": [
+				{
+					"id": "digue_crue_0",
+					"groupe": "digue_crue",
+					"forme": "sac",
+					"position": [
+						74,
+						-24
+					],
+					"invite": "[F] Colmater la digue"
+				},
+				{
+					"id": "digue_crue_1",
+					"groupe": "digue_crue",
+					"forme": "sac",
+					"position": [
+						74,
+						-6
+					],
+					"invite": "[F] Colmater la digue"
+				},
+				{
+					"id": "digue_crue_2",
+					"groupe": "digue_crue",
+					"forme": "sac",
+					"position": [
+						76,
+						26
+					],
+					"invite": "[F] Colmater la digue"
+				},
+				{
+					"id": "digue_crue_3",
+					"groupe": "digue_crue",
+					"forme": "sac",
+					"position": [
+						74,
+						44
+					],
+					"invite": "[F] Colmater la digue"
+				},
+				{
+					"id": "villageois_crue_0",
+					"groupe": "villageois_crue",
+					"forme": "refugie",
+					"position": [
+						-118,
+						46
+					],
+					"invite": "[F] Aider à fuir"
+				},
+				{
+					"id": "villageois_crue_1",
+					"groupe": "villageois_crue",
+					"forme": "refugie",
+					"position": [
+						-96,
+						74
+					],
+					"invite": "[F] Aider à fuir"
+				},
+				{
+					"id": "villageois_crue_2",
+					"groupe": "villageois_crue",
+					"forme": "refugie",
+					"position": [
+						-140,
+						84
+					],
+					"invite": "[F] Aider à fuir"
+				}
+			],
+			"phases": [
+				{
+					"objectif": "Colmate les 4 brèches de la digue avec des sacs de terre",
+					"recolter": "digue_crue",
+					"nombre": 4,
+					"duree": 3.0,
+					"action": "Tu empiles les sacs de terre jaune dans la brèche…",
+					"renforts": {
+						"type": "pirate_crue",
+						"nombre": 2,
+						"toutes": 24,
+						"positions": [
+							[
+								70,
+								-14
+							],
+							[
+								70,
+								34
+							]
+						],
+						"rayon": 3,
+						"max": 4,
+						"attaque": true
+					}
+				},
+				{
+					"objectif": "Aide 3 familles bloquées dans les champs inondés",
+					"annonce": "L'eau monte dans les champs de millet !",
+					"recolter": "villageois_crue",
+					"nombre": 3,
+					"duree": 2.0,
+					"action": "Tu portes le petit sur ton dos…"
+				},
+				{
+					"objectif": "Chasse les pirates fracturés qui pillent les maisons vides",
+					"annonce": "Des barques de pirates profitent du chaos !",
+					"vagues": [
+						{
+							"type": "pirate_crue",
+							"nombre": 4,
+							"position": [
+								-60,
+								10
+							],
+							"rayon": 5,
+							"attaque": true
+						},
+						{
+							"type": "pirate_crue",
+							"nombre": 4,
+							"position": [
+								-110,
+								20
+							],
+							"rayon": 5,
+							"attaque": true
+						}
+					]
+				}
+			],
+			"echec": "Le fleuve a tout emporté : les champs, les greniers, la moitié du village. Il faudra des années.",
+			"reussite": "L'eau redescend, jaune et lente. Les digues ont tenu. Lao Fan dit que le fleuve est un dragon : on ne le bat pas, on le calme.",
+			"recompenses": {
+				"or": [
+					{
+						"id": "rame_lao_fan",
+						"nom": "Rame de papier de Lao Fan",
+						"chance": 0.3
+					},
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclats de fracture ×3",
+						"n": 3
+					},
+					{
+						"id": "ecorce_murier",
+						"nom": "Écorce de mûrier ×2",
+						"n": 2
+					}
+				],
+				"argent": [
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclats de fracture ×2",
+						"n": 2
+					},
+					{
+						"id": "ecorce_murier",
+						"nom": "Écorce de mûrier",
+						"n": 1
+					}
+				],
+				"bronze": [
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclat de fracture",
+						"n": 1
+					}
+				]
+			},
+			"stabilite": 7
+		},
+		{
+			"id": "grand_marche",
+			"titre": "Le grand marché",
+			"zone": "luoyang",
+			"apres": "cai_lun_cadeau",
+			"intervalle": 3600,
+			"duree": 300,
+			"position": [
+				-100,
+				70
+			],
+			"annonce": "Les caravanes de tout le monde connu arrivent au marché de l'Ouest ! Et des voleurs fracturés se glissent dans la foule.",
+			"objets": [
+				{
+					"id": "marchandise_volee_0",
+					"groupe": "marchandise_volee",
+					"forme": "sac",
+					"position": [
+						-120,
+						58
+					],
+					"invite": "[F] Rendre la marchandise"
+				},
+				{
+					"id": "marchandise_volee_1",
+					"groupe": "marchandise_volee",
+					"forme": "sac",
+					"position": [
+						-100,
+						50
+					],
+					"invite": "[F] Rendre la marchandise"
+				},
+				{
+					"id": "marchandise_volee_2",
+					"groupe": "marchandise_volee",
+					"forme": "sac",
+					"position": [
+						-110,
+						86
+					],
+					"invite": "[F] Rendre la marchandise"
+				},
+				{
+					"id": "marchandise_volee_3",
+					"groupe": "marchandise_volee",
+					"forme": "sac",
+					"position": [
+						-80,
+						76
+					],
+					"invite": "[F] Rendre la marchandise"
+				}
+			],
+			"phases": [
+				{
+					"objectif": "Attrape les voleurs fracturés cachés dans la foule du marché",
+					"vagues": [
+						{
+							"type": "pillard_marche",
+							"nombre": 3,
+							"position": [
+								-112,
+								60
+							],
+							"rayon": 5,
+							"attaque": true
+						},
+						{
+							"type": "pillard_marche",
+							"nombre": 3,
+							"position": [
+								-90,
+								84
+							],
+							"rayon": 5,
+							"attaque": true
+						}
+					]
+				},
+				{
+					"objectif": "Rends aux marchands les 4 ballots volés",
+					"annonce": "Les voleurs ont lâché leur butin entre les étals !",
+					"recolter": "marchandise_volee",
+					"nombre": 4,
+					"duree": 1.5,
+					"action": "Tu rapportes le ballot à son marchand…"
+				}
+			],
+			"echec": "Les voleurs ont filé par la porte de l'Ouest avec la moitié des ballots.",
+			"reussite": "Les marchands te remercient dans six langues différentes. Un Sogdien t'offre un abricot sec, un Parthe une figue.",
+			"recompenses": {
+				"or": [
+					{
+						"id": "the_han",
+						"nom": "Thé des Han ×2",
+						"n": 2,
+						"chance": 0.6
+					},
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclats de fracture ×3",
+						"n": 3
+					},
+					{
+						"id": "soie_grege",
+						"nom": "Soie grège ×2",
+						"n": 2
+					}
+				],
+				"argent": [
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclats de fracture ×2",
+						"n": 2
+					},
+					{
+						"id": "soie_grege",
+						"nom": "Soie grège",
+						"n": 1
+					}
+				],
+				"bronze": [
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclat de fracture",
+						"n": 1
+					}
+				]
+			},
+			"stabilite": 4
+		},
+		{
+			"id": "reveil_armee",
+			"titre": "Le réveil de l'armée",
+			"zone": "mont_li",
+			"apres": "masque_tombeau",
+			"intervalle": 7200,
+			"duree": 420,
+			"position": [
+				42,
+				-16
+			],
+			"annonce": "Une fosse entière de soldats de terre cuite se relève et marche vers les villages !",
+			"phases": [
+				{
+					"objectif": "Arrête la première ligne de soldats d'argile avant qu'elle sorte de la fosse",
+					"vagues": [
+						{
+							"type": "soldat_argile_reveil",
+							"nombre": 4,
+							"position": [
+								20,
+								-30
+							],
+							"rayon": 5,
+							"attaque": true
+						},
+						{
+							"type": "soldat_argile_reveil",
+							"nombre": 4,
+							"position": [
+								60,
+								-30
+							],
+							"rayon": 5,
+							"attaque": true
+						}
+					]
+				},
+				{
+					"objectif": "Les arbalétriers d'argile couvrent la retraite : brise-les",
+					"annonce": "Une volée de carreaux siffle au-dessus de la fosse !",
+					"vagues": [
+						{
+							"type": "arbaletrier_argile_reveil",
+							"nombre": 4,
+							"position": [
+								40,
+								-36
+							],
+							"rayon": 5,
+							"attaque": true
+						}
+					]
+				},
+				{
+					"objectif": "Renverse le général d'argile qui les commande",
+					"annonce": "Le général d'argile se dresse, et toute l'armée tourne la tête vers toi.",
+					"vagues": [
+						{
+							"type": "general_argile_reveil",
+							"nombre": 1,
+							"position": [
+								42,
+								-30
+							],
+							"rayon": 2,
+							"attaque": true
+						}
+					]
+				}
+			],
+			"echec": "Les soldats d'argile sont retournés dans leur fosse d'eux-mêmes, en laissant derrière eux un village vide.",
+			"reussite": "Le général se fend en deux. Les soldats s'arrêtent net, et retombent en poussière dans leurs rangs.",
+			"recompenses": {
+				"or": [
+					{
+						"id": "cuirasse_lamelles",
+						"nom": "Cuirasse de lamelles du mont Li",
+						"chance": 0.25
+					},
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclats de fracture ×3",
+						"n": 3
+					},
+					{
+						"id": "eclat_terre_cuite",
+						"nom": "Éclat de soldat de terre cuite ×2",
+						"n": 2
+					}
+				],
+				"argent": [
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclats de fracture ×2",
+						"n": 2
+					},
+					{
+						"id": "eclat_terre_cuite",
+						"nom": "Éclat de soldat de terre cuite",
+						"n": 1
+					}
+				],
+				"bronze": [
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclat de fracture",
+						"n": 1
+					}
+				]
+			},
+			"stabilite": 7
+		},
+		{
+			"id": "chasse_imperiale",
+			"titre": "La chasse impériale",
+			"zone": "fleuve_jaune",
+			"apres": "lao_fan_est",
+			"intervalle": 10800,
+			"duree": 480,
+			"position": [
+				-110,
+				60
+			],
+			"annonce": "Un tigre fracturé géant ravage les champs de lœss ! Les veneurs de l'empereur appellent tous les chasseurs.",
+			"objets": [
+				{
+					"id": "filet_chasse_0",
+					"groupe": "filet_chasse",
+					"forme": "filet",
+					"position": [
+						-150,
+						48
+					],
+					"invite": "[F] Tendre le filet"
+				},
+				{
+					"id": "filet_chasse_1",
+					"groupe": "filet_chasse",
+					"forme": "filet",
+					"position": [
+						-120,
+						92
+					],
+					"invite": "[F] Tendre le filet"
+				},
+				{
+					"id": "filet_chasse_2",
+					"groupe": "filet_chasse",
+					"forme": "filet",
+					"position": [
+						-84,
+						60
+					],
+					"invite": "[F] Tendre le filet"
+				}
+			],
+			"phases": [
+				{
+					"objectif": "Chasse les loups fracturés qui rabattent le gibier vers le village",
+					"vagues": [
+						{
+							"type": "loup_fracture_chasse",
+							"nombre": 3,
+							"position": [
+								-140,
+								60
+							],
+							"rayon": 5,
+							"attaque": true
+						},
+						{
+							"type": "loup_fracture_chasse",
+							"nombre": 3,
+							"position": [
+								-90,
+								80
+							],
+							"rayon": 5,
+							"attaque": true
+						}
+					]
+				},
+				{
+					"objectif": "Tends les 3 filets de battue autour des champs",
+					"annonce": "Le tigre est dans le millet : refermez le cercle !",
+					"recolter": "filet_chasse",
+					"nombre": 3,
+					"duree": 2.0,
+					"action": "Tu plantes les piquets et tu tends le filet…"
+				},
+				{
+					"objectif": "Abats le tigre fracturé géant",
+					"annonce": "Le tigre géant bondit hors du millet !",
+					"vagues": [
+						{
+							"type": "tigre_geant_fracture",
+							"nombre": 1,
+							"position": [
+								-116,
+								66
+							],
+							"rayon": 2,
+							"attaque": true
+						}
+					]
+				}
+			],
+			"echec": "Le tigre géant a disparu dans les ravins de lœss. On l'entend encore rugir la nuit.",
+			"reussite": "Le grand tigre s'effondre. Le maître veneur te tend la bride d'un cheval céleste : « L'empereur récompense ceux qui chassent pour lui. »",
+			"recompenses": {
+				"or": [
+					{
+						"id": "bride_cheval_celeste",
+						"nom": "Bride du cheval céleste",
+						"chance": 0.2
+					},
+					{
+						"id": "griffe_tigre",
+						"nom": "Griffes de tigre ×2",
+						"n": 2
+					},
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclats de fracture ×3",
+						"n": 3
+					}
+				],
+				"argent": [
+					{
+						"id": "griffe_tigre",
+						"nom": "Griffe de tigre",
+						"n": 1
+					},
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclats de fracture ×2",
+						"n": 2
+					}
+				],
+				"bronze": [
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclat de fracture",
+						"n": 1
+					}
+				]
+			},
+			"stabilite": 7
+		}
+	]
+}
