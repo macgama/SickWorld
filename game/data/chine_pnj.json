@@ -173,5 +173,164 @@
 		"repliques": [
 			"..."
 		]
+	},
+	"mei": {
+		"nom": "Mei",
+		"role": "Éleveuse de vers à soie",
+		"modele": "femme",
+		"habit": "peplos_himation",
+		"taille_cm": 158,
+		"peau": "#d8b48e",
+		"habits": "#6a3a3a",
+		"repliques": [
+			"Les vers ne mangent que des feuilles de mûrier. Au printemps, il faut cueillir jour et nuit. En hiver, on attend, et on prie pour les œufs.",
+			"Ma grand-mère disait que l'impératrice Leizu a découvert la soie quand un cocon est tombé dans son thé. Moi, je crois surtout qu'elle avait beaucoup de patience."
+		]
+	},
+	"villageois_loess_1": {
+		"nom": "Vieux Zhang",
+		"role": "Villageois",
+		"modele": "homme",
+		"habit": "chiton_himation",
+		"taille_cm": 164,
+		"peau": "#c89c78",
+		"habits": "#4a4030",
+		"repliques": [
+			"Une grotte, c'est chaud l'hiver et frais l'été. Mon grand-père l'a creusée de ses mains. Mon petit-fils y vivra encore."
+		]
+	},
+	"villageois_loess_2": {
+		"nom": "Dame Liu",
+		"role": "Villageoise",
+		"modele": "femme",
+		"habit": "peplos",
+		"taille_cm": 156,
+		"peau": "#d0aa84",
+		"habits": "#3a4a5a",
+		"repliques": [
+			"Le millet est rentré, les jarres sont pleines. Si seulement ces sangliers pouvaient nous laisser tranquilles."
+		]
+	},
+	"villageois_loess_3": {
+		"nom": "Petit Hu",
+		"role": "Fils de paysan",
+		"modele": "homme",
+		"habit": "chiton_court",
+		"taille_cm": 140,
+		"peau": "#d4ae88",
+		"habits": "#5a4a2a",
+		"repliques": [
+			"Tu viens de l'ouest ? Il paraît qu'il y a des chevaux qui suent du sang, là-bas. C'est vrai ?"
+		]
+	},
+	"lao_fan": {
+		"nom": "Lao Fan",
+		"role": "Maître papetier",
+		"modele": "homme",
+		"habit": "chiton_himation",
+		"taille_cm": 166,
+		"peau": "#c8a07a",
+		"habits": "#3a3a3a",
+		"repliques": [
+			"Pile, trempe, tamise, colle au mur. Pile, trempe, tamise, colle au mur. Trente ans que je fais ça, et chaque feuille est encore une petite surprise.",
+			"Les bambous, c'est lourd. La soie, c'est cher. Mais un vieux filet de pêche, ça ne coûte rien à personne."
+		]
+	},
+	"lao_fan_bac": {
+		"nom": "Lao Fan",
+		"role": "Maître papetier",
+		"modele": "homme",
+		"habit": "chiton_himation",
+		"taille_cm": 166,
+		"peau": "#c8a07a",
+		"habits": "#3a3a3a",
+		"repliques": [
+			"Je serre ma rame de papier contre moi comme un nouveau-né. Le bac part quand tu veux."
+		]
+	},
+	"lao_fan_est": {
+		"nom": "Lao Fan",
+		"role": "Maître papetier",
+		"modele": "homme",
+		"habit": "chiton_himation",
+		"taille_cm": 166,
+		"peau": "#c8a07a",
+		"habits": "#3a3a3a",
+		"repliques": [
+			"Luoyang est à l'est, au bout de cette route. Une ville si grande qu'on s'y perd en sortant de chez soi."
+		]
+	},
+	"papetier_1": {
+		"nom": "Ah Si",
+		"role": "Ouvrier papetier",
+		"modele": "homme",
+		"habit": "chiton_court",
+		"taille_cm": 168,
+		"peau": "#c49a72",
+		"habits": "#5a5040",
+		"repliques": [
+			"Il tamise une feuille dans la cuve, la retourne d'un geste sec sur la pile, et recommence. Il ne lève pas les yeux."
+		]
+	},
+	"papetier_2": {
+		"nom": "Xiao Mei",
+		"role": "Ouvrière papetière",
+		"modele": "femme",
+		"habit": "peplos",
+		"taille_cm": 154,
+		"peau": "#d2ac86",
+		"habits": "#4a5a4a",
+		"repliques": [
+			"On colle les feuilles mouillées sur le mur chaud. Quand elles tombent toutes seules, c'est qu'elles sont prêtes."
+		]
+	},
+	"papetier_3": {
+		"nom": "Gros Wu",
+		"role": "Pileur d'écorce",
+		"modele": "homme",
+		"habit": "exomis",
+		"taille_cm": 176,
+		"peau": "#bc9268",
+		"habits": "#4a3a2a",
+		"repliques": [
+			"Pied gauche, pied droit, et le pilon retombe. Pied gauche, pied droit. Toute la journée. J'ai les mollets d'un cheval."
+		]
+	},
+	"vieux_bo": {
+		"nom": "Le vieux Bo",
+		"role": "Passeur du Fleuve Jaune",
+		"modele": "homme",
+		"habit": "exomis",
+		"taille_cm": 162,
+		"peau": "#b88a60",
+		"habits": "#3a3a2a",
+		"repliques": [
+			"Le fleuve change de lit comme d'autres changent de chemise. Mon père passait ici. Mon grand-père passait trois lis plus au nord.",
+			"On l'appelle « le Fleuve », tout court. Il n'y en a qu'un."
+		]
+	},
+	"batelier_est": {
+		"nom": "Fils de Bo",
+		"role": "Passeur",
+		"modele": "homme",
+		"habit": "chiton_court",
+		"taille_cm": 170,
+		"peau": "#bc8e64",
+		"habits": "#4a4030",
+		"repliques": [
+			"Mon père passe les voyageurs à l'ouest, moi à l'est. On se fait signe au milieu."
+		]
+	},
+	"maitre_relais": {
+		"nom": "Maître Qiu",
+		"role": "Maître du relais du bac",
+		"modele": "homme",
+		"habit": "chiton_himation",
+		"taille_cm": 168,
+		"peau": "#c8a07a",
+		"habits": "#5a2a2a",
+		"repliques": [
+			"Un relais tous les trente lis, des chevaux frais, un lit et une soupe. C'est ainsi que les ordres de l'empereur traversent l'empire en quelques jours."
+		]
 	}
 }

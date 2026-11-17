@@ -8,6 +8,14 @@
 				"sous_titre": "Chine · l'empire des Han, hiver 105 apr. J.-C.",
 				"texte": "Le portail se referme dans un claquement de vent. Du sable fin te pique les joues. Devant toi, une tour de terre écroulée, un petit feu, et un homme assis qui ne lève même pas les yeux. Au nord, un long mur de terre file d'un bout à l'autre de l'horizon."
 			}
+		},
+		"fleuve_jaune": {
+			"scene": "res://scenes/monde/chine/fleuve_jaune.tscn",
+			"arrivee": {
+				"titre": "Le Fleuve Jaune et les terres de lœss",
+				"sous_titre": "Chine · au cœur de l'empire des Han",
+				"texte": "La route quitte le désert et la terre change de couleur d'un coup : jaune, fine comme de la farine, taillée en marches géantes jusqu'en haut des collines. Dans la falaise, des portes rondes, des fenêtres de papier. Et loin à l'est, un fleuve si large et si boueux qu'on dirait de la terre qui coule."
+			}
 		}
 	},
 	"camps": {
@@ -82,6 +90,89 @@
 					-44
 				],
 				"nombre": 2,
+				"rayon": 4
+			}
+		],
+		"fleuve_jaune": [
+			{
+				"type": "sanglier_fracture_loess",
+				"position": [
+					-90,
+					-100
+				],
+				"nombre": 3,
+				"rayon": 6
+			},
+			{
+				"type": "sanglier_fracture_loess",
+				"position": [
+					-20,
+					-120
+				],
+				"nombre": 3,
+				"rayon": 6
+			},
+			{
+				"type": "sanglier_fracture_loess",
+				"position": [
+					40,
+					-70
+				],
+				"nombre": 2,
+				"rayon": 5
+			},
+			{
+				"type": "loup_fracture_loess",
+				"position": [
+					-140,
+					130
+				],
+				"nombre": 3,
+				"rayon": 5
+			},
+			{
+				"type": "loup_fracture_loess",
+				"position": [
+					-60,
+					140
+				],
+				"nombre": 3,
+				"rayon": 5
+			},
+			{
+				"type": "pillard_loess",
+				"position": [
+					-10,
+					110
+				],
+				"nombre": 2,
+				"rayon": 4
+			},
+			{
+				"type": "pillard_loess",
+				"position": [
+					60,
+					-30
+				],
+				"nombre": 2,
+				"rayon": 4
+			},
+			{
+				"type": "pirate_fleuve",
+				"position": [
+					160,
+					-60
+				],
+				"nombre": 2,
+				"rayon": 4
+			},
+			{
+				"type": "pirate_fleuve",
+				"position": [
+					160,
+					80
+				],
+				"nombre": 3,
 				"rayon": 4
 			}
 		]
@@ -533,12 +624,306 @@
 					"fin_chapitre": true
 				}
 			]
+		},
+		{
+			"numero": 3,
+			"titre": "La soie et le fleuve",
+			"ou": "fleuve_jaune",
+			"etapes": [
+				{
+					"id": "vers_fleuve",
+					"ou": "porte_de_jade",
+					"objectif": "Prends la route de la soie vers l'est, au-delà du relais : les terres de lœss et le Fleuve Jaune",
+					"arriver": "fleuve_jaune"
+				},
+				{
+					"id": "rencontre_mei",
+					"objectif": "Une fumée violette sort d'une maison-grotte, au pied de la falaise, au nord de la route : va voir",
+					"pnj": "mei",
+					"repliques": [
+						"Toi ! Tu as l'air de savoir te battre, et moi je ne sais plus quoi faire. Aide-moi, je t'en prie !",
+						"Je m'appelle Mei. Là, dans la grotte, ce sont mes vers à soie. Enfin, leurs œufs : en hiver, ils dorment sur des feuilles de papier, au frais, jusqu'au printemps.",
+						"Ce matin, la grotte s'est mise à fumer. Un feu froid, violet, qui ne brûle rien et qui pourtant tue tout. On a sorti les claies dehors, mais les feuilles deviennent grises.",
+						"Si les œufs meurent, il n'y aura pas de soie au printemps. Pas de soie, pas d'impôt payé. Pas d'impôt, et on nous prend les champs. Sauve ce que tu peux !"
+					]
+				},
+				{
+					"id": "oeufs",
+					"objectif": "Sauve les œufs de vers à soie : secoue la cendre violette des quatre claies, devant la grotte de Mei (F, reste immobile)",
+					"recolter": "carte_oeufs",
+					"nombre": 4,
+					"duree": 2,
+					"action": "Tu secoues doucement la cendre violette des feuilles…",
+					"apres": [
+						{
+							"cacher": "oeufs_0"
+						},
+						{
+							"cacher": "oeufs_1"
+						},
+						{
+							"cacher": "oeufs_2"
+						},
+						{
+							"cacher": "oeufs_3"
+						},
+						{
+							"masquer": "fumee_magnanerie"
+						}
+					],
+					"recit": {
+						"titre": "Les œufs sont sauvés",
+						"texte": "Sous la cendre, les feuilles retrouvent leur couleur de miel. Des milliers de petits points sombres, serrés comme des graines de sésame : les œufs. Ils dorment encore. Dans la grotte, la fumée violette s'est éteinte d'un coup, comme si quelqu'un avait soufflé dessus."
+					}
+				},
+				{
+					"id": "sangliers",
+					"objectif": "Des sangliers fracturés saccagent les mûriers, au sud de la cour : chasse-les",
+					"tuer": "sanglier_fracture_champs",
+					"nombre": 4,
+					"lieu": [
+						-30,
+						-24
+					],
+					"apparition": {
+						"type": "sanglier_fracture_champs",
+						"position": [
+							-30,
+							-24
+						],
+						"nombre": 4,
+						"rayon": 5,
+						"attaque": true
+					}
+				},
+				{
+					"id": "mei_papetiers",
+					"objectif": "Retourne voir Mei, dans la cour des maisons-grottes",
+					"pnj": "mei",
+					"repliques": [
+						"Merci. Les vers t'en remercient aussi, même s'ils ne le savent pas encore.",
+						"Regarde ces feuilles. Ce n'est pas de la soie, ni du bambou : c'est du papier. On le fait au village des papetiers, de l'autre côté de la route. Le vieux Lao Fan nous les vend pour les œufs.",
+						"Mais regarde là-bas, au sud... Cette fumée noire. C'est chez eux. Vas-y, vite ! Lao Fan est comme un oncle pour moi."
+					]
+				},
+				{
+					"id": "brigands",
+					"objectif": "Le village des papetiers, au sud de la route, est attaqué par des brigands fracturés : chasse-les",
+					"tuer": "pillard_loess_village",
+					"nombre": 5,
+					"lieu": [
+						27,
+						56
+					],
+					"apparition": {
+						"type": "pillard_loess_village",
+						"position": [
+							27,
+							56
+						],
+						"nombre": 5,
+						"rayon": 5,
+						"attaque": true
+					},
+					"apres": [
+						{
+							"masquer": "incendie_papetiers"
+						}
+					],
+					"recit": {
+						"titre": "Le village des papetiers",
+						"texte": "Le dernier brigand s'enfuit en lâchant sa torche dans une cuve de pâte, où elle s'éteint dans un sifflement. Ils n'ont rien volé : ni l'argent, ni les outils, ni le chanvre. Ils voulaient seulement brûler. Brûler le papier."
+					}
+				},
+				{
+					"id": "lao_fan",
+					"objectif": "Parle au vieux papetier, au milieu de la cour du village",
+					"pnj": "lao_fan",
+					"repliques": [
+						"Mei t'envoie ? Cette petite... Elle a toujours su choisir ses amis. Moi, c'est Lao Fan. Je fais du papier depuis trente ans.",
+						"Tu vois ces cuves ? Dedans, de l'écorce de mûrier, du chanvre, des vieux chiffons, et même des filets de pêche usés. On pile tout, on fait bouillir, on tamise. Et on obtient ça : une feuille. Légère, douce, et presque gratuite.",
+						"Le grand Cai Lun, l'intendant du palais, m'a commandé cent feuilles parfaites. Pour la grande audience du Nouvel An, devant l'empereur. Il veut montrer à toute la cour qu'on peut écrire sans bambou ni soie.",
+						"Ces brigands le savaient. Ils ne cherchaient qu'à brûler les séchoirs. Et regarde : les feuilles qui sèchent sur les murs commencent à fumer violet, comme les œufs de Mei. Aide-moi à les décoller avant qu'elles ne partent en cendres !"
+					]
+				},
+				{
+					"id": "feuilles",
+					"objectif": "Décolle les cinq dernières feuilles des séchoirs avant qu'elles ne brûlent (F)",
+					"recolter": "feuille_papier",
+					"nombre": 5,
+					"duree": 1.2,
+					"action": "Tu décolles la feuille du mur, tout doucement…",
+					"apres": [
+						{
+							"cacher": "feuille_0"
+						},
+						{
+							"cacher": "feuille_1"
+						},
+						{
+							"cacher": "feuille_2"
+						},
+						{
+							"cacher": "feuille_3"
+						},
+						{
+							"cacher": "feuille_4"
+						}
+					],
+					"recit": {
+						"titre": "Le compte est bon",
+						"texte": "Lao Fan compte et recompte, les lèvres serrées. « Quatre-vingt-quinze, quatre-vingt-seize... cent. Cent feuilles. » Il éclate de rire. Puis il se tait : au sud, vers le fleuve, une lueur violette palpite dans les broussailles, et quelque chose de très gros grogne."
+					}
+				},
+				{
+					"id": "solitaire",
+					"objectif": "Au sud du village, près du fleuve : abats le Grand Solitaire, l'énorme sanglier fracturé qui garde la faille",
+					"tuer": "sanglier_geant_loess",
+					"nombre": 1,
+					"lieu": [
+						48,
+						110
+					],
+					"apparition": {
+						"type": "sanglier_geant_loess",
+						"position": [
+							48,
+							110
+						],
+						"nombre": 1,
+						"rayon": 1,
+						"attaque": false
+					},
+					"recit": {
+						"titre": "Le Grand Solitaire",
+						"texte": "Le sanglier s'abat dans un nuage de poussière jaune. Sur son dos, des éclats violets s'éteignent un à un, comme des braises sous la pluie. Derrière lui, la faille bat comme un cœur."
+					}
+				},
+				{
+					"id": "faille",
+					"objectif": "Referme la faille, au sud du village des papetiers (reste immobile)",
+					"objet": "faille_loess",
+					"duree": 5,
+					"action": "Fermeture de la faille…",
+					"apparition": {
+						"type": "loup_fracture_faille_loess",
+						"position": [
+							62,
+							112
+						],
+						"nombre": 3,
+						"rayon": 3,
+						"attaque": false
+					},
+					"apres": [
+						{
+							"cacher": "faille_loess"
+						}
+					],
+					"recit": {
+						"titre": "Des cendres de papier",
+						"texte": "La faille se referme. Autour d'elle, l'herbe sèche est couverte de petits flocons gris. Tu en prends un entre tes doigts : ce n'est pas de la neige. C'est de la cendre de papier, et on y devine encore la trace d'un caractère : 書, « livre »."
+					}
+				},
+				{
+					"id": "lao_fan_bac",
+					"objectif": "Retourne voir Lao Fan au village des papetiers",
+					"pnj": "lao_fan",
+					"repliques": [
+						"Des cendres de papier... et ce caractère. Quelqu'un ne veut pas que Cai Lun présente son papier. Quelqu'un veut que les livres brûlent, comme au temps du Premier Empereur.",
+						"Alors il faut que ces cent feuilles arrivent à Luoyang. Je les porterai moi-même. Mais il faut passer le Fleuve Jaune, et seul, avec ces brigands partout... Viens avec moi.",
+						"Le vieux Bo nous passera sur son grand bac, à l'est, au bout de la route. Je te retrouve là-bas."
+					],
+					"apres": [
+						{
+							"masquer": "lao_fan"
+						},
+						{
+							"montrer": "lao_fan_bac"
+						}
+					]
+				},
+				{
+					"id": "embarquer",
+					"objectif": "Rejoins Lao Fan au bac, au bout de la route, et monte sur le grand bac du vieux Bo",
+					"objet": "monter_bac",
+					"apres": [
+						{
+							"masquer": "lao_fan_bac"
+						},
+						{
+							"appeler": "grand_bac",
+							"methode": "partir"
+						}
+					]
+				},
+				{
+					"id": "traversee",
+					"objectif": "Traverse le Fleuve Jaune sur le grand bac",
+					"zone": [
+						130,
+						12
+					],
+					"rayon": 10
+				},
+				{
+					"id": "pirates",
+					"objectif": "Des pirates du fleuve fracturés attendent le bac sur l'autre rive : défends Lao Fan et le vieux Bo",
+					"tuer": "pirate_fleuve_bac",
+					"nombre": 5,
+					"lieu": [
+						150,
+						16
+					],
+					"apparition": {
+						"type": "pirate_fleuve_bac",
+						"position": [
+							152,
+							18
+						],
+						"nombre": 5,
+						"rayon": 5,
+						"attaque": true
+					},
+					"apres": [
+						{
+							"montrer": "lao_fan_est"
+						}
+					],
+					"recit": {
+						"titre": "L'autre rive",
+						"texte": "Les pirates repartent en courant le long de la berge, et l'un d'eux se jette à l'eau plutôt que de se rendre. Lao Fan saute du bac, sa rame de papier serrée sur la poitrine, sèche. Pas une feuille n'a été mouillée."
+					}
+				},
+				{
+					"id": "lao_fan_est",
+					"objectif": "Parle à Lao Fan, devant le relais du bac",
+					"pnj": "lao_fan_est",
+					"repliques": [
+						"Je n'ai jamais eu aussi peur de ma vie. Et pourtant, j'ai l'impression de n'avoir jamais rien fait d'aussi important.",
+						"Écoute. Je suis vieux, et mes jambes ne valent plus rien. Toi, tu iras plus vite que moi. Porte cette rame à Cai Lun, au palais de Luoyang. Et remets aussi la lettre de Gan Ying à Ban Zhao.",
+						"Prends aussi mes gants. Ils ont touché plus de pâte de papier que tu ne verras jamais d'eau de pluie. Ils te porteront chance.",
+						"Luoyang est droit à l'est, au bout de cette route. Dis à Cai Lun que Lao Fan n'a jamais manqué une commande. Pas une seule."
+					],
+					"recompense": [
+						{
+							"id": "rame_lao_fan",
+							"nom": "Rame de papier de Lao Fan"
+						},
+						{
+							"id": "gants_papetier",
+							"nom": "Gants de papetier"
+						}
+					],
+					"fin_chapitre": true
+				}
+			]
 		}
 	],
 	"fin_provisoire": {
-		"chapitre": "Chapitre 3 : La soie et le fleuve",
-		"objectif": "La suite arrive bientôt : les terres de lœss et le Fleuve Jaune, à l'est de la Porte de Jade.",
+		"chapitre": "Chapitre 4 : Le cadeau de Cai Lun",
+		"objectif": "La suite arrive bientôt : Luoyang, la capitale des Han, au bout de la route de l'est.",
 		"titre": "Le papier et la flamme",
-		"message": "À la Porte de Jade, les fanaux brûlent et les Figés ont retrouvé la mémoire. Mais à l'est, quelqu'un fait brûler les livres."
+		"message": "Les cent feuilles de Lao Fan ont passé le Fleuve Jaune. Mais quelqu'un, quelque part, veut que les livres brûlent."
 	}
 }

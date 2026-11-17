@@ -280,7 +280,7 @@ func _lancer() -> void:
 	await _parler("GanYing")
 	if inventaire != null and inventaire.has_method("quantite"):
 		_verifier(inventaire.quantite("lettre_gan_ying") >= 1, "la lettre de Gan Ying pour Ban Zhao est dans le sac")
-	_verifier(_quete.etape < 0, "chapitres 1 et 2 terminés (étape %d)" % _quete.etape)
+	_verifier(_id_etape() == "vers_fleuve", "chapitres 1 et 2 terminés, le chapitre 3 commence (%s)" % _id_etape())
 	await _attendre(30)
 	_verifier(_scene._est_ouvert, "la route de l'est s'ouvre")
 
@@ -294,7 +294,7 @@ func _lancer() -> void:
 	await _attendre(5)
 	await _charger()
 	await _attendre(20)
-	_verifier(_quete.etape < 0, "au retour, la quête est toujours finie (%d)" % _quete.etape)
+	_verifier(_id_etape() == "vers_fleuve", "au retour, on en est toujours à la route de l'est (%s)" % _id_etape())
 	_verifier(_scene.find_child("Faille", true, false).fermee, "la faille est toujours fermée")
 	_verifier(not _scene.find_child("FigeMarchand", true, false).fige, "le marchand n'est plus figé")
 	var fanal_recharge: Node3D = _scene.find_child("Fanal1", true, false)
@@ -302,6 +302,12 @@ func _lancer() -> void:
 	_verifier(_scene.find_child("FanauxLointains", true, false).visible, "et ceux du bout de la muraille aussi")
 	var c2: Node3D = _scene.find_child("CaravaneSoie", true, false)
 	_verifier(Vector2(c2.global_position.x, c2.global_position.z).distance_to(Vector2(70, 12)) < 1.0, "la caravane est toujours au relais")
+
+	# La route de l'est mène au Fleuve Jaune.
+	var est: Vector2 = _scene.SORTIE_EST
+	await _placer(Vector3(est.x - 3.0, _scene.hauteur(est.x - 3.0, est.y) + 0.4, est.y), -PI / 2)
+	await _attendre(70)
+	_verifier(_quete.zone_demandee == "fleuve_jaune", "au bout de la route, on part vers le Fleuve Jaune (%s)" % _quete.zone_demandee)
 
 	# Retour au hub par le portail (après s'en être éloigné).
 	await _placer(Vector3(-70, _scene.hauteur(-70, 50) + 0.3, 50), 0.0)

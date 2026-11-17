@@ -1,6 +1,6 @@
-# Visiter la Chine des Han : la Porte de Jade
+# Visiter la Chine des Han : la Porte de Jade et le Fleuve Jaune
 
-La première zone de l'île de la Chine est jouable : **la Porte de Jade** (niveaux 40 à 42). Nous sommes à l'hiver de l'an 105 après J.-C., sous l'empereur He de la dynastie Han, l'année où Cai Lun invente le papier. C'est là que mène le portail **Chine des Han** du QG de la Vigie (le cinquième en partant de la gauche). La conception de toute l'île est dans [ILE-5-CHINE.md](../ILE-5-CHINE.md).
+Deux zones de l'île de la Chine sont jouables : **la Porte de Jade** (niveaux 40 à 42) et **le Fleuve Jaune et les terres de lœss** (niveaux 42 à 45). Nous sommes à l'hiver de l'an 105 après J.-C., sous l'empereur He de la dynastie Han, l'année où Cai Lun invente le papier. C'est là que mène le portail **Chine des Han** du QG de la Vigie (le cinquième en partant de la gauche). La conception de toute l'île est dans [ILE-5-CHINE.md](../ILE-5-CHINE.md).
 
 On y trouve :
 
@@ -21,7 +21,7 @@ Tout est fabriqué par le code. Les chameaux sont pour l'instant des décors en 
 1. Dans GitHub Desktop, sur la branche **main** : **Fetch origin** puis **Pull origin** (Claude le fait pour toi quand il le peut).
 2. **Ferme Godot et rouvre-le** s'il était ouvert pendant la mise à jour.
 3. **Par le jeu** : F5, **Jouer seul**, puis au QG de la Vigie, traverse le portail **Chine des Han**.
-4. **Directement** : double-clique sur `scenes/monde/chine/porte_de_jade.tscn` puis **F6**.
+4. **Directement** : double-clique sur `scenes/monde/chine/porte_de_jade.tscn` (ou `fleuve_jaune.tscn`) puis **F6**.
 
 Pour revenir à Hikari Bay : éloigne-toi un peu du portail, puis retraverse-le.
 
@@ -45,7 +45,32 @@ Pour revenir à Hikari Bay : éloigne-toi un peu du portail, puis retraverse-le.
 5. Au bord du **lac salé**, abattre **le chef des pillards fracturés** (un ennemi d'élite), puis **refermer la faille**.
 6. Retourner voir Ban Yong (récompense : **l'épée de Ban Chao** et un manteau de la frontière), puis montrer le sceau du chef à Gan Ying. Il te donne **une lettre pour l'historienne Ban Zhao**, à Luoyang.
 
-La suite (les terres de lœss et le Fleuve Jaune) arrive bientôt : la route de l'est s'ouvre à la fin du chapitre 2.
+À la fin du chapitre 2, la route de l'est s'ouvre : suis-la jusqu'au bout pour arriver au Fleuve Jaune.
+
+## La zone 2 : le Fleuve Jaune et les terres de lœss
+
+On y arrive par la route de l'ouest (on y repart de la même façon). On y trouve :
+
+- **la falaise de lœss**, la terre jaune et fine apportée par le vent, avec au-dessus **les terrasses** qui montent marche après marche, saupoudrées de neige ;
+- au pied de la falaise, **le village des maisons-grottes** (« yaodong ») : des portes en arc creusées dans la terre, fermées par des fenêtres de papier ; la ferme de vers à soie de **Mei** et ses **mûriers taillés**, nus en hiver ;
+- au sud de la route, **les champs de millet** moissonnés et leurs meules de tiges ;
+- **le village des papetiers** de Lao Fan : les cuves de pâte, le pilon à bascule, l'écorce de mûrier qui trempe, les chiffons, et les murs où sèchent les feuilles de papier ;
+- à l'est, **le Fleuve Jaune**, large, boueux, qui charrie des glaçons ; on le passe sur **le grand bac** du vieux Bo ;
+- sur l'autre rive, **le relais du bac** et la route de Luoyang.
+
+## Le chapitre 3 : « La soie et le fleuve »
+
+1. Suivre la route de l'est depuis la Porte de Jade.
+2. Une fumée violette sort d'une maison-grotte : parler à **Mei**. Ses œufs de vers à soie (qui dorment sur des feuilles de papier tout l'hiver) sont en train de mourir.
+3. **Sauver les œufs** : secouer la cendre violette des quatre claies, devant sa grotte (F, reste immobile).
+4. Chasser **les sangliers fracturés** qui saccagent les mûriers, puis revoir Mei.
+5. Le village des papetiers brûle : chasser **les brigands fracturés**.
+6. Parler à **Lao Fan** : il fabrique le papier pour **Cai Lun**, qui doit le présenter à l'empereur au Nouvel An. **Décoller les cinq dernières feuilles** des séchoirs avant qu'elles ne brûlent.
+7. Au sud, près du fleuve, abattre **le Grand Solitaire** (un énorme sanglier, ennemi d'élite), puis **refermer la faille**.
+8. Retrouver Lao Fan au bac, au bout de la route, et **monter sur le grand bac** (F) : il traverse le Fleuve Jaune tout seul, tu es à bord.
+9. Sur l'autre rive, chasser **les pirates du fleuve**, puis parler à Lao Fan : il te confie **sa rame de papier** pour Cai Lun, et ses **gants de papetier**.
+
+Ensuite, pour repasser le fleuve dans un sens ou dans l'autre, il y a **un passeur** sur chaque rive (F). La suite (Luoyang, la capitale) arrive bientôt.
 
 ## Les ennemis
 
@@ -54,6 +79,11 @@ La suite (les terres de lœss et le Fleuve Jaune) arrive bientôt : la route de 
 | Loup du désert fracturé | 40 | Dans les dunes, au nord de la muraille, et au sud-ouest |
 | Pillard du désert fracturé | 41 | Autour de la route et du désert de gravier |
 | Chef des pillards fracturé (élite) | 42 | Au bord du lac salé (chapitre 2) |
+| Sanglier des terres jaunes fracturé | 42 | Sur les terrasses, au nord |
+| Loup des terres jaunes fracturé | 43 | Au sud-ouest |
+| Brigand des terres jaunes fracturé | 43 | Au sud et au nord-est |
+| Grand Solitaire fracturé (élite) | 44 | Au sud du village des papetiers (chapitre 3) |
+| Pirate du Fleuve Jaune fracturé | 45 | Sur la rive est |
 
 ## Pour changer des choses (sans coder)
 
