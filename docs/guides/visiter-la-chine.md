@@ -90,7 +90,21 @@ On entre par **la porte de l'Ouest**, gardée par deux soldats. Derrière, une g
 3. **Lire le manuscrit** du Livre des Han : dans la marge, des notes en français, signées de l'Éditeur.
 4. Ban Zhao donne **une copie de la page** et un portail de la Vigie s'ouvre au fond de la cour. Au QG, la mission **« La charte de fondation »** se lance : Morel, puis Odile aux archives, puis Morel.
 
-La suite (le mont Li et l'armée d'argile) arrive bientôt.
+## Zone 4 : le mont Li, la nuit
+
+On y va en **char de poste** : il attend derrière la porte de l'Ouest de Luoyang (F), et un autre char ramène à Luoyang. Il fait nuit. À l'est, **le hameau de Lishan** et son puits ; au centre, **la grande fosse** (des couloirs de terre pleins de soldats de terre cuite en rangs, on y descend par une rampe à l'est) et **la fosse des chevaux** ; à l'ouest, **la colline du tombeau**, carrée et couverte de pins, avec **l'entrée** creusée au pied sud ; au nord-est, **le camp des fouilleurs** ; au sud-ouest, **la forêt de bambous**.
+
+### Chapitre 6 : L'armée d'argile
+
+1. À Luoyang, **Ban Zhao** parle du mont Li : prendre **le char de poste**.
+2. Parler au **paysan du puits**, puis à **Masque** au bord de la route (il est allié ou méfiant, selon ta réponse au chapitre 1).
+3. Dans la grande fosse, briser **six soldats de terre cuite**, puis **le général d'argile** (élite).
+4. Refermer **la faille** de la fosse des chevaux, chasser **les fouilleurs** du camp et lire **le plan du tombeau**.
+5. Parler à **Vera** (en vrai, cette fois), puis à **Cinabre**, devant l'entrée du tombeau, et **lui répondre** (deux réponses possibles).
+6. Dans les bambous, trouver **Bao, le bébé panda** : c'est un **compagnon** (à porter comme bijou), il te suit partout et couine quand un soldat d'argile approche.
+7. **Masque** garde l'entrée du tombeau et donne une **cuirasse de lamelles**.
+
+La suite (la grande audience du Nouvel An, à Luoyang) arrive bientôt.
 
 ## Les ennemis
 
@@ -109,6 +123,11 @@ La suite (le mont Li et l'armée d'argile) arrive bientôt.
 | Sanglier du parc impérial fracturé | 46 | Dans le parc impérial |
 | Tigre de l'empereur fracturé (élite) | 47 | Dans le parc impérial (chapitre 4) |
 | Manteau rouge de Cinabre | 47 | Au pavillon de l'Est (chapitre 5) |
+| Loup des monts Qinling fracturé | 47 | Dans les bambous du mont Li |
+| Soldat de terre cuite fracturé | 48 | Dans les fosses et devant le tombeau |
+| Arbalétrier de terre cuite fracturé | 48 | Autour des fosses |
+| Fouilleur de Cinabre | 48 | Au camp des fouilleurs |
+| Général d'argile fracturé (élite) | 49 | Dans la grande fosse (chapitre 6) |
 
 ## Pour changer des choses (sans coder)
 

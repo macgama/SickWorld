@@ -31,7 +31,7 @@ func _ready() -> void:
 	_joueur = get_parent() as Node3D
 	_construire()
 	if _joueur != null:
-		global_position = _joueur.global_position + (Vector3(0.6, 0, 1.1) if espece == "oie" else Vector3(0.2, 1.6, 0))
+		global_position = _joueur.global_position + (Vector3(0.6, 0, 1.1) if espece in ["oie", "panda"] else Vector3(0.2, 1.6, 0))
 		_derniere = _joueur.global_position
 
 
@@ -56,6 +56,9 @@ func _boule(parent: Node3D, rayon: float, haut: float, mat: Material, p: Vector3
 
 ## Une chevêche : 22 cm, brune tachetée de blanc, grosse tête ronde, yeux jaunes.
 func _construire() -> void:
+	if espece == "panda":
+		_construire_panda()
+		return
 	if espece == "oie":
 		_construire_oie()
 		return
@@ -181,6 +184,48 @@ func _construire_oie() -> void:
 		_boule(_tete, 0.009, 0.018, noir, Vector3(c * 0.04, 0.015, -0.025))
 
 
+## Un bébé panda des monts Qinling : une boule de poils noire et blanche de 40 cm, qui
+## trottine à quatre pattes en roulant des épaules. Il se dresse et couine quand un soldat
+## d'argile ou un homme de Cinabre approche.
+func _construire_panda() -> void:
+	var blanc := _mat(Color(0.93, 0.91, 0.86), 1.0)
+	var noir := _mat(Color(0.06, 0.055, 0.05), 1.0)
+	var luisant := _mat(Color(0.02, 0.02, 0.02), 0.2)
+	_corps = Node3D.new()
+	add_child(_corps)
+	var ventre := _boule(_corps, 0.2, 0.36, blanc, Vector3(0, 0.26, 0.04))
+	ventre.scale = Vector3(1.0, 0.95, 1.3)
+	var epaules := _boule(_corps, 0.17, 0.26, noir, Vector3(0, 0.3, -0.1))
+	epaules.scale = Vector3(1.15, 0.9, 0.7)
+	# Quatre pattes noires, courtes et rondes.
+	for k in 4:
+		var c := -1.0 if k % 2 == 0 else 1.0
+		var avant := k < 2
+		var pivot := Node3D.new()
+		pivot.position = Vector3(c * 0.11, 0.2, -0.14 if avant else 0.16)
+		_corps.add_child(pivot)
+		var patte := _boule(pivot, 0.07, 0.22, noir, Vector3(0, -0.1, 0))
+		patte.scale = Vector3(1.0, 1.0, 1.1)
+		_pattes.append(pivot)
+	_cou = Node3D.new()
+	_cou.position = Vector3(0, 0.36, -0.22)
+	_corps.add_child(_cou)
+	_tete = Node3D.new()
+	_tete.position = Vector3(0, 0.04, -0.06)
+	_cou.add_child(_tete)
+	var crane := _boule(_tete, 0.14, 0.24, blanc, Vector3.ZERO)
+	crane.scale = Vector3(1.1, 0.95, 1.0)
+	for c in [-1.0, 1.0]:
+		_boule(_tete, 0.05, 0.06, noir, Vector3(c * 0.1, 0.1, 0.02))
+		var tache := _boule(_tete, 0.04, 0.05, noir, Vector3(c * 0.055, 0.01, -0.11))
+		tache.scale = Vector3(0.8, 1.2, 0.5)
+		tache.rotation.z = c * 0.5
+		_boule(_tete, 0.012, 0.02, luisant, Vector3(c * 0.055, 0.015, -0.135))
+	var museau := _boule(_tete, 0.05, 0.07, blanc, Vector3(0, -0.04, -0.12))
+	museau.scale = Vector3(1.2, 0.8, 1.0)
+	_boule(_tete, 0.018, 0.022, luisant, Vector3(0, -0.02, -0.17))
+
+
 ## L'oie : elle trottine derrière soi, au sol, et crie quand un ennemi de Janus approche.
 func _suivre_au_sol(delta: float) -> void:
 	var derriere := _joueur.global_transform * Vector3(0.6, 0.0, 1.1)
@@ -215,7 +260,10 @@ func _suivre_au_sol(delta: float) -> void:
 func _danger_proche() -> bool:
 	for bete in get_tree().get_nodes_in_group("loups"):
 		var type := String(bete.get("type_ennemi"))
-		if not (type.begins_with("pretorien") or type.contains("effaceur") or type.begins_with("masque")):
+		var ennemi_du_compagnon := type.begins_with("pretorien") or type.contains("effaceur") or type.begins_with("masque")
+		if espece == "panda":
+			ennemi_du_compagnon = type.contains("argile") or type.contains("cinabre") or type.contains("effaceur")
+		if not ennemi_du_compagnon:
 			continue
 		var c = bete.get("combat")
 		if c != null and c.est_vivant() and (bete as Node3D).global_position.distance_to(_joueur.global_position) < 18.0:
@@ -249,7 +297,7 @@ func _process(delta: float) -> void:
 	var deplacement := _joueur.global_position - _derniere
 	_derniere = _joueur.global_position
 	_vitesse = lerpf(_vitesse, Vector2(deplacement.x, deplacement.z).length() / maxf(delta, 0.001), 0.1)
-	if espece == "oie":
+	if espece == "oie" or espece == "panda":
 		_suivre_au_sol(delta)
 		return
 	var combat = _joueur.get_node_or_null("Combat")

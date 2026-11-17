@@ -375,3 +375,58 @@ func cacher() -> void:
 		for pnj in get_tree().get_nodes_in_group("pnj"):
 			if pnj.get("identifiant") == get_meta("pnj_lie") and pnj.has_method("degeler"):
 				pnj.degeler()
+
+
+## Un bébé panda perdu dans les bambous, assis, qui serre une tige entre ses pattes.
+func _construire_panda() -> void:
+	var blanc := _mat_uni(Color(0.93, 0.91, 0.86), 1.0)
+	var noir := _mat_uni(Color(0.06, 0.055, 0.05), 1.0)
+	var luisant := _mat_uni(Color(0.02, 0.02, 0.02), 0.2)
+	var boule := func(rayon: float, haut: float, m: Material, p: Vector3, e := Vector3.ONE) -> void:
+		var s := SphereMesh.new()
+		s.radius = rayon
+		s.height = haut
+		var mi := _morceau(s, m, p)
+		mi.scale = e
+	boule.call(0.22, 0.42, blanc, Vector3(0, 0.22, 0), Vector3(1.0, 1.0, 0.9))
+	boule.call(0.16, 0.2, noir, Vector3(0, 0.36, 0.02), Vector3(1.3, 0.7, 0.9))
+	for c in [-1.0, 1.0]:
+		boule.call(0.08, 0.16, noir, Vector3(c * 0.15, 0.06, -0.12), Vector3(1.0, 0.7, 1.4))
+		boule.call(0.07, 0.18, noir, Vector3(c * 0.12, 0.28, -0.14), Vector3(1.0, 1.0, 1.0))
+		boule.call(0.05, 0.06, noir, Vector3(c * 0.1, 0.66, 0.0))
+		boule.call(0.04, 0.05, noir, Vector3(c * 0.055, 0.55, -0.12), Vector3(0.8, 1.2, 0.5))
+		boule.call(0.012, 0.02, luisant, Vector3(c * 0.055, 0.555, -0.145))
+	boule.call(0.15, 0.26, blanc, Vector3(0, 0.55, -0.02), Vector3(1.1, 0.95, 1.0))
+	boule.call(0.05, 0.07, blanc, Vector3(0, 0.5, -0.15), Vector3(1.2, 0.8, 1.0))
+	boule.call(0.018, 0.022, luisant, Vector3(0, 0.52, -0.2))
+	var tige := CylinderMesh.new()
+	tige.top_radius = 0.015
+	tige.bottom_radius = 0.018
+	tige.height = 0.7
+	_morceau(tige, _mat_uni(Color(0.5, 0.62, 0.26), 0.6), Vector3(0.05, 0.4, -0.2), Vector3(0.3, 0, -0.2))
+
+
+## Les plans de Cinabre : de grandes feuilles de papier moderne étalées sur une caisse,
+## un plan du tombeau tracé au feutre rouge, une lampe torche allumée posée dessus.
+func _construire_plans() -> void:
+	var caisse := BoxMesh.new()
+	caisse.size = Vector3(1.0, 0.7, 0.7)
+	_morceau(caisse, _mat_uni(Color(0.35, 0.26, 0.18), 0.9), Vector3(0, 0.35, 0))
+	var feuille := BoxMesh.new()
+	feuille.size = Vector3(0.84, 0.004, 0.6)
+	_morceau(feuille, _mat_uni(Color(0.95, 0.95, 0.93), 0.7), Vector3(0, 0.705, 0), Vector3(0, 0.08, 0))
+	var trait_rouge := BoxMesh.new()
+	trait_rouge.size = Vector3(0.5, 0.003, 0.012)
+	for k in 5:
+		_morceau(trait_rouge, _mat_uni(Color(0.8, 0.1, 0.08), 0.5), Vector3(-0.1 + k * 0.03, 0.709, -0.2 + k * 0.1), Vector3(0, k * 0.6, 0))
+	var lampe := CylinderMesh.new()
+	lampe.top_radius = 0.025
+	lampe.bottom_radius = 0.025
+	lampe.height = 0.22
+	_morceau(lampe, _mat_uni(Color(0.08, 0.08, 0.09), 0.3), Vector3(0.3, 0.73, 0.18), Vector3(0, 0, PI / 2))
+	var lumiere := OmniLight3D.new()
+	lumiere.light_color = Color(0.95, 0.95, 1.0)
+	lumiere.light_energy = 1.2
+	lumiere.omni_range = 3.0
+	lumiere.position = Vector3(0.1, 0.9, 0.18)
+	_visuel.add_child(lumiere)

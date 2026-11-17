@@ -17,6 +17,7 @@ extends "res://scripts/monde/chine/ile_chine.gd"
 const MarqueurCarte := preload("res://scripts/carte/marqueur_carte.gd")
 const ObjetChine := preload("res://scripts/monde/chine/objet_chine.gd")
 const Faille := preload("res://scripts/monde/prehistoire/faille.gd")
+const CharPoste := preload("res://scripts/monde/chine/char_poste.gd")
 
 const SOL := 3.0
 
@@ -65,6 +66,8 @@ const TIGRE := Vector2(-98, -110)
 ## L'Académie impériale et l'observatoire.
 const ACADEMIE := Rect2(70, -146, 60, 48)
 const LINGTAI := Vector2(112, -40)
+## Le char de poste vers le mont Li, juste derrière la porte de l'Ouest.
+const CHAR_POSTE := Vector2(-134, 11)
 
 var _portail_qg: Node3D
 var _incendie: Node3D
@@ -96,13 +99,19 @@ func _init() -> void:
 
 func _ready() -> void:
 	if not Engine.is_editor_hint() and Reseau.get_meta("arrivee_chine", "") != "":
+		var venu := String(Reseau.get_meta("arrivee_chine"))
 		Reseau.remove_meta("arrivee_chine")
+		# Retour du mont Li : on descend du char de poste, derrière la porte de l'Ouest.
+		if venu == "mont_li":
+			point_apparition = CHAR_POSTE + Vector2(3, 5)
 	super._ready()
 
 
 func sortie_vers(zone: String) -> Vector2:
 	if zone == "fleuve_jaune":
 		return ENTREE
+	if zone == "mont_li":
+		return CHAR_POSTE
 	return Vector2.INF
 
 
@@ -747,6 +756,15 @@ func _construire_quete() -> void:
 	# Les gardes de la porte ouest, et quelques passants.
 	_pnj(dossier, "garde_porte_1", PORTE_OUEST + Vector2(6, -6), PI / 2)
 	_pnj(dossier, "garde_porte_2", PORTE_OUEST + Vector2(6, 6), PI / 2)
+	# Le char de poste impérial, vers le mont Li (chapitre 6).
+	var char_poste := CharPoste.new()
+	char_poste.name = "CharPoste"
+	char_poste.destination = "mont_li"
+	char_poste.nom_destination = "le mont Li"
+	char_poste.condition = "vers_mont_li"
+	char_poste.position = Vector3(CHAR_POSTE.x, hauteur(CHAR_POSTE.x, CHAR_POSTE.y), CHAR_POSTE.y)
+	char_poste.rotation.y = PI / 2
+	dossier.add_child(char_poste)
 	# Repères de la carte.
 	var repere := func(type: int, texte: String, p: Vector2) -> void:
 		MarqueurCarte.creer(dossier, type, texte, Vector3(p.x, hauteur(p.x, p.y), p.y))
@@ -760,6 +778,7 @@ func _construire_quete() -> void:
 	repere.call(MarqueurCarte.Type.LIEU, "Académie impériale", ACADEMIE.get_center())
 	repere.call(MarqueurCarte.Type.LIEU, "Plate-forme des esprits", LINGTAI)
 	repere.call(MarqueurCarte.Type.LIEU, "Route du Fleuve Jaune", ENTREE)
+	repere.call(MarqueurCarte.Type.LIEU, "Char de poste (mont Li)", CHAR_POSTE)
 
 
 # --- La route de l'ouest et le portail ---------------------------------------------------------
