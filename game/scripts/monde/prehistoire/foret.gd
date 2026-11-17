@@ -421,19 +421,26 @@ func _construire_bouleaux() -> void:
 		corps.add_child(forme)
 		dossier.add_child(corps)
 		places += 1
+	# Par carrés de 45 m : la carte graphique ne dessine que les carrés visibles.
 	for k in modeles.size():
-		var liste: Array = par_modele[k]
-		if liste.is_empty():
-			continue
-		var multi := MultiMesh.new()
-		multi.transform_format = MultiMesh.TRANSFORM_3D
-		multi.mesh = modeles[k]
-		multi.instance_count = liste.size()
-		for i in liste.size():
-			multi.set_instance_transform(i, liste[i])
-		var instance := MultiMeshInstance3D.new()
-		instance.multimesh = multi
-		dossier.add_child(instance)
+		var carres := {}
+		for t in par_modele[k]:
+			var tr: Transform3D = t
+			var cle := Vector2i(floori(tr.origin.x / 45.0), floori(tr.origin.z / 45.0))
+			if not carres.has(cle):
+				carres[cle] = []
+			carres[cle].append(tr)
+		for cle in carres:
+			var liste: Array = carres[cle]
+			var multi := MultiMesh.new()
+			multi.transform_format = MultiMesh.TRANSFORM_3D
+			multi.mesh = modeles[k]
+			multi.instance_count = liste.size()
+			for i in liste.size():
+				multi.set_instance_transform(i, liste[i])
+			var instance := MultiMeshInstance3D.new()
+			instance.multimesh = multi
+			dossier.add_child(instance)
 
 
 ## Sous-bois : troncs tombés, souches, branches mortes et buissons.
