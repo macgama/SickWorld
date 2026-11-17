@@ -240,7 +240,8 @@
 		"modele": "femme",
 		"repliques": [
 			"Je répare ce rideau de fer pour la troisième fois ce mois-ci.",
-			"Quelqu'un rôde la nuit dans le quartier. On retrouve de la ferraille qui brille d'une drôle de lumière violette...", "Ces éclats violets que tu ramènes des époques, je sais les forger. Apporte-m'en avec les matériaux de l'île : je te fais une panoplie complète, l'Arsenal des époques."
+			"Quelqu'un rôde la nuit dans le quartier. On retrouve de la ferraille qui brille d'une drôle de lumière violette...",
+			"Ces éclats violets que tu ramènes des époques, je sais les forger. Apporte-m'en avec les matériaux de l'île : je te fais une panoplie complète, l'Arsenal des époques."
 		]
 	},
 	"conservatrice": {
@@ -487,6 +488,18 @@
 		"repliques": [
 			"Je n'ai rien à dire à personne d'autre que toi.",
 			"Damien est passé, cette nuit. Il n'est pas entré. Il est resté devant la porte un long moment, puis il est reparti."
+		]
+	},
+	"cinabre_cellule": {
+		"nom": "Cinabre",
+		"role": "Détenue de la Vigie",
+		"modele": "femme",
+		"taille_cm": 170,
+		"peau": "#e2c4a8",
+		"habits": "#5a5a60",
+		"repliques": [
+			"Livia ne me parle pas. Elle me regarde à travers les barreaux comme si j'étais son reflet. C'est peut-être le cas.",
+			"Tu m'apporterais un livre ? N'importe lequel. Sur du papier, si possible."
 		]
 	}
 }

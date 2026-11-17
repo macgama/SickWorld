@@ -94,7 +94,7 @@ func _ready() -> void:
 	if variante == "gorgone":
 		_preparer_gorgone()
 		return
-	if variante == "masque" or variante == "athlete":
+	if variante == "masque" or variante == "athlete" or variante == "han":
 		return
 	# L'amulette offerte par la « prêtresse de Memphis » : un scarabée qui luit.
 	# Le garde, lui, cache sous sa ceinture une petite diode rouge (une radio moderne).
@@ -145,6 +145,9 @@ func _habiller() -> void:
 		return
 	if variante == "argile":
 		_habiller_argile(hasard)
+		return
+	if variante == "han":
+		_habiller_han(hasard)
 		return
 	if variante == "gorgone":
 		_habiller_gorgone()
@@ -361,6 +364,30 @@ func _habiller_argile(hasard: RandomNumberGenerator) -> void:
 	_gangue.set_shader_parameter("rugosite", 0.8)
 	_gangue.set_shader_parameter("niveau", 3.0)
 	_poser_gangue(true)
+
+
+## Un garde du Palais du Sud (île de Chine) : la tunique rouge sombre de l'armée des Han,
+## la cuirasse de lamelles, le casque, la hallebarde (ji) ou le sabre, et un bouclier.
+## Le chef (Ban Yong) porte l'épée droite de son père et un casque plus clair.
+func _habiller_han(hasard: RandomNumberGenerator) -> void:
+	if _corps.has_method("appliquer"):
+		_corps.appliquer({"sexe": "homme", "taille_cm": 182 if chef else hasard.randi_range(172, 182),
+				"peau": Color.from_string(["#c8a07a", "#d0aa84", "#c49a74", "#cca480"][hasard.randi() % 4], Color.WHITE)})
+	var teinte := Color("#5a1414") if chef else Color.from_string(["#6a1a1a", "#5e1c18", "#701e1a"][hasard.randi() % 3], Color.WHITE)
+	if _corps.has_method("teindre_tenue"):
+		_corps.teindre_tenue(teinte)
+	if _corps.has_method("porter_habit"):
+		_corps.porter_habit("chiton_court", {"principal": teinte})
+	if _corps.has_method("equiper"):
+		if chef:
+			_corps.equiper({"tete": {"forme": "casque", "couleur": "#8a7a5a"},
+					"torse": {"forme": "veste", "couleur": "#4a2a22"},
+					"arme_principale": {"forme": "lame", "couleur": "#b8b0a0"}})
+		else:
+			_corps.equiper({"tete": {"forme": "casque", "couleur": "#3a3430"},
+					"torse": {"forme": "veste", "couleur": "#3a2220"},
+					"arme_principale": {"forme": "lance", "couleur": "#6b5034"},
+					"arme_secondaire": {"forme": "bouclier_rond", "couleur": "#5a1a14"}})
 
 
 ## Méduse, la Gorgone de l'égide : la fracture majeure a pris la forme de la tête sculptée

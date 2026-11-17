@@ -33,6 +33,16 @@ const AVENUE_NS := -60.0
 ## Les palais et la galerie couverte qui les relie.
 const PALAIS_SUD := Rect2(-30, 44, 100, 70)
 const SALLE_SUD := Vector2(20, 94)
+const HAUT_SALLE := 2.6
+## La grande audience du jour de l'an (chapitre 7) : le trône devant la Grande Salle, les
+## fonctionnaires en rangs, les gardes, les séchoirs à papier de Cai Lun.
+const TRONE := [Vector2(17.5, 86.6), Vector2(22.5, 86.6)]
+const BAN_YONG := Vector2(25, 40)
+const GARDES_PALAIS := [Vector2(15, 48), Vector2(25, 48), Vector2(13, 80), Vector2(27, 80)]
+const FONCTIONNAIRES := [Vector2(5, 66), Vector2(10, 66), Vector2(30, 66), Vector2(35, 66),
+		Vector2(5, 72), Vector2(10, 72), Vector2(30, 72), Vector2(35, 72)]
+const SECHOIRS := [Vector2(42, 68), Vector2(48, 60), Vector2(-2, 64)]
+const CINABRE_PALAIS := Vector2(20, 40)
 const PALAIS_NORD := Rect2(-30, -150, 100, 60)
 const SALLE_NORD := Vector2(20, -124)
 const GALERIE_X := 20.0
@@ -262,12 +272,13 @@ func _construire_palais() -> void:
 		_mur_palais(enclos, d, c, 5.0, [milieu] if cote_porte == 1.0 else [], 8.0)
 		_mur_palais(enclos, a, d, 5.0)
 		_mur_palais(enclos, b, c, 5.0, [0.5] if nom == "PalaisSud" else [], 5.0)
-		var grande := _pavillon_han(enclos, salle, Vector2(30, 13), 0.0 if cote_porte == 0.0 else PI, 2.6, 1, false, "GrandeSalle")
+		# La façade (et l'escalier) regarde la cour, du côté de la grande porte.
+		var grande := _pavillon_han(enclos, salle, Vector2(30, 13), PI if cote_porte == 0.0 else 0.0, HAUT_SALLE, 1, false, "GrandeSalle")
 		grande.name = "GrandeSalle"
 		# Deux pavillons latéraux et des lanternes dans la cour.
 		for cote: float in [-1.0, 1.0]:
 			var q := salle + Vector2(cote * 34.0, (-6.0 if cote_porte == 0.0 else 6.0))
-			_pavillon_han(enclos, q, Vector2(12, 8), 0.0 if cote_porte == 0.0 else PI, 1.2, 1, false, "PavillonLateral")
+			_pavillon_han(enclos, q, Vector2(12, 8), PI if cote_porte == 0.0 else 0.0, 1.2, 1, false, "PavillonLateral")
 		var sens := -1.0 if cote_porte == 0.0 else 1.0
 		for k in 4:
 			for cote: float in [-1.0, 1.0]:
@@ -708,6 +719,72 @@ func _objet(dossier: Node3D, nom: String, id: String, p: Vector2, forme := "", i
 	return o
 
 
+func _pnj_cache(dossier: Node3D, id: String, p: Vector2, angle: float) -> Node3D:
+	var n := _pnj(dossier, id, p, angle)
+	n.add_to_group("decor_quete")
+	n.set_meta("identifiant", id)
+	n.visible = false
+	return n
+
+
+## Le décor de la grande audience : le tapis rouge de la porte aux marches, les bannières,
+## les braseros du jour de l'an. Caché jusqu'au chapitre 7.
+func _construire_audience(dossier: Node3D) -> void:
+	var audience := Node3D.new()
+	audience.name = "Audience"
+	audience.add_to_group("decor_quete")
+	audience.set_meta("identifiant", "audience")
+	audience.visible = false
+	dossier.add_child(audience)
+	var rouge := _mat_pbr("", Color(0.55, 0.08, 0.06), 0.9)
+	var or_ := _mat_pbr("", Color(0.75, 0.55, 0.2), 0.45)
+	var bois := _mat_pbr("", Color(0.3, 0.16, 0.08), 0.7)
+	var z0 := PALAIS_SUD.position.y + 1.0
+	var z1 := SALLE_SUD.y - 9.0
+	for k in int((z1 - z0) / 2.0):
+		var z := z0 + 1.0 + k * 2.0
+		var tapis := MeshInstance3D.new()
+		var b := BoxMesh.new()
+		b.size = Vector3(3.2, 0.04, 2.02)
+		tapis.mesh = b
+		tapis.material_override = rouge
+		tapis.position = Vector3(GALERIE_X, hauteur(GALERIE_X, z) + 0.03, z)
+		audience.add_child(tapis)
+	# Les bannières rouges et or, de part et d'autre du tapis.
+	for k in 5:
+		for cote: float in [-1.0, 1.0]:
+			var q := Vector2(GALERIE_X + cote * 5.0, z0 + 5.0 + k * 7.0)
+			var y := hauteur(q.x, q.y)
+			var mat := MeshInstance3D.new()
+			mat.mesh = _cylindre(0.06, 0.07, 5.0, 8)
+			mat.material_override = bois
+			mat.position = Vector3(q.x, y + 2.5, q.y)
+			audience.add_child(mat)
+			var drap := MeshInstance3D.new()
+			var d := BoxMesh.new()
+			d.size = Vector3(0.04, 2.6, 0.9)
+			drap.mesh = d
+			drap.material_override = rouge if k % 2 == 0 else or_
+			drap.position = Vector3(q.x + cote * 0.05, y + 3.4, q.y + 0.5)
+			audience.add_child(drap)
+	# Le trône de laque sur la terrasse, sous un dais.
+	var y_t := hauteur(SALLE_SUD.x, SALLE_SUD.y) + HAUT_SALLE
+	var estrade := MeshInstance3D.new()
+	var e := BoxMesh.new()
+	e.size = Vector3(8.0, 0.3, 2.6)
+	estrade.mesh = e
+	estrade.material_override = rouge
+	estrade.position = Vector3(GALERIE_X, y_t + 0.05, TRONE[0].y + 0.4)
+	audience.add_child(estrade)
+	var paravent := MeshInstance3D.new()
+	var pv := BoxMesh.new()
+	pv.size = Vector3(7.0, 2.4, 0.12)
+	paravent.mesh = pv
+	paravent.material_override = or_
+	paravent.position = Vector3(GALERIE_X, y_t + 1.4, TRONE[0].y + 1.6)
+	audience.add_child(paravent)
+
+
 func _construire_quete() -> void:
 	var dossier := Node3D.new()
 	dossier.name = "Quete"
@@ -757,6 +834,23 @@ func _construire_quete() -> void:
 	# Les gardes de la porte ouest, et quelques passants.
 	_pnj(dossier, "garde_porte_1", PORTE_OUEST + Vector2(6, -6), PI / 2)
 	_pnj(dossier, "garde_porte_2", PORTE_OUEST + Vector2(6, 6), PI / 2)
+	# La grande audience du jour de l'an (chapitre 7).
+	_construire_audience(dossier)
+	_pnj_cache(dossier, "ban_yong", BAN_YONG, PI)
+	for k in GARDES_PALAIS.size():
+		_pnj_cache(dossier, "garde_palais_%d" % (k + 1), GARDES_PALAIS[k], PI)
+	for k in FONCTIONNAIRES.size():
+		_pnj_cache(dossier, "fonctionnaire_audience_%d" % (k + 1), FONCTIONNAIRES[k], 0.0)
+	var y_trone := hauteur(SALLE_SUD.x, SALLE_SUD.y) + HAUT_SALLE + 0.2
+	for r in [["empereur_he", TRONE[0]], ["imperatrice_deng", TRONE[1]]]:
+		var n := _pnj_cache(dossier, r[0], r[1], PI)
+		n.position.y = y_trone
+	_pnj_cache(dossier, "cinabre_palais", CINABRE_PALAIS, 0.0)
+	for k in SECHOIRS.size():
+		var sechoir := _objet(dossier, "Sechoir%d" % k, "sechoir_papier_%d" % k, SECHOIRS[k], "sechoir_papier", "[F] Éteindre le séchoir en feu", "feu_sechoir", 2.8)
+		sechoir.add_to_group("decor_quete")
+		sechoir.set_meta("identifiant", "sechoir_papier_%d" % k)
+		sechoir.visible = false
 	# Le char de poste impérial, vers le mont Li (chapitre 6).
 	var char_poste := CharPoste.new()
 	char_poste.name = "CharPoste"

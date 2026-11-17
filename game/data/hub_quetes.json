@@ -1069,6 +1069,58 @@
 			"apres": [
 				"Elle ne lève pas les yeux de son écran. Sur la vitre de son bureau, tu remarques un vieux cadre retourné, face contre le mur."
 			]
+		},
+		{
+			"id": "cellule_cinabre",
+			"titre": "La cellule de Cinabre",
+			"donneur": "commandante",
+			"automatique": true,
+			"resume": "Sous le mont Li, Cinabre a été arrêtée. Elle attend au QG, dans une cellule à côté de celle de Janus.",
+			"recompense": "La fin de l'histoire de la Chine",
+			"etapes": [
+				{
+					"objectif": "Fais ton rapport à la commandante Morel (Hall des opérations)",
+					"parler": "commandante",
+					"repliques": [
+						"Une historienne. Une vraie, avec un doctorat et des articles publiés. L'Éditeur ne recrute pas des brutes, il recrute des gens qui savent ce qu'ils effacent. C'est ça qui me fait peur.",
+						"Elle est en bas, dans la deuxième cellule, à côté de Janus. Elle a demandé un livre. Odile lui en a descendu trois.",
+						"Va la voir. Et dis-moi ce que tu as fait du carnet."
+					]
+				},
+				{
+					"objectif": "Va voir Cinabre dans sa cellule (archives, à côté de celle de Janus)",
+					"parler": "cinabre_cellule",
+					"repliques": [
+						"Tu sais ce que j'ai fait, la première nuit ici ? J'ai lu. Toute la nuit. Un roman idiot, une histoire d'amour sur un bateau. J'ai pleuré à la fin. Je n'avais pas lu un roman depuis dix ans.",
+						"L'Éditeur m'a dit un jour qu'il y avait trop de livres. Que les gens se noyaient dedans. Je l'ai cru, parce que j'étais une de ces gens-là, je crois.",
+						"Il ne travaille pas seul, tu sais. Il y a d'autres plumes. Une à chaque grande époque où l'on a appris à écrire plus vite : le papier, l'imprimerie, le télégraphe... Il les appelle ses « correcteurs ».",
+						"La prochaine, ce sera là où le papier a mené. Cherche les endroits où l'on se met à copier les livres par milliers. C'est là qu'il frappera."
+					]
+				},
+				{
+					"objectif": "Retourne voir la commandante Morel (Hall des opérations)",
+					"parler": "commandante",
+					"repliques": [
+						"« Des correcteurs. » Odile va adorer. Elle a déjà ouvert un nouveau tableau, avec des fils rouges partout.",
+						"En attendant, regarde autour de toi : dans la ville, les lanternes se sont rallumées, et les écrans ont arrêté de montrer des caractères qu'aucun ordinateur ne connaît. L'anneau de la Chine est stable.",
+						"Le Musée voulait la feuille de Cai Lun. Je leur ai dit qu'elle était à toi. Ils pleurent encore. Repose-toi, agent. Tu l'as mérité."
+					]
+				}
+			],
+			"apres": [
+				"La conservatrice du Musée est passée trois fois aujourd'hui. Elle parle d'une vitrine « rien que pour la feuille ». Je crois qu'elle ne dort plus."
+			],
+			"personnages": [
+				{
+					"id": "cinabre_cellule",
+					"position": [
+						-56.4,
+						-12.0,
+						130.7,
+						0.0
+					]
+				}
+			]
 		}
 	]
 }

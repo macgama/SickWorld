@@ -62,15 +62,19 @@
 	},
 	"ban_yong": {
 		"nom": "Ban Yong",
-		"role": "Commandant de la Porte de Jade",
+		"role": "Commandant de la garde · fils du général Ban Chao",
 		"modele": "homme",
 		"habit": "chiton_court",
-		"taille_cm": 180,
-		"peau": "#d0a882",
-		"habits": "#3a3a3e",
+		"taille_cm": 182,
+		"peau": "#c69c78",
+		"habits": "#5a1414",
+		"tenue": [
+			"jian_ban_chao",
+			"cuirasse_lamelles"
+		],
 		"repliques": [
-			"Mon père, Ban Chao, a tenu les royaumes de l'Ouest trente ans avec quelques milliers d'hommes. Moi, je tiens une porte. Mais c'est la porte du monde.",
-			"Ici, tout ce qui entre en Chine passe sous mes yeux. Et tout ce qui en sort aussi. Même les idées."
+			"Mon père a passé trente ans dans les royaumes de l'Ouest. Un jour, j'irai à mon tour. En attendant, je garde une porte.",
+			"Un garde qui dort, c'est une porte ouverte. Mes hommes ne dorment pas aujourd'hui."
 		]
 	},
 	"ban_yong_route": {
@@ -607,6 +611,232 @@
 		"habits": "#8a1a14",
 		"repliques": [
 			"L'ordre est une forme de bonté. On l'oublie toujours trop tôt."
+		]
+	},
+	"imperatrice_deng": {
+		"nom": "L'impératrice Deng Sui",
+		"role": "Impératrice des Han",
+		"modele": "femme",
+		"habit": "peplos_himation",
+		"taille_cm": 168,
+		"peau": "#e6c6a6",
+		"habits": "#6a1420",
+		"repliques": [
+			"Je n'ai demandé aux provinces ni perles ni ivoire. Seulement du papier et de l'encre. On m'a trouvée étrange.",
+			"Une impératrice qui lit, ça inquiète les ministres. Une impératrice qui écrit, ça les terrifie."
+		]
+	},
+	"empereur_he": {
+		"nom": "L'empereur He des Han",
+		"role": "Fils du Ciel",
+		"modele": "homme",
+		"habit": "chiton_himation",
+		"taille_cm": 172,
+		"peau": "#e0c0a2",
+		"habits": "#2a1a10",
+		"repliques": [
+			"Le Ciel m'a donné un empire immense et un corps fragile. Il a le sens de l'humour, le Ciel.",
+			"Lis-moi quelque chose. N'importe quoi. Je suis fatigué de lire seul."
+		]
+	},
+	"cinabre_palais": {
+		"nom": "Cinabre",
+		"role": "Effaceuse · historienne du Premier Empereur",
+		"modele": "femme",
+		"taille_cm": 170,
+		"peau": "#e2c4a8",
+		"habits": "#8a1a14",
+		"repliques": [
+			"Une petite armée, réveillée de loin. Imagine la grande."
+		]
+	},
+	"fonctionnaire_audience_1": {
+		"nom": "Le ministre Zhang",
+		"role": "Fonctionnaire de la cour",
+		"modele": "homme",
+		"habit": "chiton_himation",
+		"taille_cm": 166,
+		"peau": "#d6b292",
+		"habits": "#1a1a20",
+		"repliques": [
+			"Il se tient droit, sa tablette de jade contre la poitrine, et ne bouge pas d'un cheveu. Le protocole, c'est le protocole."
+		]
+	},
+	"fonctionnaire_audience_2": {
+		"nom": "Le fonctionnaire Li",
+		"role": "Fonctionnaire de la cour",
+		"modele": "homme",
+		"habit": "chiton_himation",
+		"taille_cm": 169,
+		"peau": "#cfa886",
+		"habits": "#22202a",
+		"repliques": [
+			"« Du papier ? Pour remplacer le bambou ? Ça ne durera jamais. » Il le dit tout bas, mais il regarde quand même."
+		]
+	},
+	"fonctionnaire_audience_3": {
+		"nom": "Le censeur Wang",
+		"role": "Fonctionnaire de la cour",
+		"modele": "homme",
+		"habit": "chiton_himation",
+		"taille_cm": 172,
+		"peau": "#dab898",
+		"habits": "#1e1a18",
+		"repliques": [
+			"Il compte les fonctionnaires, les gardes, les marches. Il compte tout. C'est son métier."
+		]
+	},
+	"fonctionnaire_audience_4": {
+		"nom": "Le secrétaire Chen",
+		"role": "Fonctionnaire de la cour",
+		"modele": "homme",
+		"habit": "chiton_himation",
+		"taille_cm": 175,
+		"peau": "#c8a07e",
+		"habits": "#2a2228",
+		"repliques": [
+			"Il se tient droit, sa tablette de jade contre la poitrine, et ne bouge pas d'un cheveu. Le protocole, c'est le protocole."
+		]
+	},
+	"fonctionnaire_audience_5": {
+		"nom": "Le préfet Zhao",
+		"role": "Fonctionnaire de la cour",
+		"modele": "homme",
+		"habit": "chiton_himation",
+		"taille_cm": 166,
+		"peau": "#d6b292",
+		"habits": "#181c22",
+		"repliques": [
+			"« Du papier ? Pour remplacer le bambou ? Ça ne durera jamais. » Il le dit tout bas, mais il regarde quand même."
+		]
+	},
+	"fonctionnaire_audience_6": {
+		"nom": "Le lettré Yang",
+		"role": "Fonctionnaire de la cour",
+		"modele": "homme",
+		"habit": "chiton_himation",
+		"taille_cm": 169,
+		"peau": "#cfa886",
+		"habits": "#26201c",
+		"repliques": [
+			"Il compte les fonctionnaires, les gardes, les marches. Il compte tout. C'est son métier."
+		]
+	},
+	"fonctionnaire_audience_7": {
+		"nom": "Le grand intendant Sun",
+		"role": "Fonctionnaire de la cour",
+		"modele": "homme",
+		"habit": "chiton_himation",
+		"taille_cm": 172,
+		"peau": "#dab898",
+		"habits": "#2a1a1a",
+		"repliques": [
+			"Il se tient droit, sa tablette de jade contre la poitrine, et ne bouge pas d'un cheveu. Le protocole, c'est le protocole."
+		]
+	},
+	"fonctionnaire_audience_8": {
+		"nom": "Le scribe Zhou",
+		"role": "Fonctionnaire de la cour",
+		"modele": "homme",
+		"habit": "chiton_himation",
+		"taille_cm": 175,
+		"peau": "#c8a07e",
+		"habits": "#1c1e1a",
+		"repliques": [
+			"« Du papier ? Pour remplacer le bambou ? Ça ne durera jamais. » Il le dit tout bas, mais il regarde quand même."
+		]
+	},
+	"garde_palais_1": {
+		"nom": "Garde du Palais du Sud",
+		"role": "Soldat de Ban Yong",
+		"modele": "homme",
+		"habit": "chiton_court",
+		"taille_cm": 174,
+		"peau": "#c8a07a",
+		"habits": "#6a1a1a",
+		"tenue": [
+			"jian_ban_chao"
+		],
+		"repliques": [
+			"Le commandant Ban dit qu'il n'y aura rien. Le commandant Ban a doublé la garde. Je regarde la porte."
+		]
+	},
+	"garde_palais_2": {
+		"nom": "Garde du Palais du Sud",
+		"role": "Soldat de Ban Yong",
+		"modele": "homme",
+		"habit": "chiton_court",
+		"taille_cm": 176,
+		"peau": "#d0aa84",
+		"habits": "#6a1a1a",
+		"tenue": [
+			"jian_ban_chao"
+		],
+		"repliques": [
+			"Le commandant Ban dit qu'il n'y aura rien. Le commandant Ban a doublé la garde. Je regarde la porte."
+		]
+	},
+	"garde_palais_3": {
+		"nom": "Garde du Palais du Sud",
+		"role": "Soldat de Ban Yong",
+		"modele": "homme",
+		"habit": "chiton_court",
+		"taille_cm": 178,
+		"peau": "#c49a74",
+		"habits": "#6a1a1a",
+		"tenue": [
+			"jian_ban_chao"
+		],
+		"repliques": [
+			"Le commandant Ban dit qu'il n'y aura rien. Le commandant Ban a doublé la garde. Je regarde la porte."
+		]
+	},
+	"garde_palais_4": {
+		"nom": "Garde du Palais du Sud",
+		"role": "Soldat de Ban Yong",
+		"modele": "homme",
+		"habit": "chiton_court",
+		"taille_cm": 180,
+		"peau": "#cca480",
+		"habits": "#6a1a1a",
+		"tenue": [
+			"jian_ban_chao"
+		],
+		"repliques": [
+			"Le commandant Ban dit qu'il n'y aura rien. Le commandant Ban a doublé la garde. Je regarde la porte."
+		]
+	},
+	"cinabre_tombeau": {
+		"nom": "Cinabre",
+		"role": "Effaceuse · historienne du Premier Empereur",
+		"modele": "femme",
+		"taille_cm": 170,
+		"peau": "#e2c4a8",
+		"habits": "#8a1a14",
+		"repliques": [
+			"Elle ne dit plus rien. Elle regarde les morceaux du géant, et ses mains tremblent."
+		]
+	},
+	"masque_carnet": {
+		"nom": "Damien Roche",
+		"role": "« Masque » · ancien agent de la Vigie",
+		"modele": "homme",
+		"taille_cm": 188,
+		"peau": "#c4987a",
+		"habits": "#4a1d24",
+		"repliques": [
+			"Il feuillette le carnet sans lever les yeux."
+		]
+	},
+	"masque_porte_palais": {
+		"nom": "Damien Roche",
+		"role": "« Masque » · tient la porte du palais",
+		"modele": "homme",
+		"taille_cm": 188,
+		"peau": "#c4987a",
+		"habits": "#4a1d24",
+		"repliques": [
+			"Frappe ! Je les tiens, mais pas pour toujours !"
 		]
 	}
 }

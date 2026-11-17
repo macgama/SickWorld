@@ -77,8 +77,9 @@ func _ready() -> void:
 		_delegue.petit = type.begins_with("feu_tricolore")
 		add_child(_delegue)
 		return
-	if type.begins_with("colosse"):
-		# Le cœur de cristal du Colosse (boss du donjon du Colisée, île de Rome).
+	if type.begins_with("colosse") or type.begins_with("coeur_empereur"):
+		# Le cœur de cristal du Colosse (boss du donjon du Colisée, île de Rome), et celui de
+		# l'Empereur d'argile (tombeau du Premier Empereur, île de Chine) : le géant est un décor.
 		espece = "colosse"
 		_delegue = preload("res://scripts/ennemis/apparence_coeur_colosse.gd").new()
 		_delegue.name = "CoeurColosse"
@@ -109,10 +110,13 @@ func _ready() -> void:
 				else ("masque" if type.begins_with("masque") else ("mercenaire" if type.begins_with("mercenaire") \
 				else ("statue" if type.begins_with("statue") else ("gorgone" if type.begins_with("meduse") \
 				else ("pretorien" if type.begins_with("pretorien") else "oublie"))))))
+		if type.begins_with("garde_han"):
+			# Les gardes du Palais du Sud de Luoyang (île de Chine), et Ban Yong qui les commande.
+			_delegue.variante = "han"
 		if type.contains("argile"):
 			_delegue.variante = "argile"
 			_delegue.style = "general" if type.begins_with("general") else ("arbaletrier" if type.begins_with("arbaletrier") else "soldat")
-		_delegue.chef = type == "masque_effaceur" or type == "masque_acropole" or type.begins_with("general_argile")
+		_delegue.chef = type == "masque_effaceur" or type == "masque_acropole" or type.begins_with("general_argile") or type == "garde_han_ban_yong"
 		add_child(_delegue)
 		return
 	if type.begins_with("cobra") or type.begins_with("isfet") or type.begins_with("vipere") or type.begins_with("serpent_gorgone"):

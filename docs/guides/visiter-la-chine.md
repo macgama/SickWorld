@@ -1,6 +1,6 @@
-# Visiter la Chine des Han : la Porte de Jade et le Fleuve Jaune
+# Visiter la Chine des Han
 
-Deux zones de l'île de la Chine sont jouables : **la Porte de Jade** (niveaux 40 à 42) et **le Fleuve Jaune et les terres de lœss** (niveaux 42 à 45). Nous sommes à l'hiver de l'an 105 après J.-C., sous l'empereur He de la dynastie Han, l'année où Cai Lun invente le papier. C'est là que mène le portail **Chine des Han** du QG de la Vigie (le cinquième en partant de la gauche). La conception de toute l'île est dans [ILE-5-CHINE.md](../ILE-5-CHINE.md).
+Toute l'histoire de l'île de la Chine est jouable : **la Porte de Jade** (niveaux 40 à 42), **le Fleuve Jaune et les terres de lœss** (niveaux 42 à 45), **Luoyang** (45 à 47), **le mont Li** (47 à 50) et le donjon du **tombeau du Premier Empereur** (50). Nous sommes à l'hiver de l'an 105 après J.-C., sous l'empereur He de la dynastie Han, l'année où Cai Lun invente le papier. C'est là que mène le portail **Chine des Han** du QG de la Vigie (le cinquième en partant de la gauche). La conception de toute l'île est dans [ILE-5-CHINE.md](../ILE-5-CHINE.md).
 
 On y trouve :
 
@@ -104,7 +104,44 @@ On y va en **char de poste** : il attend derrière la porte de l'Ouest de Luoyan
 6. Dans les bambous, trouver **Bao, le bébé panda** : c'est un **compagnon** (à porter comme bijou), il te suit partout et couine quand un soldat d'argile approche.
 7. **Masque** garde l'entrée du tombeau et donne une **cuirasse de lamelles**.
 
-La suite (la grande audience du Nouvel An, à Luoyang) arrive bientôt.
+### Chapitre 7 : La grande audience
+
+1. Au mont Li, reprendre **le char de poste** vers Luoyang : c'est le jour de l'an, la ville est en rouge, le Palais du Sud est décoré (tapis, bannières, trône sur la terrasse).
+2. Parler au commandant **Ban Yong** (le fils du général Ban Chao) à la grande porte du Palais du Sud, puis à **Cai Lun** dans la cour.
+3. Se placer **au pied des marches** de la Grande Salle : l'audience commence… et l'armée d'argile de Cinabre attaque.
+4. Avec **Ban Yong et un garde** qui se battent à tes côtés : repousser **six soldats** à la grande porte, puis **quatre arbalétriers** à la porte de l'est.
+5. **Éteindre les trois séchoirs à papier** touchés par les flèches enflammées (F), pendant que Ban Zhao et l'impératrice sauvent les feuilles.
+6. Abattre **le général d'argile** de Cinabre ; écouter **Cinabre** sous la grande porte.
+7. Monter les marches : parler à **l'empereur He**, très malade, puis à **l'impératrice Deng**, qui ouvre la route du tombeau et donne les **bottes de la garde du Palais du Sud**.
+
+On monte maintenant les escaliers des pavillons à pied (une rampe invisible sous les marches).
+
+## Zone 5 : le tombeau du Premier Empereur (donjon, niveau 50, à 5)
+
+On y descend par **l'entrée creusée** au pied sud de la colline du mont Li. Tel que l'historien Sima Qian l'a décrit :
+
+- **la galerie des arbalètes** : des arbalètes dans les murs tirent toutes seules ; une **bande rouge** s'allume au sol juste avant chaque volée. Sur les murs, **quatre mécanismes de bronze** (F) les arrêtent pour tout le groupe ;
+- **la salle des fleuves de mercure** : l'argent liquide coule dans des canaux (il ronge qui marche dedans) ; on passe par les **ponts** ;
+- **le palais souterrain** : un **plafond d'étoiles** en perles, des lampes « qui ne s'éteignent jamais », des piliers laqués… et sur son trône, **l'Empereur d'argile**, un géant de 15 m fait des soldats de son armée.
+
+**Le combat** (on frappe le **cœur de cristal** au pied du cercueil) :
+
+1. **Les arbalètes** : des volées balaient le palais en lignes (sortir de la bande rouge), et des gardes d'argile sortent des piédestaux.
+2. **Les fleuves de mercure** : deux canaux se remplissent tour à tour ; ne pas rester dedans.
+3. **Le grand autodafé** : Cinabre, sur la tête du géant, allume **quatre bûchers de livres**. Leur fumée **bloque les compétences** (sauf l'attaque de base), et tant que **trois** brûlent, l'Empereur ne craint rien : on les **étouffe (F)** avec le papier mouillé de Cai Lun (ils se rallument au bout d'un moment). Masque tient la porte du palais.
+
+Le cœur donne des **perles de la coiffe impériale** : c'est le trophée qui renforce les panoplies de la Chine à l'Arsenal des époques.
+
+### Chapitre 8 : Le papier et la flamme
+
+1. Prendre le char vers le mont Li ; **Masque** garde l'entrée du tombeau (allié ou méfiant).
+2. Descendre dans le tombeau, traverser la galerie, vider la salle des fleuves (six soldats), puis vaincre **l'Empereur d'argile**.
+3. Refermer **la fracture majeure** dans le cercueil ; parler à **Cinabre**, arrêtée.
+4. **Le carnet de l'Éditeur** : si tu as fait confiance à Masque, il le garde (« Je le trouverai avant vous ») ; sinon, c'est toi qui le ramasses, et Masque part fâché.
+5. Remonter, rentrer à Luoyang : l'impératrice Deng fait de toi un **lettré du pavillon de l'Est** (titre), et Cai Lun te donne **la première feuille** de son papier (relique).
+6. Traverser le portail de la cour du pavillon : au QG, Cinabre est enfermée **dans la cellule voisine de celle de Janus** (mission « La cellule de Cinabre »).
+
+L'histoire de la Chine est terminée. Les quêtes secondaires et les événements publics de l'île arrivent bientôt.
 
 ## Les ennemis
 
@@ -128,6 +165,11 @@ La suite (la grande audience du Nouvel An, à Luoyang) arrive bientôt.
 | Arbalétrier de terre cuite fracturé | 48 | Autour des fosses |
 | Fouilleur de Cinabre | 48 | Au camp des fouilleurs |
 | Général d'argile fracturé (élite) | 49 | Dans la grande fosse (chapitre 6) |
+| Soldat et arbalétrier de terre cuite de Cinabre | 49 | Au Palais du Sud de Luoyang (chapitre 7) |
+| Général d'argile de Cinabre (élite) | 50 | Au Palais du Sud de Luoyang (chapitre 7) |
+| Soldat et arbalétrier de terre cuite du tombeau | 50 | Dans la salle des fleuves de mercure |
+| Garde d'argile de l'Empereur | 50 | Sort des piédestaux du palais souterrain |
+| L'Empereur d'argile (boss) | 50 | Au fond du tombeau du Premier Empereur |
 
 ## Pour changer des choses (sans coder)
 

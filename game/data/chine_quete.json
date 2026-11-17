@@ -32,6 +32,14 @@
 				"sous_titre": "Chine · le tombeau du Premier Empereur, la nuit",
 				"texte": "Le char s'arrête dans un hameau endormi. Le vent siffle dans les pins. À l'ouest, une colline trop carrée pour être une vraie colline découpe le ciel. Entre les deux, des torches, des trous béants dans la terre... et, au fond, des centaines d'hommes immobiles, debout en rangs, qui ne respirent pas."
 			}
+		},
+		"tombeau": {
+			"scene": "res://scenes/monde/chine/tombeau.tscn",
+			"arrivee": {
+				"titre": "Le tombeau du Premier Empereur",
+				"sous_titre": "Chine · sous le mont Li",
+				"texte": "La galerie de Cinabre descend en pente raide entre des poutres neuves. Puis les poutres s'arrêtent, et la pierre commence : des dalles taillées il y a plus de trois cents ans. L'air sent le métal. Quelque part, très loin devant, quelque chose coule. Pas de l'eau."
+			}
 		}
 	},
 	"camps": {
@@ -321,7 +329,8 @@
 				"nombre": 3,
 				"rayon": 5
 			}
-		]
+		],
+		"tombeau": []
 	},
 	"chapitres": [
 		{
@@ -1761,12 +1770,646 @@
 					"fin_chapitre": true
 				}
 			]
+		},
+		{
+			"numero": 7,
+			"titre": "La grande audience",
+			"ou": "luoyang",
+			"etapes": [
+				{
+					"id": "vers_audience",
+					"ou": "mont_li",
+					"objectif": "Prends le char de poste, à l'est du hameau, pour rentrer à Luoyang (F)",
+					"arriver": "luoyang",
+					"apres": [
+						{
+							"montrer": "audience"
+						},
+						{
+							"montrer": "ban_yong"
+						},
+						{
+							"montrer": "imperatrice_deng"
+						},
+						{
+							"montrer": "empereur_he"
+						},
+						{
+							"montrer": "fonctionnaire_audience_1"
+						},
+						{
+							"montrer": "fonctionnaire_audience_2"
+						},
+						{
+							"montrer": "fonctionnaire_audience_3"
+						},
+						{
+							"montrer": "fonctionnaire_audience_4"
+						},
+						{
+							"montrer": "fonctionnaire_audience_5"
+						},
+						{
+							"montrer": "fonctionnaire_audience_6"
+						},
+						{
+							"montrer": "fonctionnaire_audience_7"
+						},
+						{
+							"montrer": "fonctionnaire_audience_8"
+						},
+						{
+							"montrer": "garde_palais_1"
+						},
+						{
+							"montrer": "garde_palais_2"
+						},
+						{
+							"montrer": "garde_palais_3"
+						},
+						{
+							"montrer": "garde_palais_4"
+						},
+						{
+							"pnj": "ban_zhao",
+							"aller": [
+								6,
+								80
+							]
+						},
+						{
+							"pnj": "cai_lun",
+							"aller": [
+								20,
+								70
+							]
+						}
+					],
+					"recit": {
+						"titre": "Le premier jour de l'an",
+						"texte": "Luoyang s'est réveillée en rouge. Des lanternes à chaque porte, des bannières sur l'avenue, des tiges de bambou qui éclatent dans les braseros pour chasser les mauvais esprits. Des milliers de fonctionnaires en robe noire remontent vers le Palais du Sud, leur tablette de jade à la main. C'est aujourd'hui que Cai Lun présente son papier à l'empereur."
+					}
+				},
+				{
+					"id": "ban_yong",
+					"objectif": "Le commandant Ban Yong garde la grande porte du Palais du Sud, sur l'avenue : parle-lui",
+					"pnj": "ban_yong",
+					"repliques": [
+						"Halte. Ah, c'est toi : ma tante m'a parlé de toi. Je suis Ban Yong, fils du général Ban Chao. Oui, celui de l'épée que tu portes peut-être.",
+						"Ma tante dit que des soldats de terre marchent la nuit au mont Li. Moi, je ne crois pas aux fantômes. Mais je crois ma tante. Alors j'ai doublé la garde, et mes archers sont sur les murs.",
+						"Entre. Cai Lun t'attend dans la cour, il tremble comme une feuille. Une feuille de papier, sans doute."
+					]
+				},
+				{
+					"id": "cai_lun_audience",
+					"objectif": "Dans la cour du Palais du Sud, Cai Lun répète son discours : parle-lui",
+					"pnj": "cai_lun",
+					"repliques": [
+						"Te voilà ! Regarde : cent feuilles, les plus belles. Lisses, souples, légères. Celles qu'on a refaites ensemble, ou celles de Lao Fan, je ne sais plus, elles se ressemblent toutes. C'est ça, le papier : toutes pareilles.",
+						"L'impératrice Deng aime l'écrit. Quand elle est devenue impératrice, elle a interdit qu'on lui envoie des cadeaux rares des provinces. Elle a demandé seulement du papier et de l'encre. Du papier ! Avant même qu'il existe vraiment !",
+						"L'empereur, lui... Il est très malade. On dit qu'il ne verra pas l'été. Il a vingt-six ans.",
+						"Va te placer au pied des marches, avec les fonctionnaires. Et si quelque chose arrive... protège les feuilles. Pas moi. Les feuilles."
+					]
+				},
+				{
+					"id": "audience",
+					"objectif": "Rejoins les fonctionnaires au pied des marches de la Grande Salle : l'audience commence",
+					"zone": [
+						20,
+						80
+					],
+					"rayon": 4,
+					"apres": [
+						{
+							"masquer": "fonctionnaire_audience_1"
+						},
+						{
+							"masquer": "fonctionnaire_audience_2"
+						},
+						{
+							"masquer": "fonctionnaire_audience_3"
+						},
+						{
+							"masquer": "fonctionnaire_audience_4"
+						},
+						{
+							"masquer": "fonctionnaire_audience_5"
+						},
+						{
+							"masquer": "fonctionnaire_audience_6"
+						},
+						{
+							"masquer": "fonctionnaire_audience_7"
+						},
+						{
+							"masquer": "fonctionnaire_audience_8"
+						},
+						{
+							"montrer": "sechoir_papier_0"
+						},
+						{
+							"montrer": "sechoir_papier_1"
+						},
+						{
+							"montrer": "sechoir_papier_2"
+						}
+					],
+					"recit": {
+						"titre": "La grande audience",
+						"texte": "Un gong. Cai Lun monte les marches, s'agenouille et tend une feuille à deux mains. L'empereur He la prend, la plie, la déplie, la tient devant le soleil. L'impératrice Deng y trace un caractère au pinceau : 文, l'écrit. Un murmure court dans la cour. Puis un deuxième gong, qui n'était pas prévu. Celui de la grande porte. Et des cris. Sur l'avenue, des soldats de terre cuite avancent en rangs, et leurs yeux sont violets."
+					}
+				},
+				{
+					"id": "vague_porte",
+					"objectif": "Les soldats d'argile enfoncent la grande porte : repousse-les avec Ban Yong et la garde",
+					"tuer": "soldat_argile_palais",
+					"nombre": 6,
+					"lieu": [
+						20,
+						54
+					],
+					"apparition": {
+						"type": "soldat_argile_palais",
+						"position": [
+							20,
+							48
+						],
+						"nombre": 6,
+						"rayon": 5,
+						"attaque": true
+					},
+					"allies": [
+						{
+							"type": "garde_han_ban_yong",
+							"position": [
+								16,
+								62
+							]
+						},
+						{
+							"type": "garde_han_palais",
+							"position": [
+								24,
+								62
+							]
+						}
+					]
+				},
+				{
+					"id": "vague_est",
+					"objectif": "Des arbalétriers d'argile entrent par la porte de l'est et tirent sur les séchoirs à papier : abats-les",
+					"tuer": "arbaletrier_argile_palais",
+					"nombre": 4,
+					"lieu": [
+						60,
+						78
+					],
+					"apparition": {
+						"type": "arbaletrier_argile_palais",
+						"position": [
+							62,
+							78
+						],
+						"nombre": 4,
+						"rayon": 4,
+						"attaque": true
+					},
+					"allies": [
+						{
+							"type": "garde_han_ban_yong",
+							"position": [
+								16,
+								62
+							]
+						},
+						{
+							"type": "garde_han_palais",
+							"position": [
+								24,
+								62
+							]
+						}
+					]
+				},
+				{
+					"id": "feuilles",
+					"objectif": "Les flèches enflammées ont touché les séchoirs : éteins les trois feux avant que les feuilles brûlent (F, reste immobile)",
+					"recolter": "feu_sechoir",
+					"nombre": 3,
+					"duree": 2,
+					"action": "Ban Zhao et les servantes de l'impératrice te passent les seaux…",
+					"apres": [
+						{
+							"cacher": "sechoir_papier_0"
+						},
+						{
+							"cacher": "sechoir_papier_1"
+						},
+						{
+							"cacher": "sechoir_papier_2"
+						}
+					],
+					"recit": {
+						"titre": "Les feuilles",
+						"texte": "Le dernier feu s'éteint. Ban Zhao serre contre elle une pile de feuilles à peine roussies sur les bords. L'impératrice Deng, à côté d'elle, en tient une autre, et ses manches de soie sont noires de suie. Elle n'a pas reculé d'un pas."
+					}
+				},
+				{
+					"id": "general_palais",
+					"objectif": "Un général d'argile franchit la grande porte : abats-le avant qu'il n'atteigne les marches",
+					"tuer": "general_argile_palais",
+					"nombre": 1,
+					"lieu": [
+						20,
+						56
+					],
+					"apparition": {
+						"type": "general_argile_palais",
+						"position": [
+							20,
+							48
+						],
+						"nombre": 1,
+						"rayon": 1,
+						"attaque": true
+					},
+					"allies": [
+						{
+							"type": "garde_han_ban_yong",
+							"position": [
+								16,
+								62
+							]
+						},
+						{
+							"type": "garde_han_palais",
+							"position": [
+								24,
+								62
+							]
+						}
+					],
+					"apres": [
+						{
+							"montrer": "cinabre_palais"
+						}
+					],
+					"recit": {
+						"titre": "Le général tombe",
+						"texte": "Le général s'écroule sur les dalles, et dans toute la ville, au même instant, les soldats d'argile s'arrêtent et se figent. Un grand silence. Puis, sous la grande porte, une silhouette en manteau rouge applaudit lentement."
+					}
+				},
+				{
+					"id": "cinabre_palais",
+					"objectif": "Cinabre se tient sous la grande porte du palais : écoute-la",
+					"pnj": "cinabre_palais",
+					"repliques": [
+						"Bravo. Vraiment. Les gardes, la vieille historienne, l'impératrice avec ses seaux. On se croirait dans un de ses livres.",
+						"Tu crois avoir gagné ? Ce n'était qu'un essai. Une petite armée, réveillée de loin. Imagine ce qu'elle fera quand l'Empereur lui-même se lèvera, sous le mont Li.",
+						"Le cœur bat encore, voyageur. Et cette fois, je n'aurai pas besoin de Luoyang. Je brûlerai l'histoire à sa source.",
+						"Viens me chercher. Mais viens nombreux."
+					],
+					"apres": [
+						{
+							"masquer": "cinabre_palais"
+						}
+					]
+				},
+				{
+					"id": "empereur_he",
+					"objectif": "L'empereur He te fait appeler, en haut des marches de la Grande Salle",
+					"pnj": "empereur_he",
+					"repliques": [
+						"Approche. Pardonne-moi de ne pas me lever : mes jambes ne m'obéissent plus beaucoup.",
+						"Ma mère adoptive, l'impératrice Dou, a régné pour moi quand j'étais enfant. Ses frères voulaient tout. Je les ai chassés. J'ai cru que gouverner, c'était être seul et fort.",
+						"Mais regarde ce que je tiens. Une feuille. Si légère qu'un enfant la déchire. Et pourtant mille hommes pourront lire ce qu'on y écrira. La force, c'est peut-être ça.",
+						"Je n'ai plus beaucoup de temps. L'impératrice saura quoi faire. Elle sait toujours. Écoute-la."
+					]
+				},
+				{
+					"id": "imperatrice_deng",
+					"objectif": "Parle à l'impératrice Deng, à côté de l'empereur",
+					"pnj": "imperatrice_deng",
+					"repliques": [
+						"Tu as sauvé les feuilles. Et Cai Lun, et ma vieille maîtresse Ban, qui m'a appris l'histoire quand j'avais douze ans. Je ne l'oublierai pas.",
+						"Cette femme en rouge veut réveiller le Premier Empereur. Celui qui a brûlé les livres et enterré les lettrés vivants. Les Han existent parce que son empire s'est effondré en quatre ans. Je ne laisserai pas son ombre revenir.",
+						"J'ai fait ouvrir la route du mont Li et l'entrée du tombeau. Masque, ton homme à la cicatrice, en garde la porte. Ban Yong te prêtera ses soldats pour tenir les fosses.",
+						"Mais sous la colline, il faut des compagnons sûrs. Rassemble-les. Quatre, comme les doigts d'une main qui tient le pinceau. Et ramène-moi cette femme vivante : je veux qu'elle voie qu'on peut juger sans brûler."
+					],
+					"recompense": [
+						{
+							"id": "bottes_garde_palais",
+							"nom": "Bottes de la garde du Palais du Sud"
+						}
+					],
+					"apres": [
+						{
+							"pnj": "ban_zhao",
+							"aller": [
+								103,
+								54
+							]
+						},
+						{
+							"pnj": "cai_lun",
+							"aller": [
+								-104,
+								-36
+							]
+						}
+					],
+					"fin_chapitre": true
+				}
+			]
+		},
+		{
+			"numero": 8,
+			"titre": "Le papier et la flamme",
+			"ou": "tombeau",
+			"etapes": [
+				{
+					"id": "vers_mont_li_tombeau",
+					"ou": "luoyang",
+					"objectif": "Prends le char de poste derrière la porte de l'Ouest, vers le mont Li : le tombeau t'attend (F)",
+					"arriver": "mont_li"
+				},
+				{
+					"id": "masque_porte_allie",
+					"ou": "mont_li",
+					"si_choix": {
+						"choix_masque": "allier_masque"
+					},
+					"objectif": "Masque garde l'entrée du tombeau, au pied sud de la colline : rejoins-le",
+					"pnj": "masque_tombeau",
+					"repliques": [
+						"Te voilà. Et pas seul, j'espère. Personne n'est sorti depuis que Cinabre est descendue. Mais j'entends des choses. Des cliquetis, comme des milliers d'arcs qu'on tend.",
+						"Sima Qian a tout écrit : les arbalètes qui tirent seules, les fleuves de mercure, les lampes éternelles, le ciel de perles. Tout est vrai. J'ai jeté une pierre dans la galerie : elle est revenue en morceaux.",
+						"Quand vous serez en bas, je descendrai derrière vous et je tiendrai la porte du palais. Rien ne vous prendra à revers. Je te le promets. Et je tiens mes promesses, maintenant."
+					]
+				},
+				{
+					"id": "masque_porte_mefiant",
+					"ou": "mont_li",
+					"si_choix": {
+						"choix_masque": "mefier_masque"
+					},
+					"objectif": "Masque garde l'entrée du tombeau, au pied sud de la colline : va le voir",
+					"pnj": "masque_tombeau",
+					"repliques": [
+						"Tu es venu avec ta bande. Bien. Tu n'as toujours pas confiance en moi, et tu as raison : je ne viens pas avec vous.",
+						"Mais écoute au moins ça. Les arbalètes de la galerie sont commandées par des mécanismes de bronze, sur les murs. Bloque-les, et elles se taisent.",
+						"Je resterai à la porte. Si quelque chose remonte, il me trouvera."
+					]
+				},
+				{
+					"id": "entrer_tombeau",
+					"ou": "mont_li",
+					"objectif": "Descends dans le tombeau par l'entrée creusée, au pied sud de la colline (donjon : viens en groupe)",
+					"arriver": "tombeau"
+				},
+				{
+					"id": "galerie",
+					"objectif": "Traverse la galerie des arbalètes : sur les murs, quatre mécanismes de bronze (F) les font tirer. Bloque-les, ou passe entre les volées",
+					"zone": [
+						0,
+						-38
+					],
+					"rayon": 6,
+					"recit": {
+						"titre": "Les arbalètes de Qin",
+						"texte": "La dernière volée se plante dans le mur derrière toi. Les flèches ont des pointes de bronze, triangulaires, parfaitement identiques : on en a retrouvé des dizaines de milliers au mont Li. Trois cents ans, et elles coupent encore."
+					}
+				},
+				{
+					"id": "fleuves",
+					"objectif": "Dans la salle des fleuves, des soldats d'argile gardent les ponts au-dessus du mercure : abats-les (et ne tombe pas dans le mercure)",
+					"tuer": "soldat_argile_tombeau",
+					"nombre": 6,
+					"lieu": [
+						0,
+						-26
+					],
+					"apparition": {
+						"type": "soldat_argile_tombeau",
+						"position": [
+							0,
+							-27
+						],
+						"nombre": 6,
+						"rayon": 7,
+						"attaque": false
+					},
+					"recit": {
+						"titre": "Le Fleuve Jaune et le Yangzi",
+						"texte": "Le dernier soldat éclate sur un pont. Sous tes pieds, l'argent liquide coule sans un bruit dans ses canaux de pierre, d'ouest en est, comme les grands fleuves de Chine sur une carte. Au fond de la salle, un couloir, et une lumière dorée qui vient de très loin."
+					}
+				},
+				{
+					"id": "empereur",
+					"objectif": "Le palais souterrain : l'Empereur d'argile se lève sur son trône. Brise le cœur de cristal, au pied du cercueil",
+					"tuer": "coeur_empereur",
+					"nombre": 1,
+					"lieu": [
+						0,
+						44
+					],
+					"apparition": {
+						"type": "coeur_empereur",
+						"position": [
+							0,
+							44
+						],
+						"nombre": 1,
+						"rayon": 0.01,
+						"attaque": false
+					},
+					"apres": [
+						{
+							"appeler": "empereur_argile",
+							"methode": "effondrer"
+						},
+						{
+							"montrer": "cinabre_tombeau"
+						}
+					],
+					"recit": {
+						"titre": "L'Empereur d'argile",
+						"texte": "Le cœur de cristal éclate. Le géant se fige, la tête levée vers son ciel de perles. Puis il se fend, lentement, du haut en bas, et retombe en milliers de soldats brisés. Au milieu des morceaux, quelqu'un tousse. Cinabre, couverte de poussière rouge, une torche éteinte à la main."
+					}
+				},
+				{
+					"id": "fermer_fracture",
+					"objectif": "Referme la fracture majeure, dans le cercueil fendu de l'Empereur (reste immobile)",
+					"objet": "fracture_empereur",
+					"duree": 6,
+					"action": "La fracture majeure se referme…",
+					"apres": [
+						{
+							"cacher": "fracture_empereur"
+						},
+						{
+							"montrer": "carnet_editeur"
+						},
+						{
+							"montrer": "masque_carnet"
+						}
+					]
+				},
+				{
+					"id": "cinabre_arretee",
+					"objectif": "Cinabre est à genoux dans les gravats : parle-lui",
+					"pnj": "cinabre_tombeau",
+					"repliques": [
+						"Ne t'approche pas trop. Il reste du mercure partout. Je le sais, j'ai lu les analyses du sol. Moi, je ne sens plus mes mains.",
+						"Il s'est levé, tu as vu ? Il s'est vraiment levé. Pendant une minute, j'ai cru que j'avais raison. Que l'ordre, c'était ça : une seule volonté, un seul corps, des milliers d'hommes fondus dedans.",
+						"Et puis tu as cassé le cœur, et il n'est rien resté. Que des morceaux. Des milliers de morceaux, tous différents. Chaque soldat avait un visage à lui, tu le savais ? Les sculpteurs n'en ont pas fait deux pareils.",
+						"Emmène-moi. L'impératrice veut me juger, paraît-il. Sans me brûler. C'est bien d'elle. Ban Zhao a dû lui apprendre ça."
+					]
+				},
+				{
+					"id": "carnet_masque",
+					"si_choix": {
+						"choix_masque": "allier_masque"
+					},
+					"objectif": "Masque est descendu : il ramasse quelque chose dans les gravats",
+					"pnj": "masque_carnet",
+					"repliques": [
+						"Le carnet de l'Éditeur. Il était dans sa poche. Des dates, des lieux, des noms barrés. Le mien est dedans. Le tien aussi, je parie.",
+						"Je le garde. Non, ne dis rien. Ta Vigie a été fondée par cet homme. Tant que vous ne savez pas qui d'autre, là-haut, tient encore sa plume, ce carnet est plus en sécurité avec moi.",
+						"Je le trouverai avant vous. Et quand je l'aurai trouvé, tu seras le premier à le savoir. Promis.",
+						"Merci de m'avoir fait confiance. Ça faisait longtemps."
+					],
+					"apres": [
+						{
+							"masquer": "masque_carnet"
+						},
+						{
+							"masquer": "carnet_editeur"
+						}
+					]
+				},
+				{
+					"id": "carnet_vigie",
+					"si_choix": {
+						"choix_masque": "mefier_masque"
+					},
+					"objectif": "Un petit carnet noir est tombé de la poche de Cinabre, dans les gravats : ramasse-le (F)",
+					"objet": "carnet_editeur",
+					"duree": 1,
+					"action": "Tu glisses le carnet dans ta veste…",
+					"apres": [
+						{
+							"cacher": "carnet_editeur"
+						},
+						{
+							"masquer": "masque_carnet"
+						}
+					],
+					"recompense": [
+						{
+							"id": "carnet_editeur",
+							"nom": "Carnet de l'Éditeur"
+						}
+					],
+					"recit": {
+						"titre": "Le carnet",
+						"texte": "Des dates, des lieux, des noms barrés, de cette écriture fine et penchée. Derrière toi, des pas : Masque est descendu. Il regarde le carnet dans ta main, longtemps. « Tu l'apportes à ceux qu'il a fondés. Bonne chance. » Il tourne les talons sans un mot de plus."
+					}
+				},
+				{
+					"id": "retour_luoyang",
+					"ou": "tombeau",
+					"objectif": "Remonte à la surface et prends le char de poste vers Luoyang : l'impératrice Deng t'attend au Palais du Sud",
+					"arriver": "luoyang",
+					"apres": [
+						{
+							"pnj": "cai_lun",
+							"aller": [
+								24,
+								82
+							]
+						},
+						{
+							"pnj": "ban_zhao",
+							"aller": [
+								16,
+								83
+							]
+						},
+						{
+							"masquer": "empereur_he"
+						}
+					],
+					"recit": {
+						"titre": "Le retour",
+						"texte": "À Luoyang, le vent a tourné. Dans le pavillon de l'Est, les livres ne brûlent plus. Sur l'avenue, des Figés se frottent les yeux, se demandent pourquoi ils ont froid, et rentrent chez eux en riant. Et partout, aux fenêtres, des feuilles de papier sèchent au soleil."
+					}
+				},
+				{
+					"id": "imperatrice_titre",
+					"ou": "luoyang",
+					"objectif": "L'impératrice Deng t'attend en haut des marches de la Grande Salle",
+					"pnj": "imperatrice_deng",
+					"repliques": [
+						"Tu l'as ramenée vivante. Ban Yong me dit qu'elle n'a pas dit un mot de tout le trajet, sauf pour demander si les soldats d'argile avaient vraiment chacun un visage différent.",
+						"L'empereur s'est endormi ce matin, et les médecins ne savent pas s'il se réveillera. Je vais devoir gouverner. Pour un enfant, puis pour un autre. Longtemps. On dira que c'est trop pour une femme. On le dit déjà.",
+						"Alors je commence par ce que je sais faire : écouter ceux qui écrivent. Par décret, à partir d'aujourd'hui, tu es lettré du pavillon de l'Est. Tu pourras y lire tous les livres que tu voudras, et y écrire les tiens.",
+						"Ban Zhao a insisté pour t'enseigner elle-même. Tu ne pourras pas refuser. Personne ne refuse rien à Ban Zhao."
+					]
+				},
+				{
+					"id": "cai_lun_feuille",
+					"ou": "luoyang",
+					"objectif": "Cai Lun voudrait te donner quelque chose, au pied des marches",
+					"pnj": "cai_lun",
+					"repliques": [
+						"Tu te souviens de la feuille que j'ai tendue à l'empereur ? Celle où l'impératrice a écrit 文, l'écrit ? Elle l'a fait encadrer de soie, puis elle me l'a rendue. « Donne-la à celui qui l'a sauvée », a-t-elle dit.",
+						"Prends-la. C'est la première. Il y en aura des millions après elle : les ateliers tournent jour et nuit, et dans dix ans, on écrira sur du papier jusqu'au bout des royaumes de l'Ouest.",
+						"Ban Zhao dit que les historiens l'appelleront « le papier du marquis Cai ». Moi, je ne suis marquis de rien. Mais j'aime bien l'idée qu'on se souvienne d'un nom grâce à une chose aussi légère.",
+						"Ta porte de lumière s'est rallumée, dans la cour du pavillon. Va. Et reviens nous lire ce que tu auras écrit."
+					],
+					"recompense": [
+						{
+							"id": "premiere_feuille",
+							"nom": "La première feuille de Cai Lun"
+						}
+					],
+					"apres": [
+						{
+							"pnj": "cai_lun",
+							"aller": [
+								-104,
+								-36
+							]
+						},
+						{
+							"pnj": "ban_zhao",
+							"aller": [
+								103,
+								54
+							]
+						}
+					]
+				},
+				{
+					"id": "qg_cellule_cinabre",
+					"ou": "luoyang",
+					"objectif": "Traverse le portail de la Vigie, dans la cour du pavillon de l'Est, pour ramener Cinabre au QG",
+					"portail": true,
+					"mission_hub": "cellule_cinabre",
+					"fin_chapitre": true,
+					"recit": {
+						"titre": "Le papier et la flamme",
+						"texte": "Le papier n'a pas brûlé. Dans quelques siècles, il traversera les déserts par la route de la soie, jusqu'à Samarcande, Bagdad, puis l'Europe. Ce soir, il traverse aussi un portail, dans ta poche. L'histoire de la Chine des Han est réparée."
+					}
+				}
+			]
 		}
 	],
 	"fin_provisoire": {
-		"chapitre": "Chapitre 7 : La grande audience",
-		"objectif": "La suite arrive bientôt : le jour de l'an, au Palais du Sud de Luoyang.",
+		"chapitre": "LA CHINE EST SAUVÉE",
+		"objectif": "L'histoire de la Chine des Han est réparée. La suite du voyage arrive bientôt.",
 		"titre": "Le papier et la flamme",
-		"message": "Cinabre veut que l'Audience brûle. Et sous le mont Li, l'Empereur attend."
+		"message": "À Luoyang, des feuilles de papier sèchent à toutes les fenêtres, et Ban Zhao a repris le Livre des Han."
 	}
 }
