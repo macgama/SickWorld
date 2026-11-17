@@ -29,7 +29,9 @@ var _murs_desactives: Array = []
 
 
 func _ready() -> void:
-	set_meta("identifiant", "barque_merer")
+	# Une autre île peut donner son propre nom à la barque (le grand bac de la Chine).
+	if not has_meta("identifiant"):
+		set_meta("identifiant", "barque_merer")
 	add_to_group("decor_quete")
 	_pont = AnimatableBody3D.new()
 	_pont.name = "Pont"

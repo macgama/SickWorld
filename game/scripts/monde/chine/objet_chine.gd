@@ -7,6 +7,10 @@ extends "res://scripts/monde/rome/objet_rome.gd"
 ##   haute colonne de fumée noire (le signal du jour).
 ## - « lattes » : un tas de lattes de bois gravées (les lettres et les rapports de la
 ##   garnison) qui brûlent toutes seules. Une fois éteintes, il reste des lattes noircies.
+## - « oeufs » : une claie de bambou où sèchent des feuilles de papier couvertes d'œufs de
+##   vers à soie, rongées d'une lueur violette. Sauvées (cacher()), les feuilles sont propres.
+## - « feuille_papier » : une feuille qui sèche, collée sur une planche, que des braises
+##   violettes commencent à ronger. Une fois ramassée, il reste la planche nue.
 ## - un Figé à qui l'on rend la mémoire n'a pas de forme : l'objet est invisible, posé sur
 ##   le personnage (meta « pnj_lie ») ; quand il est compté, le personnage se dégèle.
 
@@ -157,6 +161,64 @@ func _construire_lattes() -> void:
 	for k in 14:
 		_morceau_dans(_debout, latte, noirci, Vector3(hasard.randf_range(-0.35, 0.35), 0.03, hasard.randf_range(-0.3, 0.3)),
 				Vector3(0, hasard.randf() * TAU, 0))
+
+
+func _construire_oeufs() -> void:
+	var bambou := _mat_uni(Color(0.66, 0.6, 0.4), 0.8)
+	var montant := CylinderMesh.new()
+	montant.top_radius = 0.025
+	montant.bottom_radius = 0.025
+	montant.height = 1.5
+	montant.radial_segments = 6
+	for sx in [-0.45, 0.45]:
+		for sz in [-0.25, 0.25]:
+			_morceau(montant, bambou, Vector3(sx, 0.75, sz))
+	_debout = Node3D.new()
+	_debout.name = "Sauve"
+	_debout.visible = false
+	add_child(_debout)
+	var feuille := BoxMesh.new()
+	feuille.size = Vector3(0.8, 0.008, 0.45)
+	var gris := _mat_uni(Color(0.55, 0.5, 0.52), 0.9)
+	var propre := _mat_uni(Color(0.9, 0.86, 0.74), 0.9)
+	var oeuf := SphereMesh.new()
+	oeuf.radius = 0.012
+	oeuf.height = 0.02
+	oeuf.radial_segments = 4
+	oeuf.rings = 2
+	var sombre := _mat_uni(Color(0.25, 0.22, 0.2), 0.8)
+	var hasard := RandomNumberGenerator.new()
+	hasard.seed = hash(identifiant)
+	for k in 3:
+		var y := 0.45 + k * 0.4
+		_morceau(BoxMesh.new(), bambou, Vector3(0, y - 0.02, 0)).scale = Vector3(0.95, 0.02, 0.55)
+		_morceau(feuille, gris, Vector3(0, y, 0))
+		_morceau_dans(_debout, feuille, propre, Vector3(0, y, 0))
+		for i in 14:
+			_morceau_dans(_debout, oeuf, sombre, Vector3(hasard.randf_range(-0.36, 0.36), y + 0.008, hasard.randf_range(-0.2, 0.2)))
+		# Une lueur violette qui court sur les feuilles grises.
+		var lueur := BoxMesh.new()
+		lueur.size = Vector3(0.7, 0.01, 0.04)
+		_morceau(lueur, _emissif(Color(0.62, 0.3, 1.0), 2.5), Vector3(0, y + 0.01, hasard.randf_range(-0.15, 0.15)), Vector3(0, hasard.randf_range(-0.4, 0.4), 0))
+	_trace_violette()
+
+
+func _construire_feuille_papier() -> void:
+	var planche := BoxMesh.new()
+	planche.size = Vector3(1.0, 1.3, 0.06)
+	var bois := _mat_uni(Color(0.5, 0.4, 0.28), 0.9)
+	var montant := BoxMesh.new()
+	montant.size = Vector3(0.08, 1.9, 0.08)
+	_morceau(montant, bois, Vector3(-0.46, 0.95, -0.06))
+	_morceau(montant, bois, Vector3(0.46, 0.95, -0.06))
+	_morceau(planche, bois, Vector3(0, 1.15, -0.06))
+	var feuille := BoxMesh.new()
+	feuille.size = Vector3(0.7, 0.9, 0.01)
+	_morceau(feuille, _mat_uni(Color(0.92, 0.88, 0.78), 0.95), Vector3(0, 1.15, -0.02))
+	var braise := BoxMesh.new()
+	braise.size = Vector3(0.72, 0.05, 0.02)
+	_morceau(braise, _emissif(Color(0.62, 0.3, 1.0), 3.0), Vector3(0, 0.72, -0.015), Vector3(0, 0, 0.12))
+	_trace_violette()
 
 
 func cacher() -> void:

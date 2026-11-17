@@ -452,3 +452,239 @@ func _fort_carre(parent: Node3D, r: Rect2, haut := 9.0, portes: Array = ["ouest"
 		var taille := Vector3(r.size.x, 1.0, 0.5) if horizontal else Vector3(0.5, 1.0, r.size.y)
 		_boite(taille, Vector3(c.x, y + haut + 0.3, c.y), terre, fort, false)
 	return fort
+
+
+# --- Les terres de lœss et les villages des Han (zone 2, et plus tard Luoyang) -----------------
+
+## Les tuiles grises des Han, cuites en atmosphère réduite (gris-bleu, pas rouges comme
+## en Grèce ou à Rome).
+func _mat_tuiles_han() -> StandardMaterial3D:
+	var cle := "tuiles_han"
+	if not _materiaux.has(cle):
+		var m := _mat_choix(["clay_roof_tiles_02"], Color(0.34, 0.36, 0.38), 0.85, 1.2).duplicate()
+		_materiaux[cle] = m
+	return _materiaux[cle]
+
+
+## L'enduit de terre des maisons de village, plus clair que la terre damée des murailles.
+func _mat_torchis() -> StandardMaterial3D:
+	var cle := "torchis_han"
+	if not _materiaux.has(cle):
+		var m := _mat_choix(["clay_plaster", "patterned_clay_plaster"], Color(0.86, 0.76, 0.6), 0.95, 2.0).duplicate()
+		_materiaux[cle] = m
+	return _materiaux[cle]
+
+
+## Le chaume de roseaux ou de paille de millet des remises et des cabanes.
+func _mat_chaume() -> StandardMaterial3D:
+	return _mat_paille()
+
+
+## Une petite maison de village des Han : murs de terre sur un socle bas, poteaux de bois
+## aux angles, toit de tuiles grises à deux pans qui déborde largement (ou de chaume).
+func _maison_han(parent: Node3D, centre: Vector2, taille: Vector3, angle := 0.0, chaume := false) -> Node3D:
+	var m := Node3D.new()
+	m.name = "MaisonHan%d" % parent.get_child_count()
+	m.position = Vector3(centre.x, hauteur(centre.x, centre.y) - 0.2, centre.y)
+	m.rotation.y = angle
+	parent.add_child(m)
+	var bois := _mat_bois()
+	_boite(Vector3(taille.x + 0.4, 0.45, taille.z + 0.4), Vector3(0, 0.22, 0), _mat_terre_damee(), m)
+	_boite(Vector3(taille.x, taille.y, taille.z), Vector3(0, 0.45 + taille.y * 0.5, 0), _mat_torchis(), m)
+	for sx in [-0.5, 0.5]:
+		for sz in [-0.5, 0.5]:
+			var poteau := MeshInstance3D.new()
+			poteau.mesh = _cylindre(0.12, 0.13, taille.y, 8)
+			poteau.material_override = bois
+			poteau.position = Vector3(sx * taille.x, 0.45 + taille.y * 0.5, sz * taille.z + sz * 0.04)
+			m.add_child(poteau)
+	# La poutre faîtière, et le toit qui déborde de 60 cm sur les murs.
+	var largeur := taille.z + 1.2
+	var pente := 0.42 if chaume else 0.36
+	var demi := largeur * 0.5
+	var haut := demi * tan(pente)
+	var y0 := 0.45 + taille.y
+	var couvert := _mat_chaume() if chaume else _mat_tuiles_han()
+	for cote: float in [-1.0, 1.0]:
+		var pan := _boite(Vector3(taille.x + 1.2, 0.2 if not chaume else 0.35, demi / cos(pente)),
+				Vector3(0, y0 + haut * 0.5, cote * demi * 0.5), couvert, m, false)
+		pan.rotation.x = cote * pente
+	var pignon := PrismMesh.new()
+	pignon.size = Vector3(taille.z, haut, taille.x - 0.1)
+	var tri := MeshInstance3D.new()
+	tri.mesh = pignon
+	tri.material_override = _mat_torchis()
+	tri.rotation.y = PI / 2
+	tri.position = Vector3(0, y0 + haut * 0.5 - 0.05, 0)
+	m.add_child(tri)
+	if not chaume:
+		# L'arête du toit, un rang de tuiles plus épais, relevé aux deux bouts.
+		_boite(Vector3(taille.x + 1.4, 0.24, 0.32), Vector3(0, y0 + haut + 0.08, 0), couvert, m, false)
+		for bout: float in [-1.0, 1.0]:
+			var corne := _boite(Vector3(0.4, 0.22, 0.3), Vector3(bout * (taille.x * 0.5 + 0.75), y0 + haut + 0.2, 0), couvert, m, false)
+			corne.rotation.z = bout * 0.5
+	# La porte (une ouverture sombre et un battant de bois), et une fenêtre de papier treillissée.
+	var noir := _mat_pbr("", Color(0.05, 0.04, 0.035), 1.0)
+	var porte := MeshInstance3D.new()
+	var q := QuadMesh.new()
+	q.size = Vector2(1.0, 1.9)
+	porte.mesh = q
+	porte.material_override = noir
+	porte.position = Vector3(-taille.x * 0.2, 0.45 + 0.95, taille.z * 0.5 + 0.02)
+	m.add_child(porte)
+	_boite(Vector3(0.5, 1.9, 0.06), Vector3(-taille.x * 0.2 - 0.6, 0.45 + 0.95, taille.z * 0.5 + 0.12), bois, m, false).rotation.y = 0.9
+	_fenetre_treillis(m, Vector3(taille.x * 0.22, 0.45 + 1.5, taille.z * 0.5 + 0.03), Vector2(1.1, 0.8))
+	return m
+
+
+## Une fenêtre carrée tendue de papier, derrière un treillis de bois.
+func _fenetre_treillis(parent: Node3D, p: Vector3, taille: Vector2, angle := 0.0) -> void:
+	var f := Node3D.new()
+	f.position = p
+	f.rotation.y = angle
+	parent.add_child(f)
+	var papier := MeshInstance3D.new()
+	var q := QuadMesh.new()
+	q.size = taille
+	papier.mesh = q
+	papier.material_override = _mat_pbr("", Color(0.86, 0.8, 0.66), 0.9)
+	f.add_child(papier)
+	var bois := _mat_bois()
+	var n := 4
+	for k in n + 1:
+		var t := -0.5 + float(k) / n
+		_boite(Vector3(0.04, taille.y, 0.04), Vector3(t * taille.x, 0, 0.02), bois, f, false)
+		_boite(Vector3(taille.x, 0.04, 0.04), Vector3(0, t * taille.y, 0.02), bois, f, false)
+
+
+## La façade d'une maison-grotte (« yaodong ») creusée dans la falaise de lœss : une
+## grande voûte en arc, fermée par un mur de terre percé d'une porte et d'une large
+## fenêtre de papier en demi-lune. « p » est le pied de la façade, tournée vers +Z
+## avant la rotation.
+func _facade_yaodong(parent: Node3D, p: Vector3, angle := 0.0, largeur := 3.4) -> Node3D:
+	var g := Node3D.new()
+	g.name = "Yaodong%d" % parent.get_child_count()
+	g.position = p
+	g.rotation.y = angle
+	parent.add_child(g)
+	var rayon := largeur * 0.5
+	var pied := 2.0
+	# Le creux sombre de la voûte (le fond de la grotte), un peu en retrait dans la falaise.
+	var noir := _mat_pbr("", Color(0.07, 0.055, 0.04), 1.0)
+	_boite(Vector3(largeur, pied, 0.2), Vector3(0, pied * 0.5, -0.5), noir, g, false)
+	var voute := MeshInstance3D.new()
+	var demi := CylinderMesh.new()
+	demi.top_radius = rayon
+	demi.bottom_radius = rayon
+	demi.height = 0.2
+	demi.radial_segments = 20
+	voute.mesh = demi
+	voute.material_override = noir
+	voute.rotation.x = PI / 2
+	voute.position = Vector3(0, pied, -0.5)
+	g.add_child(voute)
+	# Le mur de façade en terre, avec la porte à gauche et la fenêtre en arc au-dessus.
+	var torchis := _mat_torchis()
+	_boite(Vector3(largeur - 0.1, 0.25, 0.5), Vector3(0, 0.12, -0.15), _mat_terre_damee(), g)
+	_boite(Vector3(largeur * 0.42, pied - 0.1, 0.3), Vector3(rayon * 0.5, pied * 0.5, -0.3), torchis, g)
+	_boite(Vector3(0.2, pied, 0.3), Vector3(-rayon + 0.1, pied * 0.5, -0.3), torchis, g)
+	var bois := _mat_bois()
+	_boite(Vector3(0.9, 1.9, 0.08), Vector3(-rayon * 0.42, 0.95, -0.22), bois, g, false)
+	# La fenêtre en demi-lune : un éventail de papier sous la voûte.
+	var papier := MeshInstance3D.new()
+	var disque := CylinderMesh.new()
+	disque.top_radius = rayon - 0.15
+	disque.bottom_radius = rayon - 0.15
+	disque.height = 0.05
+	disque.radial_segments = 20
+	papier.mesh = disque
+	papier.material_override = _mat_pbr("", Color(0.85, 0.78, 0.62), 0.9)
+	papier.rotation.x = PI / 2
+	papier.position = Vector3(0, pied, -0.36)
+	g.add_child(papier)
+	for k in 7:
+		var a := PI * (k + 1) / 8.0
+		var baguette := _boite(Vector3(0.04, rayon - 0.15, 0.04), Vector3(cos(a) * (rayon - 0.15) * 0.5, pied + sin(a) * (rayon - 0.15) * 0.5, -0.32), bois, g, false)
+		baguette.rotation.z = a - PI / 2
+	_boite(Vector3(largeur - 0.3, 0.08, 0.06), Vector3(0, pied + 0.02, -0.3), bois, g, false)
+	# Le rebord de briques crues autour de l'arc.
+	var briques := _mat_terre_damee()
+	for k in 9:
+		var a := PI * k / 8.0
+		var b := _boite(Vector3(0.35, 0.5, 0.3), Vector3(cos(a) * (rayon + 0.12), pied + sin(a) * (rayon + 0.12), -0.25), briques, g, false)
+		b.rotation.z = a - PI / 2
+	for cote: float in [-1.0, 1.0]:
+		_boite(Vector3(0.35, pied, 0.3), Vector3(cote * (rayon + 0.12), pied * 0.5, -0.25), briques, g, false)
+	return g
+
+
+## Un mûrier taillé en têtard, nu en hiver : un tronc court et noueux, couronné de
+## rejets droits (on les coupait chaque année pour les feuilles des vers à soie).
+func _murier(parent: Node3D, p: Vector2, hasard: RandomNumberGenerator, taille := 1.0) -> Node3D:
+	var a := Node3D.new()
+	a.name = "Murier%d" % parent.get_child_count()
+	a.position = Vector3(p.x, hauteur(p.x, p.y) - 0.05, p.y)
+	a.rotation.y = hasard.randf() * TAU
+	a.scale = Vector3.ONE * taille
+	parent.add_child(a)
+	var ecorce := _mat_choix(["bark_willow_02", "tree_bark_03"], Color(0.5, 0.45, 0.4), 0.95, 0.6)
+	var tronc := MeshInstance3D.new()
+	tronc.mesh = _cylindre(0.24, 0.3, 1.7, 8)
+	tronc.material_override = ecorce
+	tronc.position.y = 0.85
+	tronc.rotation.z = hasard.randf_range(-0.08, 0.08)
+	a.add_child(tronc)
+	var tete := MeshInstance3D.new()
+	var boule := SphereMesh.new()
+	boule.radius = 0.36
+	boule.height = 0.55
+	boule.radial_segments = 8
+	boule.rings = 4
+	tete.mesh = boule
+	tete.material_override = ecorce
+	tete.position.y = 1.75
+	a.add_child(tete)
+	var rameau := _cylindre(0.015, 0.045, 1.0, 4)
+	for k in hasard.randi_range(9, 14):
+		var r := MeshInstance3D.new()
+		r.mesh = rameau
+		r.material_override = ecorce
+		var ang := hasard.randf() * TAU
+		var inc := hasard.randf_range(0.15, 0.6)
+		var l := hasard.randf_range(1.0, 2.0)
+		r.scale = Vector3(1, l, 1)
+		r.position = Vector3(cos(ang) * 0.2, 1.8, sin(ang) * 0.2) + Vector3(cos(ang) * sin(inc), cos(inc), sin(ang) * sin(inc)) * l * 0.5
+		r.rotation = Vector3(sin(ang) * inc, 0, -cos(ang) * inc)
+		a.add_child(r)
+	return a
+
+
+## Un peuplier nu en hiver, haut et droit (on en plantait le long des routes et des villages).
+func _peuplier_hiver(parent: Node3D, p: Vector2, hasard: RandomNumberGenerator, taille := 1.0) -> Node3D:
+	var a := Node3D.new()
+	a.name = "Peuplier%d" % parent.get_child_count()
+	a.position = Vector3(p.x, hauteur(p.x, p.y) - 0.05, p.y)
+	a.rotation.y = hasard.randf() * TAU
+	a.scale = Vector3.ONE * taille
+	parent.add_child(a)
+	var ecorce := _mat_choix(["bark_willow_02", "tree_bark_03"], Color(0.72, 0.7, 0.64), 0.9, 0.6)
+	var haut := hasard.randf_range(9.0, 12.0)
+	var tronc := MeshInstance3D.new()
+	tronc.mesh = _cylindre(0.08, 0.28, haut, 8)
+	tronc.material_override = ecorce
+	tronc.position.y = haut * 0.5
+	a.add_child(tronc)
+	var rameau := _cylindre(0.02, 0.06, 1.0, 4)
+	for k in 22:
+		var t := hasard.randf_range(0.25, 0.92)
+		var ang := hasard.randf() * TAU
+		var inc := hasard.randf_range(0.25, 0.45)
+		var l := (1.0 - t) * hasard.randf_range(2.0, 3.6) + 0.6
+		var r := MeshInstance3D.new()
+		r.mesh = rameau
+		r.material_override = ecorce
+		r.scale = Vector3(1, l, 1)
+		r.position = Vector3(0, haut * t, 0) + Vector3(cos(ang) * sin(inc), cos(inc), sin(ang) * sin(inc)) * l * 0.5
+		r.rotation = Vector3(sin(ang) * inc, 0, -cos(ang) * inc)
+		a.add_child(r)
+	return a

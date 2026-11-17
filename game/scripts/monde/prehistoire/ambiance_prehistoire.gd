@@ -144,6 +144,26 @@ const CLIMATS := {
 		"nuage_lumiere": Color(1.0, 0.94, 0.86),
 		"saturation": 0.96,
 	},
+	# Le Fleuve Jaune et les terres de lœss (Chine) : un après-midi d'hiver clair et vif,
+	# soleil bas et doré sur la terre jaune, un peu de neige sur les terrasses.
+	"fleuve_jaune": {
+		"soleil": Vector2(205.0, 26.0),
+		"couleur_soleil": Color(1.0, 0.88, 0.7),
+		"energie_soleil": 2.5,
+		"couverture": 0.25,
+		"brume": Color(0.8, 0.78, 0.72),
+		"densite_brume": 0.0016,
+		"brume_volume": 0.004,
+		"albedo_brume": Color(1.0, 0.95, 0.86),
+		"ambiance": 0.8,
+		"zenith": Color(0.22, 0.38, 0.62),
+		"horizon": Color(0.84, 0.82, 0.76),
+		"brume_ciel": 0.22,
+		"horizon_soleil": Color(1.0, 0.82, 0.6),
+		"nuage_ombre": Color(0.6, 0.6, 0.62),
+		"nuage_lumiere": Color(1.0, 0.95, 0.88),
+		"saturation": 1.0,
+	},
 	# Rome : un matin d'été, soleil déjà haut, poussière dorée entre les immeubles.
 	"rome": {
 		"etalonnage": "mediterranee",
