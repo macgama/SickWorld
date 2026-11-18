@@ -1,0 +1,11 @@
+Model Information:
+* title:	Hippopotamus
+* source:	https://sketchfab.com/3d-models/hippopotamus-b6f94ccfd88442b9b92a9484d27561a5
+* author:	planeta-elefante (https://sketchfab.com/planeta-elefante)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Hippopotamus" (https://sketchfab.com/3d-models/hippopotamus-b6f94ccfd88442b9b92a9484d27561a5) by planeta-elefante (https://sketchfab.com/planeta-elefante) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
