@@ -978,6 +978,9 @@ static func boite_biseautee(taille: Vector3, biseau: float) -> ArrayMesh:
 				var sgn := Vector3(sx, sy, sz)
 				tri.call(point.call(sgn, Vector3(sx, 0, 0)), point.call(sgn, Vector3(0, sy, 0)),
 						point.call(sgn, Vector3(0, 0, sz)), sgn.normalized())
+	# Indexé, comme une BoxMesh : _fusionner (ile_grece) mélange les boîtes avec d'autres
+	# maillages indexés, et un maillage non indexé y casserait les indices.
+	outil.index()
 	outil.generate_tangents()
 	return outil.commit()
 
