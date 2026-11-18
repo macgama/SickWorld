@@ -310,6 +310,17 @@ func _mat_terrain() -> ShaderMaterial:
 		m.set_shader_parameter(sol + "_couleur", _texture(id, "Diffuse"))
 		m.set_shader_parameter(sol + "_relief", _texture(id, "nor_gl"))
 		m.set_shader_parameter(sol + "_arm", _texture(id, "arm"))
+		# Une variante (la texture suivante de la liste) par plaques, pour « sol » et « neige ».
+		if sol in ["sol", "neige"]:
+			var reste: Array = (sols[sol] as Array).slice((sols[sol] as Array).find(id) + 1)
+			var id2 := _premiere_texture(reste)
+			if id2 != "" and id2.begins_with("snow") != id.begins_with("snow"):
+				id2 = ""
+			if id2 != "":
+				m.set_shader_parameter(sol + "2_texture", true)
+				m.set_shader_parameter(sol + "2_couleur", _texture(id2, "Diffuse"))
+				m.set_shader_parameter(sol + "2_relief", _texture(id2, "nor_gl"))
+				m.set_shader_parameter(sol + "2_arm", _texture(id2, "arm"))
 	for cle in reglages_terrain:
 		m.set_shader_parameter(cle, reglages_terrain[cle])
 	_materiaux["terrain"] = m

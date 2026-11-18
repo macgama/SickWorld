@@ -76,10 +76,10 @@ func _init() -> void:
 		# Vert : les prés secs et la terre brune du Latium.
 		"neige": ["brown_mud_02", "dry_ground_rocks", "dry_ground_01"],
 		# Bleu : la terre tassée autour du relais et de la route.
-		"sol": ["dry_ground_01", "brown_mud_02", "mud_cracked_dry_03"],
+		"sol": ["dry_ground_rocks", "dry_ground_01", "mud_cracked_dry_03"],
 		"roche": ["rock_boulder_dry", "cliff_side", "rock_wall_10"],
 	}
-	reglages_terrain = {"sol_saturation": 0.85, "sol_motif": 4.0, "galets_motif": 3.0, "neige_motif": 5.0,
+	reglages_terrain = {"sol_saturation": 0.62, "sol_motif": 4.0, "galets_motif": 3.0, "neige_motif": 5.0,
 			"sol_teinte": Color(1.0, 0.95, 0.86), "roche_teinte": Color(0.95, 0.92, 0.86), "roche_saturation": 0.7,
 			"neige_eclat": 1.0, "neige_paillettes": 0.0, "roche_motif": 10.0,
 			# La « neige » est ici la terre brune des prés.

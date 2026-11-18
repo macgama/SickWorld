@@ -33,11 +33,28 @@ static func morceaux(id: String) -> Array:
 			var aabb := t * mi.mesh.get_aabb()
 			var centre := aabb.get_center()
 			t.origin -= Vector3(centre.x, aabb.position.y, centre.z)
-			resultat.append([mi.mesh, t, mi.get_surface_override_material(0) if mi.get_surface_override_material_count() > 0 else null])
+			var mat: Material = mi.get_surface_override_material(0) if mi.get_surface_override_material_count() > 0 else null
+			if mat == null and mi.mesh.get_surface_count() == 1:
+				mat = _decoupe(mi.mesh.surface_get_material(0))
+			resultat.append([mi.mesh, t, mat])
 		scene.free()
 		break
 	_morceaux_cache[id] = resultat
 	return resultat
+
+
+## Feuillage semi-transparent (« BLEND » du glTF) → découpe nette (alpha scissor) :
+## des milliers de touffes en mélange alpha se trient mal et paraissent laiteuses.
+## Renvoie null si le matériau n'a pas besoin d'être changé.
+static func _decoupe(mat: Material) -> Material:
+	var base := mat as BaseMaterial3D
+	if base == null or base.transparency != BaseMaterial3D.TRANSPARENCY_ALPHA:
+		return null
+	var copie := base.duplicate() as BaseMaterial3D
+	copie.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA_SCISSOR
+	copie.alpha_scissor_threshold = 0.5
+	copie.cull_mode = BaseMaterial3D.CULL_DISABLED
+	return copie
 
 
 static func _transformation_dans(n: Node3D, racine: Node3D) -> Transform3D:

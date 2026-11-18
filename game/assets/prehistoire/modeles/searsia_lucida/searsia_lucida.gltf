@@ -408,7 +408,7 @@
     {
       "mimeType": "image/jpeg",
       "name": "searsia_lucida_diff",
-      "uri": "textures/searsia_lucida_diff_1k.jpg"
+      "uri": "textures/searsia_lucida_diff_1k.png"
     },
     {
       "mimeType": "image/jpeg",
@@ -418,12 +418,12 @@
     {
       "mimeType": "image/jpeg",
       "name": "searsia_lucida_diff-searsia_lucida_alpha",
-      "uri": "textures/searsia_lucida_diff_1k.jpg"
+      "uri": "textures/searsia_lucida_diff_1k.png"
     },
     {
       "mimeType": "image/jpeg",
       "name": "searsia_lucida_diff-searsia_lucida_alpha",
-      "uri": "textures/searsia_lucida_diff_1k.jpg"
+      "uri": "textures/searsia_lucida_diff_1k.png"
     }
   ],
   "accessors": [

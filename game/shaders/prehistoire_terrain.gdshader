@@ -54,6 +54,21 @@ uniform vec3 roche_teinte : source_color = vec3(0.95, 0.96, 0.98);
 uniform float roche_saturation : hint_range(0.0, 1.5) = 0.25;
 
 // Hauteur de la mer : les galets en dessous sont mouillés (plus sombres et brillants).
+// Variantes : une 2e texture pour « sol » et « neige », posée par grandes plaques
+// (casse le motif répété sur les grandes étendues). Réglée par le script.
+uniform sampler2D sol2_couleur : source_color, filter_linear_mipmap_anisotropic, repeat_enable;
+uniform sampler2D sol2_relief : hint_normal, filter_linear_mipmap_anisotropic, repeat_enable;
+uniform sampler2D sol2_arm : filter_linear_mipmap_anisotropic, repeat_enable;
+uniform bool sol2_texture = false;
+uniform sampler2D neige2_couleur : source_color, filter_linear_mipmap_anisotropic, repeat_enable;
+uniform sampler2D neige2_relief : hint_normal, filter_linear_mipmap_anisotropic, repeat_enable;
+uniform sampler2D neige2_arm : filter_linear_mipmap_anisotropic, repeat_enable;
+uniform bool neige2_texture = false;
+// Part du sol couverte par la variante (0 à 1).
+uniform float part_variante = 0.4;
+// Variation de clarté à grande échelle (taches plus sombres / plus claires).
+uniform float variation_clarte = 0.16;
+
 uniform float niveau_mer = 0.0;
 // Réglages propres à chaque objet (rochers, montagnes lointaines) :
 // roche_forcee = 1 pour un rocher entier ; neige_en_plus = neige posée dessus.
@@ -128,6 +143,22 @@ void fragment() {
 		a_sol = deux_echelles(sol_arm, uv_s, melange).rgb;
 		n_sol = deux_echelles(sol_relief, uv_s, melange).rgb;
 	}
+	// Plaques de variante (bord irrégulier, quelques mètres de transition).
+	// Bord fondu sur plusieurs mètres et dentelé par le bruit fin (pas de limite nette).
+	float plaques = texture(bruit, xz * 0.011 + vec2(0.37, 0.71)).r + (moyen - 0.5) * 0.35 + (fin - 0.5) * 0.12;
+	float w_var = smoothstep(1.0 - part_variante - 0.2, 1.0 - part_variante + 0.2, plaques);
+	if (sol2_texture) {
+		vec2 uv_s2 = xz / (sol_motif * 1.35) + vec2(0.13, 0.57);
+		// La variante garde sa texture mais prend en grande partie la teinte moyenne du sol
+		// principal : les plaques changent le grain du sol sans faire de taches de couleur.
+		vec3 c_s2 = deux_echelles(sol2_couleur, uv_s2, melange).rgb;
+		vec3 moy1 = textureLod(sol_couleur, vec2(0.5), 11.0).rgb;
+		vec3 moy2 = max(textureLod(sol2_couleur, vec2(0.5), 11.0).rgb, vec3(0.02));
+		c_s2 = mix(c_s2, c_s2 * moy1 / moy2, 0.75);
+		c_sol = mix(c_sol, c_s2, w_var);
+		a_sol = mix(a_sol, deux_echelles(sol2_arm, uv_s2, melange).rgb, w_var);
+		n_sol = mix(n_sol, deux_echelles(sol2_relief, uv_s2, melange).rgb, w_var);
+	}
 	c_sol = desature(c_sol, sol_saturation) * sol_teinte;
 	// Givre léger sur la terre.
 	c_sol = mix(c_sol, vec3(0.78, 0.82, 0.86), smoothstep(0.55, 0.8, moyen) * givre);
@@ -143,6 +174,13 @@ void fragment() {
 		c_neige = min(c_neige * neige_eclat * neige_teinte * vec3(1.0, 1.0, 1.03), neige_max);
 		a_neige = deux_echelles(neige_arm, uv_n, melange).rgb;
 		n_neige = deux_echelles(neige_relief, uv_n, melange).rgb;
+		if (neige2_texture) {
+			vec2 uv_n2 = xz / (neige_motif * 1.35) + vec2(0.61, 0.29);
+			vec3 c2 = min(deux_echelles(neige2_couleur, uv_n2, melange).rgb * neige_eclat * neige_teinte * vec3(1.0, 1.0, 1.03), neige_max);
+			c_neige = mix(c_neige, c2, w_var);
+			a_neige = mix(a_neige, deux_echelles(neige2_arm, uv_n2, melange).rgb, w_var);
+			n_neige = mix(n_neige, deux_echelles(neige2_relief, uv_n2, melange).rgb, w_var);
+		}
 	}
 
 	// --- Roche (projection triplanaire : pas d'étirement sur les falaises) ---
@@ -172,6 +210,12 @@ void fragment() {
 	c = mix(c, c_neige, w_neige);
 	a = mix(a, a_neige, w_neige);
 	n = mix(n, n_neige, w_neige);
+
+	// Taches de clarté à grande échelle (terre plus humide, plus sèche, plus piétinée),
+	// pas sur la vraie neige (paillettes) ni sur la roche.
+	float clarte = texture(bruit, xz * 0.021 + vec2(0.83, 0.09)).r * 0.7 + moyen * 0.3;
+	float force_var = variation_clarte * (1.0 - w_roche) * (1.0 - w_neige * step(0.01, neige_paillettes));
+	c *= 1.0 + (clarte - 0.5) * 2.0 * force_var;
 
 	ALBEDO = c;
 	AO = a.r;

@@ -63,7 +63,7 @@ func _init() -> void:
 		# Vert : la terre sèche, grise de poussière de minerai.
 		"neige": ["dry_ground_rocks", "dry_ground_01", "red_sand"],
 		# Bleu : les chemins et les aires de travail, tassés et noircis.
-		"sol": ["mud_cracked_dry_03", "dry_ground_rocks", "dry_ground_01"],
+		"sol": ["dry_ground_rocks", "mud_cracked_dry_03", "dry_ground_01"],
 		"roche": ["rock_boulder_dry", "cliff_side", "rock_wall_10"],
 	}
 	reglages_terrain = {"sol_saturation": 0.55, "sol_motif": 4.0, "galets_motif": 3.0, "neige_motif": 5.0,

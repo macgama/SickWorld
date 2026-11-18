@@ -57,7 +57,7 @@ func _init() -> void:
 	sols = {
 		"galets": ["cobblestone_floor_04", "dry_ground_rocks", "dry_ground_01"],
 		"neige": ["dry_ground_01", "brown_mud_02", "dry_ground_rocks"],
-		"sol": ["dry_ground_01", "mud_cracked_dry_03", "brown_mud_02"],
+		"sol": ["dry_ground_rocks", "dry_ground_01", "mud_cracked_dry_03"],
 		"roche": ["rock_boulder_dry", "cliff_side", "rock_wall_10"],
 	}
 	reglages_terrain = {"sol_saturation": 0.08, "sol_motif": 3.0, "galets_motif": 3.0, "neige_motif": 5.0,
