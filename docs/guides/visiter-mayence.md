@@ -66,3 +66,31 @@ Les gens touchés par la fracture sont **Scellés** : couverts d'une croûte rou
 7. **La foire** : les libraires du quai sont Scellés, les hommes de Sceau ont pris tous les livres. Tu délivres les libraires, tu reprends les charrettes au Vieux Pont, Masque laisse un message, et au Römerberg tu rencontres enfin **Sceau** (une ancienne conservatrice de 2026 qui pense que « le savoir se mérite »). Elle fait allumer le bûcher : il faut battre le **Bourreau des livres** et éteindre le feu. Puis l'évêque **Enea Silvio Piccolomini** feuillette les cahiers de la Bible de Fust (c'est historique : il a écrit qu'on pouvait les lire sans lunettes). Récompenses : le **cahier de la foire** et des bottes de colporteur.
 
 8. **La fonderie** : retour à Mayence. Hans a disparu sous la cathédrale, et les 46 000 lettres de Gutenberg sont parties toutes seules. Par la porte de la crypte, tu descends dans la fonderie (Masque t'y attend si tu l'as cru en Chine ; sinon, il laisse un message à la craie). Tu délivres Hans (récompense : son **moule à main**), tu abats le **Typographe de plomb** et tu refermes la fracture. **Sceau** se rend : elle s'appelle Mathilde Arnaud, conservatrice à Lyon, et elle a perdu sa salle de lecture. Son **registre** contient une fiche de la main de Marchal : « Séville, 1519. Cinq navires. La carte du monde. » (la prochaine île). Puis, à l'atelier, tu tires avec Gutenberg **la première page de la Bible** (« Incipit »), et le portail de la Vigie, dans la cour Humbrecht, ramène Sceau au QG (mission « La cellule de Sceau », dans une quatrième cellule des archives). Titre : **Compagnon de Gutenberg**.
+
+## Les quêtes secondaires (après le chapitre concerné)
+Un « ! » jaune au-dessus d'un personnage : il a quelque chose à te demander.
+- **Le chat de l'atelier** (Peter Schöffer, cour Humbrecht) : suis les feuilles déchirées par le chaton. Récompense : **Muschel**, un chaton qui te suit partout (compagnon).
+- **La lettre de Liesel** (Liesel, Rheingau) : compose un abécédaire avec maître Johannes pour qu'elle apprenne à lire.
+- **Le vin du pressoir** (maître Ott, Rheingau) : grappes, sangliers et pressoir. Récompense : du vin nouveau.
+- **Les cartes à jouer** (maître Kaspar, le graveur, au marché de Mayence) : retrouve ses planches volées.
+- **Le cheval de halage** (Jakob, au port d'Eltville) : récompense, le **licol** du cheval de halage, une monture.
+- **L'indulgence de Chypre** (le père Anselm, près de la cour Humbrecht) : un des premiers imprimés de l'histoire (1454).
+- **La reliure** (maître Ulrike, la relieuse de Francfort) : relie un livre de la foire.
+- **La grue du port** (Utz, grutier au port) : récompense, des gants de grutier.
+- **La pierre de lecture** (frère Wendelin, abbaye d'Eberbach) : une loupe de béryl, l'ancêtre des lunettes.
+- **Les intrus modernes** (l’agent Bastien Lenoir, près de la Holzturm) : ramasse les objets de 2026 tombés dans l'époque (liseuse, notice d'imprimante…).
+
+Titres : **Ami des chats**, **Maître relieur**, **Ami des Mayençais** (toutes les quêtes secondaires).
+
+## Les événements publics (après la fin de l'histoire)
+Ils arrivent tout seuls dans leur zone ; tout le monde peut aider. Récompenses or / argent / bronze selon ta participation, et les pièces de l'ensemble **Compagnon imprimeur**.
+- **Les vendanges sous l'orage** (Rheingau) : rentrer les hottes avant la grêle, malgré les loups.
+- **La crue du Rhin** (le Rhin) : sauver les tonneaux du quai contre les pilleurs.
+- **Le feu au moulin** (le Rhin) : éteindre les séchoirs de Greta.
+- **La foire aux livres** (Francfort) : chasser les voleurs de livres.
+- **La nuit des lettres** (Mayence, la nuit) : les statues de lettres de plomb se lèvent.
+
+Titre : **Gardien du Rhin** (3 événements réussis).
+
+## L'Arsenal (chez Inès, au hub)
+Trois panoplies de Mayence (palier 7, niveau 66, renforcées niveau 70 avec le **poinçon originel** du Typographe) : **Lansquenet du Rhin** (Lame, Traqueur), **Rempart de Mayence** (Rempart), **Presse de Gutenberg** (Tisseur).

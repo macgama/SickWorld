@@ -851,8 +851,9 @@ func _construire_quete() -> void:
 
 
 ## Les personnages des quêtes secondaires (plus tard).
-func _construire_secondaires(_dossier: Node3D) -> void:
-	pass
+## La donneuse de quête secondaire : maître Ulrike, la relieuse, à son étal du quai.
+func _construire_secondaires(dossier: Node3D) -> void:
+	_pnj(dossier, "relieur_francfort", Vector2(-96, 86.5), 0.0)
 
 
 # --- Les bateaux, la sortie ---------------------------------------------------------------------

@@ -1,0 +1,787 @@
+{
+	"_aide": "Événements publics de l'île de Mayence (même format que data/moyen_age_evenements.json, voir scripts/monde/prehistoire/evenements_publics.gd). Ils arrivent tout seuls dans leur zone : le premier « premier_delai » secondes après l'arrivée, puis toutes les « intervalle » secondes. « apres » : étape de la quête principale à atteindre. Phases : « vagues », « objet »/« recolter » (F), « renforts » (des ennemis qui arrivent pendant la phase). Pour régénérer ce fichier : /mnt/project-files/mayence/outils/my_evenements.py",
+	"premier_delai": 150,
+	"evenements": [
+		{
+			"id": "vendanges_sous_l_orage",
+			"titre": "Les vendanges sous l'orage",
+			"zone": "rheingau",
+			"apres": "keffer_encre",
+			"intervalle": 7200,
+			"duree": 360,
+			"position": [
+				-8,
+				30
+			],
+			"annonce": "Un orage monte du Taunus ! Il faut rentrer les dernières grappes avant la grêle, et des loups fracturés descendent dans les vignes.",
+			"objets": [
+				{
+					"id": "grappes_orage_0",
+					"groupe": "grappes_orage",
+					"forme": "hotte",
+					"position": [
+						13,
+						70
+					],
+					"invite": "[F] Couper les grappes et remplir la hotte"
+				},
+				{
+					"id": "grappes_orage_1",
+					"groupe": "grappes_orage",
+					"forme": "hotte",
+					"position": [
+						5,
+						50
+					],
+					"invite": "[F] Couper les grappes et remplir la hotte"
+				},
+				{
+					"id": "grappes_orage_2",
+					"groupe": "grappes_orage",
+					"forme": "hotte",
+					"position": [
+						-5,
+						30
+					],
+					"invite": "[F] Couper les grappes et remplir la hotte"
+				},
+				{
+					"id": "grappes_orage_3",
+					"groupe": "grappes_orage",
+					"forme": "hotte",
+					"position": [
+						-21,
+						6
+					],
+					"invite": "[F] Couper les grappes et remplir la hotte"
+				},
+				{
+					"id": "grappes_orage_4",
+					"groupe": "grappes_orage",
+					"forme": "hotte",
+					"position": [
+						-38,
+						-20
+					],
+					"invite": "[F] Couper les grappes et remplir la hotte"
+				}
+			],
+			"phases": [
+				{
+					"objectif": "Remplis 5 hottes de grappes le long du chemin des vignes avant la grêle",
+					"recolter": "grappes_orage",
+					"nombre": 5,
+					"duree": 1.5,
+					"action": "Tu coupes les grappes à la serpette, vite, vite…",
+					"renforts": {
+						"type": "loup_orage_rheingau",
+						"nombre": 2,
+						"toutes": 20,
+						"positions": [
+							[
+								-30,
+								40
+							],
+							[
+								20,
+								20
+							]
+						],
+						"rayon": 3,
+						"max": 5,
+						"attaque": true
+					}
+				},
+				{
+					"objectif": "Les loups de l'orage attaquent les vendangeurs : repousse-les",
+					"annonce": "Un éclair, et toute une meute surgit entre les rangs !",
+					"vagues": [
+						{
+							"type": "loup_orage_rheingau",
+							"nombre": 4,
+							"position": [
+								-8,
+								30
+							],
+							"rayon": 5,
+							"attaque": true
+						},
+						{
+							"type": "loup_orage_rheingau",
+							"nombre": 3,
+							"position": [
+								8,
+								56
+							],
+							"rayon": 5,
+							"attaque": true
+						}
+					]
+				},
+				{
+					"objectif": "Un grand sanglier fracturé fonce sur la charrette de hottes : arrête-le",
+					"annonce": "Les échalas craquent : un sanglier énorme traverse les vignes !",
+					"vagues": [
+						{
+							"type": "sanglier_orage_rheingau",
+							"nombre": 1,
+							"position": [
+								-4,
+								40
+							],
+							"rayon": 2,
+							"attaque": true
+						}
+					]
+				}
+			],
+			"echec": "La grêle a haché les dernières grappes. Maître Ott ne dit rien. Il regarde le ciel, longtemps.",
+			"reussite": "Les hottes sont à l'abri sous la halle quand la grêle tombe. Les vendangeurs chantent sous le toit, trempés et contents.",
+			"recompenses": {
+				"or": [
+					{
+						"id": "chausses_vendangeur",
+						"nom": "Chausses de vendangeur",
+						"chance": 0.3
+					},
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclats de fracture ×3",
+						"n": 3
+					},
+					{
+						"id": "pelage_loup_taunus",
+						"nom": "Pelage de loup du Taunus ×2",
+						"n": 2
+					}
+				],
+				"argent": [
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclats de fracture ×2",
+						"n": 2
+					},
+					{
+						"id": "pelage_loup_taunus",
+						"nom": "Pelage de loup du Taunus",
+						"n": 1
+					}
+				],
+				"bronze": [
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclat de fracture",
+						"n": 1
+					}
+				]
+			},
+			"stabilite": 6
+		},
+		{
+			"id": "crue_du_rhin",
+			"titre": "La crue du Rhin",
+			"zone": "rhin",
+			"apres": "grue",
+			"intervalle": 7200,
+			"duree": 420,
+			"position": [
+				-40,
+				112
+			],
+			"annonce": "Le Rhin monte ! L'eau passe sur le quai d'Eltville et emporte les tonneaux de vin. Des pilleurs d'épaves arrivent en barque.",
+			"objets": [
+				{
+					"id": "tonneaux_crue_0",
+					"groupe": "tonneaux_crue",
+					"forme": "caisse_flottante",
+					"position": [
+						-70,
+						120.5
+					],
+					"invite": "[F] Rouler le tonneau hors de l'eau"
+				},
+				{
+					"id": "tonneaux_crue_1",
+					"groupe": "tonneaux_crue",
+					"forme": "caisse_flottante",
+					"position": [
+						-52,
+						123
+					],
+					"invite": "[F] Rouler le tonneau hors de l'eau"
+				},
+				{
+					"id": "tonneaux_crue_2",
+					"groupe": "tonneaux_crue",
+					"forme": "caisse_flottante",
+					"position": [
+						-22,
+						122
+					],
+					"invite": "[F] Rouler le tonneau hors de l'eau"
+				},
+				{
+					"id": "tonneaux_crue_3",
+					"groupe": "tonneaux_crue",
+					"forme": "caisse_flottante",
+					"position": [
+						-6,
+						119
+					],
+					"invite": "[F] Rouler le tonneau hors de l'eau"
+				}
+			],
+			"phases": [
+				{
+					"objectif": "Sauve les 4 tonneaux emportés sur le quai, avant que le fleuve ne les prenne",
+					"recolter": "tonneaux_crue",
+					"nombre": 4,
+					"duree": 2.0,
+					"action": "Tu cales le tonneau et tu le roules vers le haut du quai…",
+					"renforts": {
+						"type": "mercenaire_pilleur_crue",
+						"nombre": 2,
+						"toutes": 22,
+						"positions": [
+							[
+								-80,
+								112
+							],
+							[
+								0,
+								112
+							]
+						],
+						"rayon": 3,
+						"max": 4,
+						"attaque": true
+					}
+				},
+				{
+					"objectif": "Les pilleurs d'épaves débarquent : défends le port",
+					"annonce": "Des barques noires accostent dans les remous !",
+					"vagues": [
+						{
+							"type": "mercenaire_pilleur_crue",
+							"nombre": 4,
+							"position": [
+								-56,
+								110
+							],
+							"rayon": 5,
+							"attaque": true
+						},
+						{
+							"type": "mercenaire_pilleur_crue",
+							"nombre": 3,
+							"position": [
+								-20,
+								112
+							],
+							"rayon": 5,
+							"attaque": true
+						}
+					]
+				},
+				{
+					"objectif": "Abats le Noyeur, le chef des pilleurs",
+					"annonce": "Le Noyeur saute sur le quai, un croc de batelier à la main !",
+					"vagues": [
+						{
+							"type": "mercenaire_chef_pilleurs_crue",
+							"nombre": 1,
+							"position": [
+								-40,
+								110
+							],
+							"rayon": 2,
+							"attaque": true
+						}
+					]
+				}
+			],
+			"echec": "Le fleuve a tout pris : les tonneaux dérivent vers Cologne, et les pilleurs avec.",
+			"reussite": "L'eau redescend. Sur le quai, les tonneaux sont alignés, intacts. Jakob compte, recompte, et éclate de rire.",
+			"recompenses": {
+				"or": [
+					{
+						"id": "souliers_batelier",
+						"nom": "Souliers de batelier",
+						"chance": 0.3
+					},
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclats de fracture ×3",
+						"n": 3
+					},
+					{
+						"id": "pfennig_mayence",
+						"nom": "Pfennigs de Mayence ×2",
+						"n": 2
+					}
+				],
+				"argent": [
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclats de fracture ×2",
+						"n": 2
+					},
+					{
+						"id": "pfennig_mayence",
+						"nom": "Pfennigs de Mayence",
+						"n": 1
+					}
+				],
+				"bronze": [
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclat de fracture",
+						"n": 1
+					}
+				]
+			},
+			"stabilite": 6
+		},
+		{
+			"id": "feu_au_moulin",
+			"titre": "Le feu au moulin",
+			"zone": "rhin",
+			"apres": "greta_fin",
+			"intervalle": 10800,
+			"duree": 420,
+			"position": [
+				96,
+				-20
+			],
+			"annonce": "De la fumée au-dessus du moulin de Greta ! Les séchoirs à papier brûlent, et des hommes de Sceau rôdent encore.",
+			"objets": [
+				{
+					"id": "seau_walluf_0",
+					"groupe": "seau_walluf",
+					"forme": "seau",
+					"position": [
+						73,
+						-34
+					],
+					"invite": "[F] Remplir le seau dans la Walluf"
+				},
+				{
+					"id": "seau_walluf_1",
+					"groupe": "seau_walluf",
+					"forme": "seau",
+					"position": [
+						73,
+						-18
+					],
+					"invite": "[F] Remplir le seau dans la Walluf"
+				},
+				{
+					"id": "seau_walluf_2",
+					"groupe": "seau_walluf",
+					"forme": "seau",
+					"position": [
+						74,
+						-8
+					],
+					"invite": "[F] Remplir le seau dans la Walluf"
+				},
+				{
+					"id": "feu_sechoir_0",
+					"groupe": "feu_sechoir",
+					"forme": "incendie",
+					"position": [
+						102,
+						-36
+					],
+					"invite": "[F] Jeter l'eau sur les flammes"
+				},
+				{
+					"id": "feu_sechoir_1",
+					"groupe": "feu_sechoir",
+					"forme": "incendie",
+					"position": [
+						106,
+						-14
+					],
+					"invite": "[F] Jeter l'eau sur les flammes"
+				},
+				{
+					"id": "feu_sechoir_2",
+					"groupe": "feu_sechoir",
+					"forme": "incendie",
+					"position": [
+						100,
+						6
+					],
+					"invite": "[F] Jeter l'eau sur les flammes"
+				}
+			],
+			"phases": [
+				{
+					"objectif": "Remplis 3 seaux dans la Walluf, au pied du moulin",
+					"recolter": "seau_walluf",
+					"nombre": 3,
+					"duree": 1.5,
+					"action": "Tu plonges le seau dans l'eau froide du ruisseau…"
+				},
+				{
+					"objectif": "Éteins le feu des 3 séchoirs à papier",
+					"annonce": "Greta forme la chaîne : les seaux passent de main en main !",
+					"recolter": "feu_sechoir",
+					"nombre": 3,
+					"duree": 2.0,
+					"action": "Tu jettes l'eau sur les feuilles qui flambent…",
+					"effet": "cacher",
+					"renforts": {
+						"type": "mercenaire_incendiaire_moulin",
+						"nombre": 2,
+						"toutes": 22,
+						"positions": [
+							[
+								120,
+								-40
+							],
+							[
+								110,
+								20
+							]
+						],
+						"rayon": 3,
+						"max": 4,
+						"attaque": true
+					}
+				},
+				{
+					"objectif": "Chasse les incendiaires de Sceau",
+					"annonce": "Ce sont eux ! Des hommes de Sceau, une torche de poix à la main !",
+					"vagues": [
+						{
+							"type": "mercenaire_incendiaire_moulin",
+							"nombre": 4,
+							"position": [
+								110,
+								-30
+							],
+							"rayon": 5,
+							"attaque": true
+						},
+						{
+							"type": "mercenaire_incendiaire_moulin",
+							"nombre": 3,
+							"position": [
+								108,
+								0
+							],
+							"rayon": 5,
+							"attaque": true
+						}
+					]
+				}
+			],
+			"echec": "Les séchoirs ont brûlé. Greta ramasse les cendres de papier sans pleurer. « On recommencera », dit-elle.",
+			"reussite": "Le feu est éteint. Quelques feuilles sont roussies sur les bords. Greta les garde : « Celles-là, je les donnerai aux enfants pour apprendre. »",
+			"recompenses": {
+				"or": [
+					{
+						"id": "gants_fondeur",
+						"nom": "Gants de fondeur",
+						"chance": 0.3
+					},
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclats de fracture ×3",
+						"n": 3
+					},
+					{
+						"id": "chiffon_lin",
+						"nom": "Chiffons de lin ×2",
+						"n": 2
+					}
+				],
+				"argent": [
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclats de fracture ×2",
+						"n": 2
+					},
+					{
+						"id": "chiffon_lin",
+						"nom": "Chiffons de lin",
+						"n": 1
+					}
+				],
+				"bronze": [
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclat de fracture",
+						"n": 1
+					}
+				]
+			},
+			"stabilite": 7
+		},
+		{
+			"id": "foire_aux_livres",
+			"titre": "La foire aux livres",
+			"zone": "francfort",
+			"apres": "fust_fin",
+			"intervalle": 3600,
+			"duree": 300,
+			"position": [
+				-24,
+				94
+			],
+			"annonce": "La foire aux livres bat son plein sur le quai du Main ! Mais une bande de voleurs fracturés vise les étals des libraires.",
+			"objets": [
+				{
+					"id": "livres_voles_0",
+					"groupe": "livres_voles",
+					"forme": "caisse_livres",
+					"position": [
+						-84,
+						94
+					],
+					"invite": "[F] Rendre la caisse de livres"
+				},
+				{
+					"id": "livres_voles_1",
+					"groupe": "livres_voles",
+					"forme": "caisse_livres",
+					"position": [
+						-34,
+						94
+					],
+					"invite": "[F] Rendre la caisse de livres"
+				},
+				{
+					"id": "livres_voles_2",
+					"groupe": "livres_voles",
+					"forme": "caisse_livres",
+					"position": [
+						22,
+						94
+					],
+					"invite": "[F] Rendre la caisse de livres"
+				},
+				{
+					"id": "livres_voles_3",
+					"groupe": "livres_voles",
+					"forme": "caisse_livres",
+					"position": [
+						34,
+						94
+					],
+					"invite": "[F] Rendre la caisse de livres"
+				}
+			],
+			"phases": [
+				{
+					"objectif": "Des voleurs de livres se faufilent entre les étals : attrape-les",
+					"annonce": "« Au voleur ! Mon missel ! »",
+					"vagues": [
+						{
+							"type": "mercenaire_voleur_livres",
+							"nombre": 3,
+							"position": [
+								-60,
+								94
+							],
+							"rayon": 5,
+							"attaque": true
+						},
+						{
+							"type": "mercenaire_voleur_livres",
+							"nombre": 3,
+							"position": [
+								10,
+								94
+							],
+							"rayon": 5,
+							"attaque": true
+						}
+					]
+				},
+				{
+					"objectif": "Rends aux libraires les 4 caisses de livres volées",
+					"annonce": "Les voleurs ont lâché leurs caisses le long du quai !",
+					"recolter": "livres_voles",
+					"nombre": 4,
+					"duree": 1.0,
+					"action": "Tu rends la caisse à son libraire…"
+				},
+				{
+					"objectif": "Le Rat de bibliothèque, le chef des voleurs, veut reprendre son butin : arrête-le",
+					"annonce": "Un grand maigre en manteau gris surgit, un sac sur l'épaule !",
+					"vagues": [
+						{
+							"type": "mercenaire_chef_voleurs_livres",
+							"nombre": 1,
+							"position": [
+								-24,
+								96
+							],
+							"rayon": 2,
+							"attaque": true
+						}
+					]
+				}
+			],
+			"echec": "Les voleurs ont filé avec les plus beaux livres. Les libraires replient leurs étals, la mine sombre.",
+			"reussite": "Les libraires remballent leurs livres en riant. L'un d'eux te glisse une image de saint Christophe : « Pour la route. »",
+			"recompenses": {
+				"or": [
+					{
+						"id": "pourpoint_foire",
+						"nom": "Pourpoint de la foire",
+						"chance": 0.3
+					},
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclats de fracture ×3",
+						"n": 3
+					},
+					{
+						"id": "pfennig_mayence",
+						"nom": "Pfennigs de Mayence ×2",
+						"n": 2
+					}
+				],
+				"argent": [
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclats de fracture ×2",
+						"n": 2
+					},
+					{
+						"id": "pfennig_mayence",
+						"nom": "Pfennigs de Mayence",
+						"n": 1
+					}
+				],
+				"bronze": [
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclat de fracture",
+						"n": 1
+					}
+				]
+			},
+			"stabilite": 5
+		},
+		{
+			"id": "nuit_des_lettres",
+			"titre": "La nuit des lettres",
+			"zone": "ville",
+			"apres": "gutenberg_rendre",
+			"intervalle": 7200,
+			"duree": 420,
+			"position": [
+				58,
+				28
+			],
+			"annonce": "Les caractères de plomb s'échappent de l'atelier et se rassemblent sur la place du marché en hommes de lettres ! Il faut les briser avant qu'ils n'envahissent la ville.",
+			"phases": [
+				{
+					"objectif": "Brise les hommes de lettres de plomb qui se forment sur la place du marché",
+					"vagues": [
+						{
+							"type": "statue_lettres_plomb_nuit",
+							"nombre": 3,
+							"position": [
+								50,
+								20
+							],
+							"rayon": 5,
+							"attaque": true
+						},
+						{
+							"type": "statue_lettres_plomb_nuit",
+							"nombre": 3,
+							"position": [
+								66,
+								36
+							],
+							"rayon": 5,
+							"attaque": true
+						}
+					],
+					"renforts": {
+						"type": "statue_lettres_plomb_nuit",
+						"nombre": 1,
+						"toutes": 25,
+						"positions": [
+							[
+								40,
+								14
+							],
+							[
+								76,
+								44
+							]
+						],
+						"rayon": 2,
+						"max": 3,
+						"attaque": true
+					}
+				},
+				{
+					"objectif": "Toutes les lettres se rassemblent en un Grand Caractère : abats-le avant qu'il n'atteigne la cathédrale",
+					"annonce": "Les lettres roulent les unes sur les autres et se dressent : un « G » de plomb haut comme une maison !",
+					"vagues": [
+						{
+							"type": "statue_lettres_plomb_nuit_grande",
+							"nombre": 1,
+							"position": [
+								58,
+								28
+							],
+							"rayon": 2,
+							"attaque": true
+						}
+					]
+				}
+			],
+			"echec": "Le Grand Caractère s'est effondré tout seul contre la cathédrale. Hans passera la semaine à ramasser les lettres dans le caniveau.",
+			"reussite": "Il ne reste que des caractères éparpillés sur les pavés. Les enfants du marché les ramassent un à un et les rapportent à l'atelier.",
+			"recompenses": {
+				"or": [
+					{
+						"id": "bonnet_typographe",
+						"nom": "Bonnet de typographe",
+						"chance": 0.3
+					},
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclats de fracture ×3",
+						"n": 3
+					},
+					{
+						"id": "caractere_plomb",
+						"nom": "Caractères de plomb ×2",
+						"n": 2
+					}
+				],
+				"argent": [
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclats de fracture ×2",
+						"n": 2
+					},
+					{
+						"id": "caractere_plomb",
+						"nom": "Caractères de plomb",
+						"n": 1
+					}
+				],
+				"bronze": [
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclat de fracture",
+						"n": 1
+					}
+				]
+			},
+			"stabilite": 7
+		}
+	]
+}

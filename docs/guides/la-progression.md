@@ -235,6 +235,11 @@ Un titre se gagne une fois pour toutes. Dans l'onglet **Titres** de la fenêtre 
 | Moyen Âge | « Trouvère » | Chanter la chanson de Roland avec le jongleur (quête « La chanson du jongleur »). |
 | Moyen Âge | « Ami des Chartrains » | Terminer toutes les quêtes secondaires du Moyen Âge. |
 | Moyen Âge | « Gardien de la Beauce » | Réussir 3 événements publics du Moyen Âge. |
+| Mayence | « Compagnon de Gutenberg » | Terminer la quête principale de Mayence : ramener Sceau au QG. |
+| Mayence | « Ami des chats » | Retrouver le chaton de l'atelier (quête « Le chat de l'atelier »). |
+| Mayence | « Maître relieur » | Relier un livre avec le relieur de Francfort (quête « La reliure »). |
+| Mayence | « Ami des Mayençais » | Terminer toutes les quêtes secondaires de Mayence. |
+| Mayence | « Gardien du Rhin » | Réussir 3 événements publics de Mayence. |
 | Arène de la baie | « Baptême de l'arène » | Gagner un premier combat à l'Arène de la baie. |
 | Arène de la baie | « Habitué de l'arène » | Gagner 25 combats à l'Arène. |
 | Arène de la baie | « Vétéran de l'arène » | Gagner 100 combats à l'Arène. |

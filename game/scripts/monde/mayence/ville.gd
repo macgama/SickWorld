@@ -960,8 +960,13 @@ func _mettre_nuit(nuit: bool) -> void:
 
 
 ## Les personnages des quêtes secondaires (plus tard).
-func _construire_secondaires(_dossier: Node3D) -> void:
-	pass
+## Les donneurs des quêtes secondaires (data/mayence_secondaires.json) : maître Kaspar le graveur
+## de cartes au coin du marché, le père Anselm sur la rue Saint-Christophe, l'agent Lenoir
+## sur la rue du Holzturm.
+func _construire_secondaires(dossier: Node3D) -> void:
+	_pnj(dossier, "graveur_cartes", Vector2(43, 11), PI * 0.8)
+	_pnj(dossier, "cure_christophe", Vector2(33, -74), PI * 0.3)
+	_pnj(dossier, "lenoir_mayence", Vector2(100, 51), -PI * 0.4)
 
 
 # --- Les bateaux, la sortie ---------------------------------------------------------------------

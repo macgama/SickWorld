@@ -13,7 +13,7 @@ Chaque panoplie a des **bonus d'ensemble** à 3, 5 et 7 pièces (normales et ren
 - Va voir **Inès, la soudeuse**, dans le **quartier des Artisans** du hub (près de la forge Hinode). Parle-lui : son établi s'ouvre, avec un onglet par île.
 - Une pièce **normale** (bleue, « rare ») demande des **éclats de fracture** (ils tombent sur presque tous les ennemis « fracturés ») et des **matériaux de l'île**.
 - Une pièce **renforcée** (violette, « épique », 35 % plus forte) demande la pièce normale, des éclats et le **trophée du boss du donjon de l'île** (fourrure de l'Ours sans mémoire, écaille d'Isfet, œil de la Gorgone, bronze du Colosse, perle de la coiffe impériale, cœur de plomb du Brasier).
-- Chaque pièce demande un **niveau** : 6 / 10 en Préhistoire, 16 / 20 en Égypte, 26 / 30 en Grèce, 36 / 40 à Rome, 46 / 50 en Chine, 56 / 60 au Moyen Âge (normale / renforcée). On peut la fabriquer avant, mais pas la porter.
+- Chaque pièce demande un **niveau** : 6 / 10 en Préhistoire, 16 / 20 en Égypte, 26 / 30 en Grèce, 36 / 40 à Rome, 46 / 50 en Chine, 56 / 60 au Moyen Âge, 66 / 70 à Mayence (normale / renforcée). On peut la fabriquer avant, mais pas la porter.
 - Comme pour les autres améliorations, la pièce à renforcer doit être **dans les sacs** (pas portée), et la version renforcée la remplace aussi dans les tenues de mission.
 
 ![L'atelier d'Inès](../images/arsenal-ines.jpg)
