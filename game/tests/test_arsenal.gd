@@ -6,7 +6,7 @@ extends SceneTree
 
 const Artisanat := preload("res://scripts/objets/artisanat.gd")
 const NOM := "Testeur Arsenal"
-const ILES := ["prehistoire", "egypte", "grece", "rome", "chine", "moyen_age"]
+const ILES := ["prehistoire", "egypte", "grece", "rome", "chine", "moyen_age", "mayence"]
 const ROLES := ["assaut", "garde", "harmonie"]
 const EMPLACEMENTS := ["arme", "torse", "jambes", "tete", "mains", "pieds", "bijou"]
 
@@ -78,20 +78,20 @@ func _donnees(cat: Dictionary, art: Dictionary) -> void:
 						n += 1
 					else:
 						manquants.append(id)
-	_verifier(manquants.is_empty() and n == 252, "252 pièces chargées (6 îles × 3 panoplies × 7 pièces × 2 versions)" + ("" if manquants.is_empty() else " — manquent : %s" % [manquants.slice(0, 5)]))
+	_verifier(manquants.is_empty() and n == 294, "294 pièces chargées (7 îles × 3 panoplies × 7 pièces × 2 versions)" + ("" if manquants.is_empty() else " — manquent : %s" % [manquants.slice(0, 5)]))
 	_verifier((cat.get("ensembles", {}) as Dictionary).has("arsenal_rome_garde") and (cat.get("ensembles", {}) as Dictionary).has("chasseur_du_clan"),
 			"les ensembles de l'Arsenal s'ajoutent à ceux d'objets.json sans les remplacer")
 	_verifier(Objets.existe(cat, "lance_silex") and Objets.existe(cat, "jian_ban_chao"), "les objets des îles sont toujours là")
 	_verifier(Artisanat.artisan_du_pnj(art, "soudeuse") == "arsenal", "Inès la soudeuse tient l'Arsenal des époques")
 	var fiche := Artisanat.artisan(art, "arsenal")
-	_verifier((fiche.get("categories", []) as Array).size() == 6, "un onglet par île chez Inès")
+	_verifier((fiche.get("categories", []) as Array).size() == 7, "un onglet par île chez Inès")
 	var erreurs: Array[String] = []
 	for id in Artisanat.recettes_de(art, "arsenal"):
 		var r: Dictionary = Artisanat.recette(art, id)
 		for ing in r.get("ingredients", {}):
 			if not Objets.existe(cat, String(ing)):
 				erreurs.append("%s : %s" % [id, ing])
-	_verifier(Artisanat.recettes_de(art, "arsenal").size() == 252 and erreurs.is_empty(), "252 recettes, tous les ingrédients existent" + ("" if erreurs.is_empty() else " : %s" % [erreurs.slice(0, 5)]))
+	_verifier(Artisanat.recettes_de(art, "arsenal").size() == 294 and erreurs.is_empty(), "294 recettes, tous les ingrédients existent" + ("" if erreurs.is_empty() else " : %s" % [erreurs.slice(0, 5)]))
 	var renf := Artisanat.recette(art, "arsenal_egypte_assaut_arme_renforce")
 	_verifier((renf.get("ingredients", {}) as Dictionary).has("ecaille_isfet") and (renf.get("ingredients", {}) as Dictionary).has("arsenal_egypte_assaut_arme"),
 			"renforcer une pièce d'Égypte demande la pièce et l'écaille d'Isfet")
@@ -118,7 +118,7 @@ func _puissance(cat: Dictionary) -> void:
 		for role in ROLES:
 			niveaux_ok = niveaux_ok and Objets.niveau_requis(cat, _id(ILES[i], role, "torse", false)) == 10 * (i + 1) - 4 \
 					and Objets.niveau_requis(cat, _id(ILES[i], role, "torse", true)) == 10 * (i + 1)
-	_verifier(niveaux_ok, "niveau requis : 6/10 en Préhistoire, 16/20 en Égypte… 46/50 en Chine, 56/60 au Moyen Âge")
+	_verifier(niveaux_ok, "niveau requis : 6/10 en Préhistoire, 16/20 en Égypte… 46/50 en Chine, 56/60 au Moyen Âge, 66/70 à Mayence")
 	var b := _panoplie(cat, "rome", "garde", true)
 	_verifier((b["paliers"] as Array).size() == 3, "7 pièces : les 3 bonus de l'ensemble sont actifs (%s)" % [b["paliers"]])
 	var trois := Objets.bonus(cat, {"torse": _id("rome", "garde", "torse", false), "tete": _id("rome", "garde", "tete", true), "mains": _id("rome", "garde", "mains", false)})
@@ -175,7 +175,7 @@ static func _ennemis(ennemis: Dictionary, de: int, a: int) -> Vector2:
 func _equilibrage(cat: Dictionary, ennemis: Dictionary) -> void:
 	print("Équilibrage contre les ennemis des îles (Lame, panoplie Assaut renforcée)")
 	var d: Dictionary = Progression.donnees()
-	var fins := {"prehistoire": 10, "egypte": 20, "grece": 30, "rome": 40, "chine": 44, "moyen_age": 56}
+	var fins := {"prehistoire": 10, "egypte": 20, "grece": 30, "rome": 40, "chine": 44, "moyen_age": 56, "mayence": 66}
 	for ile in ILES:
 		var niveau := int(fins[ile])
 		var en := _ennemis(ennemis, niveau - 2, niveau)
@@ -191,7 +191,7 @@ func _equilibrage(cat: Dictionary, ennemis: Dictionary) -> void:
 		var pour_mourir := vie / (en.y * (1.0 - protection))
 		_verifier(pour_tuer >= 10.0 and pour_tuer <= 32.0 and pour_mourir >= 2.0 * pour_tuer,
 				"%s (niveau %d) : un ennemi tombe en %.0f s, la Lame tiendrait %.0f s" % [ile, niveau, pour_tuer, pour_mourir])
-	_verifier(Progression.niveau_max(d) >= 60, "le niveau maximum permet de porter la panoplie du Moyen Âge renforcée")
+	_verifier(Progression.niveau_max(d) >= 70, "le niveau maximum permet de porter la panoplie de Mayence renforcée")
 
 
 func _en_jeu(cat: Dictionary) -> void:

@@ -10993,5 +10993,600 @@
 				]
 			}
 		]
+	},
+	"fonderie": {
+		"niveau_eau": -50.0,
+		"insectes": [
+			{
+				"sorte": "poussiere",
+				"autour": true,
+				"nombre": 90
+			},
+			{
+				"sorte": "cendres",
+				"autour": true,
+				"nombre": 60
+			}
+		]
+	},
+	"francfort": {
+		"niveau_eau": -50.0,
+		"oiseaux": [
+			{
+				"espece": "pigeon",
+				"comportement": "nuee",
+				"centre": [
+					-2,
+					10
+				],
+				"altitude": 12,
+				"rayon": 16,
+				"nombre": 26
+			},
+			{
+				"espece": "choucas",
+				"centre": [
+					60,
+					-29
+				],
+				"altitude": 44,
+				"rayon": 18,
+				"nombre": 16
+			},
+			{
+				"espece": "choucas",
+				"centre": [
+					-30,
+					-154
+				],
+				"altitude": 50,
+				"rayon": 12,
+				"nombre": 8
+			},
+			{
+				"espece": "mouette",
+				"centre": [
+					0,
+					130
+				],
+				"altitude": 10,
+				"rayon": 70,
+				"nombre": 16
+			},
+			{
+				"espece": "corbeau",
+				"centre": [
+					136,
+					-40
+				],
+				"altitude": 16,
+				"rayon": 24,
+				"nombre": 6
+			},
+			{
+				"espece": "oie",
+				"comportement": "formation",
+				"centre": [
+					0,
+					0
+				],
+				"altitude": 90,
+				"rayon": 220,
+				"nombre": 11,
+				"direction": 250,
+				"pause": 50
+			}
+		],
+		"insectes": [
+			{
+				"sorte": "mouches",
+				"position": [
+					-2,
+					10,
+					1.0
+				],
+				"rayon": 14,
+				"nombre": 40
+			},
+			{
+				"sorte": "mouches",
+				"position": [
+					136,
+					-20,
+					1.0
+				],
+				"rayon": 20,
+				"nombre": 40
+			},
+			{
+				"sorte": "poussiere",
+				"autour": true,
+				"nombre": 90
+			},
+			{
+				"sorte": "duvet",
+				"autour": true,
+				"vent": 30
+			},
+			{
+				"sorte": "cendres",
+				"position": [
+					-2,
+					6,
+					1.6
+				],
+				"rayon": 3.0,
+				"nombre": 30
+			}
+		],
+		"figurants": [
+			{
+				"comme": "foule_parvis_1",
+				"chemin": [
+					[
+						-120,
+						100
+					],
+					[
+						-60,
+						98
+					],
+					[
+						0,
+						98
+					],
+					[
+						60,
+						98
+					]
+				],
+				"porte": "sac",
+				"vitesse": 0.9,
+				"pause": [
+					3,
+					7
+				]
+			},
+			{
+				"comme": "foule_parvis_2",
+				"chemin": [
+					[
+						60,
+						98
+					],
+					[
+						0,
+						98
+					],
+					[
+						-60,
+						98
+					],
+					[
+						-130,
+						100
+					]
+				],
+				"porte": "panier",
+				"vitesse": 0.8,
+				"pause": [
+					4,
+					8
+				]
+			},
+			{
+				"comme": "foule_parvis_3",
+				"chemin": [
+					[
+						-8,
+						98
+					],
+					[
+						-6,
+						60
+					],
+					[
+						-2,
+						30
+					],
+					[
+						-14,
+						-12
+					]
+				],
+				"vitesse": 0.8,
+				"pause": [
+					4,
+					8
+				]
+			},
+			{
+				"comme": "foule_parvis_4",
+				"chemin": [
+					[
+						-20,
+						20
+					],
+					[
+						10,
+						24
+					],
+					[
+						16,
+						0
+					],
+					[
+						-16,
+						0
+					]
+				],
+				"porte": "panier",
+				"vitesse": 0.6,
+				"pause": [
+					5,
+					10
+				],
+				"arrets": [
+					0,
+					1,
+					2,
+					3
+				]
+			},
+			{
+				"comme": "foule_parvis_5",
+				"chemin": [
+					[
+						24,
+						8
+					],
+					[
+						46,
+						-2
+					],
+					[
+						100,
+						-4
+					],
+					[
+						140,
+						-20
+					]
+				],
+				"porte": "jarre",
+				"vitesse": 0.7,
+				"pause": [
+					5,
+					10
+				]
+			},
+			{
+				"comme": "foule_parvis_6",
+				"chemin": [
+					[
+						120,
+						-80
+					],
+					[
+						150,
+						-40
+					],
+					[
+						130,
+						20
+					],
+					[
+						120,
+						60
+					]
+				],
+				"porte": "sac",
+				"vitesse": 0.7,
+				"pause": [
+					4,
+					9
+				]
+			},
+			{
+				"comme": "foule_parvis_7",
+				"chemin": [
+					[
+						-96,
+						94
+					],
+					[
+						-74,
+						94
+					],
+					[
+						-44,
+						94
+					]
+				],
+				"vitesse": 0.5,
+				"pause": [
+					6,
+					12
+				],
+				"arrets": [
+					0,
+					1,
+					2
+				]
+			},
+			{
+				"comme": "foule_parvis_8",
+				"chemin": [
+					[
+						-14,
+						-12
+					],
+					[
+						-20,
+						-70
+					],
+					[
+						-28,
+						-140
+					]
+				],
+				"porte": "sac",
+				"vitesse": 0.8,
+				"pause": [
+					4,
+					8
+				]
+			},
+			{
+				"comme": "foule_parvis_9",
+				"chemin": [
+					[
+						-4,
+						104
+					],
+					[
+						2,
+						106
+					],
+					[
+						-10,
+						106
+					]
+				],
+				"geste": "travail",
+				"vitesse": 0.5,
+				"pause": [
+					8,
+					14
+				],
+				"arrets": [
+					0,
+					1,
+					2
+				]
+			}
+		],
+		"disperser": [
+			{
+				"modele": "stone_01",
+				"nombre": 300,
+				"echelle": [
+					0.15,
+					0.4
+				],
+				"hors_piste": 1.2
+			},
+			{
+				"modele": "weed_plant_02",
+				"nombre": 240,
+				"echelle": [
+					0.6,
+					1.0
+				],
+				"hors_piste": 1.0,
+				"grappes": [
+					50,
+					4
+				],
+				"ombre": false,
+				"distance": 60
+			},
+			{
+				"modele": "nettle_plant",
+				"nombre": 80,
+				"echelle": [
+					0.7,
+					1.1
+				],
+				"hors_piste": 2.0,
+				"pres_de": [
+					[
+						-140,
+						-120,
+						30
+					],
+					[
+						140,
+						-120,
+						30
+					],
+					[
+						-140,
+						40,
+						30
+					]
+				],
+				"distance": 70
+			},
+			{
+				"modele": "dandelion_01",
+				"nombre": 120,
+				"echelle": [
+					0.7,
+					1.1
+				],
+				"hors_piste": 1.5,
+				"zone": [
+					112,
+					-110,
+					162,
+					80
+				],
+				"ombre": false,
+				"distance": 55
+			},
+			{
+				"modele": "wine_barrel_01",
+				"nombre": 34,
+				"echelle": [
+					0.9,
+					1.0
+				],
+				"hors_piste": 2.0,
+				"pres_de": [
+					[
+						-60,
+						104,
+						40
+					],
+					[
+						60,
+						104,
+						30
+					],
+					[
+						136,
+						-20,
+						30
+					],
+					[
+						-2,
+						10,
+						16
+					]
+				]
+			},
+			{
+				"modele": "wooden_barrels_01",
+				"nombre": 8,
+				"echelle": [
+					0.9,
+					1.0
+				],
+				"hors_piste": 3.0,
+				"pres_de": [
+					[
+						-100,
+						104,
+						20
+					],
+					[
+						100,
+						104,
+						16
+					]
+				]
+			},
+			{
+				"modele": "wicker_basket_01",
+				"nombre": 30,
+				"echelle": [
+					0.9,
+					1.15
+				],
+				"hors_piste": 1.5,
+				"pres_de": [
+					[
+						-2,
+						10,
+						20
+					],
+					[
+						136,
+						-20,
+						30
+					]
+				]
+			},
+			{
+				"modele": "wicker_basket_02",
+				"nombre": 14,
+				"echelle": [
+					0.9,
+					1.1
+				],
+				"hors_piste": 1.5,
+				"pres_de": [
+					[
+						-2,
+						10,
+						20
+					]
+				]
+			},
+			{
+				"modele": "wooden_bucket_02",
+				"nombre": 14,
+				"echelle": [
+					0.9,
+					1.1
+				],
+				"hors_piste": 2.0,
+				"pres_de": [
+					[
+						-2,
+						10,
+						12
+					],
+					[
+						0,
+						104,
+						20
+					]
+				]
+			},
+			{
+				"modele": "wooden_crate_01",
+				"nombre": 30,
+				"echelle": [
+					0.9,
+					1.1
+				],
+				"hors_piste": 2.0,
+				"pres_de": [
+					[
+						0,
+						104,
+						60
+					],
+					[
+						136,
+						-20,
+						30
+					],
+					[
+						40,
+						82,
+						10
+					]
+				]
+			},
+			{
+				"modele": "wooden_ladder",
+				"nombre": 3,
+				"echelle": [
+					0.9,
+					1.0
+				],
+				"hors_piste": 3.0,
+				"pres_de": [
+					[
+						46,
+						-29,
+						12
+					]
+				]
+			}
+		]
 	}
 }

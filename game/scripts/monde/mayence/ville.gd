@@ -28,6 +28,9 @@ const ARRIVEE := Vector2(126, 58)
 const SORTIE_E := Vector2(146, 58)
 const HOLZTURM := Vector2(112, 58)
 const FISCHTOR := Vector2(112, -62)
+## Le ponton de la nef de Fust, devant la porte des Pêcheurs : le départ pour Francfort.
+const PONTON_FUST := Vector2(142, -76)
+const SORTIE_N := Vector2(146, -76)
 ## Les rues.
 const RUE_HOLZTURM := [Vector2(126, 58), Vector2(112, 58), Vector2(86, 50), Vector2(64, 40)]
 const RUE_CHRISTOPHE := [Vector2(64, 40), Vector2(58, 2), Vector2(46, -40), Vector2(30, -72), Vector2(14, -80)]
@@ -58,6 +61,10 @@ const MARCHAL := Vector2(10.4, -96.2)
 const MACHINE := Vector2(8.4, -97.4)
 const REPONSES := [Vector2(2.0, -93.8), Vector2(6.4, -93.8)]
 const AFFICHE := Vector2(15, -87)
+## Le chapitre 8 : la porte de la crypte de Saint-Martin, sur le flanc sud de la nef (on y
+## descend vers la fonderie), et le portail de la Vigie qui s'ouvre dans la cour Humbrecht.
+const DESCENTE_FONDERIE := Vector2(-34, 44.5)
+const PORTAIL_QG := Vector2(24, -106)
 const ETAPES_NUIT := ["lumiere", "marchal", "gutenberg_hesite", "convaincre", "marchal_ouvriers", "marchal_apprendre", "torches_sceau"]
 ## Le quartier des orfèvres, le syndic, les indices de l'enquête.
 const ORFEVRES := Vector2(-60, -34)
@@ -79,7 +86,12 @@ var _mur_e: StaticBody3D
 var _nefs: Array[Node3D] = []
 var _rues: Array = []
 var _nuit := false
+var _mur_fust: StaticBody3D
+var _route_francfort := false
 var _lumieres_nuit: Node3D
+var _portail_qg: Node3D
+var _grille_crypte: Node3D
+var _crypte_ouverte := false
 
 
 func _init() -> void:
@@ -114,6 +126,12 @@ func _init() -> void:
 
 func _ready() -> void:
 	if not Engine.is_editor_hint() and Reseau.has_meta("arrivee_mayence"):
+		if Reseau.get_meta("arrivee_mayence") == "francfort":
+			# Retour de Francfort : on débarque au ponton de la nef de Fust.
+			point_apparition = PONTON_FUST + Vector2(-14, 0)
+		elif Reseau.get_meta("arrivee_mayence") == "fonderie":
+			# On remonte de la fonderie par la porte de la crypte.
+			point_apparition = DESCENTE_FONDERIE + Vector2(0, 5)
 		Reseau.remove_meta("arrivee_mayence")
 	super._ready()
 
@@ -121,6 +139,10 @@ func _ready() -> void:
 func sortie_vers(zone: String) -> Vector2:
 	if zone == "rhin":
 		return SORTIE_E
+	if zone == "francfort":
+		return SORTIE_N
+	if zone == "fonderie":
+		return DESCENTE_FONDERIE
 	return Vector2.INF
 
 
@@ -251,6 +273,17 @@ func _construire_rhin() -> void:
 			dossier.add_child(pieu)
 	var bac := _nef_du_rhin(dossier, Vector3(BAC.x + 10.0, NIVEAU_RHIN + 0.2, BAC.y - 6.0), PI / 2 + 0.1, Color(0.86, 0.82, 0.72))
 	bac.name = "NefDuBac"
+	# Le ponton de la nef de Fust (le départ pour la foire de Francfort, par le Main).
+	_boite(Vector3(14.0, 0.25, 4.0), Vector3(PONTON_FUST.x, NIVEAU_RHIN + 0.9, PONTON_FUST.y), bois, dossier)
+	for k in 4:
+		for cote: float in [-1.0, 1.0]:
+			var pieu := MeshInstance3D.new()
+			pieu.mesh = _cylindre(0.12, 0.14, 3.2, 8)
+			pieu.material_override = bois
+			pieu.position = Vector3(PONTON_FUST.x - 6.0 + k * 3.6, NIVEAU_RHIN - 0.4, PONTON_FUST.y + cote * 1.9)
+			dossier.add_child(pieu)
+	var nef_fust := _nef_du_rhin(dossier, Vector3(PONTON_FUST.x + 10.0, NIVEAU_RHIN + 0.2, PONTON_FUST.y + 6.0), PI / 2, Color(0.74, 0.3, 0.22))
+	nef_fust.name = "NefDeFust"
 
 
 ## La rive : entre le mur du Rhin et l'eau, les grues, les tonneaux, les ballots.
@@ -270,7 +303,7 @@ func _construire_rive() -> void:
 	for k in 30:
 		var c := Vector2(hasard.randf_range(116.0, 128.0), hasard.randf_range(-140.0, 140.0))
 		if c.distance_to(ARRIVEE) < 8.0 or c.distance_to(RECELEUR) < 6.0 or c.distance_to(HOLZTURM) < 8.0 \
-				or c.distance_to(INDICES[2]) < 4.0 or c.distance_to(FISCHTOR) < 8.0:
+				or c.distance_to(INDICES[2]) < 4.0 or c.distance_to(FISCHTOR) < 8.0 or absf(c.y - PONTON_FUST.y) < 5.0:
 			continue
 		if k % 3 == 0:
 			var t := MeshInstance3D.new()
@@ -715,9 +748,11 @@ func _construire_limites() -> void:
 	_mur_invisible(limites, Vector3(taille_terrain, 140, 2), Vector3(0, 40, -demi))
 	_mur_invisible(limites, Vector3(taille_terrain, 140, 2), Vector3(0, 40, demi))
 	# On ne se baigne pas dans le Rhin (sauf par le ponton du bac).
-	for z: Array in [[-170.0, BAC.y - 3.0], [BAC.y + 3.0, 170.0]]:
+	for z: Array in [[-170.0, PONTON_FUST.y - 3.0], [PONTON_FUST.y + 3.0, BAC.y - 3.0], [BAC.y + 3.0, 170.0]]:
 		var l: float = z[1] - z[0]
 		_mur_invisible(limites, Vector3(2, 30, l), Vector3(BERGE_X + 2.0, 8, (z[0] + z[1]) * 0.5))
+	# Le ponton de Fust : fermé tant que l'histoire n'y mène pas.
+	_mur_fust = _mur_invisible(limites, Vector3(2, 30, 6), Vector3(BERGE_X + 2.0, 8, PONTON_FUST.y))
 
 
 # --- Personnages et objets de la quête ----------------------------------------------------------
@@ -750,7 +785,10 @@ func _construire_quete() -> void:
 	_pnj(dossier, "gutenberg", GUTENBERG, PI * 0.9)
 	_pnj(dossier, "heinrich_keffer", KEFFER, PI)
 	_pnj(dossier, "peter_schoeffer", SCHOEFFER, PI * 0.8)
-	_pnj(dossier, "hans_fondeur", HANS, -PI * 0.7)
+	var hans := _pnj(dossier, "hans_fondeur", HANS, -PI * 0.7)
+	# Chapitre 8 : Hans descend dans la fonderie (masqué), puis remonte (montré).
+	hans.add_to_group("decor_quete")
+	hans.set_meta("identifiant", "hans_fondeur")
 	_scelle(dossier, "johann_fust", "liberer_fust", "", FUST, PI * 0.6)
 	_objet(dossier, "moule_atelier", FONDERIE + Vector2(0, 1.6), "", "[F] Couler une lettre avec Hans")
 	_objet(dossier, "casse_atelier", CASSE, "casse_plomb", "[F] Composer une ligne")
@@ -776,6 +814,15 @@ func _construire_quete() -> void:
 	_objet(dossier, "dire_apprendre", REPONSES[1], "", "[F] « Le monde doit apprendre par lui-même. »", "", 2.0)
 	_objet(dossier, "affiche_sceau", AFFICHE, "affiche_roulee", "[F] Ramasser l'affiche roulée")
 	_construire_lumieres_nuit(dossier)
+	_construire_porte_crypte(dossier)
+	# Chapitre 8 : le portail de la Vigie, dans la cour Humbrecht, pour ramener Sceau au QG.
+	_construire_portail(dossier, PORTAIL_QG, PI / 2)
+	_portail_qg = dossier.get_node("Portail") as Node3D
+	_portail_qg.name = "PortailVigie"
+	_portail_qg.add_to_group("decor_quete")
+	_portail_qg.set_meta("identifiant", "portail_qg")
+	_portail_qg.visible = false
+	_zone_portail.monitoring = false
 	var faille := Faille.new()
 	faille.name = "Faille"
 	faille.identifiant = "faille_ville"
@@ -790,7 +837,49 @@ func _construire_quete() -> void:
 	repere.call(MarqueurCarte.Type.LIEU, "Le marché", MARCHE.get_center())
 	repere.call(MarqueurCarte.Type.LIEU, "Les orfèvres", ORFEVRES)
 	repere.call(MarqueurCarte.Type.LIEU, "Le Holzturm", HOLZTURM)
+	repere.call(MarqueurCarte.Type.LIEU, "La porte de la crypte (vers la fonderie)", DESCENTE_FONDERIE)
 	repere.call(MarqueurCarte.Type.LIEU, "Le bac, vers le Rhin et le moulin", BAC)
+
+
+## La porte de la crypte de Saint-Martin, contre le bas-côté sud : un encadrement de grès
+## rouge, un escalier qui s'enfonce dans le noir, une grille de fer fermée (elle s'ouvre au
+## chapitre 8). Une lueur rouge monte d'en bas.
+func _construire_porte_crypte(dossier: Node3D) -> void:
+	var d := Node3D.new()
+	d.name = "PorteCrypte"
+	var p := DESCENTE_FONDERIE
+	var y := hauteur(p.x, p.y)
+	d.position = Vector3(p.x, y, p.y)
+	dossier.add_child(d)
+	var gres := _mat_gres_rouge()
+	var noir := _mat_uni_ma(Color(0.02, 0.015, 0.015), 1.0)
+	var fer := _mat_uni_ma(Color(0.1, 0.1, 0.11), 0.5)
+	fer.metallic = 0.7
+	# L'avant-corps : deux jambages, un linteau, un petit toit d'ardoise.
+	for c: float in [-1.0, 1.0]:
+		_boite(Vector3(1.0, 4.6, 3.0), Vector3(c * 2.4, 2.3, -1.2), gres, d)
+	_boite(Vector3(5.8, 1.2, 3.2), Vector3(0, 5.2, -1.2), gres, d)
+	var toit := _boite(Vector3(6.4, 0.25, 3.8), Vector3(0, 6.0, -1.0), _mat_ardoise(), d, false)
+	toit.rotation.x = 0.25
+	# Le trou noir de l'escalier, et les premières marches qui descendent.
+	_boite(Vector3(3.8, 4.0, 0.2), Vector3(0, 2.0, -2.6), noir, d, false)
+	for k in 4:
+		_boite(Vector3(3.8, 0.3, 0.8), Vector3(0, -0.1 - k * 0.3, -1.9 + k * 0.1), _mat_schiste(), d, false)
+	var lueur := OmniLight3D.new()
+	lueur.light_color = Color(1.0, 0.4, 0.15)
+	lueur.light_energy = 1.4
+	lueur.omni_range = 5.0
+	lueur.position = Vector3(0, 0.6, -1.8)
+	d.add_child(lueur)
+	# La grille de fer : des barreaux, fermée tant que l'histoire n'y mène pas.
+	_grille_crypte = Node3D.new()
+	_grille_crypte.name = "Grille"
+	_grille_crypte.position = Vector3(0, 0, 0.1)
+	d.add_child(_grille_crypte)
+	for k in 9:
+		_boite(Vector3(0.08, 4.0, 0.08), Vector3(-1.7 + k * 0.42, 2.0, 0), fer, _grille_crypte, false)
+	for h: float in [0.4, 2.2, 3.9]:
+		_boite(Vector3(3.6, 0.1, 0.1), Vector3(0, h, 0), fer, _grille_crypte, false)
 
 
 ## La machine de l'Éditeur : une petite presse électrique grise de 2026, posée sur un
@@ -871,8 +960,13 @@ func _mettre_nuit(nuit: bool) -> void:
 
 
 ## Les personnages des quêtes secondaires (plus tard).
-func _construire_secondaires(_dossier: Node3D) -> void:
-	pass
+## Les donneurs des quêtes secondaires (data/mayence_secondaires.json) : maître Kaspar le graveur
+## de cartes au coin du marché, le père Anselm sur la rue Saint-Christophe, l'agent Lenoir
+## sur la rue du Holzturm.
+func _construire_secondaires(dossier: Node3D) -> void:
+	_pnj(dossier, "graveur_cartes", Vector2(43, 11), PI * 0.8)
+	_pnj(dossier, "cure_christophe", Vector2(33, -74), PI * 0.3)
+	_pnj(dossier, "lenoir_mayence", Vector2(100, 51), -PI * 0.4)
 
 
 # --- Les bateaux, la sortie ---------------------------------------------------------------------
@@ -889,6 +983,9 @@ func _process(delta: float) -> void:
 				n.position.z = 1200.0
 	if Engine.is_editor_hint():
 		return
+	# Le portail de la Vigie ne ramène au QG qu'une fois ouvert.
+	if _portail_qg != null and _zone_portail != null and _zone_portail.monitoring != _portail_qg.visible:
+		_zone_portail.monitoring = _portail_qg.visible
 	_attente -= delta
 	if _attente > 0.0:
 		return
@@ -896,12 +993,27 @@ func _process(delta: float) -> void:
 	var quete := get_tree().get_first_node_in_group("quete")
 	if quete == null or not quete.has_method("etape_atteinte"):
 		return
+	if not _crypte_ouverte and quete.etape_atteinte("vers_fonderie"):
+		_crypte_ouverte = true
+		if _grille_crypte != null and is_instance_valid(_grille_crypte):
+			_grille_crypte.visible = false
 	if not has_meta("nuit_forcee"):
 		_mettre_nuit(String(quete.etape_actuelle().get("id", "")) in ETAPES_NUIT)
 	var joueur := get_tree().get_first_node_in_group("joueur_local") as Node3D
 	if joueur == null:
 		return
 	var p := Vector2(joueur.global_position.x, joueur.global_position.z)
-	if p.distance_to(SORTIE_E) < 4.0 and quete.donnees.get("zones", {}).has("rhin"):
+	if not _route_francfort and quete.etape_atteinte("vers_francfort"):
+		_route_francfort = true
+		if _mur_fust != null and is_instance_valid(_mur_fust):
+			_mur_fust.queue_free()
+	if _crypte_ouverte and p.distance_to(DESCENTE_FONDERIE) < 2.5 and quete.donnees.get("zones", {}).has("fonderie"):
+		Reseau.set_meta("arrivee_mayence", "ville")
+		quete.changer_de_zone("fonderie")
+		return
+	if _route_francfort and p.distance_to(SORTIE_N) < 4.0 and quete.donnees.get("zones", {}).has("francfort"):
+		Reseau.set_meta("arrivee_mayence", "ville")
+		quete.changer_de_zone("francfort")
+	elif p.distance_to(SORTIE_E) < 4.0 and quete.donnees.get("zones", {}).has("rhin"):
 		Reseau.set_meta("arrivee_mayence", "ville")
 		quete.changer_de_zone("rhin")

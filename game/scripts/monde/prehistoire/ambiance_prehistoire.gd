@@ -265,6 +265,26 @@ const CLIMATS := {
 		"nuage_lumiere": Color(1.0, 0.97, 0.92),
 		"saturation": 1.12,
 	},
+	# Francfort, la foire d'automne : fin d'après-midi dorée, soleil bas sur le Main, un peu
+	# de fumée de cuisine au-dessus des toits.
+	"francfort": {
+		"soleil": Vector2(235.0, 24.0),
+		"couleur_soleil": Color(1.0, 0.8, 0.56),
+		"energie_soleil": 2.5,
+		"couverture": 0.45,
+		"brume": Color(0.84, 0.8, 0.76),
+		"densite_brume": 0.0018,
+		"brume_volume": 0.006,
+		"albedo_brume": Color(0.96, 0.92, 0.86),
+		"ambiance": 0.88,
+		"zenith": Color(0.24, 0.4, 0.7),
+		"horizon": Color(0.82, 0.8, 0.78),
+		"brume_ciel": 0.22,
+		"horizon_soleil": Color(1.0, 0.74, 0.5),
+		"nuage_ombre": Color(0.62, 0.6, 0.64),
+		"nuage_lumiere": Color(1.0, 0.94, 0.86),
+		"saturation": 1.12,
+	},
 	# Mayence, la nuit de l'Éditeur (chapitre 6) : pleine lune sur le Rhin, ciel d'encre
 	# bleutée, assez de lumière pour voir les rues ; les lanternes font le reste.
 	"ville_nuit": {

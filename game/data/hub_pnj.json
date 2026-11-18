@@ -513,5 +513,17 @@
 			"Cinabre m'a prêté un livre. Janus ne me parle pas. Ici, c'est comme à l'atelier : chacun son coin.",
 			"Si tu repasses à Chartres, regarde le bleu d'Aude au soleil de midi. Et ne me raconte pas. Je veux l'imaginer."
 		]
+	},
+	"sceau_cellule": {
+		"nom": "Mathilde Arnaud (« Sceau »)",
+		"role": "Détenue de la Vigie",
+		"modele": "femme",
+		"taille_cm": 170,
+		"peau": "#ecc8b0",
+		"habits": "#5a5a60",
+		"repliques": [
+			"Plomb m'a dit que tu étais têtu. Elle a raison. Assieds-toi, je te lis la lettre D.",
+			"Un jour, tu me raconteras Séville. Pas tout de suite. Laisse-moi d'abord finir mon catalogue."
+		]
 	}
 }

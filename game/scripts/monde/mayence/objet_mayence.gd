@@ -8,6 +8,8 @@ extends "res://scripts/monde/moyen_age/objet_moyen_age.gd"
 ##   disparaît.
 ## - « hotte » : la hotte d'osier d'un vendangeur, pleine de grappes noires.
 ## - « affiche_roulee » : l'affiche de Sceau, roulée et cachetée de cire rouge (chapitre 6).
+## - « caisse_livres » : une caisse ouverte pleine de livres reliés (chapitre 7, la foire).
+## - « lanterne_fonderie » : une lanterne de fer et de corne sur un poteau (chapitre 8).
 ## - un Scellé que l'on délivre n'a pas de forme : l'objet est invisible, posé sur le
 ##   personnage (meta « pnj_lie ») ; quand il est compté, le sceau de cire se brise.
 
@@ -227,3 +229,68 @@ func _construire_affiche_roulee() -> void:
 	rouge.emission_enabled = true
 	rouge.emission = Color(0.4, 0.02, 0.02)
 	_morceau(cire, rouge, Vector3(0, 0.072, 0))
+
+
+## Une caisse de bois ouverte, pleine de livres reliés de cuir, prise par les hommes de Sceau.
+func _construire_caisse_livres() -> void:
+	var bois := _mat_uni(Color(0.46, 0.34, 0.2), 0.9)
+	var fond := BoxMesh.new()
+	fond.size = Vector3(0.9, 0.06, 0.6)
+	_morceau(fond, bois, Vector3(0, 0.03, 0))
+	var cote := BoxMesh.new()
+	cote.size = Vector3(0.9, 0.5, 0.05)
+	for z: float in [-0.28, 0.28]:
+		_morceau(cote, bois, Vector3(0, 0.25, z))
+	var bout := BoxMesh.new()
+	bout.size = Vector3(0.05, 0.5, 0.6)
+	for x: float in [-0.43, 0.43]:
+		_morceau(bout, bois, Vector3(x, 0.25, 0))
+	var livre := BoxMesh.new()
+	livre.size = Vector3(0.12, 0.36, 0.26)
+	var cuirs := [Color(0.42, 0.2, 0.12), Color(0.28, 0.16, 0.1), Color(0.5, 0.32, 0.18), Color(0.32, 0.12, 0.1)]
+	for k in 6:
+		_morceau(livre, _mat_uni(cuirs[k % 4], 0.7), Vector3(-0.32 + k * 0.13, 0.26, 0), Vector3(0, 0, 0.08 * (k % 2)))
+
+
+## Une lanterne de fonderie de Hans Dünne, en fer et en corne, sur un poteau de chêne.
+## Éteinte, la corne est sombre ; rallumée (l'enfant « Eteint », comme le vitrail de la
+## crypte), elle brille d'une flamme chaude qui chasse l'encre noire.
+func _construire_lanterne_fonderie() -> void:
+	var chene := _mat_uni(Color(0.3, 0.2, 0.12), 0.9)
+	var fer := _mat_uni(Color(0.12, 0.12, 0.13), 0.55)
+	fer.metallic = 0.7
+	var poteau := BoxMesh.new()
+	poteau.size = Vector3(0.22, 2.6, 0.22)
+	var montant := BoxMesh.new()
+	montant.size = Vector3(0.06, 0.8, 0.06)
+	var plaque := BoxMesh.new()
+	plaque.size = Vector3(0.64, 0.06, 0.64)
+	var toit := CylinderMesh.new()
+	toit.top_radius = 0.04
+	toit.bottom_radius = 0.42
+	toit.height = 0.32
+	toit.radial_segments = 4
+	var corne := BoxMesh.new()
+	corne.size = Vector3(0.5, 0.66, 0.5)
+	for cible in [_visuel, null]:
+		var parent: Node3D = cible
+		if parent == null:
+			_debout = Node3D.new()
+			_debout.name = "Eteint"
+			_debout.visible = false
+			add_child(_debout)
+			parent = _debout
+		_morceau_dans(parent, poteau, chene, Vector3(0, 1.3, 0))
+		for c in [Vector2(-1, -1), Vector2(1, -1), Vector2(-1, 1), Vector2(1, 1)]:
+			_morceau_dans(parent, montant, fer, Vector3(c.x * 0.29, 3.0, c.y * 0.29))
+		for h: float in [2.6, 3.4]:
+			_morceau_dans(parent, plaque, fer, Vector3(0, h, 0))
+		_morceau_dans(parent, toit, fer, Vector3(0, 3.56, 0), Vector3(0, PI / 4, 0))
+	_morceau_dans(_visuel, corne, _mat_uni(Color(0.16, 0.12, 0.08), 0.6), Vector3(0, 3.0, 0))
+	_morceau_dans(_debout, corne, _emissif(Color(1.0, 0.7, 0.32), 2.6), Vector3(0, 3.0, 0))
+	var lumiere := OmniLight3D.new()
+	lumiere.light_color = Color(1.0, 0.72, 0.4)
+	lumiere.light_energy = 3.2
+	lumiere.omni_range = 9.0
+	lumiere.position = Vector3(0, 3.0, 0.8)
+	_debout.add_child(lumiere)

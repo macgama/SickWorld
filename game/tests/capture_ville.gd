@@ -16,6 +16,8 @@ const VUES := [
 	["atelier", Vector3(18, 1.7, -96), Vector3(4, 1.6, -102), false],
 	["orfevres", Vector3(-20, 2.0, -18), Vector3(-80, 3.0, -40), false],
 	["jardins", Vector3(-100, 2.0, -110), Vector3(-136, 3.0, -138), false],
+	["porte_crypte", Vector3(-30, 1.8, 56), Vector3(-34, 2.5, 43), false],
+	["portail", Vector3(10, 1.8, -96), Vector3(24, 2.0, -106), false],
 	["haut", Vector3(220, 140.0, 160), Vector3(0, 10.0, 0), true],
 	# La nuit de l'Éditeur (chapitre 6) : Marchal et sa machine dans l'atelier.
 	["nuit_atelier", Vector3(14, 1.7, -93), Vector3(8, 1.2, -97.5), false],
@@ -67,6 +69,9 @@ func _lancer() -> void:
 				if n.get_meta("identifiant", "") in ["etienne_marchal", "machine_marchal"]:
 					n.visible = true
 			await _attendre(30)
+		if vue[0] == "portail":
+			scene._portail_qg.visible = true
+			await _attendre(5)
 		var pos: Vector3 = vue[1]
 		var cible: Vector3 = vue[2]
 		if not vue[3]:

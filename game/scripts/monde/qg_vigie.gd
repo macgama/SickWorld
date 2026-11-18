@@ -384,8 +384,8 @@ static func _amenager_archives(hub: HikariBay, metal: Material) -> void:
 	# Trois rangées de rayonnages, du nord au sud, côté ouest.
 	for i in 3:
 		var x := r.position.x + 3.0 + i * 4.2
-		# La troisième rangée est plus courte : la troisième cellule (Plomb) est au bout.
-		var fin_z := r.end.y - (6.2 if i == 2 else 2.0)
+		# Les deux dernières rangées sont plus courtes : les cellules de Plomb et de Sceau sont au bout.
+		var fin_z := r.end.y - (6.2 if i >= 1 else 2.0)
 		hub._bloc(x - 0.4, r.position.y + 2.0, x + 0.4, fin_z, SOL, SOL + 3.6, metal, true).visible = false
 		for k in 4:
 			var y := SOL + 0.4 + k * 0.85
@@ -419,12 +419,14 @@ static func _amenager_archives(hub: HikariBay, metal: Material) -> void:
 ## une chaise. Vides jusqu'au chapitre 8 de Rome (Janus est enfermée dans la première, voir la
 ## mission « cellule_janus », qui y fait apparaître Livia Conti) et au chapitre 8 de la Chine
 ## (Cinabre dans la seconde, juste à l'ouest : mission « cellule_cinabre ») et au chapitre 8 du
-## Moyen Âge (Plomb dans la troisième : mission « cellule_plomb »).
+## Moyen Âge (Plomb dans la troisième : mission « cellule_plomb ») et au chapitre 8 de Mayence
+## (Sceau dans la quatrième : mission « cellule_sceau »).
 static func _amenager_cellule(hub: HikariBay, metal: Material) -> void:
 	var r := ARCHIVES
 	_cellule(hub, metal, r.end.x - 5.0, r.end.x - 0.3, true)
 	_cellule(hub, metal, r.end.x - 10.0, r.end.x - 5.0, false)
 	_cellule(hub, metal, r.end.x - 15.0, r.end.x - 10.0, false)
+	_cellule(hub, metal, r.end.x - 20.0, r.end.x - 15.0, false)
 
 
 static func _cellule(hub: HikariBay, metal: Material, x0: float, x1: float, mur_est: bool) -> void:

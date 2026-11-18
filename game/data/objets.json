@@ -2906,6 +2906,379 @@
 				"couleur": "#4a3424"
 			},
 			"epoque": "Mayence"
+		},
+		"cahier_foire": {
+			"nom": "Le cahier de la foire de Francfort",
+			"type": "equipement",
+			"rarete": "historique",
+			"emplacement": "relique",
+			"description": "Un cahier de huit feuilles pliées, imprimé à deux colonnes de quarante-deux lignes. Un évêque l'a feuilleté à la foire, un bûcher l'a frôlé, et il n'a pas une tache.",
+			"stats": {
+				"pv": 300,
+				"critique_pourcent": 3,
+				"degats_pourcent": 3
+			},
+			"icone": {
+				"forme": "eclat",
+				"couleur": "#e8e0c8"
+			},
+			"epoque": "Mayence"
+		},
+		"bottes_colporteur": {
+			"nom": "Bottes de colporteur",
+			"type": "equipement",
+			"rarete": "rare",
+			"emplacement": "pieds",
+			"description": "De hautes bottes de cuir souple, ressemelées dix fois, qui ont fait toutes les foires d'Allemagne.",
+			"stats": {
+				"pv": 340,
+				"reduction_pourcent": 3,
+				"degats_pourcent": 2
+			},
+			"visuel": {
+				"forme": "bottes_fourrure",
+				"couleur": "#5a3a24"
+			},
+			"epoque": "Mayence"
+		},
+		"hache_bourreau": {
+			"nom": "Hache du Bourreau des livres",
+			"type": "equipement",
+			"rarete": "rare",
+			"emplacement": "arme_principale",
+			"description": "Une lourde hache au fer noirci par les bûchers. La Vigie y a glissé un éclat de technologie, pour qu'elle serve enfin à autre chose.",
+			"stats": {
+				"degats_pourcent": 36,
+				"pv": 150
+			},
+			"visuel": {
+				"forme": "lame",
+				"couleur": "#4a4a4e"
+			},
+			"epoque": "Mayence"
+		},
+		"poincon_originel": {
+			"nom": "Le poinçon originel",
+			"type": "materiau",
+			"rarete": "epique",
+			"pile": 20,
+			"description": "Une tige d'acier noircie, gravée au bout d'une lettre qu'aucun alphabet ne connaît, tombée du cœur du Typographe quand il s'est effondré. Inès dit qu'avec ça, elle pourrait frapper n'importe quel métal.",
+			"icone": {
+				"forme": "cristal",
+				"couleur": "#8a8cb0"
+			},
+			"epoque": "Mayence"
+		},
+		"cachet_sceau": {
+			"nom": "Le cachet de Sceau",
+			"type": "materiau",
+			"rarete": "rare",
+			"pile": 1,
+			"description": "Un cachet de bibliothèque en laiton, avec un manche de bois verni : « FONDS ANCIEN — CONSULTATION SUR PLACE ». On en tamponnait les fiches de prêt, en 2026. Il n'a rien à faire en 1454.",
+			"icone": {
+				"forme": "eclat",
+				"couleur": "#c8a040"
+			},
+			"epoque": "Mayence"
+		},
+		"composteur_typographe": {
+			"nom": "Composteur du Typographe",
+			"type": "equipement",
+			"rarete": "epique",
+			"emplacement": "arme_principale",
+			"description": "Une réglette de fer longue comme un bras, à bord relevé, où le géant alignait ses lettres. Lourde, mais parfaitement équilibrée. La Vigie y a glissé un éclat de technologie.",
+			"stats": {
+				"degats_pourcent": 38,
+				"pv": 180,
+				"critique_pourcent": 2
+			},
+			"visuel": {
+				"forme": "lame",
+				"couleur": "#6a6c74"
+			},
+			"epoque": "Mayence"
+		},
+		"moule_hans": {
+			"nom": "Le moule à main de Hans",
+			"type": "equipement",
+			"rarete": "historique",
+			"emplacement": "bijou",
+			"description": "Deux coquilles de bois et de fer qui s'emboîtent, avec un ressort d'acier : le moule à main où l'on coule les lettres. Celui de Hans, poli par des milliers de coulées.",
+			"stats": {
+				"pv": 300,
+				"degats_pourcent": 4,
+				"reduction_pourcent": 2
+			},
+			"icone": {
+				"forme": "eclat",
+				"couleur": "#7a5a3a"
+			},
+			"epoque": "Mayence"
+		},
+		"registre_sceau": {
+			"nom": "Le registre de Sceau",
+			"type": "materiau",
+			"rarete": "historique",
+			"pile": 1,
+			"description": "Un registre de bibliothèque à fiches cartonnées, chacune avec sa cote. La dernière, de la main de Marchal : « Séville, 1519. Cinq navires. La carte du monde. »",
+			"icone": {
+				"forme": "tendon",
+				"couleur": "#5a5c60"
+			},
+			"epoque": "Mayence"
+		},
+		"premiere_page_bible": {
+			"nom": "La première page de la Bible",
+			"type": "equipement",
+			"rarete": "historique",
+			"emplacement": "relique",
+			"description": "Une feuille de papier de Greta, imprimée de deux colonnes de quarante-deux lignes, à l'encre noire de Gutenberg. En haut, le premier mot : « Incipit ». La toute première page, tirée par tes mains.",
+			"stats": {
+				"pv": 340,
+				"degats_pourcent": 5,
+				"critique_pourcent": 3
+			},
+			"icone": {
+				"forme": "eclat",
+				"couleur": "#f2eee2"
+			},
+			"epoque": "Mayence"
+		},
+		"muschel_chaton": {
+			"nom": "Muschel, le chaton de l'atelier",
+			"type": "equipement",
+			"rarete": "epique",
+			"emplacement": "bijou",
+			"description": "Un chaton tigré gris et brun, le ventre et les pattes blancs, qui chassait les souris dans les rames de papier de Gutenberg. Porté, il te suit partout en trottinant, y compris dans les autres époques, et crache quand un homme de Sceau ou un homme de lettres de plomb approche.",
+			"stats": {
+				"pv": 60,
+				"critique_pourcent": 3
+			},
+			"compagnon": "chat",
+			"icone": {
+				"forme": "plante",
+				"couleur": "#6a5e50"
+			},
+			"epoque": "Mayence"
+		},
+		"abecedaire_liesel": {
+			"nom": "L'abécédaire de Liesel",
+			"type": "equipement",
+			"rarete": "historique",
+			"emplacement": "relique",
+			"description": "Une feuille imprimée dans l'atelier de Gutenberg : les vingt-trois lettres de l'alphabet latin, en grand, puis le Notre Père. Liesel l'a lue à voix haute devant tout le village, sans se tromper. Puis elle te l'a rendue : « Je la sais par cœur. »",
+			"stats": {
+				"pv": 260,
+				"degats_pourcent": 3,
+				"critique_pourcent": 2
+			},
+			"icone": {
+				"forme": "eclat",
+				"couleur": "#f2eee2"
+			},
+			"epoque": "Mayence"
+		},
+		"vin_rheingau": {
+			"nom": "Vin nouveau du Rheingau",
+			"type": "consommable",
+			"rarete": "raffine",
+			"pile": 10,
+			"description": "Un pichet de vin blanc trouble et pétillant, le premier moût de la vendange de maître Ott. Il réchauffe et donne du cœur à l'ouvrage. Chef Goro dit qu'il en ferait une sauce.",
+			"repas": {
+				"duree": 1800,
+				"stats": {
+					"pv": 110
+				}
+			},
+			"icone": {
+				"forme": "bol",
+				"couleur": "#d8c870"
+			},
+			"epoque": "Mayence"
+		},
+		"cartes_a_jouer": {
+			"nom": "Le jeu de cartes de maître Kaspar",
+			"type": "materiau",
+			"rarete": "historique",
+			"pile": 1,
+			"description": "Un jeu de cartes gravé sur bois et colorié au pochoir : quatre couleurs, des cerfs, des oiseaux, des fleurs et des chiens. Pas de rois. À poser chez soi.",
+			"icone": {
+				"forme": "eclat",
+				"couleur": "#c86a4a"
+			},
+			"epoque": "Mayence"
+		},
+		"licol_halage": {
+			"nom": "Licol du cheval de halage",
+			"type": "materiau",
+			"rarete": "historique",
+			"pile": 1,
+			"description": "Un licol de corde de chanvre tressée, avec le petit grelot de cuivre des chevaux de Jakob. Tant qu'il est dans tes sacs, le gros cheval brun du chemin de halage vient quand tu l'appelles (touche V) sur l'île de Mayence.",
+			"icone": {
+				"forme": "tendon",
+				"couleur": "#8a7a5a"
+			},
+			"epoque": "Mayence"
+		},
+		"indulgence_1454": {
+			"nom": "L'indulgence de 1454",
+			"type": "materiau",
+			"rarete": "historique",
+			"pile": 1,
+			"description": "Une petite feuille de parchemin imprimée de trente et une lignes, avec un blanc pour le nom et la date : une indulgence pour la guerre de Chypre, imprimée à Mayence en 1454. C'est le plus ancien imprimé daté qui nous soit parvenu. Elle aurait sa place au Musée.",
+			"icone": {
+				"forme": "eclat",
+				"couleur": "#e8dcc0"
+			},
+			"epoque": "Mayence"
+		},
+		"livre_relie_francfort": {
+			"nom": "Le livre relié de maître Ulrike",
+			"type": "equipement",
+			"rarete": "historique",
+			"emplacement": "relique",
+			"description": "Un petit livre de prières relié de veau brun, sur planches de chêne, avec deux fermoirs de laiton. Tu as cousu les cahiers toi-même, sur les nerfs, à la foire de Francfort.",
+			"stats": {
+				"pv": 280,
+				"reduction_pourcent": 3,
+				"degats_pourcent": 2
+			},
+			"icone": {
+				"forme": "eclat",
+				"couleur": "#6a4a2a"
+			},
+			"epoque": "Mayence"
+		},
+		"gants_grutier": {
+			"nom": "Gants de grutier",
+			"type": "equipement",
+			"rarete": "rare",
+			"emplacement": "mains",
+			"description": "Des gants de cuir épais, râpés aux paumes à force de tenir les rayons de la grande roue de la grue d'Eltville.",
+			"stats": {
+				"pv": 300,
+				"reduction_pourcent": 3,
+				"degats_pourcent": 3
+			},
+			"visuel": {
+				"forme": "gants",
+				"couleur": "#6a5040"
+			},
+			"epoque": "Mayence"
+		},
+		"loupe_beryl": {
+			"nom": "La pierre de lecture de frère Wendelin",
+			"type": "equipement",
+			"rarete": "epique",
+			"emplacement": "bijou",
+			"description": "Un béryl poli par maître Hennen en demi-boule, qu'on pose sur la page pour grossir les lettres. Les moines appellent ça une « pierre de lecture ». C'est de là que vient le mot allemand pour les lunettes : Brille.",
+			"stats": {
+				"pv": 240,
+				"critique_pourcent": 4,
+				"degats_pourcent": 4
+			},
+			"icone": {
+				"forme": "cristal",
+				"couleur": "#9ad8c8"
+			},
+			"epoque": "Mayence"
+		},
+		"notice_imprimante": {
+			"nom": "Notice d'imprimante",
+			"type": "materiau",
+			"rarete": "rare",
+			"pile": 1,
+			"description": "Une notice d'imprimante de bureau, en douze langues, pliée en accordéon. Quelqu'un a entouré au stylo : « Impression recto verso ». Elle n'a rien à faire en 1450.",
+			"icone": {
+				"forme": "eclat",
+				"couleur": "#f4f4f0"
+			},
+			"epoque": "Mayence"
+		},
+		"bonnet_typographe": {
+			"nom": "Bonnet de typographe",
+			"type": "equipement",
+			"rarete": "epique",
+			"emplacement": "tete",
+			"ensemble": "compagnon_imprimeur",
+			"description": "Un bonnet de feutre noir, taché d'encre sur le bord, comme ceux des compagnons de l'atelier : il garde les cheveux loin de l'encre et du plomb.",
+			"stats": {
+				"pv": 200,
+				"critique_pourcent": 3
+			},
+			"visuel": {
+				"forme": "chapeau",
+				"couleur": "#2a2624"
+			},
+			"epoque": "Mayence"
+		},
+		"pourpoint_foire": {
+			"nom": "Pourpoint de la foire",
+			"type": "equipement",
+			"rarete": "epique",
+			"emplacement": "torse",
+			"ensemble": "compagnon_imprimeur",
+			"description": "Un pourpoint de drap bleu de Francfort, boutonné serré, avec une poche intérieure pour la bourse : les coupe-bourses n'y voient que du feu.",
+			"stats": {
+				"pv": 270,
+				"reduction_pourcent": 5
+			},
+			"visuel": {
+				"forme": "veste",
+				"couleur": "#2a3a5a"
+			},
+			"epoque": "Mayence"
+		},
+		"chausses_vendangeur": {
+			"nom": "Chausses de vendangeur",
+			"type": "equipement",
+			"rarete": "epique",
+			"emplacement": "jambes",
+			"ensemble": "compagnon_imprimeur",
+			"description": "Des chausses de laine brune, violettes jusqu'aux genoux à force de fouler le raisin dans les cuves du Rheingau.",
+			"stats": {
+				"pv": 220,
+				"reduction_pourcent": 3
+			},
+			"visuel": {
+				"forme": "pantalon",
+				"couleur": "#5a3a4a"
+			},
+			"epoque": "Mayence"
+		},
+		"souliers_batelier": {
+			"nom": "Souliers de batelier",
+			"type": "equipement",
+			"rarete": "epique",
+			"emplacement": "pieds",
+			"ensemble": "compagnon_imprimeur",
+			"description": "Des souliers de cuir gras, imperméables, à semelle de bois : ceux des bateliers du Rhin, qui sautent du quai sur le pont sans glisser.",
+			"stats": {
+				"pv": 185,
+				"critique_pourcent": 2
+			},
+			"visuel": {
+				"forme": "bottes_fourrure",
+				"couleur": "#3a3028"
+			},
+			"epoque": "Mayence"
+		},
+		"gants_fondeur": {
+			"nom": "Gants de fondeur",
+			"type": "equipement",
+			"rarete": "epique",
+			"emplacement": "mains",
+			"ensemble": "compagnon_imprimeur",
+			"description": "Des gants de cuir épais, roussis, comme ceux de Hans : on peut tenir la louche de plomb fondu sans se brûler.",
+			"stats": {
+				"pv": 190,
+				"degats_pourcent": 4
+			},
+			"visuel": {
+				"forme": "gants",
+				"couleur": "#4a3a2a"
+			},
+			"epoque": "Mayence"
 		}
 	},
 	"ensembles": {
@@ -2995,6 +3368,34 @@
 					"competences": {
 						"onguent_de_l_hotel_dieu": {
 							"soin_par_seconde": 6
+						}
+					}
+				}
+			}
+		},
+		"compagnon_imprimeur": {
+			"nom": "Compagnon imprimeur",
+			"epoque": "Mayence",
+			"paliers": {
+				"2": {
+					"texte": "+130 points de vie",
+					"stats": {
+						"pv": 130
+					}
+				},
+				"4": {
+					"texte": "Encre noire : 6 secondes de recharge en moins",
+					"competences": {
+						"encre_noire": {
+							"recharge": -6
+						}
+					}
+				},
+				"5": {
+					"texte": "Page volante : 5 secondes de recharge en moins",
+					"competences": {
+						"page_volante": {
+							"recharge": -5
 						}
 					}
 				}
@@ -4141,6 +4542,277 @@
 				"objet": "pfennig_mayence",
 				"chance": 0.8,
 				"quantite": [2, 5]
+			}
+		],
+		"mercenaire_homme_sceau_francfort": [
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 0.45
+			},
+			{
+				"objet": "pfennig_mayence",
+				"chance": 0.7,
+				"quantite": [2, 6]
+			}
+		],
+		"mercenaire_homme_sceau_foire": [
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 0.45
+			},
+			{
+				"objet": "pfennig_mayence",
+				"chance": 0.7,
+				"quantite": [2, 6]
+			}
+		],
+		"mercenaire_coupe_bourse": [
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 0.4
+			},
+			{
+				"objet": "pfennig_mayence",
+				"chance": 1.0,
+				"quantite": [4, 10]
+			}
+		],
+		"chien_ruelle_francfort": [
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 0.4
+			}
+		],
+		"statue_lettres_plomb_francfort": [
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 0.5
+			},
+			{
+				"objet": "caractere_plomb",
+				"chance": 0.8,
+				"quantite": [2, 6]
+			}
+		],
+		"statue_lettres_plomb_faille_foire": [
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 0.5
+			},
+			{
+				"objet": "caractere_plomb",
+				"chance": 0.8,
+				"quantite": [2, 6]
+			}
+		],
+		"mercenaire_chef_bourreau": [
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 1.0,
+				"quantite": [2, 4]
+			},
+			{
+				"objet": "pfennig_mayence",
+				"chance": 1.0,
+				"quantite": [10, 18]
+			},
+			{
+				"objet": "hache_bourreau",
+				"chance": 1.0
+			}
+		],
+		"statue_lettres_plomb_casse": [
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 1.0,
+				"quantite": [1, 2]
+			},
+			{
+				"objet": "caractere_plomb",
+				"chance": 1.0,
+				"quantite": [3, 8]
+			}
+		],
+		"statue_lettres_plomb_renfort": [
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 0.6
+			},
+			{
+				"objet": "caractere_plomb",
+				"chance": 0.6,
+				"quantite": [2, 4]
+			}
+		],
+		"masque_sceau_fonderie": [
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 1.0,
+				"quantite": [2, 3]
+			},
+			{
+				"objet": "cachet_sceau",
+				"chance": 1.0
+			}
+		],
+		"coeur_typographe": [
+			{
+				"objet": "poincon_originel",
+				"chance": 1.0,
+				"quantite": [1, 2]
+			},
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 1.0,
+				"quantite": [8, 11]
+			},
+			{
+				"objet": "composteur_typographe",
+				"chance": 0.35
+			},
+			{
+				"objet": "caractere_plomb",
+				"chance": 1.0,
+				"quantite": [10, 20]
+			}
+		],
+		"chien_ruelle_chaton": [
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 0.5
+			}
+		],
+		"sanglier_vigne_grappes": [
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 0.5
+			},
+			{
+				"objet": "soies_sanglier",
+				"chance": 0.6
+			}
+		],
+		"mercenaire_voleur_cartes": [
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 0.5
+			},
+			{
+				"objet": "pfennig_mayence",
+				"chance": 0.8,
+				"quantite": [2, 6]
+			}
+		],
+		"mercenaire_detrousseur_halage": [
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 0.5
+			},
+			{
+				"objet": "pfennig_mayence",
+				"chance": 0.8,
+				"quantite": [2, 5]
+			}
+		],
+		"loup_orage_rheingau": [
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 0.4
+			},
+			{
+				"objet": "pelage_loup_taunus",
+				"chance": 0.5
+			}
+		],
+		"sanglier_orage_rheingau": [
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 1.0,
+				"quantite": [2, 3]
+			},
+			{
+				"objet": "soies_sanglier",
+				"chance": 1.0,
+				"quantite": [2, 4]
+			}
+		],
+		"mercenaire_pilleur_crue": [
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 0.4
+			},
+			{
+				"objet": "pfennig_mayence",
+				"chance": 0.7,
+				"quantite": [2, 5]
+			}
+		],
+		"mercenaire_chef_pilleurs_crue": [
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 1.0,
+				"quantite": [2, 3]
+			},
+			{
+				"objet": "pfennig_mayence",
+				"chance": 1.0,
+				"quantite": [8, 14]
+			}
+		],
+		"mercenaire_incendiaire_moulin": [
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 0.4
+			},
+			{
+				"objet": "torche_poix",
+				"chance": 0.5
+			}
+		],
+		"mercenaire_voleur_livres": [
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 0.4
+			},
+			{
+				"objet": "pfennig_mayence",
+				"chance": 0.8,
+				"quantite": [3, 7]
+			}
+		],
+		"mercenaire_chef_voleurs_livres": [
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 1.0,
+				"quantite": [2, 4]
+			},
+			{
+				"objet": "pfennig_mayence",
+				"chance": 1.0,
+				"quantite": [10, 16]
+			}
+		],
+		"statue_lettres_plomb_nuit": [
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 0.5
+			},
+			{
+				"objet": "caractere_plomb",
+				"chance": 0.8,
+				"quantite": [2, 6]
+			}
+		],
+		"statue_lettres_plomb_nuit_grande": [
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 1.0,
+				"quantite": [2, 4]
+			},
+			{
+				"objet": "caractere_plomb",
+				"chance": 1.0,
+				"quantite": [10, 18]
 			}
 		]
 	},

@@ -159,6 +159,27 @@
 			"vitesse_pourcent": 80,
 			"requiert_texte": "Il te faut d'abord ramener les juments de Guillot (quête « Les chevaux du Perche »)"
 		},
+		"cheval_halage": {
+			"nom": "Cheval de halage du Rhin",
+			"epoque": "mayence",
+			"requiert": "licol_halage",
+			"description": "Brauner, un gros cheval brun du chemin de halage : il tire les bateaux de Jakob contre le courant du Rhin, tout le jour, et porte un cavalier sans même s'en apercevoir.",
+			"modele": "res://assets/animaux/cheval/scene.gltf",
+			"echelle": 0.084,
+			"tourner": 0,
+			"garrot": 1.32,
+			"selle": 0.1,
+			"os_selle": "BN_Spine_02_04_04",
+			"os_racine": "_aucun_",
+			"allures": ["Skeleton|Walk", "Skeleton|Gallop"],
+			"vitesses": {"Skeleton|Walk": 1.7, "Skeleton|Gallop": 10.0},
+			"repos": "Skeleton|1 Ilde",
+			"saut": "Skeleton|Jump_Run",
+			"cacher": ["Saddle", "Horseshoe", "Icosphere"],
+			"robe": {"couleur": "#5a3a24", "pattes": "#2a1a10", "crins": "#1a120c"},
+			"vitesse_pourcent": 80,
+			"requiert_texte": "Il te faut d'abord ramener le cheval de Jakob (quête « Le cheval de halage »)"
+		},
 		"destrier": {
 			"nom": "Destrier du tournoi",
 			"epoque": "moyen_age",

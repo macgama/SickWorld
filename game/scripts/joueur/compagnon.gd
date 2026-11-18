@@ -1,6 +1,6 @@
 extends Node3D
 ## Le petit compagnon d'un personnage : Glaukê, la chouette de Néra (île de Grèce), Bise, le
-## faucon pèlerin de dame Héloïse (Moyen Âge), ou
+## faucon pèlerin de dame Héloïse (Moyen Âge), Muschel, le chaton de l'atelier (Mayence), ou
 ## l'oie du Capitole (île de Rome), qui marche en se dandinant derrière soi et crie quand un
 ## prétorien de Janus ou un Effaceur approche (comme les oies qui ont sauvé Rome des Gaulois).
 ## Il apparaît quand on porte l'objet qui a la clé « compagnon » (data/objets.json) :
@@ -32,7 +32,7 @@ func _ready() -> void:
 	_joueur = get_parent() as Node3D
 	_construire()
 	if _joueur != null:
-		global_position = _joueur.global_position + (Vector3(0.6, 0, 1.1) if espece in ["oie", "panda"] else Vector3(0.2, 1.6, 0))
+		global_position = _joueur.global_position + (Vector3(0.6, 0, 1.1) if espece in ["oie", "panda", "chat"] else Vector3(0.2, 1.6, 0))
 		_derniere = _joueur.global_position
 
 
@@ -59,6 +59,9 @@ func _boule(parent: Node3D, rayon: float, haut: float, mat: Material, p: Vector3
 func _construire() -> void:
 	if espece == "panda":
 		_construire_panda()
+		return
+	if espece == "chat":
+		_construire_chat()
 		return
 	if espece == "oie":
 		_construire_oie()
@@ -235,6 +238,66 @@ func _construire_panda() -> void:
 	_boule(_tete, 0.018, 0.022, luisant, Vector3(0, -0.02, -0.17))
 
 
+## Muschel, le chaton de l'atelier de Gutenberg (île de Mayence) : tigré gris et brun, le
+## ventre et les pattes blancs, une longue queue dressée. Il trottine derrière soi et
+## tend le cou en crachant quand un homme de Sceau ou un homme de lettres de plomb approche.
+func _construire_chat() -> void:
+	var tigre := _mat(Color(0.42, 0.38, 0.33), 1.0)
+	var rayure := _mat(Color(0.16, 0.14, 0.12), 1.0)
+	var blanc := _mat(Color(0.92, 0.9, 0.86), 1.0)
+	var rose := _mat(Color(0.86, 0.56, 0.56), 0.6)
+	var vert := _mat(Color(0.5, 0.75, 0.2), 0.2)
+	_corps = Node3D.new()
+	add_child(_corps)
+	var dos := _boule(_corps, 0.09, 0.18, tigre, Vector3(0, 0.17, 0.0))
+	dos.scale = Vector3(0.9, 0.85, 2.0)
+	var ventre := _boule(_corps, 0.075, 0.12, blanc, Vector3(0, 0.14, -0.02))
+	ventre.scale = Vector3(0.9, 0.8, 1.7)
+	for k in 4:
+		var r := _boule(_corps, 0.03, 0.02, rayure, Vector3(0, 0.255, -0.12 + k * 0.08))
+		r.scale = Vector3(2.4, 0.5, 0.8)
+	for k in 4:
+		var c := -1.0 if k % 2 == 0 else 1.0
+		var avant := k < 2
+		var pivot := Node3D.new()
+		pivot.position = Vector3(c * 0.05, 0.15, -0.12 if avant else 0.13)
+		_corps.add_child(pivot)
+		var patte := _boule(pivot, 0.025, 0.16, tigre, Vector3(0, -0.07, 0))
+		patte.scale = Vector3(1.0, 1.0, 1.0)
+		_boule(pivot, 0.028, 0.03, blanc, Vector3(0, -0.14, -0.01))
+		_pattes.append(pivot)
+	# La queue : trois segments qui montent, la pointe sombre.
+	var queue := Node3D.new()
+	queue.position = Vector3(0, 0.2, 0.18)
+	queue.rotation.x = -0.9
+	_corps.add_child(queue)
+	for k in 4:
+		_boule(queue, 0.022 - k * 0.002, 0.07, rayure if k == 3 else tigre, Vector3(0, k * 0.055, 0))
+	_cou = Node3D.new()
+	_cou.position = Vector3(0, 0.24, -0.17)
+	_corps.add_child(_cou)
+	_tete = Node3D.new()
+	_tete.position = Vector3(0, 0.03, -0.03)
+	_cou.add_child(_tete)
+	var crane := _boule(_tete, 0.07, 0.12, tigre, Vector3.ZERO)
+	crane.scale = Vector3(1.15, 1.0, 1.0)
+	_boule(_tete, 0.04, 0.05, blanc, Vector3(0, -0.025, -0.05))
+	for c in [-1.0, 1.0]:
+		var oreille := MeshInstance3D.new()
+		var cone := CylinderMesh.new()
+		cone.top_radius = 0.0
+		cone.bottom_radius = 0.03
+		cone.height = 0.06
+		cone.radial_segments = 4
+		oreille.mesh = cone
+		oreille.material_override = tigre
+		oreille.position = Vector3(c * 0.045, 0.07, 0.0)
+		oreille.rotation.z = -c * 0.25
+		_tete.add_child(oreille)
+		_boule(_tete, 0.014, 0.018, vert, Vector3(c * 0.032, 0.015, -0.06))
+	_boule(_tete, 0.01, 0.01, rose, Vector3(0, -0.005, -0.075))
+
+
 ## L'oie : elle trottine derrière soi, au sol, et crie quand un ennemi de Janus approche.
 func _suivre_au_sol(delta: float) -> void:
 	var derriere := _joueur.global_transform * Vector3(0.6, 0.0, 1.1)
@@ -272,6 +335,8 @@ func _danger_proche() -> bool:
 		var ennemi_du_compagnon := type.begins_with("pretorien") or type.contains("effaceur") or type.begins_with("masque")
 		if espece == "panda":
 			ennemi_du_compagnon = type.contains("argile") or type.contains("cinabre") or type.contains("effaceur")
+		elif espece == "chat":
+			ennemi_du_compagnon = type.contains("sceau") or type.contains("lettres_plomb") or type.contains("effaceur")
 		if not ennemi_du_compagnon:
 			continue
 		var c = bete.get("combat")
@@ -306,7 +371,7 @@ func _process(delta: float) -> void:
 	var deplacement := _joueur.global_position - _derniere
 	_derniere = _joueur.global_position
 	_vitesse = lerpf(_vitesse, Vector2(deplacement.x, deplacement.z).length() / maxf(delta, 0.001), 0.1)
-	if espece == "oie" or espece == "panda":
+	if espece == "oie" or espece == "panda" or espece == "chat":
 		_suivre_au_sol(delta)
 		return
 	var combat = _joueur.get_node_or_null("Combat")

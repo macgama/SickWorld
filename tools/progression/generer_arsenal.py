@@ -17,7 +17,7 @@ NORMAL = 1 / RENFORCE
 
 # Totaux d'une panoplie RENFORCÉE complète (7 pièces) au palier p (1 = Préhistoire, 5 = Chine…).
 def totaux(role, p):
-    attaque = 20 + 25 * p            # % de dégâts : 45, 70, 95, 120, 145, 170
+    attaque = 20 + 25 * p            # % de dégâts : 45, 70, 95, 120, 145, 170, 195
     vie = {1: 220, 2: 420, 3: 720, 4: 1000, 5: 1350, 6: 1700}.get(p, 1350 + 350 * (p - 5))
     if role == "assaut":
         return {"degats_pourcent": attaque, "critique_pourcent": 3 + 2 * p, "pv": vie, "reduction_pourcent": p}
@@ -155,6 +155,20 @@ ILES = [
         "harmonie": {"nom": "Verrière d'Aude", "couleur": "#2a4ac0",
             "formes": ["lance", "veste", "pantalon", "bandeau", "brassards", "rangers", "collier"],
             "pieces": ["Canne de verrier", "Cotte de la verrière", "Chausses de la verrière", "Coiffe de la verrière", "Mitaines de la verrière", "Souliers de la verrière", "Rondelle de verre bleu"]},
+     }},
+    {"id": "mayence", "palier": 7, "epoque": "Mayence de Gutenberg", "categorie": "Mayence",
+     "armure": {"pelage_loup_taunus": 3, "soies_sanglier": 2}, "arme": {"caractere_plomb": 3, "pfennig_mayence": 3},
+     "trophee": "poincon_originel",
+     "panoplies": {
+        "assaut": {"nom": "Lansquenet du Rhin", "couleur": "#a02a2a",
+            "formes": ["lame", "veste", "pantalon", "casque", "brassards", "rangers", "collier"],
+            "pieces": ["Katzbalger du lansquenet", "Pourpoint tailladé", "Chausses tailladées", "Bonnet à plumes du lansquenet", "Gantelets du lansquenet", "Souliers en gueule de vache", "Médaille du lansquenet"]},
+        "garde": {"nom": "Rempart de Mayence", "couleur": "#5a5a64",
+            "formes": ["lame", "veste", "pantalon", "casque", "brassards", "rangers", "collier"],
+            "pieces": ["Hallebarde courte du guet", "Brigandine du guet", "Cuissots du guet", "Salade du guet", "Gantelets du guet", "Bottes du guet", "Clé de la Holzturm"]},
+        "harmonie": {"nom": "Presse de Gutenberg", "couleur": "#2a2a2a",
+            "formes": ["lance", "veste", "pantalon", "bandeau", "brassards", "rangers", "collier"],
+            "pieces": ["Barreau de la presse", "Tablier d'imprimeur", "Chausses de l'atelier", "Bonnet de typographe", "Manchettes d'encreur", "Sabots de l'atelier", "Poinçon d'or"]},
      }},
 ]
 
