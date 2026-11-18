@@ -2254,6 +2254,59 @@
 				"couleur": "#6a6c72"
 			},
 			"epoque": "Moyen Âge"
+		},
+		"badge_marchal": {
+			"nom": "Vieux badge de la Vigie",
+			"type": "materiau",
+			"rarete": "historique",
+			"pile": 1,
+			"description": "Un badge plastifié, jauni, au modèle d'avant. La photo est effacée ; le nom se lit encore : « Étienne MARCHAL — Fondateur ». Trouvé dans la crypte de Chartres, sous les lettres « É.M. 2006 ».",
+			"icone": {
+				"forme": "eclat",
+				"couleur": "#c8c0a0"
+			},
+			"epoque": "Moyen Âge"
+		},
+		"page_carnet_editeur": {
+			"nom": "Page du carnet de l'Éditeur",
+			"type": "materiau",
+			"rarete": "historique",
+			"pile": 1,
+			"description": "La page arrachée du carnet de l'Éditeur : une liste d'époques, de son écriture fine et penchée. La dernière ligne : « Mayence, 1450. Les caractères mobiles. »",
+			"icone": {
+				"forme": "tendon",
+				"couleur": "#e8dcc0"
+			},
+			"epoque": "Moyen Âge"
+		},
+		"premier_vitrail_bleu": {
+			"nom": "Le premier verre bleu d'Aude",
+			"type": "equipement",
+			"rarete": "historique",
+			"emplacement": "relique",
+			"description": "Un morceau de verre bleu de Chartres, taillé au fer à gruger, gros comme une main. Quand la lumière passe au travers, tout devient bleu, d'un bleu que personne ne saura plus refaire après le Moyen Âge. Aude te l'a donné : on ne garde jamais le premier.",
+			"stats": {
+				"pv": 260,
+				"degats_pourcent": 15,
+				"critique_pourcent": 3
+			},
+			"icone": {
+				"forme": "eclat",
+				"couleur": "#1a3ac8"
+			},
+			"epoque": "Moyen Âge"
+		},
+		"coeur_de_plomb": {
+			"nom": "Cœur de plomb",
+			"type": "materiau",
+			"rarete": "epique",
+			"pile": 20,
+			"description": "Un nœud de plomb fondu, figé autour d'un éclat de fracture qui rougeoit encore, tombé du Brasier quand il s'est éteint. Inès dit qu'il est encore tiède au bout d'une semaine.",
+			"icone": {
+				"forme": "cristal",
+				"couleur": "#c86a2a"
+			},
+			"epoque": "Moyen Âge"
 		}
 	},
 	"ensembles": {
@@ -2914,6 +2967,47 @@
 				"objet": "plomb_fige",
 				"chance": 1.0,
 				"quantite": [2, 3]
+			}
+		],
+		"masque_homme_plomb_crypte": [
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 1.0,
+				"quantite": [1, 2]
+			},
+			{
+				"objet": "plomb_fige",
+				"chance": 0.4
+			}
+		],
+		"masque_homme_plomb_lac": [
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 0.6
+			}
+		],
+		"masque_plomb_crypte": [
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 1.0,
+				"quantite": [2, 3]
+			},
+			{
+				"objet": "plomb_fige",
+				"chance": 1.0,
+				"quantite": [2, 3]
+			}
+		],
+		"coeur_brasier": [
+			{
+				"objet": "coeur_de_plomb",
+				"chance": 1.0,
+				"quantite": [1, 2]
+			},
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 1.0,
+				"quantite": [8, 11]
 			}
 		]
 	},

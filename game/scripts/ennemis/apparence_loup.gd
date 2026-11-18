@@ -77,7 +77,7 @@ func _ready() -> void:
 		_delegue.petit = type.begins_with("feu_tricolore")
 		add_child(_delegue)
 		return
-	if type.begins_with("colosse") or type.begins_with("coeur_empereur"):
+	if type.begins_with("colosse") or type.begins_with("coeur_empereur") or type.begins_with("coeur_brasier"):
 		# Le cœur de cristal du Colosse (boss du donjon du Colisée, île de Rome), et celui de
 		# l'Empereur d'argile (tombeau du Premier Empereur, île de Chine) : le géant est un décor.
 		espece = "colosse"

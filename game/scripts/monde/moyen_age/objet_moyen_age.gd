@@ -233,6 +233,77 @@ func _construire_fumigene() -> void:
 		_morceau(nuage, gris, Vector3(0.1 * k, 0.3 + k * 0.45, -0.08 * k))
 
 
+## Une fissure de la voûte de la crypte, au bas du mur : une rigole de pierre où coule le plomb
+## fondu (orange, lumineux). Bouchée (« Eteint ») : un tas de sable gris qui fume encore.
+func _construire_gouttiere_plomb() -> void:
+	var pierre := _mat_uni(Color(0.42, 0.39, 0.36), 0.95)
+	var plomb := _emissif(Color(1.0, 0.42, 0.1), 2.4)
+	var rigole := BoxMesh.new()
+	rigole.size = Vector3(0.8, 0.3, 1.2)
+	var filet := BoxMesh.new()
+	filet.size = Vector3(0.12, 2.4, 0.12)
+	var flaque := CylinderMesh.new()
+	flaque.top_radius = 0.6
+	flaque.bottom_radius = 0.7
+	flaque.height = 0.05
+	for cible in [_visuel, null]:
+		var parent: Node3D = cible
+		if parent == null:
+			_debout = Node3D.new()
+			_debout.name = "Eteint"
+			_debout.visible = false
+			add_child(_debout)
+			parent = _debout
+		_morceau_dans(parent, rigole, pierre, Vector3(0, 2.6, -0.2))
+	_morceau_dans(_visuel, filet, plomb, Vector3(0, 1.3, 0.2))
+	_morceau_dans(_visuel, flaque, plomb, Vector3(0, 0.03, 0.4))
+	var lueur := OmniLight3D.new()
+	lueur.light_color = Color(1.0, 0.45, 0.15)
+	lueur.light_energy = 1.4
+	lueur.omni_range = 5.0
+	lueur.position = Vector3(0, 1.0, 0.6)
+	_visuel.add_child(lueur)
+	var sable := SphereMesh.new()
+	sable.radius = 0.7
+	sable.height = 0.7
+	_morceau_dans(_debout, sable, _mat_uni(Color(0.62, 0.58, 0.5), 1.0), Vector3(0, 0.15, 0.3), Vector3.ZERO)
+	_morceau_dans(_debout, rigole, _mat_uni(Color(0.6, 0.56, 0.48), 1.0), Vector3(0, 2.75, -0.2))
+	_fumee_dans(_debout, 0.4, false, 0.4)
+	_trace_violette()
+
+
+## Un vitrail de la salle du lac, dans une niche du mur : éteint, un verre sombre et terne ;
+## rallumé (« Eteint », ici la lumière), le bleu et le rouge brillent et éclairent la salle.
+func _construire_vitrail_crypte() -> void:
+	var pierre := _mat_uni(Color(0.4, 0.37, 0.34), 0.95)
+	var cadre := BoxMesh.new()
+	cadre.size = Vector3(2.2, 3.6, 0.3)
+	var verre := BoxMesh.new()
+	verre.size = Vector3(1.6, 3.0, 0.05)
+	for cible in [_visuel, null]:
+		var parent: Node3D = cible
+		if parent == null:
+			_debout = Node3D.new()
+			_debout.name = "Eteint"
+			_debout.visible = false
+			add_child(_debout)
+			parent = _debout
+		_morceau_dans(parent, cadre, pierre, Vector3(0, 2.4, -0.25))
+	_morceau_dans(_visuel, verre, _mat_uni(Color(0.08, 0.09, 0.12), 0.3), Vector3(0, 2.4, -0.06))
+	var morceau := BoxMesh.new()
+	morceau.size = Vector3(0.38, 0.48, 0.05)
+	var couleurs := [Color(0.14, 0.3, 1.0), Color(0.9, 0.12, 0.1), Color(0.14, 0.3, 1.0), Color(0.95, 0.75, 0.2)]
+	for k in 4:
+		for l in 6:
+			_morceau_dans(_debout, morceau, _emissif(couleurs[(k + l) % 4], 2.2), Vector3(-0.6 + k * 0.4, 1.15 + l * 0.5, -0.06))
+	var lumiere := OmniLight3D.new()
+	lumiere.light_color = Color(0.45, 0.55, 1.0)
+	lumiere.light_energy = 3.0
+	lumiere.omni_range = 9.0
+	lumiere.position = Vector3(0, 2.4, 1.2)
+	_debout.add_child(lumiere)
+
+
 ## Moyen Âge : comme en Chine.
 func appliquer_effet(effet: String) -> void:
 	super.appliquer_effet(effet)
