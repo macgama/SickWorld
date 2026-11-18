@@ -116,7 +116,7 @@ func _ready() -> void:
 		if type.contains("argile"):
 			_delegue.variante = "argile"
 			_delegue.style = "general" if type.begins_with("general") else ("arbaletrier" if type.begins_with("arbaletrier") else "soldat")
-		_delegue.chef = type == "masque_effaceur" or type == "masque_acropole" or type.begins_with("general_argile") or type == "garde_han_ban_yong"
+		_delegue.chef = type.begins_with("mercenaire_chef") or type == "masque_effaceur" or type == "masque_acropole" or type.begins_with("general_argile") or type == "garde_han_ban_yong"
 		add_child(_delegue)
 		return
 	if type.begins_with("cobra") or type.begins_with("isfet") or type.begins_with("vipere") or type.begins_with("serpent_gorgone"):

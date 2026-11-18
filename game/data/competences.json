@@ -396,5 +396,30 @@
 		"recharge": 25,
 		"animation": "bouclier_leve",
 		"couleur": "#b03a2e"
+	},
+	"fronde_de_berger": {
+		"nom": "Fronde de berger",
+		"origine": "Moyen Âge",
+		"description": "Une pierre bien lancée à la fronde de berger : elle frappe la cible jusqu'à 30 mètres et l'étourdit 2 secondes. Demande la Fronde du berger (chapitre 1 du Moyen Âge).",
+		"type": "distance",
+		"portee": 30,
+		"degats": [22, 28],
+		"etourdit": 2,
+		"recharge": 20,
+		"animation": "lancer",
+		"couleur": "#8a6a42"
+	},
+	"pavois": {
+		"nom": "Pavois",
+		"origine": "Moyen Âge",
+		"description": "Tu plantes le grand pavois des carriers devant toi : tes alliés et toi, à moins de 8 mètres, subissez 40 % de dégâts en moins pendant 6 secondes. Demande le Pavois des carriers (chapitre 3 du Moyen Âge).",
+		"type": "renfort",
+		"rayon": 8,
+		"effet": "pavois",
+		"duree": 6,
+		"reduction_degats_subis": 0.4,
+		"recharge": 40,
+		"animation": "bouclier_leve",
+		"couleur": "#8a3a2a"
 	}
 }

@@ -17,6 +17,7 @@ const EvenementsPublics := preload("res://scripts/monde/prehistoire/evenements_p
 const Cinematiques := preload("res://scripts/monde/cinematiques.gd")
 const PuzzleMots := preload("res://scripts/interface/puzzle_mots.gd")
 const Calligraphie := preload("res://scripts/interface/calligraphie.gd")
+const Vitrail := preload("res://scripts/interface/vitrail.gd")
 
 signal etape_changee(id: String)
 
@@ -88,6 +89,8 @@ var _mots_resolus := {}
 var _puzzle: CanvasLayer
 ## Calligraphie (île de la Chine) : rendre la mémoire à un Figé en traçant un caractère.
 var _calligraphie: CanvasLayer
+## Puzzle du vitrail (île du Moyen Âge) : rendre courage à un Las.
+var _vitrail: CanvasLayer
 
 
 ## Fichier des données de la quête de l'île.
@@ -602,6 +605,10 @@ func utiliser_objet(objet: Node3D) -> void:
 	if e.has("calligraphie") and _objet_concerne(e, objet) and not _mots_resolus.has(objet.get("identifiant")):
 		_ouvrir_calligraphie(e, objet)
 		return
+	# Rendre courage (île du Moyen Âge) : d'abord remettre le vitrail en place.
+	if e.has("vitrail") and _objet_concerne(e, objet) and not _mots_resolus.has(objet.get("identifiant")):
+		_ouvrir_vitrail(e, objet)
+		return
 	if e.has("recolter") and objet.get("groupe") == e["recolter"]:
 		_recolter(objet)
 		return
@@ -689,6 +696,36 @@ func _ouvrir_calligraphie(e: Dictionary, objet: Node3D) -> void:
 		_mots_resolus[id] = true
 		if is_instance_valid(objet):
 			utiliser_objet(objet))
+
+
+## Le motif du vitrail : celui de l'objet (meta « motif »), sinon celui de l'étape
+## (« vitrail » : un motif, ou une liste, un par objet récolté).
+func motif_vitrail(e: Dictionary, objet: Node3D) -> String:
+	if objet != null and objet.has_meta("motif"):
+		return String(objet.get_meta("motif"))
+	var m = e.get("vitrail", "")
+	if m is Array:
+		return String(m[mini(compteur, m.size() - 1)]) if not m.is_empty() else ""
+	return String(m)
+
+
+func _ouvrir_vitrail(e: Dictionary, objet: Node3D) -> void:
+	if _vitrail == null or not is_instance_valid(_vitrail):
+		_vitrail = Vitrail.new()
+		_vitrail.name = "Vitrail"
+		add_child(_vitrail)
+	if _vitrail.est_ouvert():
+		return
+	var id = objet.get("identifiant")
+	_vitrail.ouvrir(String(e.get("titre_vitrail", "Rendre courage : remets le vitrail en place")), motif_vitrail(e, objet), func():
+		_mots_resolus[id] = true
+		if is_instance_valid(objet):
+			utiliser_objet(objet))
+
+
+## Le puzzle du vitrail (null s'il n'a jamais été ouvert).
+func vitrail() -> CanvasLayer:
+	return _vitrail
 
 
 ## La feuille de calligraphie (null si elle n'a jamais été ouverte).
