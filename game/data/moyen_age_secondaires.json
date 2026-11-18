@@ -1,0 +1,1113 @@
+{
+	"_aide": "Quêtes secondaires de l'île du Moyen Âge (Chartres, 1194). Même format que data/chine_secondaires.json : chaque quête est proposée par un personnage (« donneur ») une fois l'étape « apres » de la quête principale passée. Types d'étape : recolter (un groupe d'objets, « nombre »), objet (un objet précis), tuer (début du nom de l'ennemi, « apparition » possible), pnj (parler à quelqu'un). « ou » est la zone de l'étape. « mini_jeu » : un petit jeu d'adresse (scripts/monde/mini_jeu.gd). Les objets sont dessinés par scripts/monde/moyen_age/objet_moyen_age.gd. Pour régénérer ce fichier : /mnt/project-files/moyen-age/outils/ma_secondaires.py",
+	"noms_zones": {
+		"beauce": "La Beauce",
+		"bercheres": "Les carrières de Berchères",
+		"chartres": "Chartres",
+		"chantier": "Le chantier de la cathédrale",
+		"crypte": "La crypte de Fulbert"
+	},
+	"quetes": [
+		{
+			"id": "faucon_de_dame_heloise",
+			"titre": "Le faucon de dame Héloïse",
+			"donneur": "dame_heloise",
+			"apres": "guillot_pavois",
+			"offre": [
+				"Vous voyez ce gant ? Il est vide depuis l'incendie. Mon faucon pèlerin a niché sur la tour de la cathédrale, ce printemps. Le feu a pris la tour, et le nid avec.",
+				"Les tailleurs de Berchères disent qu'un jeune faucon crie depuis trois jours dans la forêt, sous les chênes. Un petit gris, le bec jaune. Il est tombé, ou il a fui la fumée.",
+				"Ramenez-le-moi. Et si vous avez la patience, je vous apprendrai à le faire revenir au gant. Un faucon ne s'apprivoise pas. Il choisit."
+			],
+			"etapes": [
+				{
+					"objectif": "Retrouve le jeune faucon tombé du nid, dans la forêt de Berchères, à l'ouest des carrières",
+					"objet": "faucon_tombe",
+					"ou": "bercheres",
+					"duree": 2.5,
+					"action": "Tu t'accroupis lentement, et tu le prends dans ton manteau…"
+				},
+				{
+					"objectif": "Des loups fracturés ont senti le faucon blessé : protège-le",
+					"tuer": "loup_foret_faucon",
+					"nombre": 3,
+					"ou": "bercheres",
+					"apparition": {
+						"type": "loup_foret_faucon",
+						"nombre": 3,
+						"position": [
+							-56,
+							-36
+						],
+						"rayon": 6,
+						"attaque": true
+					}
+				},
+				{
+					"objectif": "Rapporte le faucon à dame Héloïse, au bord de la route de Chartres (Beauce)",
+					"pnj": "dame_heloise",
+					"ou": "beauce",
+					"repliques": [
+						"C'est lui. Regardez ses yeux, cerclés de jaune. Il a eu peur, mais il n'est pas blessé, ou presque.",
+						"Maintenant, le plus dur. Il faut qu'il revienne au gant de lui-même. Mettez le gant, levez le bras quand il passe, et sifflez au bon moment. Ni trop tôt, ni trop tard.",
+						"Allez près du piquet, là. Je vous regarde."
+					]
+				},
+				{
+					"objectif": "Lance le faucon et rappelle-le au gant, près du piquet de dame Héloïse",
+					"objet": "gant_heloise",
+					"ou": "beauce",
+					"mini_jeu": {
+						"type": "rythme",
+						"titre": "Le retour au gant",
+						"consigne": "Le faucon tourne au-dessus du blé : appuie sur la bonne direction quand le cercle touche la flèche pour le rappeler.",
+						"nombre": 7,
+						"reussites": 5,
+						"periode": 1.2,
+						"reussite": "Un sifflement, un battement d'ailes, et il se pose sur ton poing, léger comme un souffle.",
+						"echec": "Il est reparti se percher sur un dizeau de gerbes. Appuie sur F pour recommencer."
+					}
+				},
+				{
+					"objectif": "Retourne voir dame Héloïse",
+					"pnj": "dame_heloise",
+					"ou": "beauce",
+					"repliques": [
+						"Il est revenu. À vous, pas à moi. Je vous l'avais dit : il choisit.",
+						"Gardez-le. Je suis vieille, et lui, il a envie de voir du pays. On dit que vous venez de très loin.",
+						"Il vous préviendra. Un faucon voit tout, de très haut. Quand quelque chose ne va pas, il crie. Écoutez-le."
+					]
+				}
+			],
+			"recompense": [
+				{
+					"id": "faucon_pelerin",
+					"nom": "Bise, le jeune faucon pèlerin"
+				}
+			]
+		},
+		{
+			"id": "chevaux_du_perche",
+			"titre": "Les chevaux du Perche",
+			"donneur": "guillot",
+			"apres": "guillot_pavois",
+			"offre": [
+				"Mes deux juments du Perche. Elles ont cassé leurs longes le soir de l'incendie, avec la fumée et les cloches. Je ne les ai jamais revues.",
+				"La grise, Brunehaut, est sûrement près du moulin : elle adore les épis tombés. La baie, Fauvette, elle, est peureuse. Elle a dû courir loin, jusque dans la forêt de Berchères.",
+				"Sans elles, je tire la charrette moi-même. Ramène-les, et le collier d'attelage qu'elles ont brisé, je le ferai refaire chez le bourrelier de Chartres."
+			],
+			"etapes": [
+				{
+					"objectif": "Retrouve Brunehaut, la jument grise, près du moulin à vent",
+					"objet": "jument_grise",
+					"ou": "beauce",
+					"duree": 2.5,
+					"action": "Tu lui parles doucement, et tu passes la corde à son cou…"
+				},
+				{
+					"objectif": "Des loups fracturés tournent autour de la jument : chasse-les",
+					"tuer": "loup_beauce_jument",
+					"nombre": 3,
+					"ou": "beauce",
+					"apparition": {
+						"type": "loup_beauce_jument",
+						"nombre": 3,
+						"position": [
+							-52,
+							-70
+						],
+						"rayon": 6,
+						"attaque": true
+					}
+				},
+				{
+					"objectif": "Retrouve Fauvette, la jument baie, dans une clairière de la forêt de Berchères",
+					"objet": "jument_baie",
+					"ou": "bercheres",
+					"duree": 3.0,
+					"action": "Elle recule, souffle, puis tend le nez vers ta main…"
+				},
+				{
+					"objectif": "Fais refaire le collier d'attelage chez Hamelin le bourrelier, rue des Teinturiers (Chartres)",
+					"pnj": "bourrelier",
+					"ou": "chartres",
+					"repliques": [
+						"Un collier de Guillot ? Je le reconnaîtrais entre mille, il est rapiécé de partout. Cette fois, je lui en fais un neuf.",
+						"Du cuir de bœuf, bourré de paille de seigle, et le bois de frêne pour les attelles. Un cheval du Perche, ça tire avec les épaules : si le collier blesse, il s'arrête.",
+						"Voilà. Dis à Guillot qu'il me paiera en blé. Et qu'il n'oublie pas, cette fois."
+					]
+				},
+				{
+					"objectif": "Rapporte le collier à Guillot, à sa ferme de Beauce",
+					"pnj": "guillot",
+					"ou": "beauce",
+					"repliques": [
+						"Brunehaut ! Fauvette ! Ah, mes belles… Regarde-les, elles me reconnaissent.",
+						"Un collier neuf, en plus. Hamelin a dû avoir pitié de moi.",
+						"Tiens. Ce licol est à toi. Brunehaut a une fille de trois ans, grise comme elle, qui ne tient pas en place. Elle est à toi. Siffle, et elle viendra. Elle porte un homme d'armes sans broncher."
+					]
+				}
+			],
+			"recompense": [
+				{
+					"id": "licol_perche",
+					"nom": "Licol de la jument du Perche"
+				}
+			]
+		},
+		{
+			"id": "marques_des_tailleurs",
+			"titre": "Les marques des tailleurs",
+			"donneur": "tailleur_1",
+			"apres": "gautier_plans",
+			"titre_obtenu": "Compagnon du chantier",
+			"offre": [
+				"Le soir, on compte les marques. Pas de marque, pas de denier : tu le sais. Mais six de nos pierres ont disparu dans la pagaille de la visite du roi.",
+				"Elles sont toutes taillées, prêtes à poser. La croix de Bertin, la clé de Rogier, mon étoile… Il y en a trois sur le chantier, dans les décombres, et trois en ville basse : les charretiers les ont déchargées au mauvais endroit.",
+				"Retrouve-les, et on sera payés. Toute la loge te devra une tournée."
+			],
+			"etapes": [
+				{
+					"objectif": "Retrouve les 6 pierres marquées : 3 sur le chantier, 3 dans les maisons brûlées de la ville basse",
+					"recolter": "pierre_marquee",
+					"nombre": 6,
+					"ou": "chantier",
+					"aussi": [
+						"chartres"
+					],
+					"duree": 2.0,
+					"action": "Tu dégages la pierre et tu lis la marque…"
+				},
+				{
+					"objectif": "Retourne voir Garnier le Roux, à la loge des tailleurs",
+					"pnj": "tailleur_1",
+					"ou": "chantier",
+					"repliques": [
+						"Six ! Toutes les six ! L'étoile, la clé, la croix, le sablier… Attends. Le sablier, c'est ta marque, ça. Tu en as taillé une toi-même ?",
+						"Ha ! Alors tu es des nôtres. Les compagnons, c'est ceux qui taillent ensemble et qui boivent ensemble. Ce soir, c'est toi qui paies, avec nos deniers.",
+						"Tiens. C'est la marque de maître Gautier, gravée sur un petit éclat de pierre. Il en donne une, une seule fois, à ceux qu'il veut revoir sur ses chantiers."
+					]
+				}
+			],
+			"recompense": [
+				{
+					"id": "marque_tacheron",
+					"nom": "La marque de tâcheron de maître Gautier"
+				}
+			]
+		},
+		{
+			"id": "onguents_hotel_dieu",
+			"titre": "Les onguents de l'Hôtel-Dieu",
+			"donneur": "soeur_agnes",
+			"apres": "anselme_fin",
+			"offre": [
+				"L'Hôtel-Dieu est plein. Des brûlés de l'incendie, des ouvriers tombés des échafaudages, des pèlerins qui ont marché trop loin.",
+				"Il me faut des simples : de la sauge et du millepertuis dans les talus de la Beauce, de la consoude au bord des ruisseaux de la forêt de Berchères. Avec le saindoux et la cire, j'en fais un onguent.",
+				"Ce n'est pas un miracle. C'est de la patience, des linges propres et des plantes. Mais ça marche mieux que les prières toutes seules."
+			],
+			"etapes": [
+				{
+					"objectif": "Cueille 4 touffes de sauge et de millepertuis dans les talus de la Beauce",
+					"recolter": "simple_medicinal",
+					"nombre": 4,
+					"ou": "beauce",
+					"duree": 1.5,
+					"action": "Tu cueilles les feuilles sans arracher la racine…"
+				},
+				{
+					"objectif": "Cueille 3 touffes de consoude dans la forêt de Berchères",
+					"recolter": "simple_foret",
+					"nombre": 3,
+					"ou": "bercheres",
+					"duree": 1.5,
+					"action": "Tu arraches la racine noire de la consoude…"
+				},
+				{
+					"objectif": "Apporte les plantes à sœur Agnès, à l'Hôtel-Dieu (Chartres)",
+					"pnj": "soeur_agnes",
+					"ou": "chartres",
+					"repliques": [
+						"Parfait. On les pile dans le mortier, on les cuit dans le saindoux, on filtre dans un linge. Voilà.",
+						"Maintenant, les malades. Trois brûlés, sur les paillasses près de la porte. Doucement : la peau se colle au linge."
+					]
+				},
+				{
+					"objectif": "Passe l'onguent sur les brûlures des 3 blessés, devant l'Hôtel-Dieu",
+					"recolter": "blesse_hotel_dieu",
+					"nombre": 3,
+					"ou": "chartres",
+					"duree": 2.5,
+					"action": "Tu étales l'onguent du bout des doigts…"
+				},
+				{
+					"objectif": "Retourne voir sœur Agnès",
+					"pnj": "soeur_agnes",
+					"ou": "chartres",
+					"repliques": [
+						"Ils dorment. C'est le premier sommeil depuis des jours. Merci.",
+						"Prenez ce pot. Il en reste assez pour vous et ceux qui marchent avec vous. Une brûlure, un venin, une mauvaise fièvre : passez-en, et respirez.",
+						"Et revenez nous voir. Pas forcément blessé."
+					]
+				}
+			],
+			"recompense": [
+				{
+					"id": "pot_onguent",
+					"nom": "Pot d'onguent de l'Hôtel-Dieu"
+				}
+			]
+		},
+		{
+			"id": "chanson_du_jongleur",
+			"titre": "La chanson du jongleur",
+			"donneur": "jongleur",
+			"apres": "anselme_fin",
+			"titre_obtenu": "Trouvère",
+			"offre": [
+				"Une chanson de geste ! Roland à Roncevaux, l'olifant, Durendal ! Mais le vent a dispersé mon parchemin le soir de l'incendie.",
+				"Les feuillets sont partout dans la ville : la grand-rue, la rue Basse, le long des teinturiers. Sans eux, je mélange tout. Hier, j'ai fait mourir Roland deux fois.",
+				"Rapporte-les, et on la chantera ensemble, sur la place. Les gens ont besoin d'entendre une histoire qui finit bien. Enfin, qui finit héroïquement."
+			],
+			"etapes": [
+				{
+					"objectif": "Ramasse les 4 feuillets de la chanson éparpillés dans les rues de Chartres",
+					"recolter": "vers_chanson",
+					"nombre": 4,
+					"ou": "chartres",
+					"duree": 1.0,
+					"action": "Tu lisses le parchemin froissé…"
+				},
+				{
+					"objectif": "Rends les feuillets à Rutebeuf le jongleur, sur la place du marché",
+					"pnj": "jongleur",
+					"ou": "chartres",
+					"repliques": [
+						"« Roland sent que la mort lui est proche… » Oui ! C'est ça ! Tout est là !",
+						"Bon. Moi, je joue de la vielle. Toi, tu reprends le refrain : « AOI ! » À chaque fin de laisse. Tu ne sais pas chanter ? Personne ne sait chanter. Crie fort et en rythme."
+					]
+				},
+				{
+					"objectif": "Chante la chanson de Roland avec le jongleur, devant ses tréteaux",
+					"objet": "treteaux_jongleur",
+					"ou": "chartres",
+					"mini_jeu": {
+						"type": "rythme",
+						"titre": "La chanson de Roland",
+						"consigne": "Suis la vielle du jongleur : appuie sur la bonne direction quand le cercle touche la flèche.",
+						"nombre": 8,
+						"reussites": 6,
+						"periode": 1.0,
+						"reussite": "« AOI ! » La place entière reprend le refrain. Un boulanger pleure, un enfant brandit un bâton comme une épée.",
+						"echec": "Tu as raté le refrain, et un chien s'est mis à hurler avec toi. Appuie sur F pour recommencer."
+					}
+				},
+				{
+					"objectif": "Parle à Rutebeuf",
+					"pnj": "jongleur",
+					"ou": "chartres",
+					"repliques": [
+						"Tu as entendu ? Ils chantaient ! Une ville qui chante ne meurt pas, c'est mon grand-père qui disait ça.",
+						"Tiens, garde la chanson. Je la connais par cœur maintenant. Tu la chanteras là où tu vas.",
+						"Tu es un trouvère, maintenant. Un mauvais trouvère, mais un trouvère."
+					]
+				}
+			],
+			"recompense": [
+				{
+					"id": "chanson_de_roland",
+					"nom": "Les feuillets de la chanson de Roland"
+				}
+			]
+		},
+		{
+			"id": "vitrail_des_metiers",
+			"titre": "Le vitrail des métiers",
+			"donneur": "aude",
+			"apres": "aude_vitrail",
+			"offre": [
+				"Le chapitre ne paiera pas toutes les fenêtres. Il y en aura plus de cent ! Alors on fait comme ailleurs : chaque métier paie la sienne, et on le peint en bas du vitrail.",
+				"Les boulangers avec leur pelle, les tanneurs avec leurs peaux, les teinturiers avec leurs cuves. Va leur demander, ils te connaissent maintenant.",
+				"Et il me faut du cobalt, la poudre bleue d'au-delà de la mer. L'évêque en avait acheté un coffret, mais des pillards l'ont volé dans la ville basse."
+			],
+			"etapes": [
+				{
+					"objectif": "Demande à Gervais le boulanger de payer une fenêtre (place du marché, Chartres)",
+					"pnj": "las_boulanger",
+					"ou": "chartres",
+					"repliques": [
+						"Un vitrail des boulangers ? Avec une pelle à four, et un pain rond ? Ha ! J'en suis. On paiera en farine, s'il le faut."
+					]
+				},
+				{
+					"objectif": "Demande à Bertrade la teinturière (près des cuves, au bord de l'Eure)",
+					"pnj": "las_teinturiere",
+					"ou": "chartres",
+					"repliques": [
+						"Les teinturiers savent ce que c'est, une couleur qui tient. On paiera. Mais je veux que notre bleu soit le plus beau."
+					]
+				},
+				{
+					"objectif": "Demande à Odon le tanneur (de l'autre côté de l'Eure)",
+					"pnj": "las_tanneur",
+					"ou": "chartres",
+					"repliques": [
+						"Les tanneurs, dans une cathédrale ? On sent mauvais, mais on paie comme les autres. D'accord."
+					]
+				},
+				{
+					"objectif": "Chasse les pillards qui ont volé le coffret de cobalt, dans les maisons brûlées",
+					"tuer": "mercenaire_pillard_cobalt",
+					"nombre": 4,
+					"ou": "chartres",
+					"apparition": {
+						"type": "mercenaire_pillard_cobalt",
+						"nombre": 4,
+						"position": [
+							70,
+							-20
+						],
+						"rayon": 6,
+						"attaque": true
+					}
+				},
+				{
+					"objectif": "Reprends le coffret de poudre bleue, au milieu des décombres",
+					"objet": "cobalt_vole",
+					"ou": "chartres",
+					"duree": 2.0,
+					"action": "Tu soulèves les poutres : le coffret est là, intact…"
+				},
+				{
+					"objectif": "Retourne à l'atelier d'Aude, sur le chantier, et aide-la à sertir le verre dans le plomb",
+					"objet": "plomb_sertissage",
+					"ou": "chantier",
+					"mini_jeu": {
+						"type": "jauge",
+						"titre": "Le sertissage",
+						"consigne": "Le plomb refroidit vite : appuie sur F quand le curseur est dans la zone verte pour souder chaque nœud.",
+						"essais": 5,
+						"reussites": 4,
+						"vitesse": 0.85,
+						"zone": 0.2,
+						"reussite": "Les morceaux tiennent dans leur résille de plomb. Aude lève le panneau vers le jour : le pain des boulangers brille en jaune, le ciel en bleu.",
+						"echec": "La soudure a coulé sur le verre. Appuie sur F pour recommencer."
+					}
+				},
+				{
+					"objectif": "Parle à Aude",
+					"pnj": "aude",
+					"ou": "chantier",
+					"repliques": [
+						"Trois métiers ! Et ils se battent déjà pour savoir qui aura la fenêtre la plus proche de l'autel.",
+						"Tiens, prends mon vieux fer à gruger. Mon père me l'a donné quand j'avais dix ans. Avec ça, tu sauras où la lumière doit tomber.",
+						"Quand tu le lèves, tu verras : là où tombe la couleur, les gens se battent mieux. Je ne sais pas pourquoi. Le bleu, peut-être."
+					]
+				}
+			],
+			"recompense": [
+				{
+					"id": "fer_a_gruger",
+					"nom": "Le fer à gruger d'Aude"
+				}
+			]
+		},
+		{
+			"id": "grand_beaulieu",
+			"titre": "Le Grand-Beaulieu",
+			"donneur": "frere_beaulieu",
+			"apres": "anselme_fin",
+			"offre": [
+				"Je suis frère Guérin, de la maladrerie du Grand-Beaulieu. On y soigne les lépreux, au bout de la vallée, loin des murs. Les gens ont peur d'eux. Moi, j'ai surtout peur de l'hiver.",
+				"Depuis l'incendie, plus personne ne pense à eux. Les marchands de la place ont mis des paniers de côté pour nous, mais je n'ai que deux bras.",
+				"Et des pillards guettent le chemin. Ils volent même les lépreux. Surtout les lépreux : personne ne vient les défendre."
+			],
+			"etapes": [
+				{
+					"objectif": "Prends les 4 paniers de vivres que les marchands ont mis de côté, sur la place du marché",
+					"recolter": "vivres_beaulieu",
+					"nombre": 4,
+					"ou": "chartres",
+					"duree": 1.0,
+					"action": "Pain, fromage, pois secs, un pot de miel…"
+				},
+				{
+					"objectif": "Chasse les pillards qui guettent le chemin du Grand-Beaulieu, au sud-est",
+					"tuer": "mercenaire_pillard_beaulieu",
+					"nombre": 4,
+					"ou": "chartres",
+					"apparition": {
+						"type": "mercenaire_pillard_beaulieu",
+						"nombre": 4,
+						"position": [
+							150,
+							128
+						],
+						"rayon": 6,
+						"attaque": true
+					}
+				},
+				{
+					"objectif": "Apporte les vivres à Jehanne, une malade de la maladrerie, devant la petite église",
+					"pnj": "lepreuse_beaulieu",
+					"ou": "chartres",
+					"repliques": [
+						"N'approchez pas trop. Ce n'est pas pour moi, c'est pour vous. Posez les paniers là, sur la pierre.",
+						"Du miel… Il y a des années que je n'en ai pas mangé. Avant, j'étais fileuse, rue de la Tannerie. On m'a chassée avec une crécelle.",
+						"Merci. Pas pour les paniers. Pour être venu jusqu'ici."
+					]
+				},
+				{
+					"objectif": "Retourne voir frère Guérin",
+					"pnj": "frere_beaulieu",
+					"ou": "chartres",
+					"repliques": [
+						"Vous y êtes allé vous-même ? Jusqu'à la pierre ? Peu de gens le font.",
+						"Prenez cette pèlerine. Les pèlerins la laissent ici en partant pour Compostelle, et on la donne à ceux qui partent loin. Vous partez toujours loin, il me semble.",
+						"Que Dieu vous garde. Et si vous repassez, apportez du miel."
+					]
+				}
+			],
+			"recompense": [
+				{
+					"id": "pelerine_pelerin",
+					"nom": "Pèlerine du pèlerin"
+				}
+			]
+		},
+		{
+			"id": "moulin_de_l_eure",
+			"titre": "Le moulin de l'Eure",
+			"donneur": "meunier_ville",
+			"apres": "anselme_fin",
+			"offre": [
+				"Ma roue ne tourne plus. Des poutres brûlées sont descendues avec l'Eure et se sont coincées dans les aubes. Toute la ville basse mange du pain d'hier.",
+				"Et pendant que je ne mouds pas, des voleurs vident mon grenier, la nuit. Ils sont revenus ce matin.",
+				"Débloque la roue, chasse-les, et va chercher du blé chez Guillot, en Beauce. Je te ferai goûter le meilleur pain de la vallée."
+			],
+			"etapes": [
+				{
+					"objectif": "Dégage les poutres coincées dans la roue à aubes du moulin, au bord de l'Eure",
+					"objet": "roue_aubes",
+					"ou": "chartres",
+					"duree": 3.0,
+					"action": "Tu tires sur les poutres noircies, l'eau te gifle les jambes…"
+				},
+				{
+					"objectif": "Chasse les voleurs de grain autour du moulin",
+					"tuer": "mercenaire_pillard_moulin",
+					"nombre": 3,
+					"ou": "chartres",
+					"apparition": {
+						"type": "mercenaire_pillard_moulin",
+						"nombre": 3,
+						"position": [
+							110,
+							28
+						],
+						"rayon": 5,
+						"attaque": true
+					}
+				},
+				{
+					"objectif": "Charge 3 sacs de blé dans la cour de la ferme de Guillot (Beauce)",
+					"recolter": "sac_ble_beauce",
+					"nombre": 3,
+					"ou": "beauce",
+					"duree": 1.5,
+					"action": "Tu hisses le sac sur ton épaule…"
+				},
+				{
+					"objectif": "Rapporte le blé à Herbert le meunier, au moulin de l'Eure",
+					"pnj": "meunier_ville",
+					"ou": "chartres",
+					"repliques": [
+						"Du blé de Beauce ! Écoute la roue : elle chante. Elle n'a pas chanté depuis un mois.",
+						"Voilà la farine, encore chaude de la meule. Ma femme a fait des pains ronds et des galettes au beurre. La recette, je te la donne : Goro, ton cuisinier de là-bas, saura la refaire.",
+						"Un pain de Beauce, ça se garde une semaine. Une galette, ça se mange tout de suite. C'est la seule règle."
+					]
+				}
+			],
+			"recompense": [
+				{
+					"id": "pain_de_beauce",
+					"nom": "Pains de Beauce ×4",
+					"n": 4
+				},
+				{
+					"id": "galette_beurre",
+					"nom": "Galettes au beurre ×4",
+					"n": 4
+				}
+			]
+		},
+		{
+			"id": "echecs_du_chanoine",
+			"titre": "Les échecs du chanoine",
+			"donneur": "chanoine",
+			"apres": "anselme_fin",
+			"offre": [
+				"Mon échiquier d'ivoire ! Il vient d'Espagne, par les Maures. On joue aux échecs ici depuis cent ans à peine, et le mien est le plus beau de la ville.",
+				"Les pillards ont pris quatre pièces dans le cloître, pendant que nous étions sur le parvis : le roi, la fierce, un fol et un roc. Ils les ont jetées dans les ruines et dans la forêt, je suppose, quand ils ont vu que ce n'était pas de l'argent.",
+				"La fierce, c'est la reine, si vous voulez. Mais chez nous, elle ne bouge que d'une case en diagonale. Une reine prudente."
+			],
+			"etapes": [
+				{
+					"objectif": "Retrouve les 4 pièces d'ivoire : deux dans les maisons brûlées (Chartres), deux au camp des brigands (forêt de Berchères)",
+					"recolter": "piece_ivoire",
+					"nombre": 4,
+					"ou": "chartres",
+					"aussi": [
+						"bercheres"
+					],
+					"duree": 1.0,
+					"action": "Tu essuies la pièce d'ivoire sur ta manche…"
+				},
+				{
+					"objectif": "Joue une partie contre le chanoine Robert, au cloître",
+					"objet": "echiquier_chanoine",
+					"ou": "chartres",
+					"mini_jeu": {
+						"type": "jauge",
+						"titre": "La partie d'échecs",
+						"consigne": "Le chanoine réfléchit longtemps : appuie sur F quand le curseur est dans la zone verte pour jouer le bon coup.",
+						"essais": 5,
+						"reussites": 4,
+						"vitesse": 0.75,
+						"zone": 0.2,
+						"reussite": "Échec, et mat. Le chanoine renverse son roi, très lentement, et éclate de rire.",
+						"echec": "Ta fierce est tombée dans un piège. Appuie sur F pour une nouvelle partie."
+					}
+				},
+				{
+					"objectif": "Parle au chanoine Robert",
+					"pnj": "chanoine",
+					"ou": "chartres",
+					"repliques": [
+						"Battu. Par quelqu'un qui joue la fierce comme si elle traversait tout l'échiquier ! D'où tenez-vous ça ?",
+						"Peu importe. Gardez l'échiquier. J'en ai un autre, en bois, et je crois que je vais réfléchir à ma façon de jouer pendant quelques années.",
+						"Et si un jour la fierce traverse vraiment tout l'échiquier, souvenez-vous que c'est à Chartres que vous l'avez vu en premier."
+					]
+				}
+			],
+			"recompense": [
+				{
+					"id": "echiquier_ivoire",
+					"nom": "L'échiquier d'ivoire du chanoine"
+				}
+			]
+		},
+		{
+			"id": "intrus_modernes_moyen_age",
+			"titre": "Les intrus modernes",
+			"donneur": "lenoir_moyen_age",
+			"apres": "qg_cellule_plomb",
+			"offre": [
+				"Lenoir, du Nettoyage. Plomb a été arrêtée, mais ses hommes ont laissé du matériel partout. Mon détecteur sonne encore trois fois.",
+				"Un chalumeau sur le chantier, dans la cour sud. Un extincteur vide dans les maisons brûlées de la ville basse. Et quelque chose au bord de l'escalier de la crypte qui… sonne. Un téléphone. En 1194.",
+				"Casse les deux premiers. Le téléphone, décroche-le d'abord. Je veux savoir qui appelle."
+			],
+			"etapes": [
+				{
+					"objectif": "Trouve le chalumeau caché dans la cour sud du chantier",
+					"objet": "chalumeau_chantier",
+					"ou": "chantier",
+					"duree": 1.5,
+					"action": "Tu fermes la bouteille de gaz, tu tords le tuyau…"
+				},
+				{
+					"objectif": "Trouve l'extincteur vide dans les maisons brûlées de la ville basse",
+					"objet": "extincteur_ville_basse",
+					"ou": "chartres",
+					"duree": 1.5,
+					"action": "Un extincteur rouge, vide. Tu le jettes au fond d'un puits…"
+				},
+				{
+					"objectif": "Décroche le téléphone qui sonne au bord de l'escalier de la crypte, dans le transept nord du chantier",
+					"objet": "telephone_crypte",
+					"ou": "chantier",
+					"duree": 2.0,
+					"action": "Tu décroches. Un souffle. Puis une tonalité…"
+				},
+				{
+					"objectif": "Raconte l'appel à l'agent Lenoir, à la porte des Épars (Chartres)",
+					"pnj": "lenoir_moyen_age",
+					"ou": "chartres",
+					"repliques": [
+						"Alors ? Qui c'était ?",
+						"Personne ? Juste une tonalité, et l'écran qui affiche le dernier numéro appelé… Montre. C'est le standard du QG. L'ancien standard, celui de 2006. Il n'existe plus depuis quinze ans.",
+						"Quelqu'un a appelé le QG depuis cette cathédrale, en 2006. Et quelqu'un a laissé le téléphone ici pour qu'on le trouve. Je l'envoie à la commandante. Garde le journal d'appels : tu y as droit."
+					]
+				}
+			],
+			"recompense": [
+				{
+					"id": "journal_appels_2006",
+					"nom": "Le journal d'appels de 2006"
+				}
+			]
+		}
+	],
+	"objets": [
+		{
+			"id": "faucon_tombe",
+			"forme": "faucon_tombe",
+			"ou": "bercheres",
+			"position": [
+				-62,
+				-44
+			],
+			"invite": "[F] Ramasser le jeune faucon"
+		},
+		{
+			"id": "gant_heloise",
+			"forme": "gant_fauconnier",
+			"ou": "beauce",
+			"position": [
+				-10,
+				38
+			],
+			"invite": "[F] Lancer le faucon et le rappeler au gant"
+		},
+		{
+			"id": "jument_grise",
+			"forme": "jument",
+			"ou": "beauce",
+			"position": [
+				-58,
+				-78
+			],
+			"invite": "[F] Passer la corde au cou de la jument"
+		},
+		{
+			"id": "jument_baie",
+			"forme": "jument",
+			"ou": "bercheres",
+			"position": [
+				-128,
+				70
+			],
+			"invite": "[F] Passer la corde au cou de la jument"
+		},
+		{
+			"id": "pierre_marquee_0",
+			"forme": "pierre_marquee",
+			"ou": "chantier",
+			"position": [
+				-58,
+				22
+			],
+			"invite": "[F] Relever la pierre marquée",
+			"groupe": "pierre_marquee"
+		},
+		{
+			"id": "pierre_marquee_1",
+			"forme": "pierre_marquee",
+			"ou": "chantier",
+			"position": [
+				-6,
+				26
+			],
+			"invite": "[F] Relever la pierre marquée",
+			"groupe": "pierre_marquee"
+		},
+		{
+			"id": "pierre_marquee_2",
+			"forme": "pierre_marquee",
+			"ou": "chantier",
+			"position": [
+				0,
+				44
+			],
+			"invite": "[F] Relever la pierre marquée",
+			"groupe": "pierre_marquee"
+		},
+		{
+			"id": "pierre_marquee_3",
+			"forme": "pierre_marquee",
+			"ou": "chartres",
+			"position": [
+				64,
+				-28
+			],
+			"invite": "[F] Relever la pierre marquée",
+			"groupe": "pierre_marquee"
+		},
+		{
+			"id": "pierre_marquee_4",
+			"forme": "pierre_marquee",
+			"ou": "chartres",
+			"position": [
+				90,
+				-6
+			],
+			"invite": "[F] Relever la pierre marquée",
+			"groupe": "pierre_marquee"
+		},
+		{
+			"id": "pierre_marquee_5",
+			"forme": "pierre_marquee",
+			"ou": "chartres",
+			"position": [
+				76,
+				6
+			],
+			"invite": "[F] Relever la pierre marquée",
+			"groupe": "pierre_marquee"
+		},
+		{
+			"id": "simple_medicinal_0",
+			"forme": "thym",
+			"ou": "beauce",
+			"position": [
+				-20,
+				12
+			],
+			"invite": "[F] Cueillir la plante",
+			"groupe": "simple_medicinal"
+		},
+		{
+			"id": "simple_medicinal_1",
+			"forme": "thym",
+			"ou": "beauce",
+			"position": [
+				10,
+				4
+			],
+			"invite": "[F] Cueillir la plante",
+			"groupe": "simple_medicinal"
+		},
+		{
+			"id": "simple_medicinal_2",
+			"forme": "thym",
+			"ou": "beauce",
+			"position": [
+				-50,
+				20
+			],
+			"invite": "[F] Cueillir la plante",
+			"groupe": "simple_medicinal"
+		},
+		{
+			"id": "simple_medicinal_3",
+			"forme": "thym",
+			"ou": "beauce",
+			"position": [
+				-96,
+				30
+			],
+			"invite": "[F] Cueillir la plante",
+			"groupe": "simple_medicinal"
+		},
+		{
+			"id": "simple_foret_0",
+			"forme": "thym",
+			"ou": "bercheres",
+			"position": [
+				-40,
+				30
+			],
+			"invite": "[F] Cueillir la plante",
+			"groupe": "simple_foret"
+		},
+		{
+			"id": "simple_foret_1",
+			"forme": "thym",
+			"ou": "bercheres",
+			"position": [
+				-60,
+				70
+			],
+			"invite": "[F] Cueillir la plante",
+			"groupe": "simple_foret"
+		},
+		{
+			"id": "simple_foret_2",
+			"forme": "thym",
+			"ou": "bercheres",
+			"position": [
+				-30,
+				-20
+			],
+			"invite": "[F] Cueillir la plante",
+			"groupe": "simple_foret"
+		},
+		{
+			"id": "blesse_hotel_dieu_0",
+			"forme": "natte",
+			"ou": "chartres",
+			"position": [
+				4,
+				-55
+			],
+			"invite": "[F] Passer l'onguent sur les brûlures",
+			"groupe": "blesse_hotel_dieu"
+		},
+		{
+			"id": "blesse_hotel_dieu_1",
+			"forme": "natte",
+			"ou": "chartres",
+			"position": [
+				9,
+				-55
+			],
+			"invite": "[F] Passer l'onguent sur les brûlures",
+			"groupe": "blesse_hotel_dieu"
+		},
+		{
+			"id": "blesse_hotel_dieu_2",
+			"forme": "natte",
+			"ou": "chartres",
+			"position": [
+				14,
+				-55
+			],
+			"invite": "[F] Passer l'onguent sur les brûlures",
+			"groupe": "blesse_hotel_dieu"
+		},
+		{
+			"id": "vers_chanson_0",
+			"forme": "rouleau",
+			"ou": "chartres",
+			"position": [
+				-64,
+				8
+			],
+			"invite": "[F] Ramasser le feuillet de parchemin",
+			"groupe": "vers_chanson"
+		},
+		{
+			"id": "vers_chanson_1",
+			"forme": "rouleau",
+			"ou": "chartres",
+			"position": [
+				10,
+				-22
+			],
+			"invite": "[F] Ramasser le feuillet de parchemin",
+			"groupe": "vers_chanson"
+		},
+		{
+			"id": "vers_chanson_2",
+			"forme": "rouleau",
+			"ou": "chartres",
+			"position": [
+				52,
+				-10
+			],
+			"invite": "[F] Ramasser le feuillet de parchemin",
+			"groupe": "vers_chanson"
+		},
+		{
+			"id": "vers_chanson_3",
+			"forme": "rouleau",
+			"ou": "chartres",
+			"position": [
+				100,
+				44
+			],
+			"invite": "[F] Ramasser le feuillet de parchemin",
+			"groupe": "vers_chanson"
+		},
+		{
+			"id": "treteaux_jongleur",
+			"forme": "",
+			"ou": "chartres",
+			"position": [
+				-19,
+				-31
+			],
+			"invite": "[F] Chanter avec le jongleur"
+		},
+		{
+			"id": "cobalt_vole",
+			"forme": "coffret",
+			"ou": "chartres",
+			"position": [
+				72,
+				-4
+			],
+			"invite": "[F] Reprendre la poudre bleue"
+		},
+		{
+			"id": "plomb_sertissage",
+			"forme": "",
+			"ou": "chantier",
+			"position": [
+				-26,
+				-56
+			],
+			"invite": "[F] Sertir le verre dans le plomb"
+		},
+		{
+			"id": "vivres_beaulieu_0",
+			"forme": "panier",
+			"ou": "chartres",
+			"position": [
+				-30,
+				-20
+			],
+			"invite": "[F] Prendre le panier de vivres",
+			"groupe": "vivres_beaulieu"
+		},
+		{
+			"id": "vivres_beaulieu_1",
+			"forme": "panier",
+			"ou": "chartres",
+			"position": [
+				-28,
+				-30
+			],
+			"invite": "[F] Prendre le panier de vivres",
+			"groupe": "vivres_beaulieu"
+		},
+		{
+			"id": "vivres_beaulieu_2",
+			"forme": "panier",
+			"ou": "chartres",
+			"position": [
+				-20,
+				-18
+			],
+			"invite": "[F] Prendre le panier de vivres",
+			"groupe": "vivres_beaulieu"
+		},
+		{
+			"id": "vivres_beaulieu_3",
+			"forme": "panier",
+			"ou": "chartres",
+			"position": [
+				-31,
+				-25
+			],
+			"invite": "[F] Prendre le panier de vivres",
+			"groupe": "vivres_beaulieu"
+		},
+		{
+			"id": "roue_aubes",
+			"forme": "vanne",
+			"ou": "chartres",
+			"position": [
+				123.5,
+				12.5
+			],
+			"invite": "[F] Dégager la roue à aubes"
+		},
+		{
+			"id": "sac_ble_beauce_0",
+			"forme": "sac_farine",
+			"ou": "beauce",
+			"position": [
+				-86,
+				58
+			],
+			"invite": "[F] Charger le sac de blé",
+			"groupe": "sac_ble_beauce"
+		},
+		{
+			"id": "sac_ble_beauce_1",
+			"forme": "sac_farine",
+			"ou": "beauce",
+			"position": [
+				-84,
+				62
+			],
+			"invite": "[F] Charger le sac de blé",
+			"groupe": "sac_ble_beauce"
+		},
+		{
+			"id": "sac_ble_beauce_2",
+			"forme": "sac_farine",
+			"ou": "beauce",
+			"position": [
+				-78,
+				68
+			],
+			"invite": "[F] Charger le sac de blé",
+			"groupe": "sac_ble_beauce"
+		},
+		{
+			"id": "piece_ivoire_0",
+			"forme": "pion",
+			"ou": "chartres",
+			"position": [
+				96,
+				-28
+			],
+			"invite": "[F] Ramasser la pièce d'ivoire",
+			"groupe": "piece_ivoire"
+		},
+		{
+			"id": "piece_ivoire_1",
+			"forme": "pion",
+			"ou": "chartres",
+			"position": [
+				62,
+				0
+			],
+			"invite": "[F] Ramasser la pièce d'ivoire",
+			"groupe": "piece_ivoire"
+		},
+		{
+			"id": "piece_ivoire_2",
+			"forme": "pion",
+			"ou": "bercheres",
+			"position": [
+				-108,
+				-94
+			],
+			"invite": "[F] Ramasser la pièce d'ivoire",
+			"groupe": "piece_ivoire"
+		},
+		{
+			"id": "piece_ivoire_3",
+			"forme": "pion",
+			"ou": "bercheres",
+			"position": [
+				-98,
+				-82
+			],
+			"invite": "[F] Ramasser la pièce d'ivoire",
+			"groupe": "piece_ivoire"
+		},
+		{
+			"id": "echiquier_chanoine",
+			"forme": "echiquier",
+			"ou": "chartres",
+			"position": [
+				28,
+				-140
+			],
+			"invite": "[F] Jouer contre le chanoine"
+		},
+		{
+			"id": "chalumeau_chantier",
+			"forme": "chalumeau",
+			"ou": "chantier",
+			"position": [
+				50,
+				30
+			],
+			"invite": "[F] Détruire l'objet moderne"
+		},
+		{
+			"id": "extincteur_ville_basse",
+			"forme": "extincteur",
+			"ou": "chartres",
+			"position": [
+				96,
+				-32
+			],
+			"invite": "[F] Détruire l'objet moderne"
+		},
+		{
+			"id": "telephone_crypte",
+			"forme": "telephone",
+			"ou": "chantier",
+			"position": [
+				26,
+				-38
+			],
+			"invite": "[F] Décrocher le téléphone"
+		}
+	]
+}

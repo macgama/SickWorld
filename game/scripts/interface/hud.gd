@@ -29,6 +29,7 @@ const NOMS_EFFETS := {
 	"blessure": "Blessure (soins reçus réduits)",
 	"sens_inverse": "Sens dessus dessous (directions inversées)", "thermes": "Bain des thermes (soigné)",
 	"aiguilles": "Aiguilles d'argent (soigné, +8 % dégâts)",
+	"onguent": "Onguent de l'Hôtel-Dieu (soigné)", "lumiere_vitrail": "Lumière du vitrail (+15 % dégâts)",
 	"pavois": "Pavois (−40 % de dégâts subis)",
 }
 

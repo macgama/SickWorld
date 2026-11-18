@@ -24,7 +24,7 @@ const NOMS_ZONES := {
 ## Objets détruits quand on les utilise (les objets modernes semés par les fractures…).
 const FORMES_CONSOMMEES := ["canette", "telephone", "lunettes", "gobelet", "drone", "chat", "chien", "gps", "extincteur",
 		"fromage", "laurier", "sac", "tablette", "pelleteuse", "briquet", "cle_usb", "cerf", "grue", "macaque",
-		"vieux_tigre", "mere_panda", "the", "ballon_cuju", "cocon"]
+		"vieux_tigre", "mere_panda", "the", "ballon_cuju", "cocon", "faucon_tombe", "jument", "chalumeau"]
 
 signal quete_changee(id: String)
 
@@ -172,8 +172,9 @@ func debloquee(q: Dictionary) -> bool:
 	return false
 
 
+## « aussi » : d'autres zones où l'étape se fait (des pierres à retrouver sur le chantier ET en ville…).
 func _ici(e: Dictionary) -> bool:
-	return String(e.get("ou", "")) in ["", _zone()]
+	return String(e.get("ou", "")) in ["", _zone()] or (e.get("aussi", []) as Array).has(_zone())
 
 
 # --- Mise en place dans la zone -------------------------------------------------------
@@ -526,7 +527,7 @@ func _mettre_a_jour_liste() -> void:
 			var pnj := _quete._trouver_pnj(e.pnj) as Node3D
 			if pnj == null:
 				texte += " · ailleurs sur l'île"
-		if ou != "" and ou != _zone():
+		if ou != "" and not _ici(e):
 			texte += " · " + String(noms_zones.get(ou, ou))
 		else:
 			var d := _distance(q)

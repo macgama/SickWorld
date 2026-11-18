@@ -555,6 +555,10 @@ func _executer(id: String, cible_choisie: Combattant = null) -> void:
 				if c.has(cle):
 					effet[cle] = float(c[cle])
 			visee.ajouter_effet(String(c.get("effet", id)), float(c.get("duree", 8)), effet, combat)
+			# « retire » : les effets que la compétence enlève (brûlure, poison… : l'Onguent de l'Hôtel-Dieu).
+			for mauvais in c.get("retire", []):
+				if visee.a_effet(String(mauvais)):
+					visee.retirer_effet(String(mauvais))
 			_effet.rpc("trainee", visee.get_path(), Vector3.ZERO, couleur, float(c.get("duree", 8)))
 
 

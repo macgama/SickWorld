@@ -230,6 +230,11 @@ Un titre se gagne une fois pour toutes. Dans l'onglet **Titres** de la fenêtre 
 | Chine | « Ami des tigres » | Laisser partir le vieux tigre du parc impérial (quête « Le tigre du parc impérial »). |
 | Chine | « Ami des Han » | Terminer toutes les quêtes secondaires de Chine. |
 | Chine | « Gardien de l'empire du Milieu » | Réussir 3 événements publics de Chine. |
+| Moyen Âge | « Bâtisseur de Chartres » | Terminer la quête principale du Moyen Âge : ramener Plomb au QG. |
+| Moyen Âge | « Compagnon du chantier » | Retrouver les pierres marquées des tailleurs (quête « Les marques des tailleurs »). |
+| Moyen Âge | « Trouvère » | Chanter la chanson de Roland avec le jongleur (quête « La chanson du jongleur »). |
+| Moyen Âge | « Ami des Chartrains » | Terminer toutes les quêtes secondaires du Moyen Âge. |
+| Moyen Âge | « Gardien de la Beauce » | Réussir 3 événements publics du Moyen Âge. |
 | Arène de la baie | « Baptême de l'arène » | Gagner un premier combat à l'Arène de la baie. |
 | Arène de la baie | « Habitué de l'arène » | Gagner 25 combats à l'Arène. |
 | Arène de la baie | « Vétéran de l'arène » | Gagner 100 combats à l'Arène. |

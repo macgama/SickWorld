@@ -1,5 +1,6 @@
 extends Node3D
-## Le petit compagnon d'un personnage : Glaukê, la chouette de Néra (île de Grèce), ou
+## Le petit compagnon d'un personnage : Glaukê, la chouette de Néra (île de Grèce), Bise, le
+## faucon pèlerin de dame Héloïse (Moyen Âge), ou
 ## l'oie du Capitole (île de Rome), qui marche en se dandinant derrière soi et crie quand un
 ## prétorien de Janus ou un Effaceur approche (comme les oies qui ont sauvé Rome des Gaulois).
 ## Il apparaît quand on porte l'objet qui a la clé « compagnon » (data/objets.json) :
@@ -62,8 +63,11 @@ func _construire() -> void:
 	if espece == "oie":
 		_construire_oie()
 		return
-	var plume := _mat(Color(0.45, 0.34, 0.24))
-	var clair := _mat(Color(0.82, 0.76, 0.66))
+	# Le faucon pèlerin de dame Héloïse (Moyen Âge) : même silhouette, plus fine, gris ardoise
+	# dessus, poitrine claire, la « moustache » noire et les yeux sombres cerclés de jaune.
+	var faucon := espece == "faucon"
+	var plume := _mat(Color(0.3, 0.32, 0.36) if faucon else Color(0.45, 0.34, 0.24))
+	var clair := _mat(Color(0.88, 0.84, 0.76) if faucon else Color(0.82, 0.76, 0.66))
 	var jaune := _mat(Color(1.0, 0.8, 0.25), 0.3)
 	jaune.emission_enabled = true
 	jaune.emission = Color(1.0, 0.75, 0.2)
@@ -71,6 +75,8 @@ func _construire() -> void:
 	var noir := _mat(Color(0.02, 0.02, 0.02), 0.2)
 	_corps = Node3D.new()
 	add_child(_corps)
+	if faucon:
+		_corps.scale = Vector3(0.85, 1.15, 1.1)
 	_boule(_corps, 0.065, 0.16, plume, Vector3(0, 0.08, 0))
 	_boule(_corps, 0.05, 0.12, clair, Vector3(0, 0.075, -0.025))
 	# Les taches blanches du dos.
@@ -81,9 +87,12 @@ func _construire() -> void:
 	_corps.add_child(_tete)
 	_boule(_tete, 0.05, 0.095, plume, Vector3.ZERO)
 	for c in [-1.0, 1.0]:
-		_boule(_tete, 0.015, 0.028, jaune, Vector3(c * 0.02, 0.005, -0.042))
-		_boule(_tete, 0.007, 0.014, noir, Vector3(c * 0.02, 0.005, -0.056))
-		_boule(_tete, 0.012, 0.01, clair, Vector3(c * 0.022, 0.024, -0.04))
+		_boule(_tete, 0.015 if not faucon else 0.012, 0.028 if not faucon else 0.022, jaune, Vector3(c * 0.02, 0.005, -0.042))
+		_boule(_tete, 0.007 if not faucon else 0.01, 0.014 if not faucon else 0.02, noir, Vector3(c * 0.02, 0.005, -0.05 if faucon else -0.056))
+		if faucon:
+			_boule(_tete, 0.008, 0.035, noir, Vector3(c * 0.028, -0.02, -0.036))
+		else:
+			_boule(_tete, 0.012, 0.01, clair, Vector3(c * 0.022, 0.024, -0.04))
 	var bec := MeshInstance3D.new()
 	var p := PrismMesh.new()
 	p.size = Vector3(0.014, 0.02, 0.014)
@@ -98,7 +107,7 @@ func _construire() -> void:
 		_corps.add_child(pivot)
 		var aile := MeshInstance3D.new()
 		var b := BoxMesh.new()
-		b.size = Vector3(0.13, 0.012, 0.09)
+		b.size = Vector3(0.17, 0.012, 0.08) if faucon else Vector3(0.13, 0.012, 0.09)
 		aile.mesh = b
 		aile.material_override = plume
 		aile.position = Vector3(c * 0.06, 0, 0)
@@ -106,7 +115,7 @@ func _construire() -> void:
 		_ailes.append(pivot)
 	var queue := MeshInstance3D.new()
 	var q := BoxMesh.new()
-	q.size = Vector3(0.05, 0.01, 0.05)
+	q.size = Vector3(0.045, 0.01, 0.09) if faucon else Vector3(0.05, 0.01, 0.05)
 	queue.mesh = q
 	queue.material_override = plume
 	queue.position = Vector3(0, 0.02, 0.06)

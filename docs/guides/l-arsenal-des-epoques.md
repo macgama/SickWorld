@@ -12,8 +12,8 @@ Chaque panoplie a des **bonus d'ensemble** à 3, 5 et 7 pièces (normales et ren
 
 - Va voir **Inès, la soudeuse**, dans le **quartier des Artisans** du hub (près de la forge Hinode). Parle-lui : son établi s'ouvre, avec un onglet par île.
 - Une pièce **normale** (bleue, « rare ») demande des **éclats de fracture** (ils tombent sur presque tous les ennemis « fracturés ») et des **matériaux de l'île**.
-- Une pièce **renforcée** (violette, « épique », 35 % plus forte) demande la pièce normale, des éclats et le **trophée du boss du donjon de l'île** (fourrure de l'Ours sans mémoire, écaille d'Isfet, œil de la Gorgone, bronze du Colosse). En Chine, en attendant le boss final, ce sont des plaquettes de laque.
-- Chaque pièce demande un **niveau** : 6 / 10 en Préhistoire, 16 / 20 en Égypte, 26 / 30 en Grèce, 36 / 40 à Rome, 46 / 50 en Chine (normale / renforcée). On peut la fabriquer avant, mais pas la porter.
+- Une pièce **renforcée** (violette, « épique », 35 % plus forte) demande la pièce normale, des éclats et le **trophée du boss du donjon de l'île** (fourrure de l'Ours sans mémoire, écaille d'Isfet, œil de la Gorgone, bronze du Colosse, perle de la coiffe impériale, cœur de plomb du Brasier).
+- Chaque pièce demande un **niveau** : 6 / 10 en Préhistoire, 16 / 20 en Égypte, 26 / 30 en Grèce, 36 / 40 à Rome, 46 / 50 en Chine, 56 / 60 au Moyen Âge (normale / renforcée). On peut la fabriquer avant, mais pas la porter.
 - Comme pour les autres améliorations, la pièce à renforcer doit être **dans les sacs** (pas portée), et la version renforcée la remplace aussi dans les tenues de mission.
 
 ![L'atelier d'Inès](../images/arsenal-ines.jpg)
@@ -267,4 +267,52 @@ Bonus d'ensemble : 3 pièces : +200 points de vie ; 5 pièces : +6 % de protecti
 | Bijou | Bi de jade du lettré | +3 % soins, +6 % dégâts, +155 vie | +4 % soins, +8 % dégâts, +210 vie |
 
 Bonus d'ensemble : 3 pièces : +12 % de soins donnés ; 5 pièces : +6 % de coups critiques ; 7 pièces : +15 % de soins donnés et +200 points de vie.
+
+## Moyen Âge (niveau 56, renforcé niveau 60)
+
+- Armures : 8 × Éclat de fracture, 3 × Pelage de loup de Beauce, 2 × Mailles rouillées.
+- Arme et bijou : 8 × Éclat de fracture, 2 × Plomb figé, 3 × Denier chartrain.
+- Renforcer une pièce : 10 × Éclat de fracture, 1 × Cœur de plomb.
+
+**Chevalier du roi** — Assaut (Lame, Traqueur)
+
+| Pièce | Nom | Normale | Renforcée |
+|---|---|---|---|
+| Arme | Épée du chevalier du roi | +38 % dégâts, +3 % critiques, +125 vie | +51 % dégâts, +4 % critiques, +170 vie |
+| Torse | Haubert du chevalier | +21 % dégâts, +2 % critiques, +275 vie, +1 % protection | +29 % dégâts, +3 % critiques, +375 vie, +2 % protection |
+| Jambes | Chausses de mailles | +18 % dégâts, +2 % critiques, +215 vie, +1 % protection | +24 % dégâts, +2 % critiques, +290 vie, +1 % protection |
+| Tête | Heaume du chevalier | +15 % dégâts, +1 % critiques, +175 vie, +1 % protection | +20 % dégâts, +2 % critiques, +240 vie, +1 % protection |
+| Mains | Gantelets de mailles | +13 % dégâts, +1 % critiques, +150 vie, +1 % protection | +17 % dégâts, +2 % critiques, +205 vie, +1 % protection |
+| Pieds | Solerets du chevalier | +11 % dégâts, +1 % critiques, +150 vie, +1 % protection | +15 % dégâts, +1 % critiques, +205 vie, +1 % protection |
+| Bijou | Fermail du chevalier | +10 % dégâts, +1 % critiques, +165 vie | +14 % dégâts, +1 % critiques, +220 vie |
+
+Bonus d'ensemble : 3 pièces : +14 % de dégâts ; 5 pièces : +7 % de coups critiques ; 7 pièces : +18 % de dégâts et 5 % de vol de vie.
+
+**Pavois de Berchères** — Garde (Rempart)
+
+| Pièce | Nom | Normale | Renforcée |
+|---|---|---|---|
+| Arme | Masse d'armes des carriers | +15 % dégâts, +2 % protection, +225 vie | +20 % dégâts, +2 % protection, +305 vie |
+| Torse | Broigne des carriers | +9 % dégâts, +5 % protection, +500 vie | +12 % dégâts, +6 % protection, +675 vie |
+| Jambes | Chausses des carriers | +7 % dégâts, +4 % protection, +385 vie | +10 % dégâts, +5 % protection, +520 vie |
+| Tête | Chapel de fer | +6 % dégâts, +3 % protection, +315 vie | +8 % dégâts, +4 % protection, +430 vie |
+| Mains | Gantelets des carriers | +5 % dégâts, +3 % protection, +270 vie | +7 % dégâts, +3 % protection, +365 vie |
+| Pieds | Houseaux des carriers | +5 % dégâts, +2 % protection, +270 vie | +6 % dégâts, +3 % protection, +365 vie |
+| Bijou | Médaille de Berchères | +4 % dégâts, +1 % protection, +295 vie | +5 % dégâts, +2 % protection, +400 vie |
+
+Bonus d'ensemble : 3 pièces : +240 points de vie ; 5 pièces : +7 % de protection ; 7 pièces : +360 points de vie et les contrôles durent 33 % de moins sur toi.
+
+**Verrière d'Aude** — Harmonie (Tisseur)
+
+| Pièce | Nom | Normale | Renforcée |
+|---|---|---|---|
+| Arme | Canne de verrier | +12 % soins, +26 % dégâts, +2 % critiques, +150 vie | +16 % soins, +36 % dégâts, +2 % critiques, +205 vie |
+| Torse | Cotte de la verrière | +7 % soins, +15 % dégâts, +1 % critiques, +330 vie | +9 % soins, +20 % dégâts, +1 % critiques, +450 vie |
+| Jambes | Chausses de la verrière | +5 % soins, +12 % dégâts, +1 % critiques, +255 vie | +7 % soins, +17 % dégâts, +1 % critiques, +345 vie |
+| Tête | Coiffe de la verrière | +5 % soins, +11 % dégâts, +1 % critiques, +210 vie | +6 % soins, +14 % dégâts, +1 % critiques, +285 vie |
+| Mains | Mitaines de la verrière | +4 % soins, +9 % dégâts, +1 % critiques, +180 vie | +5 % soins, +12 % dégâts, +1 % critiques, +245 vie |
+| Pieds | Souliers de la verrière | +3 % soins, +8 % dégâts, +180 vie | +5 % soins, +11 % dégâts, +1 % critiques, +245 vie |
+| Bijou | Rondelle de verre bleu | +3 % soins, +7 % dégâts, +195 vie | +4 % soins, +10 % dégâts, +1 % critiques, +265 vie |
+
+Bonus d'ensemble : 3 pièces : +14 % de soins donnés ; 5 pièces : +7 % de coups critiques ; 7 pièces : +18 % de soins donnés et +240 points de vie.
 

@@ -437,5 +437,32 @@
 		"recharge": 30,
 		"animation": "attaque_bouclier",
 		"couleur": "#c8a040"
+	},
+	"onguent_de_l_hotel_dieu": {
+		"nom": "Onguent de l'Hôtel-Dieu",
+		"origine": "Moyen Âge",
+		"description": "L'onguent de sœur Agnès, passé sur les plaies : pendant 12 secondes, toi (ou l'allié ciblé) regagnes 13 points de vie par seconde, et les brûlures, poisons et saignements disparaissent. Demande le Pot d'onguent de l'Hôtel-Dieu (quête « Les onguents de l'Hôtel-Dieu »).",
+		"type": "renfort_allie",
+		"portee": 30,
+		"effet": "onguent",
+		"duree": 12,
+		"soin_par_seconde": 13,
+		"retire": ["brulure", "poison", "saignement", "plomb_fondu", "las", "blessure"],
+		"recharge": 35,
+		"animation": "sort",
+		"couleur": "#a8b070"
+	},
+	"lumiere_du_vitrail": {
+		"nom": "Lumière du vitrail",
+		"origine": "Moyen Âge",
+		"description": "Tu lèves le fer à gruger d'Aude vers le ciel : une lumière bleue et rouge tombe autour de toi. Tes alliés et toi, à moins de 8 mètres, infligez 15 % de dégâts en plus pendant 8 secondes. Demande le Fer à gruger d'Aude (quête « Le vitrail des métiers »).",
+		"type": "renfort",
+		"rayon": 8,
+		"effet": "lumiere_vitrail",
+		"duree": 8,
+		"degats_infliges": 1.15,
+		"recharge": 40,
+		"animation": "sort",
+		"couleur": "#3a5ad8"
 	}
 }

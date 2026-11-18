@@ -212,11 +212,28 @@ func _chaumiere(parent: Node3D, centre: Vector2, taille: Vector3, angle := 0.0) 
 	m.rotation.y = angle
 	parent.add_child(m)
 	_boite(Vector3(taille.x, taille.y, taille.z), Vector3(0, taille.y * 0.5, 0), _mat_calcaire(), m)
+	# Le soubassement de gros moellons plus sombres, un peu en saillie, et les pierres
+	# d'angle (chaînages) qui dépassent du mur.
+	var gros := _mat_pierre_brulee()
+	_boite(Vector3(taille.x + 0.24, 0.55, taille.z + 0.24), Vector3(0, 0.27, 0), gros, m, false)
+	for cx: float in [-1.0, 1.0]:
+		for cz: float in [-1.0, 1.0]:
+			for k in int(taille.y / 0.5):
+				var long := 0.55 if k % 2 == 0 else 0.35
+				_boite(Vector3(long, 0.42, 0.62 - long + 0.3), Vector3(cx * (taille.x * 0.5 - long * 0.5 + 0.06),
+						0.75 + k * 0.48, cz * (taille.z * 0.5 - (0.62 - long + 0.3) * 0.5 + 0.06)), _mat_calcaire(), m, false)
 	var toit := Node3D.new()
 	toit.position = Vector3(0, taille.y - 0.3, 0)
 	m.add_child(toit)
 	_toit_pentu(toit, Vector3.ZERO, taille.x + 0.6, taille.z, _mat_chaume_beauce(), _mat_calcaire(), 0.92, 0.5)
-	_boite(Vector3(0.95, 1.7, 0.08), Vector3(0.4, 0.85, taille.z * 0.5 + 0.03), _mat_colombage(), m, false)
+	var bois := _mat_colombage()
+	_boite(Vector3(0.95, 1.7, 0.08), Vector3(0.4, 0.85, taille.z * 0.5 + 0.03), bois, m, false)
+	# Le linteau de bois au-dessus de la porte, un seuil de pierre, une petite fenêtre à volet.
+	_boite(Vector3(1.25, 0.18, 0.2), Vector3(0.4, 1.8, taille.z * 0.5 + 0.06), bois, m, false)
+	_boite(Vector3(1.2, 0.12, 0.45), Vector3(0.4, 0.06, taille.z * 0.5 + 0.22), gros, m, false)
+	if taille.x > 3.8:
+		_boite(Vector3(0.5, 0.45, 0.05), Vector3(-taille.x * 0.28, 1.3, taille.z * 0.5 + 0.03), _mat_uni_ma(Color(0.05, 0.04, 0.035), 1.0), m, false)
+		_boite(Vector3(0.28, 0.5, 0.05), Vector3(-taille.x * 0.28 - 0.42, 1.3, taille.z * 0.5 + 0.06), bois, m, false)
 	return m
 
 
@@ -232,6 +249,9 @@ func _eglise_village(parent: Node3D, centre: Vector2, angle := 0.0) -> Node3D:
 	var pierre := _mat_calcaire()
 	var nef := Vector3(16.0, 7.0, 8.0)
 	_boite(Vector3(nef.x, nef.y, nef.z), Vector3(0, nef.y * 0.5, 0), pierre, m)
+	# Le soubassement (un socle en glacis plus sombre) et la corniche sous le toit.
+	_boite(Vector3(nef.x + 0.4, 0.9, nef.z + 0.4), Vector3(0, 0.45, 0), _mat_pierre_brulee(), m, false)
+	_boite(Vector3(nef.x + 0.3, 0.28, nef.z + 0.3), Vector3(0, nef.y - 0.14, 0), pierre, m, false)
 	# Les contreforts.
 	for k in 4:
 		for cote: float in [-1.0, 1.0]:
@@ -254,6 +274,11 @@ func _eglise_village(parent: Node3D, centre: Vector2, angle := 0.0) -> Node3D:
 	# Le clocher : une tour carrée et sa flèche (une pyramide à quatre pans).
 	var tour := Vector3(5.0, 14.0, 5.0)
 	_boite(tour, Vector3(-nef.x * 0.5 - tour.x * 0.5 + 0.4, tour.y * 0.5, 0), pierre, m)
+	# Le socle du clocher et deux cordons de pierre qui marquent les étages.
+	var x_tour := -nef.x * 0.5 - tour.x * 0.5 + 0.4
+	_boite(Vector3(tour.x + 0.5, 1.0, tour.z + 0.5), Vector3(x_tour, 0.5, 0), _mat_pierre_brulee(), m, false)
+	for y_c: float in [7.2, 10.2, tour.y - 0.15]:
+		_boite(Vector3(tour.x + 0.3, 0.25, tour.z + 0.3), Vector3(x_tour, y_c, 0), pierre, m, false)
 	var fleche := MeshInstance3D.new()
 	fleche.mesh = _cylindre(0.05, 3.7, 9.0, 4)
 	fleche.material_override = _mat_uni_ma(Color(0.26, 0.28, 0.32), 0.6)

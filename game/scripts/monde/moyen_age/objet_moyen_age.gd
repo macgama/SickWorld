@@ -307,3 +307,145 @@ func _construire_vitrail_crypte() -> void:
 ## Moyen Âge : comme en Chine.
 func appliquer_effet(effet: String) -> void:
 	super.appliquer_effet(effet)
+
+
+# --- Quêtes secondaires ---------------------------------------------------------------------
+
+## Un jeune faucon pèlerin tombé du nid : gris ardoise, la poitrine claire rayée, la
+## « moustache » noire sous l'œil, accroupi dans les feuilles mortes, une aile un peu ouverte.
+func _construire_faucon_tombe() -> void:
+	var litiere := CylinderMesh.new()
+	litiere.top_radius = 0.35
+	litiere.bottom_radius = 0.4
+	litiere.height = 0.04
+	_morceau(litiere, _mat_uni(Color(0.36, 0.26, 0.16), 1.0), Vector3(0, 0.02, 0))
+	var ardoise := _mat_uni(Color(0.32, 0.34, 0.38), 0.85)
+	var clair := _mat_uni(Color(0.86, 0.82, 0.72), 0.9)
+	var noir := _mat_uni(Color(0.05, 0.05, 0.06), 0.4)
+	var jaune := _mat_uni(Color(0.95, 0.78, 0.2), 0.5)
+	_boule(0.08, 0.2, ardoise, Vector3(0, 0.14, 0), Vector3(1.0, 1.0, 1.3))
+	_boule(0.065, 0.15, clair, Vector3(0, 0.13, -0.05))
+	for k in 4:
+		_baton(0.004, 0.08, ardoise, Vector3(0, 0.08 + k * 0.025, -0.11), Vector3(0, 0, PI / 2))
+	_boule(0.055, 0.1, ardoise, Vector3(0, 0.27, -0.05))
+	for c: float in [-1.0, 1.0]:
+		_boule(0.014, 0.02, jaune, Vector3(c * 0.03, 0.28, -0.09))
+		_boule(0.009, 0.014, noir, Vector3(c * 0.032, 0.28, -0.1))
+		_baton(0.006, 0.04, noir, Vector3(c * 0.034, 0.25, -0.09))
+	var bec := PrismMesh.new()
+	bec.size = Vector3(0.022, 0.03, 0.02)
+	_morceau(bec, jaune, Vector3(0, 0.26, -0.11), Vector3(PI * 0.6, 0, 0))
+	# L'aile gauche entrouverte, l'autre repliée, la queue rayée.
+	var aile := BoxMesh.new()
+	aile.size = Vector3(0.22, 0.012, 0.12)
+	_morceau(aile, ardoise, Vector3(-0.13, 0.1, 0.02), Vector3(0, 0.3, 0.5))
+	var aile2 := BoxMesh.new()
+	aile2.size = Vector3(0.04, 0.1, 0.16)
+	_morceau(aile2, ardoise, Vector3(0.07, 0.14, 0.03))
+	var queue := BoxMesh.new()
+	queue.size = Vector3(0.06, 0.01, 0.14)
+	_morceau(queue, ardoise, Vector3(0, 0.07, 0.14), Vector3(0.3, 0, 0))
+
+
+## Le piquet de la fauconnière : un poteau de frêne, un perchoir rembourré, et le gant de
+## cuir épais posé dessus, avec sa longe.
+func _construire_gant_fauconnier() -> void:
+	var bois := _mat_uni(Color(0.5, 0.38, 0.24), 0.9)
+	var cuir := _mat_uni(Color(0.58, 0.4, 0.24), 0.75)
+	_baton(0.04, 1.3, bois, Vector3(0, 0.65, 0))
+	_baton(0.05, 0.5, _mat_uni(Color(0.3, 0.42, 0.26), 0.9), Vector3(0, 1.3, 0), Vector3(0, 0, PI / 2))
+	var gant := CapsuleMesh.new()
+	gant.radius = 0.07
+	gant.height = 0.32
+	_morceau(gant, cuir, Vector3(0.12, 1.38, 0), Vector3(0, 0, PI / 2 + 0.2))
+	var manchette := CylinderMesh.new()
+	manchette.top_radius = 0.09
+	manchette.bottom_radius = 0.1
+	manchette.height = 0.14
+	_morceau(manchette, cuir, Vector3(0.28, 1.4, 0), Vector3(0, 0, PI / 2 + 0.2))
+	_baton(0.006, 0.6, _mat_uni(Color(0.7, 0.6, 0.45), 1.0), Vector3(0.02, 1.08, 0.02), Vector3(0.1, 0, 0.15))
+
+
+## Une jument du Perche échappée : le modèle de cheval de la monture, avec un bout de longe
+## cassée qui pend.
+func _construire_jument() -> void:
+	var fiche: Dictionary = {}
+	var lu = JSON.parse_string(FileAccess.get_file_as_string("res://data/montures.json"))
+	if lu is Dictionary:
+		fiche = (lu.get("montures", {}) as Dictionary).get("cheval_perche", {})
+	if not fiche.is_empty() and ResourceLoader.exists(String(fiche.get("modele", ""))):
+		var cheval := ApparenceMonture.new()
+		cheval.reglages = fiche
+		cheval.rotation.y = 0.8
+		_visuel.add_child(cheval)
+	else:
+		var robe := _mat_uni(Color(0.62, 0.6, 0.56), 0.8)
+		var corps := CapsuleMesh.new()
+		corps.radius = 0.4
+		corps.height = 1.7
+		_morceau(corps, robe, Vector3(0, 1.2, 0), Vector3(PI / 2, 0, 0))
+	_baton(0.015, 0.9, _mat_uni(Color(0.7, 0.62, 0.45), 1.0), Vector3(0.0, 0.9, -0.9), Vector3(0.2, 0, 0))
+
+
+## Une pierre taillée, prête à poser, avec la marque de son tailleur gravée sur une face
+## (une étoile, une clé, une croix…) et un peu de poussière de calcaire autour.
+func _construire_pierre_marquee() -> void:
+	var calcaire := _mat_uni(Color(0.84, 0.8, 0.7), 0.95)
+	var bloc := BoxMesh.new()
+	bloc.size = Vector3(0.7, 0.42, 0.45)
+	_morceau(bloc, calcaire, Vector3(0, 0.21, 0), Vector3(0, 0.25, 0))
+	var gravure := _mat_uni(Color(0.42, 0.38, 0.32), 1.0)
+	var face := _visuel.get_child(_visuel.get_child_count() - 1) as Node3D
+	var hasard := hash(identifiant) % 3
+	for k in (5 if hasard == 0 else 2):
+		var b := BoxMesh.new()
+		b.size = Vector3(0.012, 0.2, 0.01)
+		var mi := _morceau_dans(face, b, gravure, Vector3(0, 0, -0.229), Vector3(0, 0, k * (TAU / 5.0 if hasard == 0 else PI / 2)))
+		mi.position.y = 0.0
+	var poussiere := CylinderMesh.new()
+	poussiere.top_radius = 0.5
+	poussiere.bottom_radius = 0.55
+	poussiere.height = 0.015
+	_morceau(poussiere, _mat_uni(Color(0.86, 0.84, 0.78), 1.0), Vector3(0, 0.008, 0))
+
+
+## L'échiquier du chanoine sur un petit banc de pierre : 64 cases d'ivoire et de corne
+## brune, quelques pièces debout.
+func _construire_echiquier() -> void:
+	var pierre := _mat_uni(Color(0.78, 0.74, 0.66), 0.95)
+	var banc := BoxMesh.new()
+	banc.size = Vector3(0.7, 0.6, 0.7)
+	_morceau(banc, pierre, Vector3(0, 0.3, 0))
+	var ivoire := _mat_uni(Color(0.92, 0.88, 0.78), 0.4)
+	var corne := _mat_uni(Color(0.32, 0.2, 0.12), 0.4)
+	var case_ := BoxMesh.new()
+	case_.size = Vector3(0.06, 0.012, 0.06)
+	for i in 8:
+		for j in 8:
+			_morceau(case_, ivoire if (i + j) % 2 == 0 else corne, Vector3(-0.21 + i * 0.06, 0.606, -0.21 + j * 0.06))
+	for k in 6:
+		var piece := CylinderMesh.new()
+		piece.top_radius = 0.008
+		piece.bottom_radius = 0.018
+		piece.height = 0.05 + (k % 3) * 0.015
+		_morceau(piece, ivoire if k < 3 else corne, Vector3(-0.18 + k * 0.07, 0.64, -0.15 if k < 3 else 0.15))
+
+
+## Un chalumeau moderne oublié dans la cour : une bouteille de gaz orange, un tuyau noir, la
+## poignée et la buse de cuivre, une trace violette au sol.
+func _construire_chalumeau() -> void:
+	var bouteille := CylinderMesh.new()
+	bouteille.top_radius = 0.1
+	bouteille.bottom_radius = 0.1
+	bouteille.height = 0.42
+	_morceau(bouteille, _mat_uni(Color(0.9, 0.45, 0.1), 0.4, 0.3), Vector3(0, 0.21, 0))
+	_boule(0.1, 0.12, _mat_uni(Color(0.9, 0.45, 0.1), 0.4, 0.3), Vector3(0, 0.42, 0))
+	_baton(0.02, 0.06, _mat_uni(Color(0.6, 0.6, 0.62), 0.3, 0.9), Vector3(0, 0.5, 0))
+	_baton(0.012, 0.6, _mat_uni(Color(0.05, 0.05, 0.05), 0.6), Vector3(0.22, 0.04, 0.1), Vector3(0, 0.4, PI / 2))
+	_baton(0.018, 0.18, _mat_uni(Color(0.1, 0.1, 0.1), 0.6), Vector3(0.52, 0.05, 0.22), Vector3(0, 0.4, PI / 2))
+	_baton(0.008, 0.12, _mat_uni(Color(0.72, 0.45, 0.25), 0.3, 0.9), Vector3(0.65, 0.05, 0.28), Vector3(0, 0.4, PI / 2))
+	var trace := CylinderMesh.new()
+	trace.top_radius = 0.45
+	trace.bottom_radius = 0.45
+	trace.height = 0.01
+	_morceau(trace, _emissif(Color(0.55, 0.2, 0.9), 0.6), Vector3(0.2, 0.005, 0.1))
