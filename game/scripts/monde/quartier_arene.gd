@@ -12,6 +12,7 @@ extends RefCounted
 ##   - Stade : centre (125, 102), terrain de rayon 17, mur extérieur de rayon 22,
 ##     entrée à l'ouest.
 
+const AfficheActivite := preload("res://scripts/interface/affiche_activite.gd")
 const Marche := preload("res://scripts/monde/quartier_marche.gd")
 const FrontDeMer := preload("res://scripts/monde/quartier_front_de_mer.gd")
 
@@ -158,8 +159,13 @@ static func _construire_borne(hub: HikariBay, entree: Vector3) -> void:
 	hub._contenu.add_child(borne)
 	borne.utilise.connect(func():
 		var jcj := hub.get_tree().root.get_node_or_null("JcJ")
-		if jcj != null:
-			jcj.basculer_fenetre())
+		if jcj == null:
+			return
+		# La première fois, l'affiche de l'Arène (images, récompenses, bande-annonce).
+		if not AfficheActivite.deja_vue("arene") \
+				and AfficheActivite.ouvrir(hub.get_tree(), "arene", jcj.basculer_fenetre) != null:
+			return
+		jcj.basculer_fenetre())
 
 
 # --- Tribunes (gradins circulaires) -----------------------------------------------------------

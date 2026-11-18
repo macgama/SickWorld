@@ -7,6 +7,7 @@ extends Node3D
 
 const Residences := preload("res://scripts/monde/quartier_residences.gd")
 const PointInteraction := preload("res://scripts/monde/point_interaction.gd")
+const AfficheActivite := preload("res://scripts/interface/affiche_activite.gd")
 const Fenetre := preload("res://scripts/interface/fenetre_guilde.gd")
 
 
@@ -27,4 +28,9 @@ func _point(texte: String, p: Vector3, onglet: int) -> void:
 	b.portee = 2.2
 	b.position = p
 	add_child(b)
-	b.utilise.connect(func(): Guildes.ouvrir_fenetre(onglet))
+	b.utilise.connect(func():
+		# La première fois, l'affiche des guildes (ce qu'on y gagne, bande-annonce).
+		if not AfficheActivite.deja_vue("guildes") \
+				and AfficheActivite.ouvrir(get_tree(), "guildes", Guildes.ouvrir_fenetre.bind(onglet)) != null:
+			return
+		Guildes.ouvrir_fenetre(onglet))
