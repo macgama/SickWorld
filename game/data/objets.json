@@ -2877,6 +2877,35 @@
 				"couleur": "#8a8c90"
 			},
 			"epoque": "Mayence"
+		},
+		"carte_marchal": {
+			"nom": "La carte de visite d'Étienne Marchal",
+			"type": "materiau",
+			"rarete": "historique",
+			"pile": 1,
+			"description": "Un petit carton blanc, imprimé en 2006 : « Étienne Marchal, ingénieur. Projet Vigie, laboratoire 3. » Au dos, à l'encre bleue, d'une écriture fine : « Pour quand tu changeras d'avis. »",
+			"icone": {
+				"forme": "eclat",
+				"couleur": "#f2f0ea"
+			},
+			"epoque": "Mayence"
+		},
+		"cape_veilleur": {
+			"nom": "Cape du veilleur de Strasbourg",
+			"type": "equipement",
+			"rarete": "historique",
+			"emplacement": "torse",
+			"description": "Une lourde cape de laine brune, doublée de feutre, comme en portaient les bourgeois de garde sur les remparts de Strasbourg. Celle du père de Gutenberg.",
+			"stats": {
+				"pv": 480,
+				"reduction_pourcent": 4,
+				"degats_pourcent": 3
+			},
+			"visuel": {
+				"forme": "cape_fourrure",
+				"couleur": "#4a3424"
+			},
+			"epoque": "Mayence"
 		}
 	},
 	"ensembles": {
@@ -4101,6 +4130,17 @@
 				"objet": "pfennig_mayence",
 				"chance": 1.0,
 				"quantite": [8, 14]
+			}
+		],
+		"mercenaire_homme_sceau_nuit": [
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 0.6
+			},
+			{
+				"objet": "pfennig_mayence",
+				"chance": 0.8,
+				"quantite": [2, 5]
 			}
 		]
 	},

@@ -265,6 +265,26 @@ const CLIMATS := {
 		"nuage_lumiere": Color(1.0, 0.97, 0.92),
 		"saturation": 1.12,
 	},
+	# Mayence, la nuit de l'Éditeur (chapitre 6) : pleine lune sur le Rhin, ciel d'encre
+	# bleutée, assez de lumière pour voir les rues ; les lanternes font le reste.
+	"ville_nuit": {
+		"soleil": Vector2(200.0, 32.0),
+		"couleur_soleil": Color(0.68, 0.76, 1.0),
+		"energie_soleil": 1.8,
+		"couverture": 0.25,
+		"brume": Color(0.22, 0.25, 0.36),
+		"densite_brume": 0.002,
+		"brume_volume": 0.005,
+		"albedo_brume": Color(0.55, 0.58, 0.72),
+		"ambiance": 1.5,
+		"zenith": Color(0.06, 0.09, 0.2),
+		"horizon": Color(0.28, 0.32, 0.46),
+		"brume_ciel": 0.3,
+		"horizon_soleil": Color(0.38, 0.42, 0.6),
+		"nuage_ombre": Color(0.09, 0.1, 0.14),
+		"nuage_lumiere": Color(0.44, 0.47, 0.58),
+		"saturation": 0.9,
+	},
 	# La Porte de Jade (Chine) : un matin d'hiver dans le désert, soleil bas et pâle,
 	# ciel laiteux, un voile de poussière soulevé par le vent.
 	"porte_de_jade": {

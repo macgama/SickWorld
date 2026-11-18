@@ -1924,5 +1924,19 @@
 		"entraide": 0,
 		"temps_reapparition": 0,
 		"insensible_controles": true
+	},
+	"mercenaire_homme_sceau_nuit": {
+		"nom": "Homme de Sceau",
+		"niveau": 67,
+		"points_de_vie": 3300,
+		"degats": [78, 100],
+		"intervalle_attaque": 1.6,
+		"portee_attaque": 2.2,
+		"vitesse_course": 6.6,
+		"vitesse_marche": 1.7,
+		"distance_detection": 22,
+		"distance_laisse": 38,
+		"entraide": 20,
+		"temps_reapparition": 0
 	}
 }
