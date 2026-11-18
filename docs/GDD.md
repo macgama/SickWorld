@@ -109,10 +109,10 @@ Les îles suivent l'ordre chronologique. Liste prévue (elle pourra encore être
 | 8 | **Grandes découvertes** (1519-1522) | Le premier tour du monde (Magellan puis Elcano), les cartes et les instruments de navigation *(ajoutée par Gaël le 18/11/2026)* |
 | 9 | **Japon** (vers 1600-1615) | Fin des guerres civiles, châteaux, artisans et estampes, le début de l'époque d'Edo *(ajoutée par Gaël le 18/11/2026, époque précise à confirmer)* |
 | 10 | **Révolution industrielle** (vers 1830-1851) | Vapeur, chemin de fer, usines et grandes villes, l'Exposition universelle de Londres |
-| 11 | **Première Guerre mondiale** (1914-1918) | *(ajoutée par Gaël le 18/11/2026 ; approche respectueuse à valider avant toute construction, voir [EPOQUES-SENSIBLES.md](EPOQUES-SENSIBLES.md))* |
-| 12 | **Seconde Guerre mondiale** (1939-1945) | *(ajoutée par Gaël le 18/11/2026 ; approche respectueuse à valider avant toute construction, voir [EPOQUES-SENSIBLES.md](EPOQUES-SENSIBLES.md))* |
+| 11 | **Première Guerre mondiale** (1914-1918) | *(ajoutée par Gaël le 18/11/2026 ; approche respectueuse validée le 18/11/2026, voir [EPOQUES-SENSIBLES.md](EPOQUES-SENSIBLES.md))* |
+| 12 | **Seconde Guerre mondiale** (1939-1945) | *(ajoutée par Gaël le 18/11/2026 ; approche respectueuse validée le 18/11/2026, voir [EPOQUES-SENSIBLES.md](EPOQUES-SENSIBLES.md))* |
 | 13 | **Conquête spatiale** (juillet 1969) | Le premier pas sur la Lune, des milliers d'ingénieurs et de calculatrices humaines |
-| 14 | **11 septembre 2001** (New York) | *(ajoutée par Gaël le 18/11/2026 ; approche respectueuse à valider avant toute construction, voir [EPOQUES-SENSIBLES.md](EPOQUES-SENSIBLES.md))* |
+| 14 | **11 septembre 2001** (New York) | *(ajoutée par Gaël le 18/11/2026 ; approche respectueuse validée le 18/11/2026, voir [EPOQUES-SENSIBLES.md](EPOQUES-SENSIBLES.md))* |
 
 **Niveaux :** chaque île apporte 10 niveaux (île n°1 : niveaux 1 à 10, île n°7 : 61 à 70…). Avec 14 îles, le niveau maximum prévu sera donc **140**. Il monte au fur et à mesure : il est de 70 tant que Mayence est la dernière île ouverte.
 

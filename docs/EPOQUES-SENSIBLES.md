@@ -1,6 +1,6 @@
 # Les époques sensibles : les deux guerres mondiales et le 11 septembre
 
-*Proposition du 18 novembre 2026, à valider par Gaël avant de construire ces îles.*
+*Proposition du 18 novembre 2026, **validée par Gaël le 18 novembre 2026** (toutes les règles ; le 11 septembre est une île sans combat).*
 
 Ces trois époques sont différentes des autres : des millions de personnes réelles y sont mortes, et beaucoup de joueurs ont des grands-parents, des parents ou des proches qui les ont vécues. Le 11 septembre 2001 n'a que 25 ans : des survivants et des familles de victimes jouent aux jeux vidéo. Le but est que ces îles soient fortes et marquantes **sans jamais faire de la souffrance réelle un terrain de jeu**.
 
