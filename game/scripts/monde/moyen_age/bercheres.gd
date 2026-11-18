@@ -433,7 +433,7 @@ func _construire_foret() -> void:
 func _construire_lointain() -> void:
 	var hasard := RandomNumberGenerator.new()
 	hasard.seed = graine + 70
-	_plan_lointain(Vector3(0, 5.0, 0), Vector2(5000, 5000), Color(0.05, 0.4, 0.55))
+	_plan_lointain_autour(5.0, Color(0.05, 0.4, 0.55))
 	var bruit := FastNoiseLite.new()
 	bruit.frequency = 0.8
 	for m in [[Vector3(-1400, -10, 0), Vector3(900, 70, 1600)], [Vector3(-300, -10, -1500), Vector3(1200, 60, 400)],

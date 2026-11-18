@@ -1,6 +1,6 @@
 # Visiter le Moyen Âge (Chartres, 1194)
 
-Deux zones de l'île du Moyen Âge sont jouables : **la Beauce** (niveaux 50 à 52) et **les carrières de Berchères** (niveaux 53 à 55), avec les chapitres 1 à 3 de l'histoire « La pierre et la flamme ». Nous sommes à l'été 1194, quelques semaines après l'incendie qui a détruit presque toute la cathédrale de Chartres. C'est là que mène le portail **Moyen Âge** du QG de la Vigie (le sixième en partant de la gauche). La conception de toute l'île est dans [ILE-6-MOYEN-AGE.md](../ILE-6-MOYEN-AGE.md). Chartres, le chantier de la cathédrale et la crypte viendront ensuite.
+Trois zones de l'île du Moyen Âge sont jouables : **la Beauce** (niveaux 50 à 52), **les carrières de Berchères** (niveaux 53 à 55) et **Chartres** (niveaux 55 à 57), avec les chapitres 1 à 5 de l'histoire « La pierre et la flamme ». Nous sommes à l'été 1194, quelques semaines après l'incendie qui a détruit presque toute la cathédrale de Chartres. C'est là que mène le portail **Moyen Âge** du QG de la Vigie (le sixième en partant de la gauche). La conception de toute l'île est dans [ILE-6-MOYEN-AGE.md](../ILE-6-MOYEN-AGE.md). Le chantier de la cathédrale et la crypte viendront ensuite.
 
 On y trouve :
 
@@ -23,12 +23,23 @@ On y arrive par le chemin du nord-est de la Beauce (après le chapitre 2). On y 
 - **le camp des carriers** : les huttes, la forge, la charrette, **maître Gautier** et son plan de la cathédrale ;
 - **la forêt de chênes** à l'ouest, avec la meule du **charbonnier**, les loups et le camp des **brigands**.
 
+## Chartres
+
+On y arrive par la route du nord-est des carrières (après le chapitre 3). On y trouve :
+
+- **les remparts** et leurs tours rondes, et **la porte des Épars**, par où l'on entre ;
+- **la grand-rue** qui monte, bordée de **maisons à pans de bois**, jusqu'à **la place du marché** (les étals, la croix) ;
+- en haut de la butte, **le parvis** et **la façade de la cathédrale**, qui a survécu à l'incendie : les deux tours (la grande flèche de pierre au sud), le **Portail royal** et ses statues-colonnes, les **trois fenêtres bleues** du XIIe siècle ; derrière, **la nef brûlée** qui fume encore, fermée par la palissade du chantier ;
+- **l'Hôtel-Dieu** et **le cloître des chanoines** ;
+- **la ville basse** qui descend vers **l'Eure** : le quartier brûlé, l'atelier du verrier, **les cuves des teinturiers** (bleu, rouge, jaune), **le moulin à eau** dont la roue tourne, **le lavoir**, la **porte Guillaume** et son pont ;
+- de l'autre côté de l'Eure, **les tanneries**, et au sud-est la maladrerie du **Grand-Beaulieu**.
+
 ## L'ouvrir
 
 1. Dans GitHub Desktop, sur la branche **main** : **Fetch origin** puis **Pull origin** (Claude le fait pour toi quand il le peut).
 2. **Ferme Godot et rouvre-le** s'il était ouvert pendant la mise à jour.
 3. **Par le jeu** : F5, **Jouer seul**, puis au QG de la Vigie, traverse le portail **Moyen Âge**.
-4. **Directement** : double-clique sur `scenes/monde/moyen_age/beauce.tscn` (ou `bercheres.tscn`) puis **F6**.
+4. **Directement** : double-clique sur `scenes/monde/moyen_age/beauce.tscn` (ou `bercheres.tscn`, `chartres.tscn`) puis **F6**.
 
 ## Nouveau : les « Las » et le puzzle du vitrail
 
@@ -65,6 +76,26 @@ La fracture souffle une **fumée grise** venue de l'incendie. Ceux qu'elle touch
 7. Guillot arrive avec des volontaires : **escorter la charrette** de pierre hors de la carrière jusqu'à la route de Chartres.
 8. Récompense : la compétence d'époque **Pavois** (un grand bouclier qui protège le groupe autour de toi) et les **gants de tailleur**. La suite : Chartres.
 
+## Le chapitre 4 : « La ville basse »
+
+1. Prendre la route des carrières jusqu'à Chartres, et entrer par **la porte des Épars**.
+2. Dans la ville basse, trouver **Aude**, l'apprentie verrière, dans les ruines de l'atelier de son père.
+3. Chasser **les pillards** des maisons brûlées, puis dégager **le coffret du verrier**.
+4. Rendre courage à **la teinturière**, **au tanneur** (de l'autre côté du pont) et **au boulanger** de la place du marché (vitrail).
+5. Aller voir **frère Anselme**, au cloître : il était dans la crypte pendant l'incendie, avec la Sainte Chemise.
+6. Lire **le message à la craie** de Masque : l'Effaceuse s'appelle **Plomb**.
+7. Récompense : **le chaperon de l'école cathédrale**.
+
+## Le chapitre 5 : « Le serment du cardinal »
+
+1. Monter au **parvis** : toute la ville est là, mais une fumée grise rampe dans la foule.
+2. Parler au **cardinal Melior**, puis **étouffer les trois fumigènes** (des boîtes modernes !).
+3. Arrêter **les hommes de Plomb** (combinaisons ignifugées, masques à gaz).
+4. Rendre courage aux **trois Las de la foule** (vitrail).
+5. **Plomb**, masquée, parle de la dîme, des serfs et de Notre-Dame de Paris. **Un choix** : lui répondre « Bâtir, et rendre plus juste », ou lui demander qui l'a envoyée (elle parle alors du vieux badge de l'Éditeur).
+6. **Le serment** : le cardinal montre la Sainte Chemise, et la ville promet de rebâtir.
+7. L'évêque **Renaud de Mouçon** te donne **l'haubert de son frère** (une cotte de mailles) et des deniers. La suite : le chantier commence.
+
 ## Les fichiers
 
 | Fichier | Contenu |
@@ -74,6 +105,8 @@ La fracture souffle une **fumée grise** venue de l'incendie. Ceux qu'elle touch
 | `scripts/monde/moyen_age/beauce.gd` | La zone de la Beauce (relief, champs, village, moulin, gibet) |
 | `scripts/monde/moyen_age/ile_moyen_age.gd` | Les bâtiments du Moyen Âge (maisons à pans de bois, église, moulin, dolmen…) |
 | `scripts/monde/moyen_age/bercheres.gd` | La zone des carrières (la carrière, la roue, le camp, la forêt) |
+| `scripts/monde/moyen_age/chartres.gd` | La ville (remparts, cathédrale, rues, Eure, ville basse, faubourg) |
 | `scripts/interface/vitrail.gd` | Le puzzle du vitrail (ses motifs : fleur, lancette, rose, belle_verriere) |
 | `tests/test_beauce.gd` | Le test automatique de la zone et des chapitres 1 et 2 |
 | `tests/test_bercheres.gd` | Le test automatique des carrières et du chapitre 3 |
+| `tests/test_chartres.gd` | Le test automatique de Chartres et des chapitres 4 et 5 |

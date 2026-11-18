@@ -128,6 +128,26 @@ const CLIMATS := {
 	},
 	# Les carrières de Berchères (Moyen Âge) : un matin d'été, lumière blanche sur la pierre,
 	# un peu de brume sous les chênes.
+	# Chartres (Moyen Âge) : une fin d'après-midi d'été, lumière dorée sur la pierre blonde,
+	# un voile de fumée grise qui traîne encore au-dessus de la butte.
+	"chartres": {
+		"soleil": Vector2(250.0, 32.0),
+		"couleur_soleil": Color(1.0, 0.88, 0.72),
+		"energie_soleil": 2.4,
+		"couverture": 0.4,
+		"brume": Color(0.78, 0.76, 0.74),
+		"densite_brume": 0.0022,
+		"brume_volume": 0.007,
+		"albedo_brume": Color(0.92, 0.9, 0.88),
+		"ambiance": 0.8,
+		"zenith": Color(0.2, 0.36, 0.66),
+		"horizon": Color(0.8, 0.8, 0.82),
+		"brume_ciel": 0.24,
+		"horizon_soleil": Color(1.0, 0.82, 0.62),
+		"nuage_ombre": Color(0.62, 0.62, 0.66),
+		"nuage_lumiere": Color(1.0, 0.94, 0.86),
+		"saturation": 1.02,
+	},
 	"bercheres": {
 		"soleil": Vector2(120.0, 40.0),
 		"couleur_soleil": Color(1.0, 0.95, 0.86),
