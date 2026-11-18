@@ -331,6 +331,7 @@ func _physics_process(delta: float) -> void:
 		direction = direction.normalized()
 	var vitesse := vitesse_course if avant >= 0.0 else vitesse_recul
 	vitesse *= combat.multiplicateur_vitesse()
+	vitesse *= float(get_meta("admin_vitesse", 1.0)) # mode admin (tests)
 	if est_monte():
 		vitesse *= monture.multiplicateur()
 
