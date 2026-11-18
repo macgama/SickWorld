@@ -1,0 +1,915 @@
+{
+	"_aide": "Événements publics de l'île du Moyen Âge (même format que data/chine_evenements.json, voir scripts/monde/prehistoire/evenements_publics.gd). Ils arrivent tout seuls dans leur zone : le premier « premier_delai » secondes après l'arrivée, puis toutes les « intervalle » secondes. « apres » : étape de la quête principale à atteindre. Phases : « vagues », « objet »/« recolter » (F), « renforts » (des ennemis qui arrivent pendant la phase). Pour régénérer ce fichier : /mnt/project-files/moyen-age/outils/ma_evenements.py",
+	"premier_delai": 150,
+	"evenements": [
+		{
+			"id": "charrettes_de_pierre",
+			"titre": "Les charrettes de pierre",
+			"zone": "bercheres",
+			"apres": "guillot_pavois",
+			"intervalle": 7200,
+			"duree": 420,
+			"position": [
+				108,
+				-84
+			],
+			"annonce": "Une file de charrettes de pierre part pour Chartres, tirée par des volontaires qui chantent. Des brigands fracturés guettent la route !",
+			"objets": [
+				{
+					"id": "bloc_verse_0",
+					"groupe": "bloc_verse",
+					"forme": "bloc",
+					"position": [
+						92,
+						-64
+					],
+					"invite": "[F] Remettre le bloc sur la charrette"
+				},
+				{
+					"id": "bloc_verse_1",
+					"groupe": "bloc_verse",
+					"forme": "bloc",
+					"position": [
+						102,
+						-78
+					],
+					"invite": "[F] Remettre le bloc sur la charrette"
+				},
+				{
+					"id": "bloc_verse_2",
+					"groupe": "bloc_verse",
+					"forme": "bloc",
+					"position": [
+						114,
+						-92
+					],
+					"invite": "[F] Remettre le bloc sur la charrette"
+				},
+				{
+					"id": "bloc_verse_3",
+					"groupe": "bloc_verse",
+					"forme": "bloc",
+					"position": [
+						126,
+						-106
+					],
+					"invite": "[F] Remettre le bloc sur la charrette"
+				}
+			],
+			"phases": [
+				{
+					"objectif": "Une charrette a versé : remets les 4 blocs tombés sur le plateau, le long de la route de Chartres",
+					"recolter": "bloc_verse",
+					"nombre": 4,
+					"duree": 2.5,
+					"action": "Tu cales le levier sous le bloc, les volontaires tirent…",
+					"renforts": {
+						"type": "mercenaire_brigand_charrette",
+						"nombre": 2,
+						"toutes": 22,
+						"positions": [
+							[
+								86,
+								-44
+							],
+							[
+								120,
+								-118
+							]
+						],
+						"rayon": 3,
+						"max": 5,
+						"attaque": true
+					}
+				},
+				{
+					"objectif": "Les brigands sortent du bois : défends les charrettes",
+					"annonce": "« À la charrette ! » Les volontaires se serrent autour des bœufs.",
+					"vagues": [
+						{
+							"type": "mercenaire_brigand_charrette",
+							"nombre": 4,
+							"position": [
+								96,
+								-70
+							],
+							"rayon": 5,
+							"attaque": true
+						},
+						{
+							"type": "mercenaire_brigand_charrette",
+							"nombre": 4,
+							"position": [
+								120,
+								-100
+							],
+							"rayon": 5,
+							"attaque": true
+						}
+					]
+				},
+				{
+					"objectif": "Abats le Borgne, le chef des brigands fracturés",
+					"annonce": "Le Borgne en personne charge, une hache violette à la main !",
+					"vagues": [
+						{
+							"type": "mercenaire_chef_brigands_charrette",
+							"nombre": 1,
+							"position": [
+								110,
+								-88
+							],
+							"rayon": 2,
+							"attaque": true
+						}
+					]
+				}
+			],
+			"echec": "Les brigands ont renversé la dernière charrette dans le fossé. Il faudra deux jours pour remonter les blocs.",
+			"reussite": "Les charrettes repartent. Les volontaires reprennent leur chant, plus fort qu'avant : on l'entend jusqu'à Chartres.",
+			"recompenses": {
+				"or": [
+					{
+						"id": "tablier_compagnon",
+						"nom": "Tablier de cuir du compagnon",
+						"chance": 0.3
+					},
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclats de fracture ×3",
+						"n": 3
+					},
+					{
+						"id": "maille_rouillee",
+						"nom": "Mailles rouillées ×2",
+						"n": 2
+					}
+				],
+				"argent": [
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclats de fracture ×2",
+						"n": 2
+					},
+					{
+						"id": "maille_rouillee",
+						"nom": "Mailles rouillées",
+						"n": 1
+					}
+				],
+				"bronze": [
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclat de fracture",
+						"n": 1
+					}
+				]
+			},
+			"stabilite": 6
+		},
+		{
+			"id": "moisson_et_orage",
+			"titre": "La moisson et l'orage",
+			"zone": "beauce",
+			"apres": "guillot_fronde",
+			"intervalle": 7200,
+			"duree": 360,
+			"position": [
+				-30,
+				86
+			],
+			"annonce": "Un orage de grêle approche de la Beauce ! Il faut rentrer les gerbes avant la pluie, et des loups fracturés rôdent autour des moissonneurs.",
+			"objets": [
+				{
+					"id": "gerbe_orage_0",
+					"groupe": "gerbe_orage",
+					"forme": "gerbe",
+					"position": [
+						-50,
+						74
+					],
+					"invite": "[F] Rentrer la gerbe"
+				},
+				{
+					"id": "gerbe_orage_1",
+					"groupe": "gerbe_orage",
+					"forme": "gerbe",
+					"position": [
+						-40,
+						90
+					],
+					"invite": "[F] Rentrer la gerbe"
+				},
+				{
+					"id": "gerbe_orage_2",
+					"groupe": "gerbe_orage",
+					"forme": "gerbe",
+					"position": [
+						-26,
+						80
+					],
+					"invite": "[F] Rentrer la gerbe"
+				},
+				{
+					"id": "gerbe_orage_3",
+					"groupe": "gerbe_orage",
+					"forme": "gerbe",
+					"position": [
+						-14,
+						96
+					],
+					"invite": "[F] Rentrer la gerbe"
+				},
+				{
+					"id": "gerbe_orage_4",
+					"groupe": "gerbe_orage",
+					"forme": "gerbe",
+					"position": [
+						-34,
+						100
+					],
+					"invite": "[F] Rentrer la gerbe"
+				}
+			],
+			"phases": [
+				{
+					"objectif": "Rentre les 5 gerbes du champ de Guillot avant la grêle",
+					"recolter": "gerbe_orage",
+					"nombre": 5,
+					"duree": 1.5,
+					"action": "Tu charges la gerbe sur ton dos…",
+					"renforts": {
+						"type": "loup_orage_beauce",
+						"nombre": 2,
+						"toutes": 20,
+						"positions": [
+							[
+								-60,
+								104
+							],
+							[
+								0,
+								104
+							]
+						],
+						"rayon": 3,
+						"max": 5,
+						"attaque": true
+					}
+				},
+				{
+					"objectif": "Les loups de l'orage attaquent les moissonneurs : repousse-les",
+					"annonce": "Un éclair, et toute une meute surgit du blé !",
+					"vagues": [
+						{
+							"type": "loup_orage_beauce",
+							"nombre": 4,
+							"position": [
+								-40,
+								96
+							],
+							"rayon": 5,
+							"attaque": true
+						},
+						{
+							"type": "loup_orage_beauce",
+							"nombre": 3,
+							"position": [
+								-16,
+								84
+							],
+							"rayon": 5,
+							"attaque": true
+						}
+					]
+				},
+				{
+					"objectif": "Un sanglier fracturé fonce sur la charrette de gerbes : arrête-le",
+					"annonce": "Le sol tremble : un sanglier énorme sort du champ voisin !",
+					"vagues": [
+						{
+							"type": "sanglier_orage_beauce",
+							"nombre": 1,
+							"position": [
+								-26,
+								100
+							],
+							"rayon": 2,
+							"attaque": true
+						}
+					]
+				}
+			],
+			"echec": "La grêle a couché tout le blé. Guillot regarde son champ sans rien dire.",
+			"reussite": "Les dernières gerbes passent sous le toit de la grange quand la grêle commence à tomber. Perrine éclate de rire sous l'averse.",
+			"recompenses": {
+				"or": [
+					{
+						"id": "chausses_compagnon",
+						"nom": "Chausses de compagnon",
+						"chance": 0.3
+					},
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclats de fracture ×3",
+						"n": 3
+					},
+					{
+						"id": "pelage_loup_beauce",
+						"nom": "Pelage de loup de Beauce ×2",
+						"n": 2
+					}
+				],
+				"argent": [
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclats de fracture ×2",
+						"n": 2
+					},
+					{
+						"id": "pelage_loup_beauce",
+						"nom": "Pelage de loup de Beauce",
+						"n": 1
+					}
+				],
+				"bronze": [
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclat de fracture",
+						"n": 1
+					}
+				]
+			},
+			"stabilite": 6
+		},
+		{
+			"id": "feu_ville_basse",
+			"titre": "Le feu dans la ville basse",
+			"zone": "chartres",
+			"apres": "anselme_fin",
+			"intervalle": 10800,
+			"duree": 420,
+			"position": [
+				80,
+				30
+			],
+			"annonce": "Le feu repart dans les maisons à pans de bois de la rue des Teinturiers ! Faites la chaîne des seaux depuis l'Eure !",
+			"objets": [
+				{
+					"id": "seau_eure_0",
+					"groupe": "seau_eure",
+					"forme": "seau",
+					"position": [
+						119,
+						38
+					],
+					"invite": "[F] Remplir le seau dans l'Eure"
+				},
+				{
+					"id": "seau_eure_1",
+					"groupe": "seau_eure",
+					"forme": "seau",
+					"position": [
+						120,
+						48
+					],
+					"invite": "[F] Remplir le seau dans l'Eure"
+				},
+				{
+					"id": "seau_eure_2",
+					"groupe": "seau_eure",
+					"forme": "seau",
+					"position": [
+						121,
+						58
+					],
+					"invite": "[F] Remplir le seau dans l'Eure"
+				},
+				{
+					"id": "feu_maison_0",
+					"groupe": "feu_maison",
+					"forme": "incendie",
+					"position": [
+						64,
+						16
+					],
+					"invite": "[F] Jeter l'eau sur les flammes"
+				},
+				{
+					"id": "feu_maison_1",
+					"groupe": "feu_maison",
+					"forme": "incendie",
+					"position": [
+						74,
+						26
+					],
+					"invite": "[F] Jeter l'eau sur les flammes"
+				},
+				{
+					"id": "feu_maison_2",
+					"groupe": "feu_maison",
+					"forme": "incendie",
+					"position": [
+						84,
+						36
+					],
+					"invite": "[F] Jeter l'eau sur les flammes"
+				},
+				{
+					"id": "feu_maison_3",
+					"groupe": "feu_maison",
+					"forme": "incendie",
+					"position": [
+						96,
+						44
+					],
+					"invite": "[F] Jeter l'eau sur les flammes"
+				}
+			],
+			"phases": [
+				{
+					"objectif": "Remplis 3 seaux de cuir dans l'Eure, au bord de la rive",
+					"recolter": "seau_eure",
+					"nombre": 3,
+					"duree": 1.5,
+					"action": "Tu plonges le seau dans l'eau froide…"
+				},
+				{
+					"objectif": "Éteins le feu dans les 4 maisons de la rue des Teinturiers",
+					"annonce": "La chaîne est formée : les seaux passent de main en main !",
+					"recolter": "feu_maison",
+					"nombre": 4,
+					"duree": 2.0,
+					"action": "Tu jettes l'eau, la fumée te pique les yeux…",
+					"effet": "cacher",
+					"renforts": {
+						"type": "mercenaire_pillard_feu",
+						"nombre": 2,
+						"toutes": 22,
+						"positions": [
+							[
+								60,
+								30
+							],
+							[
+								100,
+								56
+							]
+						],
+						"rayon": 3,
+						"max": 4,
+						"attaque": true
+					}
+				},
+				{
+					"objectif": "Chasse les pillards incendiaires qui ont mis le feu",
+					"annonce": "Ce sont eux ! Des pillards, une torche à la main !",
+					"vagues": [
+						{
+							"type": "mercenaire_pillard_feu",
+							"nombre": 4,
+							"position": [
+								80,
+								30
+							],
+							"rayon": 5,
+							"attaque": true
+						},
+						{
+							"type": "mercenaire_pillard_feu",
+							"nombre": 3,
+							"position": [
+								100,
+								48
+							],
+							"rayon": 5,
+							"attaque": true
+						}
+					]
+				}
+			],
+			"echec": "Trois maisons ont brûlé jusqu'aux poutres. Les teinturiers dorment chez les voisins.",
+			"reussite": "La dernière flamme s'éteint dans un nuage de vapeur. Les teinturiers t'offrent un bol de cervoise tiède.",
+			"recompenses": {
+				"or": [
+					{
+						"id": "souliers_compagnon",
+						"nom": "Souliers de compagnon",
+						"chance": 0.3
+					},
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclats de fracture ×3",
+						"n": 3
+					},
+					{
+						"id": "denier_chartrain",
+						"nom": "Deniers chartrains ×2",
+						"n": 2
+					}
+				],
+				"argent": [
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclats de fracture ×2",
+						"n": 2
+					},
+					{
+						"id": "denier_chartrain",
+						"nom": "Deniers chartrains",
+						"n": 1
+					}
+				],
+				"bronze": [
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclat de fracture",
+						"n": 1
+					}
+				]
+			},
+			"stabilite": 7
+		},
+		{
+			"id": "foire_saint_jean",
+			"titre": "La foire de la Saint-Jean",
+			"zone": "chartres",
+			"apres": "anselme_fin",
+			"intervalle": 3600,
+			"duree": 300,
+			"position": [
+				-24,
+				-24
+			],
+			"annonce": "C'est la grande foire de la Saint-Jean sur la place du marché ! Concours de tir à l'arc, et des coupe-bourses fracturés dans la foule.",
+			"objets": [
+				{
+					"id": "cible_foire_0",
+					"groupe": "cible_foire",
+					"forme": "cible_javelot",
+					"position": [
+						-27,
+						-17
+					],
+					"invite": "[F] Tirer à l'arc"
+				},
+				{
+					"id": "cible_foire_1",
+					"groupe": "cible_foire",
+					"forme": "cible_javelot",
+					"position": [
+						-20,
+						-21
+					],
+					"invite": "[F] Tirer à l'arc"
+				},
+				{
+					"id": "cible_foire_2",
+					"groupe": "cible_foire",
+					"forme": "cible_javelot",
+					"position": [
+						-24,
+						-31
+					],
+					"invite": "[F] Tirer à l'arc"
+				},
+				{
+					"id": "bourse_volee_0",
+					"groupe": "bourse_volee",
+					"forme": "sac",
+					"position": [
+						-29,
+						-21
+					],
+					"invite": "[F] Rendre la bourse"
+				},
+				{
+					"id": "bourse_volee_1",
+					"groupe": "bourse_volee",
+					"forme": "sac",
+					"position": [
+						-26,
+						-31
+					],
+					"invite": "[F] Rendre la bourse"
+				},
+				{
+					"id": "bourse_volee_2",
+					"groupe": "bourse_volee",
+					"forme": "sac",
+					"position": [
+						-21,
+						-19
+					],
+					"invite": "[F] Rendre la bourse"
+				},
+				{
+					"id": "bourse_volee_3",
+					"groupe": "bourse_volee",
+					"forme": "sac",
+					"position": [
+						-32,
+						-27
+					],
+					"invite": "[F] Rendre la bourse"
+				}
+			],
+			"phases": [
+				{
+					"objectif": "Gagne le concours de tir à l'arc : touche les 3 cibles de paille",
+					"recolter": "cible_foire",
+					"nombre": 3,
+					"duree": 1.5,
+					"action": "Tu bandes l'arc, tu retiens ton souffle…"
+				},
+				{
+					"objectif": "Des coupe-bourses fracturés se faufilent dans la foule : attrape-les",
+					"annonce": "« Au voleur ! Ma bourse ! »",
+					"vagues": [
+						{
+							"type": "mercenaire_voleur_foire",
+							"nombre": 3,
+							"position": [
+								-30,
+								-20
+							],
+							"rayon": 5,
+							"attaque": true
+						},
+						{
+							"type": "mercenaire_voleur_foire",
+							"nombre": 3,
+							"position": [
+								-16,
+								-34
+							],
+							"rayon": 5,
+							"attaque": true
+						}
+					]
+				},
+				{
+					"objectif": "Rends aux marchands les 4 bourses volées",
+					"annonce": "Les voleurs ont lâché leur butin entre les étals !",
+					"recolter": "bourse_volee",
+					"nombre": 4,
+					"duree": 1.0,
+					"action": "Tu rends la bourse à son marchand…"
+				}
+			],
+			"echec": "Les coupe-bourses ont filé par la porte des Épars avec la recette de la foire.",
+			"reussite": "Le prévôt te remet le prix du tir : un chapeau de pèlerin à coquille. La foule t'applaudit, la bouche pleine de gaufres.",
+			"recompenses": {
+				"or": [
+					{
+						"id": "chapeau_coquille",
+						"nom": "Chapeau à coquille",
+						"chance": 0.35
+					},
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclats de fracture ×3",
+						"n": 3
+					},
+					{
+						"id": "denier_chartrain",
+						"nom": "Deniers chartrains ×2",
+						"n": 2
+					}
+				],
+				"argent": [
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclats de fracture ×2",
+						"n": 2
+					},
+					{
+						"id": "denier_chartrain",
+						"nom": "Deniers chartrains",
+						"n": 1
+					}
+				],
+				"bronze": [
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclat de fracture",
+						"n": 1
+					}
+				]
+			},
+			"stabilite": 4
+		},
+		{
+			"id": "tournoi_beauce",
+			"titre": "Le tournoi",
+			"zone": "beauce",
+			"apres": "retour_meunier",
+			"intervalle": 10800,
+			"duree": 480,
+			"position": [
+				140,
+				100
+			],
+			"annonce": "Un tournoi s'ouvre dans les chaumes de Beauce ! Mais les chevaliers de la mêlée ont les yeux violets : la fracture les a pris.",
+			"phases": [
+				{
+					"objectif": "La mêlée commence : abats les chevaliers fracturés",
+					"vagues": [
+						{
+							"type": "mercenaire_chevalier_tournoi",
+							"nombre": 3,
+							"position": [
+								130,
+								92
+							],
+							"rayon": 5,
+							"attaque": true
+						},
+						{
+							"type": "mercenaire_chevalier_tournoi",
+							"nombre": 3,
+							"position": [
+								150,
+								110
+							],
+							"rayon": 5,
+							"attaque": true
+						}
+					]
+				},
+				{
+					"objectif": "Le Chevalier Noir entre dans la lice : bats le champion du tournoi",
+					"annonce": "Les hérauts crient son nom : le Chevalier Noir, invaincu depuis dix tournois !",
+					"vagues": [
+						{
+							"type": "mercenaire_chef_champion_tournoi",
+							"nombre": 1,
+							"position": [
+								140,
+								100
+							],
+							"rayon": 2,
+							"attaque": true
+						}
+					]
+				}
+			],
+			"echec": "Le Chevalier Noir est reparti avec tous les chevaux du tournoi. Les hérauts n'osent plus crier.",
+			"reussite": "Le Chevalier Noir tombe de cheval dans le chaume. Son grand destrier, libéré de la fracture, vient te renifler l'épaule.",
+			"recompenses": {
+				"or": [
+					{
+						"id": "eperons_destrier",
+						"nom": "Éperons du destrier",
+						"chance": 0.2
+					},
+					{
+						"id": "chaperon_compagnon",
+						"nom": "Chaperon de compagnon",
+						"chance": 0.3
+					},
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclats de fracture ×3",
+						"n": 3
+					}
+				],
+				"argent": [
+					{
+						"id": "maille_rouillee",
+						"nom": "Mailles rouillées ×2",
+						"n": 2
+					},
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclats de fracture ×2",
+						"n": 2
+					}
+				],
+				"bronze": [
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclat de fracture",
+						"n": 1
+					}
+				]
+			},
+			"stabilite": 7
+		},
+		{
+			"id": "nuit_des_gargouilles",
+			"titre": "La nuit des gargouilles",
+			"zone": "chantier",
+			"apres": "gautier_plans",
+			"intervalle": 7200,
+			"duree": 420,
+			"position": [
+				-30,
+				0
+			],
+			"annonce": "Les gargouilles de plomb descendent des échafaudages de la nef ! Brisez-les avant qu'elles n'atteignent les vitraux d'Aude !",
+			"phases": [
+				{
+					"objectif": "Brise les gargouilles qui descendent des échafaudages de la nef",
+					"vagues": [
+						{
+							"type": "statue_gargouille_nuit",
+							"nombre": 3,
+							"position": [
+								-44,
+								0
+							],
+							"rayon": 5,
+							"attaque": true
+						},
+						{
+							"type": "statue_gargouille_nuit",
+							"nombre": 3,
+							"position": [
+								-14,
+								6
+							],
+							"rayon": 5,
+							"attaque": true
+						}
+					],
+					"renforts": {
+						"type": "statue_gargouille_nuit",
+						"nombre": 1,
+						"toutes": 25,
+						"positions": [
+							[
+								-56,
+								-8
+							],
+							[
+								0,
+								8
+							]
+						],
+						"rayon": 2,
+						"max": 3,
+						"attaque": true
+					}
+				},
+				{
+					"objectif": "La Grande Gargouille se décroche de la façade : abats-la avant qu'elle n'atteigne l'atelier des verriers",
+					"annonce": "Un fracas de plomb : la plus grande gargouille de l'ancienne façade s'est mise à marcher !",
+					"vagues": [
+						{
+							"type": "statue_gargouille_nuit_grande",
+							"nombre": 1,
+							"position": [
+								-30,
+								0
+							],
+							"rayon": 2,
+							"attaque": true
+						}
+					]
+				}
+			],
+			"echec": "Une gargouille a fracassé le panneau de verre bleu qu'Aude avait mis à refroidir. Elle recommencera.",
+			"reussite": "La Grande Gargouille éclate sur les dalles. Les tailleurs ramassent le plomb : il servira à sertir les vitraux.",
+			"recompenses": {
+				"or": [
+					{
+						"id": "gants_compagnon",
+						"nom": "Gants de compagnon",
+						"chance": 0.3
+					},
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclats de fracture ×3",
+						"n": 3
+					},
+					{
+						"id": "plomb_fige",
+						"nom": "Plomb figé ×2",
+						"n": 2
+					}
+				],
+				"argent": [
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclats de fracture ×2",
+						"n": 2
+					},
+					{
+						"id": "plomb_fige",
+						"nom": "Plomb figé",
+						"n": 1
+					}
+				],
+				"bronze": [
+					{
+						"id": "eclat_de_fracture",
+						"nom": "Éclat de fracture",
+						"n": 1
+					}
+				]
+			},
+			"stabilite": 7
+		}
+	]
+}

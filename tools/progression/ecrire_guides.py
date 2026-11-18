@@ -41,7 +41,7 @@ NOMS_STATS = {"pv": "vie", "degats_pourcent": "% dégâts", "critique_pourcent":
 def stats(d):
     return ", ".join(("+%d %s" % (v, NOMS_STATS[k])) for k, v in d.items())
 EMP = [("arme", "Arme"), ("torse", "Torse"), ("jambes", "Jambes"), ("tete", "Tête"), ("mains", "Mains"), ("pieds", "Pieds"), ("bijou", "Bijou")]
-ILES = [("prehistoire", "Préhistoire"), ("egypte", "Égypte"), ("grece", "Grèce"), ("rome", "Rome"), ("chine", "Chine")]
+ILES = [("prehistoire", "Préhistoire"), ("egypte", "Égypte"), ("grece", "Grèce"), ("rome", "Rome"), ("chine", "Chine"), ("moyen_age", "Moyen Âge")]
 ROLES = [("assaut", "Assaut (Lame, Traqueur)"), ("garde", "Garde (Rempart)"), ("harmonie", "Harmonie (Tisseur)")]
 recettes = A["recettes"]
 def nom_ing(i):

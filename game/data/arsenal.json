@@ -14,7 +14,8 @@
 			"arsenal_egypte",
 			"arsenal_grece",
 			"arsenal_rome",
-			"arsenal_chine"
+			"arsenal_chine",
+			"arsenal_moyen_age"
 		]
 	},
 	"categories": {
@@ -22,7 +23,8 @@
 		"arsenal_egypte": "Égypte",
 		"arsenal_grece": "Grèce",
 		"arsenal_rome": "Rome",
-		"arsenal_chine": "Chine"
+		"arsenal_chine": "Chine",
+		"arsenal_moyen_age": "Moyen Âge"
 	},
 	"objets": {
 		"arsenal_prehistoire_assaut_arme": {
@@ -4179,6 +4181,853 @@
 				"couleur": "#2f5a6a"
 			},
 			"ameliore_de": "arsenal_chine_harmonie_bijou"
+		},
+		"arsenal_moyen_age_assaut_arme": {
+			"nom": "Épée du chevalier du roi",
+			"type": "equipement",
+			"rarete": "rare",
+			"description": "Arsenal des époques, panoplie « Chevalier du roi » (pour la Lame et le Traqueur : dégâts et coups critiques). Fabriquée par Inès avec les matériaux de l'île.",
+			"emplacement": "arme_principale",
+			"epoque": "Moyen Âge",
+			"niveau": 56,
+			"stats": {
+				"degats_pourcent": 38,
+				"critique_pourcent": 3,
+				"pv": 125
+			},
+			"ensemble": "arsenal_moyen_age_assaut",
+			"visuel": {
+				"forme": "lame",
+				"couleur": "#8a1e22"
+			}
+		},
+		"arsenal_moyen_age_assaut_arme_renforce": {
+			"nom": "Épée du chevalier du roi (renforcé)",
+			"type": "equipement",
+			"rarete": "epique",
+			"description": "Arsenal des époques, panoplie « Chevalier du roi » (pour la Lame et le Traqueur : dégâts et coups critiques). Renforcée avec un trophée du donjon de l'île.",
+			"emplacement": "arme_principale",
+			"epoque": "Moyen Âge",
+			"niveau": 60,
+			"stats": {
+				"degats_pourcent": 51,
+				"critique_pourcent": 4,
+				"pv": 170
+			},
+			"ensemble": "arsenal_moyen_age_assaut",
+			"visuel": {
+				"forme": "lame",
+				"couleur": "#8a1e22"
+			},
+			"ameliore_de": "arsenal_moyen_age_assaut_arme"
+		},
+		"arsenal_moyen_age_assaut_torse": {
+			"nom": "Haubert du chevalier",
+			"type": "equipement",
+			"rarete": "rare",
+			"description": "Arsenal des époques, panoplie « Chevalier du roi » (pour la Lame et le Traqueur : dégâts et coups critiques). Fabriquée par Inès avec les matériaux de l'île.",
+			"emplacement": "torse",
+			"epoque": "Moyen Âge",
+			"niveau": 56,
+			"stats": {
+				"degats_pourcent": 21,
+				"critique_pourcent": 2,
+				"pv": 275,
+				"reduction_pourcent": 1
+			},
+			"ensemble": "arsenal_moyen_age_assaut",
+			"visuel": {
+				"forme": "veste",
+				"couleur": "#8a1e22",
+				"teinte": "#8a1e22"
+			}
+		},
+		"arsenal_moyen_age_assaut_torse_renforce": {
+			"nom": "Haubert du chevalier (renforcé)",
+			"type": "equipement",
+			"rarete": "epique",
+			"description": "Arsenal des époques, panoplie « Chevalier du roi » (pour la Lame et le Traqueur : dégâts et coups critiques). Renforcée avec un trophée du donjon de l'île.",
+			"emplacement": "torse",
+			"epoque": "Moyen Âge",
+			"niveau": 60,
+			"stats": {
+				"degats_pourcent": 29,
+				"critique_pourcent": 3,
+				"pv": 375,
+				"reduction_pourcent": 2
+			},
+			"ensemble": "arsenal_moyen_age_assaut",
+			"visuel": {
+				"forme": "veste",
+				"couleur": "#8a1e22",
+				"teinte": "#8a1e22"
+			},
+			"ameliore_de": "arsenal_moyen_age_assaut_torse"
+		},
+		"arsenal_moyen_age_assaut_jambes": {
+			"nom": "Chausses de mailles",
+			"type": "equipement",
+			"rarete": "rare",
+			"description": "Arsenal des époques, panoplie « Chevalier du roi » (pour la Lame et le Traqueur : dégâts et coups critiques). Fabriquée par Inès avec les matériaux de l'île.",
+			"emplacement": "jambes",
+			"epoque": "Moyen Âge",
+			"niveau": 56,
+			"stats": {
+				"degats_pourcent": 18,
+				"critique_pourcent": 2,
+				"pv": 215,
+				"reduction_pourcent": 1
+			},
+			"ensemble": "arsenal_moyen_age_assaut",
+			"visuel": {
+				"forme": "pantalon",
+				"couleur": "#8a1e22"
+			}
+		},
+		"arsenal_moyen_age_assaut_jambes_renforce": {
+			"nom": "Chausses de mailles (renforcé)",
+			"type": "equipement",
+			"rarete": "epique",
+			"description": "Arsenal des époques, panoplie « Chevalier du roi » (pour la Lame et le Traqueur : dégâts et coups critiques). Renforcée avec un trophée du donjon de l'île.",
+			"emplacement": "jambes",
+			"epoque": "Moyen Âge",
+			"niveau": 60,
+			"stats": {
+				"degats_pourcent": 24,
+				"critique_pourcent": 2,
+				"pv": 290,
+				"reduction_pourcent": 1
+			},
+			"ensemble": "arsenal_moyen_age_assaut",
+			"visuel": {
+				"forme": "pantalon",
+				"couleur": "#8a1e22"
+			},
+			"ameliore_de": "arsenal_moyen_age_assaut_jambes"
+		},
+		"arsenal_moyen_age_assaut_tete": {
+			"nom": "Heaume du chevalier",
+			"type": "equipement",
+			"rarete": "rare",
+			"description": "Arsenal des époques, panoplie « Chevalier du roi » (pour la Lame et le Traqueur : dégâts et coups critiques). Fabriquée par Inès avec les matériaux de l'île.",
+			"emplacement": "tete",
+			"epoque": "Moyen Âge",
+			"niveau": 56,
+			"stats": {
+				"degats_pourcent": 15,
+				"critique_pourcent": 1,
+				"pv": 175,
+				"reduction_pourcent": 1
+			},
+			"ensemble": "arsenal_moyen_age_assaut",
+			"visuel": {
+				"forme": "casque",
+				"couleur": "#8a1e22"
+			}
+		},
+		"arsenal_moyen_age_assaut_tete_renforce": {
+			"nom": "Heaume du chevalier (renforcé)",
+			"type": "equipement",
+			"rarete": "epique",
+			"description": "Arsenal des époques, panoplie « Chevalier du roi » (pour la Lame et le Traqueur : dégâts et coups critiques). Renforcée avec un trophée du donjon de l'île.",
+			"emplacement": "tete",
+			"epoque": "Moyen Âge",
+			"niveau": 60,
+			"stats": {
+				"degats_pourcent": 20,
+				"critique_pourcent": 2,
+				"pv": 240,
+				"reduction_pourcent": 1
+			},
+			"ensemble": "arsenal_moyen_age_assaut",
+			"visuel": {
+				"forme": "casque",
+				"couleur": "#8a1e22"
+			},
+			"ameliore_de": "arsenal_moyen_age_assaut_tete"
+		},
+		"arsenal_moyen_age_assaut_mains": {
+			"nom": "Gantelets de mailles",
+			"type": "equipement",
+			"rarete": "rare",
+			"description": "Arsenal des époques, panoplie « Chevalier du roi » (pour la Lame et le Traqueur : dégâts et coups critiques). Fabriquée par Inès avec les matériaux de l'île.",
+			"emplacement": "mains",
+			"epoque": "Moyen Âge",
+			"niveau": 56,
+			"stats": {
+				"degats_pourcent": 13,
+				"critique_pourcent": 1,
+				"pv": 150,
+				"reduction_pourcent": 1
+			},
+			"ensemble": "arsenal_moyen_age_assaut",
+			"visuel": {
+				"forme": "brassards",
+				"couleur": "#8a1e22"
+			}
+		},
+		"arsenal_moyen_age_assaut_mains_renforce": {
+			"nom": "Gantelets de mailles (renforcé)",
+			"type": "equipement",
+			"rarete": "epique",
+			"description": "Arsenal des époques, panoplie « Chevalier du roi » (pour la Lame et le Traqueur : dégâts et coups critiques). Renforcée avec un trophée du donjon de l'île.",
+			"emplacement": "mains",
+			"epoque": "Moyen Âge",
+			"niveau": 60,
+			"stats": {
+				"degats_pourcent": 17,
+				"critique_pourcent": 2,
+				"pv": 205,
+				"reduction_pourcent": 1
+			},
+			"ensemble": "arsenal_moyen_age_assaut",
+			"visuel": {
+				"forme": "brassards",
+				"couleur": "#8a1e22"
+			},
+			"ameliore_de": "arsenal_moyen_age_assaut_mains"
+		},
+		"arsenal_moyen_age_assaut_pieds": {
+			"nom": "Solerets du chevalier",
+			"type": "equipement",
+			"rarete": "rare",
+			"description": "Arsenal des époques, panoplie « Chevalier du roi » (pour la Lame et le Traqueur : dégâts et coups critiques). Fabriquée par Inès avec les matériaux de l'île.",
+			"emplacement": "pieds",
+			"epoque": "Moyen Âge",
+			"niveau": 56,
+			"stats": {
+				"degats_pourcent": 11,
+				"critique_pourcent": 1,
+				"pv": 150,
+				"reduction_pourcent": 1
+			},
+			"ensemble": "arsenal_moyen_age_assaut",
+			"visuel": {
+				"forme": "rangers",
+				"couleur": "#8a1e22"
+			}
+		},
+		"arsenal_moyen_age_assaut_pieds_renforce": {
+			"nom": "Solerets du chevalier (renforcé)",
+			"type": "equipement",
+			"rarete": "epique",
+			"description": "Arsenal des époques, panoplie « Chevalier du roi » (pour la Lame et le Traqueur : dégâts et coups critiques). Renforcée avec un trophée du donjon de l'île.",
+			"emplacement": "pieds",
+			"epoque": "Moyen Âge",
+			"niveau": 60,
+			"stats": {
+				"degats_pourcent": 15,
+				"critique_pourcent": 1,
+				"pv": 205,
+				"reduction_pourcent": 1
+			},
+			"ensemble": "arsenal_moyen_age_assaut",
+			"visuel": {
+				"forme": "rangers",
+				"couleur": "#8a1e22"
+			},
+			"ameliore_de": "arsenal_moyen_age_assaut_pieds"
+		},
+		"arsenal_moyen_age_assaut_bijou": {
+			"nom": "Fermail du chevalier",
+			"type": "equipement",
+			"rarete": "rare",
+			"description": "Arsenal des époques, panoplie « Chevalier du roi » (pour la Lame et le Traqueur : dégâts et coups critiques). Fabriquée par Inès avec les matériaux de l'île.",
+			"emplacement": "bijou",
+			"epoque": "Moyen Âge",
+			"niveau": 56,
+			"stats": {
+				"degats_pourcent": 10,
+				"critique_pourcent": 1,
+				"pv": 165
+			},
+			"ensemble": "arsenal_moyen_age_assaut",
+			"icone": {
+				"forme": "collier",
+				"couleur": "#8a1e22"
+			}
+		},
+		"arsenal_moyen_age_assaut_bijou_renforce": {
+			"nom": "Fermail du chevalier (renforcé)",
+			"type": "equipement",
+			"rarete": "epique",
+			"description": "Arsenal des époques, panoplie « Chevalier du roi » (pour la Lame et le Traqueur : dégâts et coups critiques). Renforcée avec un trophée du donjon de l'île.",
+			"emplacement": "bijou",
+			"epoque": "Moyen Âge",
+			"niveau": 60,
+			"stats": {
+				"degats_pourcent": 14,
+				"critique_pourcent": 1,
+				"pv": 220
+			},
+			"ensemble": "arsenal_moyen_age_assaut",
+			"icone": {
+				"forme": "collier",
+				"couleur": "#8a1e22"
+			},
+			"ameliore_de": "arsenal_moyen_age_assaut_bijou"
+		},
+		"arsenal_moyen_age_garde_arme": {
+			"nom": "Masse d'armes des carriers",
+			"type": "equipement",
+			"rarete": "rare",
+			"description": "Arsenal des époques, panoplie « Pavois de Berchères » (pour le Rempart : vie et protection). Fabriquée par Inès avec les matériaux de l'île.",
+			"emplacement": "arme_principale",
+			"epoque": "Moyen Âge",
+			"niveau": 56,
+			"stats": {
+				"degats_pourcent": 15,
+				"reduction_pourcent": 2,
+				"pv": 225
+			},
+			"ensemble": "arsenal_moyen_age_garde",
+			"visuel": {
+				"forme": "lame",
+				"couleur": "#6a5a4a"
+			}
+		},
+		"arsenal_moyen_age_garde_arme_renforce": {
+			"nom": "Masse d'armes des carriers (renforcé)",
+			"type": "equipement",
+			"rarete": "epique",
+			"description": "Arsenal des époques, panoplie « Pavois de Berchères » (pour le Rempart : vie et protection). Renforcée avec un trophée du donjon de l'île.",
+			"emplacement": "arme_principale",
+			"epoque": "Moyen Âge",
+			"niveau": 60,
+			"stats": {
+				"degats_pourcent": 20,
+				"reduction_pourcent": 2,
+				"pv": 305
+			},
+			"ensemble": "arsenal_moyen_age_garde",
+			"visuel": {
+				"forme": "lame",
+				"couleur": "#6a5a4a"
+			},
+			"ameliore_de": "arsenal_moyen_age_garde_arme"
+		},
+		"arsenal_moyen_age_garde_torse": {
+			"nom": "Broigne des carriers",
+			"type": "equipement",
+			"rarete": "rare",
+			"description": "Arsenal des époques, panoplie « Pavois de Berchères » (pour le Rempart : vie et protection). Fabriquée par Inès avec les matériaux de l'île.",
+			"emplacement": "torse",
+			"epoque": "Moyen Âge",
+			"niveau": 56,
+			"stats": {
+				"degats_pourcent": 9,
+				"reduction_pourcent": 5,
+				"pv": 500
+			},
+			"ensemble": "arsenal_moyen_age_garde",
+			"visuel": {
+				"forme": "veste",
+				"couleur": "#6a5a4a",
+				"teinte": "#6a5a4a"
+			}
+		},
+		"arsenal_moyen_age_garde_torse_renforce": {
+			"nom": "Broigne des carriers (renforcé)",
+			"type": "equipement",
+			"rarete": "epique",
+			"description": "Arsenal des époques, panoplie « Pavois de Berchères » (pour le Rempart : vie et protection). Renforcée avec un trophée du donjon de l'île.",
+			"emplacement": "torse",
+			"epoque": "Moyen Âge",
+			"niveau": 60,
+			"stats": {
+				"degats_pourcent": 12,
+				"reduction_pourcent": 6,
+				"pv": 675
+			},
+			"ensemble": "arsenal_moyen_age_garde",
+			"visuel": {
+				"forme": "veste",
+				"couleur": "#6a5a4a",
+				"teinte": "#6a5a4a"
+			},
+			"ameliore_de": "arsenal_moyen_age_garde_torse"
+		},
+		"arsenal_moyen_age_garde_jambes": {
+			"nom": "Chausses des carriers",
+			"type": "equipement",
+			"rarete": "rare",
+			"description": "Arsenal des époques, panoplie « Pavois de Berchères » (pour le Rempart : vie et protection). Fabriquée par Inès avec les matériaux de l'île.",
+			"emplacement": "jambes",
+			"epoque": "Moyen Âge",
+			"niveau": 56,
+			"stats": {
+				"degats_pourcent": 7,
+				"reduction_pourcent": 4,
+				"pv": 385
+			},
+			"ensemble": "arsenal_moyen_age_garde",
+			"visuel": {
+				"forme": "pantalon",
+				"couleur": "#6a5a4a"
+			}
+		},
+		"arsenal_moyen_age_garde_jambes_renforce": {
+			"nom": "Chausses des carriers (renforcé)",
+			"type": "equipement",
+			"rarete": "epique",
+			"description": "Arsenal des époques, panoplie « Pavois de Berchères » (pour le Rempart : vie et protection). Renforcée avec un trophée du donjon de l'île.",
+			"emplacement": "jambes",
+			"epoque": "Moyen Âge",
+			"niveau": 60,
+			"stats": {
+				"degats_pourcent": 10,
+				"reduction_pourcent": 5,
+				"pv": 520
+			},
+			"ensemble": "arsenal_moyen_age_garde",
+			"visuel": {
+				"forme": "pantalon",
+				"couleur": "#6a5a4a"
+			},
+			"ameliore_de": "arsenal_moyen_age_garde_jambes"
+		},
+		"arsenal_moyen_age_garde_tete": {
+			"nom": "Chapel de fer",
+			"type": "equipement",
+			"rarete": "rare",
+			"description": "Arsenal des époques, panoplie « Pavois de Berchères » (pour le Rempart : vie et protection). Fabriquée par Inès avec les matériaux de l'île.",
+			"emplacement": "tete",
+			"epoque": "Moyen Âge",
+			"niveau": 56,
+			"stats": {
+				"degats_pourcent": 6,
+				"reduction_pourcent": 3,
+				"pv": 315
+			},
+			"ensemble": "arsenal_moyen_age_garde",
+			"visuel": {
+				"forme": "casque",
+				"couleur": "#6a5a4a"
+			}
+		},
+		"arsenal_moyen_age_garde_tete_renforce": {
+			"nom": "Chapel de fer (renforcé)",
+			"type": "equipement",
+			"rarete": "epique",
+			"description": "Arsenal des époques, panoplie « Pavois de Berchères » (pour le Rempart : vie et protection). Renforcée avec un trophée du donjon de l'île.",
+			"emplacement": "tete",
+			"epoque": "Moyen Âge",
+			"niveau": 60,
+			"stats": {
+				"degats_pourcent": 8,
+				"reduction_pourcent": 4,
+				"pv": 430
+			},
+			"ensemble": "arsenal_moyen_age_garde",
+			"visuel": {
+				"forme": "casque",
+				"couleur": "#6a5a4a"
+			},
+			"ameliore_de": "arsenal_moyen_age_garde_tete"
+		},
+		"arsenal_moyen_age_garde_mains": {
+			"nom": "Gantelets des carriers",
+			"type": "equipement",
+			"rarete": "rare",
+			"description": "Arsenal des époques, panoplie « Pavois de Berchères » (pour le Rempart : vie et protection). Fabriquée par Inès avec les matériaux de l'île.",
+			"emplacement": "mains",
+			"epoque": "Moyen Âge",
+			"niveau": 56,
+			"stats": {
+				"degats_pourcent": 5,
+				"reduction_pourcent": 3,
+				"pv": 270
+			},
+			"ensemble": "arsenal_moyen_age_garde",
+			"visuel": {
+				"forme": "brassards",
+				"couleur": "#6a5a4a"
+			}
+		},
+		"arsenal_moyen_age_garde_mains_renforce": {
+			"nom": "Gantelets des carriers (renforcé)",
+			"type": "equipement",
+			"rarete": "epique",
+			"description": "Arsenal des époques, panoplie « Pavois de Berchères » (pour le Rempart : vie et protection). Renforcée avec un trophée du donjon de l'île.",
+			"emplacement": "mains",
+			"epoque": "Moyen Âge",
+			"niveau": 60,
+			"stats": {
+				"degats_pourcent": 7,
+				"reduction_pourcent": 3,
+				"pv": 365
+			},
+			"ensemble": "arsenal_moyen_age_garde",
+			"visuel": {
+				"forme": "brassards",
+				"couleur": "#6a5a4a"
+			},
+			"ameliore_de": "arsenal_moyen_age_garde_mains"
+		},
+		"arsenal_moyen_age_garde_pieds": {
+			"nom": "Houseaux des carriers",
+			"type": "equipement",
+			"rarete": "rare",
+			"description": "Arsenal des époques, panoplie « Pavois de Berchères » (pour le Rempart : vie et protection). Fabriquée par Inès avec les matériaux de l'île.",
+			"emplacement": "pieds",
+			"epoque": "Moyen Âge",
+			"niveau": 56,
+			"stats": {
+				"degats_pourcent": 5,
+				"reduction_pourcent": 2,
+				"pv": 270
+			},
+			"ensemble": "arsenal_moyen_age_garde",
+			"visuel": {
+				"forme": "rangers",
+				"couleur": "#6a5a4a"
+			}
+		},
+		"arsenal_moyen_age_garde_pieds_renforce": {
+			"nom": "Houseaux des carriers (renforcé)",
+			"type": "equipement",
+			"rarete": "epique",
+			"description": "Arsenal des époques, panoplie « Pavois de Berchères » (pour le Rempart : vie et protection). Renforcée avec un trophée du donjon de l'île.",
+			"emplacement": "pieds",
+			"epoque": "Moyen Âge",
+			"niveau": 60,
+			"stats": {
+				"degats_pourcent": 6,
+				"reduction_pourcent": 3,
+				"pv": 365
+			},
+			"ensemble": "arsenal_moyen_age_garde",
+			"visuel": {
+				"forme": "rangers",
+				"couleur": "#6a5a4a"
+			},
+			"ameliore_de": "arsenal_moyen_age_garde_pieds"
+		},
+		"arsenal_moyen_age_garde_bijou": {
+			"nom": "Médaille de Berchères",
+			"type": "equipement",
+			"rarete": "rare",
+			"description": "Arsenal des époques, panoplie « Pavois de Berchères » (pour le Rempart : vie et protection). Fabriquée par Inès avec les matériaux de l'île.",
+			"emplacement": "bijou",
+			"epoque": "Moyen Âge",
+			"niveau": 56,
+			"stats": {
+				"degats_pourcent": 4,
+				"reduction_pourcent": 1,
+				"pv": 295
+			},
+			"ensemble": "arsenal_moyen_age_garde",
+			"icone": {
+				"forme": "collier",
+				"couleur": "#6a5a4a"
+			}
+		},
+		"arsenal_moyen_age_garde_bijou_renforce": {
+			"nom": "Médaille de Berchères (renforcé)",
+			"type": "equipement",
+			"rarete": "epique",
+			"description": "Arsenal des époques, panoplie « Pavois de Berchères » (pour le Rempart : vie et protection). Renforcée avec un trophée du donjon de l'île.",
+			"emplacement": "bijou",
+			"epoque": "Moyen Âge",
+			"niveau": 60,
+			"stats": {
+				"degats_pourcent": 5,
+				"reduction_pourcent": 2,
+				"pv": 400
+			},
+			"ensemble": "arsenal_moyen_age_garde",
+			"icone": {
+				"forme": "collier",
+				"couleur": "#6a5a4a"
+			},
+			"ameliore_de": "arsenal_moyen_age_garde_bijou"
+		},
+		"arsenal_moyen_age_harmonie_arme": {
+			"nom": "Canne de verrier",
+			"type": "equipement",
+			"rarete": "rare",
+			"description": "Arsenal des époques, panoplie « Verrière d'Aude » (pour le Tisseur : soins, vie et un peu de dégâts). Fabriquée par Inès avec les matériaux de l'île.",
+			"emplacement": "arme_principale",
+			"epoque": "Moyen Âge",
+			"niveau": 56,
+			"stats": {
+				"soins_pourcent": 12,
+				"degats_pourcent": 26,
+				"critique_pourcent": 2,
+				"pv": 150
+			},
+			"ensemble": "arsenal_moyen_age_harmonie",
+			"visuel": {
+				"forme": "lance",
+				"couleur": "#2a4ac0"
+			}
+		},
+		"arsenal_moyen_age_harmonie_arme_renforce": {
+			"nom": "Canne de verrier (renforcé)",
+			"type": "equipement",
+			"rarete": "epique",
+			"description": "Arsenal des époques, panoplie « Verrière d'Aude » (pour le Tisseur : soins, vie et un peu de dégâts). Renforcée avec un trophée du donjon de l'île.",
+			"emplacement": "arme_principale",
+			"epoque": "Moyen Âge",
+			"niveau": 60,
+			"stats": {
+				"soins_pourcent": 16,
+				"degats_pourcent": 36,
+				"critique_pourcent": 2,
+				"pv": 205
+			},
+			"ensemble": "arsenal_moyen_age_harmonie",
+			"visuel": {
+				"forme": "lance",
+				"couleur": "#2a4ac0"
+			},
+			"ameliore_de": "arsenal_moyen_age_harmonie_arme"
+		},
+		"arsenal_moyen_age_harmonie_torse": {
+			"nom": "Cotte de la verrière",
+			"type": "equipement",
+			"rarete": "rare",
+			"description": "Arsenal des époques, panoplie « Verrière d'Aude » (pour le Tisseur : soins, vie et un peu de dégâts). Fabriquée par Inès avec les matériaux de l'île.",
+			"emplacement": "torse",
+			"epoque": "Moyen Âge",
+			"niveau": 56,
+			"stats": {
+				"soins_pourcent": 7,
+				"degats_pourcent": 15,
+				"critique_pourcent": 1,
+				"pv": 330
+			},
+			"ensemble": "arsenal_moyen_age_harmonie",
+			"visuel": {
+				"forme": "veste",
+				"couleur": "#2a4ac0",
+				"teinte": "#2a4ac0"
+			}
+		},
+		"arsenal_moyen_age_harmonie_torse_renforce": {
+			"nom": "Cotte de la verrière (renforcé)",
+			"type": "equipement",
+			"rarete": "epique",
+			"description": "Arsenal des époques, panoplie « Verrière d'Aude » (pour le Tisseur : soins, vie et un peu de dégâts). Renforcée avec un trophée du donjon de l'île.",
+			"emplacement": "torse",
+			"epoque": "Moyen Âge",
+			"niveau": 60,
+			"stats": {
+				"soins_pourcent": 9,
+				"degats_pourcent": 20,
+				"critique_pourcent": 1,
+				"pv": 450
+			},
+			"ensemble": "arsenal_moyen_age_harmonie",
+			"visuel": {
+				"forme": "veste",
+				"couleur": "#2a4ac0",
+				"teinte": "#2a4ac0"
+			},
+			"ameliore_de": "arsenal_moyen_age_harmonie_torse"
+		},
+		"arsenal_moyen_age_harmonie_jambes": {
+			"nom": "Chausses de la verrière",
+			"type": "equipement",
+			"rarete": "rare",
+			"description": "Arsenal des époques, panoplie « Verrière d'Aude » (pour le Tisseur : soins, vie et un peu de dégâts). Fabriquée par Inès avec les matériaux de l'île.",
+			"emplacement": "jambes",
+			"epoque": "Moyen Âge",
+			"niveau": 56,
+			"stats": {
+				"soins_pourcent": 5,
+				"degats_pourcent": 12,
+				"critique_pourcent": 1,
+				"pv": 255
+			},
+			"ensemble": "arsenal_moyen_age_harmonie",
+			"visuel": {
+				"forme": "pantalon",
+				"couleur": "#2a4ac0"
+			}
+		},
+		"arsenal_moyen_age_harmonie_jambes_renforce": {
+			"nom": "Chausses de la verrière (renforcé)",
+			"type": "equipement",
+			"rarete": "epique",
+			"description": "Arsenal des époques, panoplie « Verrière d'Aude » (pour le Tisseur : soins, vie et un peu de dégâts). Renforcée avec un trophée du donjon de l'île.",
+			"emplacement": "jambes",
+			"epoque": "Moyen Âge",
+			"niveau": 60,
+			"stats": {
+				"soins_pourcent": 7,
+				"degats_pourcent": 17,
+				"critique_pourcent": 1,
+				"pv": 345
+			},
+			"ensemble": "arsenal_moyen_age_harmonie",
+			"visuel": {
+				"forme": "pantalon",
+				"couleur": "#2a4ac0"
+			},
+			"ameliore_de": "arsenal_moyen_age_harmonie_jambes"
+		},
+		"arsenal_moyen_age_harmonie_tete": {
+			"nom": "Coiffe de la verrière",
+			"type": "equipement",
+			"rarete": "rare",
+			"description": "Arsenal des époques, panoplie « Verrière d'Aude » (pour le Tisseur : soins, vie et un peu de dégâts). Fabriquée par Inès avec les matériaux de l'île.",
+			"emplacement": "tete",
+			"epoque": "Moyen Âge",
+			"niveau": 56,
+			"stats": {
+				"soins_pourcent": 5,
+				"degats_pourcent": 11,
+				"critique_pourcent": 1,
+				"pv": 210
+			},
+			"ensemble": "arsenal_moyen_age_harmonie",
+			"visuel": {
+				"forme": "bandeau",
+				"couleur": "#2a4ac0"
+			}
+		},
+		"arsenal_moyen_age_harmonie_tete_renforce": {
+			"nom": "Coiffe de la verrière (renforcé)",
+			"type": "equipement",
+			"rarete": "epique",
+			"description": "Arsenal des époques, panoplie « Verrière d'Aude » (pour le Tisseur : soins, vie et un peu de dégâts). Renforcée avec un trophée du donjon de l'île.",
+			"emplacement": "tete",
+			"epoque": "Moyen Âge",
+			"niveau": 60,
+			"stats": {
+				"soins_pourcent": 6,
+				"degats_pourcent": 14,
+				"critique_pourcent": 1,
+				"pv": 285
+			},
+			"ensemble": "arsenal_moyen_age_harmonie",
+			"visuel": {
+				"forme": "bandeau",
+				"couleur": "#2a4ac0"
+			},
+			"ameliore_de": "arsenal_moyen_age_harmonie_tete"
+		},
+		"arsenal_moyen_age_harmonie_mains": {
+			"nom": "Mitaines de la verrière",
+			"type": "equipement",
+			"rarete": "rare",
+			"description": "Arsenal des époques, panoplie « Verrière d'Aude » (pour le Tisseur : soins, vie et un peu de dégâts). Fabriquée par Inès avec les matériaux de l'île.",
+			"emplacement": "mains",
+			"epoque": "Moyen Âge",
+			"niveau": 56,
+			"stats": {
+				"soins_pourcent": 4,
+				"degats_pourcent": 9,
+				"critique_pourcent": 1,
+				"pv": 180
+			},
+			"ensemble": "arsenal_moyen_age_harmonie",
+			"visuel": {
+				"forme": "brassards",
+				"couleur": "#2a4ac0"
+			}
+		},
+		"arsenal_moyen_age_harmonie_mains_renforce": {
+			"nom": "Mitaines de la verrière (renforcé)",
+			"type": "equipement",
+			"rarete": "epique",
+			"description": "Arsenal des époques, panoplie « Verrière d'Aude » (pour le Tisseur : soins, vie et un peu de dégâts). Renforcée avec un trophée du donjon de l'île.",
+			"emplacement": "mains",
+			"epoque": "Moyen Âge",
+			"niveau": 60,
+			"stats": {
+				"soins_pourcent": 5,
+				"degats_pourcent": 12,
+				"critique_pourcent": 1,
+				"pv": 245
+			},
+			"ensemble": "arsenal_moyen_age_harmonie",
+			"visuel": {
+				"forme": "brassards",
+				"couleur": "#2a4ac0"
+			},
+			"ameliore_de": "arsenal_moyen_age_harmonie_mains"
+		},
+		"arsenal_moyen_age_harmonie_pieds": {
+			"nom": "Souliers de la verrière",
+			"type": "equipement",
+			"rarete": "rare",
+			"description": "Arsenal des époques, panoplie « Verrière d'Aude » (pour le Tisseur : soins, vie et un peu de dégâts). Fabriquée par Inès avec les matériaux de l'île.",
+			"emplacement": "pieds",
+			"epoque": "Moyen Âge",
+			"niveau": 56,
+			"stats": {
+				"soins_pourcent": 3,
+				"degats_pourcent": 8,
+				"pv": 180
+			},
+			"ensemble": "arsenal_moyen_age_harmonie",
+			"visuel": {
+				"forme": "rangers",
+				"couleur": "#2a4ac0"
+			}
+		},
+		"arsenal_moyen_age_harmonie_pieds_renforce": {
+			"nom": "Souliers de la verrière (renforcé)",
+			"type": "equipement",
+			"rarete": "epique",
+			"description": "Arsenal des époques, panoplie « Verrière d'Aude » (pour le Tisseur : soins, vie et un peu de dégâts). Renforcée avec un trophée du donjon de l'île.",
+			"emplacement": "pieds",
+			"epoque": "Moyen Âge",
+			"niveau": 60,
+			"stats": {
+				"soins_pourcent": 5,
+				"degats_pourcent": 11,
+				"critique_pourcent": 1,
+				"pv": 245
+			},
+			"ensemble": "arsenal_moyen_age_harmonie",
+			"visuel": {
+				"forme": "rangers",
+				"couleur": "#2a4ac0"
+			},
+			"ameliore_de": "arsenal_moyen_age_harmonie_pieds"
+		},
+		"arsenal_moyen_age_harmonie_bijou": {
+			"nom": "Rondelle de verre bleu",
+			"type": "equipement",
+			"rarete": "rare",
+			"description": "Arsenal des époques, panoplie « Verrière d'Aude » (pour le Tisseur : soins, vie et un peu de dégâts). Fabriquée par Inès avec les matériaux de l'île.",
+			"emplacement": "bijou",
+			"epoque": "Moyen Âge",
+			"niveau": 56,
+			"stats": {
+				"soins_pourcent": 3,
+				"degats_pourcent": 7,
+				"pv": 195
+			},
+			"ensemble": "arsenal_moyen_age_harmonie",
+			"icone": {
+				"forme": "collier",
+				"couleur": "#2a4ac0"
+			}
+		},
+		"arsenal_moyen_age_harmonie_bijou_renforce": {
+			"nom": "Rondelle de verre bleu (renforcé)",
+			"type": "equipement",
+			"rarete": "epique",
+			"description": "Arsenal des époques, panoplie « Verrière d'Aude » (pour le Tisseur : soins, vie et un peu de dégâts). Renforcée avec un trophée du donjon de l'île.",
+			"emplacement": "bijou",
+			"epoque": "Moyen Âge",
+			"niveau": 60,
+			"stats": {
+				"soins_pourcent": 4,
+				"degats_pourcent": 10,
+				"critique_pourcent": 1,
+				"pv": 265
+			},
+			"ensemble": "arsenal_moyen_age_harmonie",
+			"icone": {
+				"forme": "collier",
+				"couleur": "#2a4ac0"
+			},
+			"ameliore_de": "arsenal_moyen_age_harmonie_bijou"
 		}
 	},
 	"ensembles": {
@@ -4553,6 +5402,81 @@
 					"stats": {
 						"soins_pourcent": 15,
 						"pv": 200
+					}
+				}
+			}
+		},
+		"arsenal_moyen_age_assaut": {
+			"nom": "Chevalier du roi",
+			"epoque": "Moyen Âge",
+			"paliers": {
+				"3": {
+					"texte": "+14 % de dégâts",
+					"stats": {
+						"degats_pourcent": 14
+					}
+				},
+				"5": {
+					"texte": "+7 % de coups critiques",
+					"stats": {
+						"critique_pourcent": 7
+					}
+				},
+				"7": {
+					"texte": "+18 % de dégâts et 5 % de vol de vie",
+					"stats": {
+						"degats_pourcent": 18,
+						"vol_de_vie_pourcent": 5
+					}
+				}
+			}
+		},
+		"arsenal_moyen_age_garde": {
+			"nom": "Pavois de Berchères",
+			"epoque": "Moyen Âge",
+			"paliers": {
+				"3": {
+					"texte": "+240 points de vie",
+					"stats": {
+						"pv": 240
+					}
+				},
+				"5": {
+					"texte": "+7 % de protection",
+					"stats": {
+						"reduction_pourcent": 7
+					}
+				},
+				"7": {
+					"texte": "+360 points de vie et les contrôles durent 33 % de moins sur toi",
+					"stats": {
+						"pv": 360,
+						"resistance_controles_pourcent": 33
+					}
+				}
+			}
+		},
+		"arsenal_moyen_age_harmonie": {
+			"nom": "Verrière d'Aude",
+			"epoque": "Moyen Âge",
+			"paliers": {
+				"3": {
+					"texte": "+14 % de soins donnés",
+					"stats": {
+						"soins_pourcent": 14
+					}
+				},
+				"5": {
+					"texte": "+7 % de coups critiques",
+					"stats": {
+						"critique_pourcent": 7
+					}
+				},
+				"7": {
+					"texte": "+18 % de soins donnés et +240 points de vie",
+					"stats": {
+						"soins_pourcent": 18,
+						"pv": 240
 					}
 				}
 			}
@@ -6882,6 +7806,468 @@
 				"arsenal_chine_harmonie_bijou": 1,
 				"eclat_de_fracture": 9,
 				"perle_coiffe_imperiale": 1
+			}
+		},
+		"arsenal_moyen_age_assaut_arme": {
+			"artisan": "arsenal",
+			"categorie": "arsenal_moyen_age",
+			"donne": "arsenal_moyen_age_assaut_arme",
+			"quantite": 1,
+			"ingredients": {
+				"eclat_de_fracture": 8,
+				"plomb_fige": 2,
+				"denier_chartrain": 3
+			}
+		},
+		"arsenal_moyen_age_assaut_arme_renforce": {
+			"artisan": "arsenal",
+			"categorie": "arsenal_moyen_age",
+			"donne": "arsenal_moyen_age_assaut_arme_renforce",
+			"quantite": 1,
+			"ingredients": {
+				"arsenal_moyen_age_assaut_arme": 1,
+				"eclat_de_fracture": 10,
+				"coeur_de_plomb": 1
+			}
+		},
+		"arsenal_moyen_age_assaut_torse": {
+			"artisan": "arsenal",
+			"categorie": "arsenal_moyen_age",
+			"donne": "arsenal_moyen_age_assaut_torse",
+			"quantite": 1,
+			"ingredients": {
+				"eclat_de_fracture": 8,
+				"pelage_loup_beauce": 3,
+				"maille_rouillee": 2
+			}
+		},
+		"arsenal_moyen_age_assaut_torse_renforce": {
+			"artisan": "arsenal",
+			"categorie": "arsenal_moyen_age",
+			"donne": "arsenal_moyen_age_assaut_torse_renforce",
+			"quantite": 1,
+			"ingredients": {
+				"arsenal_moyen_age_assaut_torse": 1,
+				"eclat_de_fracture": 10,
+				"coeur_de_plomb": 1
+			}
+		},
+		"arsenal_moyen_age_assaut_jambes": {
+			"artisan": "arsenal",
+			"categorie": "arsenal_moyen_age",
+			"donne": "arsenal_moyen_age_assaut_jambes",
+			"quantite": 1,
+			"ingredients": {
+				"eclat_de_fracture": 8,
+				"pelage_loup_beauce": 3,
+				"maille_rouillee": 2
+			}
+		},
+		"arsenal_moyen_age_assaut_jambes_renforce": {
+			"artisan": "arsenal",
+			"categorie": "arsenal_moyen_age",
+			"donne": "arsenal_moyen_age_assaut_jambes_renforce",
+			"quantite": 1,
+			"ingredients": {
+				"arsenal_moyen_age_assaut_jambes": 1,
+				"eclat_de_fracture": 10,
+				"coeur_de_plomb": 1
+			}
+		},
+		"arsenal_moyen_age_assaut_tete": {
+			"artisan": "arsenal",
+			"categorie": "arsenal_moyen_age",
+			"donne": "arsenal_moyen_age_assaut_tete",
+			"quantite": 1,
+			"ingredients": {
+				"eclat_de_fracture": 8,
+				"pelage_loup_beauce": 3,
+				"maille_rouillee": 2
+			}
+		},
+		"arsenal_moyen_age_assaut_tete_renforce": {
+			"artisan": "arsenal",
+			"categorie": "arsenal_moyen_age",
+			"donne": "arsenal_moyen_age_assaut_tete_renforce",
+			"quantite": 1,
+			"ingredients": {
+				"arsenal_moyen_age_assaut_tete": 1,
+				"eclat_de_fracture": 10,
+				"coeur_de_plomb": 1
+			}
+		},
+		"arsenal_moyen_age_assaut_mains": {
+			"artisan": "arsenal",
+			"categorie": "arsenal_moyen_age",
+			"donne": "arsenal_moyen_age_assaut_mains",
+			"quantite": 1,
+			"ingredients": {
+				"eclat_de_fracture": 8,
+				"pelage_loup_beauce": 3,
+				"maille_rouillee": 2
+			}
+		},
+		"arsenal_moyen_age_assaut_mains_renforce": {
+			"artisan": "arsenal",
+			"categorie": "arsenal_moyen_age",
+			"donne": "arsenal_moyen_age_assaut_mains_renforce",
+			"quantite": 1,
+			"ingredients": {
+				"arsenal_moyen_age_assaut_mains": 1,
+				"eclat_de_fracture": 10,
+				"coeur_de_plomb": 1
+			}
+		},
+		"arsenal_moyen_age_assaut_pieds": {
+			"artisan": "arsenal",
+			"categorie": "arsenal_moyen_age",
+			"donne": "arsenal_moyen_age_assaut_pieds",
+			"quantite": 1,
+			"ingredients": {
+				"eclat_de_fracture": 8,
+				"pelage_loup_beauce": 3,
+				"maille_rouillee": 2
+			}
+		},
+		"arsenal_moyen_age_assaut_pieds_renforce": {
+			"artisan": "arsenal",
+			"categorie": "arsenal_moyen_age",
+			"donne": "arsenal_moyen_age_assaut_pieds_renforce",
+			"quantite": 1,
+			"ingredients": {
+				"arsenal_moyen_age_assaut_pieds": 1,
+				"eclat_de_fracture": 10,
+				"coeur_de_plomb": 1
+			}
+		},
+		"arsenal_moyen_age_assaut_bijou": {
+			"artisan": "arsenal",
+			"categorie": "arsenal_moyen_age",
+			"donne": "arsenal_moyen_age_assaut_bijou",
+			"quantite": 1,
+			"ingredients": {
+				"eclat_de_fracture": 8,
+				"plomb_fige": 2,
+				"denier_chartrain": 3
+			}
+		},
+		"arsenal_moyen_age_assaut_bijou_renforce": {
+			"artisan": "arsenal",
+			"categorie": "arsenal_moyen_age",
+			"donne": "arsenal_moyen_age_assaut_bijou_renforce",
+			"quantite": 1,
+			"ingredients": {
+				"arsenal_moyen_age_assaut_bijou": 1,
+				"eclat_de_fracture": 10,
+				"coeur_de_plomb": 1
+			}
+		},
+		"arsenal_moyen_age_garde_arme": {
+			"artisan": "arsenal",
+			"categorie": "arsenal_moyen_age",
+			"donne": "arsenal_moyen_age_garde_arme",
+			"quantite": 1,
+			"ingredients": {
+				"eclat_de_fracture": 8,
+				"plomb_fige": 2,
+				"denier_chartrain": 3
+			}
+		},
+		"arsenal_moyen_age_garde_arme_renforce": {
+			"artisan": "arsenal",
+			"categorie": "arsenal_moyen_age",
+			"donne": "arsenal_moyen_age_garde_arme_renforce",
+			"quantite": 1,
+			"ingredients": {
+				"arsenal_moyen_age_garde_arme": 1,
+				"eclat_de_fracture": 10,
+				"coeur_de_plomb": 1
+			}
+		},
+		"arsenal_moyen_age_garde_torse": {
+			"artisan": "arsenal",
+			"categorie": "arsenal_moyen_age",
+			"donne": "arsenal_moyen_age_garde_torse",
+			"quantite": 1,
+			"ingredients": {
+				"eclat_de_fracture": 8,
+				"pelage_loup_beauce": 3,
+				"maille_rouillee": 2
+			}
+		},
+		"arsenal_moyen_age_garde_torse_renforce": {
+			"artisan": "arsenal",
+			"categorie": "arsenal_moyen_age",
+			"donne": "arsenal_moyen_age_garde_torse_renforce",
+			"quantite": 1,
+			"ingredients": {
+				"arsenal_moyen_age_garde_torse": 1,
+				"eclat_de_fracture": 10,
+				"coeur_de_plomb": 1
+			}
+		},
+		"arsenal_moyen_age_garde_jambes": {
+			"artisan": "arsenal",
+			"categorie": "arsenal_moyen_age",
+			"donne": "arsenal_moyen_age_garde_jambes",
+			"quantite": 1,
+			"ingredients": {
+				"eclat_de_fracture": 8,
+				"pelage_loup_beauce": 3,
+				"maille_rouillee": 2
+			}
+		},
+		"arsenal_moyen_age_garde_jambes_renforce": {
+			"artisan": "arsenal",
+			"categorie": "arsenal_moyen_age",
+			"donne": "arsenal_moyen_age_garde_jambes_renforce",
+			"quantite": 1,
+			"ingredients": {
+				"arsenal_moyen_age_garde_jambes": 1,
+				"eclat_de_fracture": 10,
+				"coeur_de_plomb": 1
+			}
+		},
+		"arsenal_moyen_age_garde_tete": {
+			"artisan": "arsenal",
+			"categorie": "arsenal_moyen_age",
+			"donne": "arsenal_moyen_age_garde_tete",
+			"quantite": 1,
+			"ingredients": {
+				"eclat_de_fracture": 8,
+				"pelage_loup_beauce": 3,
+				"maille_rouillee": 2
+			}
+		},
+		"arsenal_moyen_age_garde_tete_renforce": {
+			"artisan": "arsenal",
+			"categorie": "arsenal_moyen_age",
+			"donne": "arsenal_moyen_age_garde_tete_renforce",
+			"quantite": 1,
+			"ingredients": {
+				"arsenal_moyen_age_garde_tete": 1,
+				"eclat_de_fracture": 10,
+				"coeur_de_plomb": 1
+			}
+		},
+		"arsenal_moyen_age_garde_mains": {
+			"artisan": "arsenal",
+			"categorie": "arsenal_moyen_age",
+			"donne": "arsenal_moyen_age_garde_mains",
+			"quantite": 1,
+			"ingredients": {
+				"eclat_de_fracture": 8,
+				"pelage_loup_beauce": 3,
+				"maille_rouillee": 2
+			}
+		},
+		"arsenal_moyen_age_garde_mains_renforce": {
+			"artisan": "arsenal",
+			"categorie": "arsenal_moyen_age",
+			"donne": "arsenal_moyen_age_garde_mains_renforce",
+			"quantite": 1,
+			"ingredients": {
+				"arsenal_moyen_age_garde_mains": 1,
+				"eclat_de_fracture": 10,
+				"coeur_de_plomb": 1
+			}
+		},
+		"arsenal_moyen_age_garde_pieds": {
+			"artisan": "arsenal",
+			"categorie": "arsenal_moyen_age",
+			"donne": "arsenal_moyen_age_garde_pieds",
+			"quantite": 1,
+			"ingredients": {
+				"eclat_de_fracture": 8,
+				"pelage_loup_beauce": 3,
+				"maille_rouillee": 2
+			}
+		},
+		"arsenal_moyen_age_garde_pieds_renforce": {
+			"artisan": "arsenal",
+			"categorie": "arsenal_moyen_age",
+			"donne": "arsenal_moyen_age_garde_pieds_renforce",
+			"quantite": 1,
+			"ingredients": {
+				"arsenal_moyen_age_garde_pieds": 1,
+				"eclat_de_fracture": 10,
+				"coeur_de_plomb": 1
+			}
+		},
+		"arsenal_moyen_age_garde_bijou": {
+			"artisan": "arsenal",
+			"categorie": "arsenal_moyen_age",
+			"donne": "arsenal_moyen_age_garde_bijou",
+			"quantite": 1,
+			"ingredients": {
+				"eclat_de_fracture": 8,
+				"plomb_fige": 2,
+				"denier_chartrain": 3
+			}
+		},
+		"arsenal_moyen_age_garde_bijou_renforce": {
+			"artisan": "arsenal",
+			"categorie": "arsenal_moyen_age",
+			"donne": "arsenal_moyen_age_garde_bijou_renforce",
+			"quantite": 1,
+			"ingredients": {
+				"arsenal_moyen_age_garde_bijou": 1,
+				"eclat_de_fracture": 10,
+				"coeur_de_plomb": 1
+			}
+		},
+		"arsenal_moyen_age_harmonie_arme": {
+			"artisan": "arsenal",
+			"categorie": "arsenal_moyen_age",
+			"donne": "arsenal_moyen_age_harmonie_arme",
+			"quantite": 1,
+			"ingredients": {
+				"eclat_de_fracture": 8,
+				"plomb_fige": 2,
+				"denier_chartrain": 3
+			}
+		},
+		"arsenal_moyen_age_harmonie_arme_renforce": {
+			"artisan": "arsenal",
+			"categorie": "arsenal_moyen_age",
+			"donne": "arsenal_moyen_age_harmonie_arme_renforce",
+			"quantite": 1,
+			"ingredients": {
+				"arsenal_moyen_age_harmonie_arme": 1,
+				"eclat_de_fracture": 10,
+				"coeur_de_plomb": 1
+			}
+		},
+		"arsenal_moyen_age_harmonie_torse": {
+			"artisan": "arsenal",
+			"categorie": "arsenal_moyen_age",
+			"donne": "arsenal_moyen_age_harmonie_torse",
+			"quantite": 1,
+			"ingredients": {
+				"eclat_de_fracture": 8,
+				"pelage_loup_beauce": 3,
+				"maille_rouillee": 2
+			}
+		},
+		"arsenal_moyen_age_harmonie_torse_renforce": {
+			"artisan": "arsenal",
+			"categorie": "arsenal_moyen_age",
+			"donne": "arsenal_moyen_age_harmonie_torse_renforce",
+			"quantite": 1,
+			"ingredients": {
+				"arsenal_moyen_age_harmonie_torse": 1,
+				"eclat_de_fracture": 10,
+				"coeur_de_plomb": 1
+			}
+		},
+		"arsenal_moyen_age_harmonie_jambes": {
+			"artisan": "arsenal",
+			"categorie": "arsenal_moyen_age",
+			"donne": "arsenal_moyen_age_harmonie_jambes",
+			"quantite": 1,
+			"ingredients": {
+				"eclat_de_fracture": 8,
+				"pelage_loup_beauce": 3,
+				"maille_rouillee": 2
+			}
+		},
+		"arsenal_moyen_age_harmonie_jambes_renforce": {
+			"artisan": "arsenal",
+			"categorie": "arsenal_moyen_age",
+			"donne": "arsenal_moyen_age_harmonie_jambes_renforce",
+			"quantite": 1,
+			"ingredients": {
+				"arsenal_moyen_age_harmonie_jambes": 1,
+				"eclat_de_fracture": 10,
+				"coeur_de_plomb": 1
+			}
+		},
+		"arsenal_moyen_age_harmonie_tete": {
+			"artisan": "arsenal",
+			"categorie": "arsenal_moyen_age",
+			"donne": "arsenal_moyen_age_harmonie_tete",
+			"quantite": 1,
+			"ingredients": {
+				"eclat_de_fracture": 8,
+				"pelage_loup_beauce": 3,
+				"maille_rouillee": 2
+			}
+		},
+		"arsenal_moyen_age_harmonie_tete_renforce": {
+			"artisan": "arsenal",
+			"categorie": "arsenal_moyen_age",
+			"donne": "arsenal_moyen_age_harmonie_tete_renforce",
+			"quantite": 1,
+			"ingredients": {
+				"arsenal_moyen_age_harmonie_tete": 1,
+				"eclat_de_fracture": 10,
+				"coeur_de_plomb": 1
+			}
+		},
+		"arsenal_moyen_age_harmonie_mains": {
+			"artisan": "arsenal",
+			"categorie": "arsenal_moyen_age",
+			"donne": "arsenal_moyen_age_harmonie_mains",
+			"quantite": 1,
+			"ingredients": {
+				"eclat_de_fracture": 8,
+				"pelage_loup_beauce": 3,
+				"maille_rouillee": 2
+			}
+		},
+		"arsenal_moyen_age_harmonie_mains_renforce": {
+			"artisan": "arsenal",
+			"categorie": "arsenal_moyen_age",
+			"donne": "arsenal_moyen_age_harmonie_mains_renforce",
+			"quantite": 1,
+			"ingredients": {
+				"arsenal_moyen_age_harmonie_mains": 1,
+				"eclat_de_fracture": 10,
+				"coeur_de_plomb": 1
+			}
+		},
+		"arsenal_moyen_age_harmonie_pieds": {
+			"artisan": "arsenal",
+			"categorie": "arsenal_moyen_age",
+			"donne": "arsenal_moyen_age_harmonie_pieds",
+			"quantite": 1,
+			"ingredients": {
+				"eclat_de_fracture": 8,
+				"pelage_loup_beauce": 3,
+				"maille_rouillee": 2
+			}
+		},
+		"arsenal_moyen_age_harmonie_pieds_renforce": {
+			"artisan": "arsenal",
+			"categorie": "arsenal_moyen_age",
+			"donne": "arsenal_moyen_age_harmonie_pieds_renforce",
+			"quantite": 1,
+			"ingredients": {
+				"arsenal_moyen_age_harmonie_pieds": 1,
+				"eclat_de_fracture": 10,
+				"coeur_de_plomb": 1
+			}
+		},
+		"arsenal_moyen_age_harmonie_bijou": {
+			"artisan": "arsenal",
+			"categorie": "arsenal_moyen_age",
+			"donne": "arsenal_moyen_age_harmonie_bijou",
+			"quantite": 1,
+			"ingredients": {
+				"eclat_de_fracture": 8,
+				"plomb_fige": 2,
+				"denier_chartrain": 3
+			}
+		},
+		"arsenal_moyen_age_harmonie_bijou_renforce": {
+			"artisan": "arsenal",
+			"categorie": "arsenal_moyen_age",
+			"donne": "arsenal_moyen_age_harmonie_bijou_renforce",
+			"quantite": 1,
+			"ingredients": {
+				"arsenal_moyen_age_harmonie_bijou": 1,
+				"eclat_de_fracture": 10,
+				"coeur_de_plomb": 1
 			}
 		}
 	}

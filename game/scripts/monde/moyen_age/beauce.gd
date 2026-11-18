@@ -521,11 +521,6 @@ func _construire_quete() -> void:
 	repere.call(MarqueurCarte.Type.LIEU, "Route de Chartres et des carrières de Berchères", SORTIE_NE)
 
 
-## Les personnages des quêtes secondaires (data/moyen_age_secondaires.json, plus tard).
-func _construire_secondaires(_dossier: Node3D) -> void:
-	pass
-
-
 # --- Le moulin tourne, la route s'ouvre --------------------------------------------------------
 
 var _attente := 0.0
@@ -557,3 +552,8 @@ func _process(delta: float) -> void:
 	var p := Vector2(joueur.global_position.x, joueur.global_position.z)
 	if p.distance_to(SORTIE_NE) < 6.0 and quete.donnees.get("zones", {}).has("bercheres"):
 		quete.changer_de_zone("bercheres")
+
+
+## Les personnages des quêtes secondaires (data/moyen_age_secondaires.json).
+func _construire_secondaires(dossier: Node3D) -> void:
+	_pnj(dossier, "dame_heloise", Vector2(-16, 34), PI * 0.9)

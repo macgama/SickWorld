@@ -142,6 +142,20 @@ ILES = [
             "formes": ["lance", "veste", "pantalon", "bandeau", "brassards", "rangers", "collier"],
             "pieces": ["Pinceau-bâton du lettré", "Robe de soie du lettré", "Pantalon de soie", "Bonnet du lettré", "Manchettes du lettré", "Chaussons du lettré", "Bi de jade du lettré"]},
      }},
+    {"id": "moyen_age", "palier": 6, "epoque": "Moyen Âge", "categorie": "Moyen Âge",
+     "armure": {"pelage_loup_beauce": 3, "maille_rouillee": 2}, "arme": {"plomb_fige": 2, "denier_chartrain": 3},
+     "trophee": "coeur_de_plomb",
+     "panoplies": {
+        "assaut": {"nom": "Chevalier du roi", "couleur": "#8a1e22",
+            "formes": ["lame", "veste", "pantalon", "casque", "brassards", "rangers", "collier"],
+            "pieces": ["Épée du chevalier du roi", "Haubert du chevalier", "Chausses de mailles", "Heaume du chevalier", "Gantelets de mailles", "Solerets du chevalier", "Fermail du chevalier"]},
+        "garde": {"nom": "Pavois de Berchères", "couleur": "#6a5a4a",
+            "formes": ["lame", "veste", "pantalon", "casque", "brassards", "rangers", "collier"],
+            "pieces": ["Masse d'armes des carriers", "Broigne des carriers", "Chausses des carriers", "Chapel de fer", "Gantelets des carriers", "Houseaux des carriers", "Médaille de Berchères"]},
+        "harmonie": {"nom": "Verrière d'Aude", "couleur": "#2a4ac0",
+            "formes": ["lance", "veste", "pantalon", "bandeau", "brassards", "rangers", "collier"],
+            "pieces": ["Canne de verrier", "Cotte de la verrière", "Chausses de la verrière", "Coiffe de la verrière", "Mitaines de la verrière", "Souliers de la verrière", "Rondelle de verre bleu"]},
+     }},
 ]
 
 ICONES = {"arme_principale": None, "torse": "veste", "jambes": "pantalon", "tete": "bandeau", "mains": "brassards", "pieds": "rangers", "bijou": "eclat"}

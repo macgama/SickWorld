@@ -153,6 +153,42 @@ La fracture souffle une **fumée grise** venue de l'incendie. Ceux qu'elle touch
 7. Remonter au chantier : **Aude** te donne **le premier verre bleu** (relique), et un portail de la Vigie s'ouvre dans le chœur.
 8. Au QG : Plomb dans **la troisième cellule**, et la commandante Morel raconte enfin la fondation de la Vigie.
 
+## Les quêtes secondaires
+
+Elles s'ouvrent au fil de l'histoire : un « ! » doré apparaît au-dessus du personnage qui les donne.
+
+| Quête | Qui la donne | Ce qu'on fait | Récompense |
+|---|---|---|---|
+| Le faucon de dame Héloïse | Dame Héloïse, au bord de la route (Beauce) | Retrouver un jeune faucon tombé du nid dans la forêt de Berchères, le protéger des loups, puis le rappeler au gant (petit jeu de rythme) | **Bise, le faucon pèlerin** : un compagnon qui se pose sur ton épaule et crie quand un Effaceur approche |
+| Les chevaux du Perche | Guillot, à sa ferme | Retrouver ses deux juments (près du moulin, puis dans la forêt), faire refaire le collier chez le bourrelier de Chartres | **Licol du Perche** : la jument grise, monture du Moyen Âge (touche V) |
+| Les marques des tailleurs | Garnier le Roux, à la loge | Retrouver 6 pierres marquées : 3 sur le chantier, 3 dans les maisons brûlées de la ville basse | **La marque de maître Gautier** (relique), titre **Compagnon du chantier** |
+| Les onguents de l'Hôtel-Dieu | Sœur Agnès, devant l'Hôtel-Dieu | Cueillir des plantes en Beauce et dans la forêt, soigner 3 brûlés | **Pot d'onguent** : compétence d'époque **Onguent de l'Hôtel-Dieu** (soin, enlève brûlures et poisons) |
+| La chanson du jongleur | Rutebeuf, sur la place du marché | Retrouver 4 feuillets de la chanson de Roland, puis la chanter avec lui (petit jeu de rythme) | Les feuillets de la chanson, titre **Trouvère** |
+| Le vitrail des métiers | Aude, sur le chantier | Convaincre le boulanger, la teinturière et le tanneur de payer une fenêtre, reprendre le cobalt volé, sertir le verre (petit jeu) | **Fer à gruger d'Aude** : compétence d'époque **Lumière du vitrail** (+15 % de dégâts pour le groupe) |
+| Le Grand-Beaulieu | Frère Guérin, à la maladrerie | Porter des vivres aux lépreux, chasser les pillards du chemin | **Pèlerine du pèlerin** (ensemble du pèlerin) |
+| Le moulin de l'Eure | Herbert le meunier | Dégager la roue à aubes, chasser les voleurs de grain, rapporter du blé de Beauce | Pains de Beauce et galettes au beurre (repas) |
+| Les échecs du chanoine | Le chanoine Robert, au cloître | Retrouver 4 pièces d'ivoire (ville basse et camp des brigands), battre le chanoine aux échecs | L'échiquier d'ivoire (à poser chez soi) |
+| Les intrus modernes | L'agent Lenoir, à la porte des Épars | Détruire un chalumeau et un extincteur, décrocher un téléphone qui sonne près de l'escalier de la crypte | Le journal d'appels de 2006 (un indice sur Marchal) |
+
+Toutes les finir donne le titre **Ami des Chartrains**.
+
+## Les événements publics
+
+Ils arrivent tout seuls, une fois l'histoire assez avancée (de toutes les heures à toutes les 3 heures).
+
+- **Les charrettes de pierre** (Berchères) : remettre sur la charrette les 4 blocs tombés pendant que les brigands attaquent, défendre la file, puis abattre le Borgne, leur chef.
+- **La moisson et l'orage** (Beauce) : rentrer 5 gerbes avant la grêle, repousser les loups de l'orage, puis un énorme sanglier.
+- **Le feu dans la ville basse** (Chartres) : remplir 3 seaux dans l'Eure, éteindre 4 maisons de la rue des Teinturiers, chasser les pillards incendiaires.
+- **La foire de la Saint-Jean** (Chartres) : gagner le tir à l'arc, attraper les coupe-bourses, rendre les bourses volées.
+- **Le tournoi** (Beauce) : la mêlée contre des chevaliers fracturés, puis le Chevalier Noir. Récompense rare : les **éperons du destrier**, un grand cheval noir qui remplace la jument quand tu appuies sur V.
+- **La nuit des gargouilles** (chantier) : les gargouilles de plomb descendent des échafaudages ; les briser, puis abattre la Grande Gargouille.
+
+Les événements donnent aussi les pièces de l'**ensemble du compagnon bâtisseur** (tablier, gants, chaperon, chausses, souliers : le Pavois et la Cloche du beffroi deviennent plus forts). Réussir 3 événements du Moyen Âge donne le titre **Gardien de la Beauce**.
+
+## Le décor « vraiment réaliste »
+
+Les cinq zones ont reçu les mêmes critères graphiques que les autres îles : des cailloux, des pissenlits, des orties, des fougères, des souches et des branches mortes semés sur le sol (de vrais modèles scannés), des tonneaux, caisses et seaux autour des fermes, de la place et du chantier, des oiseaux (corbeaux, étourneaux, hirondelles, pigeons sur le parvis, choucas autour des tours, hérons et cygnes sur l'Eure), des papillons, des libellules, de la poussière et des cendres dans l'air, et des passants sur les routes et dans les rues. Les chaumières et l'église du village ont un soubassement de pierre et des pierres d'angle. Tout se règle dans `game/data/vie_ambiante.json` (sections `beauce`, `bercheres`, `chartres`, `chantier`, `crypte`).
+
 ## Les fichiers
 
 | Fichier | Contenu |

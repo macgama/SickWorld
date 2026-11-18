@@ -941,10 +941,6 @@ func _construire_quete() -> void:
 	repere.call(MarqueurCarte.Type.LIEU, "Route de Berchères", SORTIE_SO)
 
 
-func _construire_secondaires(_dossier: Node3D) -> void:
-	pass
-
-
 # --- Le moulin tourne, les sorties ------------------------------------------------------------------
 
 var _attente := 0.0
@@ -977,3 +973,15 @@ func _process(delta: float) -> void:
 		quete.changer_de_zone("bercheres")
 	elif _chantier_ouvert and p.distance_to(SORTIE_CHANTIER) < 2.5 and quete.donnees.get("zones", {}).has("chantier"):
 		quete.changer_de_zone("chantier")
+
+
+## Les personnages des quêtes secondaires (data/moyen_age_secondaires.json).
+func _construire_secondaires(dossier: Node3D) -> void:
+	_pnj(dossier, "bourrelier", Vector2(71, 21), -PI * 0.75)
+	_pnj(dossier, "soeur_agnes", Vector2(24, -54), PI * 0.1)
+	_pnj(dossier, "jongleur", Vector2(-17, -28), PI * 0.75)
+	_pnj(dossier, "frere_beaulieu", Vector2(164, 162), PI * 1.1)
+	_pnj(dossier, "lepreuse_beaulieu", Vector2(176, 163), PI * 0.6)
+	_pnj(dossier, "meunier_ville", Vector2(114, 24), PI * 0.2)
+	_pnj(dossier, "chanoine", Vector2(12, -142), PI * 0.3)
+	_pnj(dossier, "lenoir_moyen_age", Vector2(-92, 24.4), -PI * 0.4)
