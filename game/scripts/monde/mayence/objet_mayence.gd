@@ -87,3 +87,91 @@ func _construire_hotte() -> void:
 		var a := hasard.randf() * TAU
 		var r := sqrt(hasard.randf()) * 0.22
 		_morceau(grain, raisin, Vector3(cos(a) * r, 0.7 + hasard.randf_range(0.0, 0.08), sin(a) * r))
+
+
+## La cuve de Greta : une grande cuve de bois pleine de pâte blanche (l'eau et la fibre des
+## chiffons battus), et la forme posée sur le bord (un cadre de bois tendu de fils de laiton).
+func _construire_cuve_papier() -> void:
+	var bois := _mat_uni(Color(0.42, 0.28, 0.16), 0.85)
+	var cerclage := _mat_uni(Color(0.2, 0.18, 0.16), 0.5, 0.6)
+	var cuve := CylinderMesh.new()
+	cuve.top_radius = 0.75
+	cuve.bottom_radius = 0.65
+	cuve.height = 0.95
+	cuve.radial_segments = 18
+	_morceau(cuve, bois, Vector3(0, 0.48, 0))
+	var cercle := TorusMesh.new()
+	cercle.inner_radius = 0.7
+	cercle.outer_radius = 0.78
+	for h: float in [0.2, 0.75]:
+		_morceau(cercle, cerclage, Vector3(0, h, 0))
+	var pate := CylinderMesh.new()
+	pate.top_radius = 0.7
+	pate.bottom_radius = 0.7
+	pate.height = 0.03
+	pate.radial_segments = 18
+	_morceau(pate, _mat_uni(Color(0.9, 0.9, 0.86), 0.25), Vector3(0, 0.9, 0))
+	# La forme : un cadre et ses fils de laiton, posé en travers du bord.
+	var cadre := BoxMesh.new()
+	cadre.size = Vector3(0.5, 0.03, 0.04)
+	var laiton := _mat_uni(Color(0.78, 0.62, 0.3), 0.35, 0.8)
+	for z: float in [-0.2, 0.2]:
+		_morceau(cadre, bois, Vector3(0.55, 1.0, z))
+	var cote := BoxMesh.new()
+	cote.size = Vector3(0.04, 0.03, 0.44)
+	for x: float in [0.3, 0.8]:
+		_morceau(cote, bois, Vector3(x, 1.0, 0))
+	var fil := BoxMesh.new()
+	fil.size = Vector3(0.48, 0.004, 0.004)
+	for k in 9:
+		_morceau(fil, laiton, Vector3(0.55, 1.01, -0.18 + k * 0.045))
+	# Le tréteau où l'on couche la feuille sur un feutre.
+	var feutre := BoxMesh.new()
+	feutre.size = Vector3(0.5, 0.12, 0.4)
+	_morceau(feutre, _mat_uni(Color(0.5, 0.42, 0.34), 1.0), Vector3(-1.1, 0.7, 0))
+	var pied := BoxMesh.new()
+	pied.size = Vector3(0.5, 0.64, 0.4)
+	_morceau(pied, bois, Vector3(-1.1, 0.32, 0))
+
+
+## Une rame de papier (une pile de feuilles pliées, ficelée), tombée dans les feuilles mortes.
+func _construire_rame_papier() -> void:
+	var papier := _mat_uni(Color(0.93, 0.9, 0.82), 0.95)
+	var ficelle := _mat_uni(Color(0.6, 0.5, 0.34), 1.0)
+	var pile := BoxMesh.new()
+	pile.size = Vector3(0.44, 0.22, 0.32)
+	_morceau(pile, papier, Vector3(0, 0.11, 0), Vector3(0, 0.3, 0.06))
+	var lien := BoxMesh.new()
+	lien.size = Vector3(0.46, 0.235, 0.015)
+	_morceau(lien, ficelle, Vector3(0, 0.11, 0), Vector3(0, 0.3, 0.06))
+	var lien2 := BoxMesh.new()
+	lien2.size = Vector3(0.015, 0.235, 0.34)
+	_morceau(lien2, ficelle, Vector3(0, 0.11, 0), Vector3(0, 0.3, 0.06))
+	# Quelques feuilles échappées autour.
+	var hasard := RandomNumberGenerator.new()
+	hasard.seed = hash(identifiant)
+	var feuille := BoxMesh.new()
+	feuille.size = Vector3(0.3, 0.004, 0.22)
+	for k in 4:
+		_morceau(feuille, papier, Vector3(hasard.randf_range(-0.6, 0.6), 0.01 + k * 0.004, hasard.randf_range(-0.5, 0.5)),
+				Vector3(hasard.randf_range(-0.1, 0.1), hasard.randf() * TAU, 0))
+
+
+## Une lettre pliée, fermée d'un gros cachet de cire rouge, clouée sur une souche.
+func _construire_lettre_cachetee() -> void:
+	var souche := CylinderMesh.new()
+	souche.top_radius = 0.32
+	souche.bottom_radius = 0.42
+	souche.height = 0.7
+	_morceau(souche, _mat_uni(Color(0.36, 0.27, 0.18), 0.95), Vector3(0, 0.35, 0))
+	var lettre := BoxMesh.new()
+	lettre.size = Vector3(0.22, 0.004, 0.15)
+	_morceau(lettre, _mat_uni(Color(0.9, 0.86, 0.74), 0.9), Vector3(0, 0.705, 0), Vector3(0, 0.4, 0))
+	var cire := CylinderMesh.new()
+	cire.top_radius = 0.035
+	cire.bottom_radius = 0.04
+	cire.height = 0.012
+	var rouge := _mat_uni(Color(0.62, 0.06, 0.06), 0.4)
+	rouge.emission_enabled = true
+	rouge.emission = Color(0.4, 0.02, 0.02)
+	_morceau(cire, rouge, Vector3(0, 0.712, 0))

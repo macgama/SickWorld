@@ -282,7 +282,9 @@ func _lancer() -> void:
 	if a_inventaire:
 		_verifier(inventaire.quantite("besicles_wendelin") >= 1, "les besicles de frère Wendelin sont dans le sac")
 		_verifier(inventaire.quantite("lunettes_pharmacie") >= 1 or true, "les lunettes de pharmacie du chef")
-	_verifier(_quete.etape < 0, "chapitres 1 et 2 terminés (la suite arrive bientôt)")
+	_verifier(_id_etape() == "vers_rhin", "chapitres 1 et 2 terminés : en route vers le Rhin (%s)" % _id_etape())
+	await _attendre(30)
+	_verifier(_scene._route_ouverte, "la route de l'est s'ouvre vers le Rhin")
 
 	# --- La progression est gardée.
 	var cfg := ConfigFile.new()

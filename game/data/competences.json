@@ -480,5 +480,20 @@
 		"recharge": 22,
 		"animation": "lancer",
 		"couleur": "#1a1818"
+	},
+	"page_volante": {
+		"nom": "Page volante",
+		"origine": "Mayence",
+		"description": "Tu lances une feuille de papier pliée et bien collée, raide comme une lame, jusqu'à 30 mètres : son bord tranchant entaille ta cible, qui saigne pendant 8 secondes. Demande la Première feuille, du moulin de Greta (chapitre 3 de Mayence).",
+		"type": "distance",
+		"portee": 30,
+		"degats": [30, 38],
+		"poison": {
+			"degats_par_seconde": 8,
+			"duree": 8
+		},
+		"recharge": 14,
+		"animation": "lancer",
+		"couleur": "#f2eee2"
 	}
 }

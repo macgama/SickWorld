@@ -226,6 +226,26 @@ const CLIMATS := {
 		"nuage_lumiere": Color(1.0, 0.98, 0.94),
 		"saturation": 1.12,
 	},
+	# Le Rhin et le moulin à papier (Mayence) : un matin d'octobre, frais et clair, une brume
+	# blanche qui traîne sur le fleuve et dans le vallon du moulin.
+	"rhin": {
+		"soleil": Vector2(140.0, 26.0),
+		"couleur_soleil": Color(1.0, 0.88, 0.72),
+		"energie_soleil": 2.5,
+		"couverture": 0.42,
+		"brume": Color(0.8, 0.84, 0.88),
+		"densite_brume": 0.0022,
+		"brume_volume": 0.007,
+		"albedo_brume": Color(0.95, 0.96, 0.96),
+		"ambiance": 0.88,
+		"zenith": Color(0.24, 0.42, 0.74),
+		"horizon": Color(0.78, 0.84, 0.9),
+		"brume_ciel": 0.22,
+		"horizon_soleil": Color(1.0, 0.86, 0.66),
+		"nuage_ombre": Color(0.64, 0.67, 0.74),
+		"nuage_lumiere": Color(1.0, 0.98, 0.95),
+		"saturation": 1.12,
+	},
 	# La Porte de Jade (Chine) : un matin d'hiver dans le désert, soleil bas et pâle,
 	# ciel laiteux, un voile de poussière soulevé par le vent.
 	"porte_de_jade": {
