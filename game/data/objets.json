@@ -2597,6 +2597,115 @@
 				"couleur": "#8a6a42"
 			},
 			"epoque": "Moyen Âge"
+		},
+		"pot_encre_gutenberg": {
+			"nom": "Le pot d'encre de maître Johannes",
+			"type": "materiau",
+			"rarete": "historique",
+			"pile": 1,
+			"description": "Un petit pot de terre cuite fermé d'un bouchon de cire, plein d'une encre noire et grasse : du noir de fumée cuit dans l'huile de lin. Elle tient sur le plomb. Tant qu'il est dans tes sacs, tu peux mettre la compétence d'époque « Encre noire » dans ta barre (touches 6 et 7).",
+			"icone": {
+				"forme": "bol",
+				"couleur": "#1a1818"
+			},
+			"epoque": "Mayence"
+		},
+		"tablier_vendangeur": {
+			"nom": "Tablier de vendangeur",
+			"type": "equipement",
+			"rarete": "raffine",
+			"emplacement": "torse",
+			"description": "Un tablier de grosse toile, taché de violet jusqu'à la taille, comme en portent les vendangeurs du Rheingau.",
+			"stats": {
+				"pv": 300,
+				"reduction_pourcent": 3
+			},
+			"visuel": {
+				"forme": "veste",
+				"couleur": "#6a4a5a"
+			},
+			"epoque": "Mayence"
+		},
+		"besicles_wendelin": {
+			"nom": "Les besicles de frère Wendelin",
+			"type": "equipement",
+			"rarete": "rare",
+			"emplacement": "tete",
+			"description": "Deux verres ronds sertis dans du cuir et de l'os, réunis par un clou : on les tient sur le nez, sans branches (les lunettes à branches n'existent pas encore). Pour lire de près, rien de mieux.",
+			"stats": {
+				"pv": 220,
+				"critique_pourcent": 3,
+				"degats_pourcent": 4
+			},
+			"visuel": {
+				"forme": "chapeau",
+				"couleur": "#c8b898"
+			},
+			"epoque": "Mayence"
+		},
+		"couteau_vendange": {
+			"nom": "Serpette de vendange",
+			"type": "equipement",
+			"rarete": "rare",
+			"emplacement": "arme_principale",
+			"description": "Une serpette au fer recourbé et au manche de buis, pour couper les grappes. Celle-ci a été aiguisée pour autre chose, et la Vigie y a glissé un éclat de technologie.",
+			"stats": {
+				"degats_pourcent": 30,
+				"pv": 110
+			},
+			"visuel": {
+				"forme": "lame",
+				"couleur": "#a8a8ac"
+			},
+			"epoque": "Mayence"
+		},
+		"lunettes_pharmacie": {
+			"nom": "Lunettes de lecture de pharmacie",
+			"type": "materiau",
+			"rarete": "rare",
+			"pile": 1,
+			"description": "Des lunettes de lecture, monture de plastique noir, +2,5 dioptries. Une étiquette de prix collée sur un verre : « 14,90 € ». Elles n'ont rien à faire en 1450.",
+			"icone": {
+				"forme": "eclat",
+				"couleur": "#2a2a2a"
+			},
+			"epoque": "Mayence"
+		},
+		"pelage_loup_taunus": {
+			"nom": "Pelage de loup du Taunus",
+			"type": "materiau",
+			"rarete": "commun",
+			"pile": 20,
+			"description": "Un pelage gris et roux, épais pour l'hiver.",
+			"icone": {
+				"forme": "peau",
+				"couleur": "#7a6a5a"
+			},
+			"epoque": "Mayence"
+		},
+		"soies_sanglier": {
+			"nom": "Soies de sanglier",
+			"type": "materiau",
+			"rarete": "commun",
+			"pile": 20,
+			"description": "Des soies raides et noires. Les relieurs et les peintres en font des pinceaux.",
+			"icone": {
+				"forme": "tendon",
+				"couleur": "#2a2420"
+			},
+			"epoque": "Mayence"
+		},
+		"pfennig_mayence": {
+			"nom": "Pfennig de Mayence",
+			"type": "materiau",
+			"rarete": "commun",
+			"pile": 99,
+			"description": "Une petite pièce d'argent frappée de la roue de Mayence. Il en faut beaucoup pour un florin.",
+			"icone": {
+				"forme": "eclat",
+				"couleur": "#c8c8c0"
+			},
+			"epoque": "Mayence"
 		}
 	},
 	"ensembles": {
@@ -2704,7 +2813,8 @@
 		"pavois",
 		"cloche_du_beffroi",
 		"onguent_de_l_hotel_dieu",
-		"lumiere_du_vitrail"
+		"lumiere_du_vitrail",
+		"encre_noire"
 	],
 	"_aide_competences_requises": "Une compétence d'époque qui demande un objet : elle ne peut aller dans la barre que si l'objet est dans les sacs (ou porté).",
 	"competences_requises": {
@@ -2715,7 +2825,8 @@
 		"pavois": "pavois_carriers",
 		"cloche_du_beffroi": "battant_cloche",
 		"onguent_de_l_hotel_dieu": "pot_onguent",
-		"lumiere_du_vitrail": "fer_a_gruger"
+		"lumiere_du_vitrail": "fer_a_gruger",
+		"encre_noire": "pot_encre_gutenberg"
 	},
 	"ultimes": [
 		"appel_de_la_meute"
@@ -3539,6 +3650,88 @@
 				"objet": "plomb_fige",
 				"chance": 1.0,
 				"quantite": [2, 4]
+			}
+		],
+		"loup_taunus": [
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 0.4
+			},
+			{
+				"objet": "pelage_loup_taunus",
+				"chance": 0.5
+			}
+		],
+		"loup_taunus_abbaye": [
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 0.4
+			},
+			{
+				"objet": "pelage_loup_taunus",
+				"chance": 0.5
+			}
+		],
+		"sanglier_vigne": [
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 0.4
+			},
+			{
+				"objet": "soies_sanglier",
+				"chance": 0.5
+			}
+		],
+		"sanglier_vigne_vendange": [
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 0.4
+			},
+			{
+				"objet": "soies_sanglier",
+				"chance": 0.5
+			}
+		],
+		"mercenaire_brigand_rhin": [
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 0.4
+			},
+			{
+				"objet": "pfennig_mayence",
+				"chance": 0.6,
+				"quantite": [1, 4]
+			}
+		],
+		"mercenaire_brigand_rhin_camp": [
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 0.4
+			},
+			{
+				"objet": "pfennig_mayence",
+				"chance": 0.6,
+				"quantite": [1, 4]
+			}
+		],
+		"mercenaire_chef_brigands_rhin": [
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 1.0,
+				"quantite": [2, 3]
+			},
+			{
+				"objet": "lunettes_pharmacie",
+				"chance": 1.0
+			},
+			{
+				"objet": "couteau_vendange",
+				"chance": 1.0
+			},
+			{
+				"objet": "pfennig_mayence",
+				"chance": 1.0,
+				"quantite": [6, 10]
 			}
 		]
 	},

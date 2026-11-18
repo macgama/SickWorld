@@ -179,6 +179,39 @@ const ESSENCES := {
 		"feuille": "olivier", "cartes": 8, "carte": 1.1,
 		"couleur": Color(0.7, 0.82, 0.48), "variation": Color(0.9, 0.95, 0.7), "translucidite": 0.6,
 	},
+	# Cep de vigne (Rheingau, octobre) : un pied tordu et bas, des sarments qui montent le long
+	# de l'échalas, de grandes feuilles vertes qui jaunissent et rougissent.
+	"vigne": {
+		"forme": "buisson", "tronc": [0.45, 0.7], "rayon": 0.045, "penche": 0.25, "torsion": 0.3,
+		"niveaux": 2, "branches": [5, 3], "angle": [32, 40], "longueur": [1.0, 0.6],
+		"longueur_branche": 0.8, "debut": 0.7, "montee": [0.55, 0.1],
+		"feuille": "large", "cartes": 4, "carte": 0.42,
+		"couleur": Color(0.46, 0.54, 0.24), "variation": Color(1.15, 0.8, 0.5), "translucidite": 0.5,
+	},
+	# Châtaignier (forêt du Taunus) : un gros tronc, un houppier large, feuillage d'automne.
+	"chataignier": {
+		"forme": "feuillu", "tronc": [2.4, 3.4], "rayon": 0.42, "penche": 0.08, "torsion": 0.2,
+		"niveaux": 3, "branches": [6, 4, 3], "angle": [46, 40, 36], "longueur": [0.85, 0.62, 0.5],
+		"longueur_branche": 4.4, "debut": 0.55, "montee": [0.25, 0.05, -0.05],
+		"feuille": "large", "cartes": 8, "carte": 1.2,
+		"couleur": Color(0.7, 0.72, 0.36), "variation": Color(1.1, 0.86, 0.55), "translucidite": 0.55,
+	},
+	# Hêtre en automne : un tronc gris et lisse, un feuillage roux et cuivré.
+	"hetre_automne": {
+		"forme": "feuillu", "tronc": [4.0, 6.0], "rayon": 0.3, "penche": 0.05, "torsion": 0.08,
+		"niveaux": 3, "branches": [7, 4, 3], "angle": [42, 38, 34], "longueur": [0.6, 0.6, 0.5],
+		"longueur_branche": 4.6, "debut": 0.45, "montee": [0.3, 0.0, -0.1],
+		"feuille": "petite", "cartes": 7, "carte": 1.0,
+		"couleur": Color(0.82, 0.5, 0.24), "variation": Color(1.08, 0.9, 0.7), "translucidite": 0.65,
+	},
+	# Noyer (près des villages) : un houppier rond et clair.
+	"noyer": {
+		"forme": "feuillu", "tronc": [2.2, 3.0], "rayon": 0.32, "penche": 0.1, "torsion": 0.12,
+		"niveaux": 3, "branches": [5, 4, 3], "angle": [50, 42, 38], "longueur": [0.9, 0.62, 0.5],
+		"longueur_branche": 4.0, "debut": 0.65, "montee": [0.15, 0.0, -0.1],
+		"feuille": "large", "cartes": 7, "carte": 1.15,
+		"couleur": Color(0.64, 0.74, 0.4), "variation": Color(1.05, 0.95, 0.65), "translucidite": 0.55,
+	},
 }
 
 static var _maillages := {}

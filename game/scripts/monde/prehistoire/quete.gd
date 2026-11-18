@@ -18,6 +18,7 @@ const Cinematiques := preload("res://scripts/monde/cinematiques.gd")
 const PuzzleMots := preload("res://scripts/interface/puzzle_mots.gd")
 const Calligraphie := preload("res://scripts/interface/calligraphie.gd")
 const Vitrail := preload("res://scripts/interface/vitrail.gd")
+const Composteur := preload("res://scripts/interface/composteur.gd")
 
 signal etape_changee(id: String)
 
@@ -91,6 +92,8 @@ var _puzzle: CanvasLayer
 var _calligraphie: CanvasLayer
 ## Puzzle du vitrail (île du Moyen Âge) : rendre courage à un Las.
 var _vitrail: CanvasLayer
+## Petit jeu de la composition (île de Mayence) : délivrer un Scellé.
+var _composteur: CanvasLayer
 
 
 ## Fichier des données de la quête de l'île.
@@ -609,6 +612,10 @@ func utiliser_objet(objet: Node3D) -> void:
 	if e.has("vitrail") and _objet_concerne(e, objet) and not _mots_resolus.has(objet.get("identifiant")):
 		_ouvrir_vitrail(e, objet)
 		return
+	# Délivrer un Scellé (île de Mayence) : d'abord composer la phrase en lettres de plomb.
+	if e.has("composition") and _objet_concerne(e, objet) and not _mots_resolus.has(objet.get("identifiant")):
+		_ouvrir_composteur(e, objet)
+		return
 	if e.has("recolter") and objet.get("groupe") == e["recolter"]:
 		_recolter(objet)
 		return
@@ -721,6 +728,36 @@ func _ouvrir_vitrail(e: Dictionary, objet: Node3D) -> void:
 		_mots_resolus[id] = true
 		if is_instance_valid(objet):
 			utiliser_objet(objet))
+
+
+## La phrase à composer : celle de l'objet (meta « phrase_plomb »), sinon celle de l'étape
+## (« composition » : une phrase, ou une liste, une par objet récolté).
+func phrase_composition(e: Dictionary, objet: Node3D) -> String:
+	if objet != null and objet.has_meta("phrase_plomb"):
+		return String(objet.get_meta("phrase_plomb"))
+	var c = e.get("composition", "")
+	if c is Array:
+		return String(c[mini(compteur, c.size() - 1)]) if not c.is_empty() else ""
+	return String(c)
+
+
+func _ouvrir_composteur(e: Dictionary, objet: Node3D) -> void:
+	if _composteur == null or not is_instance_valid(_composteur):
+		_composteur = Composteur.new()
+		_composteur.name = "Composteur"
+		add_child(_composteur)
+	if _composteur.est_ouvert():
+		return
+	var id = objet.get("identifiant")
+	_composteur.ouvrir(String(e.get("titre_composition", "Délivrer un Scellé : compose la phrase")), phrase_composition(e, objet), func():
+		_mots_resolus[id] = true
+		if is_instance_valid(objet):
+			utiliser_objet(objet))
+
+
+## Le petit jeu de la composition (null s'il n'a jamais été ouvert).
+func composteur() -> CanvasLayer:
+	return _composteur
 
 
 ## Le puzzle du vitrail (null s'il n'a jamais été ouvert).

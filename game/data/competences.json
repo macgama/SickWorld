@@ -464,5 +464,21 @@
 		"recharge": 40,
 		"animation": "sort",
 		"couleur": "#3a5ad8"
+	},
+	"encre_noire": {
+		"nom": "Encre noire",
+		"origine": "Mayence",
+		"description": "Tu lances une giclée de l'encre grasse de Gutenberg au visage de ta cible, jusqu'à 25 mètres : elle est aveuglée 1 seconde, puis ralentie de moitié pendant 6 secondes. Demande le Pot d'encre de maître Johannes (chapitre 1 de Mayence).",
+		"type": "distance",
+		"portee": 25,
+		"degats": [18, 24],
+		"etourdit": 1,
+		"ralenti": {
+			"duree": 6,
+			"facteur": 0.5
+		},
+		"recharge": 22,
+		"animation": "lancer",
+		"couleur": "#1a1818"
 	}
 }
