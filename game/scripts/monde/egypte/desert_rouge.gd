@@ -54,7 +54,7 @@ func _init() -> void:
 		# Vert : le sable rouge des dunes.
 		"neige": ["sand_01", "dense_sand", "sand_02"],
 		# Bleu : le sol dur, caillouteux, des rues du cimetière.
-		"sol": ["dry_ground_01", "mud_cracked_dry_03", "dry_ground_rocks"],
+		"sol": ["dry_ground_01", "dry_ground_rocks", "mud_cracked_dry_03"],
 		"roche": ["sandstone_cracks", "cliff_side", "quarry_wall"],
 	}
 	reglages_terrain = {"sol_saturation": 0.95, "sol_motif": 5.0, "galets_motif": 3.0, "neige_motif": 7.0,

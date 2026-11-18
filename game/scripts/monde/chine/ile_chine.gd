@@ -42,6 +42,44 @@ func _mat_terre_damee() -> StandardMaterial3D:
 	return _materiaux[cle]
 
 
+## La même terre, plus sombre : les joints entre deux levées de coffrage.
+func _mat_terre_damee_sombre() -> StandardMaterial3D:
+	var cle := "terre_damee_sombre"
+	if not _materiaux.has(cle):
+		var m := _mat_choix(["clay_block_wall", "clay_plaster", "mud_cracked_dry_03"], Color(0.6, 0.5, 0.39), 0.97, 2.4).duplicate()
+		_materiaux[cle] = m
+	return _materiaux[cle]
+
+
+## Le relief d'un mur de terre damée (boîte alignée sur les axes, de taille `taille`,
+## centrée en `centre`) : un empattement au pied, les lignes des levées de coffrage
+## tous les ~1,1 m, et des merlons en haut (sur les deux bords si le mur est épais).
+func _relief_pise(parent: Node3D, taille: Vector3, centre: Vector3, merlons := true) -> void:
+	var terre := _mat_terre_damee()
+	var sombre := _mat_terre_damee_sombre()
+	var le_long_x := taille.x >= taille.z
+	var l := taille.x if le_long_x else taille.z
+	var e := taille.z if le_long_x else taille.x
+	var bas := centre.y - taille.y * 0.5
+	var vers := func(longueur: float, hauteur_b: float, epaisseur: float) -> Vector3:
+		return Vector3(longueur, hauteur_b, epaisseur) if le_long_x else Vector3(epaisseur, hauteur_b, longueur)
+	# L'empattement (le pied s'élargit : la terre s'est tassée et a coulé).
+	_boite(vers.call(l + 0.3, taille.y * 0.28, e * 1.16), Vector3(centre.x, bas + taille.y * 0.14, centre.z), terre, parent, false)
+	# Les levées de coffrage : de fines lignes plus sombres, un peu en saillie.
+	var z := 1.1
+	while z < taille.y - 0.5:
+		_boite(vers.call(l + 0.02, 0.08, e + 0.07), Vector3(centre.x, bas + z, centre.z), sombre, parent, false)
+		z += 1.1
+	if merlons and e >= 2.4 and l > e * 2.0:
+		var n := int(l / 2.4)
+		for k in n:
+			var t := -l * 0.5 + (k + 0.5) * l / n
+			for cote: float in [-1.0, 1.0]:
+				var decal := cote * (e * 0.5 - 0.3)
+				var p := Vector3(centre.x + (t if le_long_x else decal), bas + taille.y + 0.45, centre.z + (decal if le_long_x else t))
+				_boite(vers.call(1.2, 0.9, 0.6), p, terre, parent, false)
+
+
 ## Les lits de roseaux et de branches de tamaris pris dans la muraille (on les voit
 ## encore aujourd'hui à Dunhuang, gris et secs, tous les 20 à 30 cm).
 func _mat_roseaux() -> StandardMaterial3D:
@@ -396,6 +434,7 @@ func _fort_carre(parent: Node3D, r: Rect2, haut := 9.0, portes: Array = ["ouest"
 			var ml: float = m[1]
 			var taille := Vector3(ml, haut, e) if horizontal else Vector3(e, haut, ml)
 			_boite(taille, Vector3(mc.x, y + haut * 0.5 - 0.2, mc.y), terre, fort)
+			_relief_pise(fort, taille, Vector3(mc.x, y + haut * 0.5 - 0.2, mc.y), false)
 			var z := 0.4
 			while z < haut - 0.2:
 				_boite(taille * Vector3(1.0, 0.0, 1.0) + Vector3(0.06 if not horizontal else 0.0, 0.07, 0.06 if horizontal else 0.0),
