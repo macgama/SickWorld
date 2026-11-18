@@ -12,6 +12,8 @@ uniform vec3 teinte_variation : source_color = vec3(0.86, 0.92, 0.72);
 uniform float translucidite = 0.55;
 uniform float force_vent = 1.0;
 uniform float seuil = 0.42;
+// Renfort de l'alpha au loin (0 pour l'herbe : elle s'éclaircit au lieu de faire des blocs).
+uniform float remonte_alpha = 0.28;
 // Taille de la texture : sert à garder les feuilles pleines au loin (mipmaps).
 uniform float taille_texture = 512.0;
 uniform float saturation = 1.0;
@@ -44,7 +46,7 @@ void fragment() {
 	// Au loin, les mipmaps « fondent » l'alpha : on le remonte pour garder des feuillages pleins.
 	vec2 d = fwidth(UV) * taille_texture;
 	float mip = max(0.0, log2(max(d.x, d.y)));
-	float alpha = c.a * (1.0 + mip * 0.28);
+	float alpha = c.a * (1.0 + mip * remonte_alpha);
 	vec3 col = c.rgb * teinte * mix(vec3(1.0), teinte_variation, v_variation);
 	float gris = dot(col, vec3(0.299, 0.587, 0.114));
 	col = mix(vec3(gris), col, saturation);

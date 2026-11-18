@@ -324,6 +324,7 @@ static func maillage_herbe(base: Color, pointe: Color) -> ArrayMesh:
 	mat.set_shader_parameter("force_vent", 0.8)
 	mat.set_shader_parameter("taille_texture", 256.0)
 	mat.set_shader_parameter("seuil", 0.4)
+	mat.set_shader_parameter("remonte_alpha", 0.0)
 	m.surface_set_material(0, mat)
 	_maillages[cle] = m
 	return m
@@ -334,16 +335,18 @@ static func _texture_herbe(base: Color, pointe: Color) -> Texture2D:
 	var hasard := RandomNumberGenerator.new()
 	hasard.seed = 77
 	var d := _Dessin.new(image)
-	for i in 90:
-		var x := hasard.randf_range(0.03, 0.97)
-		var haut := hasard.randf_range(0.3, 0.97)
+	# Brins clairsemés, plus courts vers les bords de la carte : la touffe s'arrondit et
+	# ne laisse jamais voir le contour rectangulaire de la carte.
+	for i in 55:
+		var x := 0.5 + (hasard.randf() - hasard.randf()) * 0.46
+		var haut := hasard.randf_range(0.25, 0.95) * (1.0 - 1.1 * absf(x - 0.5))
 		var penche := hasard.randf_range(-0.18, 0.18)
 		var precedent := Vector2(x, 1.0)
 		var c := base.lerp(pointe, hasard.randf_range(0.2, 0.9)) * hasard.randf_range(0.8, 1.15)
 		for e in 4:
 			var t := float(e + 1) / 4.0
 			var p := Vector2(x + penche * t * t, 1.0 - haut * t)
-			d.segment(precedent, p, 0.009 * (1.0 - t * 0.7), base.lerp(c, t))
+			d.segment(precedent, p, 0.006 * (1.0 - t * 0.75), base.lerp(c, t))
 			precedent = p
 	d.boucher_fond()
 	image.generate_mipmaps()
