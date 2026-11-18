@@ -1,0 +1,893 @@
+{
+	"_aide": "Quêtes secondaires de l'île de Mayence (1450-1454). Même format que data/moyen_age_secondaires.json : chaque quête est proposée par un personnage (« donneur ») une fois l'étape « apres » de la quête principale passée. Types d'étape : recolter (un groupe d'objets, « nombre »), objet (un objet précis), tuer (début du nom de l'ennemi, « apparition » possible), pnj (parler à quelqu'un). « ou » est la zone de l'étape. « mini_jeu » : un petit jeu d'adresse (scripts/monde/mini_jeu.gd). Les objets sont dessinés par scripts/monde/mayence/objet_mayence.gd. Pour régénérer ce fichier : /mnt/project-files/mayence/outils/my_secondaires.py",
+	"noms_zones": {
+		"rheingau": "Les vignes du Rheingau",
+		"rhin": "Le Rhin et le moulin à papier",
+		"ville": "Mayence",
+		"francfort": "La foire de Francfort",
+		"fonderie": "La fonderie sous la cathédrale"
+	},
+	"quetes": [
+		{
+			"id": "chat_de_l_atelier",
+			"titre": "Le chat de l'atelier",
+			"donneur": "peter_schoeffer",
+			"apres": "gutenberg_fin",
+			"offre": [
+				"Muschel a disparu. Le chaton de l'atelier. Il chassait les souris dans les rames de papier : sans lui, elles mangent le papier de Greta.",
+				"Il s'est sauvé quand les lettres de la cave se sont mises à bouger. Il a laissé des feuilles déchirées partout dans la rue, comme des petits cailloux.",
+				"Suis les papiers. Et dépêche-toi : les chiens des ruelles ont faim, eux aussi."
+			],
+			"etapes": [
+				{
+					"objectif": "Suis les feuilles déchirées par le chaton, de la cour Humbrecht vers le marché",
+					"recolter": "papiers_dechires",
+					"nombre": 3,
+					"ou": "ville"
+				},
+				{
+					"objectif": "Muschel s'est caché au bout de la rue, près du marché : attrape-le doucement",
+					"objet": "chaton_muschel",
+					"ou": "ville",
+					"duree": 2.5,
+					"action": "Tu t'accroupis, tu tends la main, tu attends…"
+				},
+				{
+					"objectif": "Des chiens fracturés ont suivi le chaton : chasse-les",
+					"tuer": "chien_ruelle_chaton",
+					"nombre": 3,
+					"ou": "ville",
+					"apparition": {
+						"type": "chien_ruelle_chaton",
+						"nombre": 3,
+						"position": [
+							62,
+							-2
+						],
+						"rayon": 6,
+						"attaque": true
+					}
+				},
+				{
+					"objectif": "Ramène Muschel à Peter Schöffer, dans l'atelier",
+					"pnj": "peter_schoeffer",
+					"ou": "ville",
+					"repliques": [
+						"Muschel ! Petit idiot. Regarde-le, il ronronne déjà. Il te préfère à moi, c'est vexant.",
+						"Les souris, je vais les chasser moi-même. Il a besoin de voir du pays, celui-là. Et toi, tu as besoin de quelqu'un qui surveille tes arrières.",
+						"Garde-le. Il crache sur les hommes de Sceau mieux que n'importe quel chien de garde."
+					]
+				}
+			],
+			"recompense": [
+				{
+					"id": "muschel_chaton",
+					"nom": "Muschel, le chaton de l'atelier"
+				}
+			]
+		},
+		{
+			"id": "lettre_de_liesel",
+			"titre": "La lettre de Liesel",
+			"donneur": "liesel",
+			"apres": "gutenberg_fin",
+			"offre": [
+				"Tu reviens de Mayence ? De chez maître Johannes ? Alors tu sais lire. Et tu sais faire des lettres.",
+				"Frère Wendelin dit qu'il faut trois ans pour apprendre à lire, avec une tablette de cire et un bâton. Moi, je n'ai pas trois ans. Les vendanges, l'hiver, les bêtes…",
+				"Si j'avais toutes les lettres sur une seule feuille, je pourrais apprendre le soir, à la chandelle. Tu pourrais m'en faire une ?"
+			],
+			"etapes": [
+				{
+					"objectif": "Demande à maître Johannes, dans l'atelier de la cour Humbrecht, comment faire un abécédaire (Mayence)",
+					"pnj": "gutenberg",
+					"ou": "ville",
+					"repliques": [
+						"Un abécédaire pour une petite vendangeuse ? C'est la meilleure idée qu'on m'ait apportée depuis des mois.",
+						"Les vingt-trois lettres, en grand, puis le Notre Père, qu'elle connaît déjà par cœur : elle pourra retrouver les mots qu'elle sait dire. C'est comme ça qu'on apprend.",
+						"La petite casse est à côté de la presse. Compose, je t'encre la forme."
+					]
+				},
+				{
+					"objectif": "Compose l'abécédaire à la petite casse de l'atelier",
+					"objet": "casse_abecedaire",
+					"ou": "ville",
+					"mini_jeu": {
+						"type": "rythme",
+						"titre": "L'abécédaire",
+						"consigne": "Prends les lettres dans la casse au bon moment pour les aligner dans le composteur.",
+						"nombre": 7,
+						"reussites": 5,
+						"periode": 1.2,
+						"reussite": "A, B, C… jusqu'au Z. Maître Johannes encre, tire, et soulève la feuille : les lettres sont nettes et noires.",
+						"echec": "Une lettre est tombée par terre. Appuie sur F pour recommencer."
+					}
+				},
+				{
+					"objectif": "Apporte l'abécédaire à Liesel, sur la place du village (Rheingau)",
+					"pnj": "liesel",
+					"ou": "rheingau",
+					"repliques": [
+						"C'est… c'est pour moi ? Toutes les lettres ? A. B. C. Celle-là, c'est le D, je la connais, c'est celle de Dieu.",
+						"« Pater noster, qui es in caelis… » Je le sais par cœur ! Alors ce mot-là, c'est « Pater ». Je sais lire « Pater » !",
+						"Je vais l'apprendre toute la feuille. Et après, je l'apprendrai à mon père. Tiens, garde-la : moi, je l'ai déjà dans la tête."
+					]
+				}
+			],
+			"recompense": [
+				{
+					"id": "abecedaire_liesel",
+					"nom": "L'abécédaire de Liesel"
+				}
+			]
+		},
+		{
+			"id": "vin_du_pressoir",
+			"titre": "Le vin du pressoir",
+			"donneur": "maitre_ott",
+			"apres": "keffer_encre",
+			"offre": [
+				"Les vendangeurs ont laissé leurs hottes pleines dans les rangs, quand les sangliers sont arrivés. Le raisin va pourrir au soleil.",
+				"Ramène-les au pressoir, toutes. Quatre hottes, le long du chemin de l'abbaye. Et méfie-toi : les sangliers adorent le raisin mûr.",
+				"Après, tu tourneras la barre avec moi. Le premier vin de l'année, on le boit ensemble, c'est la tradition."
+			],
+			"etapes": [
+				{
+					"objectif": "Ramasse les hottes de raisin abandonnées dans les vignes, le long du chemin de l'abbaye",
+					"recolter": "hottes_oubliees",
+					"nombre": 4,
+					"ou": "rheingau"
+				},
+				{
+					"objectif": "Des sangliers fracturés chargent pour le raisin : arrête-les",
+					"tuer": "sanglier_vigne_grappes",
+					"nombre": 3,
+					"ou": "rheingau",
+					"apparition": {
+						"type": "sanglier_vigne_grappes",
+						"nombre": 3,
+						"position": [
+							-40,
+							-20
+						],
+						"rayon": 6,
+						"attaque": true
+					}
+				},
+				{
+					"objectif": "Tourne la barre du pressoir de maître Ott, dans la halle du village",
+					"objet": "pressoir_vin",
+					"ou": "rheingau",
+					"mini_jeu": {
+						"type": "rythme",
+						"titre": "Le pressoir",
+						"consigne": "Pousse la barre au bon moment, en cadence avec maître Ott.",
+						"nombre": 7,
+						"reussites": 5,
+						"periode": 1.2,
+						"reussite": "La vis grince, le marc se tasse, et le jus coule dans la cuve, doré et trouble.",
+						"echec": "La barre a glissé. Appuie sur F pour recommencer."
+					}
+				},
+				{
+					"objectif": "Goûte le vin nouveau avec maître Ott",
+					"pnj": "maitre_ott",
+					"ou": "rheingau",
+					"repliques": [
+						"Bois. Lentement. Il pique, hein ? C'est le moût qui travaille. Dans trois jours, il ne piquera plus. Dans trois mois, il sera bon.",
+						"Le vin du Rheingau, on l'envoie jusqu'à Cologne et jusqu'en Angleterre. Les moines d'Eberbach en vendent plus que tout le monde.",
+						"Prends ce pichet. Et reviens l'an prochain, s'il y a un an prochain pour toi."
+					]
+				}
+			],
+			"recompense": [
+				{
+					"id": "vin_rheingau",
+					"nom": "Vin nouveau du Rheingau"
+				}
+			]
+		},
+		{
+			"id": "cartes_a_jouer",
+			"titre": "Les cartes à jouer",
+			"donneur": "graveur_cartes",
+			"apres": "gutenberg_fin",
+			"offre": [
+				"On m'a volé mes blocs ! Mes quatre blocs de poirier, gravés pour le nouveau jeu de cartes. Six mois de travail.",
+				"Des voleurs. Ils croient que ça vaut de l'or. Ils ont filé par la rue des orfèvres, et ils ont laissé tomber les blocs en courant, trop lourds.",
+				"Ramène-les, et je t'imprime le premier jeu. Des cerfs, des oiseaux, des fleurs et des chiens. Pas de rois : à Mayence, on en a assez."
+			],
+			"etapes": [
+				{
+					"objectif": "Les voleurs de blocs traînent dans la rue des orfèvres : arrête-les",
+					"tuer": "mercenaire_voleur_cartes",
+					"nombre": 3,
+					"ou": "ville",
+					"apparition": {
+						"type": "mercenaire_voleur_cartes",
+						"nombre": 3,
+						"position": [
+							-40,
+							-26
+						],
+						"rayon": 5,
+						"attaque": true
+					}
+				},
+				{
+					"objectif": "Ramasse les quatre blocs gravés tombés dans la rue des orfèvres",
+					"recolter": "blocs_cartes",
+					"nombre": 4,
+					"ou": "ville"
+				},
+				{
+					"objectif": "Imprime le premier jeu avec maître Kaspar, au coin du marché",
+					"objet": "presse_cartes",
+					"ou": "ville",
+					"mini_jeu": {
+						"type": "rythme",
+						"titre": "Les cartes à jouer",
+						"consigne": "Encre le bloc, pose la feuille, frotte avec le frotton : au bon moment, à chaque fois.",
+						"nombre": 7,
+						"reussites": 5,
+						"periode": 1.2,
+						"reussite": "Quatre feuilles, quatre couleurs. Kaspar les découpe aux ciseaux et les colorie au pochoir, en riant.",
+						"echec": "La feuille a bougé, l'image est floue. Appuie sur F pour recommencer."
+					}
+				},
+				{
+					"objectif": "Parle à maître Kaspar",
+					"pnj": "graveur_cartes",
+					"ou": "ville",
+					"repliques": [
+						"Regarde ce cerf ! Et ce chien qui court. Les gens vont se battre pour ce jeu.",
+						"Ton Gutenberg, avec son plomb, il fera des livres. Moi, je ferai des jeux. Tout le monde ne veut pas lire la Bible le soir, crois-moi.",
+						"Prends-le. Le premier jeu, c'est pour celui qui a sauvé les blocs. Pose-le sur ta table, chez toi, et invite tes amis."
+					]
+				}
+			],
+			"recompense": [
+				{
+					"id": "cartes_a_jouer",
+					"nom": "Le jeu de cartes de maître Kaspar"
+				}
+			]
+		},
+		{
+			"id": "cheval_de_halage",
+			"titre": "Le cheval de halage",
+			"donneur": "jakob_batelier",
+			"apres": "grue",
+			"offre": [
+				"Pour remonter le Rhin, on ne rame pas : on se fait tirer. Des chevaux, sur le chemin de halage, avec une longue corde jusqu'au mât.",
+				"Mon meilleur, Brauner, s'est enfui quand des détrousseurs ont attaqué le convoi, à l'est du pont. Un gros brun, doux comme un agneau.",
+				"Sans lui, mes bateaux restent ici. Ramène-le, et il est à toi quand tu en as besoin."
+			],
+			"etapes": [
+				{
+					"objectif": "Retrouve Brauner, le cheval de halage, sur le chemin de halage à l'est du pont de la Walluf",
+					"objet": "cheval_halage",
+					"ou": "rhin",
+					"duree": 2.5,
+					"action": "Tu lui parles doucement, et tu passes la corde à son cou…"
+				},
+				{
+					"objectif": "Les détrousseurs reviennent chercher le cheval : chasse-les",
+					"tuer": "mercenaire_detrousseur_halage",
+					"nombre": 3,
+					"ou": "rhin",
+					"apparition": {
+						"type": "mercenaire_detrousseur_halage",
+						"nombre": 3,
+						"position": [
+							126,
+							104
+						],
+						"rayon": 5,
+						"attaque": true
+					}
+				},
+				{
+					"objectif": "Ramène Brauner à Jakob, sur le quai d'Eltville",
+					"pnj": "jakob_batelier",
+					"ou": "rhin",
+					"repliques": [
+						"Brauner ! Regarde-le, il me cherche les poches. Il sait qu'il y a des pommes.",
+						"Un cheval de halage, ça tire un bateau chargé contre le courant, tout le jour, sans se plaindre. Il est plus fort que dix hommes et plus patient que trois curés.",
+						"Prends son licol. Siffle, et il viendra, partout sur les bords du Rhin. Moi, j'ai mes trois autres."
+					]
+				}
+			],
+			"recompense": [
+				{
+					"id": "licol_halage",
+					"nom": "Licol du cheval de halage"
+				}
+			]
+		},
+		{
+			"id": "indulgence_de_chypre",
+			"titre": "L'indulgence de Chypre",
+			"donneur": "cure_christophe",
+			"apres": "gutenberg_rendre",
+			"offre": [
+				"Un malheur ! Un coup de vent a ouvert le paquet des indulgences, sur le parvis. Elles se sont envolées vers le sud de la ville.",
+				"Le pape a promis le pardon à ceux qui aideront le roi de Chypre contre les Turcs. Maître Johannes les a imprimées : trente et une lignes, avec un blanc pour le nom et la date.",
+				"Il en faut quatre pour la messe de dimanche. Ramasse-les avant qu'elles finissent dans le Rhin."
+			],
+			"etapes": [
+				{
+					"objectif": "Ramasse les indulgences envolées, dans la rue du sud de la ville",
+					"recolter": "indulgences_envolees",
+					"nombre": 4,
+					"ou": "ville"
+				},
+				{
+					"objectif": "Rapporte les indulgences au père Anselm, devant Saint-Christophe",
+					"pnj": "cure_christophe",
+					"ou": "ville",
+					"repliques": [
+						"Les quatre ! Un peu froissées, mais lisibles. Regarde : « Paulinus Chappe, conseiller du roi de Chypre… » Et ici, la date, qu'on écrit à la main.",
+						"Des copistes en auraient mis un mois. Johannes en a fait des centaines en une semaine. Le monde change, mon enfant, et je ne sais pas encore si je dois m'en réjouir.",
+						"Prends celle-ci, la plus froissée. Écris ton nom dans le blanc. Dans cinq cents ans, quelqu'un la regardera sous une vitre, et il se demandera qui tu étais."
+					]
+				}
+			],
+			"recompense": [
+				{
+					"id": "indulgence_1454",
+					"nom": "L'indulgence de 1454"
+				}
+			]
+		},
+		{
+			"id": "la_reliure",
+			"titre": "La reliure",
+			"donneur": "relieur_francfort",
+			"apres": "libraire_parle",
+			"offre": [
+				"Les hommes de Sceau ont renversé mon étal. Mes cahiers, déjà pliés, sont éparpillés le long du quai, dans la boue.",
+				"Il y en a trois. Un livre d'heures, commandé par la femme d'un échevin de Nuremberg. Si je ne le livre pas, je ne mange pas cet hiver.",
+				"Ramène-les, et je t'apprends à coudre un livre. Tu verras : c'est plus dur que d'écrire."
+			],
+			"etapes": [
+				{
+					"objectif": "Ramasse les trois cahiers éparpillés le long du quai du Main",
+					"recolter": "cahiers_epars",
+					"nombre": 3,
+					"ou": "francfort"
+				},
+				{
+					"objectif": "Couds les cahiers sur les nerfs, à l'établi de maître Ulrike",
+					"objet": "etabli_relieur",
+					"ou": "francfort",
+					"mini_jeu": {
+						"type": "rythme",
+						"titre": "La reliure",
+						"consigne": "Passe l'aiguille dans le pli, autour du nerf, et ressors : au bon moment, à chaque point.",
+						"nombre": 7,
+						"reussites": 5,
+						"periode": 1.2,
+						"reussite": "Les cahiers tiennent ensemble. Ulrike colle le dos, pose les planches de chêne, tend le cuir mouillé. Un livre est né.",
+						"echec": "Le fil a cassé. Appuie sur F pour recommencer."
+					}
+				},
+				{
+					"objectif": "Parle à maître Ulrike",
+					"pnj": "relieur_francfort",
+					"ou": "francfort",
+					"repliques": [
+						"Pas mal du tout. Tes points sont un peu serrés, mais ça tiendra cent ans. Peut-être deux cents.",
+						"Tu sais ce qui m'inquiète, avec ces livres imprimés ? Il y en aura tant que personne ne voudra plus payer pour une belle reliure. Ou alors il y en aura tant qu'on aura besoin de dix fois plus de relieurs. On verra bien.",
+						"Le livre d'heures part pour Nuremberg. Mais celui-là, le petit, c'est le tien. Tu l'as cousu, il est à toi."
+					]
+				}
+			],
+			"recompense": [
+				{
+					"id": "livre_relie_francfort",
+					"nom": "Le livre relié de maître Ulrike"
+				}
+			]
+		},
+		{
+			"id": "grue_du_port",
+			"titre": "La grue du port",
+			"donneur": "scelle_grutier_1",
+			"apres": "grue",
+			"offre": [
+				"Le bateau de Mayence attend. Il doit emporter les rames de papier de Greta pour l'atelier de Gutenberg, et personne ne les a chargées.",
+				"Porte les rames sous la grue, toutes les quatre. Après, on monte dans la roue, toi et moi, et on les hisse à bord.",
+				"Dix tours de roue, un ballot. Ne t'arrête pas en haut, sinon tout redescend d'un coup."
+			],
+			"etapes": [
+				{
+					"objectif": "Porte les rames de papier éparpillées sur le quai jusqu'à la grue",
+					"recolter": "rames_quai",
+					"nombre": 4,
+					"ou": "rhin"
+				},
+				{
+					"objectif": "Marche dans la grande roue de la grue pour hisser les rames à bord",
+					"objet": "roue_grue_rames",
+					"ou": "rhin",
+					"mini_jeu": {
+						"type": "rythme",
+						"titre": "La grande roue",
+						"consigne": "Marche au bon rythme : un pas quand le cercle touche la flèche.",
+						"nombre": 8,
+						"reussites": 6,
+						"periode": 1.2,
+						"reussite": "La roue tourne, la corde se tend, et les rames montent l'une après l'autre jusqu'au pont du bateau.",
+						"echec": "Tu as trébuché, la roue est repartie en arrière. Appuie sur F pour recommencer."
+					}
+				},
+				{
+					"objectif": "Parle à Utz, le grutier",
+					"pnj": "scelle_grutier_1",
+					"ou": "rhin",
+					"repliques": [
+						"Tu as des jambes de grutier, toi. Tu veux pas rester ? Le travail ne manque pas.",
+						"Ces rames-là vont devenir des Bibles. Moi, je saurai jamais les lire. Mais j'aurai porté le papier. Ça compte, non ?",
+						"Prends mes vieux gants. J'en ai des neufs, grâce à toi : Jakob m'a payé double."
+					]
+				}
+			],
+			"recompense": [
+				{
+					"id": "gants_grutier",
+					"nom": "Gants de grutier"
+				}
+			]
+		},
+		{
+			"id": "pierre_de_lecture",
+			"titre": "La pierre de lecture",
+			"donneur": "frere_wendelin",
+			"apres": "wendelin_fin",
+			"offre": [
+				"Mes besicles, je te les ai données. Et je ne le regrette pas. Mais mes yeux, eux, le regrettent un peu.",
+				"Les anciens moines lisaient avec une pierre de lecture : un béryl poli en demi-boule, qu'on pose sur la page. Il y a des cristaux comme ça au bord de la Walluf, dans les cailloux du ruisseau.",
+				"Trouve-m'en un, et fais-le polir par un orfèvre de Mayence. Ils savent faire ça mieux que personne."
+			],
+			"etapes": [
+				{
+					"objectif": "Cherche un cristal de béryl dans les cailloux, au bord du chemin du moulin (le Rhin)",
+					"objet": "beryl_brut",
+					"ou": "rhin",
+					"duree": 2.0,
+					"action": "Tu fouilles les cailloux du bord du chemin…"
+				},
+				{
+					"objectif": "Fais polir le béryl par maître Hennen, l'orfèvre, dans la rue des orfèvres (Mayence)",
+					"pnj": "orfevre_hennen",
+					"ou": "ville",
+					"repliques": [
+						"Un béryl du Rheingau ? Joli. Un peu trouble à cœur, mais pour lire, ça ira.",
+						"Je le taille en demi-boule, plat dessous, rond dessus, et je le polis à la poudre d'émeri, puis au feutre. Trois jours de travail. Pour toi, une heure.",
+						"Voilà. Pose-le sur une page, regarde. Les lettres grossissent comme des poissons dans l'eau. Je te dois bien ça, après les poinçons."
+					]
+				},
+				{
+					"objectif": "Apporte la pierre de lecture à frère Wendelin, à l'abbaye d'Eberbach (Rheingau)",
+					"pnj": "frere_wendelin",
+					"ou": "rheingau",
+					"repliques": [
+						"Oh. Oh, regarde-moi ça. « In principio… » Je vois chaque trait de plume. Même mes fautes de jeunesse.",
+						"Mais tu sais quoi ? Garde-la. Je l'ai tenue, j'ai lu une page, et j'ai compris que je n'avais plus besoin de copier : les livres de Gutenberg vont le faire pour moi.",
+						"Moi, je vais enseigner. Les jeunes frères, les enfants du village, la petite Liesel. Lire, ça, aucune presse ne le fera à leur place."
+					]
+				}
+			],
+			"recompense": [
+				{
+					"id": "loupe_beryl",
+					"nom": "La pierre de lecture de frère Wendelin"
+				}
+			]
+		},
+		{
+			"id": "intrus_modernes_mayence",
+			"titre": "Les intrus modernes",
+			"donneur": "lenoir_mayence",
+			"apres": "gutenberg_rendre",
+			"offre": [
+				"Lenoir, du Nettoyage. Encore moi. Les hommes de Sceau sèment du matériel de 2026 dans toute la région. Mon détecteur ne s'arrête plus.",
+				"Une liseuse électronique près de l'abbaye d'Eberbach. Une clé USB au moulin à papier. Une canette en plein Francfort, devant la cathédrale.",
+				"Ramasse tout. Une liseuse en 1450, c'est le genre de chose qui rend fou un copiste."
+			],
+			"etapes": [
+				{
+					"objectif": "Trouve la liseuse électronique, sur le chemin de l'abbaye d'Eberbach (Rheingau)",
+					"objet": "liseuse_rheingau",
+					"ou": "rheingau",
+					"duree": 1.5,
+					"action": "Une liseuse noire, l'écran encore allumé sur une page de roman…"
+				},
+				{
+					"objectif": "Trouve la clé USB, près des maillets du moulin à papier (le Rhin)",
+					"objet": "cle_usb_rhin",
+					"ou": "rhin",
+					"duree": 1.5,
+					"action": "Une petite clé USB rouge, coincée entre deux pierres…"
+				},
+				{
+					"objectif": "Trouve la canette, dans la rue de la cathédrale (Francfort)",
+					"objet": "canette_francfort",
+					"ou": "francfort",
+					"duree": 1.5,
+					"action": "Une canette de soda, écrasée, au milieu des pavés…"
+				},
+				{
+					"objectif": "Rapporte tout à l'agent Lenoir, au bord de la rue du Holzturm (Mayence)",
+					"pnj": "lenoir_mayence",
+					"ou": "ville",
+					"repliques": [
+						"La liseuse : trois mille livres dedans. Sceau voulait voir si un copiste deviendrait fou en la trouvant. Raté : c'est un berger qui l'a vue, et il l'a prise pour un miroir.",
+						"La clé USB, je regarde… Un seul fichier : une notice d'imprimante de bureau, en douze langues. Elle a un sens de l'humour, ta Sceau.",
+						"Garde la notice. Si un jour tu trouves une imprimante en 1450, au moins, tu sauras l'installer."
+					]
+				}
+			],
+			"recompense": [
+				{
+					"id": "notice_imprimante",
+					"nom": "Notice d'imprimante"
+				}
+			]
+		}
+	],
+	"objets": [
+		{
+			"id": "papiers_dechires_0",
+			"forme": "rame_papier",
+			"ou": "ville",
+			"position": [
+				22,
+				-78.5
+			],
+			"invite": "[F] Regarder les feuilles déchirées",
+			"groupe": "papiers_dechires"
+		},
+		{
+			"id": "papiers_dechires_1",
+			"forme": "rame_papier",
+			"ou": "ville",
+			"position": [
+				38,
+				-56
+			],
+			"invite": "[F] Regarder les feuilles déchirées",
+			"groupe": "papiers_dechires"
+		},
+		{
+			"id": "papiers_dechires_2",
+			"forme": "rame_papier",
+			"ou": "ville",
+			"position": [
+				52,
+				-20
+			],
+			"invite": "[F] Regarder les feuilles déchirées",
+			"groupe": "papiers_dechires"
+		},
+		{
+			"id": "chaton_muschel",
+			"forme": "chat",
+			"ou": "ville",
+			"position": [
+				57,
+				-6
+			],
+			"invite": "[F] Attraper le chaton"
+		},
+		{
+			"id": "casse_abecedaire",
+			"forme": "casse_plomb",
+			"ou": "ville",
+			"position": [
+				12.5,
+				-93.5
+			],
+			"invite": "[F] Composer l'abécédaire"
+		},
+		{
+			"id": "hottes_oubliees_0",
+			"forme": "hotte",
+			"ou": "rheingau",
+			"position": [
+				-1,
+				42
+			],
+			"invite": "[F] Charger la hotte de raisin",
+			"groupe": "hottes_oubliees"
+		},
+		{
+			"id": "hottes_oubliees_1",
+			"forme": "hotte",
+			"ou": "rheingau",
+			"position": [
+				-16,
+				16
+			],
+			"invite": "[F] Charger la hotte de raisin",
+			"groupe": "hottes_oubliees"
+		},
+		{
+			"id": "hottes_oubliees_2",
+			"forme": "hotte",
+			"ou": "rheingau",
+			"position": [
+				-33,
+				-12
+			],
+			"invite": "[F] Charger la hotte de raisin",
+			"groupe": "hottes_oubliees"
+		},
+		{
+			"id": "hottes_oubliees_3",
+			"forme": "hotte",
+			"ou": "rheingau",
+			"position": [
+				-50,
+				-46
+			],
+			"invite": "[F] Charger la hotte de raisin",
+			"groupe": "hottes_oubliees"
+		},
+		{
+			"id": "pressoir_vin",
+			"forme": "",
+			"ou": "rheingau",
+			"position": [
+				-2,
+				90
+			],
+			"invite": "[F] Tourner la barre du pressoir"
+		},
+		{
+			"id": "blocs_cartes_0",
+			"forme": "bloc",
+			"ou": "ville",
+			"position": [
+				0,
+				-19
+			],
+			"invite": "[F] Ramasser le bloc de bois gravé",
+			"groupe": "blocs_cartes"
+		},
+		{
+			"id": "blocs_cartes_1",
+			"forme": "bloc",
+			"ou": "ville",
+			"position": [
+				-24,
+				-23
+			],
+			"invite": "[F] Ramasser le bloc de bois gravé",
+			"groupe": "blocs_cartes"
+		},
+		{
+			"id": "blocs_cartes_2",
+			"forme": "bloc",
+			"ou": "ville",
+			"position": [
+				-56,
+				-31
+			],
+			"invite": "[F] Ramasser le bloc de bois gravé",
+			"groupe": "blocs_cartes"
+		},
+		{
+			"id": "blocs_cartes_3",
+			"forme": "bloc",
+			"ou": "ville",
+			"position": [
+				-80,
+				-39
+			],
+			"invite": "[F] Ramasser le bloc de bois gravé",
+			"groupe": "blocs_cartes"
+		},
+		{
+			"id": "presse_cartes",
+			"forme": "",
+			"ou": "ville",
+			"position": [
+				46,
+				12
+			],
+			"invite": "[F] Imprimer les cartes"
+		},
+		{
+			"id": "cheval_halage",
+			"forme": "jument",
+			"ou": "rhin",
+			"position": [
+				118,
+				108.5
+			],
+			"invite": "[F] Passer la corde au cou du cheval"
+		},
+		{
+			"id": "indulgences_envolees_0",
+			"forme": "feuille_imprimee",
+			"ou": "ville",
+			"position": [
+				54,
+				58
+			],
+			"invite": "[F] Ramasser la feuille imprimée",
+			"groupe": "indulgences_envolees"
+		},
+		{
+			"id": "indulgences_envolees_1",
+			"forme": "feuille_imprimee",
+			"ou": "ville",
+			"position": [
+				10,
+				82
+			],
+			"invite": "[F] Ramasser la feuille imprimée",
+			"groupe": "indulgences_envolees"
+		},
+		{
+			"id": "indulgences_envolees_2",
+			"forme": "feuille_imprimee",
+			"ou": "ville",
+			"position": [
+				-40,
+				89
+			],
+			"invite": "[F] Ramasser la feuille imprimée",
+			"groupe": "indulgences_envolees"
+		},
+		{
+			"id": "indulgences_envolees_3",
+			"forme": "feuille_imprimee",
+			"ou": "ville",
+			"position": [
+				-70,
+				91
+			],
+			"invite": "[F] Ramasser la feuille imprimée",
+			"groupe": "indulgences_envolees"
+		},
+		{
+			"id": "cahiers_epars_0",
+			"forme": "liasse",
+			"ou": "francfort",
+			"position": [
+				-110,
+				97
+			],
+			"invite": "[F] Ramasser le cahier",
+			"groupe": "cahiers_epars"
+		},
+		{
+			"id": "cahiers_epars_1",
+			"forme": "liasse",
+			"ou": "francfort",
+			"position": [
+				-56,
+				97
+			],
+			"invite": "[F] Ramasser le cahier",
+			"groupe": "cahiers_epars"
+		},
+		{
+			"id": "cahiers_epars_2",
+			"forme": "liasse",
+			"ou": "francfort",
+			"position": [
+				4,
+				96
+			],
+			"invite": "[F] Ramasser le cahier",
+			"groupe": "cahiers_epars"
+		},
+		{
+			"id": "etabli_relieur",
+			"forme": "",
+			"ou": "francfort",
+			"position": [
+				-96,
+				88.5
+			],
+			"invite": "[F] Coudre les cahiers"
+		},
+		{
+			"id": "rames_quai_0",
+			"forme": "rame_papier",
+			"ou": "rhin",
+			"position": [
+				-68,
+				119
+			],
+			"invite": "[F] Porter la rame sous la grue",
+			"groupe": "rames_quai"
+		},
+		{
+			"id": "rames_quai_1",
+			"forme": "rame_papier",
+			"ou": "rhin",
+			"position": [
+				-58,
+				122
+			],
+			"invite": "[F] Porter la rame sous la grue",
+			"groupe": "rames_quai"
+		},
+		{
+			"id": "rames_quai_2",
+			"forme": "rame_papier",
+			"ou": "rhin",
+			"position": [
+				-14,
+				121
+			],
+			"invite": "[F] Porter la rame sous la grue",
+			"groupe": "rames_quai"
+		},
+		{
+			"id": "rames_quai_3",
+			"forme": "rame_papier",
+			"ou": "rhin",
+			"position": [
+				-10,
+				118
+			],
+			"invite": "[F] Porter la rame sous la grue",
+			"groupe": "rames_quai"
+		},
+		{
+			"id": "roue_grue_rames",
+			"forme": "",
+			"ou": "rhin",
+			"position": [
+				-28,
+				117.5
+			],
+			"invite": "[F] Marcher dans la grande roue"
+		},
+		{
+			"id": "beryl_brut",
+			"forme": "pyrite",
+			"ou": "rhin",
+			"position": [
+				71,
+				30
+			],
+			"invite": "[F] Ramasser le cristal"
+		},
+		{
+			"id": "liseuse_rheingau",
+			"forme": "tablette",
+			"ou": "rheingau",
+			"position": [
+				-72,
+				-86
+			],
+			"invite": "[F] Ramasser l'objet qui brille"
+		},
+		{
+			"id": "cle_usb_rhin",
+			"forme": "cle_usb",
+			"ou": "rhin",
+			"position": [
+				88,
+				-4
+			],
+			"invite": "[F] Ramasser l'objet qui brille"
+		},
+		{
+			"id": "canette_francfort",
+			"forme": "canette",
+			"ou": "francfort",
+			"position": [
+				70,
+				-1
+			],
+			"invite": "[F] Ramasser l'objet qui brille"
+		}
+	]
+}
