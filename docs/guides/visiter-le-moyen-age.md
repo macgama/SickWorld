@@ -1,0 +1,79 @@
+# Visiter le Moyen Âge (Chartres, 1194)
+
+Deux zones de l'île du Moyen Âge sont jouables : **la Beauce** (niveaux 50 à 52) et **les carrières de Berchères** (niveaux 53 à 55), avec les chapitres 1 à 3 de l'histoire « La pierre et la flamme ». Nous sommes à l'été 1194, quelques semaines après l'incendie qui a détruit presque toute la cathédrale de Chartres. C'est là que mène le portail **Moyen Âge** du QG de la Vigie (le sixième en partant de la gauche). La conception de toute l'île est dans [ILE-6-MOYEN-AGE.md](../ILE-6-MOYEN-AGE.md). Chartres, le chantier de la cathédrale et la crypte viendront ensuite.
+
+On y trouve :
+
+- **le dolmen** où s'ouvre le portail, au bord d'un champ, au sud-ouest (la Beauce en a vraiment) ;
+- **des champs de blé mûr** à perte de vue, qui ondulent au vent, et une bande déjà moissonnée avec ses **dizeaux** (les gerbes dressées) ;
+- **la ferme de Guillot**, avec sa cour, sa maison à pans de bois, sa grange et ses deux **chevaux du Perche** ;
+- **le village** : l'église et son clocher à flèche, le cimetière, le puits, des **maisons à pans de bois** (colombages de chêne, torchis blanc, toit de chaume ou de tuiles plates) et des **chaumières** de pierre ;
+- **le moulin à vent** sur sa butte, au nord-ouest : un moulin « chandelier » sur pivot, dont les ailes tournent ;
+- **le gibet** sur l'autre butte, au nord-est, et le camp des **routiers** (les soldats sans paie de la guerre entre Philippe Auguste et Richard Cœur de Lion) ;
+- au loin, au nord-est, **Chartres** sur sa butte : les deux tours de la façade, qui ont survécu, et la fumée de l'incendie qui monte encore.
+
+Tout est fabriqué par le code. Les habitants portent pour l'instant les habits d'époque déjà faits (tunique, robe longue) avec des couleurs vives ; de vrais habits du Moyen Âge (cotte, surcot, chaperon, guimpe) viendront plus tard.
+
+## Les carrières de Berchères
+
+On y arrive par le chemin du nord-est de la Beauce (après le chapitre 2). On y trouve :
+
+- **la carrière** : un grand trou de pierre blonde, taillé en trois marches, avec des blocs prêts à partir et une **rampe** pour les charrettes ;
+- **la roue d'écureuil** au bord : une grande roue où l'on marche pour lever les blocs (on en a vraiment utilisé sur les chantiers des cathédrales) ;
+- **le camp des carriers** : les huttes, la forge, la charrette, **maître Gautier** et son plan de la cathédrale ;
+- **la forêt de chênes** à l'ouest, avec la meule du **charbonnier**, les loups et le camp des **brigands**.
+
+## L'ouvrir
+
+1. Dans GitHub Desktop, sur la branche **main** : **Fetch origin** puis **Pull origin** (Claude le fait pour toi quand il le peut).
+2. **Ferme Godot et rouvre-le** s'il était ouvert pendant la mise à jour.
+3. **Par le jeu** : F5, **Jouer seul**, puis au QG de la Vigie, traverse le portail **Moyen Âge**.
+4. **Directement** : double-clique sur `scenes/monde/moyen_age/beauce.tscn` (ou `bercheres.tscn`) puis **F6**.
+
+## Nouveau : les « Las » et le puzzle du vitrail
+
+La fracture souffle une **fumée grise** venue de l'incendie. Ceux qu'elle touche deviennent des **Las** : voûtés, gris, ils lâchent leurs outils et répètent « À quoi bon ? Je ne verrai jamais la fin. » Pour leur rendre courage, approche-toi et appuie sur **F** : une fenêtre de vitrail vide s'ouvre. Une case brille ; à droite, des morceaux de verre de couleur mélangés et numérotés. Clique (ou tape le numéro) du morceau qui va dans la case qui brille : même forme, même couleur. Une erreur fait trembler la fenêtre (rien n'est perdu) ; après deux erreurs, le bon morceau brille pour t'aider. Quand tout est posé, le soleil traverse le vitrail et le Las se relève.
+
+## Le chapitre 1 : « Les fumées de Chartres »
+
+1. Ramasser **la radio** près du dolmen : **Vera Lind** explique où tu es.
+2. Lire **le message à la craie** sur une pierre : Masque est passé avant toi, sur la trace de l'Éditeur.
+3. Suivre le chemin vers le nord jusqu'au champ de **Guillot**, le charretier, et lui parler.
+4. Chasser **les loups fracturés** qui sortent du blé.
+5. Guillot te donne **le morceau de verre bleu** ramassé dans les décombres de la cathédrale.
+6. Rendre courage aux **trois moissonneurs Las** (puzzle du vitrail).
+7. Guillot te donne **la fronde de son père** (compétence d'époque **Fronde de berger** : une pierre qui étourdit 2 secondes) et un chapeau de paille.
+
+## Le chapitre 2 : « Le moulin et le gibet »
+
+1. Aller au **village** : des réfugiés de Chartres sont arrivés. Parler à **Ermengarde**, la drapière.
+2. Rendre courage au **forgeron** et à **la lavandière**.
+3. Le **curé** t'envoie au moulin : le meunier ne descend plus.
+4. Rendre courage au **meunier Hugues** (le vitrail de la Belle Verrière, qui a vraiment survécu à l'incendie).
+5. Chasser **les routiers** qui campent près du gibet, reprendre **les trois sacs de farine**, puis abattre **leur chef**, qui porte… une **lampe frontale** moderne.
+6. Refermer **la faille** derrière le gibet.
+7. Rapporter la farine au meunier : il te donne **une épée de routier** et **un gambison**. La suite : maître Gautier veut reconstruire la cathédrale, et il faut aller chercher la pierre aux carrières de Berchères.
+
+## Le chapitre 3 : « La pierre de Berchères »
+
+1. Prendre le chemin du nord-est de la Beauce jusqu'aux carrières, et parler à **maître Gautier**.
+2. Descendre par la rampe et rendre courage aux **trois carriers Las** (vitrail).
+3. **Débloquer le treuil** coincé (F, rester immobile).
+4. **Marcher dans la roue d'écureuil** pour lever le premier bloc.
+5. Gautier t'envoie chez le **charbonnier**, qui a trouvé du métal fondu dans l'herbe : ramasser **trois tas de larmes de plomb** (la trace de l'Effaceuse Plomb).
+6. Chasser **les brigands**, abattre **leur chef** (qui a un chalumeau !) et refermer **la faille** de la forêt.
+7. Guillot arrive avec des volontaires : **escorter la charrette** de pierre hors de la carrière jusqu'à la route de Chartres.
+8. Récompense : la compétence d'époque **Pavois** (un grand bouclier qui protège le groupe autour de toi) et les **gants de tailleur**. La suite : Chartres.
+
+## Les fichiers
+
+| Fichier | Contenu |
+|---|---|
+| `data/moyen_age_quete.json` | Les chapitres, les étapes, les textes, les ennemis de la zone |
+| `data/moyen_age_pnj.json` | Les personnages et leurs répliques (« las » : true = un Las) |
+| `scripts/monde/moyen_age/beauce.gd` | La zone de la Beauce (relief, champs, village, moulin, gibet) |
+| `scripts/monde/moyen_age/ile_moyen_age.gd` | Les bâtiments du Moyen Âge (maisons à pans de bois, église, moulin, dolmen…) |
+| `scripts/monde/moyen_age/bercheres.gd` | La zone des carrières (la carrière, la roue, le camp, la forêt) |
+| `scripts/interface/vitrail.gd` | Le puzzle du vitrail (ses motifs : fleur, lancette, rose, belle_verriere) |
+| `tests/test_beauce.gd` | Le test automatique de la zone et des chapitres 1 et 2 |
+| `tests/test_bercheres.gd` | Le test automatique des carrières et du chapitre 3 |

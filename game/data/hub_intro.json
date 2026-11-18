@@ -85,6 +85,11 @@
 			"scene": "res://scenes/monde/chine/porte_de_jade.tscn",
 			"titre": "Chine des Han",
 			"sous_titre": "La Porte de Jade, hiver 105 apr. J.-C."
+		},
+		"Moyen Âge": {
+			"scene": "res://scenes/monde/moyen_age/beauce.tscn",
+			"titre": "Moyen Âge",
+			"sous_titre": "La Beauce, près de Chartres, été 1194"
 		}
 	}
 }

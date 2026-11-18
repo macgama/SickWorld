@@ -2010,7 +2010,167 @@
 		"griffe_leopard": {"nom": "Griffe de léopard", "type": "materiau", "rarete": "raffine", "description": "Une griffe noire et courbe, longue comme un doigt.", "pile": 20, "epoque": "Rome antique", "icone": {"forme": "griffe", "couleur": "#2a2420"}},
 		"ampoule_feu_rouge": {"nom": "Ampoule de feu rouge", "type": "equipement", "rarete": "rare", "description": "Une grosse ampoule rouge tombée du Carrefour fou. Elle brille encore un peu quand on la secoue. Personne, en l'an 80, ne saura jamais ce que c'est.", "emplacement": "bijou", "epoque": "Moderne", "stats": {"pv": 40, "critique_pourcent": 3}, "icone": {"forme": "ambre", "couleur": "#e02a1a"}},
 		"pierre_ponce": {"nom": "Pierre ponce du Vésuve", "type": "materiau", "rarete": "raffine", "description": "Une pierre grise, légère, criblée de trous : elle flotte sur l'eau. Le Vésuve en a fait pleuvoir pendant des heures sur Pompéi.", "pile": 20, "epoque": "Rome antique", "icone": {"forme": "minerai", "couleur": "#a8a49c"}},
-		"lampe_pompei": {"nom": "Lampe à huile de Pompéi", "type": "equipement", "rarete": "epique", "description": "Une lampe de bronze en forme de pied, sauvée des cendres quand le Vésuve s'est réveillé une dernière fois. Elle sent encore le soufre.", "emplacement": "relique", "epoque": "Rome antique", "stats": {"pv": 85, "degats_pourcent": 5}, "icone": {"forme": "bol", "couleur": "#8a6a3a"}}
+		"lampe_pompei": {"nom": "Lampe à huile de Pompéi", "type": "equipement", "rarete": "epique", "description": "Une lampe de bronze en forme de pied, sauvée des cendres quand le Vésuve s'est réveillé une dernière fois. Elle sent encore le soufre.", "emplacement": "relique", "epoque": "Rome antique", "stats": {"pv": 85, "degats_pourcent": 5}, "icone": {"forme": "bol", "couleur": "#8a6a3a"}},
+		"verre_guillot": {
+			"nom": "Le verre bleu de Guillot",
+			"type": "materiau",
+			"rarete": "rare",
+			"pile": 1,
+			"description": "Un morceau de verre bleu ramassé dans les décombres de la cathédrale de Chartres, gros comme la paume. Quand le soleil passe au travers, tout devient bleu. Guillot le gardait pour sa femme.",
+			"icone": {
+				"forme": "eclat",
+				"couleur": "#2a4ac0"
+			},
+			"epoque": "Moyen Âge"
+		},
+		"fronde_berger": {
+			"nom": "Fronde du berger",
+			"type": "materiau",
+			"rarete": "historique",
+			"pile": 1,
+			"description": "Une fronde de cuir tressé, usée par les mains du père de Guillot, berger du chapitre. Tant qu'elle est dans tes sacs, tu peux mettre la compétence d'époque « Fronde de berger » dans ta barre (touches 6 et 7).",
+			"icone": {
+				"forme": "tendon",
+				"couleur": "#8a6a42"
+			},
+			"epoque": "Moyen Âge"
+		},
+		"chapeau_paille_beauce": {
+			"nom": "Chapeau de paille de Beauce",
+			"type": "equipement",
+			"rarete": "raffine",
+			"emplacement": "tete",
+			"description": "Un large chapeau de paille tressée, comme en portent les moissonneurs sous le soleil de juillet.",
+			"stats": {
+				"pv": 150,
+				"reduction_pourcent": 2
+			},
+			"visuel": {
+				"forme": "chapeau",
+				"couleur": "#d8b860"
+			},
+			"epoque": "Moyen Âge"
+		},
+		"pavois_carriers": {
+			"nom": "Pavois des carriers",
+			"type": "materiau",
+			"rarete": "historique",
+			"pile": 1,
+			"description": "Un grand bouclier de bois peint, haut comme un homme, avec une béquille pour le planter devant soi. Les carriers s'en servent contre les éclats de pierre. Tant qu'il est dans tes sacs, tu peux mettre la compétence d'époque « Pavois » dans ta barre (touches 6 et 7).",
+			"icone": {
+				"forme": "brassards",
+				"couleur": "#8a3a2a"
+			},
+			"epoque": "Moyen Âge"
+		},
+		"gants_tailleur": {
+			"nom": "Gants de tailleur de pierre",
+			"type": "equipement",
+			"rarete": "rare",
+			"emplacement": "mains",
+			"description": "Des gants de cuir épais, blanchis par la poussière de calcaire, comme ceux des tailleurs de la loge de maître Gautier.",
+			"stats": {
+				"pv": 160,
+				"degats_pourcent": 4
+			},
+			"visuel": {
+				"forme": "gants",
+				"couleur": "#c8b898"
+			},
+			"epoque": "Moyen Âge"
+		},
+		"lampe_frontale_routier": {
+			"nom": "Lampe frontale",
+			"type": "materiau",
+			"rarete": "rare",
+			"pile": 1,
+			"description": "Une lampe frontale de chantier, élastique rouge, diode blanche. Étiquette : « Restauration des vitraux — atelier Lesage, Paris ». Au dos, gravée à la pointe : une larme de métal.",
+			"icone": {
+				"forme": "eclat",
+				"couleur": "#e8e8f0"
+			},
+			"epoque": "Moyen Âge"
+		},
+		"epee_routier": {
+			"nom": "Épée de routier",
+			"type": "equipement",
+			"rarete": "rare",
+			"emplacement": "arme_principale",
+			"description": "Une longue épée à une main, lame large et pommeau en disque, comme on en forge en 1194 pour les hommes d'armes. Elle a connu la guerre entre Philippe Auguste et Richard Cœur de Lion. La Vigie y a glissé un éclat de technologie.",
+			"stats": {
+				"degats_pourcent": 27,
+				"pv": 90
+			},
+			"visuel": {
+				"forme": "lame",
+				"couleur": "#b0b0b4"
+			},
+			"epoque": "Moyen Âge"
+		},
+		"gambison_beauce": {
+			"nom": "Gambison matelassé",
+			"type": "equipement",
+			"rarete": "raffine",
+			"emplacement": "torse",
+			"description": "Une cotte de toile épaisse, piquée et bourrée de laine : l'armure de ceux qui n'ont pas de quoi s'offrir une cotte de mailles.",
+			"stats": {
+				"pv": 190,
+				"reduction_pourcent": 3
+			},
+			"visuel": {
+				"forme": "veste",
+				"couleur": "#8a7a5a"
+			},
+			"epoque": "Moyen Âge"
+		},
+		"pelage_loup_beauce": {
+			"nom": "Pelage de loup de Beauce",
+			"type": "materiau",
+			"rarete": "commun",
+			"pile": 20,
+			"description": "Une peau de loup grise, épaisse, qui sent le blé et l'orage.",
+			"icone": {
+				"forme": "peau",
+				"couleur": "#7a7268"
+			},
+			"epoque": "Moyen Âge"
+		},
+		"soie_sanglier": {
+			"nom": "Soies de sanglier",
+			"type": "materiau",
+			"rarete": "commun",
+			"pile": 20,
+			"description": "Des poils durs de sanglier : les cordonniers en font des aiguilles à coudre le cuir.",
+			"icone": {
+				"forme": "tendon",
+				"couleur": "#3a3028"
+			},
+			"epoque": "Moyen Âge"
+		},
+		"maille_rouillee": {
+			"nom": "Mailles rouillées",
+			"type": "materiau",
+			"rarete": "commun",
+			"pile": 20,
+			"description": "Une poignée d'anneaux de fer arrachés à une cotte de mailles. Le forgeron les refond.",
+			"icone": {
+				"forme": "eclat",
+				"couleur": "#7a5a42"
+			},
+			"epoque": "Moyen Âge"
+		},
+		"denier_chartrain": {
+			"nom": "Denier chartrain",
+			"type": "materiau",
+			"rarete": "commun",
+			"pile": 20,
+			"description": "Une petite pièce d'argent frappée à Chartres, avec la tête stylisée de l'évêque Fulbert.",
+			"icone": {
+				"forme": "eclat",
+				"couleur": "#c8c8c0"
+			},
+			"epoque": "Moyen Âge"
+		}
 	},
 	"ensembles": {
 		"chasseur_du_clan": {
@@ -2063,13 +2223,17 @@
 		"peinture_de_guerre",
 		"huile_d_athlete",
 		"bain_des_thermes",
-		"aiguilles_d_argent"
+		"aiguilles_d_argent",
+		"fronde_de_berger",
+		"pavois"
 	],
 	"_aide_competences_requises": "Une compétence d'époque qui demande un objet : elle ne peut aller dans la barre que si l'objet est dans les sacs (ou porté).",
 	"competences_requises": {
 		"huile_d_athlete": "amphore_huile_sacree",
 		"bain_des_thermes": "strigile_thermes",
-		"aiguilles_d_argent": "trousse_aiguilles"
+		"aiguilles_d_argent": "trousse_aiguilles",
+		"fronde_de_berger": "fronde_berger",
+		"pavois": "pavois_carriers"
 	},
 	"ultimes": [
 		"appel_de_la_meute"
@@ -2400,6 +2564,175 @@
 					4,
 					6
 				]
+			}
+		],
+		"loup_beauce": [
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 0.4
+			},
+			{
+				"objet": "pelage_loup_beauce",
+				"chance": 0.5
+			}
+		],
+		"loup_beauce_moisson": [
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 0.4
+			},
+			{
+				"objet": "pelage_loup_beauce",
+				"chance": 0.5
+			}
+		],
+		"loup_faille_beauce": [
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 0.4
+			},
+			{
+				"objet": "pelage_loup_beauce",
+				"chance": 0.5
+			}
+		],
+		"sanglier_beauce": [
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 0.4
+			},
+			{
+				"objet": "soie_sanglier",
+				"chance": 0.45
+			}
+		],
+		"mercenaire_routier": [
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 0.4
+			},
+			{
+				"objet": "maille_rouillee",
+				"chance": 0.45
+			},
+			{
+				"objet": "denier_chartrain",
+				"chance": 0.35,
+				"quantite": [1, 3]
+			}
+		],
+		"mercenaire_routier_camp": [
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 0.4
+			},
+			{
+				"objet": "maille_rouillee",
+				"chance": 0.45
+			},
+			{
+				"objet": "denier_chartrain",
+				"chance": 0.35,
+				"quantite": [1, 3]
+			}
+		],
+		"loup_foret_bercheres": [
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 0.4
+			},
+			{
+				"objet": "pelage_loup_beauce",
+				"chance": 0.5
+			}
+		],
+		"loup_faille_bercheres": [
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 0.4
+			},
+			{
+				"objet": "pelage_loup_beauce",
+				"chance": 0.5
+			}
+		],
+		"sanglier_foret_bercheres": [
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 0.4
+			},
+			{
+				"objet": "soie_sanglier",
+				"chance": 0.45
+			}
+		],
+		"mercenaire_brigand": [
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 0.4
+			},
+			{
+				"objet": "maille_rouillee",
+				"chance": 0.4
+			},
+			{
+				"objet": "denier_chartrain",
+				"chance": 0.45,
+				"quantite": [1, 3]
+			}
+		],
+		"mercenaire_brigand_camp": [
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 0.4
+			},
+			{
+				"objet": "maille_rouillee",
+				"chance": 0.4
+			},
+			{
+				"objet": "denier_chartrain",
+				"chance": 0.45,
+				"quantite": [1, 3]
+			}
+		],
+		"mercenaire_brigand_escorte": [
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 0.4
+			},
+			{
+				"objet": "maille_rouillee",
+				"chance": 0.4
+			},
+			{
+				"objet": "denier_chartrain",
+				"chance": 0.45,
+				"quantite": [1, 3]
+			}
+		],
+		"mercenaire_chef_brigands": [
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 1.0,
+				"quantite": [2, 3]
+			},
+			{
+				"objet": "denier_chartrain",
+				"chance": 1.0,
+				"quantite": [4, 8]
+			}
+		],
+		"mercenaire_chef_routiers": [
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 1.0,
+				"quantite": [2, 3]
+			},
+			{
+				"objet": "maille_rouillee",
+				"chance": 1.0,
+				"quantite": [1, 2]
 			}
 		]
 	},
