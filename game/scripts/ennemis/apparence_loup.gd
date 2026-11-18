@@ -41,6 +41,7 @@ const ApparenceOublie := preload("res://scripts/ennemis/apparence_oublie.gd")
 const ApparenceSerpent := preload("res://scripts/ennemis/apparence_serpent.gd")
 const ApparencePoulpe := preload("res://scripts/ennemis/apparence_poulpe.gd")
 const ApparenceChien := preload("res://scripts/ennemis/apparence_chien.gd")
+const ApparenceBete := preload("res://scripts/ennemis/apparence_bete.gd")
 const ApparenceHautParleurs := preload("res://scripts/ennemis/apparence_haut_parleurs.gd")
 ## Apparence d'une autre famille d'animaux à qui tout est confié (bêtes du Nil).
 var _delegue: Node3D
@@ -129,6 +130,22 @@ func _ready() -> void:
 			# Les serpents de la Gorgone sont bien plus gros qu'une vipère.
 			_delegue.scale = Vector3.ONE * 2.2
 		add_child(_delegue)
+		return
+	var bete := "hippopotame" if type.begins_with("hippopotame") else ("rhinoceros" if type.begins_with("rhinoceros") \
+			else ("sanglier" if type.begins_with("sanglier") else ("leopard" if type.begins_with("leopard") else "")))
+	if bete != "" and ApparenceBete.disponible(bete):
+		# Vrais modèles 3D : hippopotame (Égypte), rhinocéros et léopard (Rome),
+		# sanglier (Grèce, Rome, Chine, Moyen Âge). « espece » garde le nom pour les bruits.
+		espece = "loup" if bete == "leopard" else bete
+		_delegue = ApparenceBete.new()
+		_delegue.name = "Bete"
+		_delegue.espece = bete
+		_delegue.fracture = type.contains("fracture") or type.contains("geant")
+		add_child(_delegue)
+		if type.contains("geant") or type.contains("enrage"):
+			scale = Vector3.ONE * 1.35
+		elif type.contains("hymette"):
+			scale = Vector3.ONE * 1.6
 		return
 	if type.begins_with("crocodile") or type.begins_with("hippopotame") or type.begins_with("babouin") \
 			or type.begins_with("sanglier") or type.begins_with("rhinoceros"):
