@@ -24,6 +24,7 @@ const ZONES := {
 	"porte_de_jade": "res://scenes/monde/chine/porte_de_jade.tscn",
 	"fleuve_jaune": "res://scenes/monde/chine/fleuve_jaune.tscn",
 	"mont_li": "res://scenes/monde/chine/mont_li.tscn",
+	"luoyang": "res://scenes/monde/chine/luoyang.tscn",
 	"hikari_bay": "res://scenes/monde/hikari_bay.tscn",
 }
 const VieAmbiante := preload("res://scripts/monde/vie/vie_ambiante.gd")
