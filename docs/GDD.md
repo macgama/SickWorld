@@ -105,9 +105,16 @@ Les îles suivent l'ordre chronologique. Liste prévue (elle pourra encore être
 | 4 | **Rome antique** (été 80 apr. J.-C., Rome de Titus) | L'inauguration du Colisée, les aqueducs et les routes, Pompéi sous la cendre *(conception validée le 16/11/2026 : [ILE-4-ROME.md](ILE-4-ROME.md))* |
 | 5 | **Chine des Han** (hiver 105 apr. J.-C., Luoyang) | L'invention du papier par Cai Lun, la route de la soie et l'armée de terre cuite du Premier Empereur *(conception validée le 17/11/2026 : [ILE-5-CHINE.md](ILE-5-CHINE.md) ; le Japon est gardé pour une île plus tardive)* |
 | 6 | **Moyen Âge** (été 1194, Chartres après l'incendie) | La reconstruction de la cathédrale de Chartres : tout un peuple qui bâtit ensemble *(conception retenue le 17/11/2026, validation déléguée par Gaël : [ILE-6-MOYEN-AGE.md](ILE-6-MOYEN-AGE.md) ; le Japon reste prévu plus tard)* |
-| 7 | Grandes découvertes / Renaissance | Les navigateurs, l'imprimerie, les artistes |
-| 8 | Révolution industrielle | Vapeur, usines, grandes villes |
-| 9 | XXe siècle | Les grands conflits et la conquête spatiale |
+| 7 | **Mayence de Gutenberg** (1450-1454) | L'invention de l'imprimerie à caractères mobiles et la Bible à 42 lignes *(conception validée le 18/11/2026 : [ILE-7-MAYENCE.md](ILE-7-MAYENCE.md) ; en construction)* |
+| 8 | **Grandes découvertes** (1519-1522) | Le premier tour du monde (Magellan puis Elcano), les cartes et les instruments de navigation *(ajoutée par Gaël le 18/11/2026)* |
+| 9 | **Japon** (vers 1600-1615) | Fin des guerres civiles, châteaux, artisans et estampes, le début de l'époque d'Edo *(ajoutée par Gaël le 18/11/2026, époque précise à confirmer)* |
+| 10 | **Révolution industrielle** (vers 1830-1851) | Vapeur, chemin de fer, usines et grandes villes, l'Exposition universelle de Londres |
+| 11 | **Première Guerre mondiale** (1914-1918) | *(ajoutée par Gaël le 18/11/2026 ; approche respectueuse à valider avant toute construction, voir [EPOQUES-SENSIBLES.md](EPOQUES-SENSIBLES.md))* |
+| 12 | **Seconde Guerre mondiale** (1939-1945) | *(ajoutée par Gaël le 18/11/2026 ; approche respectueuse à valider avant toute construction, voir [EPOQUES-SENSIBLES.md](EPOQUES-SENSIBLES.md))* |
+| 13 | **Conquête spatiale** (juillet 1969) | Le premier pas sur la Lune, des milliers d'ingénieurs et de calculatrices humaines |
+| 14 | **11 septembre 2001** (New York) | *(ajoutée par Gaël le 18/11/2026 ; approche respectueuse à valider avant toute construction, voir [EPOQUES-SENSIBLES.md](EPOQUES-SENSIBLES.md))* |
+
+**Niveaux :** chaque île apporte 10 niveaux (île n°1 : niveaux 1 à 10, île n°7 : 61 à 70…). Avec 14 îles, le niveau maximum prévu sera donc **140**. Il monte au fur et à mesure : il est de 70 tant que Mayence est la dernière île ouverte.
 
 On commence par la Préhistoire, et **une seule île sera construite pour la première version**.
 
@@ -120,6 +127,8 @@ La conception de la quatrième île (la Rome de Titus), validée par Gaël le 16
 La conception de la cinquième île (la Chine des Han), validée par Gaël le 17 novembre 2026, est dans [ILE-5-CHINE.md](ILE-5-CHINE.md).
 
 La conception de la sixième île (Chartres en 1194), retenue par Claude le 17 novembre 2026 avec la validation déléguée par Gaël, est dans [ILE-6-MOYEN-AGE.md](ILE-6-MOYEN-AGE.md).
+
+La conception de la septième île (Mayence et Gutenberg), validée par Gaël le 18 novembre 2026, est dans [ILE-7-MAYENCE.md](ILE-7-MAYENCE.md).
 
 ---
 
@@ -418,7 +427,7 @@ Le joueur progresse sur plusieurs axes en parallèle, pour toujours avoir un obj
 - L'expérience vient des quêtes (surtout), des events, des ennemis et des découvertes de lieux.
 - Monter de niveau augmente les statistiques et débloque de nouvelles compétences de classe.
 - *En jeu depuis le 15 novembre 2026* : niveau maximum 20 ; chaque niveau donne +6 % de vie de base, +2,5 % de dégâts et un point de talent (à partir du niveau 2). L'XP vient des étapes de quête (bonus en fin de chapitre), quêtes secondaires, événements publics (selon le palier), ennemis (selon l'écart de niveau), premières visites de zone et missions du hub. Réglages : `data/progression.json`, guide : `docs/guides/la-progression.md`.
-- *Depuis le 17 novembre 2026* : niveau maximum 60 (une île = 10 niveaux, +10 à chaque nouvelle époque) ; un point de talent par niveau jusqu'au 20 puis un tous les deux niveaux (39 au niveau 60) ; voies de 7 talents (paliers 5 à 7 à 9, 12 et 15 points, le palier 7 étant le talent ultime de la voie). Équipement de palier : l'**Arsenal des époques** (3 panoplies Assaut / Garde / Harmonie de 7 pièces par île, normale ou renforcée avec le trophée du donjon, niveau requis), fabriqué par Inès la soudeuse au quartier des Artisans. Guide : `docs/guides/l-arsenal-des-epoques.md`.
+- *Depuis le 18 novembre 2026* : niveau maximum 70 avec Mayence, 140 prévu à terme pour 14 îles (une île = 10 niveaux, +10 à chaque nouvelle époque) ; un point de talent par niveau jusqu'au 20 puis un tous les deux niveaux (39 au niveau 60) ; voies de 7 talents (paliers 5 à 7 à 9, 12 et 15 points, le palier 7 étant le talent ultime de la voie). Équipement de palier : l'**Arsenal des époques** (3 panoplies Assaut / Garde / Harmonie de 7 pièces par île, normale ou renforcée avec le trophée du donjon, niveau requis), fabriqué par Inès la soudeuse au quartier des Artisans. Guide : `docs/guides/l-arsenal-des-epoques.md`.
 - Pour l'instant, les 5 compétences de classe restent disponibles dès le niveau 1 (le tutoriel de la Préhistoire les utilise) ; ce sont les **talents** qui les font évoluer. Débloquer de nouvelles compétences par niveau reste prévu.
 
 ### 1 bis. Les talents
