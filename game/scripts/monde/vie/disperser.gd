@@ -8,7 +8,7 @@ extends RefCounted
 ## zone (« CollisionSol ») : jamais sur un toit, dans une maison ou sur un rocher.
 ## Décrit dans data/vie_ambiante.json (clé « disperser »).
 
-const DOSSIERS := ["res://assets/egypte/", "res://assets/prehistoire/", "res://assets/hub/"]
+const DOSSIERS := ["res://assets/commun/", "res://assets/egypte/", "res://assets/prehistoire/", "res://assets/hub/"]
 const BLOC := 40.0
 
 static var _morceaux_cache := {}

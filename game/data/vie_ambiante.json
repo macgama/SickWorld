@@ -5188,6 +5188,28 @@
 					14
 				]
 			}
+		],
+		"disperser": [
+			{
+				"modele": "stone_01",
+				"nombre": 300,
+				"echelle": [
+					0.15,
+					0.45
+				],
+				"hors_piste": 1.0
+			},
+			{
+				"modele": "weed_plant_02",
+				"nombre": 180,
+				"echelle": [
+					0.5,
+					1.0
+				],
+				"hors_piste": 1.0,
+				"ombre": false,
+				"distance": 60
+			}
 		]
 	},
 	"oliveraies": {
@@ -5264,6 +5286,98 @@
 				],
 				"rayon": 20
 			}
+		],
+		"disperser": [
+			{
+				"modele": "stone_01",
+				"nombre": 900,
+				"echelle": [
+					0.2,
+					0.6
+				],
+				"hors_piste": 1.5
+			},
+			{
+				"modele": "dry_branches_medium_01",
+				"nombre": 150,
+				"echelle": [
+					0.6,
+					1.1
+				],
+				"hors_piste": 2.0,
+				"ombre": false,
+				"distance": 90
+			},
+			{
+				"modele": "weed_plant_02",
+				"nombre": 320,
+				"echelle": [
+					0.6,
+					1.2
+				],
+				"hors_piste": 1.5,
+				"grappes": [
+					45,
+					5
+				],
+				"ombre": false,
+				"distance": 70
+			},
+			{
+				"modele": "dandelion_01",
+				"nombre": 220,
+				"echelle": [
+					0.8,
+					1.3
+				],
+				"hors_piste": 1.5,
+				"grappes": [
+					35,
+					4
+				],
+				"ombre": false,
+				"distance": 50
+			},
+			{
+				"modele": "tree_stump_01",
+				"nombre": 18,
+				"echelle": [
+					0.7,
+					1.1
+				],
+				"hors_piste": 3.0
+			},
+			{
+				"modele": "tree_stump_02",
+				"nombre": 12,
+				"echelle": [
+					0.7,
+					1.0
+				],
+				"hors_piste": 3.0
+			},
+			{
+				"modele": "dead_tree_trunk",
+				"nombre": 5,
+				"echelle": [
+					0.6,
+					0.9
+				],
+				"hors_piste": 5.0
+			},
+			{
+				"modele": "namaqualand_stones_01",
+				"nombre": 60,
+				"echelle": [
+					0.4,
+					0.8
+				],
+				"hors_piste": 2.5,
+				"grappes": [
+					15,
+					6
+				]
+			}
 		]
 	},
 	"laurion": {
@@ -5303,6 +5417,68 @@
 					0,
 					1.0
 				]
+			}
+		],
+		"disperser": [
+			{
+				"modele": "stone_01",
+				"nombre": 1200,
+				"echelle": [
+					0.2,
+					0.6
+				],
+				"hors_piste": 1.5
+			},
+			{
+				"modele": "namaqualand_rocks_01",
+				"nombre": 50,
+				"echelle": [
+					0.4,
+					0.8
+				],
+				"hors_piste": 3.0,
+				"grappes": [
+					14,
+					10
+				]
+			},
+			{
+				"modele": "rock_07",
+				"nombre": 30,
+				"echelle": [
+					0.4,
+					0.9
+				],
+				"hors_piste": 4.0,
+				"grappes": [
+					10,
+					12
+				]
+			},
+			{
+				"modele": "dry_branches_medium_01",
+				"nombre": 80,
+				"echelle": [
+					0.6,
+					1.1
+				],
+				"hors_piste": 2.0,
+				"ombre": false,
+				"distance": 90
+			},
+			{
+				"modele": "shrub_03",
+				"nombre": 100,
+				"echelle": [
+					0.6,
+					1.1
+				],
+				"hors_piste": 2.5,
+				"grappes": [
+					20,
+					6
+				],
+				"distance": 140
 			}
 		]
 	},
@@ -5369,6 +5545,90 @@
 				"autour": true,
 				"nombre": 6
 			}
+		],
+		"disperser": [
+			{
+				"modele": "stone_01",
+				"nombre": 800,
+				"echelle": [
+					0.2,
+					0.6
+				],
+				"hors_piste": 1.5
+			},
+			{
+				"modele": "dry_branches_medium_01",
+				"nombre": 120,
+				"echelle": [
+					0.6,
+					1.1
+				],
+				"hors_piste": 2.0,
+				"ombre": false,
+				"distance": 90
+			},
+			{
+				"modele": "weed_plant_02",
+				"nombre": 320,
+				"echelle": [
+					0.6,
+					1.2
+				],
+				"hors_piste": 1.5,
+				"grappes": [
+					45,
+					5
+				],
+				"ombre": false,
+				"distance": 70
+			},
+			{
+				"modele": "dandelion_01",
+				"nombre": 320,
+				"echelle": [
+					0.8,
+					1.3
+				],
+				"hors_piste": 1.5,
+				"grappes": [
+					45,
+					4
+				],
+				"ombre": false,
+				"distance": 50
+			},
+			{
+				"modele": "tree_stump_01",
+				"nombre": 16,
+				"echelle": [
+					0.7,
+					1.1
+				],
+				"hors_piste": 3.0
+			},
+			{
+				"modele": "tree_stump_02",
+				"nombre": 10,
+				"echelle": [
+					0.7,
+					1.0
+				],
+				"hors_piste": 3.0
+			},
+			{
+				"modele": "shrub_04",
+				"nombre": 90,
+				"echelle": [
+					0.6,
+					1.0
+				],
+				"hors_piste": 2.5,
+				"grappes": [
+					18,
+					6
+				],
+				"distance": 140
+			}
 		]
 	},
 	"voie_appienne": {
@@ -5416,6 +5676,70 @@
 				"sorte": "papillons",
 				"autour": true,
 				"nombre": 10
+			}
+		],
+		"disperser": [
+			{
+				"modele": "stone_01",
+				"nombre": 700,
+				"echelle": [
+					0.2,
+					0.6
+				],
+				"hors_piste": 1.5
+			},
+			{
+				"modele": "weed_plant_02",
+				"nombre": 260,
+				"echelle": [
+					0.6,
+					1.2
+				],
+				"hors_piste": 1.5,
+				"grappes": [
+					40,
+					5
+				],
+				"ombre": false,
+				"distance": 70
+			},
+			{
+				"modele": "dandelion_01",
+				"nombre": 160,
+				"echelle": [
+					0.8,
+					1.3
+				],
+				"hors_piste": 1.5,
+				"grappes": [
+					30,
+					4
+				],
+				"ombre": false,
+				"distance": 50
+			},
+			{
+				"modele": "shrub_04",
+				"nombre": 120,
+				"echelle": [
+					0.6,
+					1.0
+				],
+				"hors_piste": 3.0,
+				"grappes": [
+					22,
+					6
+				],
+				"distance": 140
+			},
+			{
+				"modele": "dead_tree_trunk",
+				"nombre": 4,
+				"echelle": [
+					0.6,
+					0.9
+				],
+				"hors_piste": 6.0
 			}
 		]
 	},
@@ -5893,6 +6217,143 @@
 					11
 				]
 			}
+		],
+		"disperser": [
+			{
+				"modele": "stone_01",
+				"nombre": 260,
+				"echelle": [
+					0.15,
+					0.4
+				],
+				"hors_piste": 1.0
+			},
+			{
+				"modele": "weed_plant_02",
+				"nombre": 140,
+				"echelle": [
+					0.5,
+					0.9
+				],
+				"hors_piste": 0.8,
+				"ombre": false,
+				"distance": 60
+			},
+			{
+				"modele": "wine_barrel_01",
+				"nombre": 10,
+				"echelle": [
+					0.9,
+					1.05
+				],
+				"pres_de": [
+					[
+						16,
+						-118,
+						9
+					]
+				]
+			},
+			{
+				"modele": "Barrel_01",
+				"nombre": 8,
+				"echelle": [
+					0.9,
+					1.05
+				],
+				"pres_de": [
+					[
+						16,
+						-118,
+						10
+					],
+					[
+						20,
+						-100,
+						10
+					]
+				]
+			},
+			{
+				"modele": "wooden_crate_01",
+				"nombre": 10,
+				"echelle": [
+					0.8,
+					1.0
+				],
+				"pres_de": [
+					[
+						16,
+						-118,
+						10
+					]
+				]
+			},
+			{
+				"modele": "wooden_crate_02",
+				"nombre": 8,
+				"echelle": [
+					0.8,
+					1.0
+				],
+				"pres_de": [
+					[
+						10,
+						-130,
+						12
+					]
+				]
+			},
+			{
+				"modele": "ceramic_pot",
+				"nombre": 14,
+				"echelle": [
+					0.8,
+					1.1
+				],
+				"pres_de": [
+					[
+						0,
+						-125,
+						16
+					],
+					[
+						30,
+						-110,
+						14
+					]
+				]
+			},
+			{
+				"modele": "jug_01",
+				"nombre": 10,
+				"echelle": [
+					0.9,
+					1.1
+				],
+				"pres_de": [
+					[
+						16,
+						-118,
+						8
+					]
+				]
+			},
+			{
+				"modele": "wicker_basket_01",
+				"nombre": 10,
+				"echelle": [
+					0.8,
+					1.1
+				],
+				"pres_de": [
+					[
+						16,
+						-118,
+						9
+					]
+				]
+			}
 		]
 	},
 	"pompei": {
@@ -5919,6 +6380,50 @@
 				"sorte": "poussiere",
 				"autour": true,
 				"nombre": 220
+			}
+		],
+		"disperser": [
+			{
+				"modele": "stone_01",
+				"nombre": 700,
+				"echelle": [
+					0.2,
+					0.7
+				],
+				"hors_piste": 1.0
+			},
+			{
+				"modele": "rock_09",
+				"nombre": 25,
+				"echelle": [
+					0.3,
+					0.7
+				],
+				"hors_piste": 3.0,
+				"grappes": [
+					8,
+					8
+				]
+			},
+			{
+				"modele": "dead_tree_trunk_02",
+				"nombre": 6,
+				"echelle": [
+					0.6,
+					0.9
+				],
+				"hors_piste": 4.0
+			},
+			{
+				"modele": "dry_branches_medium_01",
+				"nombre": 100,
+				"echelle": [
+					0.6,
+					1.1
+				],
+				"hors_piste": 2.0,
+				"ombre": false,
+				"distance": 90
 			}
 		]
 	},
@@ -5970,6 +6475,64 @@
 				"autour": true,
 				"nombre": 180
 			}
+		],
+		"disperser": [
+			{
+				"modele": "namaqualand_stones_01",
+				"nombre": 260,
+				"echelle": [
+					0.4,
+					0.9
+				],
+				"hors_piste": 2.0,
+				"grappes": [
+					30,
+					8
+				]
+			},
+			{
+				"modele": "sand_rocks_small_01",
+				"nombre": 300,
+				"echelle": [
+					0.1,
+					0.25
+				],
+				"hors_piste": 2.0
+			},
+			{
+				"modele": "dead_tree_trunk_02",
+				"nombre": 6,
+				"echelle": [
+					0.6,
+					0.9
+				],
+				"hors_piste": 5.0
+			},
+			{
+				"modele": "shrub_03",
+				"nombre": 80,
+				"echelle": [
+					0.5,
+					0.9
+				],
+				"hors_piste": 2.5,
+				"grappes": [
+					16,
+					6
+				],
+				"distance": 140
+			},
+			{
+				"modele": "dry_branches_medium_01",
+				"nombre": 60,
+				"echelle": [
+					0.6,
+					1.1
+				],
+				"hors_piste": 2.0,
+				"ombre": false,
+				"distance": 90
+			}
 		]
 	},
 	"fleuve_jaune": {
@@ -6020,6 +6583,66 @@
 				"autour": true,
 				"vent": 60
 			}
+		],
+		"disperser": [
+			{
+				"modele": "stone_01",
+				"nombre": 600,
+				"echelle": [
+					0.2,
+					0.6
+				],
+				"hors_piste": 1.5
+			},
+			{
+				"modele": "weed_plant_02",
+				"nombre": 300,
+				"echelle": [
+					0.6,
+					1.2
+				],
+				"hors_piste": 1.5,
+				"grappes": [
+					40,
+					5
+				],
+				"ombre": false,
+				"distance": 70
+			},
+			{
+				"modele": "dry_branches_medium_01",
+				"nombre": 100,
+				"echelle": [
+					0.6,
+					1.1
+				],
+				"hors_piste": 2.0,
+				"ombre": false,
+				"distance": 90
+			},
+			{
+				"modele": "tree_stump_01",
+				"nombre": 14,
+				"echelle": [
+					0.7,
+					1.1
+				],
+				"hors_piste": 3.0
+			},
+			{
+				"modele": "nettle_plant",
+				"nombre": 120,
+				"echelle": [
+					0.7,
+					1.1
+				],
+				"hors_piste": 2.0,
+				"grappes": [
+					20,
+					4
+				],
+				"distance": 70
+			}
 		]
 	},
 	"mont_li": {
@@ -6046,6 +6669,88 @@
 				"sorte": "poussiere",
 				"autour": true,
 				"nombre": 100
+			}
+		],
+		"disperser": [
+			{
+				"modele": "rock_moss_set_01",
+				"nombre": 120,
+				"echelle": [
+					0.5,
+					1.1
+				],
+				"hors_piste": 2.5,
+				"grappes": [
+					30,
+					9
+				]
+			},
+			{
+				"modele": "fern_02",
+				"nombre": 420,
+				"echelle": [
+					0.7,
+					1.3
+				],
+				"hors_piste": 1.5,
+				"grappes": [
+					45,
+					6
+				],
+				"ombre": false,
+				"distance": 80
+			},
+			{
+				"modele": "root_cluster_01",
+				"nombre": 16,
+				"echelle": [
+					0.6,
+					1.0
+				],
+				"hors_piste": 3.0
+			},
+			{
+				"modele": "pine_roots",
+				"nombre": 12,
+				"echelle": [
+					0.7,
+					1.0
+				],
+				"hors_piste": 3.0
+			},
+			{
+				"modele": "tree_stump_02",
+				"nombre": 18,
+				"echelle": [
+					0.7,
+					1.1
+				],
+				"hors_piste": 3.0
+			},
+			{
+				"modele": "nettle_plant",
+				"nombre": 150,
+				"echelle": [
+					0.7,
+					1.1
+				],
+				"hors_piste": 2.0,
+				"grappes": [
+					25,
+					4
+				],
+				"distance": 70
+			},
+			{
+				"modele": "dry_branches_medium_01",
+				"nombre": 120,
+				"echelle": [
+					0.6,
+					1.1
+				],
+				"hors_piste": 2.0,
+				"ombre": false,
+				"distance": 90
 			}
 		]
 	}
