@@ -13,6 +13,13 @@ Au QG de la Vigie, dans la salle des portails, le 7e portail (« Mayence ») mè
 - **Le camp des brigands** et la faille, au nord-est, à la lisière de la forêt du Taunus.
 - **Le Rhin**, très large, avec ses barques et ses nefs chargées de tonneaux ; au loin à l'est, les tours rouges de Mayence.
 
+## Zone 2 : le Rhin et le moulin à papier (niveaux 62-65)
+- **Arrivée** par la route du fleuve, à l'ouest (depuis le Rheingau, une fois le chapitre 2 fini).
+- **Eltville** : un petit port avec ses maisons à colombages, le gros **donjon de grès du château de l'archevêque**, un quai de pierre, des barques amarrées et une **grue à roue d'écureuil**.
+- **La Walluf**, un ruisseau qui descend du Taunus au fond d'un vallon ; un **pont de pierre** fait passer la route.
+- **Le moulin à papier de Greta** : la roue à aubes, les **maillets** qui battent les chiffons (ils se lèvent et retombent quand la roue tourne), la cuve, la halle des chiffons et trois **séchoirs** où pendent les feuilles.
+- **Le camp de Sceau** et la faille, au fond de la forêt, au nord-est ; **le bac de Mayence** à l'est (ouvert au chapitre 4).
+
 ## Le petit jeu de la composition
 Les gens touchés par la fracture sont **Scellés** : couverts d'une croûte rouge comme de la cire, ils serrent ce qu'ils ont et répètent « Ce n'est pas pour toi ». Pour les délivrer, approche-toi et appuie sur **F** : il faut composer une phrase avec des **lettres de plomb**.
 - Clique la lettre qui vient ensuite (ou tape son numéro).
@@ -20,8 +27,10 @@ Les gens touchés par la fracture sont **Scellés** : couverts d'une croûte rou
 - Une erreur fait trembler la casse (ce qui est rangé reste). Après deux erreurs, la bonne lettre brille.
 - Quand la phrase est finie, on encre, on presse, et la feuille sort à l'endroit.
 
-## L'histoire (chapitres 1 et 2)
+## L'histoire (chapitres 1 à 3)
 1. **Le pressoir** : la radio de Vera, Liesel, Heinrich Keffer (le compagnon de Gutenberg), les sangliers des vignes, les vendangeurs Scellés, maître Ott et le pressoir. Récompense : le **pot d'encre de maître Johannes** (compétence d'époque **Encre noire** : aveugle 1 s puis ralentit) et un tablier de vendangeur.
 2. **Le copiste qui a peur** : frère Wendelin à l'abbaye d'Eberbach, les loups du Taunus, les moines Scellés, un message de Masque, le chef des brigands (et ses lunettes de pharmacie), une feuille imprimée en 2026 signée « É. », la faille. Récompense : les **besicles de frère Wendelin**.
 
-La suite (le Rhin et le moulin à papier, Mayence et l'atelier de Gutenberg, la foire de Francfort, la fonderie) arrive bientôt.
+3. **Le papier** : Jakob le batelier, les grutiers Scellés, la grue qui décharge les chiffons ; au moulin, Greta, la vanne du bief, ta première feuille à la cuve, le feu aux séchoirs, les hommes de Sceau, les trois rames volées, l'incendiaire (et son briquet chromé), une lettre de **Sceau**, la deuxième Effaceuse, la faille. Récompense : **ta première feuille** (compétence d'époque **Page volante** : une feuille raide comme une lame qui fait saigner 8 s) et des gants de papetière.
+
+La suite (Mayence et l'atelier de Gutenberg, la foire de Francfort, la fonderie) arrive bientôt.

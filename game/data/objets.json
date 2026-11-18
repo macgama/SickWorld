@@ -2706,6 +2706,87 @@
 				"couleur": "#c8c8c0"
 			},
 			"epoque": "Mayence"
+		},
+		"feuille_greta": {
+			"nom": "La première feuille, du moulin de Greta",
+			"type": "materiau",
+			"rarete": "historique",
+			"pile": 1,
+			"description": "Ta toute première feuille de papier, faite à la cuve de Greta : blanche, un peu épaisse, avec à contre-jour les lignes des fils de la forme et une petite tête de bœuf en filigrane. Tant qu'elle est dans tes sacs, tu peux mettre la compétence d'époque « Page volante » dans ta barre (touches 6 et 7).",
+			"icone": {
+				"forme": "eclat",
+				"couleur": "#f2eee2"
+			},
+			"epoque": "Mayence"
+		},
+		"gants_papetiere": {
+			"nom": "Gants de papetière",
+			"type": "equipement",
+			"rarete": "rare",
+			"emplacement": "mains",
+			"description": "Des gants de cuir huilé, raides d'eau et de colle, comme en portent les ouvriers de la cuve pour ne pas se geler les mains.",
+			"stats": {
+				"pv": 260,
+				"degats_pourcent": 4,
+				"reduction_pourcent": 2
+			},
+			"visuel": {
+				"forme": "gants",
+				"couleur": "#7a6248"
+			},
+			"epoque": "Mayence"
+		},
+		"briquet_tempete": {
+			"nom": "Briquet tempête chromé",
+			"type": "materiau",
+			"rarete": "rare",
+			"pile": 1,
+			"description": "Un briquet à essence, en métal chromé, avec un couvercle qui claque. Un petit S est gravé dessus. On en vendra à partir de 1933. Il n'a rien à faire en 1450.",
+			"icone": {
+				"forme": "eclat",
+				"couleur": "#c8c8cc"
+			},
+			"epoque": "Mayence"
+		},
+		"chiffon_lin": {
+			"nom": "Chiffon de lin",
+			"type": "materiau",
+			"rarete": "commun",
+			"pile": 20,
+			"description": "Un vieux chiffon de lin usé jusqu'à la trame. Pour Greta, c'est de l'or.",
+			"icone": {
+				"forme": "peau",
+				"couleur": "#d8d0c0"
+			},
+			"epoque": "Mayence"
+		},
+		"torche_poix": {
+			"nom": "Torche de poix",
+			"type": "materiau",
+			"rarete": "commun",
+			"pile": 20,
+			"description": "Un bâton entouré de chiffons trempés dans la poix. Ça sent fort et ça brûle longtemps.",
+			"icone": {
+				"forme": "tendon",
+				"couleur": "#2a2018"
+			},
+			"epoque": "Mayence"
+		},
+		"hachette_incendiaire": {
+			"nom": "Hachette de l'incendiaire",
+			"type": "equipement",
+			"rarete": "rare",
+			"emplacement": "arme_principale",
+			"description": "Une hachette de bûcheron au manche noirci par la poix. La Vigie y a glissé un éclat de technologie.",
+			"stats": {
+				"degats_pourcent": 33,
+				"pv": 130
+			},
+			"visuel": {
+				"forme": "lame",
+				"couleur": "#6a6a6e"
+			},
+			"epoque": "Mayence"
 		}
 	},
 	"ensembles": {
@@ -2814,7 +2895,8 @@
 		"cloche_du_beffroi",
 		"onguent_de_l_hotel_dieu",
 		"lumiere_du_vitrail",
-		"encre_noire"
+		"encre_noire",
+		"page_volante"
 	],
 	"_aide_competences_requises": "Une compétence d'époque qui demande un objet : elle ne peut aller dans la barre que si l'objet est dans les sacs (ou porté).",
 	"competences_requises": {
@@ -2826,7 +2908,8 @@
 		"cloche_du_beffroi": "battant_cloche",
 		"onguent_de_l_hotel_dieu": "pot_onguent",
 		"lumiere_du_vitrail": "fer_a_gruger",
-		"encre_noire": "pot_encre_gutenberg"
+		"encre_noire": "pot_encre_gutenberg",
+		"page_volante": "feuille_greta"
 	},
 	"ultimes": [
 		"appel_de_la_meute"
@@ -3726,6 +3809,106 @@
 			},
 			{
 				"objet": "couteau_vendange",
+				"chance": 1.0
+			},
+			{
+				"objet": "pfennig_mayence",
+				"chance": 1.0,
+				"quantite": [6, 10]
+			}
+		],
+		"loup_taunus_vallee": [
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 0.4
+			},
+			{
+				"objet": "pelage_loup_taunus",
+				"chance": 0.5
+			}
+		],
+		"sanglier_walluf": [
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 0.4
+			},
+			{
+				"objet": "soies_sanglier",
+				"chance": 0.5
+			}
+		],
+		"mercenaire_homme_sceau": [
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 0.45
+			},
+			{
+				"objet": "torche_poix",
+				"chance": 0.5
+			},
+			{
+				"objet": "pfennig_mayence",
+				"chance": 0.5,
+				"quantite": [1, 4]
+			}
+		],
+		"mercenaire_homme_sceau_moulin": [
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 0.45
+			},
+			{
+				"objet": "torche_poix",
+				"chance": 0.5
+			},
+			{
+				"objet": "pfennig_mayence",
+				"chance": 0.5,
+				"quantite": [1, 4]
+			}
+		],
+		"mercenaire_homme_sceau_faille": [
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 0.45
+			},
+			{
+				"objet": "torche_poix",
+				"chance": 0.5
+			},
+			{
+				"objet": "pfennig_mayence",
+				"chance": 0.5,
+				"quantite": [1, 4]
+			}
+		],
+		"mercenaire_detrousseur_bac": [
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 0.4
+			},
+			{
+				"objet": "chiffon_lin",
+				"chance": 0.5
+			},
+			{
+				"objet": "pfennig_mayence",
+				"chance": 0.7,
+				"quantite": [2, 5]
+			}
+		],
+		"mercenaire_chef_incendiaire": [
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 1.0,
+				"quantite": [2, 3]
+			},
+			{
+				"objet": "briquet_tempete",
+				"chance": 1.0
+			},
+			{
+				"objet": "hachette_incendiaire",
 				"chance": 1.0
 			},
 			{
