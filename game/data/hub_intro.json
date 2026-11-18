@@ -90,6 +90,11 @@
 			"scene": "res://scenes/monde/moyen_age/beauce.tscn",
 			"titre": "Moyen Âge",
 			"sous_titre": "La Beauce, près de Chartres, été 1194"
+		},
+		"Mayence": {
+			"scene": "res://scenes/monde/mayence/rheingau.tscn",
+			"titre": "Mayence",
+			"sous_titre": "Les vignes du Rheingau, octobre 1450"
 		}
 	}
 }

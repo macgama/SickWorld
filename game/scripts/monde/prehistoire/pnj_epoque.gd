@@ -8,7 +8,7 @@ extends "res://scripts/monde/pnj.gd"
 const HabitEpoque := preload("res://scripts/personnage/habit_epoque.gd")
 const DONNEES_EPOQUE := "res://data/prehistoire_pnj.json"
 ## Les personnages des autres îles (lus en plus de ceux de la Préhistoire).
-const AUTRES_EPOQUES := ["res://data/egypte_pnj.json", "res://data/grece_pnj.json", "res://data/rome_pnj.json", "res://data/chine_pnj.json", "res://data/moyen_age_pnj.json"]
+const AUTRES_EPOQUES := ["res://data/egypte_pnj.json", "res://data/grece_pnj.json", "res://data/rome_pnj.json", "res://data/chine_pnj.json", "res://data/moyen_age_pnj.json", "res://data/mayence_pnj.json"]
 
 ## Allongé au sol (blessé) ou debout.
 @export var blesse := false:
@@ -22,6 +22,9 @@ var fige := false
 ## « Las » (île du Moyen Âge) : une fumée grise s'est posée sur lui ; voûté, il a lâché
 ## ses outils et ne bouge presque plus. degeler() lui rend courage.
 var las := false
+## « Scellé » (île de Mayence) : une fumée rouge s'est posée sur lui comme de la cire ; il
+## serre ce qu'il a contre lui et ne bouge plus. degeler() brise le sceau.
+var scelle := false
 var _argile: StandardMaterial3D
 var _deja_degele := false
 
@@ -87,6 +90,9 @@ func _habiller(fiche: Dictionary) -> void:
 	elif fiche.get("las", false):
 		las = true
 		_figer.call_deferred()
+	elif fiche.get("scelle", false):
+		scelle = true
+		_figer.call_deferred()
 	if fiche.has("habits") and not habille:
 		_teindre_habits(Color.from_string(String(fiche["habits"]), Color.WHITE))
 	if not fiche.has("tenue") or not _apparence.has_method("equiper"):
@@ -133,6 +139,16 @@ func _figer() -> void:
 		_argile.roughness = 1.0
 		_apparence.rotation.x = 0.32
 		_apparence.position.y = -0.08
+	if scelle and _argile == null:
+		# La cire rouge : une croûte sombre et un peu brillante, le dos rond, les épaules serrées.
+		_argile = StandardMaterial3D.new()
+		_argile.albedo_color = Color(0.5, 0.06, 0.06, 0.55)
+		_argile.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+		_argile.roughness = 0.35
+		_argile.emission_enabled = true
+		_argile.emission = Color(0.3, 0.02, 0.02)
+		_argile.emission_energy_multiplier = 0.4
+		_apparence.rotation.x = 0.18
 	if _argile == null:
 		_argile = StandardMaterial3D.new()
 		_argile.albedo_color = Color(0.56, 0.4, 0.3)
@@ -150,7 +166,7 @@ func _figer() -> void:
 	for mi in _apparence.find_children("*", "MeshInstance3D", true, false):
 		(mi as MeshInstance3D).material_overlay = _argile
 	for ap in _apparence.find_children("*", "AnimationPlayer", true, false):
-		(ap as AnimationPlayer).speed_scale = 0.25 if las else 0.0
+		(ap as AnimationPlayer).speed_scale = 0.25 if las else (0.1 if scelle else 0.0)
 
 
 ## La mémoire revient : l'argile s'effrite (en fondu si « anime »), le corps rebouge.

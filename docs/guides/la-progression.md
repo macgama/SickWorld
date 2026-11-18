@@ -10,11 +10,11 @@ Ton personnage progresse de trois façons : il **monte de niveau**, il place des
 
 ## Les niveaux
 
-- Une île = 10 niveaux : Préhistoire 1 à 10, Égypte 10 à 20, Grèce 20 à 30, Rome 30 à 40, Chine 40 à 50. Le niveau maximum est **60** (pour l'île suivante) ; il montera de 10 à chaque nouvelle époque.
+- Une île = 10 niveaux : Préhistoire 1 à 10, Égypte 10 à 20, Grèce 20 à 30, Rome 30 à 40, Chine 40 à 50, Moyen Âge 50 à 60, Mayence 60 à 70. Le niveau maximum est **70** ; il montera de 10 à chaque nouvelle époque.
 - L'XP vient surtout des **quêtes** (chaque étape, avec un gros bonus en fin de chapitre), puis des **quêtes secondaires**, des **événements publics** (selon ta participation : or, argent, bronze), des **ennemis** et de la **première visite de chaque zone**. Les missions des habitants du hub rapportent aussi un peu.
 - Un ennemi beaucoup plus faible que toi rapporte peu ; un ennemi plus fort rapporte jusqu'à 50 % de plus.
 - Chaque niveau donne **+6 % de vie de base** et **+2,5 % de dégâts**.
-- **Points de talent** : un par niveau du niveau 2 au niveau 20 (19 points), puis un tous les deux niveaux (niveaux 22, 24… 60) : **39 points au niveau 60**. La fenêtre indique le prochain niveau qui donne un point.
+- **Points de talent** : un par niveau du niveau 2 au niveau 20 (19 points), puis un tous les deux niveaux (niveaux 22, 24… 70) : **39 points au niveau 60, 44 au niveau 70**. La fenêtre indique le prochain niveau qui donne un point.
 - Pour devenir vraiment plus fort, il faut aussi l'**équipement de chaque île** : voir [l'Arsenal des époques](l-arsenal-des-epoques.md).
 - Les 5 compétences de classe restent toutes disponibles dès le niveau 1 : ce sont les talents qui les transforment.
 

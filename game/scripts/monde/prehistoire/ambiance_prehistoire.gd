@@ -206,6 +206,26 @@ const CLIMATS := {
 		"nuage_lumiere": Color(1.0, 0.98, 0.94),
 		"saturation": 1.08,
 	},
+	# Le Rheingau (Mayence) : un après-midi d'octobre, soleil doré assez bas, quelques nuages,
+	# une brume légère qui monte du Rhin.
+	"rheingau": {
+		"soleil": Vector2(200.0, 32.0),
+		"couleur_soleil": Color(1.0, 0.86, 0.66),
+		"energie_soleil": 2.6,
+		"couverture": 0.36,
+		"brume": Color(0.78, 0.82, 0.86),
+		"densite_brume": 0.0016,
+		"brume_volume": 0.005,
+		"albedo_brume": Color(0.95, 0.95, 0.92),
+		"ambiance": 0.85,
+		"zenith": Color(0.2, 0.38, 0.72),
+		"horizon": Color(0.74, 0.82, 0.9),
+		"brume_ciel": 0.18,
+		"horizon_soleil": Color(1.0, 0.8, 0.58),
+		"nuage_ombre": Color(0.66, 0.68, 0.74),
+		"nuage_lumiere": Color(1.0, 0.98, 0.94),
+		"saturation": 1.12,
+	},
 	# La Porte de Jade (Chine) : un matin d'hiver dans le désert, soleil bas et pâle,
 	# ciel laiteux, un voile de poussière soulevé par le vent.
 	"porte_de_jade": {
