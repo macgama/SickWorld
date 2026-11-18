@@ -229,6 +229,41 @@
 			"taille_cm": 178,
 			"peau": "#c49a78",
 			"habits": "#3a4a6a"
+		},
+		"romain_homme": {
+			"modele": "homme",
+			"habit": "chiton_court",
+			"taille_cm": 170,
+			"peau": "#b08058",
+			"habits": "#8a6a4a"
+		},
+		"romain_toge": {
+			"modele": "homme",
+			"habit": "chiton_himation",
+			"taille_cm": 174,
+			"peau": "#c49a76",
+			"habits": "#e8e2d2"
+		},
+		"romain_esclave": {
+			"modele": "homme",
+			"habit": "exomis",
+			"taille_cm": 168,
+			"peau": "#9a6a48",
+			"habits": "#7a6a52"
+		},
+		"romaine": {
+			"modele": "femme",
+			"habit": "peplos",
+			"taille_cm": 162,
+			"peau": "#c08e68",
+			"habits": "#9a4a3a"
+		},
+		"romaine_2": {
+			"modele": "femme",
+			"habit": "peplos",
+			"taille_cm": 158,
+			"peau": "#b88660",
+			"habits": "#4a6a7a"
 		}
 	},
 	"steppe": {
@@ -5203,6 +5238,419 @@
 					16,
 					-110,
 					1.0
+				]
+			}
+		],
+		"figurants": [
+			{
+				"comme": "romain_toge",
+				"chemin": [
+					[
+						21.2,
+						36.6
+					],
+					[
+						5.2,
+						0.6
+					],
+					[
+						-4.8,
+						-29.4
+					],
+					[
+						-26.8,
+						-37.4
+					],
+					[
+						-98.8,
+						-38.4
+					]
+				],
+				"vitesse": 0.8,
+				"pause": [
+					4,
+					9
+				]
+			},
+			{
+				"comme": "romaine",
+				"chemin": [
+					[
+						-101.4,
+						-39.7
+					],
+					[
+						-29.4,
+						-38.7
+					],
+					[
+						-7.4,
+						-30.7
+					],
+					[
+						2.6,
+						-0.7
+					],
+					[
+						18.6,
+						35.3
+					]
+				],
+				"porte": "panier",
+				"vitesse": 0.85,
+				"pause": [
+					3,
+					8
+				]
+			},
+			{
+				"comme": "romain_esclave",
+				"chemin": [
+					[
+						127.5,
+						146.8
+					],
+					[
+						125.5,
+						120.8
+					],
+					[
+						113.5,
+						60.8
+					],
+					[
+						71.5,
+						46.8
+					],
+					[
+						21.5,
+						36.8
+					]
+				],
+				"porte": "amphore",
+				"vitesse": 0.9,
+				"pause": [
+					2,
+					6
+				]
+			},
+			{
+				"comme": "romain_homme",
+				"chemin": [
+					[
+						18.8,
+						35.4
+					],
+					[
+						68.8,
+						45.4
+					],
+					[
+						110.8,
+						59.4
+					],
+					[
+						122.8,
+						119.4
+					],
+					[
+						124.8,
+						145.4
+					]
+				],
+				"porte": "sac",
+				"vitesse": 0.95,
+				"pause": [
+					3,
+					7
+				]
+			},
+			{
+				"comme": "romaine_2",
+				"chemin": [
+					[
+						124.8,
+						120.4
+					],
+					[
+						112.8,
+						60.4
+					],
+					[
+						70.8,
+						46.4
+					]
+				],
+				"porte": "jarre",
+				"vitesse": 0.8,
+				"pause": [
+					4,
+					10
+				]
+			},
+			{
+				"comme": "romain_homme",
+				"chemin": [
+					[
+						-39.0,
+						-51.5
+					],
+					[
+						-23.0,
+						-71.5
+					],
+					[
+						-3.0,
+						-89.5
+					],
+					[
+						15.0,
+						-109.5
+					]
+				],
+				"vitesse": 0.9,
+				"pause": [
+					3,
+					8
+				]
+			},
+			{
+				"comme": "romaine",
+				"chemin": [
+					[
+						13.0,
+						-110.5
+					],
+					[
+						-5.0,
+						-90.5
+					],
+					[
+						-25.0,
+						-72.5
+					],
+					[
+						-41.0,
+						-52.5
+					]
+				],
+				"porte": "panier",
+				"vitesse": 0.8,
+				"pause": [
+					4,
+					9
+				]
+			},
+			{
+				"comme": "romain_esclave",
+				"chemin": [
+					[
+						-4.7,
+						-29.4
+					],
+					[
+						7.3,
+						-59.4
+					],
+					[
+						15.3,
+						-99.3
+					]
+				],
+				"porte": "fagot",
+				"vitesse": 0.85,
+				"pause": [
+					2,
+					6
+				]
+			},
+			{
+				"comme": "romain_toge",
+				"chemin": [
+					[
+						12.7,
+						-100.7
+					],
+					[
+						4.7,
+						-60.6
+					],
+					[
+						-7.3,
+						-30.6
+					]
+				],
+				"vitesse": 0.75,
+				"pause": [
+					5,
+					10
+				]
+			},
+			{
+				"comme": "romain_toge",
+				"chemin": [
+					[
+						-90,
+						-42
+					],
+					[
+						-60,
+						-44
+					],
+					[
+						-36,
+						-40
+					],
+					[
+						-60,
+						-34
+					]
+				],
+				"vitesse": 0.7,
+				"pause": [
+					5,
+					12
+				],
+				"geste": "discute"
+			},
+			{
+				"comme": "romain_homme",
+				"chemin": [
+					[
+						-80,
+						-34
+					],
+					[
+						-50,
+						-36
+					],
+					[
+						-30,
+						-44
+					]
+				],
+				"vitesse": 0.8,
+				"pause": [
+					4,
+					9
+				]
+			},
+			{
+				"comme": "romaine_2",
+				"chemin": [
+					[
+						-70,
+						-46
+					],
+					[
+						-44,
+						-46
+					],
+					[
+						-70,
+						-46
+					]
+				],
+				"porte": "jarre",
+				"vitesse": 0.8,
+				"pause": [
+					4,
+					8
+				]
+			},
+			{
+				"comme": "romain_homme",
+				"chemin": [
+					[
+						6,
+						-132
+					],
+					[
+						30,
+						-128
+					],
+					[
+						44,
+						-110
+					],
+					[
+						20,
+						-104
+					]
+				],
+				"porte": "sac",
+				"vitesse": 0.9,
+				"pause": [
+					3,
+					8
+				]
+			},
+			{
+				"comme": "romaine",
+				"chemin": [
+					[
+						-20,
+						-140
+					],
+					[
+						0,
+						-126
+					],
+					[
+						24,
+						-130
+					]
+				],
+				"porte": "panier",
+				"vitesse": 0.8,
+				"pause": [
+					4,
+					9
+				]
+			},
+			{
+				"comme": "romain_esclave",
+				"chemin": [
+					[
+						36,
+						-100
+					],
+					[
+						22,
+						-112
+					],
+					[
+						2,
+						-120
+					]
+				],
+				"porte": "sac",
+				"vitesse": 0.9,
+				"pause": [
+					2,
+					6
+				]
+			},
+			{
+				"comme": "romain_toge",
+				"chemin": [
+					[
+						60,
+						42
+					],
+					[
+						40,
+						40
+					],
+					[
+						24,
+						38
+					]
+				],
+				"vitesse": 0.75,
+				"pause": [
+					5,
+					11
 				]
 			}
 		]

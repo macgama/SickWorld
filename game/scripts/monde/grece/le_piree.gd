@@ -86,7 +86,7 @@ func _init() -> void:
 		# Vert : la terre sèche et rouge de l'Attique, avec ses cailloux.
 		"neige": ["dry_ground_rocks", "dry_ground_01", "red_sand"],
 		# Bleu : la terre tassée des rues et des quais.
-		"sol": ["dry_ground_01", "mud_cracked_dry_03", "dry_ground_rocks"],
+		"sol": ["dry_ground_rocks", "dry_ground_01", "mud_cracked_dry_03"],
 		"roche": ["rock_boulder_dry", "cliff_side", "rock_wall_10"],
 	}
 	reglages_terrain = {"sol_saturation": 0.85, "sol_motif": 4.0, "galets_motif": 2.0, "neige_motif": 5.0,

@@ -879,9 +879,7 @@ func _lumineux(couleur: Color, energie := 3.0) -> StandardMaterial3D:
 
 func _boite(taille: Vector3, centre: Vector3, materiau: Material, parent: Node3D, collision := true) -> MeshInstance3D:
 	var mi := MeshInstance3D.new()
-	var b := BoxMesh.new()
-	b.size = taille
-	mi.mesh = b
+	mi.mesh = _maillage_boite(taille, materiau)
 	mi.material_override = materiau
 	mi.position = centre
 	# La salissure monte depuis le pied de la boîte (shaders/usure.gdshader).
@@ -897,6 +895,91 @@ func _boite(taille: Vector3, centre: Vector3, materiau: Material, parent: Node3D
 		corps.add_child(forme)
 		mi.add_child(corps)
 	return mi
+
+
+static var _boites_biseautees := {}
+
+
+## Maillage d'une boîte. Les arêtes vives font « image de synthèse » : les boîtes de pierre,
+## de bois ou d'enduit ont un petit chanfrein (2 à 4 cm) qui accroche la lumière.
+## Les matériaux à texture non triplanaire gardent la BoxMesh (UV d'origine).
+func _maillage_boite(taille: Vector3, materiau: Material) -> Mesh:
+	var mini := minf(taille.x, minf(taille.y, taille.z))
+	var biseau_ok := materiau is BaseMaterial3D and mini >= 0.06 \
+			and ((materiau as BaseMaterial3D).albedo_texture == null or (materiau as BaseMaterial3D).uv1_triplanar)
+	if not biseau_ok:
+		var b := BoxMesh.new()
+		b.size = taille
+		return b
+	var cle := Vector3i((taille * 100.0).round())
+	if _boites_biseautees.has(cle):
+		return _boites_biseautees[cle]
+	var m := boite_biseautee(taille, clampf(mini * 0.12, 0.008, 0.035))
+	_boites_biseautees[cle] = m
+	return m
+
+
+## Boîte centrée de taille `taille`, arêtes et coins chanfreinés de `biseau`.
+static func boite_biseautee(taille: Vector3, biseau: float) -> ArrayMesh:
+	var outil := SurfaceTool.new()
+	outil.begin(Mesh.PRIMITIVE_TRIANGLES)
+	var demi := taille * 0.5
+	var interieur := demi - Vector3.ONE * biseau
+	# Sommet d'un coin (signes s) déporté vers la face de normale n.
+	var point := func(sgn: Vector3, n: Vector3) -> Vector3:
+		return sgn * interieur + n * biseau
+	var tri := func(a: Vector3, b: Vector3, c: Vector3, n: Vector3) -> void:
+		# Godot : face avant quand (b-a)×(c-a) est opposé à la normale.
+		if (b - a).cross(c - a).dot(n) > 0.0:
+			var t := b
+			b = c
+			c = t
+		for p: Vector3 in [a, b, c]:
+			outil.set_normal(n)
+			# UV planaires en mètres (les matériaux triplanaires ne s'en servent pas).
+			var uv := Vector2(p.x + p.z, -p.y) if absf(n.y) < 0.7 else Vector2(p.x, p.z)
+			outil.set_uv(uv)
+			outil.add_vertex(p)
+	var axes := [Vector3.RIGHT, Vector3.UP, Vector3.BACK]
+	# Faces.
+	for k in 3:
+		for sens: float in [-1.0, 1.0]:
+			var n: Vector3 = axes[k] * sens
+			var u: Vector3 = axes[(k + 1) % 3]
+			var v: Vector3 = axes[(k + 2) % 3]
+			var c := []
+			for su: float in [-1.0, 1.0]:
+				for sv: float in [-1.0, 1.0]:
+					c.append(point.call(n + u * su + v * sv, n))
+			tri.call(c[0], c[1], c[3], n)
+			tri.call(c[0], c[3], c[2], n)
+	# Chanfreins des 12 arêtes.
+	for k in 3:
+		var long_axe: Vector3 = axes[k]
+		var a1: Vector3 = axes[(k + 1) % 3]
+		var a2: Vector3 = axes[(k + 2) % 3]
+		for s1: float in [-1.0, 1.0]:
+			for s2: float in [-1.0, 1.0]:
+				var n1 := a1 * s1
+				var n2 := a2 * s2
+				var n := (n1 + n2).normalized()
+				var bas := -long_axe + n1 + n2
+				var haut := long_axe + n1 + n2
+				var p0: Vector3 = point.call(bas, n1)
+				var p1: Vector3 = point.call(haut, n1)
+				var p2: Vector3 = point.call(haut, n2)
+				var p3: Vector3 = point.call(bas, n2)
+				tri.call(p0, p1, p2, n)
+				tri.call(p0, p2, p3, n)
+	# Coins.
+	for sx: float in [-1.0, 1.0]:
+		for sy: float in [-1.0, 1.0]:
+			for sz: float in [-1.0, 1.0]:
+				var sgn := Vector3(sx, sy, sz)
+				tri.call(point.call(sgn, Vector3(sx, 0, 0)), point.call(sgn, Vector3(0, sy, 0)),
+						point.call(sgn, Vector3(0, 0, sz)), sgn.normalized())
+	outil.generate_tangents()
+	return outil.commit()
 
 
 ## Modèle du hub (Poly Haven) réutilisé ici pour le matériel moderne de la Vigie.

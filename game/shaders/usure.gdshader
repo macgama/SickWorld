@@ -36,7 +36,7 @@ void fragment() {
 	// Coulures verticales sur les murs (pluie, ruissellement).
 	float vertical = 1.0 - abs(n_monde.y);
 	float coulure = texture(bruit, vec2(dot(pos_monde.xz, vec2(0.71, 0.71)) * 0.8, pos_monde.y * 0.035)).r;
-	m *= 1.0 - vertical * smoothstep(0.42, 0.8, coulure) * 0.32 * force;
+	m *= 1.0 - vertical * smoothstep(0.42, 0.8, coulure) * 0.24 * force;
 	// Salissure au pied des murs (éclaboussures, terre, humidité).
 	if (demi_hauteur > 0.0) {
 		float h = y_local + demi_hauteur;

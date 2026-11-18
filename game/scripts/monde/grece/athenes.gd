@@ -118,7 +118,7 @@ func _init() -> void:
 		# Vert : la terre des jardins et des terrains vagues.
 		"neige": ["dry_ground_01", "red_sand", "dry_ground_rocks"],
 		# Bleu : la terre battue des rues et de l'Agora.
-		"sol": ["mud_cracked_dry_03", "dry_ground_01", "dry_ground_rocks"],
+		"sol": ["dry_ground_rocks", "dry_ground_01", "mud_cracked_dry_03"],
 		"roche": ["rock_boulder_dry", "cliff_side", "rock_wall_10"],
 	}
 	reglages_terrain = {"sol_saturation": 0.8, "sol_motif": 4.0, "galets_motif": 3.0, "neige_motif": 5.0,

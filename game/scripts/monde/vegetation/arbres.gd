@@ -169,8 +169,8 @@ const ESSENCES := {
 	"papyrus": {
 		"forme": "papyrus", "tronc": [2.0, 3.8], "rayon": 0.022, "penche": 0.4, "torsion": 0.0,
 		"chaumes": 11,
-		"feuille": "ombelle", "cartes": 6, "carte": 0.55,
-		"couleur": Color(0.62, 0.74, 0.4), "variation": Color(0.95, 0.92, 0.7), "translucidite": 0.65,
+		"feuille": "ombelle", "cartes": 5, "carte": 0.4,
+		"couleur": Color(0.5, 0.6, 0.36), "variation": Color(0.92, 0.9, 0.7), "translucidite": 0.55,
 	},
 	"saule": {
 		"forme": "feuillu", "tronc": [2.4, 3.2], "rayon": 0.34, "penche": 0.15, "torsion": 0.15,
@@ -1070,7 +1070,7 @@ static func _dessiner_ombelle(d: _Dessin, hasard: RandomNumberGenerator, couleur
 		for x in int(d.taille * 0.05):
 			d._poser(x, y, tige * (0.92 + 0.08 * float(y) / d.taille))
 	var base := Vector2(0.53, 0.97)
-	for i in 150:
+	for i in 95:
 		var angle := -PI * 0.5 + hasard.randf_range(-1.38, 1.38)
 		var l := hasard.randf_range(0.55, 0.9)
 		var dir := Vector2(cos(angle), sin(angle))
