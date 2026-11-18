@@ -37,6 +37,14 @@ Au QG de la Vigie, dans la salle des portails, le 7e portail (« Mayence ») mè
 - **Le pré de la foire**, à l'est : tentes, chariots, et des coupe-bourses.
 - **L'Eschenheimer Turm**, la haute tour ronde du rempart nord.
 
+## Le donjon : la fonderie sous la cathédrale (niveau 70, à 5)
+- **Entrée** : la porte de la crypte, contre le flanc sud de la cathédrale Saint-Martin (sa grille s'ouvre au chapitre 8).
+- **Les caves du chapitre** : une longue galerie voûtée pleine de tonneaux. Quatre **moules fendus** dans la voûte font couler du plomb fondu en travers du couloir (une bande rouge prévient une seconde et demie avant). Bouche-les avec un seau de sable (**F**), ou passe entre les coulées.
+- **La salle des casses** : des casses de lettres hautes comme des maisons, gardées par cinq hommes de lettres de plomb. **Hans** le fondeur y est Scellé.
+- **La fonderie infinie** : des fourneaux de briques, des montagnes de caractères, des lingots, une rivière de plomb fondu au fond, et le **Typographe de plomb**, un géant fait de milliers de lettres, un composteur à la main.
+- **Le combat en 3 phases** : 1) la **pluie de caractères** (sors des cercles rouges), 2) les **lignes de plomb** qui barrent la salle par bandes, deux jeux tour à tour, 3) l'**encre noire** : tout le monde devient « las » (dégâts divisés par deux), sauf près des quatre **lanternes** de Hans, qu'il faut rallumer (**F**) ; et Sceau descend se battre. Des hommes de lettres arrivent en renfort tout du long.
+- **Trophée** : le **poinçon originel** (pour l'Arsenal des époques), et parfois le **composteur du Typographe** (arme épique).
+
 ## Le petit jeu de la composition
 Les gens touchés par la fracture sont **Scellés** : couverts d'une croûte rouge comme de la cire, ils serrent ce qu'ils ont et répètent « Ce n'est pas pour toi ». Pour les délivrer, approche-toi et appuie sur **F** : il faut composer une phrase avec des **lettres de plomb**.
 - Clique la lettre qui vient ensuite (ou tape son numéro).
@@ -44,7 +52,7 @@ Les gens touchés par la fracture sont **Scellés** : couverts d'une croûte rou
 - Une erreur fait trembler la casse (ce qui est rangé reste). Après deux erreurs, la bonne lettre brille.
 - Quand la phrase est finie, on encre, on presse, et la feuille sort à l'endroit.
 
-## L'histoire (chapitres 1 à 7)
+## L'histoire (chapitres 1 à 8)
 1. **Le pressoir** : la radio de Vera, Liesel, Heinrich Keffer (le compagnon de Gutenberg), les sangliers des vignes, les vendangeurs Scellés, maître Ott et le pressoir. Récompense : le **pot d'encre de maître Johannes** (compétence d'époque **Encre noire** : aveugle 1 s puis ralentit) et un tablier de vendangeur.
 2. **Le copiste qui a peur** : frère Wendelin à l'abbaye d'Eberbach, les loups du Taunus, les moines Scellés, un message de Masque, le chef des brigands (et ses lunettes de pharmacie), une feuille imprimée en 2026 signée « É. », la faille. Récompense : les **besicles de frère Wendelin**.
 
@@ -57,4 +65,4 @@ Les gens touchés par la fracture sont **Scellés** : couverts d'une croûte rou
 
 7. **La foire** : les libraires du quai sont Scellés, les hommes de Sceau ont pris tous les livres. Tu délivres les libraires, tu reprends les charrettes au Vieux Pont, Masque laisse un message, et au Römerberg tu rencontres enfin **Sceau** (une ancienne conservatrice de 2026 qui pense que « le savoir se mérite »). Elle fait allumer le bûcher : il faut battre le **Bourreau des livres** et éteindre le feu. Puis l'évêque **Enea Silvio Piccolomini** feuillette les cahiers de la Bible de Fust (c'est historique : il a écrit qu'on pouvait les lire sans lunettes). Récompenses : le **cahier de la foire** et des bottes de colporteur.
 
-La suite (la fonderie sous la cathédrale de Mayence) arrive bientôt.
+8. **La fonderie** : retour à Mayence. Hans a disparu sous la cathédrale, et les 46 000 lettres de Gutenberg sont parties toutes seules. Par la porte de la crypte, tu descends dans la fonderie (Masque t'y attend si tu l'as cru en Chine ; sinon, il laisse un message à la craie). Tu délivres Hans (récompense : son **moule à main**), tu abats le **Typographe de plomb** et tu refermes la fracture. **Sceau** se rend : elle s'appelle Mathilde Arnaud, conservatrice à Lyon, et elle a perdu sa salle de lecture. Son **registre** contient une fiche de la main de Marchal : « Séville, 1519. Cinq navires. La carte du monde. » (la prochaine île). Puis, à l'atelier, tu tires avec Gutenberg **la première page de la Bible** (« Incipit »), et le portail de la Vigie, dans la cour Humbrecht, ramène Sceau au QG (mission « La cellule de Sceau », dans une quatrième cellule des archives). Titre : **Compagnon de Gutenberg**.

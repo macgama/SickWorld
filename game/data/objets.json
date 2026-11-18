@@ -2956,6 +2956,93 @@
 				"couleur": "#4a4a4e"
 			},
 			"epoque": "Mayence"
+		},
+		"poincon_originel": {
+			"nom": "Le poinçon originel",
+			"type": "materiau",
+			"rarete": "epique",
+			"pile": 20,
+			"description": "Une tige d'acier noircie, gravée au bout d'une lettre qu'aucun alphabet ne connaît, tombée du cœur du Typographe quand il s'est effondré. Inès dit qu'avec ça, elle pourrait frapper n'importe quel métal.",
+			"icone": {
+				"forme": "cristal",
+				"couleur": "#8a8cb0"
+			},
+			"epoque": "Mayence"
+		},
+		"cachet_sceau": {
+			"nom": "Le cachet de Sceau",
+			"type": "materiau",
+			"rarete": "rare",
+			"pile": 1,
+			"description": "Un cachet de bibliothèque en laiton, avec un manche de bois verni : « FONDS ANCIEN — CONSULTATION SUR PLACE ». On en tamponnait les fiches de prêt, en 2026. Il n'a rien à faire en 1454.",
+			"icone": {
+				"forme": "eclat",
+				"couleur": "#c8a040"
+			},
+			"epoque": "Mayence"
+		},
+		"composteur_typographe": {
+			"nom": "Composteur du Typographe",
+			"type": "equipement",
+			"rarete": "epique",
+			"emplacement": "arme_principale",
+			"description": "Une réglette de fer longue comme un bras, à bord relevé, où le géant alignait ses lettres. Lourde, mais parfaitement équilibrée. La Vigie y a glissé un éclat de technologie.",
+			"stats": {
+				"degats_pourcent": 38,
+				"pv": 180,
+				"critique_pourcent": 2
+			},
+			"visuel": {
+				"forme": "lame",
+				"couleur": "#6a6c74"
+			},
+			"epoque": "Mayence"
+		},
+		"moule_hans": {
+			"nom": "Le moule à main de Hans",
+			"type": "equipement",
+			"rarete": "historique",
+			"emplacement": "bijou",
+			"description": "Deux coquilles de bois et de fer qui s'emboîtent, avec un ressort d'acier : le moule à main où l'on coule les lettres. Celui de Hans, poli par des milliers de coulées.",
+			"stats": {
+				"pv": 300,
+				"degats_pourcent": 4,
+				"reduction_pourcent": 2
+			},
+			"icone": {
+				"forme": "eclat",
+				"couleur": "#7a5a3a"
+			},
+			"epoque": "Mayence"
+		},
+		"registre_sceau": {
+			"nom": "Le registre de Sceau",
+			"type": "materiau",
+			"rarete": "historique",
+			"pile": 1,
+			"description": "Un registre de bibliothèque à fiches cartonnées, chacune avec sa cote. La dernière, de la main de Marchal : « Séville, 1519. Cinq navires. La carte du monde. »",
+			"icone": {
+				"forme": "tendon",
+				"couleur": "#5a5c60"
+			},
+			"epoque": "Mayence"
+		},
+		"premiere_page_bible": {
+			"nom": "La première page de la Bible",
+			"type": "equipement",
+			"rarete": "historique",
+			"emplacement": "relique",
+			"description": "Une feuille de papier de Greta, imprimée de deux colonnes de quarante-deux lignes, à l'encre noire de Gutenberg. En haut, le premier mot : « Incipit ». La toute première page, tirée par tes mains.",
+			"stats": {
+				"pv": 340,
+				"degats_pourcent": 5,
+				"critique_pourcent": 3
+			},
+			"icone": {
+				"forme": "eclat",
+				"couleur": "#f2eee2"
+			},
+			"epoque": "Mayence"
 		}
 	},
 	"ensembles": {
@@ -4268,6 +4355,61 @@
 			{
 				"objet": "hache_bourreau",
 				"chance": 1.0
+			}
+		],
+		"statue_lettres_plomb_casse": [
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 1.0,
+				"quantite": [1, 2]
+			},
+			{
+				"objet": "caractere_plomb",
+				"chance": 1.0,
+				"quantite": [3, 8]
+			}
+		],
+		"statue_lettres_plomb_renfort": [
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 0.6
+			},
+			{
+				"objet": "caractere_plomb",
+				"chance": 0.6,
+				"quantite": [2, 4]
+			}
+		],
+		"masque_sceau_fonderie": [
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 1.0,
+				"quantite": [2, 3]
+			},
+			{
+				"objet": "cachet_sceau",
+				"chance": 1.0
+			}
+		],
+		"coeur_typographe": [
+			{
+				"objet": "poincon_originel",
+				"chance": 1.0,
+				"quantite": [1, 2]
+			},
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 1.0,
+				"quantite": [8, 11]
+			},
+			{
+				"objet": "composteur_typographe",
+				"chance": 0.35
+			},
+			{
+				"objet": "caractere_plomb",
+				"chance": 1.0,
+				"quantite": [10, 20]
 			}
 		]
 	},

@@ -43,6 +43,7 @@ const SOUVENIRS := {
 	"charte_fondation": ["carnet", Color(0.86, 0.8, 0.66)],
 	"cellule_cinabre": ["cle", Color(0.62, 0.16, 0.12)],
 	"cellule_plomb": ["cle", Color(0.36, 0.38, 0.42)],
+	"cellule_sceau": ["cle", Color(0.62, 0.06, 0.06)],
 }
 
 var _bouton_hall: Node3D

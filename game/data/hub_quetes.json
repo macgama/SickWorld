@@ -1183,6 +1183,67 @@
 					]
 				}
 			]
+		},
+		{
+			"id": "cellule_sceau",
+			"titre": "La cellule de Sceau",
+			"donneur": "commandante",
+			"automatique": true,
+			"resume": "Sous la cathédrale de Mayence, Sceau a été arrêtée. Elle attend au QG, dans une quatrième cellule. Et son registre parle de Séville, en 1519.",
+			"recompense": "La fin de l'histoire de Mayence, et la piste de la prochaine époque",
+			"etapes": [
+				{
+					"objectif": "Fais ton rapport à la commandante Morel (Hall des opérations)",
+					"parler": "commandante",
+					"repliques": [
+						"Une conservatrice. Trente et un ans à garder des livres, et elle a voulu les brûler. Marchal ne choisit pas des méchants, agent. Il choisit des gens blessés.",
+						"Odile a vidé la dernière rangée des archives pour faire une quatrième cellule. Elle dit que c'est la première fois qu'elle range des cartons avec plaisir.",
+						"Montre-moi ce registre."
+					]
+				},
+				{
+					"objectif": "Pose le registre de Sceau sur le bureau de la commandante (Hall des opérations)",
+					"parler": "commandante",
+					"repliques": [
+						"Elle tourne les fiches une à une, très lentement. Elle s'arrête sur la dernière, celle qui est de la main de Marchal.",
+						"« Séville, 1519. Cinq navires. La carte du monde. » Magellan. Le premier tour du monde. Il en est revenu dix-huit hommes sur deux cent quarante.",
+						"Si Marchal touche aux cartes, il touche à tout : aux routes, aux langues, à ce que les gens savent de la Terre. Il nous faudra un navire, agent. Et des gens qui n'ont pas le mal de mer.",
+						"Va voir Sceau. Elle a demandé à te parler. Moi, je dois prévenir le conseil."
+					]
+				},
+				{
+					"objectif": "Va voir Sceau dans sa cellule (archives, au bout de la rangée)",
+					"parler": "sceau_cellule",
+					"repliques": [
+						"On m'a donné un crayon. Je recopie de mémoire le catalogue de ma réserve. Six mille cotes. J'en suis à la lettre C.",
+						"Ta commandante a des yeux de bibliothécaire. Elle range les gens dans des cases, et elle souffre quand ils n'y tiennent pas. Je l'aime bien.",
+						"Marchal m'a dit, à Lyon : « Ce que tu aimes ne disparaîtra pas si personne ne le partage. Il disparaîtra quand plus personne ne s'en souviendra. » Je n'ai pas écouté la deuxième moitié.",
+						"À Séville, il ne cherchera pas à détruire. Il cherchera à aller plus vite, comme toujours. Fais attention à la mer. On ne répare pas un naufrage."
+					]
+				},
+				{
+					"objectif": "Retourne voir la commandante Morel (Hall des opérations)",
+					"parler": "commandante",
+					"repliques": [
+						"Regarde la baie : les écrans géants de Hikari Bay se sont rallumés, et les librairies du quartier ont ouvert leurs volets. L'anneau de Mayence est stable.",
+						"Sept époques, agent. Sept fois tu as remis l'histoire debout. Prends un peu de repos. La mer attendra."
+					]
+				}
+			],
+			"apres": [
+				"Dans les archives, Odile a trouvé un carton vide pour le registre de Sceau. Elle l'a étiqueté avec soin : « Mayence, 1454 »."
+			],
+			"personnages": [
+				{
+					"id": "sceau_cellule",
+					"position": [
+						-66.4,
+						-12.0,
+						130.7,
+						0.0
+					]
+				}
+			]
 		}
 	]
 }

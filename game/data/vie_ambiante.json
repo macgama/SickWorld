@@ -10994,6 +10994,21 @@
 			}
 		]
 	},
+	"fonderie": {
+		"niveau_eau": -50.0,
+		"insectes": [
+			{
+				"sorte": "poussiere",
+				"autour": true,
+				"nombre": 90
+			},
+			{
+				"sorte": "cendres",
+				"autour": true,
+				"nombre": 60
+			}
+		]
+	},
 	"francfort": {
 		"niveau_eau": -50.0,
 		"oiseaux": [
