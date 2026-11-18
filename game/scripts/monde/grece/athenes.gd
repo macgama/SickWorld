@@ -121,7 +121,7 @@ func _init() -> void:
 		"sol": ["dry_ground_rocks", "dry_ground_01", "mud_cracked_dry_03"],
 		"roche": ["rock_boulder_dry", "cliff_side", "rock_wall_10"],
 	}
-	reglages_terrain = {"sol_saturation": 0.8, "sol_motif": 4.0, "galets_motif": 3.0, "neige_motif": 5.0,
+	reglages_terrain = {"sol_saturation": 0.62, "sol_motif": 4.0, "galets_motif": 3.0, "neige_motif": 5.0,
 			"sol_teinte": Color(1.02, 0.96, 0.88), "roche_teinte": Color(1.02, 0.98, 0.92), "roche_saturation": 0.6,
 			"neige_eclat": 1.0, "neige_paillettes": 0.0, "roche_motif": 10.0,
 			"neige_teinte": Color(1.0, 0.86, 0.72), "neige_max": Vector3(0.64, 0.5, 0.38), "neige_simple": Color(0.6, 0.46, 0.34),

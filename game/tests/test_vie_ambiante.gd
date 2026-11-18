@@ -14,6 +14,7 @@ const ZONES := {
 	"village_batisseurs": "res://scenes/monde/egypte/village_batisseurs.tscn",
 	"desert_rouge": "res://scenes/monde/egypte/desert_rouge.tscn",
 	"le_piree": "res://scenes/monde/grece/le_piree.tscn",
+	"athenes": "res://scenes/monde/grece/athenes.tscn",
 	"oliveraies": "res://scenes/monde/grece/oliveraies.tscn",
 	"laurion": "res://scenes/monde/grece/laurion.tscn",
 	"campagne": "res://scenes/monde/rome/campagne.tscn",

@@ -4550,6 +4550,246 @@
 					3,
 					6
 				]
+			},
+			{
+				"comme": "grec_homme",
+				"chemin": [
+					[
+						-44,
+						-30
+					]
+				],
+				"geste": "discute",
+				"regarde": 90
+			},
+			{
+				"comme": "grec_vieillard",
+				"chemin": [
+					[
+						-41.5,
+						-30
+					]
+				],
+				"geste": "discute",
+				"regarde": 270
+			},
+			{
+				"comme": "grec_marchand",
+				"chemin": [
+					[
+						-42.8,
+						-32.2
+					]
+				],
+				"geste": "discute",
+				"regarde": 0
+			},
+			{
+				"comme": "grec_homme",
+				"chemin": [
+					[
+						2,
+						-34
+					]
+				],
+				"geste": "discute",
+				"regarde": 45
+			},
+			{
+				"comme": "grec_femme",
+				"chemin": [
+					[
+						4.2,
+						-32.5
+					]
+				],
+				"geste": "discute",
+				"regarde": 225
+			},
+			{
+				"comme": "grec_vieillard",
+				"chemin": [
+					[
+						-36,
+						10
+					]
+				],
+				"geste": "discute",
+				"regarde": 90
+			},
+			{
+				"comme": "grec_homme",
+				"chemin": [
+					[
+						-33.6,
+						10.5
+					]
+				],
+				"geste": "discute",
+				"regarde": 270
+			},
+			{
+				"comme": "grec_femme_2",
+				"chemin": [
+					[
+						26,
+						-6
+					]
+				],
+				"geste": "priere",
+				"regarde": 180
+			},
+			{
+				"comme": "grec_servante",
+				"chemin": [
+					[
+						30,
+						34
+					],
+					[
+						10,
+						4
+					],
+					[
+						-20,
+						-6
+					],
+					[
+						-48,
+						-20
+					]
+				],
+				"porte": "jarre",
+				"vitesse": 0.85,
+				"pause": [
+					3,
+					7
+				]
+			},
+			{
+				"comme": "grec_docker",
+				"chemin": [
+					[
+						-50,
+						-40
+					],
+					[
+						-20,
+						-30
+					],
+					[
+						20,
+						-36
+					],
+					[
+						34,
+						-20
+					]
+				],
+				"porte": "sac",
+				"vitesse": 0.95,
+				"pause": [
+					2,
+					5
+				]
+			},
+			{
+				"comme": "grec_homme",
+				"chemin": [
+					[
+						34,
+						20
+					],
+					[
+						0,
+						10
+					],
+					[
+						-30,
+						0
+					],
+					[
+						-52,
+						4
+					]
+				],
+				"vitesse": 0.9,
+				"pause": [
+					3,
+					8
+				]
+			},
+			{
+				"comme": "grec_femme",
+				"chemin": [
+					[
+						-52,
+						20
+					],
+					[
+						-20,
+						14
+					],
+					[
+						0,
+						-4
+					],
+					[
+						30,
+						-12
+					]
+				],
+				"porte": "panier",
+				"vitesse": 0.8,
+				"pause": [
+					4,
+					9
+				]
+			},
+			{
+				"comme": "grec_marchand",
+				"chemin": [
+					[
+						-6,
+						22
+					],
+					[
+						-6,
+						-8
+					],
+					[
+						-14,
+						-36
+					]
+				],
+				"porte": "amphore",
+				"vitesse": 0.8,
+				"pause": [
+					4,
+					10
+				]
+			},
+			{
+				"comme": "grec_homme",
+				"chemin": [
+					[
+						18,
+						-40
+					],
+					[
+						30,
+						-10
+					],
+					[
+						18,
+						22
+					]
+				],
+				"vitesse": 1.0,
+				"pause": [
+					2,
+					6
+				]
 			}
 		],
 		"disperser": [
