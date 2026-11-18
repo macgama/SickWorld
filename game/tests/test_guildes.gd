@@ -293,10 +293,33 @@ func _tester_en_ville() -> void:
 	guildes.expediteur_force = 0
 	_verifier(not R.est_membre(guildes.guilde_de("Bob"), "Chloé"), "un officier exclut une membre en dessous de lui")
 
+	# Tableau de recrutement : Chloé (sans guilde) ne peut pas entrer tant que c'est fermé.
+	guildes.expediteur_force = 9002
+	guildes.rejoindre(g["nom"])
+	guildes.expediteur_force = 0
+	_verifier(not R.est_membre(g, "Chloé"), "recrutement fermé : on ne rejoint pas sans invitation")
+	guildes.changer_recrutement(true, "Ensemble contre l'oubli [test]")
+	guildes.changer_blason(2, 7)
+	await _images(2)
+	_verifier(R.recrutement(g)["ouvert"] and R.recrutement(g)["devise"] == "Ensemble contre l'oubli (test)", "le maître ouvre le recrutement avec une devise")
+	_verifier(R.blason(g) == {"forme": 2, "symbole": 7}, "le maître choisit le blason")
+	_verifier(guildes._vue(g, nom_moi)["recrutement"]["ouvert"] and guildes._vue(g, nom_moi)["blason"]["symbole"] == 7, "la vue envoyée au joueur montre recrutement et blason")
+	var annuaire: Array = guildes._annuaire()
+	_verifier(annuaire.any(func(f): return f["nom"] == g["nom"] and f["ouvert"] and int(f["membres"]) == R.nombre_membres(g)), "la guilde est au tableau de recrutement")
+	guildes.expediteur_force = 9002
+	guildes.rejoindre(g["nom"])
+	guildes.expediteur_force = 0
+	_verifier(R.est_membre(g, "Chloé") and R.rang_de(g, "Chloé") == "recrue", "Chloé rejoint en un clic (recrue)")
+	guildes.expediteur_force = 9002
+	guildes.changer_recrutement(false, "")
+	guildes.expediteur_force = 0
+	_verifier(R.recrutement(g)["ouvert"], "une recrue ne ferme pas le recrutement")
+
 	# Sauvegarde puis relecture du fichier du serveur.
 	guildes.sauvegarder()
 	guildes._chemin_charge = ""
 	var relu: Dictionary = guildes.guilde_de("Bob")
+	_verifier(R.blason(relu) == {"forme": 2, "symbole": 7} and R.recrutement(relu)["ouvert"], "blason et recrutement relus du fichier")
 	_verifier(not relu.is_empty() and R.est_membre(relu, nom_moi) and R.rang_de(relu, "Bob") == "officier",
 			"le serveur relit les guildes depuis son fichier")
 	_verifier(typeof(relu["xp"]) == TYPE_INT and typeof(relu["banque"][0].get("n", 0)) == TYPE_INT, "les nombres relus sont des entiers")

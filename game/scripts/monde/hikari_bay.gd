@@ -161,7 +161,7 @@ func _sur_portail(corps: Node3D, zone: Area3D) -> void:
 	_franchir_portail(corps, zone, epoque)
 
 
-func _franchir_portail(corps: Node3D, zone: Area3D, epoque: String) -> void:
+func _franchir_portail(corps: Node3D, zone: Area3D, epoque: String, reculer := true) -> void:
 	if not is_instance_valid(corps):
 		return
 	# Le voyage est géré par l'intro (IntroHub, groupe « voyage ») ; sans elle, ou
@@ -175,8 +175,18 @@ func _franchir_portail(corps: Node3D, zone: Area3D, epoque: String) -> void:
 	var dialogue := get_tree().get_first_node_in_group("dialogue")
 	if dialogue != null:
 		dialogue.ouvrir("portail", "Portail · " + epoque, lignes)
-	if corps.has_method("teleporter"):
+	if reculer and corps.has_method("teleporter"):
 		corps.teleporter(corps.global_position + zone.global_transform.basis.z * -3.0, corps.rotation.y)
+
+
+## Voyage vers une époque sans marcher jusqu'au portail (bouton « Voyager » d'une
+## affiche vue sur un écran du hub) : même chemin que si on traversait le portail.
+func voyager_vers(epoque: String) -> void:
+	var joueur := get_tree().get_first_node_in_group("joueur_local") as Node3D
+	for zone: Area3D in qg.get("portails", []):
+		if String(zone.get_meta("epoque", "")) == epoque and joueur != null:
+			_franchir_portail(joueur, zone, epoque, false)
+			return
 
 
 ## Hauteur du sol à une position x, z (utilisé pour poser les joueurs et la balise).

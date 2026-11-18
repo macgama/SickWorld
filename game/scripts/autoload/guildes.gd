@@ -34,6 +34,8 @@ signal change
 signal invitation_changee(de: String, nom_guilde: String)
 ## Chez le joueur : réponse du serveur à « Fonder la guilde » ("" = c'est fait, sinon l'erreur).
 signal fondation_repondue(erreur: String)
+## Chez le joueur : la liste des guildes du serveur (tableau de recrutement).
+signal annuaire_recu(liste: Array)
 ## Chez le joueur : une grande nouvelle de la guilde (contrat accompli, niveau…).
 signal annonce(titre: String, texte: String)
 
@@ -167,6 +169,25 @@ func est_dans_ma_guilde(nom: String) -> bool:
 
 func fonder(nom: String, numero_couleur: int) -> void:
 	_demander_au_serveur("fonder", [nom, numero_couleur])
+
+
+## Tableau de recrutement : demande la liste des guildes du serveur (réponse : annuaire_recu).
+func demander_annuaire() -> void:
+	_demander_au_serveur("annuaire", [])
+
+
+## Ouvre ou ferme le recrutement de sa guilde, avec une devise (officiers et maître).
+func changer_recrutement(ouvert: bool, devise: String) -> void:
+	_demander_au_serveur("recrutement", [ouvert, devise])
+
+
+func changer_blason(forme: int, symbole: int) -> void:
+	_demander_au_serveur("blason", [forme, symbole])
+
+
+## Rejoindre une guilde dont le recrutement est ouvert (sans invitation).
+func rejoindre(nom_guilde: String) -> void:
+	_demander_au_serveur("rejoindre", [nom_guilde])
 
 
 func inviter(nom: String) -> void:
@@ -383,6 +404,13 @@ func _recevoir_vue(vue: Dictionary, statut: String) -> void:
 
 
 @rpc("authority", "call_remote", "reliable")
+func _recevoir_annuaire(liste: Array) -> void:
+	if not _vient_du_serveur():
+		return
+	annuaire_recu.emit(liste)
+
+
+@rpc("authority", "call_remote", "reliable")
 func _recevoir_info(texte: String, titre: String) -> void:
 	if not _vient_du_serveur():
 		return
@@ -494,6 +522,10 @@ func _remettre_d_aplomb(g: Dictionary) -> Dictionary:
 	else:
 		g["contrats"] = {}
 	g["message"] = String(g.get("message", ""))
+	if g.has("blason"):
+		g["blason"] = R.blason(g)
+	if g.has("recrutement"):
+		g["recrutement"] = R.recrutement(g)
 	return g
 
 
@@ -610,7 +642,7 @@ func _vue(g: Dictionary, nom: String) -> Dictionary:
 			"contrats": {"liste": contrats.get("liste", []), "semaine_complete": contrats.get("semaine_complete", false),
 					"fin_dans": fin_de_semaine_dans(), "mes_aides": int(moi.get("semaine", 0))},
 			"sceaux_par_contrat": R.sceaux_par_contrat(d, g), "sceaux_semaine": int(R.reglage(d, "sceaux_semaine_complete", 20)),
-			"rangs": infos_rangs, "fondee": g["fondee"]}
+			"rangs": infos_rangs, "fondee": g["fondee"], "blason": R.blason(g), "recrutement": R.recrutement(g)}
 
 
 func _sur_depart(_id: int, nom: String) -> void:
@@ -654,6 +686,16 @@ func _demander(action: String, arguments: Array) -> void:
 		"vue":
 			_envoyer_vue(id, nom)
 			return
+		"annuaire":
+			Regles.chez(id, self, "_recevoir_annuaire", [_annuaire()])
+			return
+		"recrutement":
+			raison = _changer_recrutement(nom, bool(arguments[0]) if arguments.size() > 0 else false,
+					String(arguments[1]) if arguments.size() > 1 else "")
+		"blason":
+			raison = _changer_blason(nom, int(arguments[0]) if arguments.size() > 0 else 0, int(arguments[1]) if arguments.size() > 1 else 0)
+		"rejoindre":
+			raison = _rejoindre(id, nom, String(arguments[0]) if arguments.size() > 0 else "")
 		"fonder":
 			raison = _fonder(id, nom, String(arguments[0]) if arguments.size() > 0 else "", int(arguments[1]) if arguments.size() > 1 else 0)
 			Regles.chez(id, self, "_reponse_fondation", [raison])
@@ -801,6 +843,68 @@ func _repondre(id: int, nom: String, accepter: bool) -> String:
 	R.ajouter_membre(d, g, nom, String(d.get("rang_nouveau_membre", "recrue")), maintenant_unix())
 	_index[R.cle(nom)] = String(g["cle"])
 	R.noter(d, g, "%s rejoint la guilde (invité par %s)." % [nom, inv["de"]], maintenant_unix())
+	_changer(g)
+	sauvegarder()
+	_a_toute_la_guilde(g, "%s rejoint la guilde « %s » !" % [nom, g["nom"]])
+	_info(id, "Bienvenue dans la guilde « %s » ! Touche G pour voir les membres, la banque et les contrats." % g["nom"], "Nouvelle guilde")
+	_envoyer_vue(id, nom)
+	return ""
+
+
+## La liste des guildes pour le tableau de recrutement : ouvertes d'abord, puis par taille.
+func _annuaire() -> Array:
+	var liste: Array = []
+	for cg in _guildes:
+		var g: Dictionary = _guildes[cg]
+		liste.append(R.fiche_annuaire(d, g, ids_en_ligne_de_la_guilde_de(R.maitre(g)).size() if R.maitre(g) != "" else 0))
+	liste.sort_custom(func(a, b):
+		if a["ouvert"] != b["ouvert"]:
+			return a["ouvert"]
+		if a["membres"] != b["membres"]:
+			return a["membres"] > b["membres"]
+		return String(a["nom"]).naturalnocasecmp_to(String(b["nom"])) < 0)
+	return liste
+
+
+func _changer_recrutement(nom: String, ouvert: bool, devise: String) -> String:
+	var g := guilde_de(nom)
+	if g.is_empty():
+		return "Tu n'as pas de guilde."
+	if not R.peut(d, R.rang_de(g, nom), "inviter"):
+		return "Seuls les officiers et le maître de guilde peuvent changer le recrutement."
+	g["recrutement"] = {"ouvert": ouvert, "devise": R.devise_propre(d, devise)}
+	R.noter(d, g, "%s %s le recrutement." % [nom, "ouvre" if ouvert else "ferme"], maintenant_unix())
+	_changer(g)
+	sauvegarder()
+	return ""
+
+
+func _changer_blason(nom: String, forme: int, symbole: int) -> String:
+	var g := guilde_de(nom)
+	if g.is_empty():
+		return "Tu n'as pas de guilde."
+	if not R.peut(d, R.rang_de(g, nom), "promouvoir"):
+		return "Seuls les officiers et le maître de guilde peuvent changer le blason."
+	g["blason"] = {"forme": posmod(forme, R.NB_FORMES), "symbole": posmod(symbole, R.NB_SYMBOLES)}
+	_changer(g)
+	sauvegarder()
+	return ""
+
+
+func _rejoindre(id: int, nom: String, nom_guilde: String) -> String:
+	if not guilde_de(nom).is_empty():
+		return "Tu fais déjà partie d'une guilde."
+	var g: Dictionary = _guildes.get(R.cle(nom_guilde), {})
+	if g.is_empty():
+		return "Cette guilde n'existe plus."
+	if not R.recrutement(g)["ouvert"]:
+		return "La guilde « %s » ne recrute pas en ce moment : demande une invitation à un officier." % g["nom"]
+	if R.nombre_membres(g) >= R.membres_max(d, g):
+		return "La guilde « %s » est complète." % g["nom"]
+	R.ajouter_membre(d, g, nom, String(d.get("rang_nouveau_membre", "recrue")), maintenant_unix())
+	_index[R.cle(nom)] = String(g["cle"])
+	_invitations.erase(R.cle(nom))
+	R.noter(d, g, "%s rejoint la guilde (tableau de recrutement)." % nom, maintenant_unix())
 	_changer(g)
 	sauvegarder()
 	_a_toute_la_guilde(g, "%s rejoint la guilde « %s » !" % [nom, g["nom"]])

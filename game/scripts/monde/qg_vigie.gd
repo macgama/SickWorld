@@ -11,6 +11,8 @@ extends RefCounted
 ## Chargés directement (et non par nom de classe) : le jeu fonctionne même si
 ## l'éditeur Godot était ouvert pendant la mise à jour du dossier.
 const Pnj := preload("res://scripts/monde/pnj.gd")
+const EcranAffiches := preload("res://scripts/monde/ecran_affiches.gd")
+const AfficheActivite := preload("res://scripts/interface/affiche_activite.gd")
 
 const SOL := -12.0
 const PLAFOND := -4.0
@@ -352,6 +354,23 @@ static func _amenager_portails(hub: HikariBay, metal: Material) -> void:
 		var fin := r.end.x - 2.0
 		hub._collision_boite(Vector3(fin - debut, 4.0, 0.3), Transform3D(Basis(), Vector3((debut + fin) * 0.5, SOL + 2.0, r.end.y - 6.0)))
 	_pnj(hub, "technicienne", Vector3(r.position.x + 5.0 + 4.5, SOL, r.end.y - 9.0), PI * 0.8)
+	# Le mur des époques (mur est) : un grand écran qui fait défiler les affiches des îles.
+	# [F] devant ouvre l'affiche montrée ; son bouton « Voyager » passe par le portail.
+	var ecran := EcranAffiches.new()
+	ecran.name = "MurDesEpoques"
+	ecran.taille = Vector2(10.6, 6.0)
+	ecran.images_par_affiche = 2
+	var ids := PackedStringArray()
+	for i in PORTAILS_OUVERTS:
+		var id := AfficheActivite.id_du_portail(EPOQUES[i])
+		if id != "":
+			ids.append(id)
+			ecran.actions[id] = hub.voyager_vers.bind(EPOQUES[i])
+	ecran.affiches = ids
+	ecran.position = Vector3(r.end.x - 0.12, SOL + 4.2, r.position.y + 11.0)
+	ecran.rotation.y = -PI / 2
+	hub._contenu.add_child(ecran)
+	hub._texte("Les époques · 時代", Vector3(r.end.x - 0.1, SOL + 7.55, r.position.y + 11.0), CYAN, 40, -PI / 2, 2.0)
 
 
 # --- Archives ----------------------------------------------------------------

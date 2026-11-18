@@ -527,7 +527,7 @@ func _carte_etape() -> Control:
 			petit.text = "Ta guilde compte sur toi. Les contrats sont au tableau, juste ici."
 		else:
 			grand.text = "Fonder ou rejoindre"
-			petit.text = "Le registraire de la tour Sakura enregistre les nouvelles guildes. Pour en rejoindre une, demande une invitation à un maître ou un officier."
+			petit.text = "Le tableau de recrutement, dans la Maison des guildes, montre les guildes qui t'attendent. Pour fonder la tienne, parle au registraire."
 	elif type == "donjon":
 		var niveaux: Array = fiche.get("niveaux", [])
 		grand.text = "Forme ton groupe"

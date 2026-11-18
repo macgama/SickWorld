@@ -12,6 +12,7 @@ extends RefCounted
 ##   - Place des Résidences : x de -128 à -70, z de -30 à 30.
 ## Les volumes des immeubles sont dans HikariBay.IMMEUBLES.
 
+const EcranAffiches := preload("res://scripts/monde/ecran_affiches.gd")
 const Marche := preload("res://scripts/monde/quartier_marche.gd")
 const Musee := preload("res://scripts/monde/quartier_musee.gd")
 
@@ -306,6 +307,22 @@ static func _construire_guildes(hub: HikariBay) -> void:
 			HAUTEUR_GUILDES + 0.3, 14.0, hub._facade(61, 0.25))
 	hub._texte("ギルド会館 · MAISON DES GUILDES · Guild Hall", Vector3(r.end.x + 0.36, 6.0, 0), CHAUD, 56, PI / 2, 3.0)
 	hub._lumiere(Vector3(r.end.x + 2.0, 4.5, 0), CHAUD, 2.0, 12.0)
+	# Écran sur la façade, à gauche de la porte : les images des guildes.
+	var ecran := EcranAffiches.new()
+	ecran.name = "EcranGuildes"
+	ecran.affiches = PackedStringArray(["guildes"])
+	ecran.images_par_affiche = 4
+	ecran.taille = Vector2(7.0, 3.94)
+	ecran.portee_interaction = 4.0
+	ecran.position = Vector3(r.end.x + 0.42, 3.4, -8.0)
+	ecran.rotation.y = PI / 2
+	ecran.actions["guildes"] = func():
+		var guildes := hub.get_tree().root.get_node("Guildes")
+		if guildes.a_une_guilde():
+			guildes.ouvrir_fenetre()
+		else:
+			load("res://scripts/interface/tableau_guildes.gd").ouvrir(hub.get_tree())
+	hub._contenu.add_child(ecran)
 	# Bannières des guildes (sur les murs nord et sud).
 	var guildes := [["Les Veilleurs", Color(0.2, 0.35, 0.75)], ["Ordre du Loup", Color(0.55, 0.12, 0.1)],
 			["Les Cartographes", Color(0.2, 0.5, 0.3)], ["Le Brasier", Color(0.8, 0.45, 0.1)]]

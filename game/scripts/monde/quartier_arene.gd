@@ -25,6 +25,7 @@ const HAUTEUR_MUR := 11.0
 ## Demi-ouverture de l'entrée (radians), côté ouest.
 const ENTREE := 0.2
 const PointInteraction := preload("res://scripts/monde/point_interaction.gd")
+const EcranAffiches := preload("res://scripts/monde/ecran_affiches.gd")
 
 const ROUGE := Color(1.0, 0.25, 0.2)
 const ORANGE := Color(1.0, 0.6, 0.15)
@@ -138,9 +139,28 @@ static func _construire_stade(hub: HikariBay) -> void:
 	texte_ecran.name = "TexteEcranArene"
 	texte_ecran.add_to_group("ecran_arene")
 	_construire_borne(hub, entree)
+	_construire_ecran_affiche(hub)
 
 
 ## Borne d'inscription, juste à l'intérieur de l'entrée : [F] ouvre la fenêtre de l'Arène.
+## Écran géant sur le mur extérieur, à côté de l'entrée : les images de l'Arène.
+static func _construire_ecran_affiche(hub: HikariBay) -> void:
+	var a := PI + 0.42
+	var d := Vector3(cos(a), 0, sin(a))
+	var ecran := EcranAffiches.new()
+	ecran.name = "EcranArene"
+	ecran.affiches = PackedStringArray(["arene"])
+	ecran.images_par_affiche = 4
+	ecran.taille = Vector2(8.0, 4.5)
+	ecran.portee_interaction = 4.5
+	ecran.position = CENTRE + d * (RAYON_MUR + 0.9) + Vector3(0, 5.2, 0)
+	ecran.rotation.y = atan2(d.x, d.z)
+	var jcj := hub.get_tree().root.get_node_or_null("JcJ") if hub.is_inside_tree() else null
+	if jcj != null:
+		ecran.actions["arene"] = jcj.basculer_fenetre
+	hub._contenu.add_child(ecran)
+
+
 static func _construire_borne(hub: HikariBay, entree: Vector3) -> void:
 	var p := entree + Vector3(3.5, 0, -3.2)
 	hub._boite(Vector3(0.6, 1.3, 0.5), p + Vector3(0, 0.65, 0), hub._mat("metal"))

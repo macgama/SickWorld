@@ -8,6 +8,7 @@ extends Node3D
 const Residences := preload("res://scripts/monde/quartier_residences.gd")
 const PointInteraction := preload("res://scripts/monde/point_interaction.gd")
 const AfficheActivite := preload("res://scripts/interface/affiche_activite.gd")
+const TableauGuildes := preload("res://scripts/interface/tableau_guildes.gd")
 const Fenetre := preload("res://scripts/interface/fenetre_guilde.gd")
 
 
@@ -19,6 +20,18 @@ func _ready() -> void:
 	add_child(coffre)
 	_point("Ouvrir le coffre de la guilde", Residences.COFFRE + Vector3(1.2, 0, 0), Fenetre.ONGLET_BANQUE)
 	_point("Lire les contrats de guilde de la semaine", Residences.TABLEAU_CONTRATS + Vector3(0, 0, -1.3), Fenetre.ONGLET_CONTRATS)
+	# Le liège « Recrutement » (mur nord) : le tableau de recrutement des guildes.
+	var tableau := Node3D.new()
+	tableau.set_script(PointInteraction)
+	tableau.texte = "Tableau de recrutement des guildes"
+	tableau.portee = 2.4
+	tableau.position = Vector3(-116.0, 0.0, Residences.GUILDES.position.y + 1.3)
+	add_child(tableau)
+	tableau.utilise.connect(func():
+		if not AfficheActivite.deja_vue("guildes") and not Guildes.a_une_guilde() \
+				and AfficheActivite.ouvrir(get_tree(), "guildes", TableauGuildes.ouvrir.bind(get_tree()), "Voir les guildes") != null:
+			return
+		TableauGuildes.ouvrir(get_tree()))
 
 
 func _point(texte: String, p: Vector3, onglet: int) -> void:
