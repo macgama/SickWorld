@@ -31,6 +31,7 @@ Conseils="*res://scripts/autoload/conseils.gd"
 Social="*res://scripts/autoload/social.gd"
 JcJ="*res://scripts/autoload/jcj.gd"
 Guildes="*res://scripts/autoload/guildes.gd"
+Admin="*res://scripts/autoload/admin.gd"
 
 [display]
 
