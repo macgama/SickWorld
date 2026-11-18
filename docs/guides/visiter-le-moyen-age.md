@@ -1,6 +1,6 @@
 # Visiter le Moyen Âge (Chartres, 1194)
 
-Trois zones de l'île du Moyen Âge sont jouables : **la Beauce** (niveaux 50 à 52), **les carrières de Berchères** (niveaux 53 à 55) et **Chartres** (niveaux 55 à 57), avec les chapitres 1 à 5 de l'histoire « La pierre et la flamme ». Nous sommes à l'été 1194, quelques semaines après l'incendie qui a détruit presque toute la cathédrale de Chartres. C'est là que mène le portail **Moyen Âge** du QG de la Vigie (le sixième en partant de la gauche). La conception de toute l'île est dans [ILE-6-MOYEN-AGE.md](../ILE-6-MOYEN-AGE.md). Le chantier de la cathédrale et la crypte viendront ensuite.
+Quatre zones de l'île du Moyen Âge sont jouables : **la Beauce** (niveaux 50 à 52), **les carrières de Berchères** (niveaux 53 à 55), **Chartres** (niveaux 55 à 57) et **le chantier de la cathédrale** (niveaux 57 à 59), avec les chapitres 1 à 7 de l'histoire « La pierre et la flamme ». Nous sommes à l'été 1194, quelques semaines après l'incendie qui a détruit presque toute la cathédrale de Chartres. C'est là que mène le portail **Moyen Âge** du QG de la Vigie (le sixième en partant de la gauche). La conception de toute l'île est dans [ILE-6-MOYEN-AGE.md](../ILE-6-MOYEN-AGE.md). La crypte (le donjon et le chapitre 8) viendra ensuite.
 
 On y trouve :
 
@@ -34,12 +34,24 @@ On y arrive par la route du nord-est des carrières (après le chapitre 3). On y
 - **la ville basse** qui descend vers **l'Eure** : le quartier brûlé, l'atelier du verrier, **les cuves des teinturiers** (bleu, rouge, jaune), **le moulin à eau** dont la roue tourne, **le lavoir**, la **porte Guillaume** et son pont ;
 - de l'autre côté de l'Eure, **les tanneries**, et au sud-est la maladrerie du **Grand-Beaulieu**.
 
+## Le chantier de la cathédrale
+
+On y entre par le **Portail royal**, sur le parvis de Chartres (à partir du chapitre 6). On y trouve :
+
+- **la façade vue de dedans** (les deux tours, les trois fenêtres bleues) et **la nef sans toit** : murs noircis et troués, moignons de piliers brûlés, poutres calcinées dans la cendre ;
+- **les échafaudages** de perches et de planches, et **la grue à roue d'écureuil** au milieu de la nef (elle tourne toute seule une fois que tu l'as fait marcher) ;
+- les **socles des nouveaux piliers**, qui montent quand tu poses les blocs ;
+- **le transept, le chœur et l'abside**, et au bout nord du transept **l'escalier de la crypte** et sa porte de fer ;
+- **la cour sud** : **la loge des tailleurs de pierre** (on les voit travailler), la planche à plans de maître Gautier, les tas de pierres marquées, **le beffroi** de charpente et sa cloche fêlée qui se balance, **la forge** ;
+- **la cour nord** : **l'atelier des verriers** et ses deux fours qui rougeoient ;
+- tout autour, **la palissade** du chantier, et au-delà les toits de la ville.
+
 ## L'ouvrir
 
 1. Dans GitHub Desktop, sur la branche **main** : **Fetch origin** puis **Pull origin** (Claude le fait pour toi quand il le peut).
 2. **Ferme Godot et rouvre-le** s'il était ouvert pendant la mise à jour.
 3. **Par le jeu** : F5, **Jouer seul**, puis au QG de la Vigie, traverse le portail **Moyen Âge**.
-4. **Directement** : double-clique sur `scenes/monde/moyen_age/beauce.tscn` (ou `bercheres.tscn`, `chartres.tscn`) puis **F6**.
+4. **Directement** : double-clique sur `scenes/monde/moyen_age/beauce.tscn` (ou `bercheres.tscn`, `chartres.tscn`, `chantier.tscn`) puis **F6**.
 
 ## Nouveau : les « Las » et le puzzle du vitrail
 
@@ -96,6 +108,24 @@ La fracture souffle une **fumée grise** venue de l'incendie. Ceux qu'elle touch
 6. **Le serment** : le cardinal montre la Sainte Chemise, et la ville promet de rebâtir.
 7. L'évêque **Renaud de Mouçon** te donne **l'haubert de son frère** (une cotte de mailles) et des deniers. La suite : le chantier commence.
 
+## Le chapitre 6 : « Le chantier »
+
+1. Passer le **Portail royal** et parler à **maître Gautier**, devant la loge : il explique les **marques de tâcheron** (chaque tailleur signe ses pierres pour être payé).
+2. Dans la nef, **graver ta marque** sur les trois premiers blocs et les poser : les nouveaux piliers commencent à monter.
+3. **Marcher dans la roue** de la grue pour monter une pierre sur les échafaudages.
+4. Dans la cour nord, **Aude** a un four à l'atelier des verriers : retrouver **trois sacs de cendres de fougère**, puis **souffler le verre** avec elle : le premier **bleu de Chartres**.
+5. La nuit, **quatre gargouilles de plomb** descendent des échafaudages : les briser.
+6. Dans la loge, **les plans corrigés** : quelqu'un a modifié les plans de Gautier au **stylo-bille** pour que la voûte s'écroule… et une autre main a tout barré : « Non. Laisse-les bâtir. — É. »
+7. Récompense : la compétence d'époque **Cloche du beffroi** (un coup de cloche qui étourdit les ennemis autour de toi puis les ralentit). Le roi arrive.
+
+## Le chapitre 7 : « La visite du roi »
+
+1. Parler à **Guillaume le Breton**, le chroniqueur du roi, puis au roi **Philippe Auguste**.
+2. Du plomb fondu a été coulé dans les attaches des échafaudages : **arracher le plomb** sur les trois échafaudages sabotés.
+3. **Escorter le roi** à travers la nef jusqu'au chœur. Deux vagues d'**hommes de Plomb** attaquent le cortège.
+4. **Combattre Plomb** devant l'escalier de la crypte. Vaincue, elle enlève son masque, parle de l'Éditeur qui l'a « lâchée »… et s'enfuit dans la crypte.
+5. Le roi te donne **l'écu fleurdelisé** (un bouclier à ses armes). La suite : la crypte.
+
 ## Les fichiers
 
 | Fichier | Contenu |
@@ -106,7 +136,9 @@ La fracture souffle une **fumée grise** venue de l'incendie. Ceux qu'elle touch
 | `scripts/monde/moyen_age/ile_moyen_age.gd` | Les bâtiments du Moyen Âge (maisons à pans de bois, église, moulin, dolmen…) |
 | `scripts/monde/moyen_age/bercheres.gd` | La zone des carrières (la carrière, la roue, le camp, la forêt) |
 | `scripts/monde/moyen_age/chartres.gd` | La ville (remparts, cathédrale, rues, Eure, ville basse, faubourg) |
+| `scripts/monde/moyen_age/chantier.gd` | Le chantier (nef brûlée, échafaudages, grue, loge, beffroi, atelier des verriers, crypte) |
 | `scripts/interface/vitrail.gd` | Le puzzle du vitrail (ses motifs : fleur, lancette, rose, belle_verriere) |
 | `tests/test_beauce.gd` | Le test automatique de la zone et des chapitres 1 et 2 |
 | `tests/test_bercheres.gd` | Le test automatique des carrières et du chapitre 3 |
 | `tests/test_chartres.gd` | Le test automatique de Chartres et des chapitres 4 et 5 |
+| `tests/test_chantier.gd` | Le test automatique du chantier et des chapitres 6 et 7 |

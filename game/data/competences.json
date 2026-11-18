@@ -421,5 +421,21 @@
 		"recharge": 40,
 		"animation": "bouclier_leve",
 		"couleur": "#8a3a2a"
+	},
+	"cloche_du_beffroi": {
+		"nom": "Cloche du beffroi",
+		"origine": "Moyen Âge",
+		"description": "Un grand coup du battant de la cloche fêlée : les ennemis à moins de 8 mètres sont étourdis 1 seconde, puis ralentis de moitié pendant 5 secondes. Demande le Battant de la cloche fêlée (chapitre 6 du Moyen Âge).",
+		"type": "zone_autour",
+		"rayon": 8,
+		"degats": [10, 14],
+		"etourdit": 1,
+		"ralenti": {
+			"duree": 5,
+			"facteur": 0.5
+		},
+		"recharge": 30,
+		"animation": "attaque_bouclier",
+		"couleur": "#c8a040"
 	}
 }

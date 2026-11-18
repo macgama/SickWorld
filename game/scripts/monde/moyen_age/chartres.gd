@@ -378,7 +378,7 @@ func _construire_cathedrale() -> void:
 	dossier.name = "Cathedrale"
 	_contenu.add_child(dossier)
 	var pierre := _mat_calcaire()
-	var noir := _mat_uni_ma(Color(0.09, 0.08, 0.075), 1.0)
+	var noir := _mat_pierre_brulee()
 	var sombre := _mat_uni_ma(Color(0.03, 0.03, 0.035), 1.0)
 	var y := SOL_BAS + HAUT_BUTTE - 0.3
 	var zc := CATHEDRALE.get_center().y
@@ -643,7 +643,7 @@ func _maison_brulee(parent: Node3D, q: Vector2, taille: Vector3, angle: float, h
 	m.position = Vector3(q.x, hauteur(q.x, q.y) - 0.2, q.y)
 	m.rotation.y = angle
 	parent.add_child(m)
-	var noir := _mat_uni_ma(Color(0.12, 0.1, 0.09), 1.0)
+	var noir := _mat_pierre_brulee()
 	var pierre := _mat_calcaire()
 	for face in 4:
 		var long_face := taille.z if face < 2 else taille.x
