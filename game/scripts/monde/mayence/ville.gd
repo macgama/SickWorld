@@ -28,6 +28,9 @@ const ARRIVEE := Vector2(126, 58)
 const SORTIE_E := Vector2(146, 58)
 const HOLZTURM := Vector2(112, 58)
 const FISCHTOR := Vector2(112, -62)
+## Le ponton de la nef de Fust, devant la porte des Pêcheurs : le départ pour Francfort.
+const PONTON_FUST := Vector2(142, -76)
+const SORTIE_N := Vector2(146, -76)
 ## Les rues.
 const RUE_HOLZTURM := [Vector2(126, 58), Vector2(112, 58), Vector2(86, 50), Vector2(64, 40)]
 const RUE_CHRISTOPHE := [Vector2(64, 40), Vector2(58, 2), Vector2(46, -40), Vector2(30, -72), Vector2(14, -80)]
@@ -79,6 +82,8 @@ var _mur_e: StaticBody3D
 var _nefs: Array[Node3D] = []
 var _rues: Array = []
 var _nuit := false
+var _mur_fust: StaticBody3D
+var _route_francfort := false
 var _lumieres_nuit: Node3D
 
 
@@ -114,6 +119,9 @@ func _init() -> void:
 
 func _ready() -> void:
 	if not Engine.is_editor_hint() and Reseau.has_meta("arrivee_mayence"):
+		if Reseau.get_meta("arrivee_mayence") == "francfort":
+			# Retour de Francfort : on débarque au ponton de la nef de Fust.
+			point_apparition = PONTON_FUST + Vector2(-14, 0)
 		Reseau.remove_meta("arrivee_mayence")
 	super._ready()
 
@@ -121,6 +129,8 @@ func _ready() -> void:
 func sortie_vers(zone: String) -> Vector2:
 	if zone == "rhin":
 		return SORTIE_E
+	if zone == "francfort":
+		return SORTIE_N
 	return Vector2.INF
 
 
@@ -251,6 +261,17 @@ func _construire_rhin() -> void:
 			dossier.add_child(pieu)
 	var bac := _nef_du_rhin(dossier, Vector3(BAC.x + 10.0, NIVEAU_RHIN + 0.2, BAC.y - 6.0), PI / 2 + 0.1, Color(0.86, 0.82, 0.72))
 	bac.name = "NefDuBac"
+	# Le ponton de la nef de Fust (le départ pour la foire de Francfort, par le Main).
+	_boite(Vector3(14.0, 0.25, 4.0), Vector3(PONTON_FUST.x, NIVEAU_RHIN + 0.9, PONTON_FUST.y), bois, dossier)
+	for k in 4:
+		for cote: float in [-1.0, 1.0]:
+			var pieu := MeshInstance3D.new()
+			pieu.mesh = _cylindre(0.12, 0.14, 3.2, 8)
+			pieu.material_override = bois
+			pieu.position = Vector3(PONTON_FUST.x - 6.0 + k * 3.6, NIVEAU_RHIN - 0.4, PONTON_FUST.y + cote * 1.9)
+			dossier.add_child(pieu)
+	var nef_fust := _nef_du_rhin(dossier, Vector3(PONTON_FUST.x + 10.0, NIVEAU_RHIN + 0.2, PONTON_FUST.y + 6.0), PI / 2, Color(0.74, 0.3, 0.22))
+	nef_fust.name = "NefDeFust"
 
 
 ## La rive : entre le mur du Rhin et l'eau, les grues, les tonneaux, les ballots.
@@ -270,7 +291,7 @@ func _construire_rive() -> void:
 	for k in 30:
 		var c := Vector2(hasard.randf_range(116.0, 128.0), hasard.randf_range(-140.0, 140.0))
 		if c.distance_to(ARRIVEE) < 8.0 or c.distance_to(RECELEUR) < 6.0 or c.distance_to(HOLZTURM) < 8.0 \
-				or c.distance_to(INDICES[2]) < 4.0 or c.distance_to(FISCHTOR) < 8.0:
+				or c.distance_to(INDICES[2]) < 4.0 or c.distance_to(FISCHTOR) < 8.0 or absf(c.y - PONTON_FUST.y) < 5.0:
 			continue
 		if k % 3 == 0:
 			var t := MeshInstance3D.new()
@@ -715,9 +736,11 @@ func _construire_limites() -> void:
 	_mur_invisible(limites, Vector3(taille_terrain, 140, 2), Vector3(0, 40, -demi))
 	_mur_invisible(limites, Vector3(taille_terrain, 140, 2), Vector3(0, 40, demi))
 	# On ne se baigne pas dans le Rhin (sauf par le ponton du bac).
-	for z: Array in [[-170.0, BAC.y - 3.0], [BAC.y + 3.0, 170.0]]:
+	for z: Array in [[-170.0, PONTON_FUST.y - 3.0], [PONTON_FUST.y + 3.0, BAC.y - 3.0], [BAC.y + 3.0, 170.0]]:
 		var l: float = z[1] - z[0]
 		_mur_invisible(limites, Vector3(2, 30, l), Vector3(BERGE_X + 2.0, 8, (z[0] + z[1]) * 0.5))
+	# Le ponton de Fust : fermé tant que l'histoire n'y mène pas.
+	_mur_fust = _mur_invisible(limites, Vector3(2, 30, 6), Vector3(BERGE_X + 2.0, 8, PONTON_FUST.y))
 
 
 # --- Personnages et objets de la quête ----------------------------------------------------------
@@ -902,6 +925,13 @@ func _process(delta: float) -> void:
 	if joueur == null:
 		return
 	var p := Vector2(joueur.global_position.x, joueur.global_position.z)
-	if p.distance_to(SORTIE_E) < 4.0 and quete.donnees.get("zones", {}).has("rhin"):
+	if not _route_francfort and quete.etape_atteinte("vers_francfort"):
+		_route_francfort = true
+		if _mur_fust != null and is_instance_valid(_mur_fust):
+			_mur_fust.queue_free()
+	if _route_francfort and p.distance_to(SORTIE_N) < 4.0 and quete.donnees.get("zones", {}).has("francfort"):
+		Reseau.set_meta("arrivee_mayence", "ville")
+		quete.changer_de_zone("francfort")
+	elif p.distance_to(SORTIE_E) < 4.0 and quete.donnees.get("zones", {}).has("rhin"):
 		Reseau.set_meta("arrivee_mayence", "ville")
 		quete.changer_de_zone("rhin")
