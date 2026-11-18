@@ -25,7 +25,7 @@ const NOMS_EFFETS := {
 	"mur_de_bouclier": "Mur de bouclier (-60 % dégâts subis)", "provocation": "Provoqué",
 	"protection": "Protégé par un Rempart", "etourdi": "Étourdi", "immobilise": "Immobilisé",
 	"poison": "Empoisonné", "bulle_lente": "Temps ralenti", "acceleration": "Accéléré", "huile": "Huile d'athlète (plus rapide, soigné)",
-	"nom_efface": "Nom effacé (compétences d'époque bloquées)", "voix_coupee": "Voix couverte (compétences bloquées)", "fumee_autodafe": "Fumée du bûcher (compétences bloquées)", "enfoui": "Dans les murs",
+	"nom_efface": "Nom effacé (compétences d'époque bloquées)", "voix_coupee": "Voix couverte (compétences bloquées)", "fumee_autodafe": "Fumée du bûcher (compétences bloquées)", "las": "Las (dégâts -50 %)", "enfoui": "Dans les murs",
 	"blessure": "Blessure (soins reçus réduits)",
 	"sens_inverse": "Sens dessus dessous (directions inversées)", "thermes": "Bain des thermes (soigné)",
 	"aiguilles": "Aiguilles d'argent (soigné, +8 % dégâts)",

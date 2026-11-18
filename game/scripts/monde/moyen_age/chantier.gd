@@ -52,6 +52,9 @@ const ETAIS := [Vector2(-22, 14), Vector2(4, -13), Vector2(31, 30)]
 const ROI := Vector2(-60, 3)
 const CORTEGE := [Vector2(-62, 0), Vector2(-40, 0), Vector2(-10, 0), Vector2(20, 0), Vector2(40, 0), Vector2(58, 0)]
 const PLOMB := Vector2(31, -38)
+## L'escalier de la crypte (chapitre 8) et le portail de la Vigie qui s'ouvre dans le chœur à la fin.
+const DESCENTE_CRYPTE := Vector2(31, -47.5)
+const PORTAIL_QG := Vector2(62, 8)
 
 var _roue: Node3D
 var _cloche: Node3D
@@ -86,9 +89,18 @@ func _init() -> void:
 	piste = []
 
 
+func _ready() -> void:
+	if not Engine.is_editor_hint() and Reseau.get_meta("arrivee_moyen_age", "") == "crypte":
+		Reseau.remove_meta("arrivee_moyen_age")
+		point_apparition = DESCENTE_CRYPTE + Vector2(0, 7)
+	super._ready()
+
+
 func sortie_vers(zone: String) -> Vector2:
 	if zone == "chartres":
 		return SORTIE_CHARTRES
+	if zone == "crypte":
+		return DESCENTE_CRYPTE
 	return Vector2.INF
 
 
@@ -584,6 +596,14 @@ func _construire_quete() -> void:
 		e.set_meta("identifiant", "etai_sabote_%d" % k)
 		e.visible = false
 	_pnj_cache(dossier, "plomb_demasquee", PLOMB + Vector2(0, -3), PI)
+	# Chapitre 8 : le portail de la Vigie, dans le chœur, pour ramener Plomb au QG.
+	_construire_portail(dossier, PORTAIL_QG, -PI / 2)
+	_portail_qg = dossier.get_node("Portail") as Node3D
+	_portail_qg.name = "PortailVigie"
+	_portail_qg.add_to_group("decor_quete")
+	_portail_qg.set_meta("identifiant", "portail_qg")
+	_portail_qg.visible = false
+	_zone_portail.monitoring = false
 	var repere := func(type: int, texte: String, p: Vector2) -> void:
 		MarqueurCarte.creer(dossier, type, texte, Vector3(p.x, hauteur(p.x, p.y), p.y))
 	repere.call(MarqueurCarte.Type.LIEU, "Portail royal (vers le parvis)", SORTIE_CHARTRES)
@@ -598,6 +618,7 @@ func _construire_quete() -> void:
 # --- La roue, la cloche, la sortie ------------------------------------------------------------------
 
 var _attente := 0.0
+var _portail_qg: Node3D
 var _vitesse_roue := 0.0
 var _temps_chantier := 0.0
 
@@ -611,6 +632,9 @@ func _process(delta: float) -> void:
 		_cloche.rotation.z = sin(_temps_chantier * 1.4) * 0.05
 	if Engine.is_editor_hint():
 		return
+	# Le portail de la Vigie ne ramène au QG qu'une fois ouvert.
+	if _portail_qg != null and _zone_portail != null and _zone_portail.monitoring != _portail_qg.visible:
+		_zone_portail.monitoring = _portail_qg.visible
 	_attente -= delta
 	if _attente > 0.0:
 		return
@@ -623,6 +647,10 @@ func _process(delta: float) -> void:
 	if joueur == null:
 		return
 	var p := Vector2(joueur.global_position.x, joueur.global_position.z)
+	if p.distance_to(DESCENTE_CRYPTE) < 2.5 and quete.etape_atteinte("vers_crypte") and quete.donnees.get("zones", {}).has("crypte"):
+		Reseau.set_meta("arrivee_moyen_age", "chantier")
+		quete.changer_de_zone("crypte")
+		return
 	if p.distance_to(SORTIE_CHARTRES) < 2.5 and quete.donnees.get("zones", {}).has("chartres"):
 		Reseau.set_meta("arrivee_moyen_age", "chantier")
 		quete.changer_de_zone("chartres")

@@ -1,6 +1,6 @@
 # Visiter le Moyen Âge (Chartres, 1194)
 
-Quatre zones de l'île du Moyen Âge sont jouables : **la Beauce** (niveaux 50 à 52), **les carrières de Berchères** (niveaux 53 à 55), **Chartres** (niveaux 55 à 57) et **le chantier de la cathédrale** (niveaux 57 à 59), avec les chapitres 1 à 7 de l'histoire « La pierre et la flamme ». Nous sommes à l'été 1194, quelques semaines après l'incendie qui a détruit presque toute la cathédrale de Chartres. C'est là que mène le portail **Moyen Âge** du QG de la Vigie (le sixième en partant de la gauche). La conception de toute l'île est dans [ILE-6-MOYEN-AGE.md](../ILE-6-MOYEN-AGE.md). La crypte (le donjon et le chapitre 8) viendra ensuite.
+Toute l'île du Moyen Âge est jouable : quatre zones : **la Beauce** (niveaux 50 à 52), **les carrières de Berchères** (niveaux 53 à 55), **Chartres** (niveaux 55 à 57) et **le chantier de la cathédrale** (niveaux 57 à 59), et le donjon de **la crypte de Fulbert** (niveaux 59-60), avec les huit chapitres de l'histoire « La pierre et la flamme ». Nous sommes à l'été 1194, quelques semaines après l'incendie qui a détruit presque toute la cathédrale de Chartres. C'est là que mène le portail **Moyen Âge** du QG de la Vigie (le sixième en partant de la gauche). La conception de toute l'île est dans [ILE-6-MOYEN-AGE.md](../ILE-6-MOYEN-AGE.md). Les quêtes secondaires et les événements publics viendront ensuite.
 
 On y trouve :
 
@@ -46,12 +46,28 @@ On y entre par le **Portail royal**, sur le parvis de Chartres (à partir du cha
 - **la cour nord** : **l'atelier des verriers** et ses deux fours qui rougeoient ;
 - tout autour, **la palissade** du chantier, et au-delà les toits de la ville.
 
+## La crypte de Fulbert (donjon)
+
+On y descend par l'escalier du bout nord du transept, sur le chantier (chapitre 8). C'est un donjon à faire en groupe (5 joueurs) :
+
+- **la galerie de Fulbert** : la longue crypte romane, ses arcs, ses chapelles et leurs cierges. Le plomb de la toiture coule par **quatre fissures** de la voûte : une bande rouge s'allume au sol avant chaque coulée. On bouche les fissures avec un seau de sable (F) ;
+- **la salle du puits des Saints-Forts** : le vieux puits, les tombeaux, les hommes de Plomb, et dans le mur est, les lettres gravées **« É.M. 2006 »** ;
+- **la salle du lac**, plus bas, dans les ruines gallo-romaines : la rivière de plomb fondu, et **le Brasier de plomb**.
+
+Le combat contre le Brasier a trois phases :
+
+1. **La pluie de plomb** : un cercle rouge s'allume sous chaque joueur, il faut en sortir. Des hommes de Plomb descendent.
+2. **Les poutres** : des poutres en feu tombent et barrent la salle par bandes, tour à tour.
+3. **La fumée grise** : tout le monde devient **« las »** (dégâts divisés par deux), sauf dans la lumière des **quatre vitraux** de la salle, qu'il faut rallumer (F). Plomb descend se battre à côté du Brasier.
+
+Le trophée du donjon : le **cœur de plomb**.
+
 ## L'ouvrir
 
 1. Dans GitHub Desktop, sur la branche **main** : **Fetch origin** puis **Pull origin** (Claude le fait pour toi quand il le peut).
 2. **Ferme Godot et rouvre-le** s'il était ouvert pendant la mise à jour.
 3. **Par le jeu** : F5, **Jouer seul**, puis au QG de la Vigie, traverse le portail **Moyen Âge**.
-4. **Directement** : double-clique sur `scenes/monde/moyen_age/beauce.tscn` (ou `bercheres.tscn`, `chartres.tscn`, `chantier.tscn`) puis **F6**.
+4. **Directement** : double-clique sur `scenes/monde/moyen_age/beauce.tscn` (ou `bercheres.tscn`, `chartres.tscn`, `chantier.tscn`, `crypte.tscn`) puis **F6**.
 
 ## Nouveau : les « Las » et le puzzle du vitrail
 
@@ -126,6 +142,17 @@ La fracture souffle une **fumée grise** venue de l'incendie. Ceux qu'elle touch
 4. **Combattre Plomb** devant l'escalier de la crypte. Vaincue, elle enlève son masque, parle de l'Éditeur qui l'a « lâchée »… et s'enfuit dans la crypte.
 5. Le roi te donne **l'écu fleurdelisé** (un bouclier à ses armes). La suite : la crypte.
 
+## Le chapitre 8 : « La crypte »
+
+1. Descendre dans la crypte par l'escalier du transept. **Si tu as fait confiance à Masque en Chine**, il t'attend en bas et se bat avec toi ; sinon, il a laissé un message à la craie.
+2. Traverser **la galerie de Fulbert** (boucher les fissures de plomb), puis vaincre les hommes de Plomb de **la salle du puits**.
+3. Lire l'inscription **« É.M. 2006 »** et ramasser **le vieux badge** d'Étienne Marchal, fondateur de la Vigie.
+4. Vaincre **le Brasier de plomb** et refermer la fracture majeure.
+5. **Plomb** (Hélène Varin) se rend. **La page manquante** du carnet de l'Éditeur : Masque te la donne, ou tu la trouves toi-même. Dernière ligne : « Mayence, 1450 » (l'imprimerie).
+6. Sur une colonne, **un message de Marchal**, à ton nom : « Un jour, il faudra qu'on parle. »
+7. Remonter au chantier : **Aude** te donne **le premier verre bleu** (relique), et un portail de la Vigie s'ouvre dans le chœur.
+8. Au QG : Plomb dans **la troisième cellule**, et la commandante Morel raconte enfin la fondation de la Vigie.
+
 ## Les fichiers
 
 | Fichier | Contenu |
@@ -137,8 +164,10 @@ La fracture souffle une **fumée grise** venue de l'incendie. Ceux qu'elle touch
 | `scripts/monde/moyen_age/bercheres.gd` | La zone des carrières (la carrière, la roue, le camp, la forêt) |
 | `scripts/monde/moyen_age/chartres.gd` | La ville (remparts, cathédrale, rues, Eure, ville basse, faubourg) |
 | `scripts/monde/moyen_age/chantier.gd` | Le chantier (nef brûlée, échafaudages, grue, loge, beffroi, atelier des verriers, crypte) |
+| `scripts/monde/moyen_age/crypte.gd` | Le donjon (galerie, puits, salle du lac, le Brasier de plomb et ses trois phases) |
 | `scripts/interface/vitrail.gd` | Le puzzle du vitrail (ses motifs : fleur, lancette, rose, belle_verriere) |
 | `tests/test_beauce.gd` | Le test automatique de la zone et des chapitres 1 et 2 |
 | `tests/test_bercheres.gd` | Le test automatique des carrières et du chapitre 3 |
 | `tests/test_chartres.gd` | Le test automatique de Chartres et des chapitres 4 et 5 |
 | `tests/test_chantier.gd` | Le test automatique du chantier et des chapitres 6 et 7 |
+| `tests/test_crypte.gd` | Le test automatique de la crypte et du chapitre 8 |

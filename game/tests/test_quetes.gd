@@ -375,6 +375,13 @@ func _lancer() -> void:
 	for pnj in ["commandante", "cinabre_cellule", "commandante"]:
 		await _parler_a(pnj)
 	_verifier(_quetes.etat("cellule_cinabre") == "terminee", "mission « La cellule de Cinabre » accomplie")
+	# Au chapitre 8 du Moyen Âge : Plomb, dans la troisième cellule, et l'aveu de Morel.
+	_quetes.accepter("cellule_plomb")
+	await _attendre(5)
+	_verifier(_trouver_pnj("plomb_cellule") != null, "Plomb est enfermée à côté de Cinabre")
+	for pnj in ["commandante", "commandante", "plomb_cellule", "commandante"]:
+		await _parler_a(pnj)
+	_verifier(_quetes.etat("cellule_plomb") == "terminee", "mission « La cellule de Plomb » accomplie")
 	souvenirs = _appart.get_node("Souvenirs").get_child_count()
 	_verifier(souvenirs == _quetes.quetes.size(), "toutes les missions ont leur souvenir (%d)" % souvenirs)
 

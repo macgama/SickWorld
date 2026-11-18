@@ -1121,6 +1121,68 @@
 					]
 				}
 			]
+		},
+		{
+			"id": "cellule_plomb",
+			"titre": "La cellule de Plomb",
+			"donneur": "commandante",
+			"automatique": true,
+			"resume": "Sous la cathédrale de Chartres, Plomb a été arrêtée. Elle attend au QG, dans une troisième cellule. Et tu as trouvé un vieux badge, au nom d'Étienne Marchal.",
+			"recompense": "La fin de l'histoire du Moyen Âge, et la vérité sur la fondation de la Vigie",
+			"etapes": [
+				{
+					"objectif": "Fais ton rapport à la commandante Morel (Hall des opérations)",
+					"parler": "commandante",
+					"repliques": [
+						"Une restauratrice de vitraux. Elle a passé sa vie à réparer, et lui l'a convaincue de casser. Je commence à comprendre comment il choisit ses gens.",
+						"Elle est en bas, dans la troisième cellule. Odile a dû pousser une armoire pour la faire. Janus, Cinabre, Plomb. On va manquer de place.",
+						"Tu as autre chose à me montrer. Je le vois à ta tête. ... Pose-le sur le bureau."
+					]
+				},
+				{
+					"objectif": "Pose le vieux badge sur le bureau de la commandante (Hall des opérations)",
+					"parler": "commandante",
+					"repliques": [
+						"Elle ne dit rien pendant un long moment. Puis elle se lève, va jusqu'à la vitre, et retourne le vieux cadre. Une photo : cinq jeunes gens devant une machine bricolée, en 2006. Au milieu, un grand type qui rit. « É.M. »",
+						"Étienne Marchal. Le meilleur d'entre nous. C'est lui qui a fait marcher le premier portail. Nous étions cinq. Il est parti le premier, pour voir. Il devait revenir au bout d'une heure.",
+						"Le portail s'est mis à se dérégler. Il fallait le fermer, ou risquer de tout perdre. On a voté. Trois contre deux. On l'a fermé. Avec lui de l'autre côté.",
+						"On s'est dit qu'il était mort. C'était plus facile. Ça fait vingt ans que je me le dis. Voilà. Maintenant, tu sais. Va voir Plomb. Moi, j'ai besoin d'être seule."
+					]
+				},
+				{
+					"objectif": "Va voir Plomb dans sa cellule (archives, à côté de celle de Cinabre)",
+					"parler": "plomb_cellule",
+					"repliques": [
+						"Ils m'ont donné un crayon et du papier. Je dessine des vitraux. La rose nord de Chartres, de mémoire. Je n'en suis qu'au quart.",
+						"Ta commandante est passée, tout à l'heure. Elle s'est assise devant la grille sans rien dire, et elle est repartie. Je crois qu'elle pleurait.",
+						"Marchal m'a dit une chose, à Paris, le soir de Notre-Dame : « Les gens qui m'ont laissé derrière avaient de bonnes raisons. C'est ça le pire. » Je n'ai pas compris, sur le moment.",
+						"La page du carnet, tu l'as ? Mayence. L'imprimerie. Il y sera. Et cette fois, il ne t'attendra pas pour parler."
+					]
+				},
+				{
+					"objectif": "Retourne voir la commandante Morel (Hall des opérations)",
+					"parler": "commandante",
+					"repliques": [
+						"Le cadre est de nouveau face au mur. Elle a les yeux rouges, mais la voix ferme.",
+						"Regarde la baie, agent : les grues de Hikari Bay se sont remises à tourner. Les chantiers ont repris. L'anneau du Moyen Âge est stable.",
+						"Pour Marchal... on en reparlera. Je te le promets. Repose-toi d'abord. Tu l'as mérité."
+					]
+				}
+			],
+			"apres": [
+				"Sur son bureau, le vieux badge, posé à côté de la photo. Elle ne l'a pas rangé."
+			],
+			"personnages": [
+				{
+					"id": "plomb_cellule",
+					"position": [
+						-61.4,
+						-12.0,
+						130.7,
+						0.0
+					]
+				}
+			]
 		}
 	]
 }
