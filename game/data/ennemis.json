@@ -1298,5 +1298,48 @@
 		"distance_laisse": 50,
 		"entraide": 20,
 		"temps_reapparition": 0
+	},
+	"statue_gargouille_plomb": {
+		"nom": "Gargouille de plomb",
+		"niveau": 57,
+		"points_de_vie": 4600,
+		"degats": [86, 110],
+		"intervalle_attaque": 2.0,
+		"portee_attaque": 2.2,
+		"vitesse_course": 4.6,
+		"vitesse_marche": 1.2,
+		"distance_detection": 22,
+		"distance_laisse": 50,
+		"entraide": 20,
+		"temps_reapparition": 0
+	},
+	"masque_homme_plomb_chantier": {
+		"nom": "Homme de Plomb",
+		"niveau": 58,
+		"points_de_vie": 3800,
+		"degats": [88, 112],
+		"intervalle_attaque": 1.6,
+		"portee_attaque": 2.2,
+		"vitesse_course": 6.6,
+		"vitesse_marche": 1.7,
+		"distance_detection": 26,
+		"distance_laisse": 60,
+		"entraide": 22,
+		"temps_reapparition": 0
+	},
+	"masque_plomb_chantier": {
+		"nom": "Plomb, la restauratrice",
+		"niveau": 59,
+		"points_de_vie": 11000,
+		"degats": [96, 124],
+		"intervalle_attaque": 1.8,
+		"portee_attaque": 2.6,
+		"vitesse_course": 5.8,
+		"vitesse_marche": 1.4,
+		"distance_detection": 18,
+		"distance_laisse": 45,
+		"entraide": 0,
+		"temps_reapparition": 0,
+		"insensible_controles": true
 	}
 }

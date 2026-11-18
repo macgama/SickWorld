@@ -239,47 +239,6 @@ func _construire_carriere() -> void:
 	_roue = _roue_ecureuil(_contenu, ROUE, PI * 0.95)
 
 
-## La roue d'écureuil (la grue des chantiers du Moyen Âge). Le nœud « Roue » tourne.
-func _roue_ecureuil(parent: Node3D, p: Vector2, angle: float) -> Node3D:
-	var m := Node3D.new()
-	m.name = "RoueEcureuil"
-	m.position = Vector3(p.x, hauteur(p.x, p.y), p.y)
-	m.rotation.y = angle
-	parent.add_child(m)
-	var bois := _mat_colombage()
-	# Le bâti : deux chevalets et l'axe.
-	for cote: float in [-1.3, 1.3]:
-		for sens: float in [-1.0, 1.0]:
-			var jambe := _boite(Vector3(0.22, 3.6, 0.22), Vector3(cote, 1.7, sens * 1.0), bois, m, false)
-			jambe.rotation.x = sens * 0.28
-	_boite(Vector3(3.2, 0.24, 0.24), Vector3(0, 3.2, 0), bois, m, false)
-	var roue := Node3D.new()
-	roue.name = "Roue"
-	roue.position = Vector3(0, 3.2, 0)
-	m.add_child(roue)
-	for cote: float in [-1.0, 1.0]:
-		for k in 16:
-			var a := k * TAU / 16.0
-			var jante := _boite(Vector3(0.14, 1.0, 0.18), Vector3(cote, cos(a) * 2.5, sin(a) * 2.5), bois, roue, false)
-			jante.rotation.x = -a
-		for k in 4:
-			var rayon := _boite(Vector3(0.1, 5.0, 0.12), Vector3(cote, 0, 0), bois, roue, false)
-			rayon.rotation.x = k * PI / 4
-	for k in 24:
-		var a := k * TAU / 24.0
-		var marche := _boite(Vector3(2.0, 0.06, 0.3), Vector3(0, cos(a) * 2.45, sin(a) * 2.45), bois, roue, false)
-		marche.rotation.x = -a
-	# La flèche au-dessus du vide (vers -z local), la poulie et le bloc pendu.
-	var fleche := _boite(Vector3(0.3, 0.3, 9.0), Vector3(0, 5.8, -4.2), bois, m, false)
-	fleche.rotation.x = 0.35
-	_boite(Vector3(0.2, 3.0, 0.2), Vector3(0, 4.6, 0.6), bois, m, false)
-	var corde := _mat_uni_ma(Color(0.7, 0.62, 0.45), 1.0)
-	_boite(Vector3(0.04, 4.0, 0.04), Vector3(0, 5.2, -8.2), corde, m, false)
-	var bloc := _boite(Vector3(1.4, 0.8, 0.9), Vector3(0, 2.8, -8.2), _mat_calcaire(), m, false)
-	bloc.name = "BlocPendu"
-	return m
-
-
 func _pres_des_las(p: Vector2, marge: float) -> bool:
 	for l: Vector2 in LAS_CARRIERS:
 		if p.distance_to(l) < marge:

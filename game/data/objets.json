@@ -2214,6 +2214,46 @@
 				"couleur": "#8a8c90"
 			},
 			"epoque": "Moyen Âge"
+		},
+		"battant_cloche": {
+			"nom": "Battant de la cloche fêlée",
+			"type": "materiau",
+			"rarete": "historique",
+			"pile": 1,
+			"description": "Le battant de fer de la vieille cloche de Chartres, celle qui a sonné toute seule le jour du serment. Tant qu'il est dans tes sacs, tu peux mettre la compétence d'époque « Cloche du beffroi » dans ta barre (touches 6 et 7).",
+			"icone": {
+				"forme": "tendon",
+				"couleur": "#5a5a60"
+			},
+			"epoque": "Moyen Âge"
+		},
+		"ecu_fleurdelise": {
+			"nom": "Écu fleurdelisé",
+			"type": "equipement",
+			"rarete": "historique",
+			"emplacement": "arme_secondaire",
+			"description": "Un bouclier en amande, bleu semé de fleurs de lis d'or : les armes du roi de France. Philippe Auguste te l'a donné dans le chœur de la cathédrale en chantier.",
+			"stats": {
+				"pv": 240,
+				"reduction_pourcent": 5
+			},
+			"visuel": {
+				"forme": "bouclier",
+				"couleur": "#2a3a9a"
+			},
+			"epoque": "Moyen Âge"
+		},
+		"plomb_fige": {
+			"nom": "Plomb figé",
+			"type": "materiau",
+			"rarete": "commun",
+			"pile": 20,
+			"description": "Un morceau de plomb coulé dans un moule, avec des éclats violets pris dedans. Les plombiers du chantier le refondent pour sertir les vitraux.",
+			"icone": {
+				"forme": "eclat",
+				"couleur": "#6a6c72"
+			},
+			"epoque": "Moyen Âge"
 		}
 	},
 	"ensembles": {
@@ -2269,7 +2309,8 @@
 		"bain_des_thermes",
 		"aiguilles_d_argent",
 		"fronde_de_berger",
-		"pavois"
+		"pavois",
+		"cloche_du_beffroi"
 	],
 	"_aide_competences_requises": "Une compétence d'époque qui demande un objet : elle ne peut aller dans la barre que si l'objet est dans les sacs (ou porté).",
 	"competences_requises": {
@@ -2277,7 +2318,8 @@
 		"bain_des_thermes": "strigile_thermes",
 		"aiguilles_d_argent": "trousse_aiguilles",
 		"fronde_de_berger": "fronde_berger",
-		"pavois": "pavois_carriers"
+		"pavois": "pavois_carriers",
+		"cloche_du_beffroi": "battant_cloche"
 	},
 	"ultimes": [
 		"appel_de_la_meute"
@@ -2838,6 +2880,40 @@
 			{
 				"objet": "fumigene_vide",
 				"chance": 0.3
+			}
+		],
+		"statue_gargouille_plomb": [
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 0.8,
+				"quantite": [1, 2]
+			},
+			{
+				"objet": "plomb_fige",
+				"chance": 0.6
+			}
+		],
+		"masque_homme_plomb_chantier": [
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 1.0,
+				"quantite": [1, 2]
+			},
+			{
+				"objet": "fumigene_vide",
+				"chance": 0.3
+			}
+		],
+		"masque_plomb_chantier": [
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 1.0,
+				"quantite": [3, 4]
+			},
+			{
+				"objet": "plomb_fige",
+				"chance": 1.0,
+				"quantite": [2, 3]
 			}
 		]
 	},
