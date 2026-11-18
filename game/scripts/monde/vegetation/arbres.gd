@@ -164,6 +164,14 @@ const ESSENCES := {
 		"feuille": "bambou", "cartes": 24, "carte": 1.25,
 		"couleur": Color(0.62, 0.74, 0.45), "variation": Color(0.92, 0.95, 0.75), "translucidite": 0.6,
 	},
+	# Touffe de papyrus : tiges triangulaires lisses, ombelles en plumeau (rayons fins).
+	# Tiges et ombelles sont dans le feuillage : elles se balancent ensemble au vent.
+	"papyrus": {
+		"forme": "papyrus", "tronc": [2.0, 3.8], "rayon": 0.022, "penche": 0.4, "torsion": 0.0,
+		"chaumes": 11,
+		"feuille": "ombelle", "cartes": 5, "carte": 0.4,
+		"couleur": Color(0.5, 0.6, 0.36), "variation": Color(0.92, 0.9, 0.7), "translucidite": 0.55,
+	},
 	"saule": {
 		"forme": "feuillu", "tronc": [2.4, 3.2], "rayon": 0.34, "penche": 0.15, "torsion": 0.15,
 		"niveaux": 3, "branches": [6, 5, 3], "angle": [45, 50, 40], "longueur": [0.85, 0.7, 0.7],
@@ -219,17 +227,20 @@ static func maillage(essence: String, variante: int, ecorce: Material = null) ->
 		_palmier(g, fiche, hasard)
 	elif fiche["forme"] == "bambou":
 		_bambou(g, fiche, hasard)
+	elif fiche["forme"] == "papyrus":
+		_papyrus(g, fiche, hasard)
 	else:
 		_arbre(g, fiche, hasard)
 	var m := ArrayMesh.new()
-	g.ecorce.ajouter_a(m)
-	if ecorce == null:
-		ecorce = _ecorce_defaut()
-	m.surface_set_material(0, ecorce)
+	if not g.ecorce.vide():
+		g.ecorce.ajouter_a(m)
+		if ecorce == null:
+			ecorce = _ecorce_defaut()
+		m.surface_set_material(0, ecorce)
 	if not g.feuilles.vide():
 		g.feuilles.normales_houppier()
 		g.feuilles.ajouter_a(m)
-		m.surface_set_material(1, feuillage(essence))
+		m.surface_set_material(m.get_surface_count() - 1, feuillage(essence))
 	_maillages[cle] = m
 	return m
 
@@ -728,6 +739,52 @@ static func _bambou(g: _Geometrie, fiche: Dictionary, hasard: RandomNumberGenera
 			_carte(g.feuilles, base, direction, cote, taille, taille * 1.1, 0.4 + t * 0.5, phase)
 
 
+## Papyrus : tiges fines (dans la surface du feuillage, UV sur la bande pleine à gauche
+## de la texture) et, au sommet, une gerbe de cartes « ombelle » en éventail.
+static func _papyrus(g: _Geometrie, fiche: Dictionary, hasard: RandomNumberGenerator) -> void:
+	var nb: int = fiche["chaumes"] + hasard.randi_range(-2, 3)
+	var s := g.feuilles
+	for k in nb:
+		var a := hasard.randf() * TAU
+		var ecart := hasard.randf_range(0.0, 0.35)
+		var base := Vector3(cos(a), 0, sin(a)) * ecart
+		var h := hasard.randf_range(fiche["tronc"][0], fiche["tronc"][1])
+		# Les tiges du bord penchent plus (la touffe s'ouvre en gerbe).
+		var penche := hasard.randf_range(0.03, fiche["penche"]) * (0.4 + ecart * 2.0)
+		var dehors := Vector3(cos(a), 0, sin(a))
+		var phase := hasard.randf()
+		var points: Array[Vector3] = []
+		var rayons: Array[float] = []
+		var segments := 5
+		var r0: float = fiche["rayon"] * hasard.randf_range(0.85, 1.2)
+		for i in segments + 1:
+			var t := float(i) / segments
+			points.append(base + Vector3.UP * h * t + dehors * h * sin(penche) * t * (0.4 + 0.6 * t))
+			rayons.append(r0 * (1.0 - t * 0.5))
+		var depart := s.sommets.size()
+		_tube(s, points, rayons, 3, Vector2(0.0, 1.0), phase)
+		for i in range(depart, s.sommets.size()):
+			s.uvs[i] = Vector2(0.025, lerpf(0.9, 0.1, s.uvs[i].y / h))
+		# L'ombelle : cartes en éventail autour du sommet, certaines dressées, d'autres
+		# ouvertes vers l'extérieur ; les tiges courtes (jeunes) ont une ombelle plus petite.
+		var sommet := points[-1]
+		var axe := (points[-1] - points[-2]).normalized()
+		var taille: float = fiche["carte"] * hasard.randf_range(0.7, 1.15) * clampf(h / 3.0, 0.7, 1.1)
+		var cartes: int = fiche["cartes"]
+		var tour := hasard.randf() * TAU
+		for c in cartes:
+			var angle := tour + PI * c / cartes * 2.0
+			var rad := Vector3(cos(angle), 0, sin(angle))
+			var ouvert := 0.25 if c % 2 == 0 else 0.85
+			var direction := (axe * (1.0 - ouvert * 0.6) + rad * ouvert).normalized()
+			var cote := rad.cross(Vector3.UP).normalized()
+			var premier := s.sommets.size()
+			_carte(s, sommet - axe * 0.03, direction, cote, taille * 2.0, taille, 1.25, phase)
+			# Les cartes n'utilisent pas la bande des tiges (u < 0,06).
+			for i in range(premier, s.sommets.size()):
+				s.uvs[i].x = 0.06 + s.uvs[i].x * 0.94
+
+
 ## Palmier : stipe annelé et courbe, couronne de palmes arquées.
 static func _palmier(g: _Geometrie, fiche: Dictionary, hasard: RandomNumberGenerator) -> void:
 	var hauteur := hasard.randf_range(fiche["tronc"][0], fiche["tronc"][1])
@@ -806,6 +863,7 @@ static func texture_feuilles(motif: String, teinte_dessin := Color(0, 0, 0, 0)) 
 		"large": Color(0.30, 0.42, 0.16), "petite": Color(0.34, 0.46, 0.17), "olivier": Color(0.36, 0.42, 0.28),
 		"aiguilles": Color(0.18, 0.28, 0.13), "ecailles": Color(0.17, 0.27, 0.13), "plumeux": Color(0.36, 0.44, 0.27),
 		"palme": Color(0.33, 0.43, 0.18), "bambou": Color(0.34, 0.46, 0.18),
+		"ombelle": Color(0.38, 0.5, 0.17),
 	}
 	var c: Color = dessin_couleur(defauts.get(motif, Color(0.3, 0.4, 0.2)), teinte_dessin)
 	match motif:
@@ -825,6 +883,8 @@ static func texture_feuilles(motif: String, teinte_dessin := Color(0, 0, 0, 0)) 
 			_dessiner_palme(dessin, hasard, c)
 		"bambou":
 			_dessiner_rameau(dessin, hasard, 16, 0.3, 0.032, 0.95, c)
+		"ombelle":
+			_dessiner_ombelle(dessin, hasard, c)
 	dessin.boucher_fond()
 	image.generate_mipmaps()
 	var tex := ImageTexture.create_from_image(image)
@@ -1000,3 +1060,30 @@ static func _dessiner_palme(d: _Dessin, hasard: RandomNumberGenerator, couleur: 
 			if v > 0.85:
 				c = c.lerp(Color(0.55, 0.45, 0.25), 0.5)  # base des palmes : plus sèche
 			d.feuille(base, angle, l, 0.011, c)
+
+
+## Ombelle de papyrus : une bande pleine à gauche (la couleur des tiges), puis un éventail
+## de rayons très fins qui partent du bas, s'arquent et portent de petites houppes au bout.
+static func _dessiner_ombelle(d: _Dessin, hasard: RandomNumberGenerator, couleur: Color) -> void:
+	var tige := couleur.darkened(0.12)
+	for y in d.taille:
+		for x in int(d.taille * 0.05):
+			d._poser(x, y, tige * (0.92 + 0.08 * float(y) / d.taille))
+	var base := Vector2(0.53, 0.97)
+	for i in 95:
+		var angle := -PI * 0.5 + hasard.randf_range(-1.38, 1.38)
+		var l := hasard.randf_range(0.55, 0.9)
+		var dir := Vector2(cos(angle), sin(angle))
+		# Le rayon s'arque : il retombe un peu vers le bout (vers le bas de l'image).
+		var milieu := base + dir * l * 0.55
+		var bout := base + dir * l + Vector2(0, l * 0.12 * absf(dir.x))
+		bout.x = clampf(bout.x, 0.07, 0.99)
+		var c := couleur * hasard.randf_range(0.85, 1.25)
+		d.segment(base, milieu, 0.0028, c)
+		d.segment(milieu, bout, 0.0024, c)
+		# Houppe au bout : quelques brins courts, plus clairs (les fleurs).
+		for b in 4:
+			var ab := angle + hasard.randf_range(-0.7, 0.7)
+			var fin := bout + Vector2(cos(ab), sin(ab)) * hasard.randf_range(0.02, 0.045)
+			fin.x = clampf(fin.x, 0.07, 0.99)
+			d.segment(bout, fin, 0.0022, c.lerp(Color(0.62, 0.6, 0.32), 0.35))

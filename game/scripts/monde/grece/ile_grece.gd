@@ -153,7 +153,8 @@ static func _tuiles() -> Texture2D:
 ## Une peinture vive et mate (frises, triglyphes, coques, boucliers).
 ## Le bois des quais, des loges et des trières : planches brutes, grisées par le sel.
 func _mat_bois() -> StandardMaterial3D:
-	return _mat_choix(["wooden_rough_planks", "weathered_planks", "rough_wood"], Color(0.5, 0.42, 0.34), 0.85, 1.5)
+	# (Les planches moussues « wooden_rough_planks » viraient au violet-olive au soleil.)
+	return _mat_choix(["rough_wood", "weathered_planks", "wooden_rough_planks"], Color(0.86, 0.8, 0.72), 0.85, 1.5)
 
 
 func _mat_peint(couleur: Color, rugosite := 0.8) -> StandardMaterial3D:

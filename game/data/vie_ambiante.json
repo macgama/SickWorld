@@ -229,6 +229,41 @@
 			"taille_cm": 178,
 			"peau": "#c49a78",
 			"habits": "#3a4a6a"
+		},
+		"romain_homme": {
+			"modele": "homme",
+			"habit": "chiton_court",
+			"taille_cm": 170,
+			"peau": "#b08058",
+			"habits": "#8a6a4a"
+		},
+		"romain_toge": {
+			"modele": "homme",
+			"habit": "chiton_himation",
+			"taille_cm": 174,
+			"peau": "#c49a76",
+			"habits": "#e8e2d2"
+		},
+		"romain_esclave": {
+			"modele": "homme",
+			"habit": "exomis",
+			"taille_cm": 168,
+			"peau": "#9a6a48",
+			"habits": "#7a6a52"
+		},
+		"romaine": {
+			"modele": "femme",
+			"habit": "peplos",
+			"taille_cm": 162,
+			"peau": "#c08e68",
+			"habits": "#9a4a3a"
+		},
+		"romaine_2": {
+			"modele": "femme",
+			"habit": "peplos",
+			"taille_cm": 158,
+			"peau": "#b88660",
+			"habits": "#4a6a7a"
 		}
 	},
 	"steppe": {
@@ -2081,7 +2116,12 @@
 			},
 			{
 				"comme": "egy_ouvrier",
-				"chemin": [[-7.3, -56]],
+				"chemin": [
+					[
+						-7.3,
+						-56
+					]
+				],
 				"geste": "lancer",
 				"regarde": 90
 			},
@@ -2458,7 +2498,12 @@
 			},
 			{
 				"comme": "egy_ouvrier",
-				"chemin": [[-14.5, -94.3]],
+				"chemin": [
+					[
+						-14.5,
+						-94.3
+					]
+				],
 				"geste": "travail",
 				"regarde": 300
 			},
@@ -4162,14 +4207,20 @@
 			{
 				"espece": "pigeon",
 				"comportement": "nuee",
-				"centre": [-10, -10],
+				"centre": [
+					-10,
+					-10
+				],
 				"altitude": 8,
 				"rayon": 18,
 				"nombre": 16
 			},
 			{
 				"espece": "choucas",
-				"centre": [100, -4],
+				"centre": [
+					100,
+					-4
+				],
 				"altitude": 52,
 				"rayon": 40,
 				"nombre": 10
@@ -4177,14 +4228,20 @@
 			{
 				"espece": "hirondelle",
 				"comportement": "nuee",
-				"centre": [-112, -104],
+				"centre": [
+					-112,
+					-104
+				],
 				"altitude": 7,
 				"rayon": 20,
 				"nombre": 22
 			},
 			{
 				"espece": "milan",
-				"centre": [-92, 92],
+				"centre": [
+					-92,
+					92
+				],
 				"altitude": 45,
 				"rayon": 45,
 				"nombre": 2
@@ -4192,7 +4249,10 @@
 			{
 				"espece": "pigeon",
 				"comportement": "nuee",
-				"centre": [100, 60],
+				"centre": [
+					100,
+					60
+				],
 				"altitude": 10,
 				"rayon": 16,
 				"nombre": 12
@@ -4206,26 +4266,46 @@
 			},
 			{
 				"sorte": "mouches",
-				"position": [14, -13, 1.0]
+				"position": [
+					14,
+					-13,
+					1.0
+				]
 			},
 			{
 				"sorte": "mouches",
-				"position": [-26, -16, 1.0]
+				"position": [
+					-26,
+					-16,
+					1.0
+				]
 			},
 			{
 				"sorte": "cendres",
-				"position": [-113, -109, 2.8],
+				"position": [
+					-113,
+					-109,
+					2.8
+				],
 				"nombre": 20,
 				"rayon": 0.5
 			},
 			{
 				"sorte": "papillons",
-				"position": [-98, -30, 6.0],
+				"position": [
+					-98,
+					-30,
+					6.0
+				],
 				"rayon": 18
 			},
 			{
 				"sorte": "poussiere",
-				"position": [-10, -10, 1.0],
+				"position": [
+					-10,
+					-10,
+					1.0
+				],
 				"rayon": 10,
 				"nombre": 60
 			}
@@ -4234,153 +4314,554 @@
 			{
 				"comme": "grec_homme",
 				"chemin": [
-					[0, 120],
-					[0, 60],
-					[2, 30],
-					[-10, 0]
+					[
+						0,
+						120
+					],
+					[
+						0,
+						60
+					],
+					[
+						2,
+						30
+					],
+					[
+						-10,
+						0
+					]
 				],
 				"vitesse": 0.9,
-				"pause": [3, 8]
+				"pause": [
+					3,
+					8
+				]
 			},
 			{
 				"comme": "grec_femme",
 				"chemin": [
-					[-30, -16],
-					[-12, -20],
-					[20, 18],
-					[26, -26]
+					[
+						-30,
+						-16
+					],
+					[
+						-12,
+						-20
+					],
+					[
+						20,
+						18
+					],
+					[
+						26,
+						-26
+					]
 				],
 				"porte": "amphore",
 				"vitesse": 0.8,
-				"pause": [4, 9]
+				"pause": [
+					4,
+					9
+				]
 			},
 			{
 				"comme": "grec_marchand",
 				"chemin": [
-					[-36, 0],
-					[-20, -24],
-					[-30, -16]
+					[
+						-36,
+						0
+					],
+					[
+						-20,
+						-24
+					],
+					[
+						-30,
+						-16
+					]
 				],
 				"vitesse": 0.8,
-				"pause": [5, 10]
+				"pause": [
+					5,
+					10
+				]
 			},
 			{
 				"comme": "grec_vieillard",
 				"chemin": [
-					[-40, -36],
-					[10, -38],
-					[30, -30]
+					[
+						-40,
+						-36
+					],
+					[
+						10,
+						-38
+					],
+					[
+						30,
+						-30
+					]
 				],
 				"vitesse": 0.6,
-				"pause": [6, 12]
+				"pause": [
+					6,
+					12
+				]
 			},
 			{
 				"comme": "grec_servante",
 				"chemin": [
-					[30, 40],
-					[30, 30],
-					[10, 60],
-					[0, 90]
+					[
+						30,
+						40
+					],
+					[
+						30,
+						30
+					],
+					[
+						10,
+						60
+					],
+					[
+						0,
+						90
+					]
 				],
 				"porte": "amphore",
 				"vitesse": 0.9,
-				"pause": [3, 7]
+				"pause": [
+					3,
+					7
+				]
 			},
 			{
 				"comme": "grec_homme",
 				"chemin": [
-					[-60, -50],
-					[-100, -90],
-					[-120, -112]
+					[
+						-60,
+						-50
+					],
+					[
+						-100,
+						-90
+					],
+					[
+						-120,
+						-112
+					]
 				],
 				"porte": "sac",
 				"vitesse": 1.0,
-				"pause": [3, 6]
+				"pause": [
+					3,
+					6
+				]
 			},
 			{
 				"comme": "grec_docker",
 				"chemin": [
-					[-118, -100],
-					[-106, -104],
-					[-110, -92]
+					[
+						-118,
+						-100
+					],
+					[
+						-106,
+						-104
+					],
+					[
+						-110,
+						-92
+					]
 				],
 				"porte": "amphore",
 				"vitesse": 0.9,
-				"pause": [4, 8]
+				"pause": [
+					4,
+					8
+				]
 			},
 			{
 				"comme": "archer_scythe",
 				"chemin": [
-					[-50, 24],
-					[30, 24],
-					[30, -40],
-					[-50, -40]
+					[
+						-50,
+						24
+					],
+					[
+						30,
+						24
+					],
+					[
+						30,
+						-40
+					],
+					[
+						-50,
+						-40
+					]
 				],
 				"vitesse": 0.9,
-				"pause": [6, 10]
+				"pause": [
+					6,
+					10
+				]
 			},
 			{
 				"comme": "grec_femme_2",
 				"chemin": [
-					[-56, 26],
-					[-80, 70],
-					[-70, 100]
+					[
+						-56,
+						26
+					],
+					[
+						-80,
+						70
+					],
+					[
+						-70,
+						100
+					]
 				],
 				"vitesse": 0.8,
-				"pause": [4, 8]
+				"pause": [
+					4,
+					8
+				]
 			},
 			{
 				"comme": "grec_marin",
 				"chemin": [
-					[36, 26],
-					[70, 52],
-					[86, 66]
+					[
+						36,
+						26
+					],
+					[
+						70,
+						52
+					],
+					[
+						86,
+						66
+					]
 				],
 				"vitesse": 1.0,
-				"pause": [3, 6]
+				"pause": [
+					3,
+					6
+				]
+			},
+			{
+				"comme": "grec_homme",
+				"chemin": [
+					[
+						-44,
+						-30
+					]
+				],
+				"geste": "discute",
+				"regarde": 90
+			},
+			{
+				"comme": "grec_vieillard",
+				"chemin": [
+					[
+						-41.5,
+						-30
+					]
+				],
+				"geste": "discute",
+				"regarde": 270
+			},
+			{
+				"comme": "grec_marchand",
+				"chemin": [
+					[
+						-42.8,
+						-32.2
+					]
+				],
+				"geste": "discute",
+				"regarde": 0
+			},
+			{
+				"comme": "grec_homme",
+				"chemin": [
+					[
+						2,
+						-34
+					]
+				],
+				"geste": "discute",
+				"regarde": 45
+			},
+			{
+				"comme": "grec_femme",
+				"chemin": [
+					[
+						4.2,
+						-32.5
+					]
+				],
+				"geste": "discute",
+				"regarde": 225
+			},
+			{
+				"comme": "grec_vieillard",
+				"chemin": [
+					[
+						-36,
+						10
+					]
+				],
+				"geste": "discute",
+				"regarde": 90
+			},
+			{
+				"comme": "grec_homme",
+				"chemin": [
+					[
+						-33.6,
+						10.5
+					]
+				],
+				"geste": "discute",
+				"regarde": 270
+			},
+			{
+				"comme": "grec_femme_2",
+				"chemin": [
+					[
+						26,
+						-6
+					]
+				],
+				"geste": "priere",
+				"regarde": 180
+			},
+			{
+				"comme": "grec_servante",
+				"chemin": [
+					[
+						30,
+						34
+					],
+					[
+						10,
+						4
+					],
+					[
+						-20,
+						-6
+					],
+					[
+						-48,
+						-20
+					]
+				],
+				"porte": "jarre",
+				"vitesse": 0.85,
+				"pause": [
+					3,
+					7
+				]
+			},
+			{
+				"comme": "grec_docker",
+				"chemin": [
+					[
+						-50,
+						-40
+					],
+					[
+						-20,
+						-30
+					],
+					[
+						20,
+						-36
+					],
+					[
+						34,
+						-20
+					]
+				],
+				"porte": "sac",
+				"vitesse": 0.95,
+				"pause": [
+					2,
+					5
+				]
+			},
+			{
+				"comme": "grec_homme",
+				"chemin": [
+					[
+						34,
+						20
+					],
+					[
+						0,
+						10
+					],
+					[
+						-30,
+						0
+					],
+					[
+						-52,
+						4
+					]
+				],
+				"vitesse": 0.9,
+				"pause": [
+					3,
+					8
+				]
+			},
+			{
+				"comme": "grec_femme",
+				"chemin": [
+					[
+						-52,
+						20
+					],
+					[
+						-20,
+						14
+					],
+					[
+						0,
+						-4
+					],
+					[
+						30,
+						-12
+					]
+				],
+				"porte": "panier",
+				"vitesse": 0.8,
+				"pause": [
+					4,
+					9
+				]
+			},
+			{
+				"comme": "grec_marchand",
+				"chemin": [
+					[
+						-6,
+						22
+					],
+					[
+						-6,
+						-8
+					],
+					[
+						-14,
+						-36
+					]
+				],
+				"porte": "amphore",
+				"vitesse": 0.8,
+				"pause": [
+					4,
+					10
+				]
+			},
+			{
+				"comme": "grec_homme",
+				"chemin": [
+					[
+						18,
+						-40
+					],
+					[
+						30,
+						-10
+					],
+					[
+						18,
+						22
+					]
+				],
+				"vitesse": 1.0,
+				"pause": [
+					2,
+					6
+				]
 			}
 		],
 		"disperser": [
 			{
 				"modele": "sand_rocks_small_01",
 				"nombre": 220,
-				"echelle": [0.1, 0.25],
+				"echelle": [
+					0.1,
+					0.25
+				],
 				"hors_piste": 2.0,
 				"sol_min": 0.3
 			},
 			{
 				"modele": "shrub_01",
 				"nombre": 140,
-				"echelle": [0.5, 1.0],
+				"echelle": [
+					0.5,
+					1.0
+				],
 				"hors_piste": 2.5,
-				"grappes": [30, 7],
+				"grappes": [
+					30,
+					7
+				],
 				"distance": 150,
 				"sol_min": 0.6
 			},
 			{
 				"modele": "searsia_lucida",
 				"nombre": 60,
-				"echelle": [0.6, 1.1],
+				"echelle": [
+					0.6,
+					1.1
+				],
 				"hors_piste": 3.0,
-				"grappes": [16, 8],
+				"grappes": [
+					16,
+					8
+				],
 				"distance": 140,
 				"sol_min": 1.0
 			},
 			{
 				"modele": "wicker_basket_01",
 				"nombre": 14,
-				"echelle": [0.8, 1.1],
+				"echelle": [
+					0.8,
+					1.1
+				],
 				"pres_de": [
-					[-10, -10, 30]
+					[
+						-10,
+						-10,
+						30
+					]
 				],
 				"hors_piste": 1.5
 			},
 			{
 				"modele": "antique_ceramic_vase_01",
 				"nombre": 14,
-				"echelle": [0.9, 1.2],
+				"echelle": [
+					0.9,
+					1.2
+				],
 				"pres_de": [
-					[-112, -102, 12]
+					[
+						-112,
+						-102,
+						12
+					]
 				],
 				"hors_piste": 1.0
 			}
@@ -4392,21 +4873,30 @@
 			{
 				"espece": "pigeon",
 				"comportement": "nuee",
-				"centre": [-40, 20],
+				"centre": [
+					-40,
+					20
+				],
 				"altitude": 9,
 				"rayon": 20,
 				"nombre": 18
 			},
 			{
 				"espece": "choucas",
-				"centre": [20, -30],
+				"centre": [
+					20,
+					-30
+				],
 				"altitude": 50,
 				"rayon": 45,
 				"nombre": 12
 			},
 			{
 				"espece": "corbeau",
-				"centre": [-110, -120],
+				"centre": [
+					-110,
+					-120
+				],
 				"altitude": 20,
 				"rayon": 25,
 				"nombre": 5
@@ -4414,7 +4904,10 @@
 			{
 				"espece": "pigeon",
 				"comportement": "nuee",
-				"centre": [-100, 70],
+				"centre": [
+					-100,
+					70
+				],
 				"altitude": 8,
 				"rayon": 14,
 				"nombre": 14
@@ -4428,13 +4921,21 @@
 			},
 			{
 				"sorte": "cendres",
-				"position": [-88, -40, 2.0],
+				"position": [
+					-88,
+					-40,
+					2.0
+				],
 				"nombre": 16,
 				"rayon": 0.6
 			},
 			{
 				"sorte": "poussiere",
-				"position": [-100, 70, 1.0],
+				"position": [
+					-100,
+					70,
+					1.0
+				],
 				"rayon": 12,
 				"nombre": 60
 			}
@@ -4442,70 +4943,1109 @@
 		"figurants": [
 			{
 				"comme": "marchand_luoyang_3",
-				"chemin": [[-140, 24], [-90, 24], [-40, 24], [0, 24]],
+				"chemin": [
+					[
+						-140,
+						24
+					],
+					[
+						-90,
+						24
+					],
+					[
+						-40,
+						24
+					],
+					[
+						0,
+						24
+					]
+				],
 				"porte": "panier",
 				"vitesse": 0.9,
-				"pause": [3, 8]
+				"pause": [
+					3,
+					8
+				]
 			},
 			{
 				"comme": "marchand_luoyang_1",
-				"chemin": [[-20, 16], [-70, 16], [-110, 16]],
+				"chemin": [
+					[
+						-20,
+						16
+					],
+					[
+						-70,
+						16
+					],
+					[
+						-110,
+						16
+					]
+				],
 				"porte": "sac",
 				"vitesse": 0.8,
-				"pause": [4, 9]
+				"pause": [
+					4,
+					9
+				]
 			},
 			{
 				"comme": "etudiant_2",
-				"chemin": [[60, 16], [100, 16], [100, -60], [90, -90]],
+				"chemin": [
+					[
+						60,
+						16
+					],
+					[
+						100,
+						16
+					],
+					[
+						100,
+						-60
+					],
+					[
+						90,
+						-90
+					]
+				],
 				"vitesse": 1.0,
-				"pause": [3, 6]
+				"pause": [
+					3,
+					6
+				]
 			},
 			{
 				"comme": "etudiant_1",
-				"chemin": [[80, -90], [110, -90], [120, -110]],
+				"chemin": [
+					[
+						80,
+						-90
+					],
+					[
+						110,
+						-90
+					],
+					[
+						120,
+						-110
+					]
+				],
 				"vitesse": 0.8,
-				"pause": [5, 10]
+				"pause": [
+					5,
+					10
+				]
 			},
 			{
 				"comme": "ouvrier_atelier_2",
-				"chemin": [[-100, -22], [-100, 16], [-100, 50], [-112, 64]],
+				"chemin": [
+					[
+						-100,
+						-22
+					],
+					[
+						-100,
+						16
+					],
+					[
+						-100,
+						50
+					],
+					[
+						-112,
+						64
+					]
+				],
 				"porte": "fagot",
 				"vitesse": 0.9,
-				"pause": [3, 7]
+				"pause": [
+					3,
+					7
+				]
 			},
 			{
 				"comme": "garde_porte_1",
-				"chemin": [[-140, 26], [-60, 26], [-60, -60], [-60, 26]],
+				"chemin": [
+					[
+						-140,
+						26
+					],
+					[
+						-60,
+						26
+					],
+					[
+						-60,
+						-60
+					],
+					[
+						-60,
+						26
+					]
+				],
 				"porte": "lance",
 				"vitesse": 0.9,
-				"pause": [6, 10]
+				"pause": [
+					6,
+					10
+				]
 			},
 			{
 				"comme": "marchand_luoyang_5",
-				"chemin": [[-120, 60], [-90, 66], [-100, 88], [-120, 80]],
+				"chemin": [
+					[
+						-120,
+						60
+					],
+					[
+						-90,
+						66
+					],
+					[
+						-100,
+						88
+					],
+					[
+						-120,
+						80
+					]
+				],
 				"porte": "panier",
 				"vitesse": 0.8,
-				"pause": [4, 8]
+				"pause": [
+					4,
+					8
+				]
 			},
 			{
 				"comme": "ouvrier_atelier_3",
-				"chemin": [[40, 24], [60, 24], [60, 40]],
+				"chemin": [
+					[
+						40,
+						24
+					],
+					[
+						60,
+						24
+					],
+					[
+						60,
+						40
+					]
+				],
 				"porte": "jarre",
 				"vitesse": 0.8,
-				"pause": [4, 9]
+				"pause": [
+					4,
+					9
+				]
 			},
 			{
 				"comme": "marchand_luoyang_2",
-				"chemin": [[-30, 26], [10, 26], [50, 26], [90, 26]],
+				"chemin": [
+					[
+						-30,
+						26
+					],
+					[
+						10,
+						26
+					],
+					[
+						50,
+						26
+					],
+					[
+						90,
+						26
+					]
+				],
 				"vitesse": 0.9,
-				"pause": [3, 6]
+				"pause": [
+					3,
+					6
+				]
 			},
 			{
 				"comme": "garde_porte_2",
-				"chemin": [[14, 36], [26, 36]],
+				"chemin": [
+					[
+						14,
+						36
+					],
+					[
+						26,
+						36
+					]
+				],
 				"porte": "lance",
 				"vitesse": 0.6,
-				"pause": [8, 14]
+				"pause": [
+					8,
+					14
+				]
+			}
+		]
+	},
+	"oliveraies": {
+		"niveau_eau": -50.0,
+		"oiseaux": [
+			{
+				"espece": "etourneau",
+				"comportement": "nuee",
+				"centre": [
+					-60,
+					20
+				],
+				"altitude": 12,
+				"rayon": 40,
+				"nombre": 35
+			},
+			{
+				"espece": "hirondelle",
+				"comportement": "nuee",
+				"centre": [
+					40,
+					50
+				],
+				"altitude": 6,
+				"rayon": 22,
+				"nombre": 18
+			},
+			{
+				"espece": "milan",
+				"centre": [
+					60,
+					-20
+				],
+				"altitude": 45,
+				"rayon": 50,
+				"nombre": 2
+			},
+			{
+				"espece": "choucas",
+				"centre": [
+					-30,
+					-60
+				],
+				"altitude": 30,
+				"rayon": 30,
+				"nombre": 8
+			}
+		],
+		"insectes": [
+			{
+				"sorte": "poussiere",
+				"autour": true,
+				"nombre": 140
+			},
+			{
+				"sorte": "papillons",
+				"autour": true,
+				"nombre": 10
+			},
+			{
+				"sorte": "mouches",
+				"position": [
+					46,
+					40,
+					1.0
+				]
+			},
+			{
+				"sorte": "papillons",
+				"position": [
+					-60,
+					10,
+					1.0
+				],
+				"rayon": 20
+			}
+		]
+	},
+	"laurion": {
+		"niveau_eau": -50.0,
+		"oiseaux": [
+			{
+				"espece": "corbeau",
+				"centre": [
+					0,
+					0
+				],
+				"altitude": 25,
+				"rayon": 35,
+				"nombre": 6
+			},
+			{
+				"espece": "vautour",
+				"centre": [
+					60,
+					-40
+				],
+				"altitude": 70,
+				"rayon": 60,
+				"nombre": 2
+			}
+		],
+		"insectes": [
+			{
+				"sorte": "poussiere",
+				"autour": true,
+				"nombre": 220
+			},
+			{
+				"sorte": "mouches",
+				"position": [
+					0,
+					0,
+					1.0
+				]
+			}
+		]
+	},
+	"campagne": {
+		"niveau_eau": -50.0,
+		"oiseaux": [
+			{
+				"espece": "etourneau",
+				"comportement": "nuee",
+				"centre": [
+					0,
+					0
+				],
+				"altitude": 14,
+				"rayon": 50,
+				"nombre": 45
+			},
+			{
+				"espece": "hirondelle",
+				"comportement": "nuee",
+				"centre": [
+					30,
+					60
+				],
+				"altitude": 7,
+				"rayon": 25,
+				"nombre": 20
+			},
+			{
+				"espece": "milan",
+				"centre": [
+					-40,
+					-40
+				],
+				"altitude": 50,
+				"rayon": 55,
+				"nombre": 2
+			},
+			{
+				"espece": "pigeon",
+				"comportement": "nuee",
+				"centre": [
+					60,
+					40
+				],
+				"altitude": 9,
+				"rayon": 16,
+				"nombre": 12
+			}
+		],
+		"insectes": [
+			{
+				"sorte": "poussiere",
+				"autour": true,
+				"nombre": 140
+			},
+			{
+				"sorte": "papillons",
+				"autour": true,
+				"nombre": 10
+			},
+			{
+				"sorte": "libellules",
+				"autour": true,
+				"nombre": 6
+			}
+		]
+	},
+	"voie_appienne": {
+		"niveau_eau": -50.0,
+		"oiseaux": [
+			{
+				"espece": "etourneau",
+				"comportement": "nuee",
+				"centre": [
+					0,
+					40
+				],
+				"altitude": 14,
+				"rayon": 45,
+				"nombre": 40
+			},
+			{
+				"espece": "corbeau",
+				"centre": [
+					-30,
+					-30
+				],
+				"altitude": 22,
+				"rayon": 25,
+				"nombre": 5
+			},
+			{
+				"espece": "milan",
+				"centre": [
+					40,
+					0
+				],
+				"altitude": 50,
+				"rayon": 50,
+				"nombre": 2
+			}
+		],
+		"insectes": [
+			{
+				"sorte": "poussiere",
+				"autour": true,
+				"nombre": 140
+			},
+			{
+				"sorte": "papillons",
+				"autour": true,
+				"nombre": 10
+			}
+		]
+	},
+	"rome": {
+		"niveau_eau": -50.0,
+		"oiseaux": [
+			{
+				"espece": "pigeon",
+				"comportement": "nuee",
+				"centre": [
+					0,
+					-40
+				],
+				"altitude": 12,
+				"rayon": 22,
+				"nombre": 20
+			},
+			{
+				"espece": "choucas",
+				"centre": [
+					60,
+					0
+				],
+				"altitude": 45,
+				"rayon": 45,
+				"nombre": 12
+			},
+			{
+				"espece": "hirondelle",
+				"comportement": "nuee",
+				"centre": [
+					-80,
+					-110
+				],
+				"altitude": 8,
+				"rayon": 22,
+				"nombre": 24
+			},
+			{
+				"espece": "pigeon",
+				"comportement": "nuee",
+				"centre": [
+					30,
+					-100
+				],
+				"altitude": 10,
+				"rayon": 15,
+				"nombre": 14
+			}
+		],
+		"insectes": [
+			{
+				"sorte": "poussiere",
+				"autour": true,
+				"nombre": 160
+			},
+			{
+				"sorte": "mouches",
+				"position": [
+					16,
+					-110,
+					1.0
+				]
+			}
+		],
+		"figurants": [
+			{
+				"comme": "romain_toge",
+				"chemin": [
+					[
+						21.2,
+						36.6
+					],
+					[
+						5.2,
+						0.6
+					],
+					[
+						-4.8,
+						-29.4
+					],
+					[
+						-26.8,
+						-37.4
+					],
+					[
+						-98.8,
+						-38.4
+					]
+				],
+				"vitesse": 0.8,
+				"pause": [
+					4,
+					9
+				]
+			},
+			{
+				"comme": "romaine",
+				"chemin": [
+					[
+						-101.4,
+						-39.7
+					],
+					[
+						-29.4,
+						-38.7
+					],
+					[
+						-7.4,
+						-30.7
+					],
+					[
+						2.6,
+						-0.7
+					],
+					[
+						18.6,
+						35.3
+					]
+				],
+				"porte": "panier",
+				"vitesse": 0.85,
+				"pause": [
+					3,
+					8
+				]
+			},
+			{
+				"comme": "romain_esclave",
+				"chemin": [
+					[
+						127.5,
+						146.8
+					],
+					[
+						125.5,
+						120.8
+					],
+					[
+						113.5,
+						60.8
+					],
+					[
+						71.5,
+						46.8
+					],
+					[
+						21.5,
+						36.8
+					]
+				],
+				"porte": "amphore",
+				"vitesse": 0.9,
+				"pause": [
+					2,
+					6
+				]
+			},
+			{
+				"comme": "romain_homme",
+				"chemin": [
+					[
+						18.8,
+						35.4
+					],
+					[
+						68.8,
+						45.4
+					],
+					[
+						110.8,
+						59.4
+					],
+					[
+						122.8,
+						119.4
+					],
+					[
+						124.8,
+						145.4
+					]
+				],
+				"porte": "sac",
+				"vitesse": 0.95,
+				"pause": [
+					3,
+					7
+				]
+			},
+			{
+				"comme": "romaine_2",
+				"chemin": [
+					[
+						124.8,
+						120.4
+					],
+					[
+						112.8,
+						60.4
+					],
+					[
+						70.8,
+						46.4
+					]
+				],
+				"porte": "jarre",
+				"vitesse": 0.8,
+				"pause": [
+					4,
+					10
+				]
+			},
+			{
+				"comme": "romain_homme",
+				"chemin": [
+					[
+						-39.0,
+						-51.5
+					],
+					[
+						-23.0,
+						-71.5
+					],
+					[
+						-3.0,
+						-89.5
+					],
+					[
+						15.0,
+						-109.5
+					]
+				],
+				"vitesse": 0.9,
+				"pause": [
+					3,
+					8
+				]
+			},
+			{
+				"comme": "romaine",
+				"chemin": [
+					[
+						13.0,
+						-110.5
+					],
+					[
+						-5.0,
+						-90.5
+					],
+					[
+						-25.0,
+						-72.5
+					],
+					[
+						-41.0,
+						-52.5
+					]
+				],
+				"porte": "panier",
+				"vitesse": 0.8,
+				"pause": [
+					4,
+					9
+				]
+			},
+			{
+				"comme": "romain_esclave",
+				"chemin": [
+					[
+						-4.7,
+						-29.4
+					],
+					[
+						7.3,
+						-59.4
+					],
+					[
+						15.3,
+						-99.3
+					]
+				],
+				"porte": "fagot",
+				"vitesse": 0.85,
+				"pause": [
+					2,
+					6
+				]
+			},
+			{
+				"comme": "romain_toge",
+				"chemin": [
+					[
+						12.7,
+						-100.7
+					],
+					[
+						4.7,
+						-60.6
+					],
+					[
+						-7.3,
+						-30.6
+					]
+				],
+				"vitesse": 0.75,
+				"pause": [
+					5,
+					10
+				]
+			},
+			{
+				"comme": "romain_toge",
+				"chemin": [
+					[
+						-90,
+						-42
+					],
+					[
+						-60,
+						-44
+					],
+					[
+						-36,
+						-40
+					],
+					[
+						-60,
+						-34
+					]
+				],
+				"vitesse": 0.7,
+				"pause": [
+					5,
+					12
+				],
+				"geste": "discute"
+			},
+			{
+				"comme": "romain_homme",
+				"chemin": [
+					[
+						-80,
+						-34
+					],
+					[
+						-50,
+						-36
+					],
+					[
+						-30,
+						-44
+					]
+				],
+				"vitesse": 0.8,
+				"pause": [
+					4,
+					9
+				]
+			},
+			{
+				"comme": "romaine_2",
+				"chemin": [
+					[
+						-70,
+						-46
+					],
+					[
+						-44,
+						-46
+					],
+					[
+						-70,
+						-46
+					]
+				],
+				"porte": "jarre",
+				"vitesse": 0.8,
+				"pause": [
+					4,
+					8
+				]
+			},
+			{
+				"comme": "romain_homme",
+				"chemin": [
+					[
+						6,
+						-132
+					],
+					[
+						30,
+						-128
+					],
+					[
+						44,
+						-110
+					],
+					[
+						20,
+						-104
+					]
+				],
+				"porte": "sac",
+				"vitesse": 0.9,
+				"pause": [
+					3,
+					8
+				]
+			},
+			{
+				"comme": "romaine",
+				"chemin": [
+					[
+						-20,
+						-140
+					],
+					[
+						0,
+						-126
+					],
+					[
+						24,
+						-130
+					]
+				],
+				"porte": "panier",
+				"vitesse": 0.8,
+				"pause": [
+					4,
+					9
+				]
+			},
+			{
+				"comme": "romain_esclave",
+				"chemin": [
+					[
+						36,
+						-100
+					],
+					[
+						22,
+						-112
+					],
+					[
+						2,
+						-120
+					]
+				],
+				"porte": "sac",
+				"vitesse": 0.9,
+				"pause": [
+					2,
+					6
+				]
+			},
+			{
+				"comme": "romain_toge",
+				"chemin": [
+					[
+						60,
+						42
+					],
+					[
+						40,
+						40
+					],
+					[
+						24,
+						38
+					]
+				],
+				"vitesse": 0.75,
+				"pause": [
+					5,
+					11
+				]
+			}
+		]
+	},
+	"pompei": {
+		"niveau_eau": -50.0,
+		"oiseaux": [
+			{
+				"espece": "corbeau",
+				"centre": [
+					0,
+					0
+				],
+				"altitude": 24,
+				"rayon": 30,
+				"nombre": 8
+			}
+		],
+		"insectes": [
+			{
+				"sorte": "cendres",
+				"autour": true,
+				"nombre": 60
+			},
+			{
+				"sorte": "poussiere",
+				"autour": true,
+				"nombre": 220
+			}
+		]
+	},
+	"porte_de_jade": {
+		"niveau_eau": -50.0,
+		"oiseaux": [
+			{
+				"espece": "vautour",
+				"centre": [
+					0,
+					-40
+				],
+				"altitude": 75,
+				"rayon": 70,
+				"nombre": 3
+			},
+			{
+				"espece": "corbeau",
+				"centre": [
+					20,
+					20
+				],
+				"altitude": 20,
+				"rayon": 25,
+				"nombre": 6
+			},
+			{
+				"espece": "oie",
+				"comportement": "formation",
+				"centre": [
+					0,
+					0
+				],
+				"altitude": 80,
+				"rayon": 200,
+				"nombre": 13,
+				"direction": 120,
+				"pause": 45
+			}
+		],
+		"insectes": [
+			{
+				"sorte": "sable",
+				"autour": true,
+				"vent": 40
+			},
+			{
+				"sorte": "poussiere",
+				"autour": true,
+				"nombre": 180
+			}
+		]
+	},
+	"fleuve_jaune": {
+		"niveau_eau": -50.0,
+		"oiseaux": [
+			{
+				"espece": "heron",
+				"centre": [
+					0,
+					60
+				],
+				"altitude": 12,
+				"rayon": 40,
+				"nombre": 3
+			},
+			{
+				"espece": "corbeau",
+				"centre": [
+					-40,
+					-20
+				],
+				"altitude": 22,
+				"rayon": 30,
+				"nombre": 8
+			},
+			{
+				"espece": "oie",
+				"comportement": "formation",
+				"centre": [
+					0,
+					0
+				],
+				"altitude": 75,
+				"rayon": 200,
+				"nombre": 11,
+				"direction": 200,
+				"pause": 40
+			}
+		],
+		"insectes": [
+			{
+				"sorte": "poussiere",
+				"autour": true,
+				"nombre": 160
+			},
+			{
+				"sorte": "duvet",
+				"autour": true,
+				"vent": 60
+			}
+		]
+	},
+	"mont_li": {
+		"niveau_eau": -50.0,
+		"oiseaux": [
+			{
+				"espece": "corbeau",
+				"centre": [
+					0,
+					0
+				],
+				"altitude": 30,
+				"rayon": 40,
+				"nombre": 7
+			}
+		],
+		"insectes": [
+			{
+				"sorte": "lucioles",
+				"autour": true,
+				"nombre": 20
+			},
+			{
+				"sorte": "poussiere",
+				"autour": true,
+				"nombre": 100
 			}
 		]
 	}

@@ -14,6 +14,16 @@ const ZONES := {
 	"village_batisseurs": "res://scenes/monde/egypte/village_batisseurs.tscn",
 	"desert_rouge": "res://scenes/monde/egypte/desert_rouge.tscn",
 	"le_piree": "res://scenes/monde/grece/le_piree.tscn",
+	"athenes": "res://scenes/monde/grece/athenes.tscn",
+	"oliveraies": "res://scenes/monde/grece/oliveraies.tscn",
+	"laurion": "res://scenes/monde/grece/laurion.tscn",
+	"campagne": "res://scenes/monde/rome/campagne.tscn",
+	"voie_appienne": "res://scenes/monde/rome/voie_appienne.tscn",
+	"rome": "res://scenes/monde/rome/rome.tscn",
+	"pompei": "res://scenes/monde/rome/pompei.tscn",
+	"porte_de_jade": "res://scenes/monde/chine/porte_de_jade.tscn",
+	"fleuve_jaune": "res://scenes/monde/chine/fleuve_jaune.tscn",
+	"mont_li": "res://scenes/monde/chine/mont_li.tscn",
 	"hikari_bay": "res://scenes/monde/hikari_bay.tscn",
 }
 const VieAmbiante := preload("res://scripts/monde/vie/vie_ambiante.gd")
@@ -43,7 +53,9 @@ func _lancer() -> void:
 	var donnees := VieAmbiante.donnees()
 	_verifier(not donnees.is_empty(), "data/vie_ambiante.json se lit")
 	# Chaque figurant utilise un modèle connu.
-	var modeles: Dictionary = donnees.get("modeles_figurants", {})
+	var modeles: Dictionary = donnees.get("modeles_figurants", {}).duplicate()
+	# Un figurant peut aussi reprendre un personnage de data/<île>_pnj.json.
+	modeles.merge(load("res://scripts/monde/prehistoire/pnj_epoque.gd").donnees_epoque())
 	for zone in donnees:
 		if not donnees[zone] is Dictionary or zone == "modeles_figurants":
 			continue

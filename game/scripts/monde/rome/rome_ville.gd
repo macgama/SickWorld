@@ -665,7 +665,7 @@ func _insula(parent: Node3D, centre: Vector2, taille: Vector2, etages: int, angl
 	parent.add_child(b)
 	var haut_etage := 3.2
 	var haut := 3.8 + etages * haut_etage
-	var enduit := _mat_enduit_peint([Color(0.82, 0.62, 0.42), Color(0.86, 0.72, 0.5), Color(0.7, 0.4, 0.28), Color(0.9, 0.82, 0.66)][_hasard.randi() % 4])
+	var enduit := _mat_enduit_peint([Color(0.86, 0.58, 0.36), Color(0.9, 0.74, 0.48), Color(0.74, 0.34, 0.22), Color(0.9, 0.8, 0.6)][_hasard.randi() % 4])
 	var brique := _mat_brique()
 	var ombre := _mat_pbr("", Color(0.06, 0.05, 0.045), 1.0)
 	_boite(Vector3(taille.x, 3.8, taille.y), Vector3(0, 1.6, 0), enduit, b)
@@ -685,10 +685,14 @@ func _insula(parent: Node3D, centre: Vector2, taille: Vector2, etages: int, angl
 				_: pos = Vector3(-taille.x * 0.5 - 0.03, 1.4, t); rot = -PI / 2
 			var ouverture := _boite(Vector3(2.6, 2.6, 0.05), pos, ombre, b, false)
 			ouverture.rotation.y = rot
-			# Les fenêtres des étages, au-dessus de chaque boutique.
+			_devanture(b, pos, rot, enduit, hash(Vector2i(roundi(centre.x * 10.0), roundi(centre.y * 10.0))) + face * 131 + k * 17)
+			# Les fenêtres des étages, au-dessus de chaque boutique, avec leur appui.
+			var dehors := Basis(Vector3.UP, rot) * Vector3.BACK
 			for e in etages:
 				var fenetre := _boite(Vector3(0.9, 1.1, 0.05), pos + Vector3(0, 3.8 + e * haut_etage, 0), ombre, b, false)
 				fenetre.rotation.y = rot
+				var appui := _boite(Vector3(1.15, 0.09, 0.22), pos + Vector3(0, 3.8 + e * haut_etage - 0.6, 0) + dehors * 0.08, brique, b, false)
+				appui.rotation.y = rot
 	# Un balcon de bois au premier étage, sur la façade.
 	_boite(Vector3(taille.x * 0.8, 0.15, 1.1), Vector3(0, 4.4, taille.y * 0.5 + 0.55), _mat_bois(), b, false)
 	for k in 5:
@@ -699,6 +703,39 @@ func _insula(parent: Node3D, centre: Vector2, taille: Vector2, etages: int, angl
 	b.add_child(toit)
 	_toit(toit, Vector3.ZERO, taille.x, taille.y, 0.22)
 	return b
+
+
+## La devanture d'une boutique (taberna) : linteau de bois, et selon la boutique un comptoir
+## maçonné, des amphores, une toile tendue. Hasard propre à la boutique (ne décale pas _hasard).
+func _devanture(b: Node3D, pos: Vector3, rot: float, enduit: Material, graine_d: int) -> void:
+	var h := RandomNumberGenerator.new()
+	h.seed = graine_d
+	var base := Basis(Vector3.UP, rot)
+	var dehors := base * Vector3.BACK
+	var lateral := base * Vector3.RIGHT
+	var sol := Vector3(pos.x, 0.0, pos.z)
+	var linteau := _boite(Vector3(3.0, 0.22, 0.22), pos + Vector3(0, 1.42, 0) + dehors * 0.08, _mat_bois(), b, false)
+	linteau.rotation.y = rot
+	var genre := h.randi() % 4
+	if genre <= 1:
+		# Comptoir maçonné en L, comme à Pompéi et Herculanum.
+		var comptoir := _boite(Vector3(1.5, 0.95, 0.55), sol + Vector3(0, 0.47, 0) + dehors * 0.32 - lateral * 0.45, enduit, b, false)
+		comptoir.rotation.y = rot
+		var dessus := _boite(Vector3(1.6, 0.06, 0.62), sol + Vector3(0, 0.97, 0) + dehors * 0.32 - lateral * 0.45, _mat_travertin(), b, false)
+		dessus.rotation.y = rot
+		for j in h.randi_range(1, 3):
+			_amphore(b, sol + Vector3(0, 1.0, 0) + dehors * 0.3 - lateral * (0.9 - j * 0.35), 0.38, h.randf() * TAU)
+	if genre >= 1:
+		# Des amphores posées contre le mur, à côté de l'entrée.
+		var cote := -1.0 if h.randf() < 0.5 else 1.0
+		for j in h.randi_range(1, 3):
+			_amphore(b, sol + dehors * (0.35 + h.randf() * 0.1) + lateral * cote * (1.55 + j * 0.42), h.randf_range(0.75, 0.9), h.randf() * TAU)
+	if genre == 3 or h.randf() < 0.25:
+		# Une toile tendue au-dessus de l'entrée (l'ombre de l'après-midi).
+		var couleurs := [Color(0.78, 0.7, 0.52), Color(0.62, 0.3, 0.2), Color(0.72, 0.62, 0.42), Color(0.5, 0.46, 0.38)]
+		var toile := _boite(Vector3(3.0, 0.03, 1.3), pos + Vector3(0, 1.62, 0) + dehors * 0.68, _mat_pbr("", couleurs[h.randi() % couleurs.size()], 0.95), b, false)
+		toile.rotation = Vector3(0.0, rot, 0.0)
+		toile.rotate_object_local(Vector3.RIGHT, 0.22)
 
 
 func _construire_subure() -> void:
