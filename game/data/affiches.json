@@ -1,0 +1,1158 @@
+{
+	"_aide": "Affiches des activités : la fiche illustrée qui s'ouvre devant chaque entrée (portails du QG, Arène, Maison des guildes, donjons) et sa bande-annonce. Tu peux changer les textes librement. images : les grandes images (game/images/affiches/), « source » dit quelle vue de capture les a faites (script capture_<zone>.gd : vue). bande_annonce : les plans ; image = numéro dans images (0 = la première), duree en secondes, de / a = [x, y, zoom] : le cadrage au début et à la fin du plan (x, y entre 0 et 1 : 0,5 = centre ; zoom 1 = image entière). titre + sous_titre : grand titre au milieu ; texte : une phrase en bas de l'écran.",
+	"affiches": {
+		"ile_prehistoire": {
+			"type": "ile",
+			"ile": "prehistoire",
+			"numero": 1,
+			"titre": "Préhistoire",
+			"epoque": "Il y a 17 000 ans",
+			"niveaux": [
+				1,
+				10
+			],
+			"accroche": "Les peintures des grottes s'effacent une à une. Quelqu'un veut que l'humanité oublie ses premiers souvenirs.",
+			"points": [
+				"4 zones : Côte Gelée, Steppe des Mammouths, Forêt des Bouleaux, Falaises Peintes",
+				"Donjon : la Grande Grotte",
+				"Boss : l'Ours Sans Mémoire"
+			],
+			"recompenses": [
+				"Le trophée du donjon, pour renforcer ta panoplie chez Inès"
+			],
+			"bouton": "Voyager",
+			"images": [
+				{
+					"fichier": "res://images/affiches/prehistoire_1.jpg",
+					"source": "steppe:mammouths"
+				},
+				{
+					"fichier": "res://images/affiches/prehistoire_2.jpg",
+					"source": "cote_gelee:arrivee"
+				},
+				{
+					"fichier": "res://images/affiches/prehistoire_3.jpg",
+					"source": "foret:clairiere"
+				},
+				{
+					"fichier": "res://images/affiches/prehistoire_4.jpg",
+					"source": "falaises:fresque"
+				},
+				{
+					"fichier": "res://images/affiches/prehistoire_5.jpg",
+					"source": "grotte:antre"
+				}
+			],
+			"bande_annonce": [
+				{
+					"image": 0,
+					"duree": 5.0,
+					"de": [
+						0.5,
+						0.5,
+						1.25
+					],
+					"a": [
+						0.5,
+						0.45,
+						1.05
+					],
+					"titre": "PRÉHISTOIRE",
+					"sous_titre": "Il y a 17 000 ans"
+				},
+				{
+					"image": 1,
+					"duree": 4.5,
+					"de": [
+						0.3,
+						0.5,
+						1.05
+					],
+					"a": [
+						0.6,
+						0.5,
+						1.2
+					],
+					"texte": "Un portail s'ouvre sur une côte gelée. Un agent de la Vigie n'est jamais revenu."
+				},
+				{
+					"image": 2,
+					"duree": 4.5,
+					"de": [
+						0.6,
+						0.6,
+						1.2
+					],
+					"a": [
+						0.4,
+						0.4,
+						1.05
+					],
+					"texte": "Dans la forêt, des traces qui ne devraient pas exister."
+				},
+				{
+					"image": 3,
+					"duree": 4.5,
+					"de": [
+						0.5,
+						0.3,
+						1.0
+					],
+					"a": [
+						0.5,
+						0.6,
+						1.2
+					],
+					"texte": "Sur les parois, les premières peintures du monde… s'effacent."
+				},
+				{
+					"image": 4,
+					"duree": 5.0,
+					"de": [
+						0.5,
+						0.5,
+						1.3
+					],
+					"a": [
+						0.5,
+						0.5,
+						1.05
+					],
+					"texte": "Au fond de la Grande Grotte, quelque chose a tout oublié. Même sa propre forme."
+				}
+			],
+			"portail": "Préhistoire"
+		},
+		"ile_egypte": {
+			"type": "ile",
+			"ile": "egypte",
+			"numero": 2,
+			"titre": "Égypte antique",
+			"epoque": "Règne de Khéops, vers 2560 av. J.-C.",
+			"niveaux": [
+				11,
+				20
+			],
+			"accroche": "La Grande Pyramide est presque finie. Mais les noms des bâtisseurs disparaissent des murs, et avec eux, leur mémoire.",
+			"points": [
+				"Port des Marais, Désert Rouge, Carrières de Toura, Village des Bâtisseurs",
+				"Donjon : le Cœur de la Pyramide",
+				"Boss : Isfet, le chaos"
+			],
+			"recompenses": [
+				"Le trophée du donjon, pour renforcer ta panoplie chez Inès"
+			],
+			"bouton": "Voyager",
+			"images": [
+				{
+					"fichier": "res://images/affiches/egypte_1.jpg",
+					"source": "port_des_marais:pyramide"
+				},
+				{
+					"fichier": "res://images/affiches/egypte_2.jpg",
+					"source": "port_des_marais:nil"
+				},
+				{
+					"fichier": "res://images/affiches/egypte_3.jpg",
+					"source": "village_batisseurs:chantier"
+				},
+				{
+					"fichier": "res://images/affiches/egypte_4.jpg",
+					"source": "desert_rouge:cour"
+				},
+				{
+					"fichier": "res://images/affiches/egypte_5.jpg",
+					"source": "coeur_pyramide:galerie_haut"
+				}
+			],
+			"bande_annonce": [
+				{
+					"image": 0,
+					"duree": 5.0,
+					"de": [
+						0.5,
+						0.5,
+						1.25
+					],
+					"a": [
+						0.5,
+						0.5,
+						1.05
+					],
+					"titre": "ÉGYPTE ANTIQUE",
+					"sous_titre": "Vers 2560 av. J.-C."
+				},
+				{
+					"image": 1,
+					"duree": 4.5,
+					"de": [
+						0.2,
+						0.5,
+						1.05
+					],
+					"a": [
+						0.7,
+						0.5,
+						1.15
+					],
+					"texte": "Le Nil en crue. La pyramide de Khéops attend sa dernière pierre."
+				},
+				{
+					"image": 2,
+					"duree": 4.5,
+					"de": [
+						0.5,
+						0.6,
+						1.2
+					],
+					"a": [
+						0.5,
+						0.4,
+						1.0
+					],
+					"texte": "Des milliers de bâtisseurs. Et chaque matin, un nom de moins sur les murs."
+				},
+				{
+					"image": 3,
+					"duree": 4.5,
+					"de": [
+						0.6,
+						0.5,
+						1.0
+					],
+					"a": [
+						0.4,
+						0.5,
+						1.2
+					],
+					"texte": "Dans le désert, une femme au sablier connaît ton nom."
+				},
+				{
+					"image": 4,
+					"duree": 5.0,
+					"de": [
+						0.5,
+						0.7,
+						1.3
+					],
+					"a": [
+						0.5,
+						0.3,
+						1.05
+					],
+					"texte": "Au cœur de la pyramide, le chaos t'attend."
+				}
+			],
+			"portail": "Égypte antique"
+		},
+		"ile_grece": {
+			"type": "ile",
+			"ile": "grece",
+			"numero": 3,
+			"titre": "Grèce antique",
+			"epoque": "Athènes de Périclès, été 438 av. J.-C.",
+			"niveaux": [
+				21,
+				30
+			],
+			"accroche": "Sur l'Agora, les orateurs deviennent muets. Si Athènes perd sa voix, la démocratie ne naîtra jamais.",
+			"points": [
+				"Le Pirée, les Oliveraies d'Attique, Athènes, les Mines du Laurion",
+				"Donjon : l'Acropole",
+				"Boss : la Méduse de l'égide"
+			],
+			"recompenses": [
+				"Le trophée du donjon, pour renforcer ta panoplie chez Inès"
+			],
+			"bouton": "Voyager",
+			"images": [
+				{
+					"fichier": "res://images/affiches/grece_1.jpg",
+					"source": "athenes:parthenon"
+				},
+				{
+					"fichier": "res://images/affiches/grece_2.jpg",
+					"source": "le_piree:crique"
+				},
+				{
+					"fichier": "res://images/affiches/grece_3.jpg",
+					"source": "oliveraies:oliveraie"
+				},
+				{
+					"fichier": "res://images/affiches/grece_4.jpg",
+					"source": "athenes:agora"
+				},
+				{
+					"fichier": "res://images/affiches/grece_5.jpg",
+					"source": "acropole:parthenon"
+				}
+			],
+			"bande_annonce": [
+				{
+					"image": 0,
+					"duree": 5.0,
+					"de": [
+						0.5,
+						0.5,
+						1.25
+					],
+					"a": [
+						0.5,
+						0.45,
+						1.05
+					],
+					"titre": "GRÈCE ANTIQUE",
+					"sous_titre": "Athènes, été 438 av. J.-C."
+				},
+				{
+					"image": 1,
+					"duree": 4.5,
+					"de": [
+						0.3,
+						0.5,
+						1.05
+					],
+					"a": [
+						0.6,
+						0.5,
+						1.2
+					],
+					"texte": "Un naufragé sur la plage du Pirée. C'est toi."
+				},
+				{
+					"image": 2,
+					"duree": 4.5,
+					"de": [
+						0.6,
+						0.5,
+						1.2
+					],
+					"a": [
+						0.4,
+						0.5,
+						1.05
+					],
+					"texte": "Les oliviers d'Attique, les ruches de l'Hymette, les chemins vers la ville."
+				},
+				{
+					"image": 3,
+					"duree": 4.5,
+					"de": [
+						0.5,
+						0.6,
+						1.0
+					],
+					"a": [
+						0.5,
+						0.4,
+						1.2
+					],
+					"texte": "Sur l'Agora, les voix se taisent. Un sophiste masqué sourit."
+				},
+				{
+					"image": 4,
+					"duree": 5.0,
+					"de": [
+						0.5,
+						0.5,
+						1.3
+					],
+					"a": [
+						0.5,
+						0.5,
+						1.05
+					],
+					"texte": "Là-haut, sur l'Acropole, la Méduse transforme la parole en pierre."
+				}
+			],
+			"portail": "Grèce antique"
+		},
+		"ile_rome": {
+			"type": "ile",
+			"ile": "rome",
+			"numero": 4,
+			"titre": "Rome antique",
+			"epoque": "La Rome de Titus, été 80 apr. J.-C.",
+			"niveaux": [
+				31,
+				40
+			],
+			"accroche": "Les aqueducs sont secs, les routes brisées, les mots se brouillent. Tous les chemins mènent à Rome… plus pour longtemps.",
+			"points": [
+				"Voie Appienne, Campagne et aqueducs, Rome, Pompéi sous la cendre",
+				"Donjon : le Colisée par la Cloaca Maxima",
+				"Boss : le Colosse de Néron"
+			],
+			"recompenses": [
+				"Le trophée du donjon, pour renforcer ta panoplie chez Inès"
+			],
+			"bouton": "Voyager",
+			"images": [
+				{
+					"fichier": "res://images/affiches/rome_1.jpg",
+					"source": "rome:colisee"
+				},
+				{
+					"fichier": "res://images/affiches/rome_2.jpg",
+					"source": "rome:forum"
+				},
+				{
+					"fichier": "res://images/affiches/rome_3.jpg",
+					"source": "campagne:arches"
+				},
+				{
+					"fichier": "res://images/affiches/rome_4.jpg",
+					"source": "pompei:vesuve"
+				},
+				{
+					"fichier": "res://images/affiches/rome_5.jpg",
+					"source": "colisee:arene"
+				}
+			],
+			"bande_annonce": [
+				{
+					"image": 0,
+					"duree": 5.0,
+					"de": [
+						0.5,
+						0.5,
+						1.25
+					],
+					"a": [
+						0.5,
+						0.45,
+						1.05
+					],
+					"titre": "ROME ANTIQUE",
+					"sous_titre": "Été 80 apr. J.-C."
+				},
+				{
+					"image": 1,
+					"duree": 4.5,
+					"de": [
+						0.3,
+						0.5,
+						1.05
+					],
+					"a": [
+						0.6,
+						0.5,
+						1.2
+					],
+					"texte": "Le Forum. Le cœur du monde. Et personne ne se comprend plus."
+				},
+				{
+					"image": 2,
+					"duree": 4.5,
+					"de": [
+						0.2,
+						0.5,
+						1.0
+					],
+					"a": [
+						0.7,
+						0.5,
+						1.15
+					],
+					"texte": "Les aqueducs ne portent plus d'eau. Les routes ne mènent plus nulle part."
+				},
+				{
+					"image": 3,
+					"duree": 4.5,
+					"de": [
+						0.5,
+						0.4,
+						1.2
+					],
+					"a": [
+						0.5,
+						0.5,
+						1.05
+					],
+					"texte": "Pompéi, sous la cendre. Une mission que la Vigie a voulu oublier."
+				},
+				{
+					"image": 4,
+					"duree": 5.0,
+					"de": [
+						0.5,
+						0.5,
+						1.3
+					],
+					"a": [
+						0.5,
+						0.5,
+						1.05
+					],
+					"texte": "Au Colisée, le Colosse de Néron se réveille. Ave, César."
+				}
+			],
+			"portail": "Rome antique"
+		},
+		"ile_chine": {
+			"type": "ile",
+			"ile": "chine",
+			"numero": 5,
+			"titre": "Chine des Han",
+			"epoque": "La Porte de Jade, hiver 105 apr. J.-C.",
+			"niveaux": [
+				41,
+				50
+			],
+			"accroche": "Cai Lun vient d'inventer le papier. Les livres brûlent, et les gens se figent en argile. Le savoir partagé ne doit pas mourir.",
+			"points": [
+				"Porte de Jade, Fleuve Jaune, Luoyang, mont Li",
+				"Donjon : le tombeau du Premier Empereur",
+				"Boss : l'Empereur d'argile"
+			],
+			"recompenses": [
+				"Le trophée du donjon, pour renforcer ta panoplie chez Inès"
+			],
+			"bouton": "Voyager",
+			"images": [
+				{
+					"fichier": "res://images/affiches/chine_1.jpg",
+					"source": "porte_de_jade:muraille"
+				},
+				{
+					"fichier": "res://images/affiches/chine_2.jpg",
+					"source": "fleuve_jaune:terrasses"
+				},
+				{
+					"fichier": "res://images/affiches/chine_3.jpg",
+					"source": "luoyang:avenue"
+				},
+				{
+					"fichier": "res://images/affiches/chine_4.jpg",
+					"source": "mont_li:fosse"
+				},
+				{
+					"fichier": "res://images/affiches/chine_5.jpg",
+					"source": "tombeau:palais"
+				}
+			],
+			"bande_annonce": [
+				{
+					"image": 0,
+					"duree": 5.0,
+					"de": [
+						0.5,
+						0.5,
+						1.25
+					],
+					"a": [
+						0.5,
+						0.45,
+						1.05
+					],
+					"titre": "CHINE DES HAN",
+					"sous_titre": "Hiver 105 apr. J.-C."
+				},
+				{
+					"image": 1,
+					"duree": 4.5,
+					"de": [
+						0.2,
+						0.5,
+						1.05
+					],
+					"a": [
+						0.7,
+						0.5,
+						1.15
+					],
+					"texte": "Le long du Fleuve Jaune, on fabrique une chose nouvelle : le papier."
+				},
+				{
+					"image": 2,
+					"duree": 4.5,
+					"de": [
+						0.5,
+						0.6,
+						1.2
+					],
+					"a": [
+						0.5,
+						0.4,
+						1.0
+					],
+					"texte": "À Luoyang, la capitale, les livres brûlent et les savants se figent en argile."
+				},
+				{
+					"image": 3,
+					"duree": 4.5,
+					"de": [
+						0.4,
+						0.5,
+						1.0
+					],
+					"a": [
+						0.6,
+						0.5,
+						1.2
+					],
+					"texte": "Sous le mont Li, une armée d'argile monte la garde."
+				},
+				{
+					"image": 4,
+					"duree": 5.0,
+					"de": [
+						0.5,
+						0.5,
+						1.3
+					],
+					"a": [
+						0.5,
+						0.5,
+						1.05
+					],
+					"texte": "Et au cœur du tombeau, un empereur qui refuse de mourir."
+				}
+			],
+			"portail": "Chine des Han"
+		},
+		"ile_moyen_age": {
+			"type": "ile",
+			"ile": "moyen_age",
+			"numero": 6,
+			"titre": "Moyen Âge",
+			"epoque": "Chartres, été 1194, après l'incendie",
+			"niveaux": [
+				51,
+				60
+			],
+			"accroche": "La cathédrale a brûlé. Les bâtisseurs se demandent « à quoi bon ? ». Il faut leur rendre l'envie de bâtir ensemble.",
+			"points": [
+				"La Beauce, les carrières de Berchères, Chartres, le chantier de la cathédrale",
+				"Donjon : la crypte de Fulbert",
+				"Boss : le Brasier de plomb"
+			],
+			"recompenses": [
+				"Le trophée du donjon, pour renforcer ta panoplie chez Inès"
+			],
+			"bouton": "Voyager",
+			"images": [
+				{
+					"fichier": "res://images/affiches/moyen_age_1.jpg",
+					"source": "chartres:facade"
+				},
+				{
+					"fichier": "res://images/affiches/moyen_age_2.jpg",
+					"source": "beauce:plaine"
+				},
+				{
+					"fichier": "res://images/affiches/moyen_age_3.jpg",
+					"source": "chantier:grue"
+				},
+				{
+					"fichier": "res://images/affiches/moyen_age_4.jpg",
+					"source": "chartres:marche"
+				},
+				{
+					"fichier": "res://images/affiches/moyen_age_5.jpg",
+					"source": "crypte:brasier"
+				}
+			],
+			"bande_annonce": [
+				{
+					"image": 0,
+					"duree": 5.0,
+					"de": [
+						0.5,
+						0.5,
+						1.25
+					],
+					"a": [
+						0.5,
+						0.45,
+						1.05
+					],
+					"titre": "MOYEN ÂGE",
+					"sous_titre": "Chartres, été 1194"
+				},
+				{
+					"image": 1,
+					"duree": 4.5,
+					"de": [
+						0.2,
+						0.5,
+						1.0
+					],
+					"a": [
+						0.7,
+						0.5,
+						1.15
+					],
+					"texte": "Les blés de la Beauce. Et à l'horizon, les fumées de Chartres."
+				},
+				{
+					"image": 2,
+					"duree": 4.5,
+					"de": [
+						0.5,
+						0.6,
+						1.2
+					],
+					"a": [
+						0.5,
+						0.4,
+						1.0
+					],
+					"texte": "Sur le chantier, les grues s'arrêtent. Les bâtisseurs ont perdu courage."
+				},
+				{
+					"image": 3,
+					"duree": 4.5,
+					"de": [
+						0.4,
+						0.5,
+						1.0
+					],
+					"a": [
+						0.6,
+						0.5,
+						1.2
+					],
+					"texte": "En ville basse, on murmure le nom d'un homme qu'on croyait mort."
+				},
+				{
+					"image": 4,
+					"duree": 5.0,
+					"de": [
+						0.5,
+						0.5,
+						1.3
+					],
+					"a": [
+						0.5,
+						0.5,
+						1.05
+					],
+					"texte": "Sous la cathédrale, dans la crypte, le plomb fondu brûle encore."
+				}
+			],
+			"portail": "Moyen Âge"
+		},
+		"ile_mayence": {
+			"type": "ile",
+			"ile": "mayence",
+			"numero": 7,
+			"titre": "Mayence",
+			"epoque": "Les vignes du Rheingau, octobre 1450",
+			"niveaux": [
+				61,
+				70
+			],
+			"accroche": "Gutenberg prépare l'imprimerie. L'Éditeur veut « l'améliorer » avec une machine de 2026. Le savoir doit rester à tout le monde.",
+			"points": [
+				"Les vignes du Rheingau, le Rhin et le moulin à papier",
+				"Bientôt : Mayence et la foire de Francfort",
+				"Petit jeu : composer une page en lettres de plomb"
+			],
+			"recompenses": [
+				"Les panoplies de l'île arrivent avec la suite de l'histoire"
+			],
+			"bouton": "Voyager",
+			"images": [
+				{
+					"fichier": "res://images/affiches/mayence_1.jpg",
+					"source": "rheingau:coteau"
+				},
+				{
+					"fichier": "res://images/affiches/mayence_2.jpg",
+					"source": "rhin:moulin"
+				},
+				{
+					"fichier": "res://images/affiches/mayence_3.jpg",
+					"source": "rheingau:pressoir"
+				},
+				{
+					"fichier": "res://images/affiches/mayence_4.jpg",
+					"source": "rhin:chateau"
+				},
+				{
+					"fichier": "res://images/affiches/mayence_5.jpg",
+					"source": "rheingau:village"
+				}
+			],
+			"bande_annonce": [
+				{
+					"image": 0,
+					"duree": 5.0,
+					"de": [
+						0.5,
+						0.5,
+						1.25
+					],
+					"a": [
+						0.5,
+						0.45,
+						1.05
+					],
+					"titre": "MAYENCE",
+					"sous_titre": "Octobre 1450"
+				},
+				{
+					"image": 2,
+					"duree": 4.5,
+					"de": [
+						0.2,
+						0.5,
+						1.0
+					],
+					"a": [
+						0.7,
+						0.5,
+						1.15
+					],
+					"texte": "Les vendanges dans les vignes du Rheingau. Un pressoir à vis qui va changer le monde."
+				},
+				{
+					"image": 2,
+					"duree": 4.5,
+					"de": [
+						0.5,
+						0.6,
+						1.2
+					],
+					"a": [
+						0.5,
+						0.4,
+						1.0
+					],
+					"texte": "Au bord du Rhin, un moulin fabrique le papier des premiers livres imprimés."
+				},
+				{
+					"image": 4,
+					"duree": 4.5,
+					"de": [
+						0.4,
+						0.5,
+						1.0
+					],
+					"a": [
+						0.6,
+						0.5,
+						1.2
+					],
+					"texte": "Des gens « Scellés », la bouche close. Les lettres de plomb sont la clé."
+				},
+				{
+					"image": 3,
+					"duree": 5.0,
+					"de": [
+						0.5,
+						0.5,
+						1.3
+					],
+					"a": [
+						0.5,
+						0.5,
+						1.05
+					],
+					"texte": "Et quelque part dans la ville, l'Éditeur t'attend enfin en personne."
+				}
+			],
+			"portail": "Mayence"
+		},
+		"arene": {
+			"type": "arene",
+			"titre": "Arène de Hikari Bay",
+			"epoque": "Duels 1 contre 1 · 2 contre 2",
+			"niveaux": [],
+			"accroche": "Sous la pluie et les néons, au bord de la baie, les meilleurs agents de la Vigie s'affrontent. Tout le monde se bat à armes égales.",
+			"points": [
+				"Duels et 2 contre 2, file d'attente ou défi direct",
+				"Combats équilibrés : tout le monde au même niveau",
+				"Cote, classement et rang affichés sur le grand écran"
+			],
+			"recompenses": [
+				"Médailles d'Arène à échanger chez Akane",
+				"Objets de classement et 9 titres",
+				"Talents d'Arène : 3 au choix parmi 6"
+			],
+			"bouton": "S'inscrire",
+			"images": [
+				{
+					"fichier": "res://images/affiches/arene_1.jpg",
+					"source": "arene:arene-duel"
+				},
+				{
+					"fichier": "res://images/affiches/arene_2.jpg",
+					"source": "hub:arene"
+				},
+				{
+					"fichier": "res://images/affiches/arene_3.jpg",
+					"source": "arene:arene-ecran"
+				},
+				{
+					"fichier": "res://images/affiches/arene_4.jpg",
+					"source": "arene:arene-compte-a-rebours"
+				}
+			],
+			"bande_annonce": [
+				{
+					"image": 1,
+					"duree": 5.0,
+					"de": [
+						0.5,
+						0.5,
+						1.25
+					],
+					"a": [
+						0.5,
+						0.45,
+						1.05
+					],
+					"titre": "L'ARÈNE",
+					"sous_titre": "Hikari Bay"
+				},
+				{
+					"image": 0,
+					"duree": 4.5,
+					"de": [
+						0.3,
+						0.5,
+						1.05
+					],
+					"a": [
+						0.6,
+						0.5,
+						1.2
+					],
+					"texte": "Un contre un. Deux contre deux. Pas d'équipement, pas d'excuse : seulement ton talent."
+				},
+				{
+					"image": 2,
+					"duree": 4.5,
+					"de": [
+						0.5,
+						0.5,
+						1.2
+					],
+					"a": [
+						0.5,
+						0.5,
+						1.0
+					],
+					"texte": "Chaque victoire fait monter ta cote. Le grand écran affiche les meilleurs."
+				},
+				{
+					"image": 3,
+					"duree": 5.0,
+					"de": [
+						0.5,
+						0.5,
+						1.0
+					],
+					"a": [
+						0.5,
+						0.5,
+						1.2
+					],
+					"texte": "Médailles, titres, objets de classement. Akane t'attend au bord du terrain."
+				}
+			]
+		},
+		"guildes": {
+			"type": "guildes",
+			"titre": "Les guildes",
+			"epoque": "Maison des guildes · quartier des Résidences",
+			"niveaux": [],
+			"accroche": "Seul, on répare l'histoire. Ensemble, on la protège. Fonde ta guilde ou rejoins-en une, et remplissez les contrats de la semaine.",
+			"points": [
+				"Tableau de recrutement : rejoins une guilde ouverte en un clic",
+				"Blason, couleur et devise pour ta guilde",
+				"Rangs, coffre partagé et 3 contrats par semaine"
+			],
+			"recompenses": [
+				"Sceaux de guilde et niveaux de guilde",
+				"Recettes de Mei Takahara, l'intendante",
+				"Le nom et la couleur de ta guilde au-dessus de ta tête"
+			],
+			"bouton": "Ouvrir la fenêtre Guilde",
+			"images": [
+				{
+					"fichier": "res://images/affiches/guildes_1.jpg",
+					"source": "guildes:maison-des-guildes"
+				},
+				{
+					"fichier": "res://images/affiches/guildes_2.jpg",
+					"source": "hub:guildes_interieur"
+				},
+				{
+					"fichier": "res://images/affiches/guildes_3.jpg",
+					"source": "hub:residences"
+				},
+				{
+					"fichier": "res://images/affiches/guildes_4.jpg",
+					"source": "hub:guildes_ecran"
+				}
+			],
+			"bande_annonce": [
+				{
+					"image": 0,
+					"duree": 5.0,
+					"de": [
+						0.5,
+						0.5,
+						1.25
+					],
+					"a": [
+						0.5,
+						0.45,
+						1.05
+					],
+					"titre": "LES GUILDES",
+					"sous_titre": "Hikari Bay"
+				},
+				{
+					"image": 1,
+					"duree": 4.5,
+					"de": [
+						0.3,
+						0.5,
+						1.05
+					],
+					"a": [
+						0.6,
+						0.5,
+						1.2
+					],
+					"texte": "Un nom, une couleur, une bannière. La tienne."
+				},
+				{
+					"image": 2,
+					"duree": 4.5,
+					"de": [
+						0.5,
+						0.5,
+						1.2
+					],
+					"a": [
+						0.5,
+						0.5,
+						1.0
+					],
+					"texte": "Chaque semaine, trois contrats. Toute la guilde avance ensemble."
+				},
+				{
+					"image": 3,
+					"duree": 5.0,
+					"de": [
+						0.5,
+						0.5,
+						1.0
+					],
+					"a": [
+						0.5,
+						0.5,
+						1.2
+					],
+					"texte": "Un coffre partagé, des rangs, des recettes rares. Et des amis pour les donjons."
+				}
+			]
+		},
+		"donjon_grande_grotte": {
+			"type": "donjon",
+			"titre": "La Grande Grotte",
+			"epoque": "Donjon de groupe · Préhistoire",
+			"niveaux": [
+				10,
+				10
+			],
+			"accroche": "Sous les Falaises Peintes, les galeries descendent jusqu'à l'antre de l'Ours Sans Mémoire. Les peintures s'effacent : il faut agir vite.",
+			"points": [
+				"Jusqu'à 5 joueurs, une copie du donjon par groupe",
+				"Le donjon suit l'avancée du chef de groupe",
+				"Butin partagé à tour de rôle"
+			],
+			"recompenses": [
+				"Le trophée du donjon, pour renforcer ta panoplie chez Inès",
+				"Équipement rare de l'Ours Sans Mémoire"
+			],
+			"bouton": "Entrer avec mon groupe",
+			"images": [
+				{
+					"fichier": "res://images/affiches/grande_grotte_1.jpg",
+					"source": "grotte:entree"
+				},
+				{
+					"fichier": "res://images/affiches/grande_grotte_2.jpg",
+					"source": "grotte:galerie"
+				},
+				{
+					"fichier": "res://images/affiches/grande_grotte_3.jpg",
+					"source": "grotte:cristaux"
+				},
+				{
+					"fichier": "res://images/affiches/grande_grotte_4.jpg",
+					"source": "grotte:antre"
+				}
+			],
+			"bande_annonce": [
+				{
+					"image": 0,
+					"duree": 5.0,
+					"de": [
+						0.5,
+						0.5,
+						1.25
+					],
+					"a": [
+						0.5,
+						0.45,
+						1.05
+					],
+					"titre": "LA GRANDE GROTTE",
+					"sous_titre": "Donjon de groupe"
+				},
+				{
+					"image": 1,
+					"duree": 4.5,
+					"de": [
+						0.3,
+						0.5,
+						1.05
+					],
+					"a": [
+						0.6,
+						0.5,
+						1.2
+					],
+					"texte": "Des galeries que personne n'a vues depuis 17 000 ans."
+				},
+				{
+					"image": 2,
+					"duree": 4.5,
+					"de": [
+						0.5,
+						0.5,
+						1.2
+					],
+					"a": [
+						0.5,
+						0.5,
+						1.0
+					],
+					"texte": "Des cristaux de fracture qui dévorent la lumière."
+				},
+				{
+					"image": 3,
+					"duree": 5.0,
+					"de": [
+						0.5,
+						0.5,
+						1.0
+					],
+					"a": [
+						0.5,
+						0.5,
+						1.25
+					],
+					"texte": "Au fond, l'Ours Sans Mémoire. Venez nombreux."
+				}
+			]
+		}
+	}
+}

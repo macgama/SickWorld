@@ -11,7 +11,8 @@ extends RefCounted
 ##      xp, banque: [ {} ou {id, n}, … ], journal: [ {t, texte}, … ], message,
 ##      contrats: {semaine, membres, liste: [ {id, titre, texte, type, nombre, compte, fini} ],
 ##                 aides: {"0": {cle_nom: n}, …}, semaine_complete},
-##      a_donner: {cle_nom: [ {id, n}, … ]}}
+##      a_donner: {cle_nom: [ {id, n}, … ]},
+##      blason: {forme, symbole}, recrutement: {ouvert, devise}}
 
 const FICHIER := "res://data/guildes.json"
 
@@ -65,6 +66,43 @@ static func couleur(d: Dictionary, n: int) -> Color:
 	if liste.is_empty():
 		return Color(0.5, 0.12, 0.35)
 	return Color.html(String(liste[clampi(n, 0, liste.size() - 1)][1]))
+
+
+# --- Blason et recrutement ---------------------------------------------------------
+
+const NB_FORMES := 4
+const NB_SYMBOLES := 12
+
+
+## Le blason d'une guilde (un blason tiré de son nom si elle n'en a pas encore choisi).
+static func blason(g: Dictionary) -> Dictionary:
+	var b = g.get("blason", {})
+	if b is Dictionary and b.has("forme"):
+		return {"forme": posmod(int(b["forme"]), NB_FORMES), "symbole": posmod(int(b["symbole"]), NB_SYMBOLES)}
+	var h := absi(String(g.get("cle", g.get("nom", ""))).hash())
+	return {"forme": h % NB_FORMES, "symbole": (h / NB_FORMES) % NB_SYMBOLES}
+
+
+static func recrutement(g: Dictionary) -> Dictionary:
+	var r = g.get("recrutement", {})
+	if not r is Dictionary:
+		r = {}
+	return {"ouvert": bool(r.get("ouvert", false)), "devise": String(r.get("devise", ""))}
+
+
+## La devise nettoyée (une ligne, longueur limitée).
+static func devise_propre(d: Dictionary, texte: String) -> String:
+	texte = texte.replace("\n", " ").replace("[", "(").replace("]", ")").strip_edges()
+	return texte.left(int(reglage(d, "devise_max", 90)))
+
+
+## Ce que montre le tableau de recrutement pour une guilde.
+static func fiche_annuaire(d: Dictionary, g: Dictionary, en_ligne: int) -> Dictionary:
+	var r := recrutement(g)
+	return {"nom": g["nom"], "couleur": int(g["couleur"]), "niveau": niveau(d, int(g.get("xp", 0))),
+			"membres": nombre_membres(g), "membres_max": membres_max(d, g), "en_ligne": en_ligne,
+			"maitre": maitre(g), "ouvert": r["ouvert"], "devise": r["devise"], "blason": blason(g),
+			"fondee": int(g.get("fondee", 0))}
 
 
 # --- Création et membres ---------------------------------------------------------------

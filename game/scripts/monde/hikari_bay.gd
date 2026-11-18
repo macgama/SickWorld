@@ -27,6 +27,7 @@ const Arene := preload("res://scripts/monde/quartier_arene.gd")
 const Passants := preload("res://scripts/monde/quartier_passants.gd")
 const Vie := preload("res://scripts/monde/quartier_vie.gd")
 const VieAmbiante := preload("res://scripts/monde/vie/vie_ambiante.gd")
+const AfficheActivite := preload("res://scripts/interface/affiche_activite.gd")
 
 ## Quand c'est coché, la Préhistoire est réparée : la statue du Gardien est
 ## intacte. Sinon, elle est fissurée et entourée d'éclats de fracture.
@@ -149,6 +150,20 @@ func _sur_portail(corps: Node3D, zone: Area3D) -> void:
 		return
 	var epoque: String = zone.get_meta("epoque", "")
 	portail_franchi.emit(epoque)
+	# D'abord l'affiche de l'époque (image, prochaine étape, bande-annonce) ; son
+	# bouton « Voyager » fait partir. Sans écran (tests), on part tout de suite.
+	if not get_tree().has_group("affiche_activite"):
+		var id_affiche := AfficheActivite.id_du_portail(epoque)
+		if id_affiche != "" and AfficheActivite.ouvrir(get_tree(), id_affiche, _franchir_portail.bind(corps, zone, epoque)) != null:
+			if corps.has_method("teleporter"):
+				corps.teleporter(corps.global_position + zone.global_transform.basis.z * -2.5, corps.rotation.y)
+			return
+	_franchir_portail(corps, zone, epoque)
+
+
+func _franchir_portail(corps: Node3D, zone: Area3D, epoque: String, reculer := true) -> void:
+	if not is_instance_valid(corps):
+		return
 	# Le voyage est géré par l'intro (IntroHub, groupe « voyage ») ; sans elle, ou
 	# si elle refuse, on prévient et on fait reculer le joueur.
 	var lignes := PackedStringArray(["Le portail bourdonne, mais refuse de s'ouvrir."])
@@ -160,8 +175,18 @@ func _sur_portail(corps: Node3D, zone: Area3D) -> void:
 	var dialogue := get_tree().get_first_node_in_group("dialogue")
 	if dialogue != null:
 		dialogue.ouvrir("portail", "Portail · " + epoque, lignes)
-	if corps.has_method("teleporter"):
+	if reculer and corps.has_method("teleporter"):
 		corps.teleporter(corps.global_position + zone.global_transform.basis.z * -3.0, corps.rotation.y)
+
+
+## Voyage vers une époque sans marcher jusqu'au portail (bouton « Voyager » d'une
+## affiche vue sur un écran du hub) : même chemin que si on traversait le portail.
+func voyager_vers(epoque: String) -> void:
+	var joueur := get_tree().get_first_node_in_group("joueur_local") as Node3D
+	for zone: Area3D in qg.get("portails", []):
+		if String(zone.get_meta("epoque", "")) == epoque and joueur != null:
+			_franchir_portail(joueur, zone, epoque, false)
+			return
 
 
 ## Hauteur du sol à une position x, z (utilisé pour poser les joueurs et la balise).

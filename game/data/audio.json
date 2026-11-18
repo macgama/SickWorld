@@ -4,6 +4,7 @@
 	"musiques": {
 		"_aide": "Listes de lecture : une piste au hasard, puis un silence (secondes, entre deux valeurs), puis une autre, comme dans WoW.",
 		"menu": { "pistes": ["musique/menu_1", "musique/menu_2"], "volume_db": -9, "silence": [2, 5] },
+		"bande_annonce": { "pistes": ["musique/menu_1", "musique/menu_2"], "volume_db": -6, "silence": [1, 2] },
 		"hub": { "pistes": ["musique/hub_1", "musique/hub_2", "musique/hub_3", "musique/hub_4", "musique/hub_5"], "volume_db": -13, "silence": [25, 70] },
 		"prehistoire": { "pistes": ["musique/prehistoire_1", "musique/prehistoire_2", "musique/prehistoire_3", "musique/prehistoire_4"], "volume_db": -12, "silence": [30, 80] },
 		"grotte": { "pistes": ["musique/grotte_1", "musique/grotte_2", "musique/grotte_3"], "volume_db": -11, "silence": [15, 40] }

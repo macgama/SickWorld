@@ -8,6 +8,7 @@ extends CanvasLayer
 ##   sous le cadre de la cible quand on cible un autre joueur ;
 ## - la fenêtre DONJONS (touche K) pour entrer dans un donjon avec son groupe.
 
+const AfficheActivite := preload("res://scripts/interface/affiche_activite.gd")
 const Style := preload("res://scripts/interface/style_menu.gd")
 
 const TAILLE_TEXTE := 14
@@ -597,15 +598,26 @@ func _remplir_donjons() -> void:
 		var presents := 1
 		if Social.est_dans_un_groupe():
 			presents = Social.groupe.filter(func(m): return String(m.get("etat", "")) == "ici").size()
-		var bouton := _petit_bouton("Entrer avec le groupe (%d joueur%s)" % [presents, "s" if presents > 1 else ""] \
-				if Social.est_dans_un_groupe() else "Entrer seul", func():
+		var entrer := func():
 			Social.entrer_en_donjon(String(d["id"]))
-			basculer_donjons())
+			if _fenetre_donjons.visible:
+				basculer_donjons()
+		var bouton := _petit_bouton("Entrer avec le groupe (%d joueur%s)" % [presents, "s" if presents > 1 else ""] \
+				if Social.est_dans_un_groupe() else "Entrer seul", entrer)
 		bouton.disabled = Social.est_dans_un_groupe() and not Social.suis_chef()
 		if bouton.disabled:
 			bouton.tooltip_text = "Seul le chef du groupe peut choisir le donjon."
-		bouton.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
-		carte.add_child(bouton)
+		var ligne := HBoxContainer.new()
+		ligne.add_theme_constant_override("separation", 8)
+		ligne.add_child(bouton)
+		# L'affiche du donjon (images, récompenses, bande-annonce), si elle existe.
+		var id_affiche := "donjon_" + String(d["id"])
+		if AfficheActivite.existe(id_affiche):
+			var peut_entrer := not bouton.disabled
+			ligne.add_child(_petit_bouton("▶ Présentation", func():
+				basculer_donjons()
+				AfficheActivite.ouvrir(get_tree(), id_affiche, entrer if peut_entrer else Callable())))
+		carte.add_child(ligne)
 
 
 # --- Voyage vers le donjon (fondu) ---------------------------------------------------
