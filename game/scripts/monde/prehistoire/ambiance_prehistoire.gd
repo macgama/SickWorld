@@ -246,6 +246,25 @@ const CLIMATS := {
 		"nuage_lumiere": Color(1.0, 0.98, 0.95),
 		"saturation": 1.12,
 	},
+	# La ville de Mayence : un après-midi d'automne doré, ciel pommelé, la fumée des cheminées.
+	"ville": {
+		"soleil": Vector2(220.0, 30.0),
+		"couleur_soleil": Color(1.0, 0.85, 0.64),
+		"energie_soleil": 2.6,
+		"couverture": 0.4,
+		"brume": Color(0.8, 0.82, 0.86),
+		"densite_brume": 0.0016,
+		"brume_volume": 0.005,
+		"albedo_brume": Color(0.95, 0.94, 0.92),
+		"ambiance": 0.86,
+		"zenith": Color(0.22, 0.4, 0.72),
+		"horizon": Color(0.76, 0.82, 0.88),
+		"brume_ciel": 0.2,
+		"horizon_soleil": Color(1.0, 0.8, 0.58),
+		"nuage_ombre": Color(0.64, 0.66, 0.72),
+		"nuage_lumiere": Color(1.0, 0.97, 0.92),
+		"saturation": 1.12,
+	},
 	# La Porte de Jade (Chine) : un matin d'hiver dans le désert, soleil bas et pâle,
 	# ciel laiteux, un voile de poussière soulevé par le vent.
 	"porte_de_jade": {
