@@ -3,7 +3,7 @@
 Depuis le 18/11/2026, chaque grande activité a son **affiche** : une fiche illustrée qui
 donne envie d'y aller, avec une **bande-annonce** d'environ 25 secondes.
 
-![Affiche de la Chine des Han](../images/affiche-chine.jpg)
+![Affiche de la Préhistoire](../images/affiche-prehistoire.jpg)
 
 ## Où les voir
 
