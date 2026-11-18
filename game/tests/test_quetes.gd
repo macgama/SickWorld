@@ -382,6 +382,13 @@ func _lancer() -> void:
 	for pnj in ["commandante", "commandante", "plomb_cellule", "commandante"]:
 		await _parler_a(pnj)
 	_verifier(_quetes.etat("cellule_plomb") == "terminee", "mission « La cellule de Plomb » accomplie")
+	# Au chapitre 8 de Mayence : Sceau, dans la quatrième cellule, et le registre (Séville, 1519).
+	_quetes.accepter("cellule_sceau")
+	await _attendre(5)
+	_verifier(_trouver_pnj("sceau_cellule") != null, "Sceau est enfermée à côté de Plomb")
+	for pnj in ["commandante", "commandante", "sceau_cellule", "commandante"]:
+		await _parler_a(pnj)
+	_verifier(_quetes.etat("cellule_sceau") == "terminee", "mission « La cellule de Sceau » accomplie")
 	souvenirs = _appart.get_node("Souvenirs").get_child_count()
 	_verifier(souvenirs == _quetes.quetes.size(), "toutes les missions ont leur souvenir (%d)" % souvenirs)
 
