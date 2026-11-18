@@ -28,6 +28,15 @@ Au QG de la Vigie, dans la salle des portails, le 7e portail (« Mayence ») mè
 - **La cour Humbrecht** au nord : l'atelier de Gutenberg avec la **presse**, la **casse** des lettres, la **fonderie**, et l'église Saint-Christophe à côté.
 - **Les jardins** au nord-ouest, où s'ouvre la faille.
 
+## Zone 4 : la foire de Francfort (niveaux 67-69)
+- **Arrivée** par la nef de Fust (on la prend au ponton du Rhin, devant la porte des Pêcheurs de Mayence), au ponton de l'ouest, sur le Main.
+- **Le quai du Main** : les étals des libraires sous leurs auvents rayés, les ballots, les tonneaux, la grue, et le **Saalhof**, le vieux palais du roi au bord de l'eau.
+- **Le Römerberg**, la grande place : les maisons de marchands aux **pignons à gradins**, la petite église Saint-Nicolas, et le **bûcher** de Sceau.
+- **Saint-Barthélemy**, la grande église de grès rouge, avec sa tour **encore en chantier** (échafaudages et grue de bois tout en haut).
+- **Le Vieux Pont** de pierre et sa tour, qui part vers Sachsenhausen sur l'autre rive.
+- **Le pré de la foire**, à l'est : tentes, chariots, et des coupe-bourses.
+- **L'Eschenheimer Turm**, la haute tour ronde du rempart nord.
+
 ## Le petit jeu de la composition
 Les gens touchés par la fracture sont **Scellés** : couverts d'une croûte rouge comme de la cire, ils serrent ce qu'ils ont et répètent « Ce n'est pas pour toi ». Pour les délivrer, approche-toi et appuie sur **F** : il faut composer une phrase avec des **lettres de plomb**.
 - Clique la lettre qui vient ensuite (ou tape son numéro).
@@ -35,7 +44,7 @@ Les gens touchés par la fracture sont **Scellés** : couverts d'une croûte rou
 - Une erreur fait trembler la casse (ce qui est rangé reste). Après deux erreurs, la bonne lettre brille.
 - Quand la phrase est finie, on encre, on presse, et la feuille sort à l'endroit.
 
-## L'histoire (chapitres 1 à 6)
+## L'histoire (chapitres 1 à 7)
 1. **Le pressoir** : la radio de Vera, Liesel, Heinrich Keffer (le compagnon de Gutenberg), les sangliers des vignes, les vendangeurs Scellés, maître Ott et le pressoir. Récompense : le **pot d'encre de maître Johannes** (compétence d'époque **Encre noire** : aveugle 1 s puis ralentit) et un tablier de vendangeur.
 2. **Le copiste qui a peur** : frère Wendelin à l'abbaye d'Eberbach, les loups du Taunus, les moines Scellés, un message de Masque, le chef des brigands (et ses lunettes de pharmacie), une feuille imprimée en 2026 signée « É. », la faille. Récompense : les **besicles de frère Wendelin**.
 
@@ -46,4 +55,6 @@ Les gens touchés par la fracture sont **Scellés** : couverts d'une croûte rou
 
 6. **L'offre de l'Éditeur** : une nuit de veille dans l'atelier (la ville passe en clair de lune, les lanternes s'allument). **Étienne Marchal** apparaît avec une petite presse électrique de 2026 et l'offre à Gutenberg. Gutenberg hésite et te demande ton avis : tu choisis ta réponse (« ta presse appartient à ceux qui la font » ou « le monde doit apprendre par lui-même »), et Marchal ne te répond pas la même chose. Il repart, en laissant sa **carte de visite**. Puis les hommes de Sceau viennent brûler l'atelier, et l'on trouve son affiche : elle veut brûler tous les livres de la foire de Francfort. Récompense : la **cape du veilleur de Strasbourg**.
 
-La suite (la foire de Francfort, la fonderie) arrive bientôt.
+7. **La foire** : les libraires du quai sont Scellés, les hommes de Sceau ont pris tous les livres. Tu délivres les libraires, tu reprends les charrettes au Vieux Pont, Masque laisse un message, et au Römerberg tu rencontres enfin **Sceau** (une ancienne conservatrice de 2026 qui pense que « le savoir se mérite »). Elle fait allumer le bûcher : il faut battre le **Bourreau des livres** et éteindre le feu. Puis l'évêque **Enea Silvio Piccolomini** feuillette les cahiers de la Bible de Fust (c'est historique : il a écrit qu'on pouvait les lire sans lunettes). Récompenses : le **cahier de la foire** et des bottes de colporteur.
+
+La suite (la fonderie sous la cathédrale de Mayence) arrive bientôt.

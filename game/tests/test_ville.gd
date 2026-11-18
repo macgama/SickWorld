@@ -294,7 +294,9 @@ func _lancer() -> void:
 	await _parler("Gutenberg")
 	if a_inventaire:
 		_verifier(inventaire.quantite("cape_veilleur") >= 1, "la cape du veilleur")
-	_verifier(_quete.etape < 0, "chapitres 4 à 6 terminés (la foire arrive bientôt)")
+	_verifier(_id_etape() == "vers_francfort", "chapitre 7 : la nef de Fust pour Francfort (%s)" % _id_etape())
+	await _attendre(20)
+	_verifier(_scene._route_francfort, "le ponton de la nef de Fust est ouvert")
 
 	# --- La progression est gardée.
 	_scene.queue_free()
@@ -310,6 +312,7 @@ func _lancer() -> void:
 	await _placer(Vector3(_scene.SORTIE_E.x - 1.0, 1.6, _scene.SORTIE_E.y), PI / 2)
 	await _attendre(20)
 	_verifier(_quete._en_voyage or root.get_node("Reseau").get_meta("arrivee_mayence", "") == "ville", "le bac ramène au Rhin")
+	root.get_node("Reseau").remove_meta("arrivee_mayence")
 
 	print("")
 	if _echecs == 0:

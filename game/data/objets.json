@@ -2906,6 +2906,56 @@
 				"couleur": "#4a3424"
 			},
 			"epoque": "Mayence"
+		},
+		"cahier_foire": {
+			"nom": "Le cahier de la foire de Francfort",
+			"type": "equipement",
+			"rarete": "historique",
+			"emplacement": "relique",
+			"description": "Un cahier de huit feuilles pliées, imprimé à deux colonnes de quarante-deux lignes. Un évêque l'a feuilleté à la foire, un bûcher l'a frôlé, et il n'a pas une tache.",
+			"stats": {
+				"pv": 300,
+				"critique_pourcent": 3,
+				"degats_pourcent": 3
+			},
+			"icone": {
+				"forme": "eclat",
+				"couleur": "#e8e0c8"
+			},
+			"epoque": "Mayence"
+		},
+		"bottes_colporteur": {
+			"nom": "Bottes de colporteur",
+			"type": "equipement",
+			"rarete": "rare",
+			"emplacement": "pieds",
+			"description": "De hautes bottes de cuir souple, ressemelées dix fois, qui ont fait toutes les foires d'Allemagne.",
+			"stats": {
+				"pv": 340,
+				"reduction_pourcent": 3,
+				"degats_pourcent": 2
+			},
+			"visuel": {
+				"forme": "bottes_fourrure",
+				"couleur": "#5a3a24"
+			},
+			"epoque": "Mayence"
+		},
+		"hache_bourreau": {
+			"nom": "Hache du Bourreau des livres",
+			"type": "equipement",
+			"rarete": "rare",
+			"emplacement": "arme_principale",
+			"description": "Une lourde hache au fer noirci par les bûchers. La Vigie y a glissé un éclat de technologie, pour qu'elle serve enfin à autre chose.",
+			"stats": {
+				"degats_pourcent": 36,
+				"pv": 150
+			},
+			"visuel": {
+				"forme": "lame",
+				"couleur": "#4a4a4e"
+			},
+			"epoque": "Mayence"
 		}
 	},
 	"ensembles": {
@@ -4141,6 +4191,83 @@
 				"objet": "pfennig_mayence",
 				"chance": 0.8,
 				"quantite": [2, 5]
+			}
+		],
+		"mercenaire_homme_sceau_francfort": [
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 0.45
+			},
+			{
+				"objet": "pfennig_mayence",
+				"chance": 0.7,
+				"quantite": [2, 6]
+			}
+		],
+		"mercenaire_homme_sceau_foire": [
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 0.45
+			},
+			{
+				"objet": "pfennig_mayence",
+				"chance": 0.7,
+				"quantite": [2, 6]
+			}
+		],
+		"mercenaire_coupe_bourse": [
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 0.4
+			},
+			{
+				"objet": "pfennig_mayence",
+				"chance": 1.0,
+				"quantite": [4, 10]
+			}
+		],
+		"chien_ruelle_francfort": [
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 0.4
+			}
+		],
+		"statue_lettres_plomb_francfort": [
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 0.5
+			},
+			{
+				"objet": "caractere_plomb",
+				"chance": 0.8,
+				"quantite": [2, 6]
+			}
+		],
+		"statue_lettres_plomb_faille_foire": [
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 0.5
+			},
+			{
+				"objet": "caractere_plomb",
+				"chance": 0.8,
+				"quantite": [2, 6]
+			}
+		],
+		"mercenaire_chef_bourreau": [
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 1.0,
+				"quantite": [2, 4]
+			},
+			{
+				"objet": "pfennig_mayence",
+				"chance": 1.0,
+				"quantite": [10, 18]
+			},
+			{
+				"objet": "hache_bourreau",
+				"chance": 1.0
 			}
 		]
 	},
