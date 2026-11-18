@@ -7,6 +7,7 @@ extends "res://scripts/monde/moyen_age/objet_moyen_age.gd"
 ##   parfaitement régulières (imprimée en 2026), posée sur une pierre ; ramassée, elle
 ##   disparaît.
 ## - « hotte » : la hotte d'osier d'un vendangeur, pleine de grappes noires.
+## - « affiche_roulee » : l'affiche de Sceau, roulée et cachetée de cire rouge (chapitre 6).
 ## - un Scellé que l'on délivre n'a pas de forme : l'objet est invisible, posé sur le
 ##   personnage (meta « pnj_lie ») ; quand il est compté, le sceau de cire se brise.
 
@@ -209,3 +210,20 @@ func _construire_poincons() -> void:
 	for r in 4:
 		for k in 16:
 			_morceau(tige, acier, Vector3(-0.21 + k * 0.028, 0.125, -0.1 + r * 0.065))
+
+
+## L'affiche de Sceau : une feuille roulée, tombée sur les pavés, fermée d'un cachet de cire rouge.
+func _construire_affiche_roulee() -> void:
+	var rouleau := CylinderMesh.new()
+	rouleau.top_radius = 0.035
+	rouleau.bottom_radius = 0.035
+	rouleau.height = 0.42
+	_morceau(rouleau, _mat_uni(Color(0.9, 0.86, 0.74), 0.9), Vector3(0, 0.035, 0), Vector3(0, 0.6, PI / 2))
+	var cire := CylinderMesh.new()
+	cire.top_radius = 0.03
+	cire.bottom_radius = 0.034
+	cire.height = 0.012
+	var rouge := _mat_uni(Color(0.62, 0.06, 0.06), 0.4)
+	rouge.emission_enabled = true
+	rouge.emission = Color(0.4, 0.02, 0.02)
+	_morceau(cire, rouge, Vector3(0, 0.072, 0))

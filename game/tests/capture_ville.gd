@@ -17,6 +17,10 @@ const VUES := [
 	["orfevres", Vector3(-20, 2.0, -18), Vector3(-80, 3.0, -40), false],
 	["jardins", Vector3(-100, 2.0, -110), Vector3(-136, 3.0, -138), false],
 	["haut", Vector3(220, 140.0, 160), Vector3(0, 10.0, 0), true],
+	# La nuit de l'Éditeur (chapitre 6) : Marchal et sa machine dans l'atelier.
+	["nuit_atelier", Vector3(14, 1.7, -93), Vector3(8, 1.2, -97.5), false],
+	["nuit_cour", Vector3(14, 1.8, -82), Vector3(8, 2.0, -100), false],
+	["nuit_rue", Vector3(52, 2.0, -20), Vector3(30, 3.0, -72), false],
 ]
 
 
@@ -56,6 +60,13 @@ func _lancer() -> void:
 	for vue in VUES:
 		if not choix.is_empty() and not choix.has(vue[0]):
 			continue
+		if String(vue[0]).begins_with("nuit_") and not scene._nuit:
+			scene.set_meta("nuit_forcee", true)
+			scene._mettre_nuit(true)
+			for n in get_nodes_in_group("decor_quete"):
+				if n.get_meta("identifiant", "") in ["etienne_marchal", "machine_marchal"]:
+					n.visible = true
+			await _attendre(30)
 		var pos: Vector3 = vue[1]
 		var cible: Vector3 = vue[2]
 		if not vue[3]:

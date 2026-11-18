@@ -53,6 +53,12 @@ const HANS := Vector2(26, -90)
 const FUST := Vector2(-2, -88)
 const COFFRE := Vector2(0, -106)
 const CHAT := Vector2(12, -96)
+## La nuit de l'Éditeur (chapitre 6) : Marchal et sa machine, les deux réponses, l'affiche.
+const MARCHAL := Vector2(10.4, -96.2)
+const MACHINE := Vector2(8.4, -97.4)
+const REPONSES := [Vector2(2.0, -93.8), Vector2(6.4, -93.8)]
+const AFFICHE := Vector2(15, -87)
+const ETAPES_NUIT := ["lumiere", "marchal", "gutenberg_hesite", "convaincre", "marchal_ouvriers", "marchal_apprendre", "torches_sceau"]
 ## Le quartier des orfèvres, le syndic, les indices de l'enquête.
 const ORFEVRES := Vector2(-60, -34)
 const HENNEN := Vector2(-66, -40)
@@ -72,6 +78,8 @@ const MAISONS_COULEURS := [Color(0.94, 0.9, 0.8), Color(0.92, 0.78, 0.62), Color
 var _mur_e: StaticBody3D
 var _nefs: Array[Node3D] = []
 var _rues: Array = []
+var _nuit := false
+var _lumieres_nuit: Node3D
 
 
 func _init() -> void:
@@ -758,6 +766,16 @@ func _construire_quete() -> void:
 	_objet(dossier, "indice_rive", INDICES[2], "empreinte_cire", "[F] Examiner la tache de cire", "indices_poincons")
 	_scelle(dossier, "orfevre_hennen", "liberer_hennen", "", HENNEN, PI * 0.5)
 	_objet(dossier, "poincons_gutenberg", POINCONS, "poincons", "[F] Reprendre les poinçons")
+	# La nuit de l'Éditeur : Marchal, sa machine de 2026, les deux réponses, l'affiche de Sceau.
+	var marchal := _pnj(dossier, "etienne_marchal", MARCHAL, -PI * 0.6)
+	marchal.add_to_group("decor_quete")
+	marchal.set_meta("identifiant", "etienne_marchal")
+	marchal.visible = false
+	_construire_machine(dossier)
+	_objet(dossier, "dire_ouvriers", REPONSES[0], "", "[F] « Ta presse appartient à ceux qui la font. »", "", 2.0)
+	_objet(dossier, "dire_apprendre", REPONSES[1], "", "[F] « Le monde doit apprendre par lui-même. »", "", 2.0)
+	_objet(dossier, "affiche_sceau", AFFICHE, "affiche_roulee", "[F] Ramasser l'affiche roulée")
+	_construire_lumieres_nuit(dossier)
 	var faille := Faille.new()
 	faille.name = "Faille"
 	faille.identifiant = "faille_ville"
@@ -773,6 +791,83 @@ func _construire_quete() -> void:
 	repere.call(MarqueurCarte.Type.LIEU, "Les orfèvres", ORFEVRES)
 	repere.call(MarqueurCarte.Type.LIEU, "Le Holzturm", HOLZTURM)
 	repere.call(MarqueurCarte.Type.LIEU, "Le bac, vers le Rhin et le moulin", BAC)
+
+
+## La machine de l'Éditeur : une petite presse électrique grise de 2026, posée sur un
+## établi, avec son écran allumé et une pile de feuilles trop blanches. Elle éclaire l'atelier
+## d'une lumière froide. Cachée jusqu'au chapitre 6.
+func _construire_machine(dossier: Node3D) -> void:
+	var m := Node3D.new()
+	m.name = "MachineMarchal"
+	m.add_to_group("decor_quete")
+	m.set_meta("identifiant", "machine_marchal")
+	m.visible = false
+	m.position = Vector3(MACHINE.x, hauteur(MACHINE.x, MACHINE.y), MACHINE.y)
+	m.rotation.y = -0.3
+	dossier.add_child(m)
+	_boite(Vector3(1.4, 0.08, 0.8), Vector3(0, 0.86, 0), _mat_chene_clair(), m)
+	for c in [Vector2(-0.6, -0.32), Vector2(0.6, -0.32), Vector2(-0.6, 0.32), Vector2(0.6, 0.32)]:
+		_boite(Vector3(0.08, 0.82, 0.08), Vector3(c.x, 0.41, c.y), _mat_chene_clair(), m, false)
+	var plastique := _mat_uni_ma(Color(0.62, 0.63, 0.65), 0.4)
+	var sombre := _mat_uni_ma(Color(0.16, 0.17, 0.19), 0.5)
+	_boite(Vector3(0.62, 0.3, 0.46), Vector3(0, 1.05, 0), plastique, m, false)
+	_boite(Vector3(0.5, 0.03, 0.3), Vector3(0, 1.21, -0.02), sombre, m, false)
+	_boite(Vector3(0.4, 0.02, 0.22), Vector3(0, 0.98, 0.32), sombre, m, false)
+	var blanc := _mat_uni_ma(Color(0.98, 0.98, 0.97), 0.6)
+	_boite(Vector3(0.21, 0.05, 0.297), Vector3(0.48, 0.92, 0.1), blanc, m, false)
+	_boite(Vector3(0.21, 0.004, 0.297), Vector3(0, 1.0, 0.36), blanc, m, false)
+	var ecran := StandardMaterial3D.new()
+	ecran.albedo_color = Color(0.7, 0.85, 1.0)
+	ecran.emission_enabled = true
+	ecran.emission = Color(0.6, 0.8, 1.0)
+	ecran.emission_energy_multiplier = 4.0
+	var e := _boite(Vector3(0.16, 0.08, 0.01), Vector3(0.18, 1.12, 0.231), ecran, m, false)
+	e.rotation.x = -0.4
+	_boite(Vector3(0.02, 0.02, 0.01), Vector3(-0.22, 1.12, 0.232), ecran, m, false)
+	var froide := OmniLight3D.new()
+	froide.light_color = Color(0.78, 0.88, 1.0)
+	froide.light_energy = 2.2
+	froide.omni_range = 7.0
+	froide.position = Vector3(0, 1.5, 0.4)
+	m.add_child(froide)
+
+
+## Les lanternes de la nuit : au porche, sous l'atelier, à la fonderie, devant Saint-Christophe.
+## Allumées seulement pendant la nuit du chapitre 6 (peu de lumières, sans ombres : 60 i/s).
+func _construire_lumieres_nuit(dossier: Node3D) -> void:
+	_lumieres_nuit = Node3D.new()
+	_lumieres_nuit.name = "LumieresNuit"
+	_lumieres_nuit.visible = false
+	dossier.add_child(_lumieres_nuit)
+	var flamme := StandardMaterial3D.new()
+	flamme.albedo_color = Color(1.0, 0.75, 0.4)
+	flamme.emission_enabled = true
+	flamme.emission = Color(1.0, 0.6, 0.25)
+	flamme.emission_energy_multiplier = 5.0
+	var fer := _mat_uni_ma(Color(0.12, 0.11, 0.1), 0.6)
+	for l in [[PORCHE + Vector2(-2.8, 1.2), 3.4], [PORCHE + Vector2(2.8, 1.2), 3.4], [ATELIER + Vector2(-4, 2), 3.0],
+			[ATELIER + Vector2(6, 2), 3.0], [GUTENBERG + Vector2(0, 1.5), 2.6], [CHRISTOPHE + Vector2(-8, 4), 3.0]]:
+		var q: Vector2 = l[0]
+		var y := hauteur(q.x, q.y) + float(l[1])
+		_boite(Vector3(0.22, 0.3, 0.22), Vector3(q.x, y, q.y), fer, _lumieres_nuit, false)
+		_boite(Vector3(0.14, 0.2, 0.14), Vector3(q.x, y, q.y), flamme, _lumieres_nuit, false)
+		var o := OmniLight3D.new()
+		o.light_color = Color(1.0, 0.68, 0.36)
+		o.light_energy = 2.0
+		o.omni_range = 9.0
+		o.position = Vector3(q.x, y - 0.1, q.y)
+		_lumieres_nuit.add_child(o)
+
+
+## La nuit tombe pendant le chapitre 6 (de la lumière blanche jusqu'à l'aube).
+func _mettre_nuit(nuit: bool) -> void:
+	if nuit == _nuit:
+		return
+	_nuit = nuit
+	if _lumieres_nuit != null:
+		_lumieres_nuit.visible = nuit
+	if ambiance_grandiose:
+		AmbiancePrehistoire.appliquer(self, "ville_nuit" if nuit else identifiant_zone)
 
 
 ## Les personnages des quêtes secondaires (plus tard).
@@ -801,6 +896,8 @@ func _process(delta: float) -> void:
 	var quete := get_tree().get_first_node_in_group("quete")
 	if quete == null or not quete.has_method("etape_atteinte"):
 		return
+	if not has_meta("nuit_forcee"):
+		_mettre_nuit(String(quete.etape_actuelle().get("id", "")) in ETAPES_NUIT)
 	var joueur := get_tree().get_first_node_in_group("joueur_local") as Node3D
 	if joueur == null:
 		return

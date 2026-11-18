@@ -35,7 +35,7 @@ Les gens touchés par la fracture sont **Scellés** : couverts d'une croûte rou
 - Une erreur fait trembler la casse (ce qui est rangé reste). Après deux erreurs, la bonne lettre brille.
 - Quand la phrase est finie, on encre, on presse, et la feuille sort à l'endroit.
 
-## L'histoire (chapitres 1 à 5)
+## L'histoire (chapitres 1 à 6)
 1. **Le pressoir** : la radio de Vera, Liesel, Heinrich Keffer (le compagnon de Gutenberg), les sangliers des vignes, les vendangeurs Scellés, maître Ott et le pressoir. Récompense : le **pot d'encre de maître Johannes** (compétence d'époque **Encre noire** : aveugle 1 s puis ralentit) et un tablier de vendangeur.
 2. **Le copiste qui a peur** : frère Wendelin à l'abbaye d'Eberbach, les loups du Taunus, les moines Scellés, un message de Masque, le chef des brigands (et ses lunettes de pharmacie), une feuille imprimée en 2026 signée « É. », la faille. Récompense : les **besicles de frère Wendelin**.
 
@@ -44,4 +44,6 @@ Les gens touchés par la fracture sont **Scellés** : couverts d'une croûte rou
 4. **La cour Humbrecht** : l'arrivée à Mayence, l'atelier de Gutenberg, Heinrich Keffer, Peter Schoeffer, Hans le fondeur ; le moule à main, la casse, la presse, et **Johann Fust**, le prêteur, Scellé sur son coffre.
 5. **Les poinçons volés** : le coffret des poinçons a disparu. Avec Konrad Humery, tu relèves trois **empreintes de cire** (chez les orfèvres, au marché, sur la rive), tu délivres l'orfèvre Hennen, et tu retrouves les poinçons près de la faille des jardins.
 
-La suite (l'offre de l'Éditeur, la foire de Francfort, la fonderie) arrive bientôt.
+6. **L'offre de l'Éditeur** : une nuit de veille dans l'atelier (la ville passe en clair de lune, les lanternes s'allument). **Étienne Marchal** apparaît avec une petite presse électrique de 2026 et l'offre à Gutenberg. Gutenberg hésite et te demande ton avis : tu choisis ta réponse (« ta presse appartient à ceux qui la font » ou « le monde doit apprendre par lui-même »), et Marchal ne te répond pas la même chose. Il repart, en laissant sa **carte de visite**. Puis les hommes de Sceau viennent brûler l'atelier, et l'on trouve son affiche : elle veut brûler tous les livres de la foire de Francfort. Récompense : la **cape du veilleur de Strasbourg**.
+
+La suite (la foire de Francfort, la fonderie) arrive bientôt.
