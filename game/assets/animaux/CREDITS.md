@@ -121,3 +121,37 @@ Modèles 3D téléchargés sur Sketchfab, sous licence **Creative Commons Attrib
 - **Animation :** une seule attente de 8,4 s. Marche et galop sont faits en code
   (scripts/ennemis/apparence_chien.gd) ; la tête, tournée de côté au repos, y est remise dans l'axe,
   et les pieds (liés aux os d'IK de Blender) sont recollés au bout des pattes.
+
+## Léopard de Rome (fait d'une panthère noire, robe peinte en code) — `panthere/scene.gltf`
+
+- **Modèle :** black panther — **Auteur :** kenchoo (https://sketchfab.com/kenchoo)
+- **URL :** https://sketchfab.com/3d-models/black-panther-7fca11c89cca4362a525c891a8345112
+- **Licence :** CC-BY 4.0 (animation d'un « Panther 3D Model » d'un autre auteur, lui aussi CC-BY, cité sur la page)
+- **Crédit :** This work is based on "black panther" by kenchoo licensed under CC-BY-4.0
+
+## Hippopotame (Égypte) — `hippopotame/scene.gltf`
+
+- **Modèle :** Hippopotamus — **Auteur :** planeta-elefante (https://sketchfab.com/planeta-elefante)
+- **URL :** https://sketchfab.com/3d-models/hippopotamus-b6f94ccfd88442b9b92a9484d27561a5
+- **Licence :** CC-BY 4.0 — **Animations :** Idle, Idle2, Walk, Run, Attack ×4, Die, Yawn
+- **Crédit :** This work is based on "Hippopotamus" by planeta-elefante licensed under CC-BY-4.0
+
+## Rhinocéros (Rome) — `rhinoceros/scene.gltf`
+
+- **Modèle :** Animated 3D Grey Rhino Running Loop — **Auteur :** LasquetiSpice (https://sketchfab.com/LasquetiSpice)
+- **URL :** https://sketchfab.com/3d-models/animated-3d-grey-rhino-running-loop-2345603eec5e4e54a293c39833684525
+- **Licence :** CC-BY 4.0 — **Animation :** une course en boucle (0,57 s)
+- **Crédit :** This work is based on "Animated 3D Grey Rhino Running Loop" by LasquetiSpice licensed under CC-BY-4.0
+
+## Sanglier (Grèce, Rome, Chine, Moyen Âge ; pelage peint en code) — `sanglier/scene.gltf`
+
+- **Modèle :** Wild Boar - Male — **Auteur :** Dakta.Grower.Nzl (https://sketchfab.com/Dakta.Grower.Nzl)
+- **URL :** https://sketchfab.com/3d-models/wild-boar-male-12f708036ee4452b96c0352acb1c6fbf
+- **Licence :** CC-BY 4.0 — **Animations :** 73 (Idle, Walk, Trot, Run, Attack, Death…), pas de texture fournie
+- **Crédit :** This work is based on "Wild Boar - Male" by Dakta.Grower.Nzl licensed under CC-BY-4.0
+
+## Renard — `renard/scene.gltf` (téléchargé, pas encore utilisé)
+
+- **Modèle :** Fox — **Auteur :** Alexei Ostapenko (https://sketchfab.com/alexanders823)
+- **URL :** https://sketchfab.com/3d-models/fox-4e37c303f8a241aaa2511bd9f3019273 — **Licence :** CC-BY 4.0
+- Seule animation : « Waking Up » (couché) ; pas utilisable pour le chacal qui court.
