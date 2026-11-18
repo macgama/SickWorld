@@ -70,8 +70,22 @@ var _menu_jeu
 var _touches_origine := {}
 
 
+var _sans_interface := false
+
+
+func _process(_delta: float) -> void:
+	if not _sans_interface:
+		return
+	for n in get_tree().root.find_children("*", "CanvasLayer", true, false):
+		if n.name != "PostTraitement" and (n as CanvasLayer).visible:
+			(n as CanvasLayer).visible = false
+
+
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	# Captures « propres » (affiches) : la variable d'environnement SICKWORLD_SANS_INTERFACE=1
+	# cache toute l'interface (mini-carte, titres de zone, barres…) à chaque image.
+	_sans_interface = OS.get_environment("SICKWORLD_SANS_INTERFACE") == "1"
 	charger()
 	for a in ACTIONS_MODIFIABLES:
 		var ev := premiere_touche(a[0])

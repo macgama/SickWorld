@@ -978,15 +978,15 @@
 				},
 				{
 					"fichier": "res://images/affiches/guildes_2.jpg",
-					"source": "hub:residences"
+					"source": "hub:guildes_interieur"
 				},
 				{
 					"fichier": "res://images/affiches/guildes_3.jpg",
-					"source": "hub:hall_sakura"
+					"source": "hub:residences"
 				},
 				{
 					"fichier": "res://images/affiches/guildes_4.jpg",
-					"source": "guildes:invitation-et-annonce"
+					"source": "hub:guildes_ecran"
 				}
 			],
 			"bande_annonce": [

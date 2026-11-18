@@ -24,6 +24,7 @@ const VUES := [
 	["archives", Vector3(-50.5, -10.0, 128), Vector3(-58, -11.4, 121)],
 	["mur_epoques", Vector3(-14, -10.3, 115), Vector3(1.8, -8.2, 121)],
 	["arene_ecran", Vector3(92.0, 2.0, 86.0), Vector3(104.1, 4.6, 92.7)],
+	["guildes_interieur", Vector3(-112.5, 2.3, 10.5), Vector3(-123.0, 3.4, -9.0)],
 	["guildes_ecran", Vector3(-97.0, 2.0, -2.0), Vector3(-109.6, 3.2, -7.5)],
 ]
 

@@ -34,6 +34,8 @@ func _lancer() -> void:
 				par_zone[zone] = []
 			par_zone[zone].append([source.get_slice(":", 1), String(image["fichier"])])
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(SORTIE))
+	# Images sans interface (mini-carte, titres…) : voir Options._process.
+	OS.set_environment("SICKWORLD_SANS_INTERFACE", "1")
 	var projet := ProjectSettings.globalize_path("res://")
 	var manquantes := PackedStringArray()
 	for zone in par_zone:
@@ -46,8 +48,17 @@ func _lancer() -> void:
 			vues.append(v[0])
 		print("== ", zone, " : ", ", ".join(vues))
 		var sortie := []
-		OS.execute(OS.get_executable_path(), ["--path", projet, "-s", "res://tests/capture_%s.gd" % zone,
-				"--", tmp, ",".join(vues)], sortie, true)
+		# Arguments de chaque script : capture_hub veut la qualité avant les vues,
+		# capture_grotte une vue par argument ; les autres « vue1,vue2 ».
+		var arguments := ["--path", projet, "-s", "res://tests/capture_%s.gd" % zone, "--", tmp]
+		match zone:
+			"hub":
+				arguments.append_array(["-", ",".join(vues)])
+			"grotte":
+				arguments.append_array(vues)
+			_:
+				arguments.append(",".join(vues))
+		OS.execute(OS.get_executable_path(), arguments, sortie, true)
 		var fichiers := DirAccess.get_files_at(tmp)
 		for v in par_zone[zone]:
 			var trouve := ""
