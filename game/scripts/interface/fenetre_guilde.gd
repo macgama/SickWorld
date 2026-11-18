@@ -9,6 +9,8 @@ extends CanvasLayer
 
 const Style := preload("res://scripts/interface/style_menu.gd")
 const R := preload("res://scripts/guildes/regles_guildes.gd")
+const Blason := preload("res://scripts/interface/dessin_blason.gd")
+const TableauGuildes := preload("res://scripts/interface/tableau_guildes.gd")
 const VERT := Color(0.45, 1.0, 0.55)
 const ROUGE := Color(1.0, 0.45, 0.4)
 const OR := Color(1.0, 0.84, 0.35)
@@ -19,6 +21,7 @@ enum { ONGLET_GUILDE, ONGLET_MEMBRES, ONGLET_BANQUE, ONGLET_CONTRATS, ONGLET_JOU
 var _racine: Control
 var _fenetre: PanelContainer
 var _titre: Label
+var _blason: Control
 var _onglets: TabContainer
 var _sans_guilde: Label
 # Onglet Guilde
@@ -208,9 +211,16 @@ func _construire_fenetre() -> void:
 	var haut := HBoxContainer.new()
 	haut.add_theme_constant_override("separation", 14)
 	colonne.add_child(haut)
+	_blason = Blason.new()
+	_blason.custom_minimum_size = Vector2(44, 44)
+	_blason.visible = false
+	haut.add_child(_blason)
 	_titre = _texte("Guilde · ギルド", 20, OR)
 	_titre.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	haut.add_child(_titre)
+	haut.add_child(_petit_bouton("Tableau de recrutement", func():
+		fermer()
+		TableauGuildes.ouvrir(get_tree())))
 	var aide := _texte("G ou Échap : fermer", 12, GRIS)
 	haut.add_child(aide)
 	haut.add_child(_petit_bouton("  ✕  ", fermer))
@@ -498,6 +508,12 @@ func rafraichir() -> void:
 	var a = not g.is_empty()
 	_onglets.visible = a
 	_sans_guilde.visible = not a
+	_blason.visible = a
+	if a:
+		var b: Dictionary = g.get("blason", R.blason(g))
+		_blason.forme = int(b.get("forme", 0))
+		_blason.symbole = int(b.get("symbole", 0))
+		_blason.couleur = R.couleur(Guildes.d, int(g.get("couleur", 0)))
 	if not a:
 		_titre.text = "Guilde · ギルド"
 		if Guildes.en_donjon:
@@ -508,7 +524,8 @@ func rafraichir() -> void:
 		else:
 			_sans_guilde.text = ("Tu n'as pas encore de guilde.\n\n• Pour en FONDER une : va voir Aleksander Nowak, le registraire de la Maison des guildes "
 					+ "(quartier des Résidences), après sa mission « Trois signatures ».\n"
-					+ "• Pour en REJOINDRE une : un membre de la guilde peut t'inviter (/ginviter TonNom, ou en te ciblant).\n\n"
+					+ "• Pour en REJOINDRE une : le TABLEAU DE RECRUTEMENT (bouton en haut, ou le liège de la Maison des guildes) "
+					+ "montre les guildes ouvertes, qu'on rejoint en un clic. Sinon, un membre peut t'inviter (/ginviter TonNom).\n\n"
 					+ "Une guilde, c'est une banque partagée, des contrats chaque semaine qui rapportent des sceaux, "
 					+ "et un canal de discussion (/gu).")
 		return

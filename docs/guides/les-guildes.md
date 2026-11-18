@@ -86,3 +86,16 @@ Tout est dans `game/data/guildes.json` : rangs et limites de la banque, tailles,
 - Les guildes ne sont pas partagées entre plusieurs serveurs (il faudra passer par Nakama quand il y aura plusieurs serveurs officiels).
 - Pas encore d'onglets de banque séparés par rang, ni de « siège de guilde » à décorer.
 - Ce qui est fait en solo ou en donjon est envoyé par le PC du joueur (comme le reste pour l'instant, le serveur ne peut pas tout vérifier).
+
+
+## Tableau de recrutement, blason et devise (18/11/2026)
+
+- Le **liège « Recrutement »** de la Maison des guildes (F), ou le bouton **Tableau de recrutement** de la fenêtre Guilde,
+  montre toutes les guildes du serveur : blason, niveau, membres, maître, devise.
+- Une guilde au **recrutement ouvert** se rejoint en **un clic** (bouton « Rejoindre », on arrive comme recrue).
+  Les autres se rejoignent toujours sur invitation.
+- Les **officiers et le maître** règlent sur ce tableau le **blason** (4 formes × 12 symboles, dans la couleur de la guilde),
+  la **devise** et l'ouverture du recrutement.
+- Le blason s'affiche aussi en haut de la fenêtre Guilde (touche G).
+
+![Tableau de recrutement](../images/tableau-recrutement-guildes.jpg)
