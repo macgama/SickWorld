@@ -144,11 +144,18 @@ void fragment() {
 		n_sol = deux_echelles(sol_relief, uv_s, melange).rgb;
 	}
 	// Plaques de variante (bord irrégulier, quelques mètres de transition).
-	float plaques = texture(bruit, xz * 0.011 + vec2(0.37, 0.71)).r + (moyen - 0.5) * 0.35;
-	float w_var = smoothstep(1.0 - part_variante - 0.08, 1.0 - part_variante + 0.08, plaques);
+	// Bord fondu sur plusieurs mètres et dentelé par le bruit fin (pas de limite nette).
+	float plaques = texture(bruit, xz * 0.011 + vec2(0.37, 0.71)).r + (moyen - 0.5) * 0.35 + (fin - 0.5) * 0.12;
+	float w_var = smoothstep(1.0 - part_variante - 0.2, 1.0 - part_variante + 0.2, plaques);
 	if (sol2_texture) {
 		vec2 uv_s2 = xz / (sol_motif * 1.35) + vec2(0.13, 0.57);
-		c_sol = mix(c_sol, deux_echelles(sol2_couleur, uv_s2, melange).rgb, w_var);
+		// La variante garde sa texture mais prend en grande partie la teinte moyenne du sol
+		// principal : les plaques changent le grain du sol sans faire de taches de couleur.
+		vec3 c_s2 = deux_echelles(sol2_couleur, uv_s2, melange).rgb;
+		vec3 moy1 = textureLod(sol_couleur, vec2(0.5), 11.0).rgb;
+		vec3 moy2 = max(textureLod(sol2_couleur, vec2(0.5), 11.0).rgb, vec3(0.02));
+		c_s2 = mix(c_s2, c_s2 * moy1 / moy2, 0.75);
+		c_sol = mix(c_sol, c_s2, w_var);
 		a_sol = mix(a_sol, deux_echelles(sol2_arm, uv_s2, melange).rgb, w_var);
 		n_sol = mix(n_sol, deux_echelles(sol2_relief, uv_s2, melange).rgb, w_var);
 	}
