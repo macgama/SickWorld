@@ -379,7 +379,7 @@ func _construire_lointain() -> void:
 	var hasard := RandomNumberGenerator.new()
 	hasard.seed = graine + 70
 	# La plaine de blé qui continue jusqu'à l'horizon (les champs dorés tout autour).
-	_plan_lointain(Vector3(0, 3.0, 0), Vector2(5000, 5000), Color(0.05, 0.4, 0.55))
+	_plan_lointain_autour(3.0, Color(0.05, 0.4, 0.55))
 	var bruit := FastNoiseLite.new()
 	bruit.frequency = 0.8
 	# Des bois lointains, bas, sur l'horizon.

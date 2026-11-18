@@ -32,6 +32,18 @@ func _surveiller_eau_profonde(_delta: float) -> void:
 	pass
 
 
+## Le plan lointain (la plaine jusqu'à l'horizon), mais seulement AUTOUR du terrain de la
+## zone : un plan plein cacherait tout ce qui descend plus bas que lui (le fond de la
+## carrière de Berchères, le lit de l'Eure à Chartres).
+func _plan_lointain_autour(y: float, couleur: Color) -> void:
+	var demi := taille_terrain * 0.5 - 3.0
+	var loin := 2500.0
+	for r in [Rect2(-loin, -loin, loin * 2.0, loin - demi), Rect2(-loin, demi, loin * 2.0, loin - demi),
+			Rect2(-loin, -demi, loin - demi, demi * 2.0), Rect2(demi, -demi, loin - demi, demi * 2.0)]:
+		var c: Vector2 = (r as Rect2).get_center()
+		_plan_lointain(Vector3(c.x, y, c.y), (r as Rect2).size, couleur)
+
+
 func _texture(id: String, carte: String) -> Texture2D:
 	var chemin: String = DOSSIER_MOYEN_AGE + "textures/%s/%s_%s.jpg" % [id, id, carte]
 	if ResourceLoader.exists(chemin):

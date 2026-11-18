@@ -15,6 +15,10 @@ extends "res://scripts/monde/chine/objet_chine.gd"
 ##   coincé par une pierre et une lueur violette ; débloqué (cacher()), la corde est tendue.
 ## - « larme_plomb » : des gouttes de plomb fondu figées en larmes grises et brillantes, dans
 ##   l'herbe (la trace de Plomb) ; ramassées, elles disparaissent.
+## - « coffret » : le coffret de bois du verrier (fers à gruger, compas, morceaux de verre),
+##   à moitié enfoui sous des poutres noircies ; dégagé, il disparaît.
+## - « fumigene » : un fumigène moderne (une boîte de métal gris) qui crache une fumée grise ;
+##   étouffé, il disparaît.
 ## - un Las à qui l'on rend courage n'a pas de forme : l'objet est invisible, posé sur le
 ##   personnage (meta « pnj_lie ») ; quand il est compté, la fumée grise se dissipe.
 
@@ -185,6 +189,48 @@ func _construire_larme_plomb() -> void:
 	flaque.height = 0.02
 	_morceau(flaque, plomb, Vector3(0.1, 0.01, -0.05))
 	_trace_violette()
+
+
+## Le coffret du verrier, sous deux poutres noircies.
+func _construire_coffret() -> void:
+	var bois := _mat_uni(Color(0.4, 0.27, 0.16), 0.9)
+	var coffre := BoxMesh.new()
+	coffre.size = Vector3(0.6, 0.32, 0.4)
+	_morceau(coffre, bois, Vector3(0, 0.16, 0), Vector3(0, 0.2, 0.08))
+	var ferrure := BoxMesh.new()
+	ferrure.size = Vector3(0.62, 0.04, 0.42)
+	_morceau(ferrure, _mat_uni(Color(0.2, 0.2, 0.22), 0.5, 0.8), Vector3(0, 0.26, 0), Vector3(0, 0.2, 0.08))
+	var noir := _mat_uni(Color(0.08, 0.07, 0.06), 1.0)
+	for k in 2:
+		_baton(0.09, 2.2, noir, Vector3(-0.3 + k * 0.6, 0.35, 0), Vector3(PI / 2 - 0.15, 0.6 - k * 1.1, 0))
+	var bleu := _emissif(Color(0.12, 0.28, 0.9), 1.2)
+	var eclat := PrismMesh.new()
+	eclat.size = Vector3(0.12, 0.1, 0.01)
+	_morceau(eclat, bleu, Vector3(0.36, 0.03, 0.22), Vector3(-PI / 2, 0.5, 0))
+	_trace_violette()
+
+
+## Un fumigène moderne : une boîte cylindrique grise, une goupille, de la fumée grise.
+func _construire_fumigene() -> void:
+	var boite := CylinderMesh.new()
+	boite.top_radius = 0.05
+	boite.bottom_radius = 0.05
+	boite.height = 0.22
+	_morceau(boite, _mat_uni(Color(0.42, 0.44, 0.46), 0.4, 0.7), Vector3(0, 0.05, 0), Vector3(PI / 2, 0.4, 0))
+	var bande := CylinderMesh.new()
+	bande.top_radius = 0.052
+	bande.bottom_radius = 0.052
+	bande.height = 0.04
+	_morceau(bande, _mat_uni(Color(0.85, 0.5, 0.1), 0.6), Vector3(0.03, 0.05, 0.06), Vector3(PI / 2, 0.4, 0))
+	var gris := StandardMaterial3D.new()
+	gris.albedo_color = Color(0.55, 0.55, 0.56, 0.35)
+	gris.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	gris.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	for k in 4:
+		var nuage := SphereMesh.new()
+		nuage.radius = 0.3 + k * 0.2
+		nuage.height = nuage.radius * 1.6
+		_morceau(nuage, gris, Vector3(0.1 * k, 0.3 + k * 0.45, -0.08 * k))
 
 
 ## Moyen Âge : comme en Chine.
