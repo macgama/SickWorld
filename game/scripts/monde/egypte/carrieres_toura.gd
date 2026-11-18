@@ -62,7 +62,7 @@ func _init() -> void:
 		# Vert : le sable de la pente.
 		"neige": ["sand_02", "sand_01", "dry_ground_rocks"],
 		# Bleu : la poussière de calcaire de la carrière et du campement.
-		"sol": ["dry_ground_01", "mud_cracked_dry_03", "dry_ground_rocks"],
+		"sol": ["dry_ground_01", "dry_ground_rocks", "mud_cracked_dry_03"],
 		# Les fronts de taille : calcaire blanc.
 		"roche": ["quarry_wall", "quarry_wall_02", "sandstone_cracks", "cliff_side"],
 	}

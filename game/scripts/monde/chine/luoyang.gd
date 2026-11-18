@@ -212,12 +212,16 @@ func _construire_enceinte() -> void:
 	# Nord et sud : d'un seul tenant (la porte sud reste fermée : on ne la voit que de loin).
 	for z: float in [r.position.y, r.end.y]:
 		_boite(Vector3(r.size.x + e, h, e), Vector3(r.get_center().x, y + h * 0.5 - 0.3, z), terre, dossier)
+		_relief_pise(dossier, Vector3(r.size.x + e, h, e), Vector3(r.get_center().x, y + h * 0.5 - 0.3, z), true)
 	# Est : d'un seul tenant. Ouest : coupé par la porte, sur l'avenue.
 	_boite(Vector3(e, h, r.size.y), Vector3(r.end.x, y + h * 0.5 - 0.3, r.get_center().y), terre, dossier)
+	_relief_pise(dossier, Vector3(e, h, r.size.y), Vector3(r.end.x, y + h * 0.5 - 0.3, r.get_center().y), true)
 	var nord := (PORTE_OUEST.y - largeur_porte * 0.5) - r.position.y
 	var sud := r.end.y - (PORTE_OUEST.y + largeur_porte * 0.5)
 	_boite(Vector3(e, h, nord), Vector3(r.position.x, y + h * 0.5 - 0.3, r.position.y + nord * 0.5), terre, dossier)
+	_relief_pise(dossier, Vector3(e, h, nord), Vector3(r.position.x, y + h * 0.5 - 0.3, r.position.y + nord * 0.5), true)
 	_boite(Vector3(e, h, sud), Vector3(r.position.x, y + h * 0.5 - 0.3, r.end.y - sud * 0.5), terre, dossier)
+	_relief_pise(dossier, Vector3(e, h, sud), Vector3(r.position.x, y + h * 0.5 - 0.3, r.end.y - sud * 0.5), true)
 	# Le dessus de la porte ouest : un linteau de terre, et un pavillon de garde à deux étages.
 	_boite(Vector3(e, 3.0, largeur_porte), Vector3(r.position.x, y + h - 1.8, PORTE_OUEST.y), terre, dossier)
 	var tour := _pavillon_han(dossier, PORTE_OUEST, Vector2(10, 5), PI / 2, 0.0, 2, true, "PorteOuest")
@@ -226,6 +230,7 @@ func _construire_enceinte() -> void:
 	for p: Vector2 in [r.position, Vector2(r.end.x, r.position.y), Vector2(r.position.x, r.end.y), r.end,
 			Vector2(r.get_center().x, r.position.y), Vector2(r.get_center().x, r.end.y), Vector2(r.end.x, PORTE_OUEST.y)]:
 		_boite(Vector3(11, h + 2.0, 11), Vector3(p.x, y + (h + 2.0) * 0.5 - 0.3, p.y), terre, dossier)
+		_relief_pise(dossier, Vector3(11, h + 2.0, 11), Vector3(p.x, y + (h + 2.0) * 0.5 - 0.3, p.y), false)
 		var garde := Node3D.new()
 		garde.position = Vector3(p.x, y + h + 1.7, p.y)
 		dossier.add_child(garde)

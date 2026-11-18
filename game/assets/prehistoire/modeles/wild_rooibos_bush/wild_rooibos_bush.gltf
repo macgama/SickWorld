@@ -324,7 +324,7 @@
     {
       "mimeType": "image/jpeg",
       "name": "wild_rooibos_bush_diff-wild_rooibos_bush_alpha",
-      "uri": "textures/wild_rooibos_bush_diff_1k.jpg"
+      "uri": "textures/wild_rooibos_bush_diff_1k.png"
     },
     {
       "mimeType": "image/jpeg",
@@ -334,12 +334,12 @@
     {
       "mimeType": "image/jpeg",
       "name": "wild_rooibos_bush_diff-wild_rooibos_bush_alpha",
-      "uri": "textures/wild_rooibos_bush_diff_1k.jpg"
+      "uri": "textures/wild_rooibos_bush_diff_1k.png"
     },
     {
       "mimeType": "image/jpeg",
       "name": "wild_rooibos_bush_diff",
-      "uri": "textures/wild_rooibos_bush_diff_1k.jpg"
+      "uri": "textures/wild_rooibos_bush_diff_1k.png"
     }
   ],
   "accessors": [
