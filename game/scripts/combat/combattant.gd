@@ -43,6 +43,10 @@ var bonus_blessure := 0.0
 var facteur_menace := 1.0
 ## Vrai pour les gros ennemis (boss) : ni étourdis, ni immobilisés.
 var insensible_controles := false
+## Mode admin (tests, en solo seulement, voir l'autoload Admin) : ne perd jamais de vie,
+## et multiplie les dégâts infligés.
+var invincible := false
+var facteur_admin := 1.0
 ## Combien de secondes une même cible résiste à un nouveau contrôle (étourdir, immobiliser) :
 ## pendant ce temps, le contrôle suivant ne dure que moitié moins.
 const RESISTANCE_CONTROLES := 10.0
@@ -104,7 +108,7 @@ func pourcentage_pv() -> float:
 
 ## Retire des points de vie. Renvoie les dégâts réellement subis.
 func subir(montant: float, source: Combattant) -> float:
-	if not est_vivant() or a_effet("evite"):
+	if not est_vivant() or a_effet("evite") or invincible:
 		return 0.0
 	# Charge protectrice : un Rempart encaisse le coup à notre place.
 	if effets.has("protection") and source != null:
@@ -235,7 +239,7 @@ func pv_il_y_a(secondes: float) -> float:
 
 
 func multiplicateur_degats() -> float:
-	var m := 1.0 + bonus_degats / 100.0
+	var m := (1.0 + bonus_degats / 100.0) * facteur_admin
 	for effet in effets.values():
 		m *= float(effet.get("degats_infliges", 1.0))
 	return m

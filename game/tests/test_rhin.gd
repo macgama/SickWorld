@@ -278,7 +278,9 @@ func _lancer() -> void:
 		_verifier(inventaire.quantite("gants_papetiere") >= 1, "et des gants de papetière")
 	var competences: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://data/competences.json"))
 	_verifier(competences.get("page_volante", {}).has("poison"), "la Page volante fait saigner")
-	_verifier(_quete.etape < 0, "chapitre 3 terminé (la suite arrive bientôt)")
+	_verifier(_id_etape() == "vers_mayence", "chapitre 3 terminé : en route vers Mayence (%s)" % _id_etape())
+	await _attendre(30)
+	_verifier(_scene._route_ouverte, "la route du bac s'ouvre")
 
 	# --- La progression est gardée.
 	_scene.queue_free()

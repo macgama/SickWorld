@@ -2787,6 +2787,125 @@
 				"couleur": "#6a6a6e"
 			},
 			"epoque": "Mayence"
+		},
+		"tablier_pressier": {
+			"nom": "Tablier de pressier",
+			"type": "equipement",
+			"rarete": "rare",
+			"emplacement": "torse",
+			"description": "Un tablier de cuir épais, noir d'encre jusqu'aux genoux, comme celui des pressiers de la cour Humbrecht.",
+			"stats": {
+				"pv": 420,
+				"reduction_pourcent": 4,
+				"degats_pourcent": 2
+			},
+			"visuel": {
+				"forme": "veste",
+				"couleur": "#2a2624"
+			},
+			"epoque": "Mayence"
+		},
+		"premiere_lettre": {
+			"nom": "Ta première lettre de plomb",
+			"type": "equipement",
+			"rarete": "historique",
+			"emplacement": "relique",
+			"description": "Un petit caractère de plomb, plus court qu'un doigt, avec un « a » à l'envers au bout. Tu l'as coulé toi-même, dans le moule à main de Hans, en 1450.",
+			"stats": {
+				"pv": 240,
+				"critique_pourcent": 3
+			},
+			"icone": {
+				"forme": "eclat",
+				"couleur": "#8a8c90"
+			},
+			"epoque": "Mayence"
+		},
+		"poincon_g": {
+			"nom": "Le poinçon « G » de Gutenberg",
+			"type": "equipement",
+			"rarete": "historique",
+			"emplacement": "bijou",
+			"description": "Une tige d'acier trempé, gravée au bout d'un « G » parfait, à l'envers. Un double, gravé de la main de Gutenberg.",
+			"stats": {
+				"pv": 260,
+				"degats_pourcent": 5,
+				"critique_pourcent": 2
+			},
+			"icone": {
+				"forme": "eclat",
+				"couleur": "#a8aab0"
+			},
+			"epoque": "Mayence"
+		},
+		"burin_hennen": {
+			"nom": "Burin de maître Hennen",
+			"type": "equipement",
+			"rarete": "rare",
+			"emplacement": "arme_secondaire",
+			"description": "Un burin d'orfèvre au manche de buis poli par vingt ans de travail. La Vigie y a glissé un éclat de technologie.",
+			"stats": {
+				"degats_pourcent": 9,
+				"pv": 160
+			},
+			"visuel": {
+				"forme": "dague",
+				"couleur": "#b0b0b4"
+			},
+			"epoque": "Mayence"
+		},
+		"recu_laser": {
+			"nom": "Reçu imprimé au laser",
+			"type": "materiau",
+			"rarete": "rare",
+			"pile": 1,
+			"description": "Un reçu sur papier de 80 grammes, imprimé au laser, en allemand moderne : « 1 lot d'outils anciens, origine Mayence, XVe s. » Il n'a rien à faire en 1450.",
+			"icone": {
+				"forme": "eclat",
+				"couleur": "#f4f4f0"
+			},
+			"epoque": "Mayence"
+		},
+		"caractere_plomb": {
+			"nom": "Caractère de plomb",
+			"type": "materiau",
+			"rarete": "commun",
+			"pile": 99,
+			"description": "Une petite lettre de plomb, d'étain et d'antimoine. Hans les refond.",
+			"icone": {
+				"forme": "eclat",
+				"couleur": "#8a8c90"
+			},
+			"epoque": "Mayence"
+		},
+		"carte_marchal": {
+			"nom": "La carte de visite d'Étienne Marchal",
+			"type": "materiau",
+			"rarete": "historique",
+			"pile": 1,
+			"description": "Un petit carton blanc, imprimé en 2006 : « Étienne Marchal, ingénieur. Projet Vigie, laboratoire 3. » Au dos, à l'encre bleue, d'une écriture fine : « Pour quand tu changeras d'avis. »",
+			"icone": {
+				"forme": "eclat",
+				"couleur": "#f2f0ea"
+			},
+			"epoque": "Mayence"
+		},
+		"cape_veilleur": {
+			"nom": "Cape du veilleur de Strasbourg",
+			"type": "equipement",
+			"rarete": "historique",
+			"emplacement": "torse",
+			"description": "Une lourde cape de laine brune, doublée de feutre, comme en portaient les bourgeois de garde sur les remparts de Strasbourg. Celle du père de Gutenberg.",
+			"stats": {
+				"pv": 480,
+				"reduction_pourcent": 4,
+				"degats_pourcent": 3
+			},
+			"visuel": {
+				"forme": "cape_fourrure",
+				"couleur": "#4a3424"
+			},
+			"epoque": "Mayence"
 		}
 	},
 	"ensembles": {
@@ -3915,6 +4034,113 @@
 				"objet": "pfennig_mayence",
 				"chance": 1.0,
 				"quantite": [6, 10]
+			}
+		],
+		"mercenaire_homme_sceau_ville": [
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 0.45
+			},
+			{
+				"objet": "torche_poix",
+				"chance": 0.5
+			},
+			{
+				"objet": "pfennig_mayence",
+				"chance": 0.5,
+				"quantite": [1, 4]
+			}
+		],
+		"mercenaire_homme_sceau_tour": [
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 0.45
+			},
+			{
+				"objet": "torche_poix",
+				"chance": 0.5
+			},
+			{
+				"objet": "pfennig_mayence",
+				"chance": 0.5,
+				"quantite": [1, 4]
+			}
+		],
+		"mercenaire_archeveque": [
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 0.45
+			},
+			{
+				"objet": "pfennig_mayence",
+				"chance": 0.7,
+				"quantite": [2, 6]
+			}
+		],
+		"statue_lettres_plomb": [
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 0.5
+			},
+			{
+				"objet": "caractere_plomb",
+				"chance": 0.8,
+				"quantite": [2, 6]
+			}
+		],
+		"statue_lettres_plomb_cave": [
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 0.5
+			},
+			{
+				"objet": "caractere_plomb",
+				"chance": 0.8,
+				"quantite": [2, 6]
+			}
+		],
+		"statue_lettres_plomb_faille": [
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 0.5
+			},
+			{
+				"objet": "caractere_plomb",
+				"chance": 0.8,
+				"quantite": [2, 6]
+			}
+		],
+		"chien_ruelle": [
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 0.4
+			}
+		],
+		"mercenaire_chef_receleur": [
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 1.0,
+				"quantite": [2, 3]
+			},
+			{
+				"objet": "recu_laser",
+				"chance": 1.0
+			},
+			{
+				"objet": "pfennig_mayence",
+				"chance": 1.0,
+				"quantite": [8, 14]
+			}
+		],
+		"mercenaire_homme_sceau_nuit": [
+			{
+				"objet": "eclat_de_fracture",
+				"chance": 0.6
+			},
+			{
+				"objet": "pfennig_mayence",
+				"chance": 0.8,
+				"quantite": [2, 5]
 			}
 		]
 	},
